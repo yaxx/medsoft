@@ -13,7 +13,7 @@ var ClientScheema = new Scheema({
                 lga: String, 
                 zipcode: String,
                 address: String,
-                dateCreated: {type: Date, Default: Date.now()}
+               
         },
         
         departments: [{ id: String,
@@ -21,9 +21,30 @@ var ClientScheema = new Scheema({
                 descriptions: String,
                 selected: {type: Boolean, Default:false},
                 dateCreated: {type: Date, Default: Date.now()}}],
-        staffs: [{type: Scheema.Types.ObjectId, ref: 'Staff'}],
-
-       
+        
+        inventory:[{
+                item:{
+                    name: String,
+                    brand: String,
+                    category: String,
+                    description: String,
+                    mesure:Number,
+                    unit: String,
+                    dateCreated: {type:Date, default: Date.now()}   
+                },
+                stockInfo:{
+                    expiry: Date,
+                    price: Number,
+                    expired: Boolean,
+                    status: Boolean,
+                    quantity: Number,
+                },
+                selected:Boolean,
+                dateAdded: {type:Date, default: Date.now()}   
+            }],
+            staffs: [{type: Scheema.Types.ObjectId, ref: 'Staff'}],
+            dateCreated: {type: Date, Default: Date.now()}
+        
         
 })
 

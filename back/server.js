@@ -158,6 +158,7 @@ app.get('/', (req, res) => {
 app.get('/api/settings', api.getSettings)
 app.get('/api/patients', api.getPatients)
 app.get('/api/departments', api.getDepartments)
+app.get('/api/products', api.getProducts)
 app.post('/api/new-client', api.addClient)
 app.post('/api/new-patient', api.addPatient)
 app.post('/api/new-staff', api.addStaff)

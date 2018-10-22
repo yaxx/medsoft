@@ -67,11 +67,13 @@
                 <div class="form-group vitals-section">
                     <div *ngFor="let department of departments let i = index;"  class="card card-secondary maincard deptcards" [ngClass]="{'selected':department.selected}" style="width:110px; height:120px; display: inline-block; margin-right:6px; margin-bottom:4px;" (click)="selectDept(i)">
                         <div class="card-body deptcardbody">
+                            <i *ngIf="department.name==='INFORMATION'" class="icon ion-ios-information-outline phamicon flaskicon"></i>
+
+                            <i *ngIf="department.name==='CONSULTING'"  class="icon ion-person-stalker phamicon"></i>
+
                             <i *ngIf="department.name==='PHARMACY'" class="icon ion-ios-medkit-outline phamicon"></i>
 
                             <i *ngIf="department.name==='PHYSIOTHERAPHY'"  class="icon ion-android-bicycle phamicon"></i>
-
-                            <i *ngIf="department.name==='INFORMATION'" class="icon ion-ios-information-outline phamicon flaskicon"></i>
 
                             <i *ngIf="department.name==='OPTHALMOLOGY'" class="icon ion-ios-glasses-outline phamicon hemaicon"></i>
 

@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy} from '@angular/core';
 import {DataService} from '../../services/data.service';
-import {Product} from '../../models/data.model';
+import {Product, Item, StockInfo} from '../../models/data.model';
 import { sortBy } from 'sort-by-typescript';
-import { Subscription } from 'rxjs';
+
 import * as socketIo from 'socket.io-client';
 import {Socket} from '../../models/socket';
 @Component({
@@ -10,17 +10,15 @@ import {Socket} from '../../models/socket';
   templateUrl: './inventory.component.html',
   styleUrls: ['./inventory.component.css']
 })
-export class InventoryComponent implements OnInit, OnDestroy {
-  stockQuote: number;
-  sub: Subscription;
-
-  products: Product[] ;
+export class InventoryComponent implements OnInit {
+  product: Product = new Product(new Item(), new StockInfo);
+  item: Item = new Item();
+  items: Item[] = new Array<Item>();
+  products: Product[] = new Array<Product>();
   image: Product[];
   temProducts: Product[] = new Array<Product>();
-  product: Product = new Product();
+
   selections: number[] = new Array<number>();
-  input: string;
-  socket: Socket;
 
 
    constructor(private dataService: DataService) {
@@ -28,12 +26,14 @@ export class InventoryComponent implements OnInit, OnDestroy {
    }
 
   ngOnInit() {
-    this.products =  new Array<Product>();
-    this.image =  new Array<Product>();
+    this.getProducts();
   }
-
-
-
+getProducts(){
+  this.dataService.getProducts().subscribe((products) => {
+    this.products = products.p;
+    this.items = products.i;
+  })
+}
 
 addProduct() {
   this.products = this.products.concat(this.temProducts);
@@ -72,14 +72,12 @@ updateProducts() {
   this.temProducts = new Array<Product>();
 }
 searchProducts() {
-  this.products = this.image.filter((product)=>{
+  this.products = this.image.filter((product)=> {
   let patern =  new RegExp('\^' + this.input , 'i');
   return patern.test(product.name);
   });
 
 }
-ngOnDestroy() {
-  this.sub.unsubscribe();
-}
+
 
 }

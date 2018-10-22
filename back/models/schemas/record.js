@@ -38,32 +38,40 @@ var RecordScheema = new Scheema({
     }],
 
     medications:[{
-        product: {
-            name: String,
-            brand: String,
-            category: String,
-            mesure:String,
-            expiry: Date,
-            price: Number ,
-            expired: Boolean ,
-            status: Boolean,
-            quantity: Number,
-            dateAdded: {type:Date, default: Date.now()},
-    },
-    dosage:{
-        dos: String,
-        intake: Number,
-        piriod: Number,
-        extend: Number
-    },
-    selected: {type:Boolean, default: false},
-    paid: Boolean,
-    takenOn: Date,
-    paused: Boolean,
-    pausedOn :Date,
-    dateCreated: {type:Date, default:Date.now},
-    by: {type: Scheema.Types.ObjectId, ref: 'Staff'}
-}],
+        product:{
+            item:{
+                name: String,
+                brand: String,
+                category: String,
+                description: String,
+                mesure:Number,
+                unit: String,
+                dateCreated: {type:Date, default: Date.now()}   
+            },
+            stockInfo:{
+                expiry: Date,
+                price: Number ,
+                expired: Boolean ,
+                status: Boolean,
+                quantity: Number,
+            },
+            selected:Boolean,
+            dateAdded: {type:Date, default: Date.now()}   
+        },
+        priscribtion:{
+            intake: Number,
+            freq: String,
+            piriod: Number,
+            extend: Number,
+            paid: Boolean,
+            takenOn: Date,
+            paused: Boolean,
+            pausedOn :Date,
+            priscribedOn: {type:Date, default:Date.now},
+            by: {type: Scheema.Types.ObjectId, ref: 'Staff'}
+        }
+    }     
+],        
 
 Tests: [],
 Sugeries:[],

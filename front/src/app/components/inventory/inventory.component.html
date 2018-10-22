@@ -1,146 +1,51 @@
-
-
-
-
-  <div  class="modal fade" role="dialog" tabindex="-1" id="editModal" style="border-radius:0px;width:auto;">
+<div class="modal fade" role="dialog" tabindex="-1" id="prodModal" style="border-radius:0px;width:auto;">
     <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content" style="width:700px">
-          <div class="modal-header  mod-header">
-              <h6 class="modal-title mod-title" style="font-size: 12px">NEW PRODUCT</h6>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">×</span>
-              </button>
-          </div>
-          <div class="modal-body">
-
-              <form novalidate class="patientform" (ngSubmit)="addProduct()">
-
-
-
-                  <div class="form-group vitals-section formGroup">
-                      <label for="name" class="labelss">PRODUCT NAME</label>
-                      <input [(ngModel)] = "product.name" type="text" name="name" class=" inputs dataInfo" placeholder="Enter product name"/>
-
-                  </div>
-
-                  <div class="form-group vitals-section formGroup">
-                      <label for="taken" class="labelss duration">CATEGORY</label>
-                      <select [(ngModel)] = "product.category"  class=" status inputs dataInfo formdata" name="category" id="">
-                          <option>Injectables</option>
-                          <option>Days</option>
-                          <option>Weeks</option>
-                          <option>Months</option>
-                          <option>Years</option>
-                      </select>
-                  </div>
-
-                  <div class="form-group vitals-section formGroup">
-                    <label for="price" class="labelss">PRICE</label>
-                    <input [(ngModel)] = "product.price" type="number" name="price" class=" inputs dataInfo"/>
-
-                </div>
-                  <div class="form-group vitals-section formGroup">
-                    <label for="quantity" class="labelss">QUANTITY</label>
-                    <input [(ngModel)] = "product.quantity" type="number" name="quantity" class=" inputs dataInfo"/>
-
-                </div>
-
-
-                  <div class="form-group vitals-section formGroup dosGroup">
-                          <label for="long" class="labelss">MEASURE</label>
-                          <input [(ngModel)] = "product.measure"  type="number" name="long" class="patientdata dystolic inputs boda " id=""/>
-
-                  </div>
-                  <div class="form-group vitals-section formGroup dosGroup">
-                          <label for="long" class="labelss">UNIT</label>
-                          <select [(ngModel)] = "product.unit"  class="patientdata status inputs daily" name="long" id="">
-                                  <option>ml</option>
-                                  <option>mg</option>
-                                  <option>Months</option>
-                                  <option>Years</option>
-                          </select>
-
-
-                  </div>
-                  <div class="form-group vitals-section formGroup">
-                    <label for="doe" class="labelss complain">DATE OF EXPIRY</label>
-                    <input [(ngModel)]="product.expiry" type="date" name="doe" class="patientdata inputs dataInfo" id=""  placeholder="">
-                   </div>
-
-
-
-
-
-                  <div class="form-group vitals-section formGroup" style=width:91%;>
-                    <label for="name" class="labelss">DESCRIPTION</label>
-                    <input  [(ngModel)] = "product.description"  type="text" name="description" class=" inputs dataInfo" placeholder="e.g for malaria treatment"/>
-
-                </div>
-                <button (click)="addMoreProduct()" type="button" class="btn btn-primary" style="height:28px; width: 29px; margin-left:3px; bottom:2px;position:relative;text-align: center;">
-                  <i title="More product"class="icon ion-ios-plus-empty" style="position:absolute; font-size: 22px; top: -10%; right:30%" ></i>
+        <div class="modal-content" style="width:600px">
+            <div class="modal-header" style="padding:4px; ">
+                <h6 class="modal-title" style="text-align:center; font-size:11px; width:100%">NEW PRODUCT</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
                 </button>
+            </div>
+            <div class="modal-body">
+                <form class="accountform staffsform" (submit)=addProduct()>
 
-                <div *ngIf="temProducts.length" class="form-group vitals-section">
-                  <table cellspacing="0" class="data-table drugs-table" summary="List of all items in store. " >
+                    <div class="form-group vitals-section formGroup" style="margin-right:4px;">
+                        <label for="product" class="labelss duration">PRODUCT</label>
+                        <select  class=" inputs dataInfo patientdata" name="name">
+                            <option *ngFor='let i of items'>{{item.name + ' '+ item.mesure+item.unit}}</option>
+                        </select>
+                    </div>
 
+                    <div class="form-group vitals-section formGroup">
+                        <label for="price" class="labelss">PRICE</label>
+                        <input [(ngModel)]="staff.lastName" type="text" name="price" class=" inputs dataInfo patientdata"  placeholder="Price per item"/>
+                    </div>
 
+                    <div class="form-group vitals-section formGroup" style="margin-right:4px;">
+                        <label for="quantity" class="labelss">QUANTITY</label>
+                        <input [(ngModel)]="staff.lastName" type="number" name="quantity" class=" inputs dataInfo patientdata"  placeholder="Quantity"/>
+                    </div>
+                    <div class="form-group vitals-section formGroup">
+                        <label for="expiry" class="labelss">EXPIRY DATE</label>
+                        <input [(ngModel)]="staff.lastName" type="date" name="expiry" class=" inputs dataInfo patientdata"  placeholder="Expiry"/>
+                    </div>
 
-                  <thead class='productHead'>
-                      <tr>
+                    <div class="form-group vitals-section address">
+                      <button style="font-size:12px"  type="submit" class="btn btn-sm btn-outline-primary inputs" >Add Product</button>
+                      </div>
 
-                          <th class="headlbl prdName">PRODUCT NAME </th>
-                          <th class="headlbl">CATEGORY</th>
-                          <th class="headlbl">DESCRIPTION</th>
-                          <th class="headlbl">PRICE</th>
-                          <th class="headlbl">QUANTITY</th>
-                          <th class="headlbl" colspan="2" style="text-align: center">EXPIRY DATE</th>
-
-
-
-                      </tr>
-                  </thead>
-                  <tbody>
-                      <tr *ngFor="let product of temProducts; let i = index;" class="even ro" >
-
-                          <td class="data">{{product.name + ' '+ product.measure+product.unit}}</td>
-                          <td class="data">{{product.category}}</td>
-                          <td class="data">{{product.description}}</td>
-                          <td class="data">{{product.price}}</td>
-                          <td class="data">{{product.quantity}}</td>
-                          <td class="data" style="text-align:right">{{product.expiry}}</td>
-                          <td style="text-align: left; padding-left:3px" class="data" title="Remove">
-                          <i (click)="removeProduct(i)"  class="icon ion-ios-close-empty close" ></i>
-                          </td>
-
-
-                      </tr>
-
-
-
-                  </tbody>
-              </table>
-
-          </div>
-
-
-               <div class="modal-footer" style="height: 25px;">
-                <button (click)="addProduct()" type="button" class="btn btn-primary" id="doneBtn" >Done</button>
-
-
-              </div>
-          </form>
-      </div>
-
-      </div>
-  </div>
+                  </form>
+            </div>
+        </div>
+    </div>
 </div>
 
 
 
 
 
-
-<div class="modal fade" role="dialog" tabindex="-1" id="editModal" style="border-radius:0px;width:auto; padding-top:0px;">
+<div class="modal fade" role="dialog" tabindex="-1" id="prodModal" style="border-radius:0px;width:auto; padding-top:0px;">
   <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content" style="width:700px">
           <div class="modal-header  mod-header">
@@ -154,12 +59,7 @@
               <form novalidate class="patientform" (ngSubmit)="updateProducts()">
 
 
-                  <div *ngFor="let product of temProducts; let i = index;">
-                  <div class="form-group vitals-section formGroup">
-                      <label for="name" class="labelss">PRODUCT NAME</label>
-                      <input [(ngModel)] = "temProducts[i].name" type="text" name="name" class=" inputs dataInfo" placeholder="Enter product name"/>
 
-                  </div >
 
                   <div class="form-group vitals-section formGroup">
                       <label for="taken" class="labelss duration">CATEGORY</label>
@@ -183,42 +83,12 @@
 
                 </div>
 
-
-                  <div class="form-group vitals-section formGroup dosGroup">
-                          <label for="long" class="labelss">MEASURE</label>
-                          <input [(ngModel)] = "temProducts[i].measure"  type="number" name="long" class="patientdata dystolic inputs boda " id=""/>
-
-                  </div>
-                  <div class="form-group vitals-section formGroup dosGroup">
-                          <label for="long" class="labelss">UNIT</label>
-                          <select [(ngModel)] = "temProducts[i].unit"  class="patientdata status inputs daily" name="long" id="">
-                                  <option>ml</option>
-                                  <option>mg</option>
-                                  <option>Months</option>
-                                  <option>Years</option>
-                          </select>
+                <div class="form-group vitals-section formGroup">
+                <label for="doe" class="labelss complain">DATE OF EXPIRY</label>
+                <input [(ngModel)]="temProducts[i].expiry" type="date" name="doe" class="patientdata inputs dataInfo left" id=""  placeholder="">
+                </div>
 
 
-                  </div>
-                  <div class="form-group vitals-section formGroup">
-                    <label for="doe" class="labelss complain">DATE OF EXPIRY</label>
-                    <input [(ngModel)]="temProducts[i].expiry" type="date" name="doe" class="patientdata inputs dataInfo left" id=""  placeholder="">
-                   </div>
-
-
-
-
-
-                  <div class="form-group vitals-section formGroup" style="width:100%;">
-                    <label for="name" class="labelss">DESCRIPTION</label>
-                    <input  [(ngModel)] = "temProducts[i].description"  type="text" name="description" class=" inputs dataInfo" placeholder="e.g for malaria treatment"/>
-
-                  </div>
-
-
-
-
-            </div>
             <div class="modal-footer" style="height: 25px; width: 100%; padding-left: 0px;padding-right: 0px">
                 <button (click)="updateProducts()" type="submit" class="btn btn-primary" id="doneBtn">Update</button>
             </div>

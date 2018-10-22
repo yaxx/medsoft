@@ -4,6 +4,7 @@ import Patient from '../models/schemas/patient'
 import Client from '../models/schemas/clients'
 import Staff from '../models/schemas/staffs'
 import Record from '../models/schemas/record'
+import Item from '../models/schemas/items'
 import Department from '../models/schemas/departments'
 var Notifications = require('../models/schemas/noteschema')
 var Contacts = require('../models/schemas/contactschema')
@@ -45,8 +46,9 @@ module.exports = {
         console.log(e);
       }else{
 
-        new Client({main:req.body,staffs:[doc._id],departments:[{name:'INFORMATION',description:'Information and record management',
-        dateCreated: new Date()}], dateCreated: new Date()}).save((err, newsetting) => {
+        new Client({main:req.body,departments:[{name:'INFORMATION',description:'Information and record management',
+        dateCreated: new Date()},{name:'CONSULTING',description:'General Medical Consultation',
+        dateCreated: new Date()}], inventory: [], staffs:[doc._id], dateCreated: new Date()}).save((err, newsetting) => {
           if (err) {
             console.log(err.stack)
           }else{
@@ -200,6 +202,26 @@ module.exports = {
       }
     })
   },
+  getProducts: (req, res)=>{
+    Client.find({}, {inventory:1}, (err, products)=>{
+      if(!err){
+        Item.find({},(e,items)=>{
+          if(!e){
+            console.log(items);
+            res.send({p:products, i:items});
+          }
+          else{
+            console.log(err);
+          }
+        })
+       
+      }
+      else{
+        console.log(err);
+      }
+    })
+  },
+  
   addRecord: (req, res)=>{
     new Record({
       pid: req.body.pid,

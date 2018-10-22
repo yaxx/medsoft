@@ -83,6 +83,9 @@ export class DataService {
   getSettings() {
     return this.http.get(`${this.uri}/settings`, {withCredentials: true});
   }
+  getProducts() {
+    return this.http.get(`${this.uri}/products`, {withCredentials: true});
+  }
   getDepartments() {
     return this.http.get(`${this.uri}/departments`,{withCredentials: true});
   }

@@ -1,6 +1,6 @@
 
 export class Personal {
-  constructor( public hid?: number[],
+  constructor( public hosId?: number[],
     public firstName: string = null,
     public lastName: string = null,
     public gender: string = null,
@@ -62,109 +62,46 @@ export class Patient {
 
 
 export class Item {
-  constructor(public id: number = null,
-    public name: string= null,
-    public brand: string = null,
-    public category: string = null,
-    public mesure: number = null,
-    public description: String= null
+  constructor(
+    public name?: string,
+    public brand?: string,
+    public category?: string,
+    public description?: string,
+    public mesure?: number,
+    public unit?: string,
+    public dateCreated?: Date
+    ) {}
+  }
+export class StockInfo {
+  constructor(
+    public expiry?: Date,
+    public price?: number,
+    public expired?: boolean ,
+    public status?: boolean,
+    public quantity?: number,
     ) {}
   }
 
-export class Product extends Item {
-  constructor(id , name, brand , category,
-     mesure,  description,
-    public expiry: Date= null,
-    public price: number= null,
-    public quantity: number = null,
-    public sold: number= null,
-    public expired: boolean = false,
-    public selected: boolean = false,
-    public status: boolean = false,
-    public addedOn: Date = null) {
-      super(id , name, brand , category, mesure, description);
-    }
-
+export class Product {
+  constructor(public item?: Item, public stockInfo?: StockInfo) {}
 }
 
-export class Dosage {
-
-  constructor( public intake?: number,
-     public piriod?: number,
-     public extend?: number) {}
-
-}
 export class Priscription {
-  constructor(public product: Product,
-    public dosage: Dosage,
-    public by: Staff,
-    public  checked: boolean = false,
-    public paused: boolean = false,
-    public pausedOn: Date = null,
-    public takenOn: Date = null,
-    public priscribedOn: Date = null) {}
+  constructor(
+    public intake?: number,
+    public freq?: string,
+    public piriod?: number,
+    public extend?: number,
+    public paid?: boolean,
+    public takenOn?: Date,
+    public paused?: boolean,
+    public pausedOn?: Date,
+    public priscribedOn?: Date,
+    public by?: Staff
+  ) {}
 }
-
-
-export class Category {
-  id: number; name: string;
-  addedOn: Date; expiry: Date;
-  quantity: number; sold: number; description: string;
-
-
-  constructor(id?: number, name?: string, quantity: number = 0 , sold?: number,
-    description?: string, addedOn: Date = new Date() ) {
-      this.id = id;
-      this.name = name;
-      this.quantity = quantity;
-      this.sold = sold;
-      this.description = description;
-      this.addedOn = addedOn;
-
-  }
-}
-export class Department {
-  constructor(public name: string = null,
-    public description: string = null,
-    public selected: Boolean = false,
-    public dateCreated: Date = new Date() ) {}
-
-}
-export class Main {
-  constructor(public name: string = null,
-      public mobile: string = null,
-      public email: string = null,
-      public pwd: string= null,
-      public comfirm: string = null,
-      public state: string= null,
-      public lga: string= null,
-      public zipcode: string = null,
-      public ownership: string = null,
-      public specialization: string= null,
-      public category: string = null,
-      public address: string = null,
-      public dateCreated?: Date) {}
-}
-export class Staff {
-  constructor(public firstName: string = null,
-      public lastName: string = null,
-      public hosId: string = null,
-      public staffId: string = null,
-      public mobile: string = null,
-      public email: string = null,
-      public department: string = null,
-      public role: string = null,
-      public username: string = null,
-      public password: string= null,
-      public dpUrl?: string,
-      public status?: string,
-      public dateCreated?: Date
-
-     ) {}
-  }
-export class Setting {
-  constructor(public main?: Main, public department?: Department[], public staffs?: Staff[]) {
-  }
+export class Medication {
+  constructor(  public product?: Product, public priscribtion?: Priscription) {}
 }
 export class Complain {
   constructor(public issue: string = null,
@@ -260,7 +197,7 @@ export class Record {
     public allegies?: Allegy,
     public devices?: Device,
     public visits?: Visit,
-    public priscription?: Priscription[],
+    public medication?: Medication,
     public test?: Test,
     public sugery?: Sugery,
     public files?: File,
@@ -270,6 +207,52 @@ export class Record {
 
      ) {}
   }
+
+
+export class Department {
+  constructor(public name: string = null,
+    public description: string = null,
+    public selected: Boolean = false,
+    public dateCreated: Date = new Date() ) {}
+
+}
+export class Main {
+  constructor(public name: string = null,
+      public mobile: string = null,
+      public email: string = null,
+      public pwd: string= null,
+      public comfirm: string = null,
+      public state: string= null,
+      public lga: string= null,
+      public zipcode: string = null,
+      public ownership: string = null,
+      public specialization: string= null,
+      public category: string = null,
+      public address: string = null,
+      public dateCreated?: Date) {}
+}
+export class Staff {
+  constructor(public firstName: string = null,
+      public lastName: string = null,
+      public hosId: string = null,
+      public staffId: string = null,
+      public mobile: string = null,
+      public email: string = null,
+      public department: string = null,
+      public role: string = null,
+      public username: string = null,
+      public password: string= null,
+      public dpUrl?: string,
+      public status?: string,
+      public dateCreated?: Date
+
+     ) {}
+  }
+export class Setting {
+  constructor(public main?: Main, public department?: Department[], public staffs?: Staff[]) {
+  }
+}
+
 
 
 

@@ -1,0 +1,199 @@
+
+
+
+
+
+
+
+<div class="sidenav">
+  <a href="#" class="home homemenu" title="Menu">
+      <span class="homespan">
+          <i class="material-icons homeicon">sort</i>
+      </span>
+  </a>
+  <a href="#" [routerLink]="['/orders']" routerLinkActive="router-link-active"  class="home" title="Home">
+      <span class="homespan">
+          <i class="icon ion-ios-home-outline homeicon"></i>
+      </span>
+  </a>
+  <a href="#" [routerLink]="['/categories']"  class="home dashboard" title="Dashboard">
+      <span class="homespan">
+          <i class="icon ion-android-apps homeicon"></i>
+      </span>
+  </a>
+  <a href="#" [routerLink]="['/registration']" routerLinkActive="router-link-active"  class="home patienmenu" title="Patients">
+      <span class="homespan">
+          <i class="icon ion-ios-people-outline homeicon"></i>
+      </span>
+  </a>
+  <a href="#" [routerLink]="['/consultation']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Appointments">
+      <span class="homespan">
+          <i class="icon ion-ios-calendar-outline homeicon"></i>
+      </span>
+  </a>
+  <a href="#" [routerLink]="['/inventory']" routerLinkActive="router-link-active"  class="home cartmenu" title="Products">
+      <span class="homespan">
+          <i class="icon ion-ios-cart-outline homeicon"></i>
+      </span>
+  </a>
+  <a href="#" [routerLink]="['/ward']" routerLinkActive="router-link-active"  class="home cartmenu wardmenu" title="ward">
+      <span class="homespan">
+        <i class="material-icons deticon" title>airline_seat_flat_angled</i>
+      </span>
+  </a>
+  <a href="#" [routerLink]="['/orders']"  class="home settings" title="Settings">
+      <span class="homespan">
+          <i class="icon ion-ios-gear-outline homeicon"></i>
+      </span>
+  </a>
+
+
+</div>
+<nav class="navbar navbar-light navbar-expand-md navigation-clean-search" style="padding:0px">
+<div class="container">
+    <a class="navbar-brand" href="#">
+        <em>MS</em>
+    </a>
+    <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navcol-1">
+        <ul class="nav navbar-nav"></ul>
+        <form class="form-inline mr-auto searchform" target="_self">
+            <div class="form-group">
+                <label for="search-field">
+                    <i class="icon ion-ios-search searchicon" title="Search"></i>
+                </label>
+                <input class="form-control search-field" type="search" name="search" id="search-field" placeholder="Search Patient">
+            </div>
+            <p class="filter">Sort by: Recently added</p>
+            <i class="icon ion-ios-arrow-down arrow"></i>
+            <i class="icon ion-ios-personadd-outline arrow buble" id="add" title="Add Patient" data-target="#newModal" data-toggle="modal"></i>
+
+            <i class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
+            <div class="media midia profile">
+                <div id="dp1" class="dp"></div>
+                <img class="img-fluid d-none mr-3" src="assets/img/model.jpg">
+                <div class="media-body">
+                    <h6 class="username profilename">Dr. Aisha Bello</h6>
+                    <p class="userfb contacts profiletitle">Cadiologist</p>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</nav>
+
+
+
+
+<div
+class="container">
+<div class="row">
+    <div class="col col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-12">
+        <div class="card card-secondary maincard">
+          <div class="card-header profileheader">
+            <div class="timeline lastdoc priscriber headerdp"></div>
+            <h1 class="dept displayname qicon">Aisha Mohammed<span class="predata editicon" title="Edit"><i class="icon ion-ios-more-outline headericon moreicon" title="more actions"></i></span></h1>
+            <h1 class="dept displayname subinfo">Feb 10, 2018</h1>
+          </div>
+            <div class="card-body">
+                <div class="carditem">
+                    <h1 class="dept firstheader">MATERNITY</h1>
+                    <h1 class="dept previnfo">Bed Number: &nbsp;<span class="predata">21</span></h1>
+                    <h1 class="dept priscriptiontime">2/18/2018 8:50am<span class="timetaken">5/18/2018 &nbsp;4;25pm</span></h1>
+                    <div class="timeline">
+                        <h1 class="timelinedate">25</h1>
+                        <h1 class="timelinedate month">OCT</h1>
+                    </div>
+                </div>
+                <div class="carditem">
+                    <h1 class="dept firstheader">FAMILY MEDCINE</h1>
+                    <h1 class="dept previnfo">Bed Number: &nbsp;<span class="predata">21</span></h1>
+                    <h1 class="dept priscriptiontime">2/18/2018 8:50am<span class="timetaken">5/18/2018 &nbsp;4;25pm</span></h1>
+                    <div class="timeline">
+                        <h1 class="timelinedate">25</h1>
+                        <h1 class="timelinedate month">OCT</h1>
+                    </div>
+                </div>
+                <div class="carditem">
+                    <h1 class="dept firstheader">FAMILY MEDCINE</h1>
+                    <h1 class="dept previnfo">Bed Number: &nbsp;<span class="predata">21</span></h1>
+                    <h1 class="dept priscriptiontime">2/18/2018 8:50am<span class="timetaken">5/18/2018 &nbsp;4;25pm</span></h1>
+                    <div class="timeline">
+                        <h1 class="timelinedate">25</h1>
+                        <h1 class="timelinedate month">OCT</h1>
+                    </div>
+                </div>
+
+            </div>
+            <div class="card-footer cardbtnfooter">
+                <div class="btn-group footerbotton" role="group"><button class="btn btn-primary btn-sm btn-outline-primary btn-sm leftbtn" type="button">View History</button><button class="btn btn-primary btn-outline-primary btn-sm rightbtn" type="button">Attend to</button></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-12">
+      <div class="card card-secondary maincard">
+          <div class="card-header profileheader">
+              <div class="timeline lastdoc priscriber headerdp"></div>
+              <h1 class="dept displayname">Aisha Mohammed<span class="predata editicon" title="Edit"><i class="icon ion-ios-checkmark-empty headericon" title=""></i><i class="icon ion-ios-more-outline headericon moreicon" title="more actions"></i></span></h1>
+              <h1 class="dept displayname subinfo">Feb 10, 2018</h1>
+          </div>
+          <div class="card-body">
+              <div class="carditem priscriptioncontainer">
+                  <div class="priscription wardpriscription">
+                      <h1 class="dept">Paracetamol<span class="predata">&nbsp;500mg</span><span class="predata editicon" title="Edit"><i class="icon ion-ios-play-outline editicon continue" title="Continue"></i></span></h1>
+                      <h1 class="dept priscriptiontime">2/18/2018 8:50am<span class="timetaken">5/18/2018 &nbsp;4;25pm</span></h1>
+                  </div>
+                  <div class="priscription wardpriscription">
+                      <h1 class="dept">Paracetamol<span class="predata">&nbsp;500mg</span><span class="predata editicon" title="Edit"><i class="icon ion-ios-pause-outline editicon" title="Discontinue"></i></span></h1>
+                      <h1 class="dept priscriptiontime">2/18/2018 8:50am<span class="timetaken">5/18/2018 &nbsp;4;25pm</span></h1>
+                  </div>
+                  <div class="timeline lastdoc priscriber"></div>
+              </div>
+              <div class="carditem">
+                  <div class="priscription">
+                      <h1 class="dept">Paracetamol<span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata editicon" title="Edit"><i class="icon ion-edit editicon"></i></span><span class="predata">&nbsp;500mg</span></h1>
+                      <h1 class="dept previnfo">Dosage:&nbsp;<span class="predata">10 &nbsp;days | dos</span></h1>
+                  </div>
+                  <div class="priscription">
+                      <h1 class="dept">Chloroquine Injectionl<span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata editicon" title="Edit"></span><span class="predata">&nbsp;200ml</span></h1>
+                      <h1 class="dept previnfo">Dosage:&nbsp;<span class="predata">10 &nbsp;days | dos</span></h1>
+                      <h1 class="dept previnfo">Price: &nbsp;<span class="predata priceval">200</span></h1>
+                      <h1 class="dept previnfo">Last Doctor: &nbsp;<span class="predata">Aisha Mohammed</span></h1>
+                  </div>
+                  <div class="timeline lastdoc priscriber"></div>
+              </div>
+          </div>
+          <div class="card-footer"></div>
+      </div>
+    </div>
+
+    <div class="col col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-12">
+      <div class="card card-secondary maincard">
+          <div class="card-header"></div>
+          <div class="card-body">
+              <div class="carditem priscriptioncontainer">
+                  <div class="priscription wardpriscription">
+                      <h1 class="dept">Paracetamol<span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata">&nbsp;500mg</span></h1>
+                      <h1 class="dept priscriptiontime">2/18/2018 8:50am<span class="timetaken">5/18/2018 &nbsp;4;25pm</span></h1>
+                  </div>
+                  <div class="priscription wardpriscription">
+                      <h1 class="dept">Paracetamol<span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata">&nbsp;500mg</span></h1>
+                      <h1 class="dept priscriptiontime">2/18/2018 8:50am<span class="timetaken">5/18/2018 &nbsp;4;25pm</span></h1>
+                  </div>
+                  <div class="timeline lastdoc priscriber"></div>
+                  <h1 class="dept previnfo baseline baselinedate">&nbsp;15/10/2018 10:45am</h1>
+                  <div class="priscription wardpriscription">
+                      <h1 class="dept">Paracetamol<span class="predata">&nbsp;500mg</span><span class="predata editicon" title="Edit"><i class="icon ion-ios-play-outline editicon continue" title="Continue"></i></span></h1>
+                      <h1 class="dept priscriptiontime">2/18/2018 8:50am<span class="timetaken">5/18/2018 &nbsp;4;25pm</span></h1>
+                  </div>
+              </div>
+          </div>
+          <div class="card-footer"></div>
+      </div>
+    </div>
+  </div>
+</div>

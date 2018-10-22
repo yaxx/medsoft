@@ -1,0 +1,393 @@
+<div class="modal fade" role="dialog" tabindex="-1" id="newModal" style="border-radius:0px;width:auto;">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content" style="width:700px">
+          <div class="modal-header" style="padding:6px; ">
+              <h6 class="modal-title" style="text-align:center; width:100%">NEW PATIENT</h6>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+              </button>
+          </div>
+          <div class="modal-body">
+
+              <form novalidate  (ngSubmit)="submitRecord()" class="patientform">
+
+                  <fieldset class="topfilset">
+                      <legend>PATIENT INFO</legend>
+                  </fieldset>
+                  <div class="form-group vitals-section formGroup rightGroup leftinput" >
+                          <label for="firstName" class="labelss complain">FIRST NAME</label>
+                          <input  [(ngModel)]="patient.personal.firstName" type="text" name="fname" class="patientdata inputs dataInfo" id="" placeholder="Enter First Name"/>
+                  </div>
+                  <div class="form-group vitals-section formGroup">
+                          <label for="complain" class="labelss complain">LAST NAME</label>
+                          <input [(ngModel)]="patient.personal.lastName" type="text" name="lname" class="patientdata inputs dataInfo" id=""  placeholder="Enter Last Name">
+                  </div>
+
+                  <div  class="form-group vitals-section formGroup leftinput">
+                          <label for="gender" class="labelss complain">GENDER</label>
+                          <select [(ngModel)]="patient.personal.gender" class=" patientdata status inputs dataInfo " name="gender" id="">
+                                  <option>Male</option>
+                                  <option>Female</option>
+                              </select>
+                  </div>
+
+                  <div class="form-group vitals-section formGroup ">
+                          <label for="dob" class="labelss complain">DATE OF BIRTH</label>
+                          <input [(ngModel)]="patient.personal.dob" type="date" name="dob" class="patientdata inputs dataInfo" id=""  placeholder="">
+                  </div>
+
+                  <div class="form-group vitals-section formGroup leftinput">
+                          <label for="mstatus" class="labelss complain">MARITAL STATUS</label>
+                          <select [(ngModel)]="patient.personal.mstatus" class=" patientdata status inputs dataInfo " name="mstatus" id="">
+                                  <option>Married</option>
+                                  <option>Single</option>
+                              </select>
+                  </div>
+                  <div class="form-group vitals-section formGroup">
+                          <label for="bgroup" class="labelss complain">OCCUPATION</label>
+                          <select [(ngModel)]="patient.personal.occupation" class="patientdata status inputs dataInfo " name="bgroup" id="">
+                                  <option>Civil Servant</option>
+                                  <option>Entreprenure</option>
+                                  <option>Farmer</option>
+                                  <option>House wife</option>
+                                  <option>Applicant</option>
+                                  <option>Student</option>
+                              </select>
+                  </div>
+                  <div class="form-group vitals-section formGroup leftinput">
+                          <label for="mstatus" class="labelss complain">RELIGION</label>
+                          <select [(ngModel)]="patient.personal.religion" class=" patientdata status inputs dataInfo " name="mstatus" id="">
+                                  <option>Islam</option>
+                                  <option>Christianity</option>
+                                  <option>Others</option>
+                              </select>
+                  </div>
+                  <div class="form-group vitals-section formGroup">
+                          <label for="bgroup" class="labelss complain">TRIBE</label>
+                          <select [(ngModel)]="patient.personal.tribe" class="patientdata status inputs dataInfo " name="bgroup" >
+                                  <option>Hausa</option>
+                                  <option>Fulani</option>
+                                  <option>Igbo</option>
+                                  <option>Yoruba</option>
+                                  <option>Tiv</option>
+                              </select>
+                  </div>
+                  <div class="form-group vitals-section formGroup leftinput">
+                    <label for="cardtype" class="labelss complain">CARD TYPE</label>
+                    <select [(ngModel)]="patient.personal.cardType" class=" patientdata status inputs dataInfo " name="cardtype" id="">
+                            <option>Standard</option>
+                            <option>Classic</option>
+                            <option>Silver</option>
+                            <option>Gold</option>
+                        </select>
+                  </div>
+                  <div class="form-group vitals-section formGroup">
+                        <label for="cardnumber" class="labelss complain">CARD No.</label>
+                        <input [(ngModel)]="patient.personal.cardNum" type="text" name="cardnumber" class="patientdata inputs dataInfo" id=""  placeholder="Enter card number  ">
+                  </div>
+
+
+                  <fieldset class="topfilset">
+                      <legend>CONTACT INFO</legend>
+                  </fieldset>
+                  <div class="form-group vitals-section formGroup leftinput">
+                      <label for="phone" class="labelss">PHONE</label>
+                      <input [(ngModel)]="patient.contact.mobile" type="phone" name="phone" class=" inputs dataInfo patientdata" />
+
+                  </div>
+                  <div class="form-group vitals-section formGroup">
+                      <label for="mail" class="labelss">EMAIL</label>
+                      <input [(ngModel)]="patient.contact.occupation" type="email" name="mail" class=" dystolic inputs dataInfo patientdata" />
+
+                  </div>
+
+                  <div class="form-group vitals-section formGroup leftinput">
+                          <label for="state" class="labelss complain">STATE</label>
+                          <select [(ngModel)]="patient.contact.state" class="patientdata status inputs dataInfo " name="state" id="">
+                                  <option>Abia</option>
+                                  <option>Anambra</option>
+                                  <option>Adamawa</option>
+                                  <option>Akwa Ibom</option>
+                                  <option>Bauchi</option>
+                                  <option>Bayelsa</option>
+                                  <option>Taraba</option>
+                              </select>
+                  </div>
+                  <div class="form-group vitals-section formGroup">
+                          <label for="lga" class="labelss complain">LGA</label>
+                          <select [(ngModel)]="patient.contact.lga" class="patientdata status inputs dataInfo " name="lga" id="">
+                                  <option>Karim Lamido</option>
+                                  <option>Sardauna</option>
+                                  <option>Ussa</option>
+                                  <option>Bali</option>
+                                  <option>Mutum Biyu</option>
+                                  <option>Wukari</option>
+                              </select>
+                  </div>
+                  <div class="form-group vitals-section address">
+                      <label for="address" class="labelss">RES. ADDRESS</label>
+                      <input [(ngModel)]="patient.contact.address" type="text" name="address" class="patientdata dystolic inputs dataInfo" id=""/>
+
+                  </div>
+
+
+
+
+                  <fieldset class="topfilset">
+                      <legend>EMERGENCY CONTACT</legend>
+                  </fieldset>
+                  <div class="form-group vitals-section formGroup leftinput">
+                          <label for="contactname" class="labelss">NAME</label>
+                          <input [(ngModel)]="patient.contact.emgName" type="text" name="contacname" class="patientdata inputs dataInfo" id="" placeholder="Full Name">
+
+                      </div>
+                      <div class="form-group vitals-section formGroup">
+                          <label for="contactphone" class="labelss duration">MOBILE</label>
+                          <input [(ngModel)]="patient.contact.emgMobile" type="phone" name="contactphone" class="form-control dystolic inputs dataInfo patientdata" id="" placeholder="Mobile Number">
+
+                      </div>
+
+                  <div class="form-group vitals-section formGroup leftinput">
+                      <label  for="emgrel" class="labelss">RELATIONSHIP</label>
+                      <select [(ngModel)]="patient.contact.emgRel" class=" status inputs dataInfo patientdata" name="emgrel">
+                          <option>Parent</option>
+                          <option>Spouse</option>
+                          <option>Sibling</option>
+                          <option>Freind</option>
+                      </select>
+
+                  </div>
+                  <div class="form-group vitals-section formGroup ">
+                      <label  for="emgoccupation" class="labelss">OCCUPATION</label>
+                      <select [(ngModel)]="patient.contact.emgOccupation" class=" status inputs dataInfo patientdata " name="emgoccupation">
+                          <option>Civil Servant</option>
+                          <option>Entreprenure</option>
+                          <option>Farmer</option>
+                          <option>House Wife</option>
+                          <option>Applicant</option>
+                          <option>Student</option>
+                      </select>
+
+                  </div>
+                  <fieldset class="topfilset">
+                          <legend>MEDICAL INSURANCE</legend>
+                  </fieldset>
+
+
+                  <div class="form-group vitals-section formGroup leftinput">
+                          <label for="holdername" class="labelss">HOLDER'S NAME</label>
+                          <input [(ngModel)]="patient.insurance.name" type="text" name="holdername" class=" inputs dataInfo patientdata" id="" placeholder="Full Name">
+
+                      </div>
+                      <div class="form-group vitals-section formGroup">
+                              <label  for="rel" class="labelss">RELATIONSHIP</label>
+                              <select [(ngModel)]="patient.insurance.rel" class=" status inputs dataInfo patientdata " name="rel">
+                                  <option>Self</option>
+                                  <option>Spouse</option>
+                                  <option>Sibling</option>
+
+                              </select>
+
+                          </div>
+                      <div class="form-group vitals-section formGroup leftinput">
+                              <label  for="rel" class="labelss">EMPLOYER</label>
+                              <input [(ngModel)]="patient.insurance.employer" type="text" name="employer" class=" inputs dataInfo patientdata" id="" placeholder="Employer Name">
+
+
+
+                          </div>
+                          <div class="form-group vitals-section formGroup">
+                                  <label for="holdername" class="labelss">SOCIAL SECURITY</label>
+                                  <input [(ngModel)]="patient.insurance.ssn" type="text" name="holdername" class=" inputs dataInfo patientdata" id="" placeholder="Social Security Number"/>
+
+                          </div>
+
+
+
+               <div class="modal-footer">
+
+                  <button class="btn btn-sm btn-outline-primary saverecord" type="submit">Save  Record</button>
+              </div>
+          </form>
+      </div>
+
+      </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="sidenav">
+      <a href="#" class="home homemenu" title="Menu">
+          <span class="homespan">
+              <i class="material-icons homeicon">sort</i>
+          </span>
+      </a>
+      <a href="#" [routerLink]="['/orders']" routerLinkActive="router-link-active"  class="home" title="Home">
+          <span class="homespan">
+              <i class="icon ion-ios-home-outline homeicon"></i>
+          </span>
+      </a>
+      <a href="#" [routerLink]="['/categories']"  class="home dashboard" title="Dashboard">
+          <span class="homespan">
+              <i class="icon ion-android-apps homeicon"></i>
+          </span>
+      </a>
+      <a href="#" [routerLink]="['/registration']" routerLinkActive="router-link-active"  class="home patienmenu" title="Patients">
+          <span class="homespan">
+              <i class="icon ion-ios-people-outline homeicon"></i>
+          </span>
+      </a>
+      <a href="#" [routerLink]="['/consultation']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Appointments">
+          <span class="homespan">
+              <i class="icon ion-ios-calendar-outline homeicon"></i>
+          </span>
+      </a>
+      <a href="#" [routerLink]="['/inventory']" routerLinkActive="router-link-active"  class="home cartmenu" title="Products">
+          <span class="homespan">
+              <i class="icon ion-ios-cart-outline homeicon"></i>
+          </span>
+      </a>
+      <a href="#" [routerLink]="['/ward']" routerLinkActive="router-link-active"  class="home cartmenu wardmenu" title="ward">
+        <span class="homespan">
+          <i class="material-icons deticon" title>airline_seat_flat_angled</i>
+        </span>
+    </a>
+      <a href="#" [routerLink]="['/orders']"  class="home settings" title="Settings">
+          <span class="homespan">
+              <i class="icon ion-ios-gear-outline homeicon"></i>
+          </span>
+      </a>
+
+</div>
+
+<nav class="navbar navbar-light navbar-expand-md navigation-clean-search" style="padding:0px">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <em>MS</em>
+        </a>
+        <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navcol-1">
+            <ul class="nav navbar-nav"></ul>
+            <form class="form-inline mr-auto searchform" target="_self">
+                <div class="form-group">
+                    <label for="search-field">
+                        <i class="icon ion-ios-search searchicon" title="Search"></i>
+                    </label>
+                    <input class="form-control search-field" type="search" name="search" id="search-field" placeholder="Search Patient">
+                </div>
+                <p class="filter">Sort by: Recently added</p>
+                <i class="icon ion-ios-arrow-down arrow"></i>
+                <i class="icon ion-ios-personadd-outline arrow buble" id="add" title="Add Patient" data-target="#newModal" data-toggle="modal"></i>
+
+                <i class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
+                <div class="media midia profile">
+                    <div id="dp1" class="dp"></div>
+                    <img class="img-fluid d-none mr-3" src="assets/img/model.jpg">
+                    <div class="media-body">
+                        <h6 class="username profilename">Dr. Aisha Bello</h6>
+                        <p class="userfb contacts profiletitle">Cadiologist</p>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</nav>
+
+
+
+
+
+
+
+
+
+  <div  class="container">
+        <div class="row">
+            <div [ngSwitch]="view" *ngFor="let patient of patients" class="col col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-12" data-aos-duration="900" data-aos-delay="50" data-aos-once="true">
+
+                <div *ngSwitchCase="'details'" class="card card-secondary maincard">
+                    <i class="icon ion-ios-arrow-right backicon" title="Back"></i>
+                    <div (click)=switchViews() data-aos-duration="900" data-aos-delay="50" data-aos-once="true" class="card-body">
+                        <div class="carditem">
+                            <h1 class="dept firstheader">PERSONAL INFO</h1>
+                            <h1 class="dept previnfo">Age: &nbsp;<span class="predata">21</span></h1>
+                            <h1 class="dept previnfo">Gender: &nbsp;<span class="predata">
+                              {{patient.personal.gender}}</span></h1>
+                            <h1 class="dept previnfo">Blood Group: &nbsp;<span class="predata">O+</span></h1>
+                            <h1 class="dept previnfo">Marital Status: &nbsp;<span class="predata">{{patient.personal.mstatus}}</span></h1>
+                            <h1 class="dept previnfo">Religion &nbsp;<span class="predata">{{patient.personal.religion}}</span></h1>
+                            <h1 class="dept previnfo">Tribe &nbsp;<span class="predata">{{patient.personal.tribe}}</span></h1>
+                            <h1 class="dept previnfo">Occupation &nbsp;<span class="predata">{{patient.personal.occupation}}</span></h1>
+                            <h1 class="dept previnfo">Card Number &nbsp;<span class="predata">00023467654</span></h1>
+                            <div class="timeline"><i class="icon ion-ios-person-outline deticon" title=""></i></div>
+                            <h1 class="dept previnfo">Date Created &nbsp;<span class="predata">{{patient.dateCreated|date:'longDate'}}</span></h1>
+                            <div class="timeline"><i class="icon ion-ios-person-outline deticon" title=""></i></div>
+                        </div>
+                      <div class="carditem">
+                            <h1 class="dept firstheader">CONTACT</h1>
+                            <h1 class="dept previnfo">Mobile: &nbsp;<span class="predata">08056784435</span></h1>
+                            <h1 class="dept previnfo">E-Mail: &nbsp;<span class="predata">{{patient.contact.email}}</span></h1>
+
+                            <h1 class="dept previnfo">State: &nbsp;<span class="predata">{{patient.contact.state}}</span></h1>
+                            <h1 class="dept previnfo">LGA: &nbsp;<span class="predata">{{patient.contact.lga}}</span></h1>
+                            <h1 class="dept previnfo">Address: &nbsp;<span class="predata">{{patient.contact.address}}</span></h1>
+                            <h1 class="dept previnfo">Next of Kin: &nbsp;<span class="predata">Hassan Sani</span></h1>
+                            <div class="timeline"><i class="icon ion-ios-location-outline deticon" title=""></i></div>
+                        </div>
+                        <div class="carditem">
+                            <h1 class="dept firstheader">EMERGENCY CONTACT</h1>
+                            <h1 class="dept previnfo">Name: &nbsp;<span class="predata">{{patient.contact.emgName}}</span></h1>
+                            <h1 class="dept previnfo">Relationship: &nbsp;<span class="predata">{{patient.contact.emgRel}}</span></h1>
+                            <h1 class="dept previnfo">Mobile &nbsp;<span class="predata">{{patient.contact.emgMobile}}</span></h1>
+                            <h1 class="dept previnfo">E-Mail: &nbsp;<span class="predata">mosani@gmail.com</span></h1>
+                            <div class="timeline"><i class="icon ion-ios-pulse deticon" title=""></i></div>
+                        </div>
+                    </div>
+                    <div class="floter" title="Edit"><i class="icon ion-edit flotericon" title="Edit Information"></i></div>
+                </div>
+
+                <div  *ngSwitchDefault data-aos-duration="900" data-aos-delay="50" data-aos-once="true" class="card card-secondary maincard">
+                    <div class="card-header profileheader">
+                        <div class="timeline lastdoc priscriber headerdp"></div>
+                        <h1 class="dept displayname">{{patient.personal.firstName + ' '+ patient.personal.lastName}}<span class="predata editicon" title="Edit"><i class="icon ion-ios-checkmark-empty headericon" title=""></i><i class="icon ion-android-more-vertical headericon moreicon" title="more actions"></i></span></h1>
+                        <h1 class="dept displayname subinfo">{{patient.dateCreated|date:'mediumDate'}}</h1>
+                    </div>
+                    <div (click) = switchViews() class="card-body">
+                        <div class="carditem" *ngFor="let visit of patient.record.visits">
+                            <h1  [ngSwitch]=visit.status class="dept firstheader">{{visit.dept|uppercase}}<span *ngSwitchCase="'discharged'"    class="timetaken lastdept">{{visit.dischargedOn}}</span>
+                              <span *ngSwitchCase="'deseased'"    class="timetaken lastdept">{{visit.diedOn}}</span>
+                              <span *ngSwitchDefault class="timetaken lastdept">On Queue</span>
+                            </h1>
+                            <h1 class="dept previnfo">Bed Number: &nbsp;<span class="predata">21</span></h1>
+                              <div class="timeline" style="background:white; border-radius:0px">
+                                <h1 class="timelinedate">{{visit.visitedOn|date:'dd'}}</h1>
+                                <h1 class="timelinedate month">{{visit.visitedOn|date:'MMM'|uppercase}}</h1>
+                              </div>
+                        </div>
+
+                        <!-- <h1 class="dept previnfo emptyCard">Awaits Examination</h1> -->
+                    </div>
+                    <div class="floter" title="Edit"><i class="icon ion-ios-person flotericon infoicon" title="Patient Information"></i></div>
+                </div>
+
+            </div>
+
+
+
+            </div>
+
+  </div>
+

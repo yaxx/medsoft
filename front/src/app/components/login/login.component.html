@@ -1,0 +1,27 @@
+<div class="loginwrap">
+  <div class="split"></div>
+  <form class="accountform loginform"(submit)= login()>
+    <div class="form-group vitals-section address">
+      <label  for="email" class="labelss">EMAIL</label>
+      <input [(ngModel)]="staff.username"   type="email" name="comname" class=" inputs dataInfo patientdata" placeholder="Phone, email or username">
+
+    </div>
+    <div class="form-group vitals-section address">
+
+      <label for="pwd" class="labelss">PASSWORD</label>
+      <input [(ngModel)]="staff.password"  type=password name="pwd" class=" inputs dataInfo patientdata"  placeholder="Password"/>
+
+    </div>
+
+    <div class="form-group vitals-section address">
+      <button type="submit" class="btn btn-sm btn-outline-primary inputs" >Log in</button>
+
+    </div>
+    <a href="/reset" class="signup">Forgot password?</a>
+    <a href="/signup" class="forgot">Create Account</a>
+    <a *ngIf=in  href ="#" class="forgot invalid" style="color:red">Invalid Credentials</a>
+
+
+
+  </form>
+</div>

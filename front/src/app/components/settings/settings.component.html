@@ -1,0 +1,400 @@
+<div class="modal fade" role="dialog" tabindex="-1" id="newModal" style="border-radius:0px;width:auto;">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="width:600px">
+            <div class="modal-header" style="padding:4px; ">
+                <h6 class="modal-title" style="text-align:center; font-size:11px; width:100%">NEW STAFF</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="accountform staffsform" (submit)=addStaff()>
+
+                    <div class="form-group vitals-section formGroup" style="margin-right:4px;">
+                        <label  for="fname" class="labelss">FIRST NAME</label>
+                        <input [(ngModel)]="staff.firstName"   type="text" name="fname" class=" inputs dataInfo patientdata"    placeholder="First Name"/>
+
+                    </div>
+
+                    <div class="form-group vitals-section formGroup">
+                        <label for="lname" class="labelss">LAST NAME</label>
+                        <input [(ngModel)]="staff.lastName" type="text" name="lname" class=" inputs dataInfo patientdata"  placeholder="Last Name"/>
+
+                    </div>
+                    <div class="form-group vitals-section formGroup" style="margin-right:4px;">
+                      <label for="department" class="labelss complain">DEPARTMENT</label>
+                      <select [(ngModel)]="staff.department"   class=" patientdata status inputs dataInfo " name="department" id="">
+                              <option>Information</option>
+                              <option>Cashier</option>
+                              <option>Pharmacy</option>
+                              <option>Marternity</option>
+                              <option>Physiotheraphy</option>
+                          </select>
+                    </div>
+                    <div class="form-group vitals-section formGroup">
+                      <label for="department" class="labelss complain">DESIGNATION</label>
+                      <select [(ngModel)]="staff.role"   class=" patientdata status inputs dataInfo " name="department" >
+                              <option>HOD</option>
+                              <option>Doctor</option>
+                              <option>Nurse</option>
+                              <option>Pharmacist</option>
+                              <option>Midwife</option>
+                              <option>Cashier</option>
+
+
+                          </select>
+                    </div>
+
+                    <div class="form-group vitals-section address">
+                      <button style="font-size:12px"  type="submit" class="btn btn-sm btn-outline-primary inputs" >Add Staff</button>
+                      </div>
+
+                  </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" role="dialog" tabindex="-1" id="newDept" style="border-radius:0px;width:auto;">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="width:600px">
+            <div class="modal-header" style="padding:4px; ">
+                <h6 class="modal-title" style="text-align:center; font-size:11px; width:100%">NEW DEPARTMENT</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group vitals-section">
+                    <div *ngFor="let department of departments let i = index;"  class="card card-secondary maincard deptcards" [ngClass]="{'selected':department.selected}" style="width:110px; height:120px; display: inline-block; margin-right:6px; margin-bottom:4px;" (click)="selectDept(i)">
+                        <div class="card-body deptcardbody">
+                            <i *ngIf="department.name==='PHARMACY'" class="icon ion-ios-medkit-outline phamicon"></i>
+
+                            <i *ngIf="department.name==='PHYSIOTHERAPHY'"  class="icon ion-android-bicycle phamicon"></i>
+
+                            <i *ngIf="department.name==='INFORMATION'" class="icon ion-ios-information-outline phamicon flaskicon"></i>
+
+                            <i *ngIf="department.name==='OPTHALMOLOGY'" class="icon ion-ios-glasses-outline phamicon hemaicon"></i>
+
+                            <i *ngIf="department.name==='MATERNITY'" class="material-icons phamicon pregicon">pregnant_woman</i>
+
+                            <h1 class="dept deptitle">{{department.name}}</h1>
+
+
+                        </div>
+                    </div>
+            </div>
+            <div class="form-group vitals-section address">
+              <button style="font-size:12px"  type="button" class="btn btn-sm btn-outline-primary inputs" (click) = "addDept()" >Add Department</button>
+
+            </div>
+
+        </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" role="dialog" tabindex="-1" id="editInfo" style="border-radius:0px;width:auto;">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="width:600px">
+            <div class="modal-header" style="padding:4px; ">
+                <h6 class="modal-title" style="text-align:center; font-size:11px; width:100%">EDIT INFORMATION</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="accountform staffsform">
+                    <div class="form-group vitals-section address">
+                      <label  for="name" class="labelss">COMPANY NAME</label>
+                      <input [(ngModel)]="main.name"  type="text" name="name" class=" inputs dataInfo patientdata" placeholder="e.g City Hospital">
+
+                    </div>
+                    <div class="form-group vitals-section formGroup" style="margin-right:2px;">
+                        <label  for="email" class="labelss">EMAIL</label>
+                        <input [(ngModel)]="main.email"  type="text" name="email" class=" inputs dataInfo patientdata"    placeholder="company email"/>
+
+                    </div>
+
+                    <div class="form-group vitals-section formGroup">
+                        <label for="speciment" class="labelss">MOBILE</label>
+                        <input [(ngModel)]="main.mobile"  type="text" name="holdername" class=" inputs dataInfo patientdata"  placeholder="company phone no."/>
+
+                    </div>
+                    <div class="form-group vitals-section formGroup" style="margin-right:2px;">
+                        <label for="pwd" class="labelss">PASSWORD</label>
+                        <input [(ngModel)]="main.pwd"  type=password name="pwd" class=" inputs dataInfo patientdata"  placeholder="new password"/>
+
+                    </div>
+                    <div class="form-group vitals-section formGroup">
+                        <label for="comfirm" class="labelss">COMFIRM PASSWORD</label>
+                        <input [(ngModel)]="main.comfirm"  type="password" name="comfirm" class=" inputs dataInfo patientdata" id="" placeholder="comfirm passoword"/>
+
+                    </div>
+                    <div class="form-group vitals-section address">
+                      <label  for="comname" class="labelss">ADDRESS</label>
+                      <input [(ngModel)]="main.address"  type="text" name="comaddress" class=" inputs dataInfo patientdata" placeholder="e.g block 4 city plaza, kaduna, kaduna state">
+
+                    </div>
+                    <div class="form-group vitals-section address">
+                        <button style="font-size:12px"  type="submit" class="btn btn-sm btn-outline-primary inputs" >Update Information</button>
+
+                      </div>
+
+
+
+                  </form>
+        </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<nav class="navbar navbar-light navbar-expand-md navigation-clean-search" style="padding:0px">
+  <div class="container">
+      <a class="navbar-brand" href="#">
+          <em>MS</em>
+      </a>
+      <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navcol-1">
+          <ul class="nav navbar-nav"></ul>
+          <form class="form-inline mr-auto searchform" target="_self">
+              <!-- <div class="form-group">
+                  <label for="search-field">
+                      <i class="icon ion-ios-search searchicon" title="Search"></i>
+                  </label>
+                  <input class="form-control search-field" type="search" name="search" id="search-field" placeholder="Search Patient">
+              </div>
+              <p class="filter">Sort by: Recently added</p>
+              <i class="icon ion-ios-arrow-down arrow"></i>
+              <i class="icon ion-ios-personadd-outline arrow buble" id="add" title="Add Patient" data-target="#newModal" data-toggle="modal"></i>
+
+              <i class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i> -->
+              <div class="media midia profile">
+                  <div id="dp1" class="dp"></div>
+                  <img class="img-fluid d-none mr-3" src="assets/img/model.jpg">
+                  <div class="media-body">
+                      <h6 class="username profilename">Dr. Aisha Bello</h6>
+                      <p class="userfb contacts profiletitle">Cadiologist</p>
+                  </div>
+              </div>
+          </form>
+      </div>
+  </div>
+</nav>
+
+
+
+
+<div class="sidenav">
+  <a href="#" class="home homemenu" title="Menu">
+      <span class="homespan">
+          <i class="material-icons homeicon">sort</i>
+      </span>
+  </a>
+  <a href="#" [routerLink]="['/orders']" routerLinkActive="router-link-active"  class="home" title="Home">
+      <span class="homespan">
+          <i class="icon ion-ios-home-outline homeicon"></i>
+      </span>
+  </a>
+  <a href="#" [routerLink]="['/categories']"  class="home dashboard" title="Dashboard">
+      <span class="homespan">
+          <i class="icon ion-android-apps homeicon"></i>
+      </span>
+  </a>
+  <a href="#" [routerLink]="['/registration']" routerLinkActive="router-link-active"  class="home patienmenu" title="Patients">
+      <span class="homespan">
+          <i class="icon ion-ios-people-outline homeicon"></i>
+      </span>
+  </a>
+  <a href="#" [routerLink]="['/consultation']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Appointments">
+      <span class="homespan">
+          <i class="icon ion-ios-calendar-outline homeicon"></i>
+      </span>
+  </a>
+  <a href="#" [routerLink]="['/inventory']" routerLinkActive="router-link-active"  class="home cartmenu" title="Products">
+      <span class="homespan">
+          <i class="icon ion-ios-cart-outline homeicon"></i>
+      </span>
+  </a>
+  <a href="#" [routerLink]="['/ward']" routerLinkActive="router-link-active"  class="home cartmenu wardmenu" title="ward">
+    <span class="homespan">
+      <i class="material-icons deticon" title>local_hotel</i>
+    </span>
+</a>
+  <a href="#" [routerLink]="['/orders']"  class="home settings" title="Settings">
+      <span class="homespan">
+          <i class="icon ion-ios-gear-outline homeicon"></i>
+      </span>
+  </a>
+
+</div>
+
+
+
+
+
+<div
+        class="container" >
+        <div class="staffs">
+
+        <div class="form-group vitals-section setGroup">
+           <p class="setDivider">Basic Information</p>
+          <table cellspacing="0" class="data-table drugs-table" summary="List of all items in store. " >
+
+
+
+          <thead class='productHead' style="display: none">
+              <tr>
+
+                  <th class="headlbl prdName"></th>
+
+                  <th class="headlbl"></th>
+
+
+              </tr>
+          </thead>
+          <tbody>
+              <tr class="ro odd">
+
+                  <td class="data leftData">Hospital Name:</td>
+                  <td style="text-align: right;" class="data">{{settings.main.name}}</td>
+                  <td style="text-align: right; padding-left:1px" class="data" title="Remove">
+
+                  </td>
+
+              </tr>
+              <tr class="ro even">
+
+                  <td class="data leftData" >Email:</td>
+                  <td style="text-align: right;" class="data">{{settings.main.email}}</td>
+                  <td style="text-align: left; padding-left:1px" class="data" title="Remove">
+
+                  </td>
+
+              </tr>
+              <tr class="ro odd">
+
+                  <td class="data leftData">Mobile:</td>
+                  <td style="text-align: right;" class="data">{{settings.main.mobile}}</td>
+                  <td style="text-align: left; padding-left:1px" class="data" title="Remove">
+
+                  </td>
+
+              </tr>
+              <tr class="ro even">
+
+                  <td   class="data leftData">Address:</td>
+                  <td style="text-align: right;" class="data">{{settings.main.address}}</td>
+                  <td style="text-align: left; padding-left:1px" class="data" title="Remove">
+
+                  </td>
+
+              </tr>
+
+          </tbody>
+          <tfoot class='productHead tfooter'>
+              <tr data-target="#editInfo" data-toggle="modal"  title="Edit Information">
+
+                  <td class="data " colspan="6"><i  class="icon ion-edit addstafficon editprofileicon" ></i>Edit</td>
+
+              </tr>
+           </tfoot>
+      </table>
+
+  </div>
+
+  <div class="form-group vitals-section setGroup">
+      <p class="setDivider">Departments</p>
+    <div *ngFor="let department of settings.department"   class="card card-secondary maincard deptcards" [ngClass]="{'selected':department.selected}" style="width:110px; height:120px; display: inline-block; margin-right:6px; margin-bottom:4px;">
+      <div class="card-body deptcardbody">
+          <i *ngIf="department.name==='PHYSIOTHERAPHY'"  class="icon ion-android-bicycle phamicon"></i>
+
+          <i *ngIf="department.name==='PHARMACY'" class="icon ion-ios-medkit-outline phamicon"></i>
+
+          <i *ngIf="department.name==='INFORMATION'" class="icon ion-ios-information-outline phamicon flaskicon"></i>
+
+          <i *ngIf="department.name==='OPTHALMOLOGY'" class="icon ion-ios-glasses-outline phamicon hemaicon"></i>
+
+          <i *ngIf="department.name==='MATERNITY'" class="material-icons phamicon pregicon">pregnant_woman</i>
+      </div>
+      <h1 class="dept deptitle">{{department.name}}</h1>
+    </div>
+
+    <div  class="card card-secondary maincard deptcards" [ngClass]="{'selected':department.selected}" style="width:110px; height:120px; display: inline-block; margin-right:6px; margin-bottom:4px;">
+      <div class="card-body deptcardbody">
+          <i data-target="#newDept" data-toggle="modal"  class="icon ion-ios-plus-empty phamicon flaskicon"></i>
+      </div>
+      <h1 class="dept deptitle">NEW DEPARTMENT</h1>
+    </div>
+
+    </div>
+
+    <div class="form-group vitals-section setGroup">
+          <p class="setDivider">Staffs</p>
+         <table cellspacing="0" class="data-table drugs-table" summary="List of all items in store. " >
+
+
+
+         <thead class='productHead'>
+             <tr>
+
+                 <th class="headlbl"></th>
+                 <th class="headlbl">NAME</th>
+                 <th class="headlbl">DEPARTMENT</th>
+                 <th class="headlbl">ROLE</th>
+                 <th class="headlbl">USERNAME</th>
+                 <th class="headlbl"  style="text-align: center">PASSWORD</th>
+                 <th class="headlbl"  style="text-align: center"></th>
+
+             </tr>
+         </thead>
+         <tbody>
+            <tr *ngFor="let staff of settings.staffs; let i = index; let odd =odd;"   class="ro odd" style="border-bottom:1px solid whitesmoke"  >
+              <td class="check-box staff-dp">
+                <div id="dp " class="dp pone " style="border-radius: 6px;"></div>
+              </td>
+                <td class="data">{{staff.firstName + ' ' + staff.lastName}}</td>
+
+                <td class="data">{{staff.department}}</td>
+                <td class="data">{{staff.role}}</td>
+                <td class="data">{{staff.username}}</td>
+                <td class="data">{{staff.password}}</td>
+
+
+                <td style="text-align: left; padding-left:3px" class="data" >
+                  <i   class="icon ion-ios-close-empty close" title="Remove" style="font-size:12px;"></i>
+                  <i  class="icon ion-edit " title="Edit" style="color:grey"></i>
+                  <i class="icon ion-ios-pause-outline" style="font-size:12px;" title="Block"></i>
+                </td>
+
+            </tr>
+
+        </tbody>
+         <tfoot class='productHead tfooter'>
+            <tr data-target="#newModal" data-toggle="modal" title="Add new staff">
+
+                <td class="data " colspan="7"><i  class="icon ion-ios-personadd-outline addstafficon" ></i>Add Staff</td>
+
+            </tr>
+         </tfoot>
+     </table>
+
+ </div>
+
+</div>
+</div>
+  <!-- <button style="width:90px; position: relative; left:52%;" type="submit" class="btn btn-sm btn-outline-primary inputs next" ngDisable = tempDept.length  (click)= next() [disabled]="step ===1 && !temDept.length" >{{step === 3?'FINISH':'NEXT'}}</button>
+          <button style="width:90px; position: relative; left:35%;" type="submit" class="btn btn-sm btn-outline-primary inputs next" (click)= previous() [disabled]="step ===1">PREV</button> -->

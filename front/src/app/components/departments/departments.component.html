@@ -1,0 +1,240 @@
+<nav class="navbar navbar-light navbar-expand-md navigation-clean-search" style="padding:0px">
+  <div class="container">
+    <a class="navbar-brand" href="#">
+      <em>MS</em>
+    </a>
+    <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navcol-1">
+      <ul class="nav navbar-nav"></ul>
+      <form class="form-inline mr-auto searchform" target="_self">
+        <div class="form-group">
+          <label for="search-field">
+            <i class="icon ion-ios-search searchicon" title="Search"></i>
+          </label>
+          <input class="form-control search-field" type="search" name="search" id="search-field" placeholder="Search Patient">
+        </div>
+        <p class="filter">Sort by: Recently added</p>
+        <i class="icon ion-ios-arrow-down arrow"></i>
+        <i class="icon ion-ios-personadd-outline arrow buble" id="add" title="Add Patient" data-target="#newModal"
+          data-toggle="modal"></i>
+
+        <i class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
+        <div class="media midia profile">
+          <div id="dp1" class="dp"></div>
+          <img class="img-fluid d-none mr-3" src="assets/img/model.jpg">
+          <div class="media-body">
+            <h6 class="username profilename">Dr. Aisha Bello</h6>
+            <p class="userfb contacts profiletitle">Cadiologist</p>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</nav>
+
+
+
+
+<div class="sidenav">
+  <a href="#" class="home homemenu" title="Menu">
+    <span class="homespan">
+      <i class="material-icons homeicon">sort</i>
+    </span>
+  </a>
+  <a href="#" [routerLink]="['/orders']" routerLinkActive="router-link-active" class="home" title="Home">
+    <span class="homespan">
+      <i class="icon ion-ios-home-outline homeicon"></i>
+    </span>
+  </a>
+  <a href="#" [routerLink]="['/categories']" class="home dashboard" title="Dashboard">
+    <span class="homespan">
+      <i class="icon ion-android-apps homeicon"></i>
+    </span>
+  </a>
+  <a href="#" [routerLink]="['/registration']" routerLinkActive="router-link-active" class="home patienmenu" title="Patients">
+    <span class="homespan">
+      <i class="icon ion-ios-people-outline homeicon"></i>
+    </span>
+  </a>
+  <a href="#" [routerLink]="['/consultation']" routerLinkActive="router-link-active" class="home reviewmenu" title="Appointments">
+    <span class="homespan">
+      <i class="icon ion-ios-calendar-outline homeicon"></i>
+    </span>
+  </a>
+  <a href="#" [routerLink]="['/inventory']" routerLinkActive="router-link-active" class="home cartmenu" title="Products">
+    <span class="homespan">
+      <i class="icon ion-ios-cart-outline homeicon"></i>
+    </span>
+  </a>
+  <a href="#" [routerLink]="['/ward']" routerLinkActive="router-link-active" class="home cartmenu wardmenu" title="ward">
+    <span class="homespan">
+      <i class="material-icons deticon" title>local_hotel</i>
+    </span>
+  </a>
+  <a href="#" [routerLink]="['/orders']" class="home settings" title="Settings">
+    <span class="homespan">
+      <i class="icon ion-ios-gear-outline homeicon"></i>
+    </span>
+  </a>
+
+</div>
+
+
+
+
+
+<div class="container" [ngSwitch]="step">
+
+
+  <div *ngSwitchCase="1" class="staffs">
+    <div class="form-group vitals-section">
+      <div *ngFor="let department of departments" (click)="doSelection(department)" class="card card-secondary maincard deptcards"
+        [ngClass]="{'selected':department.selected}" style="width:110px; height:120px; display: inline-block; margin-right:6px; margin-bottom:4px;">
+        <div class="card-body deptcardbody">
+          <i *ngIf="department.name==='PHARMACY'" class="icon ion-ios-medkit-outline phamicon"></i>
+
+          <i *ngIf="department.name==='PHYSIOTHERAPHY'" class="icon ion-android-bicycle phamicon"></i>
+
+          <i *ngIf="department.name==='INFORMATION'" class="icon ion-ios-information-outline phamicon flaskicon"></i>
+
+          <i *ngIf="department.name==='OPTHALMOLOGY'" class="icon ion-ios-glasses-outline phamicon hemaicon"></i>
+
+          <i *ngIf="department.name==='MATERNITY'" class="material-icons phamicon pregicon">pregnant_woman</i>
+
+          <h1 class="dept deptitle">{{department.name}}</h1>
+
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <div *ngSwitchCase="2" class="staffs">
+    <form class="accountform staffsform">
+      <div class="form-group vitals-section formGroup" style="margin-right:4px;">
+        <label for="fname" class="labelss">FIRST NAME</label>
+        <input [(ngModel)]="staff.firstName" type="text" name="fname" class=" inputs dataInfo patientdata" placeholder="First Name" />
+      </div>
+      <div class="form-group vitals-section formGroup">
+        <label for="lname" class="labelss">LAST NAME</label>
+        <input [(ngModel)]="staff.lastName" type="text" name="lname" class=" inputs dataInfo patientdata" placeholder="Last Name" />
+      </div>
+      <div class="form-group vitals-section formGroup" style="margin-right:4px;">
+        <label for="department" class="labelss complain">DEPARTMENT</label>
+        <select [(ngModel)]="staff.department" class=" patientdata status inputs dataInfo " name="department" id="">
+          <option>Information</option>
+          <option>Cashier</option>
+          <option>Pharmacy</option>
+          <option>Marternity</option>
+          <option>Physiotheraphy</option>
+        </select>
+      </div>
+      <div class="form-group vitals-section formGroup">
+        <label for="department" class="labelss complain">DESIGNATION</label>
+        <select [(ngModel)]="staff.role" class=" patientdata status inputs dataInfo " name="department">
+          <option>HOD</option>
+          <option>Doctor</option>
+          <option>Nurse</option>
+          <option>Pharmacist</option>
+          <option>Midwife</option>
+          <option>Cashier</option>
+        </select>
+      </div>
+      <div class="form-group vitals-section address">
+        <button style="font-size:12px" (click)="addStaff()" type="submit" class="btn btn-sm btn-outline-primary inputs">Add
+          Staff</button>
+      </div>
+    </form>
+
+    <div *ngIf="staffs.length" class="form-group vitals-section">
+      <table cellspacing="0" class="data-table drugs-table" summary="List of all items in store. ">
+        <thead class='productHead'>
+          <tr>
+
+            <th class="headlbl prdName">STAFF NAME</th>
+            <th class="headlbl">DEPARTMENT</th>
+            <th class="headlbl">ROLE</th>
+            <th class="headlbl">USERNAME</th>
+            <th class="headlbl" style="text-align: center">PASSWORD</th>
+            <th class="headlbl" style="text-align: center"></th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let staff of staffs; let i = index; let odd =odd;" class="ro" [class.odd]="odd" [class.even]="!odd">
+            <td class="data">{{staff.firstName + ' ' + staff.lastName}}</td>
+            <td class="data">{{staff.department}}</td>
+            <td class="data">{{staff.role}}</td>
+            <td class="data">{{staff.username}}</td>
+            <td class="data">{{staff.password}}</td>
+            <td style="text-align: left; padding-left:3px" class="data" title="Remove">
+              <i (click)="removeStaff(i)" class="icon ion-ios-close-empty close"></i>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+
+  <div *ngSwitchCase="3" class="staffs">
+    <div class="form-group vitals-section">
+      <div *ngFor="let department of temDept" class="card card-secondary maincard deptcards" [ngClass]="{'selected':department.selected}"
+        style="width:110px; height:120px; display: inline-block; margin-right:6px; margin-bottom:4px;">
+        <div class="card-body deptcardbody">
+          <i *ngIf="department.name==='PHARMACY'" class="icon ion-ios-medkit-outline phamicon"></i>
+          <i *ngIf="department.name==='PHYSIOTHERAPHY'" class="icon ion-android-bicycle phamicon"></i>
+          <i *ngIf="department.name==='INFORMATION'" class="icon ion-ios-information-outline phamicon flaskicon"></i>
+          <i *ngIf="department.name==='OPTHALMOLOGY'" class="icon ion-ios-glasses-outline phamicon hemaicon"></i>
+          <i *ngIf="department.name==='MATERNITY'" class="material-icons phamicon pregicon">pregnant_woman</i>
+          <h1 class="dept deptitle">{{department.name}}</h1>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="staffs.length" class="form-group vitals-section">
+      <table cellspacing="0" class="data-table drugs-table" summary="List of all items in store. ">
+        <thead class='productHead'>
+          <tr>
+            <th class="headlbl prdName">STAFF NAME</th>
+            <th class="headlbl">DEPARTMENT</th>
+            <th class="headlbl">ROLE</th>
+            <th class="headlbl">USERNAME</th>
+            <th class="headlbl" style="text-align: center">PASSWORD</th>
+            <th class="headlbl" style="text-align: center"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let staff of staffs; let i = index; let odd =odd;" class="ro" [class.odd]="odd" [class.even]="!odd">
+            <td class="data">{{staff.firstName + ' ' + staff.lastName}}</td>
+            <td class="data">{{staff.department}}</td>
+            <td class="data">{{staff.role}}</td>
+            <td class="data">{{staff.username}}</td>
+            <td class="data">{{staff.password}}</td>
+            <td style="text-align: left; padding-left:3px" class="data" title="Remove">
+              <i (click)="removeStaff(i)" class="icon ion-ios-close-empty close"></i>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+
+  </div>
+
+
+
+  <div *ngSwitchDefault></div>
+
+  <button style="width:90px; position: relative; left:52%;" type="submit" class="btn btn-sm btn-outline-primary inputs next"
+    ngDisable=tempDept.length (click)=next() [disabled]="step ===1 && !temDept.length">{{step === 3?'FINISH':'NEXT'}}</button>
+  <button style="width:90px; position: relative; left:35%;" type="submit" class="btn btn-sm btn-outline-primary inputs next"
+    (click)=previous() [disabled]="step ===1">PREV</button>
+
+</div>

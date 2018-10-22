@@ -1,0 +1,10 @@
+.carditem.priscriptioncontainer.order {
+  border-left:2px solid blue;
+}
+
+.card-body.orderbody {
+  border-left:0px;
+  padding-top:3px;
+}
+
+

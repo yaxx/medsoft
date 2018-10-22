@@ -1,0 +1,23 @@
+//   Contacts.aggregate([
+  //     {$match: {'contacts.username': req.cookies.username}},
+  //     {$addFields: {'contacts': {$filter: { // We override the existing field!
+  //       input: '$contacts',
+  //       as: 'contact',
+  //       cond: {$eq: ['$$contact.connected', true]}
+  //     }}}}], function (err, contacts) {
+  //     if (!err) {
+  //       console.log(contacts)
+  //       contacts = contacts.map((doc) => {
+  //         return new Contacts(doc)
+  //       })
+  //       Contacts.populate(contacts, {'path': 'contacts.userid'}, function (err, result) {
+  //         if (!err) {
+  //           console.log(result)
+  //           return res.send(result)
+  //         } else {
+  //           console.log(err)
+  //         }
+  //       })
+  //     } else { console.log(err) }
+  //   }
+  // )

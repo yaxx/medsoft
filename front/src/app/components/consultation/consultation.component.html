@@ -1,0 +1,339 @@
+
+
+  <div class="modal fade" role="dialog" tabindex="-1" id="newModal" style="border-radius:0px;width:auto;">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content" style="width:700px">
+              <div class="modal-header" style="padding:6px; ">
+                  <h6 class="modal-title dept" style="text-align:center; width:100%">CONSULTATION</h6>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">×</span>
+                  </button>
+              </div>
+              <div class="modal-body">
+
+                  <form novalidate  (ngSubmit)="saveRecord()" class="patientform">
+
+                      <fieldset class="topfilset">
+                          <legend>HISTORY</legend>
+                      </fieldset>
+
+                      <div class="form-group vitals-section address">
+                        <label for="height" class="labelss notelabel">COMPLAIN</label>
+                        <textarea  class="patientdata note " placeholder="Note">
+                        </textarea>
+                      </div>
+                      <div class="form-group vitals-section address">
+                          <label  for="famhistory" class="labelss">FAMILY HISTORY</label>
+                          <input  type="text" name="famhistory" class=" inputs dataInfo patientdata" placeholder="Enter family history">
+
+                       </div>
+
+
+                      <fieldset class="topfilset">
+                          <legend>BASIC EXAMINATION</legend>
+                      </fieldset>
+
+
+                      <div style="margin-right:4px;" class="form-group vitals-section formGroup">
+                          <label for="tempreture" class="labelss complain">TEMPRETURE</label>
+                          <input  type="number" name="pulse" class="patientdata inputs dataInfo" id=""  placeholder="Mesures in celsiu">
+                      </div>
+                      <div class="form-group vitals-section formGroup">
+                          <label for="dystolic" class="labelss complain">PULSE RATES</label>
+                          <input  type="number" name="dystolic" class="patientdata inputs dataInfo" id=""  placeholder="Mesures in bpm">
+                      </div>
+                      <div style="margin-right:4px;" class="form-group vitals-section formGroup">
+                          <label for="resp" class="labelss complain">RESP. RATE</label>
+                          <input  type="number" name="resp" class="patientdata inputs dataInfo" id=""  placeholder="Mesures in bpm">
+                      </div>
+
+                      <div class="form-group vitals-section formGroup">
+                              <label for="bp" class="labelss complain">BLOOD PRESURE</label>
+                              <input  type="number" name="bp" class="patientdata inputs dataInfo" id=""  placeholder="Mesures in mmHg">
+                      </div>
+
+
+                      <div class="form-group vitals-section formGroup" style="margin-right:4px;">
+                              <label for="height" class="labelss complain">HIGHT. </label>
+                              <input type="number" name="height" class="patientdata inputs dataInfo" id=""  placeholder="Mesures in ft">
+                      </div>
+                      <div class="form-group vitals-section formGroup">
+                              <label for="weight" class="labelss complain">WEIGHT</label>
+                              <input type="number" name="ght" class="patientdata inputs dataInfo" id=""  placeholder="Mesures in kg">
+                      </div>
+
+
+                      <fieldset class="topfilset">
+                          <legend>DIAGNOSIS</legend>
+                      </fieldset>
+                      <div class="form-group vitals-section address">
+                          <label  for="condition" class="labelss">CONDITION</label>
+                          <input  type="text" name="condition" class=" inputs dataInfo patientdata" placeholder="Specify diagnosed condition">
+
+                      </div>
+
+                       <div class="form-group vitals-section formGroup" style="margin-right:4px;">
+
+                          <div class="btn-group btn-group-sm grouper "><label class="btn btn-primary btn-outline-primary gmember">Presumed<input class="invisible" type="radio" name="options" value="true" required="" id="r1" autocomplete="off"></label><label class="btn btn-primary btn-outline-primary gmember active">Comfirmed<input class="invisible" type="radio" id="r2" autocomplete="off" name="options" checked=""></label>
+                          </div>
+                      </div>
+                       <div class="form-group vitals-section formGroup">
+
+                          <div class="btn-group btn-group-sm grouper "><label  class="btn btn-primary btn-outline-primary gmember" [ngClass]="{'active':in==='admit'}">Admit<input (click)="switchBtn('admit')" class="invisible" type="radio" name="admit" value="true" required="" id="r1" autocomplete="off" ></label>
+
+                          <label  class="btn btn-primary btn-outline-primary gmember" [ngClass]="{'active':in==='discharge'}">Discharge<input (click)="switchBtn('discharge')" class="invisible" type="radio" id="r2" autocomplete="off" name="discharge" checked=""></label>
+                          </div>
+                      </div>
+                      <div class="form-group vitals-section address">
+                        <label for="height" class="labelss notelabel">ADDITIONAL NOTE</label>
+                        <textarea  class="patientdata note " placeholder="Note">
+                        </textarea>
+                      </div>
+
+
+                      <fieldset class="topfilset">
+                          <legend>MEDICATION</legend>
+                      </fieldset>
+                       <div class="form-group vitals-section address">
+                          <label for="drug" class="labelss">DRUG</label>
+                          <input [(ngModel)]="product.name"  type="text" name="drug" placeholder= "Enter drug name" class="patientdata dystolic inputs dataInfo" />
+
+                      </div>
+                      <div class="form-group vitals-section formGroup" style=" width:24%;">
+                          <label for="dos" class="labelss complain">DOS</label>
+                          <input [(ngModel)]="dosage.dos" style="border-top-right-radius: 0px;border-bottom-right-radius: 0px;"  type="number" name="dos" class="patientdata inputs dataInfo"   placeholder="tabs/spoons">
+                      </div>
+                      <div class="form-group vitals-section formGroup" style=" width:23%; margin-right:4px; ">
+                          <label for="intake" class="labelss complain">INTAKE</label>
+                          <select [(ngModel)]="dosage.intake" style="border-top-left-radius: 0px;border-bottom-left-radius: 0px;"  class=" patientdata status inputs dataInfo " name="intake" >
+                                  <option>dos</option>
+                                  <option>qos</option>
+                                  <option>after meal</option>
+                                  <option>as required</option>
+                          </select>
+                       </div>
+                      <div class="form-group vitals-section formGroup" style=" width:23%;">
+                          <label for="piriod" class="labelss complain">PIRIOD</label>
+                          <input [(ngModel)]="dosage.piriod" style="border-top-right-radius: 0px;border-bottom-right-radius: 0px;"  type="number" name="piriod" class="patientdata inputs dataInfo"   placeholder="">
+                      </div>
+                      <div class="form-group vitals-section formGroup" style=" width:23%;">
+                          <label for="extend" class="labelss complain">EXTEND</label>
+                          <select [(ngModel)]="dosage.extend" style="border-radius: 0px;"  class=" patientdata status inputs dataInfo " name="extend" >
+                                  <option>days</option>
+                                  <option>weeks</option>
+                                  <option>months</option>
+                          </select>
+                       </div>
+                      <div class="form-group vitals-section formGroup" style=" width:6%;">
+                        <button (click)="addPriscription()" title="add priscription" style="padding-top: 1px; padding-bottom:1px; margin-right: 3px;font-size: 16px; border-top-left-radius: 0px;border-bottom-left-radius: 0px; height:100%; bottom:1px; position:relative; width:100%;" class="btn btn-sm btn-outline-primary"><i class="icon ion-ios-plus-empty"></i></button>
+                       </div>
+
+
+                       <div *ngIf="record.medication.length"  class="form-group vitals-section">
+                        <table cellspacing="0" class="data-table drugs-table" summary="List of all items in store. " >
+
+
+
+                        <thead class='productHead'>
+                            <tr>
+
+                                <th class="headlbl prdName">PRODUCT NAME </th>
+
+                                <th class="headlbl">DOSAGE</th>
+                                <th class="headlbl">DURATION</th>
+                                <th class="headlbl" colspan="2" style="text-align: center">PRICE</th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let priscription of record.medication; let i = index;" class="even ro" >
+
+                                <td class="data">{{priscription.product.name}}</td>
+
+                                <td class="data">{{priscription.dosage.intake+ ' '+ priscription.dosage.dos}}</td>
+                                <td class="data">{{priscription.dosage.dos}}</td>
+                                <td class="data" style="text-align:right">500</td>
+                                <td style="text-align: left; padding-left:3px" class="data" title="Remove">
+                                <i (click)="removePriscription(i)"  class="icon ion-ios-close-empty close" ></i>
+                                </td>
+
+
+                            </tr>
+                            <tr class="even ro">
+                              <td class="data" colspan="4" style="text-align: right;" >Total:</td>
+                              <td class="data" colspan="2" style="text-align: center;">{{getTotal()}}</td>
+                            </tr>
+
+
+                        </tbody>
+                    </table>
+
+                </div>
+
+                       <fieldset class="topfilset">
+                          <legend>TESTS/SURGERY</legend>
+                      </fieldset>
+                       <div class="form-group vitals-section address">
+                          <label for="extend" class="labelss complain">TO</label>
+                          <select  class=" patientdata status inputs dataInfo " name="extend" >
+                                  <option>Anesthesia</option>
+                                  <option>Chemical Pathology</option>
+                                  <option>Haematology</option>
+                                  <option>Radiology</option>
+
+                          </select>
+                       </div>
+                       <div class="form-group vitals-section formGroup" style="margin-right:4px;">
+                          <label  for="investigation" class="labelss">INVESTIGATION</label>
+                          <input  type="text" name="investigation" class=" inputs dataInfo patientdata" id="" placeholder="Enter the type of investigation"/>
+
+                      </div>
+                      <div class="form-group vitals-section formGroup">
+                              <label for="speciment" class="labelss">SPECIMENT</label>
+                              <input  type="text" name="holdername" class=" inputs dataInfo patientdata" id="" placeholder="Enter speciment"/>
+
+                      </div>
+                      <div class="form-group vitals-section address">
+                        <label for="height" class="labelss notelabel">CLINICAL SUMMARY</label>
+                        <textarea  class="patientdata note " placeholder="Note">
+                        </textarea>
+                      </div>
+
+
+                   <div class="modal-footer">
+
+                      <button class="btn btn-sm btn-outline-primary" type="submit">Save  Record</button>
+                  </div>
+              </form>
+          </div>
+
+          </div>
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="sidenav">
+    <a href="#" class="home homemenu" title="Menu">
+        <span class="homespan">
+            <i class="material-icons homeicon">sort</i>
+        </span>
+    </a>
+    <a href="#" [routerLink]="['/orders']" routerLinkActive="router-link-active"  class="home" title="Home">
+        <span class="homespan">
+            <i class="icon ion-ios-home-outline homeicon"></i>
+        </span>
+    </a>
+    <a href="#" [routerLink]="['/categories']"  class="home dashboard" title="Dashboard">
+        <span class="homespan">
+            <i class="icon ion-android-apps homeicon"></i>
+        </span>
+    </a>
+    <a href="#" [routerLink]="['/registration']" routerLinkActive="router-link-active"  class="home patienmenu" title="Patients">
+        <span class="homespan">
+            <i class="icon ion-ios-people-outline homeicon"></i>
+        </span>
+    </a>
+    <a href="#" [routerLink]="['/consultation']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Appointments">
+        <span class="homespan">
+            <i class="icon ion-ios-calendar-outline homeicon"></i>
+        </span>
+    </a>
+    <a href="#" [routerLink]="['/inventory']" routerLinkActive="router-link-active"  class="home cartmenu" title="Products">
+        <span class="homespan">
+            <i class="icon ion-ios-cart-outline homeicon"></i>
+        </span>
+    </a>
+    <a href="#" [routerLink]="['/ward']" routerLinkActive="router-link-active"  class="home cartmenu wardmenu" title="ward">
+      <span class="homespan">
+        <i class="material-icons deticon" title>airline_seat_flat_angled</i>
+      </span>
+    </a>
+    <a href="#" [routerLink]="['/orders']"  class="home settings" title="Settings">
+        <span class="homespan">
+            <i class="icon ion-ios-gear-outline homeicon"></i>
+        </span>
+    </a>
+
+
+</div>
+<nav class="navbar navbar-light navbar-expand-md navigation-clean-search" style="padding:0px">
+  <div class="container">
+      <a class="navbar-brand" href="#">
+          <em>MS</em>
+      </a>
+      <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navcol-1">
+          <ul class="nav navbar-nav"></ul>
+          <form class="form-inline mr-auto searchform" target="_self">
+              <div class="form-group">
+                  <label for="search-field">
+                      <i class="icon ion-ios-search searchicon" title="Search"></i>
+                  </label>
+                  <input class="form-control search-field" type="search" name="search" id="search-field" placeholder="Search Patient">
+              </div>
+              <p class="filter">Sort by: Recently added</p>
+              <i class="icon ion-ios-arrow-down arrow"></i>
+              <i class="icon ion-ios-personadd-outline arrow buble" id="add" title="Add Patient" data-target="#newModal" data-toggle="modal"></i>
+
+              <i class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
+              <div class="media midia profile">
+                  <div id="dp1" class="dp"></div>
+                  <img class="img-fluid d-none mr-3" src="assets/img/model.jpg">
+                  <div class="media-body">
+                      <h6 class="username profilename">Dr. Aisha Bello</h6>
+                      <p class="userfb contacts profiletitle">Cadiologist</p>
+                  </div>
+              </div>
+          </form>
+      </div>
+  </div>
+</nav>
+
+
+
+
+
+
+<div  class="container">
+    <div class="row">
+
+        <div *ngFor="let patient of patients" class="col col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-12">
+            <div class="card card-secondary maincard">
+              <div class="card-header profileheader">
+                <div class="timeline lastdoc priscriber headerdp"></div>
+                <h1 class="dept displayname qicon">{{patient.personal.firstName + ' '+ patient.personal.lastName}}<span class="predata editicon" title="Edit"><i class="icon ion-android-more-vertical headericon moreicon" title="more actions"></i><i class="icon ion-android-stopwatch headericon clock" ></i></span></h1>
+                <h1 class="dept displayname subinfo">{{patient.dateCreated|date:'mediumDate'}}</h1>
+              </div>
+                <div class="card-body">
+                    <div *ngFor="let condition of patient.record.conditions" class="carditem">
+                        <h1 class="dept firstheader">{{condition.type}}<span class="timetaken lastdept">Anesthesia</span></h1>
+                        <h1 class="dept previnfo">Diagnosed By: &nbsp;<span class="timetaken lastdept docname">Dr. S.A Mohammed</span></h1>
+                        <div class="timeline condition">
+                            <h1 class="timelinedate">{{condition.dateCreated|date:'dd'}}</h1>
+                            <h1 class="timelinedate month">{{condition.dateCreated|date:'MMM'}}</h1>
+                        </div>
+                    </div>
+                  </div>
+                <div class="floter" title="Examine"><i data-target="#newModal" data-toggle="modal" class="icon ion-person-stalker flotericon consulticon" title="Examine"></i></div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+

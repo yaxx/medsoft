@@ -1,0 +1,149 @@
+
+<div class="sidenav">
+    <a href="#" class="home homemenu" title="Menu">
+        <span class="homespan">
+            <i class="material-icons homeicon">sort</i>
+        </span>
+    </a>
+    <a href="#" [routerLink]="['/orders']" routerLinkActive="router-link-active"  class="home" title="Home">
+        <span class="homespan">
+            <i class="icon ion-ios-home-outline homeicon"></i>
+        </span>
+    </a>
+    <a href="#" [routerLink]="['/categories']"  class="home dashboard" title="Dashboard">
+        <span class="homespan">
+            <i class="icon ion-android-apps homeicon"></i>
+        </span>
+    </a>
+    <a href="#" [routerLink]="['/registration']" routerLinkActive="router-link-active"  class="home patienmenu" title="Patients">
+        <span class="homespan">
+            <i class="icon ion-ios-people-outline homeicon"></i>
+        </span>
+    </a>
+    <a href="#" [routerLink]="['/consultation']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Appointments">
+        <span class="homespan">
+            <i class="icon ion-ios-calendar-outline homeicon"></i>
+        </span>
+    </a>
+    <a href="#" [routerLink]="['/inventory']" routerLinkActive="router-link-active"  class="home cartmenu" title="Products">
+        <span class="homespan">
+            <i class="icon ion-ios-cart-outline homeicon"></i>
+        </span>
+    </a>
+    <a href="#" [routerLink]="['/orders']"  class="home settings" title="Settings">
+        <span class="homespan">
+            <i class="icon ion-ios-gear-outline homeicon"></i>
+        </span>
+    </a>
+
+
+  </div>
+ <nav class="navbar navbar-light navbar-expand-md navigation-clean-search" style="padding:0px">
+  <div class="container">
+      <a class="navbar-brand" href="#">
+          <em>MS</em>
+      </a>
+      <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navcol-1">
+          <ul class="nav navbar-nav"></ul>
+          <form class="form-inline mr-auto searchform" target="_self">
+              <div class="form-group">
+                  <label for="search-field">
+                      <i class="icon ion-ios-search searchicon" title="Search"></i>
+                  </label>
+                  <input class="form-control search-field" type="search" name="search" id="search-field" placeholder="Search Patient">
+              </div>
+              <p class="filter">Sort by: Recently added</p>
+              <i class="icon ion-ios-arrow-down arrow"></i>
+              <i class="icon ion-ios-personadd-outline arrow buble" id="add" title="Add Patient" data-target="#prodModal" data-toggle="modal"></i>
+              <i class="icon ion-ios-person-outline arrow arrow bubble"></i>
+              <i class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
+              <div class="media midia profile">
+                  <div id="dp1" class="dp"></div>
+                  <img class="img-fluid d-none mr-3" src="assets/img/model.jpg">
+                  <div class="media-body">
+                      <h6 class="username profilename">Dr. Aisha Bello</h6>
+                      <p class="userfb contacts profiletitle">Cadiologist</p>
+                  </div>
+              </div>
+          </form>
+      </div>
+  </div>
+</nav>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="wrap col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+  <div class="row no-gutters justify-content-center roww" data-aos="slide-up" data-aos-duration="900" data-aos-delay="50" data-aos-once="true">
+      <div class="col category-col" *ngFor="let cat of newCategories">
+          <div class="card card-primary category-card"><i class="icon ion-android-more-horizontal checkmark more-icon" title="more"></i>
+              <div class="card-body card-bodi cardbody">
+                  <h6 class="category-name">{{cat.name}}</h6>
+                  <h1 class="category-name cat-number">{{cat.quantity}}</h1>
+                  <h6 class="category-name date-created">{{cat.addedOn|date:'shortDate'}}</h6>
+                  <div class="media midia patientmidia admin-media">
+                      <div class="dp pzero cat-creator"></div>
+                      <div class="media-body">
+                          <h6 class="username creatorname">Benjamin Linus</h6>
+                          <p class="userfb contacts admin-user">Date Edited: <strong>{{cat.addedOn|date:'shortDate'}}</strong></p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="col category-col">
+          <div [ngSwitch]="view" class="card card-primary category-card"><i class="icon ion-android-more-horizontal checkmark more-icon" title="more"></i>
+              <div class="card-body card-bodi cardbody" *ngSwitchCase="'details'" data-aos="slide-up" data-aos-duration="900" data-aos-delay="50">
+                <form  class="patientform" style="height:80%; padding-top:40%;  padding-left: 4px; padding-right: 4px;">
+                    <div class="form-group vitals-section">
+                        <label for="department" class="labelss">CATEGORY NAME</label>
+                        <select [(ngModel)]="category.name"  class="dataInfo status inputs" name="department" id="">
+                            <option>Drugs</option>
+                            <option>Device</option>
+                            <option>Container</option>
+                            <option>Podiatric</option>
+                            <option>Vitamin & Nutrient</option>
+                        </select>
+                </div>
+                <div class="btn-group" role="group" style="width:100%;position: relative;">
+                    <button  class="btn btn-primary catbtn" type="button"  (click)="addCategory()">Add</button>
+                    <button (click)="switchViews()" style="width:55%;border-bottom-right-radius: 4px;"  class="btn btn-primary catbtn" type="button">Cancel</button>
+
+                </div>
+                </form>
+              </div>
+
+              <div class="card-body card-bodi cardbody" data-aos="slide-up" data-aos-duration="900" data-aos-delay="50" *ngSwitchDefault>
+                  <h6 class="category-name blank-label">BLANK</h6>
+                  <h1 class="category-name cat-number"></h1>
+                  <h6 class="category-name date-created add-label">ADD CATEGORY</h6>
+
+                  <i (click)="switchViews()" class="icon ion-ios-plus-outline checkmark add-category" title="New category"></i>
+              </div>
+
+          </div>
+      </div>
+
+      <!-- <div class="col category-col">
+          <div class="card card-primary">
+             </div>
+      </div>
+      <div class="clearfix"></div>
+      <div class="clearfix"></div>
+      <div class="clearfix"></div>
+  </div> -->
+</div>

@@ -1,0 +1,323 @@
+
+<div class="sidenav">
+  <a href="#" class="home homemenu" title="Menu">
+      <span class="homespan">
+          <i class="material-icons homeicon">sort</i>
+      </span>
+  </a>
+  <a href="#" [routerLink]="['/orders']" routerLinkActive="router-link-active"  class="home" title="Home">
+      <span class="homespan">
+          <i class="icon ion-ios-home-outline homeicon"></i>
+      </span>
+  </a>
+  <a href="#" [routerLink]="['/categories']"  class="home dashboard" title="Dashboard">
+      <span class="homespan">
+          <i class="icon ion-android-apps homeicon"></i>
+      </span>
+  </a>
+  <a href="#" [routerLink]="['/registration']" routerLinkActive="router-link-active"  class="home patienmenu" title="Patients">
+      <span class="homespan">
+          <i class="icon ion-ios-people-outline homeicon"></i>
+      </span>
+  </a>
+  <a href="#" [routerLink]="['/consultation']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Appointments">
+      <span class="homespan">
+          <i class="icon ion-ios-calendar-outline homeicon"></i>
+      </span>
+  </a>
+  <a href="#" [routerLink]="['/inventory']" routerLinkActive="router-link-active"  class="home cartmenu" title="Products">
+      <span class="homespan">
+          <i class="icon ion-ios-cart-outline homeicon"></i>
+      </span>
+  </a>
+  <a href="#" [routerLink]="['/ward']" routerLinkActive="router-link-active"  class="home cartmenu wardmenu" title="ward">
+    <span class="homespan">
+      <i class="material-icons deticon" title>airline_seat_flat_angled</i>
+    </span>
+</a>
+  <a href="#" [routerLink]="['/orders']"  class="home settings" title="Settings">
+      <span class="homespan">
+          <i class="icon ion-ios-gear-outline homeicon"></i>
+      </span>
+  </a>
+
+
+</div>
+<nav class="navbar navbar-light navbar-expand-md navigation-clean-search" style="padding:0px">
+<div class="container">
+    <a class="navbar-brand" href="#">
+        <em>MS</em>
+    </a>
+    <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navcol-1">
+        <ul class="nav navbar-nav"></ul>
+        <form class="form-inline mr-auto searchform" target="_self">
+            <div class="form-group">
+                <label for="search-field">
+                    <i class="icon ion-ios-search searchicon" title="Search"></i>
+                </label>
+                <input class="form-control search-field" type="search" name="search" id="search-field" placeholder="Search Patient">
+            </div>
+            <p class="filter">Sort by: Recently added</p>
+            <i class="icon ion-ios-arrow-down arrow"></i>
+            <i class="icon ion-ios-personadd-outline arrow buble" id="add" title="Add Patient" data-target="#newModal" data-toggle="modal"></i>
+
+            <i class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
+            <div class="media midia profile">
+                <div id="dp1" class="dp"></div>
+                <img class="img-fluid d-none mr-3" src="assets/img/model.jpg">
+                <div class="media-body">
+                    <h6 class="username profilename">Dr. Aisha Bello</h6>
+                    <p class="userfb contacts profiletitle">Cadiologist</p>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</nav>
+
+
+
+
+
+
+
+<div
+class="container">
+<div class="row">
+    <div class="col col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+        <div class="card-colums leftcolumn">
+            <div class="card card-secondary historycard leftcard">
+                <div class="card-body infobody">
+                    <div class="carditem">
+                        <h1 class="dept detailshead">PERSONAL INFO</h1>
+                        <h1 class="dept previnfo">Age: &nbsp;<span class="predata">21</span></h1>
+                        <h1 class="dept previnfo">Gender: &nbsp;<span class="predata">Male</span></h1>
+                        <h1 class="dept previnfo">Blood Group: &nbsp;<span class="predata">O+</span></h1>
+                        <h1 class="dept previnfo">Marital Status: &nbsp;<span class="predata">Single</span></h1>
+                        <h1 class="dept previnfo">Religion &nbsp;<span class="predata">Islam</span></h1>
+                        <h1 class="dept previnfo">Tribe &nbsp;<span class="predata">Haussa</span></h1>
+                        <h1 class="dept previnfo">Card Number &nbsp;<span class="predata">00023467654</span></h1>
+                        <div class="timeline detailstimeline"><i class="icon ion-ios-person-outline deticon" title=""></i></div>
+                    </div>
+                    <div class="carditem">
+                        <h1 class="dept detailshead">CONTACT</h1>
+                        <h1 class="dept previnfo">State:: &nbsp;<span class="predata">Kaduna</span></h1>
+                        <h1 class="dept previnfo">LGA: &nbsp;<span class="predata">Zaria</span></h1>
+                        <h1 class="dept previnfo">Address: &nbsp;<span class="predata">No. 20 Kano td, Zaria</span></h1>
+                        <h1 class="dept previnfo">E-Mail: &nbsp;<span class="predata">sani@gmail.com</span></h1>
+                        <h1 class="dept previnfo">Mobile: &nbsp;<span class="predata">08056784435</span></h1>
+                        <h1 class="dept previnfo">Next of Kin: &nbsp;<span class="predata">Fassan Sani</span></h1>
+                        <div class="timeline detailstimeline"><i class="icon ion-ios-location-outline deticon" title=""></i></div>
+                    </div>
+                    <div class="carditem">
+                        <h1 class="dept detailshead">EMERGENCY CONTACT</h1>
+                        <h1 class="dept previnfo">Name: &nbsp;<span class="predata">Mohammed Sani</span></h1>
+                        <h1 class="dept previnfo">Relationship: &nbsp;<span class="predata">Parenti</span></h1>
+                        <h1 class="dept previnfo">Mobile &nbsp;<span class="predata">08034568787</span></h1>
+                        <h1 class="dept previnfo">E-Mail: &nbsp;<span class="predata">mosani@gmail.com</span></h1>
+                        <div class="timeline detailstimeline"><i class="icon ion-ios-pulse deticon" title=""></i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="card card-secondary historycard leftcard deathinfo">
+                <div class="card-header grapheader">
+                    <h1 class="dept headtitle">HEALTH INSURANCE</h1>
+                </div>
+                <div class="card-body rightcardbody">
+                    <div class="carditem"></div>
+                </div>
+            </div>
+            <div class="card card-secondary historycard leftcard deathinfo">
+                <div class="card-header grapheader">
+                    <h1 class="dept headtitle">DEATH INFORMATION</h1>
+                </div>
+                <div class="card-body rightcardbody">
+                    <div class="carditem"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+        <div class="card-colums">
+            <div class="card card-secondary historycard midlecard graphcard">
+                <div class="card-body notecardbody">
+                    <div class="carditem noteitem writeup">
+                        <div class="timeline noter patientdp"></div>
+                        <h1 class="dept previnfo noterinfo patientname">Aisha Mohammed &nbsp;<span class="predata notetime">21/07/2018 10:47am</span></h1>
+                        <h1 class="dept previnfo patientname">Gender: &nbsp;<span class="predata">Female</span></h1>
+                        <h1 class="dept previnfo patientname">Age: &nbsp;<span class="predata">25</span></h1>
+                        <h1 class="dept previnfo patientname">Blood Group: &nbsp;<span class="predata">O+</span></h1>
+                    </div>
+                    <div class="progress bpmesure">
+                        <div class="progress-bar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;">50%</div>
+                    </div>
+                    <div class="progress bpmesure dystoprogress">
+                        <div class="progress-bar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;">50%</div>
+                    </div>
+                    <h1 class="dept systolic dystolic">Dystolic</h1>
+                    <h1 class="dept systolic">Systolic &nbsp;</h1>
+                </div>
+            </div>
+            <div class="card card-secondary historycard midlecard graphcard">
+                <div class="card-header grapheader">
+                    <h1 class="dept headtitle">&nbsp;NOTES</h1>
+                </div>
+                <div class="card-body notecardbody">
+                    <div class="carditem noteitem writeup">
+                        <div class="timeline noter"></div>
+                        <h1 class="dept previnfo noterinfo">Dr. Aisha Mohammed &nbsp;<span class="predata notetime">21/07/2018 10:47am</span></h1>
+                        <h1 class="dept previnfo">Dept: &nbsp;<span class="predata">Family Medecine</span></h1>
+                        <p class="writeup">This work is subject to copyright. All rights are reserved by the Publisher, whether the whole or part of the&nbsp;specifically the rights of translation, reprinting.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card card-secondary maincard halfcard">
+                <div class="card-header grapheader">
+                    <h1 class="dept headtitle">LAB TESTS</h1>
+                </div>
+                <div class="card-body midcardbody">
+                    <div class="carditem">
+                        <h1 class="dept">RAST</h1>
+                        <h1 class="dept previnfo">Test result: &nbsp;<span class="predata">Positive</span></h1>
+                        <h1 class="dept previnfo">Date tested: &nbsp;<span class="predata">21/11/2018</span></h1>
+                        <div class="timeline">
+                            <h1 class="timelinedate">5</h1>
+                            <h1 class="timelinedate timelinemonth">MAY</h1>
+                        </div>
+                    </div>
+                    <div class="carditem">
+                        <h1 class="dept">Peneciline Allegy&nbsp;</h1>
+                        <h1 class="dept previnfo">Test &nbsp;result: &nbsp;<span class="predata">Negative</span></h1>
+                        <h1 class="dept previnfo">Date of test: &nbsp;<span class="predata">21/11/2018</span></h1>
+                        <div class="timeline">
+                            <h1 class="timelinedate">10</h1>
+                            <h1 class="timelinedate timelinemonth">MAY</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card card-secondary maincard halfcard midright">
+                <div class="card-header grapheader">
+                    <h1 class="dept headtitle">FILE ATATCHEMENTS</h1>
+                </div>
+                <div class="card-body midcardbody">
+                    <div class="carditem">
+                        <h1 class="dept">Appendice</h1>
+                        <h1 class="dept previnfo">Proceeded By: &nbsp;<span class="predata">Dr. Sani Maina</span></h1>
+                        <h1 class="dept previnfo">Date of procedure: &nbsp;<span class="predata">21/11/2018</span></h1>
+                        <div class="timeline">
+                            <h1 class="timelinedate">10</h1>
+                            <h1 class="timelinedate timelinemonth">MAY</h1>
+                        </div>
+                    </div>
+                    <div class="carditem">
+                        <h1 class="dept">Blood Transfusion</h1>
+                        <h1 class="dept previnfo">Proceeded By: &nbsp;<span class="predata">Dr. Kate Benjamin</span></h1>
+                        <h1 class="dept previnfo">Date of procedure: &nbsp;<span class="predata">21/11/2018</span></h1>
+                        <div class="timeline">
+                            <h1 class="timelinedate">5</h1>
+                            <h1 class="timelinedate timelinemonth">MAY</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card card-secondary historycard midlecard topcard graphcard">
+                <div class="card-header grapheader">
+                    <h1 class="dept headtitle">BLOOD PRESURE</h1>
+                </div>
+                <div class="card-body topcardbody">
+                    <div class="carditem"></div>
+                </div>
+            </div>
+            <div class="card card-secondary historycard midlecard topcard graphcard">
+                <div class="card-header grapheader">
+                    <h1 class="dept headtitle">BLOOD GLUCOSE</h1>
+                </div>
+                <div class="card-body topcardbody">
+                    <div class="carditem"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+        <div class="card-colums rightcolumn">
+            <div class="card card-secondary historycard rightcard allegies">
+                <div class="card-header grapheader">
+                    <h1 class="dept headtitle">ALLEGIES</h1>
+                </div>
+                <div class="card-body rightcardbody">
+                    <div class="carditem">
+                        <ul class="itemlist">
+                            <li>Nuts</li>
+                            <li>Shelfish</li>
+                            <li>Sporse</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="card card-secondary historycard rightcard allegies">
+                <div class="card-header grapheader">
+                    <h1 class="dept headtitle">FAMILY HISTORY</h1>
+                </div>
+                <div class="card-body rightcardbody">
+                    <div class="carditem">
+                        <ul class="itemlist">
+                            <li>Diabetes</li>
+                            <li>Asthma</li>
+                            <li>Hepatitis B</li>
+                            <li>Tooth Ache</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="card card-secondary historycard rightcard medication">
+                <div class="card-header grapheader">
+                    <h1 class="dept headtitle">CONDITIONS</h1>
+                </div>
+                <div class="card-body rightcardbody conditionbody">
+                    <div class="carditem">
+                        <h1 class="dept">Diabetes</h1>
+                        <h1 class="dept previnfo">Diagnosed By &nbsp;<span class="predata">Dr Mikel Lesi</span></h1>
+                        <h1 class="dept previnfo">Date of Diagnosis: &nbsp;<span class="predata">15/12/2018</span></h1>
+                    </div>
+                    <div class="carditem">
+                        <h1 class="dept">Malaria Fever</h1>
+                        <h1 class="dept previnfo">Diagnosed By &nbsp;<span class="predata">Dr Aisha Bello</span></h1>
+                        <h1 class="dept previnfo">Date of Diagnosis: &nbsp;<span class="predata">15/12/2018</span></h1>
+                    </div>
+                    <div class="carditem">
+                        <h1 class="dept">Tooth Ache</h1>
+                        <h1 class="dept previnfo">Diagnosed By &nbsp;<span class="predata">Dr Mikel Lesi</span></h1>
+                        <h1 class="dept previnfo">Date of Diagnosis: &nbsp;<span class="predata">15/12/2018</span></h1>
+                    </div>
+                </div>
+            </div>
+            <div class="card card-secondary historycard rightcard condition">
+                <div class="card-header grapheader">
+                    <h1 class="dept headtitle">MEDICATIONS</h1>
+                </div>
+                <div class="card-body rightcardbody conditionbody">
+                    <div class="carditem">
+                        <div class="priscription wardpriscription">
+                            <h1 class="dept">Senamen<span class="predata">&nbsp;500mg</span></h1>
+                            <h1 class="dept priscriptiontime">2/18/2018&nbsp;<span class="timetaken">5/18/2018 &nbsp;</span></h1>
+                        </div>
+                        <div class="priscription wardpriscription">
+                            <h1 class="dept">Amoxiline<span class="predata">&nbsp;200mg</span></h1>
+                            <h1 class="dept priscriptiontime">2/18/2018&nbsp;<span class="timetaken">5/18/2018 &nbsp;</span></h1>
+                        </div>
+                        <div class="priscription wardpriscription">
+                            <h1 class="dept">Chloroquine Injection<span class="predata">&nbsp;200ml</span></h1>
+                            <h1 class="dept priscriptiontime">2/18/2018&nbsp;<span class="timetaken">5/18/2018 &nbsp;</span></h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

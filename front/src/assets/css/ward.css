@@ -1,0 +1,50 @@
+.icon.ion-ios-play-outline.editicon {
+  font-size:22px;
+  position:absolute;
+  left:179px;
+  bottom:-47%;
+  color:blue;
+}
+
+.icon.ion-ios-pause-outline.editicon {
+  font-size:21px;
+  position:absolute;
+  left:179px;
+  bottom:-47%;
+  color:blue;
+}
+
+.dept.priscriptiontime {
+  font-weight:normal;
+  font-size:xx-small;
+  color:lightgrey;
+  margin-top:2px;
+}
+
+.priscription.wardpriscription {
+  border-left:2px solid blue;
+  padding-left:3px;
+  /*background:blue;*/
+  /*opacity:1.2;*/
+  margin-bottom:px;
+  margin-bottom:8px;
+}
+
+.timetaken {
+  left:120px;
+  position:absolute;
+}
+
+.icon.ion-ios-play-outline.editicon.continue:hover {
+  cursor:pointer;
+  color:blue;
+}
+
+.icon.ion-ios-play-outline.editicon.continue:hover {
+  cursor:pointer;
+}
+
+.icon.ion-ios-pause-outline.editicon {
+  cursor:pointer;
+}
+

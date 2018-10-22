@@ -1,0 +1,424 @@
+
+
+
+
+  <div  class="modal fade" role="dialog" tabindex="-1" id="editModal" style="border-radius:0px;width:auto;">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content" style="width:700px">
+          <div class="modal-header  mod-header">
+              <h6 class="modal-title mod-title" style="font-size: 12px">NEW PRODUCT</h6>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+              </button>
+          </div>
+          <div class="modal-body">
+
+              <form novalidate class="patientform" (ngSubmit)="addProduct()">
+
+
+
+                  <div class="form-group vitals-section formGroup">
+                      <label for="name" class="labelss">PRODUCT NAME</label>
+                      <input [(ngModel)] = "product.name" type="text" name="name" class=" inputs dataInfo" placeholder="Enter product name"/>
+
+                  </div>
+
+                  <div class="form-group vitals-section formGroup">
+                      <label for="taken" class="labelss duration">CATEGORY</label>
+                      <select [(ngModel)] = "product.category"  class=" status inputs dataInfo formdata" name="category" id="">
+                          <option>Injectables</option>
+                          <option>Days</option>
+                          <option>Weeks</option>
+                          <option>Months</option>
+                          <option>Years</option>
+                      </select>
+                  </div>
+
+                  <div class="form-group vitals-section formGroup">
+                    <label for="price" class="labelss">PRICE</label>
+                    <input [(ngModel)] = "product.price" type="number" name="price" class=" inputs dataInfo"/>
+
+                </div>
+                  <div class="form-group vitals-section formGroup">
+                    <label for="quantity" class="labelss">QUANTITY</label>
+                    <input [(ngModel)] = "product.quantity" type="number" name="quantity" class=" inputs dataInfo"/>
+
+                </div>
+
+
+                  <div class="form-group vitals-section formGroup dosGroup">
+                          <label for="long" class="labelss">MEASURE</label>
+                          <input [(ngModel)] = "product.measure"  type="number" name="long" class="patientdata dystolic inputs boda " id=""/>
+
+                  </div>
+                  <div class="form-group vitals-section formGroup dosGroup">
+                          <label for="long" class="labelss">UNIT</label>
+                          <select [(ngModel)] = "product.unit"  class="patientdata status inputs daily" name="long" id="">
+                                  <option>ml</option>
+                                  <option>mg</option>
+                                  <option>Months</option>
+                                  <option>Years</option>
+                          </select>
+
+
+                  </div>
+                  <div class="form-group vitals-section formGroup">
+                    <label for="doe" class="labelss complain">DATE OF EXPIRY</label>
+                    <input [(ngModel)]="product.expiry" type="date" name="doe" class="patientdata inputs dataInfo" id=""  placeholder="">
+                   </div>
+
+
+
+
+
+                  <div class="form-group vitals-section formGroup" style=width:91%;>
+                    <label for="name" class="labelss">DESCRIPTION</label>
+                    <input  [(ngModel)] = "product.description"  type="text" name="description" class=" inputs dataInfo" placeholder="e.g for malaria treatment"/>
+
+                </div>
+                <button (click)="addMoreProduct()" type="button" class="btn btn-primary" style="height:28px; width: 29px; margin-left:3px; bottom:2px;position:relative;text-align: center;">
+                  <i title="More product"class="icon ion-ios-plus-empty" style="position:absolute; font-size: 22px; top: -10%; right:30%" ></i>
+                </button>
+
+                <div *ngIf="temProducts.length" class="form-group vitals-section">
+                  <table cellspacing="0" class="data-table drugs-table" summary="List of all items in store. " >
+
+
+
+                  <thead class='productHead'>
+                      <tr>
+
+                          <th class="headlbl prdName">PRODUCT NAME </th>
+                          <th class="headlbl">CATEGORY</th>
+                          <th class="headlbl">DESCRIPTION</th>
+                          <th class="headlbl">PRICE</th>
+                          <th class="headlbl">QUANTITY</th>
+                          <th class="headlbl" colspan="2" style="text-align: center">EXPIRY DATE</th>
+
+
+
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr *ngFor="let product of temProducts; let i = index;" class="even ro" >
+
+                          <td class="data">{{product.name + ' '+ product.measure+product.unit}}</td>
+                          <td class="data">{{product.category}}</td>
+                          <td class="data">{{product.description}}</td>
+                          <td class="data">{{product.price}}</td>
+                          <td class="data">{{product.quantity}}</td>
+                          <td class="data" style="text-align:right">{{product.expiry}}</td>
+                          <td style="text-align: left; padding-left:3px" class="data" title="Remove">
+                          <i (click)="removeProduct(i)"  class="icon ion-ios-close-empty close" ></i>
+                          </td>
+
+
+                      </tr>
+
+
+
+                  </tbody>
+              </table>
+
+          </div>
+
+
+               <div class="modal-footer" style="height: 25px;">
+                <button (click)="addProduct()" type="button" class="btn btn-primary" id="doneBtn" >Done</button>
+
+
+              </div>
+          </form>
+      </div>
+
+      </div>
+  </div>
+</div>
+
+
+
+
+
+
+<div class="modal fade" role="dialog" tabindex="-1" id="editModal" style="border-radius:0px;width:auto; padding-top:0px;">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content" style="width:700px">
+          <div class="modal-header  mod-header">
+              <h6 class="modal-title mod-title" style="font-size: 12px">EDIT PRODUCT</h6>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+              </button>
+          </div>
+          <div class="modal-body">
+
+              <form novalidate class="patientform" (ngSubmit)="updateProducts()">
+
+
+                  <div *ngFor="let product of temProducts; let i = index;">
+                  <div class="form-group vitals-section formGroup">
+                      <label for="name" class="labelss">PRODUCT NAME</label>
+                      <input [(ngModel)] = "temProducts[i].name" type="text" name="name" class=" inputs dataInfo" placeholder="Enter product name"/>
+
+                  </div >
+
+                  <div class="form-group vitals-section formGroup">
+                      <label for="taken" class="labelss duration">CATEGORY</label>
+                      <select [(ngModel)] = "temProducts[i].category"  class=" status inputs dataInfo formdata left" name="category" id="">
+                          <option>Injectables</option>
+                          <option>Days</option>
+                          <option>Weeks</option>
+                          <option>Months</option>
+                          <option>Years</option>
+                      </select>
+                  </div>
+
+                  <div class="form-group vitals-section formGroup">
+                    <label for="price" class="labelss">PRICE</label>
+                    <input [(ngModel)] = "temProducts[i].price" type="number" name="price" class=" inputs dataInfo"/>
+
+                </div>
+                  <div class="form-group vitals-section formGroup">
+                    <label for="quantity" class="labelss">QUANTITY</label>
+                    <input [(ngModel)] = "temProducts[i].quantity" type="number" name="quantity" class=" inputs dataInfo left"/>
+
+                </div>
+
+
+                  <div class="form-group vitals-section formGroup dosGroup">
+                          <label for="long" class="labelss">MEASURE</label>
+                          <input [(ngModel)] = "temProducts[i].measure"  type="number" name="long" class="patientdata dystolic inputs boda " id=""/>
+
+                  </div>
+                  <div class="form-group vitals-section formGroup dosGroup">
+                          <label for="long" class="labelss">UNIT</label>
+                          <select [(ngModel)] = "temProducts[i].unit"  class="patientdata status inputs daily" name="long" id="">
+                                  <option>ml</option>
+                                  <option>mg</option>
+                                  <option>Months</option>
+                                  <option>Years</option>
+                          </select>
+
+
+                  </div>
+                  <div class="form-group vitals-section formGroup">
+                    <label for="doe" class="labelss complain">DATE OF EXPIRY</label>
+                    <input [(ngModel)]="temProducts[i].expiry" type="date" name="doe" class="patientdata inputs dataInfo left" id=""  placeholder="">
+                   </div>
+
+
+
+
+
+                  <div class="form-group vitals-section formGroup" style="width:100%;">
+                    <label for="name" class="labelss">DESCRIPTION</label>
+                    <input  [(ngModel)] = "temProducts[i].description"  type="text" name="description" class=" inputs dataInfo" placeholder="e.g for malaria treatment"/>
+
+                  </div>
+
+
+
+
+            </div>
+            <div class="modal-footer" style="height: 25px; width: 100%; padding-left: 0px;padding-right: 0px">
+                <button (click)="updateProducts()" type="submit" class="btn btn-primary" id="doneBtn">Update</button>
+            </div>
+
+
+          </form>
+      </div>
+
+      </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+<div class="sidenav">
+    <a href="#" class="home homemenu" title="Menu">
+        <span class="homespan">
+            <i class="material-icons homeicon">sort</i>
+        </span>
+    </a>
+    <a href="#" [routerLink]="['/orders']" routerLinkActive="router-link-active"  class="home" title="Home">
+        <span class="homespan">
+            <i class="icon ion-ios-home-outline homeicon"></i>
+        </span>
+    </a>
+    <a href="#" [routerLink]="['/categories']"  class="home dashboard" title="Dashboard">
+        <span class="homespan">
+            <i class="icon ion-android-apps homeicon"></i>
+        </span>
+    </a>
+    <a href="#" [routerLink]="['/registration']" routerLinkActive="router-link-active"  class="home patienmenu" title="Patients">
+        <span class="homespan">
+            <i class="icon ion-ios-people-outline homeicon"></i>
+        </span>
+    </a>
+    <a href="#" [routerLink]="['/consultation']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Appointments">
+        <span class="homespan">
+            <i class="icon ion-ios-calendar-outline homeicon"></i>
+        </span>
+    </a>
+    <a href="#" [routerLink]="['/inventory']" routerLinkActive="router-link-active"  class="home cartmenu" title="Products">
+        <span class="homespan">
+            <i class="icon ion-ios-cart-outline homeicon"></i>
+        </span>
+    </a>
+    <a href="#" [routerLink]="['/orders']"  class="home settings" title="Settings">
+        <span class="homespan">
+            <i class="icon ion-ios-gear-outline homeicon"></i>
+        </span>
+    </a>
+
+
+  </div>
+ <nav class="navbar navbar-light navbar-expand-md navigation-clean-search" style="padding:0px">
+  <div class="container">
+      <a class="navbar-brand" href="#">
+          <em>MS</em>
+      </a>
+      <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navcol-1">
+          <ul class="nav navbar-nav"></ul>
+          <form class="form-inline mr-auto searchform" target="_self">
+              <div class="form-group">
+                  <label for="search-field">
+                      <i (click)="searchProducts()" class="icon ion-ios-search searchicon" title="Search"></i>
+                  </label>
+                  <input [(ngModel)]="input" class="form-control search-field" type="search" name="search" id="search-field" placeholder="Search Patient" (keyup)="searchProducts()">
+              </div>
+              <p class="filter">Sort by: Recently added</p>
+              <i class="icon ion-ios-arrow-down arrow"></i>
+              <i class="icon ion-ios-personadd-outline arrow buble" id="add" title="Add Patient" data-target="#prodModal" data-toggle="modal"></i>
+              <i class="icon ion-ios-person-outline arrow arrow bubble"></i>
+              <i class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
+              <div class="media midia profile">
+                  <div id="dp1" class="dp"></div>
+                  <img class="img-fluid d-none mr-3" src="assets/img/model.jpg">
+                  <div class="media-body">
+                      <h6 class="username profilename">Dr. Aisha Bello</h6>
+                      <p class="userfb contacts profiletitle">Cadiologist</p>
+                  </div>
+              </div>
+          </form>
+      </div>
+  </div>
+</nav>
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="wrap col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" id="tableContaine" style="width:100%">
+    <table *ngIf="products.length" cellspacing="0" class="data-table" summary="List of all items in store. "  data-aos="slide-up" data-aos-duration="900" data-aos-delay="50" data-aos-once="true">
+
+            <thead>
+                <tr>
+                   <th  class="checkhead"></th>
+                   <th (click)="sortBy('id')" title="sort id" >PRODUCT ID
+                       <span class="sorter">
+                            <i class="icon ion-android-arrow-dropdown"></i>
+                       </span>
+                   </th>
+                   <th (click)="sortProducts('name')" title="sort by product name">PRODUCT NAME
+                        <span class="sorter">
+                                <i class="icon ion-android-arrow-dropdown"></i>
+                        </span>
+                   </th>
+                   <th (click)="sortProducts('description')">DESCRIPTION
+                        <span class="sorter">
+                                <i class="icon ion-android-arrow-dropdown"></i>
+                        </span>
+                   </th>
+                   <th (click)="sortProducts('category')">CATEGORY
+                        <span class="sorter">
+                                <i class="icon ion-android-arrow-dropdown"></i>
+                        </span>
+                   </th>
+
+                   <th (click)="sortProducts('price')">PRICE
+                        <span class="sorter">
+                                <i class="icon ion-android-arrow-dropdown"></i>
+                        </span>
+                   </th>
+                  <th (click)="sortProducts('quantity')" title="sort by quantity">IN STOCK
+                        <span class="sorter">
+                                <i class="icon ion-android-arrow-dropdown"></i>
+                        </span>
+                  </th>
+                   <th (click)="sortProducts('sold')">SOLD
+                        <span class="sorter">
+                                <i class="icon ion-android-arrow-dropdown"></i>
+                        </span>
+                   </th>
+                   <th (click)="sortProducts('added')" title="sort by date recently added">DATE ADDED
+                        <span class="sorter">
+                                <i class="icon ion-android-arrow-dropdown"></i>
+                        </span>
+                   </th>
+                   <th (click)="sortProducts('expiry')" title="sort by expiry date">DATE EXPIRY
+                        <span class="sorter">
+                                <i class="icon ion-android-arrow-dropdown"></i>
+                        </span>
+                   </th>
+                   <th (click)="sortProducts('status')" style="text-align: center" title="sort by status">STATUS
+                        <span class="sorter">
+                                <i class="icon ion-android-arrow-dropup"></i>
+                        </span>
+                   </th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+               <tr *ngFor="let item of products; let i = index" class="odd slideInUp faster" [ngClass]="{'select': item.selected}"   (click)="selectProduct(item)">
+                    <td class="check-box">
+                            <input type="checkbox" class="cbx" style="display: none;">
+                            <label for="cbx" class="check">
+                              <svg width="18px" height="18px" viewBox="0 0 18 18">
+                                <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path>
+                                <polyline points="1 9 7 14 15 4"></polyline>
+                              </svg>
+                            </label>
+                    </td>
+                  <td>01234</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.description}}</td>
+                    <td>{{item.category}}</td>
+                    <td>{{item.price}}</td>
+                    <td>{{item.quantity}}</td>
+                    <td>{{item.sold}}</td>
+                    <td>{{item.addedOn|date:'shortDate'}}</td>
+                    <td>{{item.expiry|date:'shortDate'}}</td>
+                    <td style="text-align: center"><span class="moreIcon out"><i class="icon ion-ios-circle-filled" ></i></span></td>
+
+                </tr>
+
+
+
+            </tbody>
+
+
+    </table>
+    <!-- <h1 class="animated infinite bounce delay-2s">Example</h1> -->
+</div>
+<div class="options" *ngIf="temProducts.length "  [ngClass]="{'animated slideInUp faster': temProducts.length}" >
+  <i (click)="removeProduct()" title="Delete" class="optionIcon icon ion-ios-trash-outline"></i>
+  <i (click)="populate()" title="Edit" class="optionIcon editIcon icon ion-ios-compose-outline" data-target="#editModal" data-toggle="modal"></i>
+  <i title="Clear selections" class="optionIcon cancelIcon icon ion-ios-close-empty"></i>
+</div>

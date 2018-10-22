@@ -1,0 +1,351 @@
+.modal-footer {
+  display:-webkit-box;
+  display:-ms-flexbox;
+  display:flex;
+  -webkit-box-align:center;
+  -ms-flex-align:center;
+  align-items:center;
+  -webkit-box-pack:end;
+  -ms-flex-pack:end;
+  justify-content:flex-end;
+  padding:1rem;
+  border-top:1px solid #e9ecef;
+  padding-top:8px;
+  padding-bottom:10px;
+}
+.left{
+   margin-left: 5px;
+}
+#doneBtn{
+  height:28px; width: 130px;
+  margin-left:3px; position:relative;
+  text-align: center;font-size: 14px;
+  padding-bottom: 0px; padding-top: 0px; top:10px;
+  background:white;
+  border: 1px solid #4285f4;
+  color: #4285f4;
+}
+#moreBtn{
+  height:28px; width: 29px; margin-left:3px;
+  bottom:2px;position:relative;
+  text-align: center;
+}
+
+#doneBtn:hover{
+  color:white;
+  background:#4285f4;
+  border: 0px;
+}
+
+.drugs-table
+{
+  width: 100%;
+  left: 0%;
+  margin-top: 5px;
+}
+.data
+{
+  padding: 3px 3px 3px 3px;
+  font-size:11px;
+}
+.headlbl{
+  padding: 4px 1px 4px 1px; font-size: 10px;
+  font-weight: bold;
+  color: #02d1b8;
+  border:none;
+}
+.productHead
+{
+  background: #f3f6fa;
+  padding-left: 7px;
+  border-bottom: 2px solid white;
+
+}
+.ro{
+margin-bottom: 0px;
+border-bottom: 0px;
+}
+.ro:hover{
+  border-left: 1px solid #02d1b8;
+
+  /* background-color:initial; */
+}
+.dropdown-item
+{
+  font-size: smaller;
+}
+
+
+.even
+{
+  background-color: #f9f9f9;
+}
+.prdName
+{
+  padding-left: 10px;
+}
+.vitals-section
+{
+  position: relative;
+  margin-bottom: 5px;
+}
+.inputs
+{
+  width: 100%;
+  text-align: center;
+}
+.formGroup
+{
+  display: inline-block;
+  width: 49.5%;
+}
+.times
+{
+  width: 15%;
+  display: inline-block;
+}
+.dos
+{
+margin: 0px;
+  width: 16%;
+  display: inline-block;
+}
+.boda-left{
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+
+}
+.intake{
+  margin-right:5px;
+
+}
+.daily
+{
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  border-left:0px;
+}
+
+.boda
+{
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+
+
+}
+.gram
+{
+  border-left:none;
+  border-right:none;
+}
+.dosGroup
+{
+  width:24.5%;
+  display: inline-block;
+
+ /* left: 2px; */
+}
+#dosNum
+{
+  margin-bottom:5px;
+  border:1px solid rgb(238,239,239);
+  padding:4px;
+  padding-left:10px;
+  font-size:small;
+  /* width:50%; */
+  display:inline-block;
+  margin:auto;
+  margin-bottom:5px;
+
+  border-radius:4px;
+  text-align:center;
+}
+.labelss
+{
+  position: absolute;
+  font-size: x-small;
+  bottom:73%;
+  background-color: white;
+  left:15px;
+  margin: 0px;
+  color: #91aec2;
+
+}
+.descriptiondiv{
+ width: 90%;
+ display: inline-block;
+ background: lightgreen; width: 5%;
+margin: 0px;
+}
+
+#addProd{
+  height:100%;
+  width: 100%;
+  position:absolute;
+}
+.invSpan
+{
+  right: 82%;
+}
+
+.noteSpan
+{
+  bottom: 95%;
+  position: absolute;
+  max-width: 30%;
+  right: 78%;
+  text-align: left;
+}
+.sumSpan
+{
+  bottom: 93%;
+}
+#dept
+{
+  width: 100%;
+}
+.me{
+  width:45%;
+}
+
+#testMenu
+{
+  font-size: 12px;
+  left: 40px;
+  position: absolute;
+
+}
+#mon
+{
+  width:15%; margin:0px; border-right: 0px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px; padding:0px;
+  bottom:2px;
+
+}
+.dropMenu
+{
+  min-width: 35%;
+  font-size: 11px;
+}
+
+
+.qspan
+{
+  bottom: 20%;
+}
+.dystolbl
+{
+  right: 5%;
+}
+.modal {
+  position:fixed;
+  top:0;
+  right:0;
+  bottom:0;
+  left:0;
+  z-index:1050;
+  display:none;
+  overflow:hidden;
+  outline:0;
+}
+
+.modal-body {
+  position:relative;
+  -webkit-box-flex:1;
+  -ms-flex:1 1 auto;
+  flex:1 1 auto;
+  padding:1rem;
+  /*min-width:500px;*/
+}
+
+.btn.btn-primary.footerbuttons.first {
+  border-right:1px solid lightgrey;
+}
+
+.btn.btn-primary.footerbuttons {
+  width:50%;
+  background:inherit;
+  /*border:none;*/
+  border:1px solid #edecec;
+  border-radius:7px;
+  color:grey;
+  font-size:x-small;
+  bottom:5px;
+}
+
+.howlong {
+  width:50%;
+  top:6px;
+  color:rgb(128,128,128);
+  border-radius:4px;
+  /*border:none;*/
+  padding:0px;
+  height:31px;
+}
+.certainty{
+  width: 49%;
+  font-size: 15px;
+  top: 22px
+}
+.certainty.btn.btn-primary.footerbuttons{
+  font-size: large;
+}
+.orderlbl{
+font-weight: normal;
+font-size: smaller;
+position: absolute;
+color:lightgrey;
+/* display: inline; */
+
+}
+.certaintylbl
+{
+  left: 50%;
+  /* position: relative; */
+}
+.addmore {
+  font-size:larger;
+  left:95%;
+  color:lightgrey;
+  position:relative;
+}
+.addmore:hover{
+  cursor:pointer;
+}
+.morediag{
+  top: 18px;
+  margin-bottom: 18px
+}
+.diabtn{
+  border-radius: 4px;
+}
+.disposeNote{
+  width: 100%;
+  position: relative;
+  border: 1px rgb(235, 233, 233) solid;
+  /* top: 20px; */
+  font-size: smaller;
+  border-radius: 4px;
+  padding-left: 8px;
+  padding-right: 8px;
+  min-height: 130px;
+  text-align:left;
+
+}
+.clinical-sumary
+{
+  min-height: 80px;
+}
+.samples
+{
+  width: 100%;
+
+}
+.heightlbl
+{
+  top: 40%;
+}
+.close{
+  font-size:medium;
+}

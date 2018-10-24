@@ -63,6 +63,9 @@ export class DataService {
   addPatient(patient) {
     return this.http.post(`${this.uri}/new-patient`, patient, {withCredentials: true});
   }
+  addProduct(product) {
+    return this.http.post(`${this.uri}/new-product`, product, {withCredentials: true});
+  }
   login (staff) {
     return this.http.post(`${this.uri}/login`, staff, {withCredentials: true});
   }
@@ -86,8 +89,11 @@ export class DataService {
   getProducts() {
     return this.http.get(`${this.uri}/products`, {withCredentials: true});
   }
+  getItems() {
+    return this.http.get(`${this.uri}/items`, {withCredentials: true});
+  }
   getDepartments() {
-    return this.http.get(`${this.uri}/departments`,{withCredentials: true});
+    return this.http.get(`${this.uri}/departments`, {withCredentials: true});
   }
   addStaff(staff) {
     return this.http.post(`${this.uri}/new-staff`, staff, {withCredentials: true});

@@ -80,7 +80,7 @@ module.exports = {
        console.log(err);
        res.status(500).send('Invalid credentials');
       }
-     
+
     })
   },
 
@@ -124,7 +124,7 @@ module.exports = {
     });
   },
   addDept: (req, res)=>{
-   
+
 
       Client.updateOne({'main.email':req.signedCookies.e}, {$addToSet:{departments:{$each:req.body}}},(err, docs)=>{
         if(err){
@@ -136,21 +136,24 @@ module.exports = {
       })
 
   },
+
+
+
   addPatient: (req, res)=>{
         new Record(req.body.record).save((e, info)=>{
         if(e){
-       
+
           console(e);
         } else{
-          var p = null; 
+          var p = null;
             new Patient({
             personal: req.body.personal,
             contact: req.body.contact,
             insurance: req.body.insurance,
             record: info._id,
             dateCreated: new Date()
-      
-      
+
+
           }).save((err, newpatient) => {
             if (err) {
               console.log(err)
@@ -165,11 +168,11 @@ module.exports = {
               })
           }
         })
-       
-           
+
+
         }
       })
-     
+
   },
   getPatients: (req, res)=>{
     Patient.find().populate('record').exec((e, patients)=>{
@@ -202,62 +205,53 @@ module.exports = {
       }
     })
   },
-  getProducts: (req, res)=>{
-    Client.find({}, {inventory:1}, (err, products)=>{
-      if(!err){
-        Item.find({},(e,items)=>{
+
+
+  addProduct: (req, res)=>{
+   
+    Client.findOne({'main.email':'mail@cityhospital.com'},(e, doc)=>{
+      if(!e){
+        doc.inventory.push(req.body)
+        doc.save((e, products)=>{
           if(!e){
-            console.log(items);
-            res.send({p:products, i:items});
+            console.log(products)
+            res.send(products.inventory);
           }
-          else{
-            console.log(err);
-          }
+          // console.log(e);
         })
-       
+      }
+      // console.log(e);
+    })
+
+},
+
+  getProducts: (req, res)=>{
+    Client.findOne({'main.email':'mail@cityhospital.com'}, {_id:0 ,inventory:1},  (err, products)=>{
+      if(!err){
+        // console.log(products);
+        res.send(products);
       }
       else{
         console.log(err);
       }
     })
   },
-  
-  addRecord: (req, res)=>{
-    new Record({
-      pid: req.body.pid,
-      complain:req.body.complain,
-      piriod: req.body. piriod,
-      systolic: req.body.systolic,
-      dystolic: req.body.dystolic,
-      resp: req.body.res,
-      pulse: req.body.pulse,
-      height: req.body.height,
-      weight:req.body.weight,
-      condition: req.body.condition,
-      order: req.body.order,
-      certainty: req.body.certainty,
-      drug: req.body.drug,
-      measure: req.body.measure,
-      unit: req.body.unit,
-      intake: req.body.intake,
-      frequency: req.body.frequency,
-      duration: req.body.duration,
-      department: req.body.department,
-      investigation: req.body.investigation,
-      speciment: req.body.speciment,
-      clinicalSumary: req.body.clinicalSumary
-
-    }).save((err, newrecord) => {
-      if (err) {
-        console.log(err.stack)
-
+  getItems: (req, res)=>{
+    Item.find({},(e,items)=>{
+      if(!e){
+        // console.log(items);
+        res.send(items);
       }
-
-      res.status(200).send(newrecord)
+      else{
+        console.log(err);
+      }
     })
+
   },
 
- 
+
+
+
   getContacts: function (req, res) {
     Contacts.findOne({username: req.cookies.username}).populate('contacts.userid contacts.messages').exec((err, con) => {
       if (err) {

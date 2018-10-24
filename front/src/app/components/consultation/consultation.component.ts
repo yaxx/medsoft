@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {DataService} from '../../services/data.service';
 import {SocketService} from '../../services/socket.service';
-import { Patient, Record, Product, Dosage, Priscription} from '../../models/data.model';
+import { Patient, Record, Item, StockInfo, Product, Priscription} from '../../models/data.model';
 
 @Component({
   selector: 'app-consultation',
@@ -11,8 +11,10 @@ import { Patient, Record, Product, Dosage, Priscription} from '../../models/data
 export class ConsultationComponent implements OnInit {
   patient: Patient = new Patient();
   patients: Patient[] = new Array<Patient>();
-  dosage: Dosage = new Dosage();
+  record: Record = new Record();
   priscriptions: Priscription[];
+  product: Product = new Product(new Item(), new StockInfo());
+  selectedProducts: Product[] = new Array<Product>();
 
   in = 'discharge';
   constructor(private dataService: DataService, private socket: SocketService ) {
@@ -38,26 +40,26 @@ export class ConsultationComponent implements OnInit {
   }
 
 
-  // addPriscription() {
-  //   console.log(this.dosage);
-  //   this.record.medication.push(new Priscription(this.product, this.dosage));
-  //   this.dosage = new Dosage();
-  //   this.product = new Product();
-  // }
-  // removePriscription(i) {
+  addPriscription() {
+    // console.log(this.dosage);
+    // this.record.medication.push(new Priscription(this.product, this.dosage));
+    // this.dosage = new Dosage();
+    // this.product = new Product();
+  }
+  removePriscription(i) {
 
-  //   //  this.record.medication.splice(i);
-  // }
-  // getTotal() {
-  //   //  let sum = 0;
-  //   //  for (const item of this.record.medication) {
-  //   //    sum = sum + item.price;
-  //   //  }
-  //   //  return sum;
-  // }
-  // saveRecord(record: Record) {
-  //   this.dataService.saveRecord(record).subscribe((newrecord) => {
-  //     this.record = new Record('', '', '', 0, 0, 0, 0, 0, 0,'','',false, new Array<Priscription>(),'','','','',null);
-  //   });
-  // }
+    //  this.record.medication.splice(i);
+  }
+  getTotal() {
+    //  let sum = 0;
+    //  for (const item of this.record.medication) {
+    //    sum = sum + item.price;
+    //  }
+    //  return sum;
+  }
+  saveRecord(record: Record) {
+    // this.dataService.saveRecord(record).subscribe((newrecord) => {
+    //   this.record = new Record('', '', '', 0, 0, 0, 0, 0, 0,'','',false, new Array<Priscription>(),'','','','',null);
+    // });
+  }
 }

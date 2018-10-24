@@ -1,6 +1,6 @@
 
 
-  <div class="modal fade" role="dialog" tabindex="-1" id="newModal" style="border-radius:0px;width:auto;">
+<div class="modal fade" role="dialog" tabindex="-1" id="newModal" style="border-radius:0px;width:auto;">
       <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content" style="width:700px">
               <div class="modal-header" style="padding:6px; ">
@@ -95,16 +95,27 @@
                       </fieldset>
                        <div class="form-group vitals-section address">
                           <label for="drug" class="labelss">DRUG</label>
-                          <input [(ngModel)]="product.name"  type="text" name="drug" placeholder= "Enter drug name" class="patientdata dystolic inputs dataInfo" />
+                          <input  type="text" name="drug" placeholder= "Enter drug name" class="patientdata dystolic inputs dataInfo" />
+
+                          <div  class="options prisOption">
+                              <ul class="itemsList" >
+                                <li><p  class="dept firstheader drugItem" style="font-size:13px;padding-left: 10px; padding-right: 10px; font-weight: normal;" >Amoxiline<span class="lastdept timetaken " >200mg</span></p>
+                                </li>
+
+                              </ul>
+                                <!-- <h1 class="dept priscriptiontime">2/18/2018&nbsp;<span class="timetaken">5/18/2018 &nbsp;</span></h1> -->
+
+
+                            </div>
 
                       </div>
                       <div class="form-group vitals-section formGroup" style=" width:24%;">
                           <label for="dos" class="labelss complain">DOS</label>
-                          <input [(ngModel)]="dosage.dos" style="border-top-right-radius: 0px;border-bottom-right-radius: 0px;"  type="number" name="dos" class="patientdata inputs dataInfo"   placeholder="tabs/spoons">
+                          <input style="border-top-right-radius: 0px;border-bottom-right-radius: 0px;"  type="number" name="dos" class="patientdata inputs dataInfo"   placeholder="tabs/spoons">
                       </div>
                       <div class="form-group vitals-section formGroup" style=" width:23%; margin-right:4px; ">
                           <label for="intake" class="labelss complain">INTAKE</label>
-                          <select [(ngModel)]="dosage.intake" style="border-top-left-radius: 0px;border-bottom-left-radius: 0px;"  class=" patientdata status inputs dataInfo " name="intake" >
+                          <select style="border-top-left-radius: 0px;border-bottom-left-radius: 0px;"  class=" patientdata status inputs dataInfo " name="intake" >
                                   <option>dos</option>
                                   <option>qos</option>
                                   <option>after meal</option>
@@ -113,22 +124,22 @@
                        </div>
                       <div class="form-group vitals-section formGroup" style=" width:23%;">
                           <label for="piriod" class="labelss complain">PIRIOD</label>
-                          <input [(ngModel)]="dosage.piriod" style="border-top-right-radius: 0px;border-bottom-right-radius: 0px;"  type="number" name="piriod" class="patientdata inputs dataInfo"   placeholder="">
+                          <input style="border-top-right-radius: 0px;border-bottom-right-radius: 0px;"  type="number" name="piriod" class="patientdata inputs dataInfo"   placeholder="">
                       </div>
                       <div class="form-group vitals-section formGroup" style=" width:23%;">
                           <label for="extend" class="labelss complain">EXTEND</label>
-                          <select [(ngModel)]="dosage.extend" style="border-radius: 0px;"  class=" patientdata status inputs dataInfo " name="extend" >
+                          <select style="border-radius: 0px;"  class=" patientdata status inputs dataInfo " name="extend" >
                                   <option>days</option>
                                   <option>weeks</option>
                                   <option>months</option>
                           </select>
                        </div>
                       <div class="form-group vitals-section formGroup" style=" width:6%;">
-                        <button (click)="addPriscription()" title="add priscription" style="padding-top: 1px; padding-bottom:1px; margin-right: 3px;font-size: 16px; border-top-left-radius: 0px;border-bottom-left-radius: 0px; height:100%; bottom:1px; position:relative; width:100%;" class="btn btn-sm btn-outline-primary"><i class="icon ion-ios-plus-empty"></i></button>
+                        <button title="add priscription" style="padding-top: 1px; padding-bottom:1px; margin-right: 3px;font-size: 16px; border-top-left-radius: 0px;border-bottom-left-radius: 0px; height:100%; bottom:1px; position:relative; width:100%;" class="btn btn-sm btn-outline-primary"><i class="icon ion-ios-plus-empty"></i></button>
                        </div>
 
 
-                       <div *ngIf="record.medication.length"  class="form-group vitals-section">
+                       <div   class="form-group vitals-section">
                         <table cellspacing="0" class="data-table drugs-table" summary="List of all items in store. " >
 
 
@@ -146,7 +157,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let priscription of record.medication; let i = index;" class="even ro" >
+                            <!-- <tr *ngFor="let priscription of record.medication; let i = index;" class="even ro" >
 
                                 <td class="data">{{priscription.product.name}}</td>
 
@@ -162,7 +173,7 @@
                             <tr class="even ro">
                               <td class="data" colspan="4" style="text-align: right;" >Total:</td>
                               <td class="data" colspan="2" style="text-align: center;">{{getTotal()}}</td>
-                            </tr>
+                            </tr> -->
 
 
                         </tbody>
@@ -202,7 +213,7 @@
 
                    <div class="modal-footer">
 
-                      <button class="btn btn-sm btn-outline-primary" type="submit">Save  Record</button>
+                      <button style = "width: 170px; font-size: 13px;" class="btn btn-sm btn-outline-primary" type="submit">Save  Record</button>
                   </div>
               </form>
           </div>
@@ -287,7 +298,6 @@
               </div>
               <p class="filter">Sort by: Recently added</p>
               <i class="icon ion-ios-arrow-down arrow"></i>
-              <i class="icon ion-ios-personadd-outline arrow buble" id="add" title="Add Patient" data-target="#newModal" data-toggle="modal"></i>
 
               <i class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
               <div class="media midia profile">
@@ -299,8 +309,8 @@
                   </div>
               </div>
           </form>
-      </div>
-  </div>
+       </div>
+    </div>
 </nav>
 
 

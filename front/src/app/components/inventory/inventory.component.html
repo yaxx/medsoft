@@ -12,23 +12,32 @@
 
                     <div class="form-group vitals-section formGroup" style="margin-right:4px;">
                         <label for="product" class="labelss duration">PRODUCT</label>
-                        <select  class=" inputs dataInfo patientdata" name="name">
-                            <option *ngFor='let i of items'>{{item.name + ' '+ item.mesure+item.unit}}</option>
-                        </select>
+                        <input autocomplete="false" (keyup)="searchItem(input)"
+                        [(ngModel)] = input  type="text" name="name" class=" inputs dataInfo patientdata"  placeholder="Product name"/>
+                        <div *ngIf= temItems.length class="options">
+                          <ul class="itemsList" >
+                            <li><p *ngFor="let item of temItems" class="dept firstheader drugItem" style="font-size:12px;padding-left: 5px; font-weight: normal;" >{{item.name+ ' '}}<span class="lastdept timetaken " (click) = "selectItem(item)">{{item.mesure + item.unit}}</span></p>
+                            </li>
+
+                          </ul>
+                            <!-- <h1 class="dept priscriptiontime">2/18/2018&nbsp;<span class="timetaken">5/18/2018 &nbsp;</span></h1> -->
+
+
+                        </div>
                     </div>
 
                     <div class="form-group vitals-section formGroup">
                         <label for="price" class="labelss">PRICE</label>
-                        <input [(ngModel)]="staff.lastName" type="text" name="price" class=" inputs dataInfo patientdata"  placeholder="Price per item"/>
+                        <input [(ngModel)] = "stockInfo.price"  type="number" name="price" class=" inputs dataInfo patientdata"  placeholder="Price per item"/>
                     </div>
 
                     <div class="form-group vitals-section formGroup" style="margin-right:4px;">
                         <label for="quantity" class="labelss">QUANTITY</label>
-                        <input [(ngModel)]="staff.lastName" type="number" name="quantity" class=" inputs dataInfo patientdata"  placeholder="Quantity"/>
+                        <input [(ngModel)] = "stockInfo.quantity" type="number" name="quantity" class=" inputs dataInfo patientdata"  placeholder="Quantity"/>
                     </div>
                     <div class="form-group vitals-section formGroup">
                         <label for="expiry" class="labelss">EXPIRY DATE</label>
-                        <input [(ngModel)]="staff.lastName" type="date" name="expiry" class=" inputs dataInfo patientdata"  placeholder="Expiry"/>
+                        <input [(ngModel)] = "stockInfo.expiry" type="date" name="expiry" class=" inputs dataInfo patientdata"  placeholder="Expiry"/>
                     </div>
 
                     <div class="form-group vitals-section address">
@@ -40,72 +49,6 @@
         </div>
     </div>
 </div>
-
-
-
-
-
-<div class="modal fade" role="dialog" tabindex="-1" id="prodModal" style="border-radius:0px;width:auto; padding-top:0px;">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content" style="width:700px">
-          <div class="modal-header  mod-header">
-              <h6 class="modal-title mod-title" style="font-size: 12px">EDIT PRODUCT</h6>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">×</span>
-              </button>
-          </div>
-          <div class="modal-body">
-
-              <form novalidate class="patientform" (ngSubmit)="updateProducts()">
-
-
-
-
-                  <div class="form-group vitals-section formGroup">
-                      <label for="taken" class="labelss duration">CATEGORY</label>
-                      <select [(ngModel)] = "temProducts[i].category"  class=" status inputs dataInfo formdata left" name="category" id="">
-                          <option>Injectables</option>
-                          <option>Days</option>
-                          <option>Weeks</option>
-                          <option>Months</option>
-                          <option>Years</option>
-                      </select>
-                  </div>
-
-                  <div class="form-group vitals-section formGroup">
-                    <label for="price" class="labelss">PRICE</label>
-                    <input [(ngModel)] = "temProducts[i].price" type="number" name="price" class=" inputs dataInfo"/>
-
-                </div>
-                  <div class="form-group vitals-section formGroup">
-                    <label for="quantity" class="labelss">QUANTITY</label>
-                    <input [(ngModel)] = "temProducts[i].quantity" type="number" name="quantity" class=" inputs dataInfo left"/>
-
-                </div>
-
-                <div class="form-group vitals-section formGroup">
-                <label for="doe" class="labelss complain">DATE OF EXPIRY</label>
-                <input [(ngModel)]="temProducts[i].expiry" type="date" name="doe" class="patientdata inputs dataInfo left" id=""  placeholder="">
-                </div>
-
-
-            <div class="modal-footer" style="height: 25px; width: 100%; padding-left: 0px;padding-right: 0px">
-                <button (click)="updateProducts()" type="submit" class="btn btn-primary" id="doneBtn">Update</button>
-            </div>
-
-
-          </form>
-      </div>
-
-      </div>
-  </div>
-</div>
-
-
-
-
-
-
 
 
 <div class="sidenav">
@@ -161,9 +104,9 @@
           <form class="form-inline mr-auto searchform" target="_self">
               <div class="form-group">
                   <label for="search-field">
-                      <i (click)="searchProducts()" class="icon ion-ios-search searchicon" title="Search"></i>
+                      <i  class="icon ion-ios-search searchicon" title="Search"></i>
                   </label>
-                  <input [(ngModel)]="input" class="form-control search-field" type="search" name="search" id="search-field" placeholder="Search Patient" (keyup)="searchProducts()">
+                  <!-- <input [(ngModel)]="input" class="form-control search-field" type="search" name="search" id="search-field" placeholder="Search Patient" (keyup)="searchProducts()"> -->
               </div>
               <p class="filter">Sort by: Recently added</p>
               <i class="icon ion-ios-arrow-down arrow"></i>
@@ -200,63 +143,46 @@
             <thead>
                 <tr>
                    <th  class="checkhead"></th>
-                   <th (click)="sortBy('id')" title="sort id" >PRODUCT ID
-                       <span class="sorter">
-                            <i class="icon ion-android-arrow-dropdown"></i>
-                       </span>
-                   </th>
+
                    <th (click)="sortProducts('name')" title="sort by product name">PRODUCT NAME
-                        <span class="sorter">
-                                <i class="icon ion-android-arrow-dropdown"></i>
-                        </span>
+                      <span class="sorter">
+                          <i class="icon ion-android-arrow-dropup"></i>
+                     </span>
                    </th>
                    <th (click)="sortProducts('description')">DESCRIPTION
-                        <span class="sorter">
-                                <i class="icon ion-android-arrow-dropdown"></i>
-                        </span>
+
                    </th>
                    <th (click)="sortProducts('category')">CATEGORY
-                        <span class="sorter">
-                                <i class="icon ion-android-arrow-dropdown"></i>
-                        </span>
+
                    </th>
 
                    <th (click)="sortProducts('price')">PRICE
-                        <span class="sorter">
-                                <i class="icon ion-android-arrow-dropdown"></i>
-                        </span>
+
                    </th>
-                  <th (click)="sortProducts('quantity')" title="sort by quantity">IN STOCK
-                        <span class="sorter">
-                                <i class="icon ion-android-arrow-dropdown"></i>
-                        </span>
-                  </th>
-                   <th (click)="sortProducts('sold')">SOLD
-                        <span class="sorter">
-                                <i class="icon ion-android-arrow-dropdown"></i>
-                        </span>
-                   </th>
+                   <th (click)="sortProducts('quantity')" title="sort by quantity">IN STOCK
+
+                </th>
+
+                  <th (click)="sortProducts('sold')">SOLD
+
+                 </th>
+
+
                    <th (click)="sortProducts('added')" title="sort by date recently added">DATE ADDED
-                        <span class="sorter">
-                                <i class="icon ion-android-arrow-dropdown"></i>
-                        </span>
+
                    </th>
                    <th (click)="sortProducts('expiry')" title="sort by expiry date">DATE EXPIRY
-                        <span class="sorter">
-                                <i class="icon ion-android-arrow-dropdown"></i>
-                        </span>
+
                    </th>
                    <th (click)="sortProducts('status')" style="text-align: center" title="sort by status">STATUS
-                        <span class="sorter">
-                                <i class="icon ion-android-arrow-dropup"></i>
-                        </span>
+
                    </th>
 
                 </tr>
             </thead>
             <tbody>
 
-               <tr *ngFor="let item of products; let i = index" class="odd slideInUp faster" [ngClass]="{'select': item.selected}"   (click)="selectProduct(item)">
+               <tr *ngFor="let product of products; let i = index" class="odd slideInUp faster" [ngClass]="{'select': item.selected}"   (click)="selectProduct(item)">
                     <td class="check-box">
                             <input type="checkbox" class="cbx" style="display: none;">
                             <label for="cbx" class="check">
@@ -266,15 +192,15 @@
                               </svg>
                             </label>
                     </td>
-                  <td>01234</td>
-                    <td>{{item.name}}</td>
-                    <td>{{item.description}}</td>
-                    <td>{{item.category}}</td>
-                    <td>{{item.price}}</td>
-                    <td>{{item.quantity}}</td>
-                    <td>{{item.sold}}</td>
-                    <td>{{item.addedOn|date:'shortDate'}}</td>
-                    <td>{{item.expiry|date:'shortDate'}}</td>
+                  
+                    <td>{{product.item.name}}</td>
+                    <td>{{product.item.description}}</td>
+                    <td>{{product.item.category}}</td>
+                    <td>{{product.stockInfo.price}}</td>
+                    <td>{{product.stockInfo.quantity-product.stockInfo.sold}}</td>
+                    <td>{{product.stockInfo.sold}}</td>
+                    <td>{{product.addedOn|date:'shortDate'}}</td>
+                    <td>{{product.stockInfo.expiry|date:'shortDate'}}</td>
                     <td style="text-align: center"><span class="moreIcon out"><i class="icon ion-ios-circle-filled" ></i></span></td>
 
                 </tr>

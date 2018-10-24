@@ -35,12 +35,13 @@ var ClientScheema = new Scheema({
                 stockInfo:{
                     expiry: Date,
                     price: Number,
+                    sold:{type:Number, default:0} ,
                     expired: Boolean,
                     status: Boolean,
                     quantity: Number,
                 },
-                selected:Boolean,
-                dateAdded: {type:Date, default: Date.now()}   
+                selected:{Boolean, default: false},
+                addedOn: {type:Date, default: Date.now()}   
             }],
             staffs: [{type: Scheema.Types.ObjectId, ref: 'Staff'}],
             dateCreated: {type: Date, Default: Date.now()}

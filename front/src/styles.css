@@ -1,3 +1,9 @@
+
+body {
+  background:#f3f8f7;
+  background-color: rgb(243, 248, 247);
+}
+
 @media (min-width:768px) {
   .col-md-4 {
     -webkit-box-flex:0;
@@ -121,7 +127,7 @@
     word-wrap:break-word;
     background-color:#fff;
     background-clip:border-box;
-    border:1px solid rgba(0,0,0,.125);
+    border:0px;
     border-radius:.25rem;
     margin-left:px;
     margin-bottom:11px;
@@ -528,8 +534,53 @@ legend {
   bottom:-2px;
   color:rgb(181,179,179);
 }
+.options{
+  position:absolute;
+  height:300px ;
+  width: 100%;
+  border: 1px solid whitesmoke;
+  z-index: 1;
+  background: white;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+}
+.itemsList{
+  padding-top: 6px;
+  padding-left: 0px;
+  list-style: none;
+  background: white;
+  height: 100%;
+}
+.itemsList li{
+  list-style: none;
+  margin-bottom: 3px;
+  cursor: pointer;
+}
+.itemsList p:hover
+{
+  background: lightblue;
+  color:white;
+}
 
+.drugItem{
+  font-size: 17px;
+}
 
+.prisOption{
+  width: 70%;
+  margin:auto;
+  align-self:center;
+  left: 15%;
 
+}
+.prisOption p{
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size:13px;
+  font-weight: normal;
 
+}
 

@@ -20,7 +20,7 @@ var InventoryScheema = new Scheema({
             quantity: Number,
         },
         selected:Boolean,
-        dateAdded: {type:Date, default: Date.now()}   
+        addedOn: {type:Date, default: Date.now()}   
     }],
     dateCreated:{type:Date, default: Date.now()}   
 

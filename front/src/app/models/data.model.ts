@@ -76,6 +76,7 @@ export class StockInfo {
   constructor(
     public expiry?: Date,
     public price?: number,
+    public sold?: number,
     public expired?: boolean ,
     public status?: boolean,
     public quantity?: number,
@@ -83,7 +84,7 @@ export class StockInfo {
   }
 
 export class Product {
-  constructor(public item?: Item, public stockInfo?: StockInfo) {}
+  constructor(public item?: Item, public stockInfo?: StockInfo, public selected?: boolean, public addedOn?: Date ) {}
 }
 
 export class Priscription {

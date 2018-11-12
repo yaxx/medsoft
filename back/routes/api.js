@@ -6,6 +6,7 @@ import Staff from '../models/schemas/staffs'
 import Record from '../models/schemas/record'
 import Item from '../models/schemas/items'
 import Department from '../models/schemas/departments'
+import { truncate } from 'fs';
 var Notifications = require('../models/schemas/noteschema')
 var Contacts = require('../models/schemas/contactschema')
 var Messages = require('../models/schemas/messageschema')
@@ -169,7 +170,6 @@ module.exports = {
           }
         })
 
-
         }
       })
 
@@ -187,8 +187,17 @@ module.exports = {
   getConsultees: (req, res)=>{
     Patient.find({'personal.curentStatus':'queued'}).populate({path:'record', match:{visits: {$size:1}}}).exec((e, patients)=>{
       if(!e){
-        console.log(patients)
+
         res.status(200).send(patients)
+      }else{
+        console.log(e);
+      }
+    })
+  },
+  getOrders: (req, res)=>{
+    Patient.find({}).populate({path:'record', match:{medications: {$size:2}}, select:'_id medications'}).exec((e, patients)=>{
+      if(!e){
+        res.status(200).send(patients.filter((p)=>p.record !== null))
       }else{
         console.log(e);
       }
@@ -207,85 +216,182 @@ module.exports = {
   },
 
 
-  addProduct: (req, res)=>{
-   
-    Client.findOne({'main.email':'mail@cityhospital.com'},(e, doc)=>{
+  updateRecord: (req, res)=>{
+   console.log(req.body)
+    Record.findById({"_id":"5bc9ff14c720e10ae8ea2f90"},(e, doc)=>{
       if(!e){
-        doc.inventory.push(req.body)
-        doc.save((e, products)=>{
+        doc.vitals.bp.push(req.body.record.vitals.bp)
+        doc.vitals.pulse.push(req.body.record.vitals.pulse)
+        doc.vitals.resp.push(req.body.record.vitals.resp)
+        doc.vitals.height.push(req.body.record.vitals.height)
+        doc.vitals.weight.push(req.body.record.vitals.weight)
+        doc.vitals.bloodGl.push(req.body.record.vitals.bg)
+        doc.conditions.push(req.body.record.conditions)
+        doc.complains.push(req.body.record.complains)
+        doc.famHist.push(req.body.record.famHist)
+        doc.notes.push(req.body.record.notes)
+        doc.allegies.push(req.body.record.allegies)
+        doc.medications =  doc.medications.concat(req.body.medications)
+
+        doc.save((e, doc)=>{
           if(!e){
-            console.log(products)
-            res.send(products.inventory);
+            res.send(doc)
+          }  else{
+            console.log(e);
           }
-          // console.log(e);
+
         })
+      } else{
+        console.log(e);
       }
-      // console.log(e);
+
     })
 
 },
+updateMedication: (req, res)=>{
+     Record.findOneAndUpdate({
+       "_id":"5bc9ff14c720e10ae8ea2f90",
+       "medications._id" :req.body.medication._id
+     },
+     {
+       $set:{
+        "medications.$.product": req.body.medication.product,"medications.$.priscription": req.body.medication.priscription
+      }
+    },
+    {new:true},
+    (e, doc) =>{
+      if(!e){
+        res.send(doc.medications)
+    } else {condole.log(e)}
+  })
+ 
+},
 
-  getProducts: (req, res)=>{
-    Client.findOne({'main.email':'mail@cityhospital.com'}, {_id:0 ,inventory:1},  (err, products)=>{
+
+addProduct: (req, res)=>{
+    Client.findOneAndUpdate({
+    'main.email':'mail@cityhospital.com'},
+    {
+      $addToSet:{inventory:{$each:req.body}}},
+      {new:true},
+      (e, doc)=>{
+        if(!e){
+          res.send(doc.inventory)
+        }else{
+      console.log(e)
+    }
+  })
+},
+
+getProducts: (req, res)=>{
+  Client.findOne({
+    'main.email':'mail@cityhospital.com'
+  },
+    {_id:0, inventory:1},
+      (err, products)=>{
       if(!err){
-        // console.log(products);
         res.send(products);
       }
       else{
         console.log(err);
       }
-    })
+  })
+},
+
+updateProducts: (req, res)=>{
+  Client.findOneAndUpdate({
+     'main.email':'mail@cityhospital.com',
+     'inventory._id':req.body._id
   },
-  getItems: (req, res)=>{
-    Item.find({},(e,items)=>{
-      if(!e){
-        // console.log(items);
-        res.send(items);
-      }
-      else{
-        console.log(err);
-      }
-    })
+  {
+    $set:{
+     "inventory.$.item": req.body.item,
+     "inventory.$.stockInfo": req.body.stockInfo
+   }
+ },
+ {new:true},
+ (e, doc) =>{
+   if(!e){
+    res.send(doc.inventory)
+ } else {condole.log(e)}
+})
 
+},
+
+deleteProducts: (req, res)=>{
+  console.log(req.body)
+  Client.findOneAndUpdate({
+    'main.email':'mail@cityhospital.com'
   },
+  {
+    $pullAll:{
+      inventory: req.body
+   }
+ },
+ {new:true},
+ (e, doc) => {
+   if(!e){
+     console.log(doc)
+     res.send(doc.inventory)
+ } else {condole.log(e)}
+})
+
+},
+  
+getItems: (req, res)=>{
+  Item.find({}, (e,items)=>{
+    if(!e){
+
+      res.send(items);
+    }
+    else{
+      console.log(err);
+    }
+  })
+
+},
 
 
 
 
-  getContacts: function (req, res) {
-    Contacts.findOne({username: req.cookies.username}).populate('contacts.userid contacts.messages').exec((err, con) => {
+
+getContacts: function (req, res) {
+  Contacts.findOne({
+    username: req.cookies.username})
+    .populate('contacts.userid contacts.messages')
+    .exec((err, con) => {
       if (err) {
         console.log(err)
       } else {
         console.log(con)
         res.send(con)
       }
-    })
-  },
+  })
+},
 
-  checkSession: (req, res) => {
-    if (req.cookies.q) {
-      res.status(200).send('in session')
-    } else {
-      res.status(403).send('out of session')
-    }
-  },
+checkSession: (req, res) => {
+  if (req.cookies.q) {
+    res.status(200).send('in session')
+  } else {
+    res.status(403).send('out of session')
+  }
+},
 
-  getPerson: function (req, res) {
-    User.findOne({username: req.params.username}, (err, person) => {
-      if (!err) {
-        res.send(person)
-      } else { console.log(err) }
-    })
-  },
-  getMessages: function (req, res) {
-    Messages.find({parties: {$in: [req.params.username, req.cookies.username]}}, 'chats', (err, chats) => {
-      if (!err) {
-        console.log(chats)
-        res.send(chats)
-      } else {}
-    })
-  },
+getPerson: function (req, res) {
+  User.findOne({username: req.params.username}, (err, person) => {
+    if (!err) {
+      res.send(person)
+    } else { console.log(err) }
+  })
+},
+getMessages: function (req, res) {
+  Messages.find({parties: {$in: [req.params.username, req.cookies.username]}}, 'chats', (err, chats) => {
+    if (!err) {
+      console.log(chats)
+      res.send(chats)
+    } else {}
+  })
+},
 
   getNotifications: function (req, res) {
     Notifications.updateMany({to: req.cookies.username}, {$set: {seen: true}}, (err, note) => {

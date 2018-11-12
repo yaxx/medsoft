@@ -1,3 +1,9 @@
+
+.preveiewtable{
+  width:100%;
+  left: 0%;
+}
+
 table {
   border-collapse: collapse;
   width: 93%;
@@ -36,6 +42,11 @@ th {
   padding: 12px 2px 12px 2px;
   color: #4285f4;
 }
+.prevtopth{
+  padding: 10px 2px 10px 2px;
+  color: grey;
+  background: #f9fafb;
+}
 th:hover
 {
   border-left:none;
@@ -55,7 +66,7 @@ caption {
 thead {
   /* background: #ccc url(images/bar.gif) repeat-x left center; */
   background: #f9fafb;
-  font-weight: bolder;
+  font-weight: bold;
 }
 
 
@@ -71,13 +82,20 @@ tbody tr {
   text-align: center;
   color:rgb(90, 90, 90);
 }
-
+.prevtablebody tr{
+  border-bottom: 1px solid #f3f8f7;
+  font-weight:normal;
+}
+.prevtablebody tr:hover{
+  border-left: 0px;
+}
  tbody tr:hover {
   background: #f1f6fc;
-  border-left: 2px solid #4285f4;
+
 }
-.select{
-  background:#f1f6fc;
+.selection{
+  background:#f8f8f8;
+  border-bottom-color:#f8f8f8;
 }
 
 .moreIcon {
@@ -119,9 +137,8 @@ td {
 .options {
   width: 100%;
   position: fixed;
-  height: 6.5%;
-  background: #ebeeee;
-  top: 93.5%;
+  height: 20px;
+
   z-index: 1;
 
 }
@@ -129,20 +146,33 @@ td {
 .optionIcon {
   font-size: x-large;
   position: absolute;
-  left: 90%;
-  top: 10%;
+  left: 86%;
+  /* top: 10%; */
   color:grey;
   cursor: pointer;
+  height: 100%;
+  display: inline-block;
+  width: 40px;
+  text-align: center;
+  cursor:pointer;
+  align-content: center;
+
+
+}
+.optionIcon:hover{
+  background-color:rgba(225, 235, 246,.5);
 }
 
 .editIcon {
-  left: 86%;
-}
+  left: 83%;
+  font-size: 17px;
+  padding-top: .5%;
+ }
 
 .cancelIcon {
-  left: 82%;
-  font-size: xx-large;
-  top: -3%;
+  left: 80%;
+  font-size:24px;
+  padding-top: .6%;
 }
 .check-box
 {

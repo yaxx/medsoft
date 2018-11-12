@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Patient} from '../../models/data.model';
+import {DataService} from '../../services/data.service';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-history',
@@ -6,10 +9,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./history.component.css']
 })
 export class HistoryComponent implements OnInit {
-
-  constructor() { }
+  patient: any = new Patient();
+  constructor(private dataService: DataService, private route: ActivatedRoute) { }
 
   ngOnInit() {
-  }
+    this.patient = this.dataService.getCachedPatient(this.route.snapshot.params['id']);
+    console.log(this.patient);
 
+  }
+showDetails() {
+  this.patient.record.notes[0].full = true;
 }
+// getPatient(): Patient {
+//    return this.dataService.getCachedPatients(this.route.snapshot.params['id'])
+// }
+}
+

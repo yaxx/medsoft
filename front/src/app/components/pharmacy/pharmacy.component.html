@@ -1,86 +1,64 @@
+<!-- <div class="modal fade" role="dialog" tabindex="-1" id="prodModal" style="border-radius:0px;width:auto;">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content" style="width:600px">
+          <div class="modal-header" style="padding:4px; ">
+              <h6 class="modal-title" style="text-align:center; font-size:11px; width:100%; color:blue">EDIT PRISCRIPTION</h6>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+              </button>
+          </div>
+          <div class="modal-body">
+              <form class="accountform staffsform" (submit) = updateMedication()>
 
-<nav class="navbar navbar-light navbar-expand-md navigation-clean-search" style="padding:0px">
-  <div class="container">
-      <a class="navbar-brand" href="#">
-          <em>MS</em>
-      </a>
-      <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navcol-1">
-          <ul class="nav navbar-nav"></ul>
-          <form class="form-inline mr-auto searchform" target="_self">
-              <!-- <div class="form-group">
-                  <label for="search-field">
-                      <i class="icon ion-ios-search searchicon" title="Search"></i>
-                  </label>
-                  <input class="form-control search-field" type="search" name="search" id="search-field" placeholder="Search Patient">
-              </div>
-              <p class="filter">Sort by: Recently added</p>
-              <i class="icon ion-ios-arrow-down arrow"></i>
-              <i class="icon ion-ios-personadd-outline arrow buble" id="add" title="Add Patient" data-target="#newModal" data-toggle="modal"></i>
+                <div class="form-group vitals-section address">
+                    <label for="drug" class="labelss">DRUG NAME</label>
+                    <input autocomplete="off" (keyup)= "searchItem(input)" [(ngModel)] = input type="text" name="drug" placeholder= "E.g Paracetamol" class="patientdata dystolic inputs dataInfo" />
 
-              <i class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i> -->
-              <div class="media midia profile">
-                  <div id="dp1" class="dp"></div>
-                  <img class="img-fluid d-none mr-3" src="assets/img/model.jpg">
-                  <div class="media-body">
-                      <h6 class="username profilename">Dr. Aisha Bello</h6>
-                      <p class="userfb contacts profiletitle">Cadiologist</p>
-                  </div>
-              </div>
-          </form>
+                    <div *ngIf= temProducts.length  class="options prisOption">
+                        <ul class="itemsList" >
+                          <li  *ngFor="let product of temProducts"><p (click) = "selectProduct(product)"  class="dept firstheader drugItem" style="font-size:13px;padding-left: 10px; padding-right: 10px;font-weight: normal;" >{{product.item.name+ ' '}}<span class="lastdept timetaken " >{{product.item.mesure + product.item.unit}}</span></p>
+                          </li>
+
+                        </ul>
+                    </div>
+
+                </div>
+                <div class="form-group vitals-section formGroup" style=" width:24%;">
+                    <label for="dos" class="labelss complain">INTAKE</label>
+                    <input [(ngModel)] = "medication.priscription.intake" style="border-top-right-radius: 0px;border-bottom-right-radius: 0px;"  type="number" name="dos" class="patientdata inputs dataInfo"   placeholder="tabs/spoons">
+                </div>
+                <div class="form-group vitals-section formGroup" style=" width:23%; margin-right:4px; ">
+                    <label for="intake" class="labelss complain">FREQ</label>
+                    <select [(ngModel)]="medication.priscription.freq" style="border-top-left-radius: 0px;border-bottom-left-radius: 0px;"  class=" patientdata status inputs dataInfo " name="intake">
+                            <option>dos</option>
+                            <option>qos</option>
+                            <option>after meal</option>
+                            <option>as required</option>
+                    </select>
+                </div>
+                <div class="form-group vitals-section formGroup" style=" width:23%;">
+                    <label for="piriod" class="labelss complain">PIRIOD</label>
+                    <input [(ngModel)]="medication.priscription.piriod" style="border-top-right-radius: 0px;border-bottom-right-radius: 0px;"  type="number" name="piriod" class="patientdata inputs dataInfo"   placeholder="">
+                </div>
+                <div class="form-group vitals-section formGroup" style=" width:23%;">
+                    <label for="extend" class="labelss complain">EXTEND</label>
+                    <select [(ngModel)]="medication.priscription.extend" style="border-radius: 0px;"  class=" patientdata status inputs dataInfo " name="extend" >
+                            <option>days</option>
+
+                    </select>
+                </div>
+                <div class="form-group vitals-section formGroup" style=" width:6%;">
+
+                  <button type = "submit"  title="Update Medication"  id ="addmorebtn" class="btn btn-sm btn-outline-primary"><i class="icon ion-ios-plus-empty"></i></button>
+                </div>
+            </form>
+          </div>
       </div>
   </div>
-</nav>
+</div> -->
 
 
 
-
-<div class="sidenav">
-  <a href="#" class="home homemenu" title="Menu">
-      <span class="homespan">
-          <i class="material-icons homeicon">sort</i>
-      </span>
-  </a>
-  <a href="#" [routerLink]="['/orders']" routerLinkActive="router-link-active"  class="home" title="Home">
-      <span class="homespan">
-          <i class="icon ion-ios-home-outline homeicon"></i>
-      </span>
-  </a>
-  <a href="#" [routerLink]="['/categories']"  class="home dashboard" title="Dashboard">
-      <span class="homespan">
-          <i class="icon ion-android-apps homeicon"></i>
-      </span>
-  </a>
-  <a href="#" [routerLink]="['/registration']" routerLinkActive="router-link-active"  class="home patienmenu" title="Patients">
-      <span class="homespan">
-          <i class="icon ion-ios-people-outline homeicon"></i>
-      </span>
-  </a>
-  <a href="#" [routerLink]="['/consultation']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Appointments">
-      <span class="homespan">
-          <i class="icon ion-ios-calendar-outline homeicon"></i>
-      </span>
-  </a>
-  <a href="#" [routerLink]="['/inventory']" routerLinkActive="router-link-active"  class="home cartmenu" title="Products">
-      <span class="homespan">
-          <i class="icon ion-ios-cart-outline homeicon"></i>
-      </span>
-  </a>
-  <a href="#" [routerLink]="['/ward']" routerLinkActive="router-link-active"  class="home cartmenu wardmenu" title="ward">
-    <span class="homespan">
-      <i class="material-icons deticon" style="color:lightgrey" title>local_hotel</i>
-    </span>
-</a>
-  <a href="#" [routerLink]="['/orders']"  class="home settings" title="Settings">
-      <span class="homespan">
-          <i class="icon ion-ios-gear-outline homeicon"></i>
-      </span>
-  </a>
-
-</div>
 
 
 
@@ -91,63 +69,92 @@
         class="container">
         <div class="row">
 
-          <div class="col col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-12">
-            <div class="card card-secondary maincard">
+          <div [ngSwitch]="view"  *ngFor="let patient of patients; let i = index"  class="col col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-12">
+            <div *ngSwitchCase="'details'" class="card card-secondary maincard">
                 <div class="card-header profileheader">
-                    <div class="timeline lastdoc priscriber headerdp"></div>
-                    <h1 class="dept displayname">Aisha Mohammed<span class="predata editicon" title="Edit"><i class="icon ion-ios-checkmark-empty headericon" title></i><i class="icon ion-android-more-vertical headericon moreicon" title="more actions"></i></span></h1>
-                    <h1 class="dept displayname subinfo">Feb 10, 2018</h1>
+                  <div class="timeline lastdoc priscriber headerdp"></div>
+                  <h1 class="dept displayname qicon">{{patient.personal.firstName + ' '+ patient.personal.lastName}}<span class="predata editicon" title="Edit"><i class="icon ion-android-more-vertical headericon moreicon" title="more actions"></i><i class="icon ion-android-stopwatch headericon clock" ></i></span></h1>
+                  <h1 class="dept displayname subinfo">{{patient.dateCreated|date:'mediumDate'}}</h1>
                 </div>
-                <div class="card-body orderbody">
-                    <div class="carditem priscriptioncontainer order">
-                        <div class="priscription drug">
-                            <h1 class="dept">Paracetamol<span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata editicon" title="Edit"><i class="icon ion-edit editicon"></i></span><span class="predata">&nbsp;500mg</span></h1>
-                            <h1 class="dept previnfo">Dosage:&nbsp;<span class="predata">10 &nbsp;days | dos</span></h1>
-                            <h1 class="dept previnfo">Price: &nbsp;<span class="predata priceval">500</span></h1>
-                        </div>
-                        <div class="priscription">
-                            <h1 class="dept">Chloroquine Injection<span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata editicon" title="Edit"><i class="icon ion-edit editicon"></i></span><span class="predata">&nbsp;200ml</span></h1>
-                            <h1
-                                class="dept previnfo">Dosage:&nbsp;<span class="predata">10 &nbsp;days | dos</span></h1>
-                                <h1 class="dept previnfo">Price: &nbsp;<span class="predata priceval">200</span></h1>
-                        </div>
-                        <div class="priscription">
-                            <h1 class="dept">Ampiclose<span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata editicon" title="Edit"><i class="icon ion-edit editicon"></i></span><span class="predata">&nbsp;100ml</span></h1>
-                            <h1
-                                class="dept previnfo">Dosage:&nbsp;<span class="predata">10 &nbsp;days | dos</span></h1>
-                                <h1 class="dept previnfo">Price: &nbsp;<span class="predata priceval">200</span></h1>
-                        </div>
-                        <h1 class="dept previnfo baseline">&nbsp;700</h1>
-                        <h1 class="dept previnfo baseline baselinedate">&nbsp;15/10/2018 10:45am</h1>
+                <div style="margin-left:0px;" class="card-body orderbody" >
+                  <form style="top:5%; padding-left: 2%; padding-right: 2%;" class="accountform staffsform" (submit) = updateMedication()>
+
+                    <div class="form-group vitals-section address">
+                        <label for="drug" class="labelss">Drug Name</label>
+                        <input autocomplete="off" (keyup)= "searchItem(input)" [(ngModel)] = input type="text" name="drug" placeholder= "E.g Paracetamol" class="patientdata dystolic inputs dataInfo" />
+
+                          <div *ngIf= temProducts.length  class="options prisOption edit">
+                            <ul class="itemsList" >
+                              <li  *ngFor="let product of temProducts"><p (click) = "selectProduct(product)"  class="dept firstheader drugItem" style="font-size:13px;padding-left: 10px; padding-right: 10px;font-weight: normal;" >{{product.item.name+ ' '}}<span class="lastdept timetaken " >{{product.item.mesure + product.item.unit}}</span></p>
+                              </li>
+
+                            </ul>
+                           </div>
+                     </div>
+                    <div class="form-group vitals-section formGroup" style=" width:28%;">
+                        <label for="dos" class="labelss complain">Intake</label>
+                        <input [(ngModel)] = "medication.priscription.intake" style="border-top-right-radius: 0px;border-bottom-right-radius: 0px;"  type="number" name="dos" class="patientdata inputs dataInfo"   placeholder="tabs/spoons">
                     </div>
-                    <div class="carditem priscriptioncontainer order">
-                        <div class="priscription">
-                            <h1 class="dept">Amoxiline<span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata editicon" title="Edit"><i class="icon ion-edit editicon"></i></span><span class="predata">&nbsp;200ml</span></h1>
-                            <h1
-                                class="dept previnfo">Dosage:&nbsp;<span class="predata">10 &nbsp;days | dos</span></h1>
-                                <h1 class="dept previnfo">Price: &nbsp;<span class="predata priceval">200</span></h1>
-                        </div>
-                        <h1 class="dept previnfo baseline">&nbsp;700</h1>
-                        <h1 class="dept previnfo baseline baselinedate">&nbsp;15/10/2018 10:45am</h1>
+                    <div class="form-group vitals-section formGroup" style=" width:43%; ">
+                        <label for="intake" class="labelss complain">Freq</label>
+                        <select [(ngModel)]="medication.priscription.freq" style="border-radius: 0px;"  class=" patientdata status inputs dataInfo " name="intake">
+                                <option>dos</option>
+                                <option>qos</option>
+                                <option>after meal</option>
+                                <option>as required</option>
+                        </select>
                     </div>
-                    <div class="carditem priscriptioncontainer order">
-                        <div class="priscription drug">
-                            <h1 class="dept">Paracetamol<span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata editicon" title="Edit"><i class="icon ion-edit editicon"></i></span><span class="predata">&nbsp;500mg</span></h1>
-                            <h1 class="dept previnfo">Dosage:&nbsp;<span class="predata">10 &nbsp;days | dos</span></h1>
-                            <h1 class="dept previnfo">Price: &nbsp;<span class="predata priceval">500</span></h1>
-                        </div>
-                        <div class="priscription">
-                            <h1 class="dept">Chloroquine Injection<span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata editicon" title="Edit"><i class="icon ion-edit editicon"></i></span><span class="predata">&nbsp;200ml</span></h1>
-                            <h1
-                                class="dept previnfo">Dosage:&nbsp;<span class="predata">10 &nbsp;days | dos</span></h1>
-                                <h1 class="dept previnfo">Price: &nbsp;<span class="predata priceval">200</span></h1>
-                        </div>
-                        <h1 class="dept previnfo baseline">&nbsp;700</h1>
-                        <h1 class="dept previnfo baseline baselinedate">&nbsp;15/10/2018 10:45am</h1>
+                    <div class="form-group vitals-section formGroup" style=" width:28%;">
+                        <label for="piriod" class="labelss complain">Days</label>
+                        <input [(ngModel)]="medication.priscription.piriod" style="border-top-left-radius: 0px;border-bottom-left-radius: 0px;"  type="number" name="piriod" class="patientdata inputs dataInfo"   placeholder="">
                     </div>
+
+
+                     <div class="form-group vitals-section address">
+                      <button (click)=switchViews() style="font-size:11px; width:50%;border-top-right-radius: 0px;border-bottom-right-radius: 0px; "  type="button" class="btn btn-sm btn-outline-primary inputs" >Cancel</button>
+
+                      <button style="font-size:11px; width:49.5%; border-top-left-radius: 0px;border-bottom-left-radius: 0px; "  type="submit" class="btn btn-sm btn-outline-primary inputs" >Upadate</button>
+                     </div>
+
+                </form>
+
                 </div>
-               
+
             </div>
+
+
+
+
+
+
+
+            <div *ngSwitchDefault class="card card-secondary maincard">
+              <div class="card-header profileheader">
+                <div class="timeline lastdoc priscriber headerdp"></div>
+                <h1 class="dept displayname qicon">{{patient.personal.firstName + ' '+ patient.personal.lastName}}<span class="predata editicon" title="Edit"><i class="icon ion-android-more-vertical headericon moreicon" title="more actions"></i><i class="icon ion-android-stopwatch headericon clock" ></i></span></h1>
+                <h1 class="dept displayname subinfo">{{patient.dateCreated|date:'mediumDate'}}</h1>
+              </div>
+              <div class="card-body orderbody">
+                  <div class="carditem priscriptioncontainer order">
+                      <div class="timeline condition">
+                        <h1 class="timelinedate">02</h1>
+                        <h1 class="timelinedate month">APR</h1>
+                      </div>
+                      <div *ngFor="let medication of patient.record.medications"  class="priscription drug">
+                          <h1 class="dept">{{medication.product.item.name+ ' ' }}<span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata editicon" title="Edit"><i (click)="selectMedication(medication, i)"  class="icon ion-edit editicon" ></i></span><span class="predata">{{medication.product.item.mesure+medication.product.item.unit}}</span></h1>
+                          <h1 class="dept previnfo">Dosage:&nbsp;<span class="predata">{{medication.priscription.piriod + ' '+medication.priscription.extend + ' '+'|'+ ' '+ medication.priscription.freq}}</span></h1>
+                          <h1 class="dept previnfo">Price: &nbsp;<span class="predata priceval">200</span></h1>
+                      </div>
+
+                      <h1 class="dept previnfo baseline">&nbsp;400</h1>
+                      <h1 class="dept previnfo baseline baselinedate">&nbsp;15/10/2018 10:45am</h1>
+                  </div>
+
+
+              </div>
+              <div class="floter" title="Examine"><i  class="icon ion-person-stalker flotericon consulticon" title="Examine"></i></div>
+
+          </div>
         </div>
     </div>
-</div>
+  </div>

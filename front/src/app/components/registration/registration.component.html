@@ -219,102 +219,7 @@
 
 
 
-
-
-
-
-
-
-
-<div class="sidenav">
-      <a href="#" class="home homemenu" title="Menu">
-          <span class="homespan">
-              <i class="material-icons homeicon">sort</i>
-          </span>
-      </a>
-      <a href="#" [routerLink]="['/orders']" routerLinkActive="router-link-active"  class="home" title="Home">
-          <span class="homespan">
-              <i class="icon ion-ios-home-outline homeicon"></i>
-          </span>
-      </a>
-      <a href="#" [routerLink]="['/categories']"  class="home dashboard" title="Dashboard">
-          <span class="homespan">
-              <i class="icon ion-android-apps homeicon"></i>
-          </span>
-      </a>
-      <a href="#" [routerLink]="['/registration']" routerLinkActive="router-link-active"  class="home patienmenu" title="Patients">
-          <span class="homespan">
-              <i class="icon ion-ios-people-outline homeicon"></i>
-          </span>
-      </a>
-      <a href="#" [routerLink]="['/consultation']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Appointments">
-          <span class="homespan">
-              <i class="icon ion-ios-calendar-outline homeicon"></i>
-          </span>
-      </a>
-      <a href="#" [routerLink]="['/inventory']" routerLinkActive="router-link-active"  class="home cartmenu" title="Products">
-          <span class="homespan">
-              <i class="icon ion-ios-cart-outline homeicon"></i>
-          </span>
-      </a>
-      <a href="#" [routerLink]="['/ward']" routerLinkActive="router-link-active"  class="home cartmenu wardmenu" title="ward">
-        <span class="homespan">
-          <i class="material-icons deticon" title>airline_seat_flat_angled</i>
-        </span>
-    </a>
-      <a href="#" [routerLink]="['/orders']"  class="home settings" title="Settings">
-          <span class="homespan">
-              <i class="icon ion-ios-gear-outline homeicon"></i>
-          </span>
-      </a>
-
-</div>
-
-<nav class="navbar navbar-light navbar-expand-md navigation-clean-search" style="padding:0px">
-    <div class="container">
-        <a class="navbar-brand" href="#">
-            <em>MS</em>
-        </a>
-        <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navcol-1">
-            <ul class="nav navbar-nav"></ul>
-            <form class="form-inline mr-auto searchform" target="_self">
-                <div class="form-group">
-                    <label for="search-field">
-                        <i class="icon ion-ios-search searchicon" title="Search"></i>
-                    </label>
-                    <input class="form-control search-field" type="search" name="search" id="search-field" placeholder="Search Patient">
-                </div>
-                <p class="filter">Sort by: Recently added</p>
-                <i class="icon ion-ios-arrow-down arrow"></i>
-                <i class="icon ion-ios-personadd-outline arrow buble" id="add" title="Add Patient" data-target="#newModal" data-toggle="modal"></i>
-
-                <i class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
-                <div class="media midia profile">
-                    <div id="dp1" class="dp"></div>
-                    <img class="img-fluid d-none mr-3" src="assets/img/model.jpg">
-                    <div class="media-body">
-                        <h6 class="username profilename">Dr. Aisha Bello</h6>
-                        <p class="userfb contacts profiletitle">Cadiologist</p>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</nav>
-
-
-
-
-
-
-
-
-
-  <div  class="container">
+<div  class="container">
         <div class="row">
             <div [ngSwitch]="view" *ngFor="let patient of patients" class="col col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-12" data-aos-duration="900" data-aos-delay="50" data-aos-once="true">
 
@@ -331,7 +236,7 @@
                             <h1 class="dept previnfo">Religion &nbsp;<span class="predata">{{patient.personal.religion}}</span></h1>
                             <h1 class="dept previnfo">Tribe &nbsp;<span class="predata">{{patient.personal.tribe}}</span></h1>
                             <h1 class="dept previnfo">Occupation &nbsp;<span class="predata">{{patient.personal.occupation}}</span></h1>
-                            <h1 class="dept previnfo">Card Number &nbsp;<span class="predata">00023467654</span></h1>
+                            <h1 class="dept previnfo">Card Number &nbsp;<span class="predata">{{patient.personal.cardNum}}</span></h1>
                             <div class="timeline"><i class="icon ion-ios-person-outline deticon" title=""></i></div>
                             <h1 class="dept previnfo">Date Created &nbsp;<span class="predata">{{patient.dateCreated|date:'longDate'}}</span></h1>
                             <div class="timeline"><i class="icon ion-ios-person-outline deticon" title=""></i></div>

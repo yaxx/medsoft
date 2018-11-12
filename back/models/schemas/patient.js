@@ -14,8 +14,8 @@ var PatientScheema = new Scheema({
         tribe: String,
         mstatus: String,
         cardType: String,
-        cardNum: Number,
-        curentStatus: String,
+        cardNum: Number
+      
         
     },
     contact:{
@@ -39,6 +39,7 @@ var PatientScheema = new Scheema({
         employer:String,
         ssn: String
     },
+    status: {type: String, Default: 'queue' },
     dateCreated: {type: Date, Default: Date.now()},
     record:{type: Scheema.Types.ObjectId, ref: 'Record'}
 })

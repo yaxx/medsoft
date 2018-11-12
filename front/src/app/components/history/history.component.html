@@ -1,83 +1,4 @@
 
-<div class="sidenav">
-  <a href="#" class="home homemenu" title="Menu">
-      <span class="homespan">
-          <i class="material-icons homeicon">sort</i>
-      </span>
-  </a>
-  <a href="#" [routerLink]="['/orders']" routerLinkActive="router-link-active"  class="home" title="Home">
-      <span class="homespan">
-          <i class="icon ion-ios-home-outline homeicon"></i>
-      </span>
-  </a>
-  <a href="#" [routerLink]="['/categories']"  class="home dashboard" title="Dashboard">
-      <span class="homespan">
-          <i class="icon ion-android-apps homeicon"></i>
-      </span>
-  </a>
-  <a href="#" [routerLink]="['/registration']" routerLinkActive="router-link-active"  class="home patienmenu" title="Patients">
-      <span class="homespan">
-          <i class="icon ion-ios-people-outline homeicon"></i>
-      </span>
-  </a>
-  <a href="#" [routerLink]="['/consultation']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Appointments">
-      <span class="homespan">
-          <i class="icon ion-ios-calendar-outline homeicon"></i>
-      </span>
-  </a>
-  <a href="#" [routerLink]="['/inventory']" routerLinkActive="router-link-active"  class="home cartmenu" title="Products">
-      <span class="homespan">
-          <i class="icon ion-ios-cart-outline homeicon"></i>
-      </span>
-  </a>
-  <a href="#" [routerLink]="['/ward']" routerLinkActive="router-link-active"  class="home cartmenu wardmenu" title="ward">
-    <span class="homespan">
-      <i class="material-icons deticon" title>airline_seat_flat_angled</i>
-    </span>
-</a>
-  <a href="#" [routerLink]="['/orders']"  class="home settings" title="Settings">
-      <span class="homespan">
-          <i class="icon ion-ios-gear-outline homeicon"></i>
-      </span>
-  </a>
-
-
-</div>
-<nav class="navbar navbar-light navbar-expand-md navigation-clean-search" style="padding:0px">
-<div class="container">
-    <a class="navbar-brand" href="#">
-        <em>MS</em>
-    </a>
-    <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navcol-1">
-        <ul class="nav navbar-nav"></ul>
-        <form class="form-inline mr-auto searchform" target="_self">
-            <div class="form-group">
-                <label for="search-field">
-                    <i class="icon ion-ios-search searchicon" title="Search"></i>
-                </label>
-                <input class="form-control search-field" type="search" name="search" id="search-field" placeholder="Search Patient">
-            </div>
-            <p class="filter">Sort by: Recently added</p>
-            <i class="icon ion-ios-arrow-down arrow"></i>
-            <i class="icon ion-ios-personadd-outline arrow buble" id="add" title="Add Patient" data-target="#newModal" data-toggle="modal"></i>
-
-            <i class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
-            <div class="media midia profile">
-                <div id="dp1" class="dp"></div>
-                <img class="img-fluid d-none mr-3" src="assets/img/model.jpg">
-                <div class="media-body">
-                    <h6 class="username profilename">Dr. Aisha Bello</h6>
-                    <p class="userfb contacts profiletitle">Cadiologist</p>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-</nav>
 
 
 
@@ -95,30 +16,33 @@ class="container">
                     <div class="carditem">
                         <h1 class="dept detailshead">PERSONAL INFO</h1>
                         <h1 class="dept previnfo">Age: &nbsp;<span class="predata">21</span></h1>
-                        <h1 class="dept previnfo">Gender: &nbsp;<span class="predata">Male</span></h1>
+                        <h1 class="dept previnfo">Gender: &nbsp;<span class="predata">{{patient.personal.gender}}</span></h1>
                         <h1 class="dept previnfo">Blood Group: &nbsp;<span class="predata">O+</span></h1>
-                        <h1 class="dept previnfo">Marital Status: &nbsp;<span class="predata">Single</span></h1>
-                        <h1 class="dept previnfo">Religion &nbsp;<span class="predata">Islam</span></h1>
-                        <h1 class="dept previnfo">Tribe &nbsp;<span class="predata">Haussa</span></h1>
-                        <h1 class="dept previnfo">Card Number &nbsp;<span class="predata">00023467654</span></h1>
+                        <h1 class="dept previnfo">Marital Status: &nbsp;<span class="predata">{{patient.personal.mstatus}}</span></h1>
+                        <h1 class="dept previnfo">Religion &nbsp;<span class="predata">{{patient.personal.religion}}</span></h1>
+                        <h1 class="dept previnfo">Tribe &nbsp;<span class="predata">{{patient.personal.tribe}}</span></h1>
+                        <h1 class="dept previnfo">Occupation: &nbsp;<span class="predata">{{patient.personal.occupation}}</span></h1>
+                        <h1 class="dept previnfo">Card Number: &nbsp;<span class="predata">{{patient.personal.cardNum}}</span></h1>
+
                         <div class="timeline detailstimeline"><i class="icon ion-ios-person-outline deticon" title=""></i></div>
                     </div>
                     <div class="carditem">
                         <h1 class="dept detailshead">CONTACT</h1>
-                        <h1 class="dept previnfo">State:: &nbsp;<span class="predata">Kaduna</span></h1>
-                        <h1 class="dept previnfo">LGA: &nbsp;<span class="predata">Zaria</span></h1>
-                        <h1 class="dept previnfo">Address: &nbsp;<span class="predata">No. 20 Kano td, Zaria</span></h1>
-                        <h1 class="dept previnfo">E-Mail: &nbsp;<span class="predata">sani@gmail.com</span></h1>
-                        <h1 class="dept previnfo">Mobile: &nbsp;<span class="predata">08056784435</span></h1>
+                        <h1 class="dept previnfo">Mobile: &nbsp;<span class="predata">{{patient.contact.mobile}}</span></h1>
+                        <h1 class="dept previnfo">E-Mail: &nbsp;<span class="predata">{{patient.contact.email}}</span></h1>
+                        <h1 class="dept previnfo">State: &nbsp;<span class="predata">{{patient.contact.state}}</span></h1>
+                        <h1 class="dept previnfo">LGA: &nbsp;<span class="predata">{{patient.contact.lga}}</span></h1>
+                        <h1 class="dept previnfo">Address: &nbsp;<span class="predata">{{patient.contact.address}}</span></h1>
                         <h1 class="dept previnfo">Next of Kin: &nbsp;<span class="predata">Fassan Sani</span></h1>
                         <div class="timeline detailstimeline"><i class="icon ion-ios-location-outline deticon" title=""></i></div>
                     </div>
                     <div class="carditem">
                         <h1 class="dept detailshead">EMERGENCY CONTACT</h1>
-                        <h1 class="dept previnfo">Name: &nbsp;<span class="predata">Mohammed Sani</span></h1>
-                        <h1 class="dept previnfo">Relationship: &nbsp;<span class="predata">Parenti</span></h1>
-                        <h1 class="dept previnfo">Mobile &nbsp;<span class="predata">08034568787</span></h1>
-                        <h1 class="dept previnfo">E-Mail: &nbsp;<span class="predata">mosani@gmail.com</span></h1>
+                        <h1 class="dept previnfo">Name: &nbsp;<span class="predata">{{patient.contact.emgName}}</span></h1>
+                        <h1 class="dept previnfo">Relationship: &nbsp;<span class="predata">{{patient.contact.emgRel}}</span></h1>
+                        <h1 class="dept previnfo">Mobile &nbsp;<span class="predata">{{patient.contact.emgMobile}}</span></h1>
+                        <h1 class="dept previnfo">E-Mail: &nbsp;<span class="predata">{{patient.contact.emgRel}}</span></h1>
+                        <h1 class="dept previnfo">Occupation: &nbsp;<span class="predata">{{patient.contact.emgOccupation}}</span></h1>
                         <div class="timeline detailstimeline"><i class="icon ion-ios-pulse deticon" title=""></i></div>
                     </div>
                 </div>
@@ -126,6 +50,14 @@ class="container">
             <div class="card card-secondary historycard leftcard deathinfo">
                 <div class="card-header grapheader">
                     <h1 class="dept headtitle">HEALTH INSURANCE</h1>
+                </div>
+                <div class="card-body rightcardbody">
+                    <div class="carditem"></div>
+                </div>
+            </div>
+            <div class="card card-secondary historycard leftcard visits">
+                <div class="card-header grapheader">
+                    <h1 class="dept headtitle">VISITS</h1>
                 </div>
                 <div class="card-body rightcardbody">
                     <div class="carditem"></div>
@@ -147,8 +79,8 @@ class="container">
                 <div class="card-body notecardbody">
                     <div class="carditem noteitem writeup">
                         <div class="timeline noter patientdp"></div>
-                        <h1 class="dept previnfo noterinfo patientname">Aisha Mohammed &nbsp;<span class="predata notetime">21/07/2018 10:47am</span></h1>
-                        <h1 class="dept previnfo patientname">Gender: &nbsp;<span class="predata">Female</span></h1>
+                        <h1 class="dept previnfo noterinfo patientname">{{patient.personal.firstName + ' '+ patient.personal.lastName}} &nbsp;<span class="predata notetime">{{patient.dateCreated|date:'longDate'}}</span></h1>
+                        <h1 class="dept previnfo patientname">Gender: &nbsp;<span class="predata">{{patient.personal.gender}}</span></h1>
                         <h1 class="dept previnfo patientname">Age: &nbsp;<span class="predata">25</span></h1>
                         <h1 class="dept previnfo patientname">Blood Group: &nbsp;<span class="predata">O+</span></h1>
                     </div>
@@ -162,17 +94,20 @@ class="container">
                     <h1 class="dept systolic">Systolic &nbsp;</h1>
                 </div>
             </div>
-            <div class="card card-secondary historycard midlecard graphcard">
+            <div id="notescard" class="card card-secondary">
                 <div class="card-header grapheader">
                     <h1 class="dept headtitle">&nbsp;NOTES</h1>
                 </div>
                 <div class="card-body notecardbody">
                     <div class="carditem noteitem writeup">
                         <div class="timeline noter"></div>
-                        <h1 class="dept previnfo noterinfo">Dr. Aisha Mohammed &nbsp;<span class="predata notetime">21/07/2018 10:47am</span></h1>
-                        <h1 class="dept previnfo">Dept: &nbsp;<span class="predata">Family Medecine</span></h1>
-                        <p class="writeup">This work is subject to copyright. All rights are reserved by the Publisher, whether the whole or part of the&nbsp;specifically the rights of translation, reprinting.</p>
+                        <h1 class="dept previnfo noterinfo">Dr. Aisha Mohammed &nbsp;  <span class="predata notetime">{{patient.record.notes[0].dateCreated|date:'dd/MM/y hh:mma'|lowercase}}</span>
+                          <span class="predata notetime notedept">Family Medicine</span>
+                        </h1>
+
+                        <p class="writeup">{{patient.record.notes[0]|note}}<span class="readmore"><label *ngIf= "!patient.record.notes[0].full" (click) = "showDetails()" title="Read complete note ">Read More</label></span></p>
                     </div>
+
                 </div>
             </div>
             <div class="card card-secondary maincard halfcard">
@@ -271,6 +206,28 @@ class="container">
                             <li>Hepatitis B</li>
                             <li>Tooth Ache</li>
                         </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="card card-secondary historycard rightcard medication">
+                <div class="card-header grapheader">
+                    <h1 class="dept headtitle">COMPLAINS</h1>
+                </div>
+                <div class="card-body rightcardbody conditionbody">
+                    <div class="carditem">
+                        <h1 class="dept">Diabetes</h1>
+                        <h1 class="dept previnfo">Diagnosed By &nbsp;<span class="predata">Dr Mikel Lesi</span></h1>
+                        <h1 class="dept previnfo">Date of Diagnosis: &nbsp;<span class="predata">15/12/2018</span></h1>
+                    </div>
+                    <div class="carditem">
+                        <h1 class="dept">Malaria Fever</h1>
+                        <h1 class="dept previnfo">Diagnosed By &nbsp;<span class="predata">Dr Aisha Bello</span></h1>
+                        <h1 class="dept previnfo">Date of Diagnosis: &nbsp;<span class="predata">15/12/2018</span></h1>
+                    </div>
+                    <div class="carditem">
+                        <h1 class="dept">Tooth Ache</h1>
+                        <h1 class="dept previnfo">Diagnosed By &nbsp;<span class="predata">Dr Mikel Lesi</span></h1>
+                        <h1 class="dept previnfo">Date of Diagnosis: &nbsp;<span class="predata">15/12/2018</span></h1>
                     </div>
                 </div>
             </div>

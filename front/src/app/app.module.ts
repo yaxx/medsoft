@@ -14,11 +14,12 @@ import { InventoryComponent } from './components/inventory/inventory.component';
 import { HistoryComponent } from './components/history/history.component';
 import { PharmacyComponent } from './components/pharmacy/pharmacy.component';
 
-import { CategoriesComponent } from './components/categories/categories.component';
+
 import { WardComponent } from './components/ward/ward.component';
 import { AccountsComponent } from './components/accounts/accounts.component';
 import { LoginComponent } from './components/login/login.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { NotePipe } from './pipes/note.pipe';
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -27,10 +28,9 @@ const routes: Routes = [
   {path: 'registration', component: RegistrationComponent},
   {path: 'consultation', component: ConsultationComponent},
   {path: 'pharmacy', component:  PharmacyComponent},
-  {path: 'categories', component: CategoriesComponent},
   {path: 'inventory', component: InventoryComponent},
   {path: 'ward', component: WardComponent},
-  {path: 'history', component: HistoryComponent},
+  {path: 'history/:id', component: HistoryComponent},
   {path: '', redirectTo: 'login', pathMatch: 'full'}
  ];
 
@@ -44,11 +44,11 @@ const routes: Routes = [
     InventoryComponent,
     HistoryComponent,
     PharmacyComponent,
-    CategoriesComponent,
     WardComponent,
     AccountsComponent,
     LoginComponent,
     SettingsComponent,
+    NotePipe,
   ],
   imports: [
     BrowserModule,

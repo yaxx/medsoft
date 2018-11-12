@@ -1,10 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Patient} from '../models/data.model';
-import {Setting, Department, Staff} from '../models/data.model';
-import { Observable } from 'rxjs';
-import { Observer } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import {Setting, Department, Staff, Patient} from '../models/data.model';
 import * as socketIo from 'socket.io-client';
 
 import { Socket } from '../models/socket';
@@ -20,40 +16,23 @@ declare var io: {
 export class DataService {
   uri = 'http://localhost:3000/api';
   socket: Socket;
-  observer: Observer<number>;
   staff: Staff = new Staff();
-
+  patients: Patient[] = new Array<Patient>();
+  cachedPatients: Patient[] = new Array<Patient>();
 
   constructor(private http: HttpClient) { }
 
 
-  // getQuotes(): Observable<number> {
-  //   this.socket = socketIo('http://localhost:3000');
 
-  //   this.socket.on('data', (res) => {
-  //     this.observer.next(res.data);
-  //   });
+  setCachedPatients(patients: Patient[]) {
+     this.cachedPatients = patients;
 
-  //   return this.createObservable();
-  // }
+  }
+  getCachedPatient(id) {
 
-  // createObservable(): Observable<number> {
-  //     return new Observable<number>(observer => {
-  //       this.observer = observer;
-  //     });
-  // }
+    return this.cachedPatients.filter((p) => p._id === id)[0];
 
-  // private handleError(error) {
-  //   console.error('server error:', error);
-  //   if (error.error instanceof Error) {
-  //       let errMessage = error.error.message;
-  //       return Observable.throw(errMessage);
-  //   }
-  //   return Observable.throw(error || 'Socket.io server error');
-  // }
-
-
-
+  }
   getPatients() {
     return this.http.get(`${this.uri}/patients`, {withCredentials: true});
   }
@@ -65,6 +44,12 @@ export class DataService {
   }
   addProduct(product) {
     return this.http.post(`${this.uri}/new-product`, product, {withCredentials: true});
+  }
+  updateProducts(product) {
+    return this.http.post(`${this.uri}/update-products`, product, {withCredentials: true});
+  }
+  deleteProducts(product) {
+    return this.http.post(`${this.uri}/delete-products`, product, {withCredentials: true});
   }
   login (staff) {
     return this.http.post(`${this.uri}/login`, staff, {withCredentials: true});
@@ -79,6 +64,12 @@ export class DataService {
   saveRecord(record) {
     return this.http.post(`${this.uri}/new-record`, record, {withCredentials: true});
   }
+  updateRecord(record, medications) {
+    return this.http.post(`${this.uri}/update-record`, {record: record, medications: medications}, {withCredentials: true});
+  }
+  updateMedication(m) {
+    return this.http.post(`${this.uri}/update-medication`, {medication: m}, {withCredentials: true});
+  }
   getNew() {
     return this.staff;
   }
@@ -91,6 +82,9 @@ export class DataService {
   }
   getItems() {
     return this.http.get(`${this.uri}/items`, {withCredentials: true});
+  }
+  getOrders() {
+    return this.http.get(`${this.uri}/orders`, {withCredentials: true});
   }
   getDepartments() {
     return this.http.get(`${this.uri}/departments`, {withCredentials: true});

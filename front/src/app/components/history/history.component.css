@@ -1,0 +1,9 @@
+
+@media (min-width:1200px) {
+    .newproduct {
+      width:40%;
+      height:100%;
+      background: white;
+      margin: auto;
+    }
+  }

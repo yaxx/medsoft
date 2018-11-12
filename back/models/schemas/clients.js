@@ -24,6 +24,7 @@ var ClientScheema = new Scheema({
         
         inventory:[{
                 item:{
+                    _id: String,   
                     name: String,
                     brand: String,
                     category: String,

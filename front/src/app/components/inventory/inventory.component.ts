@@ -12,8 +12,8 @@ import {Socket} from '../../models/socket';
 })
 export class InventoryComponent implements OnInit {
   product: Product = new Product(new Item(), new StockInfo());
-  item: Item = new Item();
-  stockInfo: StockInfo = new StockInfo();
+  // item: Item = new Item();
+  // stockInfo: StockInfo = new StockInfo();
   temItems: Item[] = new Array<Item>();
   items: Item[] = new Array<Item>();
   products: Product[] = new Array<Product>();
@@ -21,14 +21,25 @@ export class InventoryComponent implements OnInit {
   temProducts: Product[] = new Array<Product>();
   selections: number[] = new Array<number>();
   input = '';
+  sortBy = 'added';
+  view = 'products';
+  mode = 'new';
 
      constructor(private dataService: DataService) {
    }
 
   ngOnInit() {
-
     this.getItems();
     this.getProducts();
+  }
+  switchViews() {
+   this.view = this.view === 'products' ? 'new' : 'products';
+  }
+  switchToEdit() {
+    this.product = this.products.filter((pr) => pr.selected)[0];
+    this.input = this.product.item.name + ' ' + this.product.item.mesure + this.product.item.unit;
+    this.mode = 'edit';
+    this.switchViews();
   }
   getProducts() {
     this.dataService.getProducts().subscribe((p: any) => {
@@ -38,20 +49,73 @@ export class InventoryComponent implements OnInit {
   getItems() {
     this.dataService.getItems().subscribe((item: Item[]) => {
       this.items = item;
-      console.log(this.items);
     });
   }
+  sortProducts(name: string) {
+    switch (name) {
+      case 'name':
+        this.products.sort((m, n) => m.item.name.localeCompare(n.item.name));
+        this.sortBy = 'name';
+        break;
+      case 'category':
+        this.products.sort((m, n) => m.item.name.localeCompare(n.item.category));
+        this.sortBy = 'category';
+        break;
+      case 'description':
+        this.products.sort((m, n) => m.item.name.localeCompare(n.item.description));
+        this.sortBy = 'description';
+        break;
+      case 'price':
+        this.products.sort((m, n) => n.stockInfo.price - m.stockInfo.price );
+        this.sortBy = 'price';
+        break;
+      case 'quantity':
+        this.products.sort((m, n) => n.stockInfo.quantity - m.stockInfo.quantity );
+        this.sortBy = 'quantity';
+        break;
+      case 'sold':
+        this.products.sort((m, n) => n.stockInfo.sold - m.stockInfo.sold );
+        this.sortBy = 'sold';
+        break;
+      case 'added':
+        this.products.sort((m, n) => new Date(n.addedOn).getTime() - new Date(m.addedOn).getTime());
+        this.sortBy = 'added';
+        break;
+        default:
+        break;
 
-  addProduct() {
-    this.dataService.addProduct(new Product(this.item, this.stockInfo)).subscribe((products: Product[]) => {
-       this.products = products;
-    });
+
+    }
+  }
+  addMore(){
+    this.temProducts.push(this.product);
+    this.input = '';
+    // this.item = new Item();
+    // this.stockInfo = new StockInfo();
+  }
+  addProducts(){
+    this.dataService.addProduct(this.temProducts)
+    .subscribe((products: Product[]) => {
+      this.products = products;
+      this.temProducts = new Array<Product>();
+      this.view = 'products';
+   });
 
   }
+
+
   selectItem(i: Item) {
-    this.item = i;
+    this.product.item = i;
     this.input = i.name + ' ' + i.mesure + i.unit;
     this.temItems = new Array<Item>();
+  }
+
+  selectProduct(i) {
+    this.products[i].selected = this.products[i].selected ? false : true;
+
+  }
+  selectionOccure() {
+    return this.products.some((product) => product.selected);
   }
 
   searchItem (i) {
@@ -59,16 +123,37 @@ export class InventoryComponent implements OnInit {
       this.temItems = new Array<Item>();
     } else {
     this.temItems = this.items.filter((item) => {
-    let patern =  new RegExp('\^' + i , 'i');
+    const patern =  new RegExp('\^' + i , 'i');
     return patern.test(item.name);
     });
   }
+  }
+
+  submit() {
+    if (this.mode === 'new') {
+      this.addProducts();
+    } else {
+      this.updateProducts();
+    }
+  }
+  updateProducts() {
+    this.dataService.updateProducts(this.product)
+    .subscribe((products: Product[]) => {
+      this.products = products;
+      this.product = new Product(new Item(), new StockInfo());
+      this.switchViews();
+   });
 
   }
-  sortProducts(column: string) {
-  this.products.sort(sortBy(column));
-  alert(column);
+  deleteProducts() {
+    this.dataService.deleteProducts(this.products.filter((p) => p.selected)).subscribe((products: Product[]) => {
+      this.products = products;
+
+   });
+
+
   }
+
 
 // addMoreProduct() {
 // this.temProducts.push(this.product);
@@ -80,16 +165,7 @@ export class InventoryComponent implements OnInit {
 //   }
 //   this.temProducts = [];
 // }
-// selectProduct(p: Product) {
-//   if (p.selected) {
-//     this.products[this.products.indexOf(p)].selected = false;
-//     this.temProducts = this.temProducts.filter((pro) => pro !== p);
 
-//   } else {
-//     this.products[this.products.indexOf(p)].selected = true;
-//     this.temProducts.push(p);
-
-//   }
 
 // }
 

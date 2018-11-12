@@ -42,5 +42,7 @@
   position:absolute;
   left:165px;
   font-size:12px;
+  cursor:pointer;
+  z-index:5;
 }
 

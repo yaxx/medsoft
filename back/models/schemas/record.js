@@ -2,9 +2,9 @@ import mongoose from '../db';
 var Scheema = mongoose.Schema
 
 var RecordScheema = new Scheema({
-     complains:[{issue:String, dateCreated:{type:Date, default:Date.now()}}], famHist:[{condition:String, dateCreated:{type:Date, default:Date.now()}}],
+     complains:[{complain:String, dateCreated:{type:Date, default:Date.now()}}], famHist:[{condition:String, dateCreated:{type:Date, default:Date.now()}}],
 
-    notes: [{note:String, type:String, noter:{type: Scheema.Types.ObjectId, ref: 'Staff'}, dateCreated:{type:Date,default:Date.now()}}],
+    notes: [{note:String, noteType:String, noter:{type: Scheema.Types.ObjectId, ref: 'Staff'}, dateCreated:{type:Date,default:Date.now()}}],
 
     vitals: {
 
@@ -18,14 +18,13 @@ var RecordScheema = new Scheema({
 
     },
 
-    conditions:[{type:String, oreder:String,
+    conditions:[{condition:String, oreder:String,
         certainty: String,
         dateCreated: {type:Date, default:Date.now()},
         by: {type: Scheema.Types.ObjectId, ref: 'Staff'}}],
 
-    allegies:[{type: String, dateCreated:{type: Date,default:Date.now}}],
-
-    allegies:[{type:String, dateCreated:{type: Date,default:Date.now}}],
+  
+    allegies:[{allegy:String, dateCreated:{type: Date,default:Date.now}}],
 
     visits: [{dept:String,
         status:String,
@@ -50,7 +49,8 @@ var RecordScheema = new Scheema({
             },
             stockInfo:{
                 expiry: Date,
-                price: Number ,
+                price: Number,
+                sold: Number,
                 expired: Boolean ,
                 status: Boolean,
                 quantity: Number,
@@ -58,27 +58,31 @@ var RecordScheema = new Scheema({
             selected:Boolean,
             dateAdded: {type:Date, default: Date.now()}   
         },
-        priscribtion:{
+        priscription:{
             intake: Number,
             freq: String,
             piriod: Number,
-            extend: Number,
-            paid: Boolean,
-            takenOn: Date,
-            paused: Boolean,
-            pausedOn :Date,
-            priscribedOn: {type:Date, default:Date.now},
-            by: {type: Scheema.Types.ObjectId, ref: 'Staff'}
-        }
-    }     
-],        
+            extend: String
+            
+            
+        },
+        paid: {type:Boolean, Default:false},
+        lastTaken: Date,
+        paused: {type:Boolean, Default:false},
+        pausedOn :Date,
+        selected: {type:Boolean, Default:false},
+        priscribedOn: {type:Date, default:Date.now},
+        by: {type: Scheema.Types.ObjectId, ref: 'Staff'}  
+    }  
+],
+        
 
 Tests: [],
 Sugeries:[],
 
 files: [{
     name: String,
-    type: String,
+    fileType: String,
     dateCreated: {type:Date,default:Date.now()}
     }]
 

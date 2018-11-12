@@ -22,6 +22,10 @@
 .card.card-secondary.historycard.rightcard {
   width:188px;
 }
+.card.card-secondary.historycard.leftcard.visits{
+  height:280px;
+}
+
 
 .card-body.topcardbody {
   border:none;
@@ -90,7 +94,14 @@
 }
 
 .card.card-secondary.historycard.midlecard.topcard.graphcard {
-  height:180px;
+  min-height:180px;
+  max-height: 180px;
+}
+#notescard {
+  height:0px;
+  min-height:180px;
+  width:470px;
+
 }
 
 .card.card-secondary.historycard.rightcard.condition {
@@ -98,7 +109,7 @@
 }
 
 .card.card-secondary.historycard.rightcard.medication {
-  height:280px;
+  min-height:280px;
 }
 
 .card.card-secondary.historycard.leftcard.deathinfo {
@@ -117,12 +128,16 @@
   font-size:13px;
   margin-bottom:0px;
   padding-right:3%;
+  position: relative;
 }
 
 .predata.notetime {
   font-weight:normal;
   position:absolute;
   left:73%;
+}
+.predata.notetime.notedept{
+  left:28%;
 }
 
 .dept.previnfo.noterinfo {
@@ -225,4 +240,14 @@
   background-size:cover;
   background-position:center;
 }
-
+.readmore{
+  cursor:pointer;
+  color:rgb(128, 128, 246);
+  font-style: italic;
+  z-index:1;
+  display:inline-block;
+}
+.readmore label:hover{
+  cursor: pointer;
+  color:blue;
+}

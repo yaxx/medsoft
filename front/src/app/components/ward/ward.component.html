@@ -1,89 +1,34 @@
+<div class="modal fade" role="dialog" tabindex="-1" id="phModal" style="border-radius:0px;width:auto;">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content" style="width:550px;">
+
+              <div class="modal-header" style="padding:6px; ">
 
 
+                  <div style="top:2px;"  class="timeline lastdoc priscriber headerdp"></div>
+                  <h1 style="left:40px; display: inline-block;" class="dept displayname">Aisha Mohammed<span class="predata editicon" title="Edit"><i class="icon ion-ios-checkmark-empty headericon" title></i></span></h1>
+                  <h1 class="dept displayname subinfo">Feb 10, 2018</h1>
 
 
+                  <!-- <h6 class="modal-title dept" style="text-align:center; width:100%">CONSULTATION</h6> -->
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">×</span>
+                  </button>
+              </div>
+          <div class="modal-body">
+              <form class="accountform staffsform" (submit) = updateMedication()>
+                  <div class="form-group vitals-section address">
+                      <textarea class="patientdata note " name= "note" placeholder="Note">
+                      </textarea>
+                  </div>
 
+                      <button style="font-size:12px; width:30%"  type="submit" class="btn btn-sm btn-outline-primary inputs" >Post</button>
 
-
-<div class="sidenav">
-  <a href="#" class="home homemenu" title="Menu">
-      <span class="homespan">
-          <i class="material-icons homeicon">sort</i>
-      </span>
-  </a>
-  <a href="#" [routerLink]="['/orders']" routerLinkActive="router-link-active"  class="home" title="Home">
-      <span class="homespan">
-          <i class="icon ion-ios-home-outline homeicon"></i>
-      </span>
-  </a>
-  <a href="#" [routerLink]="['/categories']"  class="home dashboard" title="Dashboard">
-      <span class="homespan">
-          <i class="icon ion-android-apps homeicon"></i>
-      </span>
-  </a>
-  <a href="#" [routerLink]="['/registration']" routerLinkActive="router-link-active"  class="home patienmenu" title="Patients">
-      <span class="homespan">
-          <i class="icon ion-ios-people-outline homeicon"></i>
-      </span>
-  </a>
-  <a href="#" [routerLink]="['/consultation']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Appointments">
-      <span class="homespan">
-          <i class="icon ion-ios-calendar-outline homeicon"></i>
-      </span>
-  </a>
-  <a href="#" [routerLink]="['/inventory']" routerLinkActive="router-link-active"  class="home cartmenu" title="Products">
-      <span class="homespan">
-          <i class="icon ion-ios-cart-outline homeicon"></i>
-      </span>
-  </a>
-  <a href="#" [routerLink]="['/ward']" routerLinkActive="router-link-active"  class="home cartmenu wardmenu" title="ward">
-      <span class="homespan">
-        <i class="material-icons deticon" title>airline_seat_flat_angled</i>
-      </span>
-  </a>
-  <a href="#" [routerLink]="['/orders']"  class="home settings" title="Settings">
-      <span class="homespan">
-          <i class="icon ion-ios-gear-outline homeicon"></i>
-      </span>
-  </a>
-
-
+               </form>
+          </div>
+      </div>
+  </div>
 </div>
-<nav class="navbar navbar-light navbar-expand-md navigation-clean-search" style="padding:0px">
-<div class="container">
-    <a class="navbar-brand" href="#">
-        <em>MS</em>
-    </a>
-    <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navcol-1">
-        <ul class="nav navbar-nav"></ul>
-        <form class="form-inline mr-auto searchform" target="_self">
-            <div class="form-group">
-                <label for="search-field">
-                    <i class="icon ion-ios-search searchicon" title="Search"></i>
-                </label>
-                <input class="form-control search-field" type="search" name="search" id="search-field" placeholder="Search Patient">
-            </div>
-            <p class="filter">Sort by: Recently added</p>
-            <i class="icon ion-ios-arrow-down arrow"></i>
-            <i class="icon ion-ios-personadd-outline arrow buble" id="add" title="Add Patient" data-target="#newModal" data-toggle="modal"></i>
-
-            <i class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
-            <div class="media midia profile">
-                <div id="dp1" class="dp"></div>
-                <img class="img-fluid d-none mr-3" src="assets/img/model.jpg">
-                <div class="media-body">
-                    <h6 class="username profilename">Dr. Aisha Bello</h6>
-                    <p class="userfb contacts profiletitle">Cadiologist</p>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-</nav>
 
 
 
@@ -91,109 +36,196 @@
 <div
 class="container">
 <div class="row">
-    <div class="col col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-12">
-        <div class="card card-secondary maincard">
-          <div class="card-header profileheader">
-            <div class="timeline lastdoc priscriber headerdp"></div>
-            <h1 class="dept displayname qicon">Aisha Mohammed<span class="predata editicon" title="Edit"><i class="icon ion-ios-more-outline headericon moreicon" title="more actions"></i></span></h1>
-            <h1 class="dept displayname subinfo">Feb 10, 2018</h1>
-          </div>
-            <div class="card-body">
-                <div class="carditem">
-                    <h1 class="dept firstheader">MATERNITY</h1>
-                    <h1 class="dept previnfo">Bed Number: &nbsp;<span class="predata">21</span></h1>
-                    <h1 class="dept priscriptiontime">2/18/2018 8:50am<span class="timetaken">5/18/2018 &nbsp;4;25pm</span></h1>
-                    <div class="timeline">
-                        <h1 class="timelinedate">25</h1>
-                        <h1 class="timelinedate month">OCT</h1>
-                    </div>
-                </div>
-                <div class="carditem">
-                    <h1 class="dept firstheader">FAMILY MEDCINE</h1>
-                    <h1 class="dept previnfo">Bed Number: &nbsp;<span class="predata">21</span></h1>
-                    <h1 class="dept priscriptiontime">2/18/2018 8:50am<span class="timetaken">5/18/2018 &nbsp;4;25pm</span></h1>
-                    <div class="timeline">
-                        <h1 class="timelinedate">25</h1>
-                        <h1 class="timelinedate month">OCT</h1>
-                    </div>
-                </div>
-                <div class="carditem">
-                    <h1 class="dept firstheader">FAMILY MEDCINE</h1>
-                    <h1 class="dept previnfo">Bed Number: &nbsp;<span class="predata">21</span></h1>
-                    <h1 class="dept priscriptiontime">2/18/2018 8:50am<span class="timetaken">5/18/2018 &nbsp;4;25pm</span></h1>
-                    <div class="timeline">
-                        <h1 class="timelinedate">25</h1>
-                        <h1 class="timelinedate month">OCT</h1>
-                    </div>
-                </div>
 
+
+    <div [ngSwitch]="view"  *ngFor="let patient of patients; let p = index" class="col col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-12">
+        <div *ngSwitchCase="'details'" class="card card-secondary maincard">
+            <div class="card-header profileheader">
+              <div class="timeline lastdoc priscriber headerdp"></div>
+              <h1 class="dept displayname qicon">{{patient.personal.firstName + ' '+ patient.personal.lastName}}<span class="predata editicon" title="Edit"><i class="icon ion-android-more-vertical headericon moreicon" title="more actions"></i>
+                <i *ngIf= "patient.status==='queued'" class="icon ion-ios-clock-outline headericon clock" ></i>
+                <i *ngIf= "patient.status==='discharged'" class="icon ion-ios-checkmark-empty headericon" ></i>
+                <i *ngIf= "patient.status==='admitted'" class="icon ion-ios-help-outline headericon in" ></i>
+                <i *ngIf= "patient.status==='gone'"  class="icon ion-ios-close-outline headericon gone" ></i>
+              </span></h1>
+              <h1 class="dept displayname subinfo">{{patient.dateCreated|date:'mediumDate'}}</h1>
             </div>
-            <div class="card-footer cardbtnfooter">
-                <div class="btn-group footerbotton" role="group"><button class="btn btn-primary btn-sm btn-outline-primary btn-sm leftbtn" type="button">View History</button><button class="btn btn-primary btn-outline-primary btn-sm rightbtn" type="button">Attend to</button></div>
+            <div style="margin-left:0px; border-left: none" class="card-body orderbody" >
+              <form style="top:5%; padding-left: 2%; padding-right: 2%;" class="accountform staffsform" (submit) = updateMedication()>
+
+                <div class="form-group vitals-section address">
+                    <label for="drug" class="labelss">Drug Name</label>
+                    <input autocomplete="off" (keyup)= "searchItem(input)" [(ngModel)] = input type="text" name="drug" placeholder= "E.g Paracetamol" class="patientdata dystolic inputs dataInfo" />
+
+                    <div *ngIf= temProducts.length  class="options prisOption edit">
+                        <ul class="itemsList" >
+                          <li  *ngFor="let product of temProducts"><p (click) = "selectProduct(product)"  class="dept firstheader drugItem" style="font-size:13px;padding-left: 10px; padding-right: 10px;font-weight: normal;" >{{product.item.name+ ' '}}<span class="lastdept timetaken " >{{product.item.mesure + product.item.unit}}</span></p>
+                          </li>
+                        </ul>
+                    </div>
+
+                </div>
+                <div class="form-group vitals-section formGroup" style=" width:28%;">
+                    <label for="dos" class="labelss complain">Intake</label>
+                    <input [(ngModel)] = "medication.priscription.intake" style="border-top-right-radius: 0px;border-bottom-right-radius: 0px;"  type="number" name="dos" class="patientdata inputs dataInfo"  >
+                </div>
+                <div class="form-group vitals-section formGroup" style=" width:43%; ">
+                    <label for="intake" class="labelss complain">Freq</label>
+                    <select [(ngModel)]="medication.priscription.freq" style="border-radius: 0px;"  class=" patientdata status inputs dataInfo " name="intake">
+                            <option>dos</option>
+                            <option>qos</option>
+                            <option>after meal</option>
+                            <option>as required</option>
+                    </select>
+                </div>
+                <div class="form-group vitals-section formGroup" style=" width:28%;">
+                    <label for="piriod" class="labelss complain">Days</label>
+                    <input [(ngModel)]="medication.priscription.piriod" style="border-top-left-radius: 0px;border-bottom-left-radius: 0px;"  type="number" name="piriod" class="patientdata inputs dataInfo"   placeholder="">
+                </div>
+                <div class="form-group vitals-section address">
+                  <button (click)=switchViews() style="font-size:11px; width:50%;border-top-right-radius: 0px;border-bottom-right-radius: 0px; "  type="button" class="btn btn-sm btn-outline-primary inputs" >Cancel</button>
+
+                  <button style="font-size:11px; width:49.5%; border-top-left-radius: 0px;border-bottom-left-radius: 0px; "  type="submit" class="btn btn-sm btn-outline-primary inputs" >Add Medication</button>
+                </div>
+            </form>
+
             </div>
         </div>
-    </div>
 
-    <div class="col col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-12">
-      <div class="card card-secondary maincard">
-          <div class="card-header profileheader">
+
+
+
+        <div *ngSwitchCase="'bed'" class="card card-secondary maincard">
+            <div class="card-header profileheader">
               <div class="timeline lastdoc priscriber headerdp"></div>
-              <h1 class="dept displayname">Aisha Mohammed<span class="predata editicon" title="Edit"><i class="icon ion-ios-checkmark-empty headericon" title=""></i><i class="icon ion-ios-more-outline headericon moreicon" title="more actions"></i></span></h1>
-              <h1 class="dept displayname subinfo">Feb 10, 2018</h1>
-          </div>
-          <div class="card-body">
-              <div class="carditem priscriptioncontainer">
-                  <div class="priscription wardpriscription">
-                      <h1 class="dept">Paracetamol<span class="predata">&nbsp;500mg</span><span class="predata editicon" title="Edit"><i class="icon ion-ios-play-outline editicon continue" title="Continue"></i></span></h1>
-                      <h1 class="dept priscriptiontime">2/18/2018 8:50am<span class="timetaken">5/18/2018 &nbsp;4;25pm</span></h1>
-                  </div>
-                  <div class="priscription wardpriscription">
-                      <h1 class="dept">Paracetamol<span class="predata">&nbsp;500mg</span><span class="predata editicon" title="Edit"><i class="icon ion-ios-pause-outline editicon" title="Discontinue"></i></span></h1>
-                      <h1 class="dept priscriptiontime">2/18/2018 8:50am<span class="timetaken">5/18/2018 &nbsp;4;25pm</span></h1>
-                  </div>
-                  <div class="timeline lastdoc priscriber"></div>
-              </div>
-              <div class="carditem">
-                  <div class="priscription">
-                      <h1 class="dept">Paracetamol<span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata editicon" title="Edit"><i class="icon ion-edit editicon"></i></span><span class="predata">&nbsp;500mg</span></h1>
-                      <h1 class="dept previnfo">Dosage:&nbsp;<span class="predata">10 &nbsp;days | dos</span></h1>
-                  </div>
-                  <div class="priscription">
-                      <h1 class="dept">Chloroquine Injectionl<span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata editicon" title="Edit"></span><span class="predata">&nbsp;200ml</span></h1>
-                      <h1 class="dept previnfo">Dosage:&nbsp;<span class="predata">10 &nbsp;days | dos</span></h1>
-                      <h1 class="dept previnfo">Price: &nbsp;<span class="predata priceval">200</span></h1>
-                      <h1 class="dept previnfo">Last Doctor: &nbsp;<span class="predata">Aisha Mohammed</span></h1>
-                  </div>
-                  <div class="timeline lastdoc priscriber"></div>
-              </div>
-          </div>
-          <div class="card-footer"></div>
-      </div>
-    </div>
+              <h1 class="dept displayname qicon">{{patient.personal.firstName + ' '+ patient.personal.lastName}}<span class="predata editicon" title="Edit"><i class="icon ion-android-more-vertical headericon moreicon" title="more actions"></i>
+                <i *ngIf= "patient.status==='queued'" class="icon ion-ios-clock-outline headericon clock" ></i>
+                <i *ngIf= "patient.status==='discharged'" class="icon ion-ios-checkmark-empty headericon" ></i>
+                <i *ngIf= "patient.status==='admitted'" class="icon ion-ios-help-outline headericon in" ></i>
+                <i *ngIf= "patient.status==='gone'"  class="icon ion-ios-close-outline headericon gone" ></i>
+              </span></h1>
+              <h1 class="dept displayname subinfo">Bed No. {{lastVisit.bedNo}}</h1>
+            </div>
+            <div style="margin-left:0px; border-left: none" class="card-body orderbody" >
+              <form style="top:5%; padding-left: 2%; padding-right: 2%;" class="accountform staffsform" (submit) = updateMedication()>
 
-    <div class="col col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-12">
-      <div class="card card-secondary maincard">
-          <div class="card-header"></div>
+                <div class="form-group vitals-section address">
+                    <label for="drug" class="labelss">Ward No.</label>
+                    <select [(ngModel)]="lastVisit.wardNo"  class=" patientdata status inputs dataInfo " name="intake">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                </select>
+                </div>
+                <div class="form-group vitals-section address">
+                    <label for="drug" class="labelss">Bed No.</label>
+                    <select [(ngModel)]="lastVisit.bedNo" class=" patientdata status inputs dataInfo " name="intake">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                </select>
+                </div>
+
+                <div class="form-group vitals-section address">
+                  <button (click)=switchViews() style="font-size:11px; width:50%;border-top-right-radius: 0px;border-bottom-right-radius: 0px; "  type="button" class="btn btn-sm btn-outline-primary inputs" >Cancel</button>
+
+                  <button style="font-size:11px; width:49.5%; border-top-left-radius: 0px;border-bottom-left-radius: 0px; "  type="submit" class="btn btn-sm btn-outline-primary inputs" >Admit </button>
+                </div>
+            </form>
+
+            </div>
+        </div>
+
+
+
+
+
+      <div *ngSwitchCase="'drugs'"class="card card-secondary maincard">
+        <div class="card-header profileheader">
+          <div class="timeline lastdoc priscriber headerdp"></div>
+          <h1 class="dept displayname qicon">{{patient.personal.firstName + ' '+ patient.personal.lastName}}<span class="predata editicon" title="Edit"><i class="icon ion-android-more-vertical headericon moreicon" title="more actions"></i><i  *ngIf= "patient.status==='queued'" class="icon ion-ios-clock-outline headericon clock" title=""></i>
+            <i *ngIf= "patient.status==='discharged'" class="icon ion-ios-checkmark-empty headericon" title=""></i>
+            <i *ngIf= "patient.status==='admitted'" class="icon ion-ios-help-outline headericon in" title=""></i>
+            <i *ngIf= "patient.status==='gone'"  class="icon ion-ios-close-outline headericon gone" title=""></i>
+
+          </span></h1>
+          <h1 class="dept displayname subinfo">Bed No: 02</h1>
+          <!-- <div class="menu">
+            <ul class="actions primary">
+              <li (click)=switchViews() class="action">Add Medication</li>
+              <li  data-target="#phModal" data-toggle="modal" class="action">Add Note</li>
+              <li (click)= discharge(p) class="action">Discharge</li>
+              <li (click)= gone(p) class="action">Comfirm Death</li>
+            </ul>
+          </div> -->
+        </div>
           <div class="card-body">
-              <div class="carditem priscriptioncontainer">
-                  <div class="priscription wardpriscription">
-                      <h1 class="dept">Paracetamol<span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata">&nbsp;500mg</span></h1>
-                      <h1 class="dept priscriptiontime">2/18/2018 8:50am<span class="timetaken">5/18/2018 &nbsp;4;25pm</span></h1>
+              <div style="border-bottom:0px" class="carditem priscriptioncontainer">
+                  <div class="timeline condition">
+                      <h1 class="timelinedate">02</h1>
+                      <h1 class="timelinedate month">SEP</h1>
                   </div>
-                  <div class="priscription wardpriscription">
-                      <h1 class="dept">Paracetamol<span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata">&nbsp;500mg</span></h1>
-                      <h1 class="dept priscriptiontime">2/18/2018 8:50am<span class="timetaken">5/18/2018 &nbsp;4;25pm</span></h1>
-                  </div>
-                  <div class="timeline lastdoc priscriber"></div>
-                  <h1 class="dept previnfo baseline baselinedate">&nbsp;15/10/2018 10:45am</h1>
-                  <div class="priscription wardpriscription">
-                      <h1 class="dept">Paracetamol<span class="predata">&nbsp;500mg</span><span class="predata editicon" title="Edit"><i class="icon ion-ios-play-outline editicon continue" title="Continue"></i></span></h1>
-                      <h1 class="dept priscriptiontime">2/18/2018 8:50am<span class="timetaken">5/18/2018 &nbsp;4;25pm</span></h1>
+                  <div *ngFor="let medication of patient.record.medications; let m = index"  class="priscription wardpriscription">
+                      <h1 class="dept">{{medication.product.item.name+ ' ' }}<span class="predata">{{medication.product.item.mesure+medication.product.item.unit}}</span><span class="predata prescriptionicon"><input (click)="selectDrug(p, m)" type="checkbox"></span></h1>
+                      <h1 class="dept priscriptiontime">{{medication.priscribedOn|date:'dd/MM/y hh:mma'|lowercase}}<span class="timetaken">{{medication.lastTaken|date:'dd/MM/y hh:mma'|lowercase}}</span></h1>
                   </div>
               </div>
           </div>
-          <div class="card-footer"></div>
+          <div class="floter" title="Examine"><i (click)="updateTimeTaken(p, m)"class="icon ion-person-stalker flotericon consulticon" title="Examine"></i>
+          </div>
       </div>
+
+      <div *ngSwitchDefault class="card card-secondary maincard">
+        <div class="card-header profileheader">
+          <div class="timeline lastdoc priscriber headerdp"></div>
+          <h1 class="dept displayname qicon">{{patient.personal.firstName + ' '+ patient.personal.lastName}}<span class="predata editicon" title="Edit"><i class="icon ion-android-more-vertical headericon moreicon" title="more actions"></i><i  *ngIf= "patient.status==='queued'" class="icon ion-ios-clock-outline headericon clock" title=""></i>
+            <i *ngIf= "patient.status==='discharged'" class="icon ion-ios-checkmark-empty headericon" title=""></i>
+            <i *ngIf= "patient.status==='admitted'" class="icon ion-ios-help-outline headericon in" title=""></i>
+            <i *ngIf= "patient.status==='gone'"  class="icon ion-ios-close-outline headericon gone" title=""></i>
+
+          </span></h1>
+          <h1 class="dept displayname subinfo">Bed No: 02</h1>
+          <div class="menu">
+            <ul class="actions primary">
+              <li (click)=switchViews() class="action">Add Medication</li>
+              <li  data-target="#phModal" data-toggle="modal" class="action">Add Note</li>
+              <li (click)= discharge(p) class="action">Discharge</li>
+              <li (click)= gone(p) class="action">Comfirm Death</li>
+            </ul>
+          </div>
+        </div>
+          <div class="card-body">
+              <div style="border-bottom:0px" class="carditem priscriptioncontainer">
+                  <div class="timeline condition">
+                      <h1 class="timelinedate">02</h1>
+                      <h1 class="timelinedate month">SEP</h1>
+                  </div>
+                  <div *ngFor="let medication of patient.record.medications; let m = index"  class="priscription wardpriscription">
+                      <h1 class="dept">{{medication.product.item.name+ ' ' }}<span class="predata">{{medication.product.item.mesure+medication.product.item.unit}}</span><span [ngSwitch]="medication.paused" class="predata editicon" title="Edit">
+                      <i *ngSwitchCase="false"(click)=selectMedication(p,m) class="icon ion-ios-play-outline editicon continue" title="Continue">
+                      </i>
+                      <i *ngSwitchCase="true"(click)=selectMedication(p,m)  class="icon ion-ios-pause-outline editicon" title="Discontinue"></i>
+                      <i *ngSwitchDefault  class="icon ion-ios-pause-outline editicon" title="Discontinue"></i>
+
+
+                      </span></h1>
+                      <h1 class="dept priscriptiontime">2/18/2018 8:50am<span class="timetaken">5/18/2018 &nbsp;4:05pm</span></h1>
+                  </div>
+
+
+              </div>
+
+          </div>
+          <div class="floter" title="Examine"><i data-target="#newModal" data-toggle="modal" class="icon ion-person-stalker flotericon consulticon" title="Examine"></i>
+          </div>
+
+      </div>
+
+
+
+
     </div>
   </div>
 </div>

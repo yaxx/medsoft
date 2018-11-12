@@ -54,7 +54,11 @@ export class Patient {
     public contact?: Contact,
     public insurance?: Insurance,
     public record?: Record,
-    public dateCreated: Date = new Date()
+    public status?: string,
+    public dateCreated?: Date,
+    public _id?: string
+
+
 
     ) {}
 }
@@ -69,43 +73,51 @@ export class Item {
     public description?: string,
     public mesure?: number,
     public unit?: string,
-    public dateCreated?: Date
+    public dateCreated?: Date,
+    public _id?: string
     ) {}
   }
 export class StockInfo {
   constructor(
+
     public expiry?: Date,
     public price?: number,
     public sold?: number,
     public expired?: boolean ,
     public status?: boolean,
-    public quantity?: number,
+    public quantity?: number
+
     ) {}
   }
 
 export class Product {
-  constructor(public item?: Item, public stockInfo?: StockInfo, public selected?: boolean, public addedOn?: Date ) {}
+  constructor(public item?: Item, public stockInfo?: StockInfo, public selected?: boolean, public addedOn?: Date, public _id?: string) {}
 }
 
 export class Priscription {
   constructor(
-    public intake?: number,
-    public freq?: string,
-    public piriod?: number,
-    public extend?: number,
-    public paid?: boolean,
-    public takenOn?: Date,
-    public paused?: boolean,
-    public pausedOn?: Date,
-    public priscribedOn?: Date,
-    public by?: Staff
+    public intake = null,
+    public freq: string= null,
+    public piriod: number = null,
+    public extend: string = null,
+    public takenOn: Date = null
+
   ) {}
 }
 export class Medication {
-  constructor(  public product?: Product, public priscribtion?: Priscription) {}
+  constructor(  public product?: Product, public priscription?: Priscription,
+     public _id?: string,
+     public paid?: boolean,
+     public paused?: boolean,
+     public pausedOn?: Date,
+     public lastTaken?: Date,
+     public priscribedOn?: Date,
+     public by?: Staff,
+     public selected?: boolean
+     ) {}
 }
 export class Complain {
-  constructor(public issue: string = null,
+  constructor(public complain: string = null,
            public dateCreated?: Date
      ) {}
   }
@@ -115,26 +127,50 @@ export class FamHist {
      ) {}
   }
 export class Note {
-  constructor(public noter: string = null,
-    public type: string = null,
+  constructor(public note?: string,
+    public noter: string = '5bd40352de1ff71ed4552414',
+    public noteType?: string,
+    public full: boolean =false,
     public staff?: Staff,
     public dateCreated?: Date
 
      ) {}
   }
+export class Bp {
+  constructor(public value: number = null, dateCreated?: Date) {}
+}
+export class Resp {
+  constructor(public value: number = null, dateCreated?: Date) {}
+}
+export class Pulse {
+  constructor(public value: number = null, dateCreated?: Date) {}
+}
+export class Temp {
+  constructor(public value: number = null, dateCreated?: Date) {}
+}
+export class Bg {
+  constructor(public value: number = null, dateCreated?: Date) {}
+}
+export class Height {
+  constructor(public value: number = null, dateCreated?: Date) {}
+}
+export class Weight {
+  constructor(public value: number = null, dateCreated?: Date) {}
+}
+
 export class Vital {
-  constructor(public bp?: {value: string, dateCreated?: Date},
-    public resp?: {value: string, dateCreated?: Date},
-    public pulse?: {value: string, dateCreated?: Date},
-    public bloodGl?: {value: string, dateCreated?: Date},
-    public tempreture?: {value: string, dateCreated?: Date},
-    public height?: {value: string, dateCreated?: Date},
-    public weight?: {value: string, dateCreated?: Date}
+  constructor(public bp?: Bp,
+    public resp?: Resp,
+    public pulse?: Pulse,
+    public bloodGl?: Bg,
+    public tempreture?: Temp,
+    public height?: Height,
+    public weight?: Weight
 
      ) {}
   }
 export class Condition {
-  constructor( public type: string = null,
+  constructor( public condition: string = null,
     public order: string  = null,
     public certainty: string = null,
     public by?: Staff,
@@ -142,12 +178,12 @@ export class Condition {
      ) {}
   }
 export class Allegy {
-  constructor( public type: string = null,
+  constructor( public allegy: string = null,
     public dateCreated?: Date
      ) {}
   }
 export class Device {
-  constructor( public type: string = null,
+  constructor( public device: string = null,
     public dateCreated?: Date
      ) {}
   }
@@ -155,11 +191,11 @@ export class Visit {
   constructor( public dept: string = 'Consultation',
     public status: string = 'queued',
     public visitedOn: Date = new Date(),
-    public addmittedOn: Date,
-    public dischargedOn?: Date,
-    public diedOn?: Date,
-    public wardNo?: number,
-    public bedNo?:  number
+    public addmittedOn: Date = null,
+    public dischargedOn: Date = null,
+    public diedOn: Date = null,
+    public wardNo: number = null,
+    public bedNo:  number = null
      ) {}
   }
 export class Test {
@@ -172,7 +208,7 @@ export class Test {
      ) {}
   }
 export class Sugery {
-  constructor( public type: string = null,
+  constructor( public sugery: string = null,
     public status: string = null,
     public result?: Object,
     public by?: Staff,
@@ -181,7 +217,7 @@ export class Sugery {
      ) {}
   }
 export class File {
-  constructor( public type: string = null,
+  constructor( public fileType: string = null,
     public name: string = null,
     public dateCreated?: Date
 
@@ -190,19 +226,19 @@ export class File {
 
 export class Record {
   constructor(
-    public complains?: Complain,
-    public famHist?: FamHist,
-    public notes?: Note,
-    public vitals?: Vital,
-    public conditions?: Condition,
-    public allegies?: Allegy,
-    public devices?: Device,
-    public visits?: Visit,
-    public medication?: Medication,
-    public test?: Test,
-    public sugery?: Sugery,
-    public files?: File,
-    public deathNote?: DeathNote,
+    public complains: Complain = null,
+    public famHist: FamHist = null,
+    public notes: Note = null,
+    public vitals: Vital = null ,
+    public conditions: Condition = null,
+    public allegies: Allegy = null,
+    public devices: Device = null,
+    public visits: Visit = null,
+    public medications: Medication[] = [],
+    public test: Test = null,
+    public sugery: Sugery = null,
+    public files: File = null,
+    public deathNote: DeathNote = null,
     public dateCreated: Date= new Date()
 
 

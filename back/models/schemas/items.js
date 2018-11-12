@@ -2,7 +2,7 @@ import mongoose from '../db';
 var Scheema = mongoose.Schema
 var ItemScheema = new Scheema({
 
- 
+        in:String,
         name: String,
         brand: String,
         descriptions: String,

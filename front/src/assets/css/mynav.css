@@ -24,7 +24,6 @@
 }
 
 .userfb {
-  /*border-bottom:1px solid #edecec;*/
   padding-bottom:2px;
   font-size:11px;
   bottom:7px;
@@ -36,15 +35,10 @@
 }
 
 .mr-3 {
-  /*height:36px;*/
-  /*width:36px;*/
-  /*border-radius:50%;*/
 }
 
 .navigation-clean-search {
   background:#ffffff;
-  /*padding-top:.75rem;*/
-  /*padding-bottom:.75rem;*/
   color:#333;
   border-radius:0;
   box-shadow:none;
@@ -126,7 +120,6 @@
 .navigation-clean-search .form-inline .search-field {
   background:none;
   border:none;
-  /*border-bottom:1px solid transparent;*/
   color:#ccc;
   box-shadow:none;
   color:inherit;
@@ -172,7 +165,6 @@
   background:#f3f8f7;
   left:46%;
   opacity:0.3;
-  /*cursor:pointer;*/
   text-align:center;
   color:grey;
 }
@@ -225,7 +217,6 @@ input[type="search"] {
 
 dl, ol, ul {
   margin-top:0;
-  /*margin-bottom:1rem;*/
 }
 
 .username {
@@ -254,7 +245,6 @@ dl, ol, ul {
 }
 
 .userfb {
-  /*border-bottom:1px solid #edecec;*/
   padding-bottom:2px;
   font-size:11px;
   bottom:7px;
@@ -317,9 +307,7 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {
 .username.profilename {
   display:inline-block;
   position:absolute;
-  /*left:35%;*/
   bottom:27%;
-  /*width:100%;*/
 }
 
 .userfb.contacts.profiletitle {

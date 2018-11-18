@@ -68,8 +68,67 @@
 <div
         class="container">
         <div class="row">
+            <div class="col col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                <div class="card card-secondary maincard">
+                    <div class="card-header profileheader">
+                        <div class="timeline lastdoc priscriber headerdp"></div>
+                        <p class="dept displayname">Amina Sulaiman<span class="predata editicon"><i class="icon ion-ios-close-outline headericon gone"></i><i class="icon ion-android-more-vertical headericon moreicon"></i></span></p>
+                        <p class="dept displayname subinfo">Feb 09, 2018</p>
+                    </div>
+                    <div class="card-body orderbody">
+                        <div class="carditem priscriptioncontainer order">
+                            <div class="timeline condition drugtimeline">
+                                <p class="timelinedate">08</p>
+                                <p class="timelinedate month">FEB</p>
+                            </div>
+                            <div class="priscription drug">
+                                <h6 class="dept">Paracetamol&nbsp;<span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata editicon"><i class="icon ion-edit predata editicon"></i></span><span class="predata">200mg</span></h6>
+                                <h6 class="dept previnfo">Dosage&nbsp;<span class="predata">dos | 10 days</span></h6>
+                                <h6 class="dept previnfo">Price&nbsp;<span class="predata priceval">150</span></h6>
+                            </div>
+                        </div>
+                        <div class="carditem priscriptioncontainer order">
+                            <div class="timeline condition drugtimeline">
+                                <p class="timelinedate">05</p>
+                                <p class="timelinedate month">FEB</p>
+                            </div>
+                            <div class="priscription drug">
+                                <h6 class="dept">Amoxiline&nbsp;<span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata editicon"><i class="icon ion-edit predata editicon"></i></span><span class="predata">200mg</span></h6>
+                                <h6 class="dept previnfo">Dosage&nbsp;<span class="predata">dos | 10 days</span></h6>
+                                <h6 class="dept previnfo">Price&nbsp;<span class="predata priceval">300</span></h6>
+                            </div>
+                            <div class="priscription drug">
+                                <h6 class="dept">Chloroquine &nbsp;<span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata editicon"><i class="icon ion-edit predata editicon"></i></span><span class="predata">200ml</span></h6>
+                                <h6 class="dept previnfo">Dosage&nbsp;<span class="predata">dos | 10 days</span></h6>
+                                <h6 class="dept previnfo">Price&nbsp;<span class="predata priceval">200</span></h6>
+                            </div>
+                            <div class="priscription drug">
+                                <h6 class="dept">Destrosaline<span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata editicon"><i class="icon ion-edit predata editicon"></i></span><span class="predata">1000ml</span></h6>
+                                <h6 class="dept previnfo">Dosage&nbsp;<span class="predata">dos | 10 days</span></h6>
+                                <h6 class="dept previnfo">Price&nbsp;<span class="predata priceval">500</span></h6>
+                            </div>
+                        </div>
+                        <div class="carditem priscriptioncontainer order">
+                            <div class="timeline condition drugtimeline">
+                                <p class="timelinedate">25</p>
+                                <p class="timelinedate month">SEP</p>
+                            </div>
+                            <div class="priscription drug">
+                                <h6 class="dept"><span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata editicon"><i class="icon ion-edit predata editicon"></i></span>Peritone&nbsp;<span class="predata">200mg</span></h6>
+                                <h6 class="dept previnfo">Dosage&nbsp;<span class="predata">dos | 10 days</span></h6>
+                                <h6 class="dept previnfo">Price&nbsp;<span class="predata priceval">150</span></h6>
+                            </div>
+                            <div class="priscription drug">
+                                <h6 class="dept">Amathem&nbsp;<span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata editicon"><i class="icon ion-edit predata editicon"></i></span><span class="predata">200mg</span></h6>
+                                <h6 class="dept previnfo">Dosage&nbsp;<span class="predata">dos | 10 days</span></h6>
+                                <h6 class="dept previnfo">Price&nbsp;<span class="predata priceval">350</span></h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-          <div [ngSwitch]="view"  *ngFor="let patient of patients; let i = index"  class="col col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-12">
+          <!-- <div [ngSwitch]="view"  *ngFor="let patient of patients; let i = index"  class="col col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-12">
             <div *ngSwitchCase="'details'" class="card card-secondary maincard">
                 <div class="card-header profileheader">
                   <div class="timeline lastdoc priscriber headerdp"></div>
@@ -155,6 +214,6 @@
               <div class="floter" title="Examine"><i  class="icon ion-person-stalker flotericon consulticon" title="Examine"></i></div>
 
           </div>
-        </div>
+        </div> -->
     </div>
   </div>

@@ -247,11 +247,13 @@ export class Record {
 
 
 export class Department {
-  constructor(public name: string = null,
+  constructor(public _id?: string,
+    public name: string = null,
+    public hasWard: Boolean = false,
+    public numOfBeds: number = null,
+    public beds?: Boolean[],
     public description: string = null,
-    public selected: Boolean = false,
     public dateCreated: Date = new Date() ) {}
-
 }
 export class Main {
   constructor(public name: string = null,
@@ -281,12 +283,15 @@ export class Staff {
       public password: string= null,
       public dpUrl?: string,
       public status?: string,
+      public _id?: string,
       public dateCreated?: Date
 
      ) {}
   }
-export class Setting {
-  constructor(public main?: Main, public department?: Department[], public staffs?: Staff[]) {
+export class Client {
+  constructor(public _id?: string, public main?: Main,
+    public departments?: Department[],
+    public staffs?: Staff[], public inventory?: Product[]) {
   }
 }
 

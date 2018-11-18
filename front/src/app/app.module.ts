@@ -13,18 +13,15 @@ import { ConsultationComponent } from './components/consultation/consultation.co
 import { InventoryComponent } from './components/inventory/inventory.component';
 import { HistoryComponent } from './components/history/history.component';
 import { PharmacyComponent } from './components/pharmacy/pharmacy.component';
-
-
 import { WardComponent } from './components/ward/ward.component';
 import { AccountsComponent } from './components/accounts/accounts.component';
 import { LoginComponent } from './components/login/login.component';
-import { SettingsComponent } from './components/settings/settings.component';
 import { NotePipe } from './pipes/note.pipe';
-
+import { AccountComponent } from './components/account/account.component';
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
+  {path: 'account', component: AccountComponent},
   {path: 'signup', component: AccountsComponent},
-  {path: 'settings', component: SettingsComponent},
   {path: 'registration', component: RegistrationComponent},
   {path: 'consultation', component: ConsultationComponent},
   {path: 'pharmacy', component:  PharmacyComponent},
@@ -33,9 +30,6 @@ const routes: Routes = [
   {path: 'history/:id', component: HistoryComponent},
   {path: '', redirectTo: 'login', pathMatch: 'full'}
  ];
-
-
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,8 +41,8 @@ const routes: Routes = [
     WardComponent,
     AccountsComponent,
     LoginComponent,
-    SettingsComponent,
     NotePipe,
+    AccountComponent,
   ],
   imports: [
     BrowserModule,

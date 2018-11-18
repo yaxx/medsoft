@@ -1,15 +1,16 @@
 .icon.ion-ios-play-outline.editicon {
-  font-size:22px;
+  font-size:20px;
   position:absolute;
-  left:179px;
+  left:178px;
   bottom:-47%;
   color:blue;
+  position:absolute;
 }
 
 .icon.ion-ios-pause-outline.editicon {
-  font-size:21px;
+  font-size:18px;
   position:absolute;
-  left:179px;
+  left:187px;
   bottom:-47%;
   color:blue;
 }
@@ -24,8 +25,6 @@
 .priscription.wardpriscription {
   border-left:2px solid blue;
   padding-left:3px;
-  /*background:blue;*/
-  /*opacity:1.2;*/
   margin-bottom:px;
   margin-bottom:8px;
 }
@@ -35,13 +34,10 @@
   position:absolute;
 }
 
-.icon.ion-ios-play-outline.editicon.continue:hover {
+.icon.ion-ios-play-outline.editicon.continue {
   cursor:pointer;
   color:blue;
-}
-
-.icon.ion-ios-play-outline.editicon.continue:hover {
-  cursor:pointer;
+  left:189px;
 }
 
 .icon.ion-ios-pause-outline.editicon {

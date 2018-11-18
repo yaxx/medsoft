@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Setting, Department, Main, Staff} from '../../models/data.model';
+import {Client, Department, Main, Staff} from '../../models/data.model';
 import {DataService} from '../../services/data.service';
 import {Router} from '@angular/router';
 

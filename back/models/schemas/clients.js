@@ -15,13 +15,16 @@ var ClientScheema = new Scheema({
                 address: String,
                
         },
-        
-        departments: [{ id: String,
+      
+        departments: [{
                 name: String,
+                hasWard:{type: Boolean, Default:false},
+                numOfBeds:Number,
+                beds:[],
                 descriptions: String,
-                selected: {type: Boolean, Default:false},
-                dateCreated: {type: Date, Default: Date.now()}}],
-        
+                dateCreated: {type: Date, Default: Date.now()}
+        }],   
+      
         inventory:[{
                 item:{
                     _id: String,   

@@ -20,6 +20,7 @@ table {
   position: relative;
 
 }
+
 .sorter
 {
   font-size: 20px;
@@ -117,28 +118,55 @@ tbody tr {
 {
   color: rgb(247, 247, 108);
 }
-.staff-dp
+.staff-dp{
+height:22px;
+width: 22px;
+left:4px;
+}
+.staff-td
 {
   width: 4%;
   padding-left: 12px;
 
+
 }
+.even{
+  background:rgb(253, 253, 253);
+  border-bottom:0px;
+}
+.staff-row:hover{
+  background:none;
+}
+.staff-row{
+  border-bottom:0px;
+}
+.staff-th th{
+  padding: 6px 0px 6px 0px;
+  font-size:10px;
+  background:rgb(253, 253, 253);
+  color: rgb(136, 136, 136);
+}
+
 td {
   padding: 8px 0px 8px 0px;
- color: rgb(162, 160, 160);
+  color: rgb(162, 160, 160);
   text-align: left;
 }
+
 .checkhead
 {
   width:.1%;
 }
-
+.data{
+  font-size:12px;
+  padding: 3px 0px 3px 0px;
+  color: rgb(58, 57, 57);
+}
 
 .options {
   width: 100%;
   position: fixed;
   height: 20px;
-
   z-index: 1;
 
 }

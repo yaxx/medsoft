@@ -23,8 +23,6 @@ module.exports = {
       if(e){
         console.log(e)
       }else{
-
-
         Client.updateOne({_id:req.signedCookies},{$addToSet:{ staffs:staff._id}}, {new: true},(e, docs)=>{
           if(e){
             console.log(e)
@@ -53,17 +51,10 @@ module.exports = {
           if (err) {
             console.log(err.stack)
           }else{
-            // i = newsetting['_id']
-
-            // res.cookie('i', i)
-
             setting = newsetting
           }
         });
 
-
-        // res.cookie('e', i)
-        // res.status(200).send(setting);
       }
     })
 
@@ -85,9 +76,7 @@ module.exports = {
     })
   },
 
-
   getSettings: (req, res)=>{
-
     Client.findOne({'main.email':req.signedCookies.e}
     ).populate('staffs').exec((err, settings)=>{
       if(!err){
@@ -99,46 +88,89 @@ module.exports = {
         console.log(err)
       }
       });
-
   },
 
   addStaff: (req, res)=>{
-
-    new Staff(req.body).save((err, newstaff) => {
+      new Staff(req.body).save((err, newstaff) => {
       if (err) {
         console.log(err.stack)
       }else{
-
-
-        Client.updateOne({'main.email':req.signedCookies.e}, {$push:{staffs:newstaff._id}},(err, doc)=>{
-          if(err){
-            console.log(err)
-
-          }else{
-
-            console.log(req.signedCookies.e);
-          }
-        })
+        Client.findOneAndUpdate({
+          'main.email':req.signedCookies.e
+        },{
+            $push:{
+              staffs: newstaff._id
+            }
+          },{
+              new:true,upsert: false,sort:'firstName',select:'staffs'
+            },
+            (err, doc)=>{
+              if(err){
+                 console.log(err)
+            }else{
+              console.log(req.signedCookies.e);
+            }
+          }) 
       }
-
       res.status(200).send(newstaff)
     });
   },
+  updateStaff: (req, res)=>{
+   console.log(req.body);
+    Staff.findOneAndUpdate({
+      '_id':req.body._id
+    },
+    req.body,{
+      new:true
+    },(e, doc)=>{
+        res.send(doc);
+    }
+ 
+    )
+  },
+  deleteStaff: (req, res)=>{
+    Staff.findByIdAndRemove(req.body._id).exec((e, docs)=>{
+      if(!e){
+        Client.findOneAndUpdate({
+          _id:req.body.hosId
+        },{
+          $pull:{
+            staffs:req.body._id
+          }
+        })
+        res.send(docs)
+      }else{
+        console.log(e);
+      }
+    })
+    // .exec(e, docs)=>{
+    //   if(!e){
+    //     Client.findOneAndUpdate({
+    //       _id:req.body.hosId
+    //     },{
+    //     $pull:{
+    //       staffs: req.body._id
+    //    }
+    //   }
+    //     )
+    //   }
+    // })
+  },
   addDept: (req, res)=>{
-
-
-      Client.updateOne({'main.email':req.signedCookies.e}, {$addToSet:{departments:{$each:req.body}}},(err, docs)=>{
+    console.log(req.body)
+      Client.findOneAndUpdate({
+        'main.email':'mail@cityhospital.com'}, {
+          $push:{departments:req.body}},{
+            new:true
+          }, (err, docs)=>{
         if(err){
           console.log(err)
         }else{
           console.log(docs)
-          res.status(200).send(docs)
+          res.status(200).send(docs.departments)
         }
       })
-
   },
-
-
 
   addPatient: (req, res)=>{
         new Record(req.body.record).save((e, info)=>{
@@ -232,21 +264,18 @@ module.exports = {
         doc.notes.push(req.body.record.notes)
         doc.allegies.push(req.body.record.allegies)
         doc.medications =  doc.medications.concat(req.body.medications)
-
         doc.save((e, doc)=>{
           if(!e){
             res.send(doc)
           }  else{
             console.log(e);
           }
-
         })
       } else{
         console.log(e);
       }
 
     })
-
 },
 updateMedication: (req, res)=>{
      Record.findOneAndUpdate({

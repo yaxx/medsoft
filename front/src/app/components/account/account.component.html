@@ -1,0 +1,161 @@
+<div class="row">
+    <div class="col col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+        <div class="card-colums leftcolumn"></div>
+    </div>
+    <div class="col-xl-4 offset-xl-0 col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+        <div class="card-colums"></div>
+        <div class="card card-secondary historycard midlecard profilecard" style="margin:auto;">
+            <div class="card-header grapheader"style="border-radius:0px;">
+                <h1 class="dept headtitle">ACCOUNT<span (click)="switchMode('infomode','edit')" *ngIf="infoChecked()" class="headeredit" title="Edit information">Edit</span></h1>
+            </div>
+            <div *ngIf="infomode==='view'" class="card-body topcardbody clientinfobody">
+                <div  class="carditem">
+                    <ul class="itemlist clientinfo">
+                        <li (mouseover)=hovered(0) (mouseleave)=unhovered(0) >Hospital Name<span class="timetaken lastdept clientdata">
+                          {{client.main.name}}
+                            <input *ngIf="hovers[0]" type="checkbox" class="checkinfo" [(ngModel)]="checked[0]"/>
+                        </span></li>
+                        <li (mouseover)=hovered(1) (mouseleave)=unhovered(1)  >Ownership<span class="timetaken lastdept clientdata">{{client.main.ownership||'---'}} <input *ngIf="hovers[1]" type="checkbox" class="checkinfo" [(ngModel)]="checked[1]" /></span></li>
+                        <li (mouseover)=hovered(2) (mouseleave)=unhovered(2)>Specialization<span class="timetaken lastdept clientdata">{{client.main.specialization||'---'}} <input *ngIf="hovers[2]" type="checkbox" class="checkinfo" [(ngModel)]="checked[2]" /></span></li>
+                        <li (mouseover)=hovered(3) (mouseleave)=unhovered(3)>Mobile:<span class="timetaken lastdept clientdata">{{client.main.mobile||'---'}} <input *ngIf="hovers[3]" type="checkbox" class="checkinfo" [(ngModel)]="checked[3]" /></span></li>
+                        <li (mouseover)=hovered(4) (mouseleave)=unhovered(4)>Email<span class="timetaken lastdept clientdata">{{client.main.email||'---'}}<input *ngIf="hovers[4]" type="checkbox" class="checkinfo" [(ngModel)]="checked[4]" /></span></li>
+                        <li (mouseover)=hovered(5) (mouseleave)=unhovered(5)>Address<span class="timetaken lastdept clientdata">{{client.main.address||'---'}}<input *ngIf="hovers[5]" type="checkbox" class="checkinfo" [(ngModel)]="checked[5]" /></span></li>
+                        <li (mouseover)=hovered(6) (mouseleave)=unhovered(6)>Zip Code:<span class="timetaken lastdept clientdata">{{client.main.zipcode||'---'}}<input *ngIf="hovers[6]" type="checkbox" class="checkinfo" [(ngModel)]="checked[6]" /></span></li>
+                        <li (mouseover)=hovered(7) (mouseleave)=unhovered(7)>State:<span class="timetaken lastdept clientdata">{{client.main.state||'---'}}<input *ngIf="hovers[7]" type="checkbox" class="checkinfo" [(ngModel)]="checked[7]" /></span></li>
+                        <li (mouseover)=hovered(8) (mouseleave)=unhovered(8)>LGA<span class="timetaken lastdept clientdata">{{client.main.lga||'---'}}<input *ngIf="hovers[9]" type="checkbox" class="checkinfo" [(ngModel)]="checked[9]" /></span></li>
+                        <li>Date Created:<span class="timetaken lastdept clientdata">March &nbsp;02, 2019</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div *ngIf="infomode === 'edit'"  class="card-body topcardbody clientinfobody nopading">
+                <div  class="form-group vitals-section">
+                    <form>
+                        <div class="formGroup newdept">
+                            <input [(ngModel)]="client.main.name" *ngIf="checked[0]" name="name" class="form-control inputs patientdata" type="text" placeholder="Hospital name">
+                            <select name="ownership" *ngIf="checked[1]" class=" patientdata inputs dataInfo newpatient" name="department">
+                                <option >Private</option>
+                                <option >Public</option>
+                          </select>
+                          <select *ngIf="checked[2]" class=" patientdata inputs dataInfo newpatient" name="department">
+                                <option >Ohtopedics</option>
+                                <option >General</option>
+                          </select>
+                            <input [(ngModel)]="client.main.mobile" *ngIf="checked[3]" name="mobile" class="form-control inputs patientdata" type="number" placeholder="Mobile">
+                            <input [(ngModel)]="client.main.email" *ngIf="checked[4]" name="email" class="form-control inputs patientdata" type="email" placeholder="Email">
+                            <input [(ngModel)]="client.main.address" *ngIf="checked[5]" name="address" class="form-control inputs patientdata" type="text" placeholder="Address">
+                            <input [(ngModel)]="client.main.zipcode" *ngIf="checked[6]" name="zip" class="form-control inputs patientdata" type="number" placeholder="Zip code">
+                        </div>
+                    </form>
+
+                   <button style=" width: 25%; left:70%; "  type="submit" class="btn btn-sm btn-outline-primary inputs mainbtn" >Save changes</button>
+                   <button (click)="switchMode('infomode','view')" style="width: 15%; left:53%;"  type="submit" class="btn btn-sm btn-outline-primary inputs mainbtn" >Cancel</button>
+              </div>
+            </div>
+
+        </div>
+        <div class="card card-secondary historycard midlecard deptcard" style="margin:auto;">
+            <div class="card-header grapheader" style="border:none;">
+                <h1 class="dept headtitle">DEPARTMENTS<i (click)="switchMode('deptsmode','edit')" style="left:98%" class="icon ion-ios-plus-empty editicon editclient addinfo" title="Add department"></i></h1>
+            </div>
+            <div class="card-body topcardbody" *ngIf="deptsmode === 'view'">
+                <div class="carditem deptitem">
+
+                    <div *ngFor="let department of client.departments let i = index;"  title="Edit" class="department">
+                        <i *ngIf="department.name==='Information'" class="icon ion-information addicon infoicon" ></i>
+                        <i *ngIf="department.name==='Consulting'" class="icon ion-ios-people addicon infoicon consicon" ></i>
+                        <i *ngIf="department.name==='Pharmacy'" class="icon ion-ios-medkit addicon pharmicon"></i>
+                        <i *ngIf="department.name==='Maternity'" class="material-icons addicon infoicon maticon" title="Add Department">pregnant_woman</i>
+                          <h6 class="deptname">{{department.name}}</h6>
+                      </div>
+
+                    <!-- <div class="department"><i (click)="switchMode('deptsmode','edit')" class="icon ion-ios-plus-empty addicon" title="Add Department"></i></div> -->
+                </div>
+            </div>
+            <div *ngIf="deptsmode === 'edit'" class="card-body topcardbody clientinfobody nopading">
+
+              <form>
+                  <div class="formGroup newdept">
+                    <select (change)=checkDept($event.target.value)  class=" patientdata inputs dataInfo newpatient" name="department">
+                          <option *ngFor="let dept of departments">{{dept.name}}</option>
+                    </select>
+                    <input [(ngModel)]="selectedDept.numOfBeds" *ngIf="selectedDept.hasWard" name="numofBeds" class="form-control inputs patientdata" type="number" placeholder="Number of beds">
+                  </div>
+              </form>
+              <button (click)="addNewDept()" style=" width: 25%;  left:70%; "  type="submit" class="btn btn-sm btn-outline-primary inputs mainbtn" >Save changes</button>
+              <button (click)="switchMode('deptsmode','view')" style=" width: 15%;  left:53%; "  type="button" class="btn btn-sm btn-outline-primary inputs mainbtn" >Cancel</button>
+            </div>
+        </div>
+        <div class="card card-secondary historycard midlecard formcard" style="margin:auto;">
+            <div class="card-header grapheader" style="border:none;">
+                <h1 class="dept headtitle">STAFFS<i (click)="switchMode('staffmode','newstaff')" style="left:98%" class="icon ion-ios-plus-empty editicon editclient addinfo" title="Add staff"></i></h1>
+            </div>
+            <div class="card-body topcardbody clientinfobody nopading">
+                <div *ngIf="staffmode === 'view'"  class="form-group vitals-section setGroup">
+                  <table *ngIf="client.staffs.length"  cellspacing="0" class="data-table drugs-table" style="width:100%;left:0%;" summary="List of all items in store. " >
+                   <thead class='productHead'>
+                       <tr class="staff-th">
+                           <th  class="headlbl staff-th"></th>
+                           <th class="headlbl staff-th">NAME</th>
+                           <th class="headlbl staff-th">DEPARTMENT</th>
+                           <th class="headlbl staff-th">USERNAME</th>
+                           <th class="headlbl staff-th"  style="text-align: center">PASSWORD</th>
+                           <th class="headlbl headlbl staff-th"  style="text-align: center"></th>
+                       </tr>
+                   </thead>
+                   <tbody>
+                      <tr *ngFor="let staff of client.staffs; let i = index; let odd =odd;"  class="ro staff-row">
+                          <td class="staff-td data">
+                            <div class="dp staff-dp" ></div>
+                          </td>
+                          <td style="padding-left:4px;" class="data">
+                            {{staff.firstName + ' ' + staff.lastName}}</td>
+                          <td class="data">{{staff.department}}</td>
+                          <td class="data">{{staff.username}}</td>
+                          <td class="data" style="text-align:center">
+                            {{staff.password}}</td>
+                          <td style="text-align: left; padding-left:3px" class="data" >
+                            <i (click)="selectStaff(staff)"  class="icon ion-edit tableicon " title="Edit" style="color:rgb(149, 149, 149);font-size:14px; top:32px; right: 22px;position:absolute; cursor: pointer;"></i>
+                            <i (click)="deleteStaff(staff)"  class="icon ion-ios-trash-outline tableicon" title="Drop" style="font-size:17px; cursor: pointer;"></i>
+                          </td>
+                      </tr>
+                      <!-- <tr  class="ro even staff-row"  >
+                        <td class="staff-td data">
+                          <div class="dp staff-dp" ></div>
+                        </td>
+                          <td style="padding-left:4px;" class="data">Habiba Musa</td>
+                          <td class="data">Maternity</td>
+                          <td class="data">habiba</td>
+                          <td class="data" style="text-align:center;">5100</td>
+                          <td style="text-align: left; padding-left:3px" class="data" >
+                          </td>
+                        </tr> -->
+                  </tbody>
+                </table>
+           </div>
+           <div *ngIf="staffmode === 'newstaff'"  class="form-group vitals-section">
+           <form>
+              <div class="formGroup newdept">
+                <input name="firstname" [(ngModel)]="staff.firstName" class=" form-control inputs patientdata newpatient" type="text" placeholder="First name"/>
+                <input [(ngModel)]="staff.lastName" name="lastname" class="form-control inputs patientdata newpatient" type="text" placeholder="Last name"/>
+                <select [(ngModel)]="staff.department" (change)=checkStaff($event.target.value)  class="patientdata inputs dataInfo newpatient" name="department">
+                      <option *ngFor="let d of client.departments">{{d.name}}</option>
+                </select>
+                <select [(ngModel)]="staff.role" *ngIf="selectedDept2.hasWard" class="patientdata inputs dataInfo newpatient" name="role">
+                      <option>Doctor</option>
+                      <option>Nurse</option>
+                </select>
+              </div>
+          </form>
+          <button (click)="addStaff()" style=" width: 25%; left:70%; "  type="button" class="btn btn-sm btn-outline-primary inputs mainbtn" >Save changes</button>
+          <button (click)="switchMode('staffmode','view')" style="width: 15%; left:53%;"  type="button" class="btn btn-sm btn-outline-primary inputs mainbtn" >Cancel</button>
+          </div>
+
+          </div>
+        </div>
+
+
+    </div>
+    <div class="col col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+        <div class="card-colums rightcolumn"></div>
+    </div>
+</div>

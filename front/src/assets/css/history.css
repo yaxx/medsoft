@@ -10,7 +10,6 @@
 
 .patientname {
   padding-left:40px;
-  /*font-size:larger;*/
 }
 
 .timeline.noter.patientdp {
@@ -22,10 +21,6 @@
 .card.card-secondary.historycard.rightcard {
   width:188px;
 }
-.card.card-secondary.historycard.leftcard.visits{
-  height:280px;
-}
-
 
 .card-body.topcardbody {
   border:none;
@@ -41,7 +36,7 @@
 
 .card.card-secondary.historycard.midlecard {
   width:470px;
-  height:170px;
+  min-height:170px;
 }
 
 .card.card-secondary.historycard.leftcard {
@@ -68,7 +63,7 @@
 .card.card-secondary.maincard.halfcard {
   width:230px;
   display:inline-block;
-  height:350px;
+  min-height:350px;
 }
 
 .card-colums.leftcolumn {
@@ -84,7 +79,7 @@
 }
 
 .card.card-secondary.historycard.rightcard.allegies {
-  height:150px;
+  min-height:150px;
 }
 
 .card-header.grapheader {
@@ -95,13 +90,6 @@
 
 .card.card-secondary.historycard.midlecard.topcard.graphcard {
   min-height:180px;
-  max-height: 180px;
-}
-#notescard {
-  height:0px;
-  min-height:180px;
-  width:470px;
-
 }
 
 .card.card-secondary.historycard.rightcard.condition {
@@ -112,8 +100,12 @@
   min-height:280px;
 }
 
+.card.card-secondary.historycard.leftcard.visits {
+  min-height:280px;
+}
+
 .card.card-secondary.historycard.leftcard.deathinfo {
-  height:230px;
+  min-height:230px;
 }
 
 .carditem.noteitem {
@@ -128,16 +120,12 @@
   font-size:13px;
   margin-bottom:0px;
   padding-right:3%;
-  position: relative;
 }
 
 .predata.notetime {
   font-weight:normal;
   position:absolute;
   left:73%;
-}
-.predata.notetime.notedept{
-  left:28%;
 }
 
 .dept.previnfo.noterinfo {
@@ -232,7 +220,6 @@
 .dept.firstheader {
   font-size:10px;
   font-weight:bold;
-  /*color:BLUE;*/
 }
 
 .timeline.docdp {
@@ -240,14 +227,8 @@
   background-size:cover;
   background-position:center;
 }
-.readmore{
-  cursor:pointer;
-  color:rgb(128, 128, 246);
-  font-style: italic;
-  z-index:1;
-  display:inline-block;
+
+.btn-group.footerbotton {
+  position:absolute;
 }
-.readmore label:hover{
-  cursor: pointer;
-  color:blue;
-}
+

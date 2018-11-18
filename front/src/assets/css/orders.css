@@ -18,8 +18,6 @@
   bottom:-6%;
   background-color:white;
   display:inline-block;
-  /*padding-right:25px;*/
-  /*text-align-last:right;*/
   width:10%;
   left:87%;
   font-weight:bold;
@@ -35,14 +33,12 @@
 
 .carditem.priscriptioncontainer {
   padding-bottom:5px;
-  border-bottom:1px solid whitesmoke;
+  /*border-bottom:1px solid whitesmoke;*/
 }
 
 .icon.ion-edit.editicon {
   position:absolute;
   left:165px;
   font-size:12px;
-  cursor:pointer;
-  z-index:5;
 }
 

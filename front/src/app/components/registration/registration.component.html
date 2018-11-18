@@ -221,7 +221,26 @@
 
 <div  class="container">
         <div class="row">
-            <div [ngSwitch]="view" *ngFor="let patient of patients" class="col col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-12" data-aos-duration="900" data-aos-delay="50" data-aos-once="true">
+            <div class="col col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                <div class="card card-secondary maincard">
+                    <div class="card-header profileheader">
+                        <div class="timeline lastdoc priscriber headerdp"></div>
+                        <p class="dept displayname">Amina Sulaiman<span class="predata editicon"><i class="icon ion-ios-checkmark-outline headericon"></i><i class="icon ion-android-more-vertical headericon moreicon"></i></span></p>
+                        <p class="dept displayname subinfo">Feb 09, 2018</p>
+                    </div>
+                    <div class="card-body regbody">
+                        <div class="carditem">
+                            <h6 class="dept firstheader">MARTERNITY<span class="timetaken dischargedon">05/10/2018 02:30pm</span></h6>
+                            <p class="dept previnfo">Bed Number<span class="predata">&nbsp;02</span></p>
+                            <div class="timeline condition">
+                                <p class="timelinedate">05</p>
+                                <p class="timelinedate month">FEB</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div [ngSwitch]="view" *ngFor="let patient of patients" class="col col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-12" data-aos-duration="900" data-aos-delay="50" data-aos-once="true">
 
                 <div *ngSwitchCase="'details'" class="card card-secondary maincard">
                     <i class="icon ion-ios-arrow-right backicon" title="Back"></i>
@@ -283,15 +302,10 @@
                               </div>
                         </div>
 
-                        <!-- <h1 class="dept previnfo emptyCard">Awaits Examination</h1> -->
                     </div>
                     <div class="floter" title="Edit"><i class="icon ion-ios-person flotericon infoicon" title="Patient Information"></i></div>
                 </div>
-
-            </div>
-
-
-
+            </div> -->
             </div>
 
   </div>

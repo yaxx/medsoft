@@ -22,19 +22,15 @@
         </span>
     </a>
     <a href="#" [routerLink]="['/inventory']" routerLinkActive="router-link-active"  class="home cartmenu" title="Products">
-        <span class="homespan">
-            <i class="icon ion-ios-cart-outline homeicon"></i>
-        </span>
-    </a>
-    <a href="#" [routerLink]="['/ward']" routerLinkActive="router-link-active"  class="home cartmenu wardmenu" title="ward">
-      <span class="homespan">
-        <i class="material-icons deticon" title>airline_seat_flat_angled</i>
-      </span>
-  </a>
+        <span class="homespan"> <i class="icon ion-ios-cart-outline homeicon"></i></span></a>
+
+    <a href="#" [routerLink]="['/ward']" routerLinkActive="router-link-active"   class="home wardmenu" title="Ward"><span class="homespan"><i class="material-icons homeicon wardicon">airline_seat_individual_suite</i></span></a>
+
+    <a href="#"  [routerLink]="['/account']" routerLinkActive="router-link-active" class="home settings" title="Settings"><span class="homespan"><i class="icon ion-ios-gear-outline homeicon"></i></span></a>
 
 
   </div>
-  <nav class="navbar navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:0px">
+  <nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:0px">
   <div class="container">
       <a class="navbar-brand" href="#">
           <em>MS</em>
@@ -50,10 +46,9 @@
                   <label for="search-field">
                       <i class="icon ion-ios-search searchicon" title="Search"></i>
                   </label>
-                  <input class="form-control search-field" type="search" name="search" id="search-field" placeholder="Search Patient">
+                  <input autocomplete="off" style="border-radius:30px; left: 405px; width:220px;background-color: rgb(243, 248, 247); margin: auto;" class="form-control search-field" type="search" name="search" id="search-field" placeholder="Search Patient">
               </div>
-              <p class="filter">Sort by: Recently added</p>
-              <i class="icon ion-ios-arrow-down arrow"></i>
+
               <i class="icon ion-ios-personadd-outline arrow buble" id="add" title="Add Patient" data-target="#newModal" data-toggle="modal"></i>
 
               <i class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
@@ -61,8 +56,7 @@
                   <div id="dp1" class="dp"></div>
                   <img class="img-fluid d-none mr-3" src="assets/img/model.jpg">
                   <div class="media-body">
-                      <h6 class="username profilename">Dr. Aisha Bello</h6>
-                      <p class="userfb contacts profiletitle">Cadiologist</p>
+
                   </div>
               </div>
           </form>

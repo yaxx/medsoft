@@ -29,9 +29,7 @@ a:active, a:hover {
   top:0%;
 }
 
-
 .home {
-  /*background:lightgrey;*/
   width:100%;
   position:absolute;
   height:6%;
@@ -67,11 +65,9 @@ a:active, a:hover {
 .home.patienmenu {
   top:45%;
 }
-.wardmenu{
-  top:58%;
-}
 
 .home.settings {
   top:94%;
   border-radius:50%;
 }
+

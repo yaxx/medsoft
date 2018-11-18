@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Setting, Department, Staff, Patient} from '../models/data.model';
+import {Client, Department, Staff, Patient} from '../models/data.model';
 import * as socketIo from 'socket.io-client';
 
 import { Socket } from '../models/socket';
@@ -21,17 +21,11 @@ export class DataService {
   cachedPatients: Patient[] = new Array<Patient>();
 
   constructor(private http: HttpClient) { }
-
-
-
   setCachedPatients(patients: Patient[]) {
      this.cachedPatients = patients;
-
   }
   getCachedPatient(id) {
-
     return this.cachedPatients.filter((p) => p._id === id)[0];
-
   }
   getPatients() {
     return this.http.get(`${this.uri}/patients`, {withCredentials: true});
@@ -74,7 +68,7 @@ export class DataService {
     return this.staff;
   }
 
-  getSettings() {
+  getClient() {
     return this.http.get(`${this.uri}/settings`, {withCredentials: true});
   }
   getProducts() {
@@ -89,9 +83,17 @@ export class DataService {
   getDepartments() {
     return this.http.get(`${this.uri}/departments`, {withCredentials: true});
   }
-  addStaff(staff) {
-    return this.http.post(`${this.uri}/new-staff`, staff, {withCredentials: true});
+
+  saveStaff(staff, action) {
+    if (action === 'new') {
+      return this.http.post(`${this.uri}/new-staff`, staff, {withCredentials: true});
+    } else if (action === 'update') {
+      return this.http.post(`${this.uri}/update-staff`, staff, {withCredentials: true});
+    } else {
+      return this.http.post(`${this.uri}/delete-staff`, staff, {withCredentials: true});
+    }
   }
+
   addDepts(d) {
     return this.http.post(`${this.uri}/new-dept`, d, {withCredentials: true});
   }

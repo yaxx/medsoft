@@ -1,0 +1,83 @@
+<div  class="row">
+
+    <div class="col col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+      <div class="card-colums leftcolumn"></div>
+    </div>
+    <div class="col-xl-4 offset-xl-0 col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+      <div class="card-colums"></div>
+
+      <div class="card card-secondary historycard midlecard profilecard" style="margin:auto;min-height:615px">
+          <div class="card-header grapheader"style="border-radius:0px;">
+              <h1 class="dept headtitle">NEW PRDUCT<span class="headeredit" title="Edit information">Edit</span></h1>
+          </div>
+          <div style="padding-top:10px;padding-left:15px; padding-right:15px"  class="card-body topcardbody clientinfobody nopading">
+              <form novalidate  class="patientform">
+              <div style="width:49.3%; margin-top:5px;margin-right: 5px; display:inline-block" class="form-group vitals-section formGroup">
+                  <label style="font-size:9px;" for="product" class="labelss duration">PRODUCT</label>
+                  <input style="font-size:11px" autocomplete="off" (keyup)="searchItem(input)"
+                  [(ngModel)] = input  type="text" name="name" class=" inputs dataInfo patientdata"  placeholder="Product name"/>
+                  <div *ngIf= temItems.length class="options">
+                    <ul class="itemsList" >
+                      <li *ngFor="let item of temItems"><p  class="dept firstheader drugItem" style="font-size:12px; padding-left: 5px; font-weight: normal;" >{{item.name+ ' '}}<span class="lastdept timetaken " (click) = "selectItem(item)">{{item.mesure + item.unit}}</span></p>
+                      </li>
+                    </ul>
+                  </div>
+              </div>
+
+              <div style="width:49.3%;  display:inline-block" class="form-group vitals-section formGroup">
+                  <label for="price" class="labelss">PRICE</label>
+                  <input style="font-size:11px" [(ngModel)] = "product.stockInfo.price"  type="number" name="price" class=" inputs dataInfo patientdata"  placeholder="Price per item"/>
+              </div>
+
+              <div style="width:49.3%; margin-top:5px;margin-right: 5px; display:inline-block" class="form-group vitals-section formGroup">
+                  <label for="quantity" class="labelss">QUANTITY</label>
+                  <input style="font-size:11px" [(ngModel)] = "product.stockInfo.quantity" type="number" name="quantity" class=" inputs dataInfo patientdata"  placeholder="Quantity"/>
+              </div>
+              <div style="width:49.3%;  display:inline-block" class="form-group vitals-section formGroup">
+                  <label for="expiry" class="labelss">EXPIRY DATE</label>
+                  <input style=" font-size:11px;" [(ngModel)] = "product.stockInfo.expiry" type="date" name="expiry" class=" inputs dataInfo patientdata"  placeholder="Expiry"/>
+              </div>
+
+              <button style=" width: 130px; left:323px; bottom:5%; "  type="submit" class="btn btn-sm btn-outline-primary inputs mainbtn" >Add Product</button>
+              <button style="width: 61px; left:260px; bottom:5%;" class="btn btn-sm btn-outline-primary inputs mainbtn" >Cancel</button>
+            </form>
+            <div  class="form-group vitals-section setGroup">
+                <table   cellspacing="0" class="data-table drugs-table" style="width:100%;left:0%;" summary="List of all items in store. " >
+                 <thead class='productHead'>
+                     <tr class="staff-th">
+
+                         <th class="headlbl staff-th">NAME</th>
+                         <th class="headlbl staff-th">PRICE</th>
+                         <th class="headlbl staff-th">QUANTITY</th>
+                         <th class="headlbl staff-th"  style="text-align: center">EXPIRY</th>
+                         <th class="headlbl headlbl staff-th"  style="text-align: center"></th>
+                     </tr>
+                 </thead>
+                 <tbody>
+                    <tr  class="ro staff-row">
+
+                        <td style="padding-left:4px;" class="data">
+                          Paracetamol</td>
+                        <td class="data">500</td>
+                        <td class="data">100</td>
+                        <td class="data" style="text-align:center">
+                          22/02/2018</td>
+                        <td style="text-align: left; padding-left:3px" class="data" >
+                          <i class="icon ion-edit tableicon " title="Edit" style="color:rgb(149, 149, 149);font-size:14px; top:32px; right: 22px;position:absolute; cursor: pointer;"></i>
+                          <i   class="icon ion-ios-trash-outline tableicon" title="Drop" style="font-size:17px; cursor: pointer;"></i>
+                        </td>
+                    </tr>
+
+                </tbody>
+              </table>
+          </div>
+          </div>
+      </div>
+
+  </div>
+  <div class="col col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+      <div class="card-colums rightcolumn"></div>
+  </div>
+
+</div>
+

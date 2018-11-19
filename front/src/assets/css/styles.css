@@ -139,7 +139,10 @@ body {
   padding-right:0px;
   padding-left:0px;
 }
-
+.card{
+  border: none;
+  margin-top:5px;
+}
 .card-body {
   -webkit-box-flex:1;
   -ms-flex:1 1 auto;

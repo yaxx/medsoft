@@ -15,6 +15,7 @@ export class RegistrationComponent implements OnInit {
   patients: Patient[] = new Array<Patient>();
   patient: Patient = new Patient(new Personal(), new Contact(), new Insurance(), new Record());
   view = '';
+  regMode =  'all';
   constructor(private dataService: DataService, private cookie: CookieService, private socket: SocketService) { }
 
   ngOnInit() {

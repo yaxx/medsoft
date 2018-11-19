@@ -1,33 +1,9 @@
 <div class="card logincard">
   <div class="card-body logbody">
       <form>
-          <div class="formGroup newdept"><input class="form-control inputs patientdata newpatient" type="text" placeholder="Username"><input class="form-control inputs patientdata newpatient" type="password" placeholder="Password"></div>
+          <div class="formGroup newdept"><input name="username" [(ngModel)]="staff.username"  class="form-control inputs patientdata newpatient" type="text" placeholder="Username"><input name="password" [(ngModel)]="staff.password" class="form-control inputs patientdata newpatient" type="password" placeholder="Password"></div>
       </form>
-      <button  style=" width: 25%; left:50%; "  type="button" class="btn btn-sm btn-outline-primary inputs mainbtn" >Sign in</button>
-  </div>
+      <button (click)="login()"  style=" width: 25%; left:50%; "  type="button" class="btn btn-sm btn-primary inputs mainbtn" >Sign in</button>
+   </div>
+</div>
 
-
-<!-- <div class="loginwrap">
-  <div class="split"></div>
-  <form class="accountform loginform"(submit)= login()>
-
-    <div class="form-group vitals-section address">
-      <input [(ngModel)]="staff.username"   type="email" name="comname" class=" inputs dataInfo patientdata" placeholder="Phone, email or username">
-    </div>
-
-    <div class="form-group vitals-section address">
-      <input [(ngModel)]="staff.password"  type=password name="pwd" class=" inputs dataInfo patientdata"  placeholder="Password"/>
-    </div>
-
-    <div class="form-group vitals-section address">
-      <button type="submit" class="btn btn-sm btn-outline-primary inputs" >Log in</button>
-    </div>
-
-    <a href="/reset" class="signup">Forgot password?</a>
-    <a href="/signup" class="forgot">Create Account</a>
-    <a *ngIf=in  href ="#" class="forgot invalid" style="color:red">Invalid Credentials</a>
-
-
-
-  </form>
-</div> -->

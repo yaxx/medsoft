@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {DataService} from '../../services/data.service';
 import {SocketService} from '../../services/socket.service';
-import { Patient, Record, Item, StockInfo,
-  Product, Priscription, Medication, Visit
+import { Patient, Client, Item, StockInfo,
+  Product, Priscription, Medication, Visit, Note
 } from '../../models/data.model';
 @Component({
   selector: 'app-ward',
@@ -12,37 +12,82 @@ import { Patient, Record, Item, StockInfo,
 export class WardComponent implements OnInit {
   patients: Patient[] = new Array<Patient>();
   products: Product[] = new Array<Product>();
-  product: Product = new Product(new Item(), new StockInfo());
+  client: Client = new Client();
+  product: Product = new Product();
   priscription: Priscription = new Priscription();
-  medication: Medication = new Medication(new Product(), new Priscription());
-  temProducts: Product[] = new Array<Item>();
+  medication: Medication = new Medication();
+  temProducts: Product[] = new Array<Product>();
   item: Item = new Item();
   items: Item[] = new Array<Item>();
   lastVisit: Visit = new Visit();
+  note = new Note();
   input = '';
-  view = 'drugs';
+  view = 'bed';
   id = null;
   selected = null;
+  bedNum = null;
+  curIndex = 0;
+
 
   constructor(private dataService: DataService, private socket: SocketService ) { }
-
   ngOnInit() {
-    this.getOrders();
+    this.getInPatients();
+    this.getClient();
   }
-  getOrders() {
-    this.dataService.getOrders().subscribe((patients: Patient[]) => {
+  getClient() {
+    this.dataService.getClient().subscribe((client: Client) => {
+      this.client = client;
+    });
+  }
+  selectPatient(i: number) {
+    this.curIndex = i;
+   }
+  getInPatients() {
+    this.dataService.getInPatients().subscribe((patients: Patient[]) => {
       this.patients = patients;
+
       this.lastVisit =  this.patients[0].record.visits[-1];
     });
   }
+  getBeds(i) {
+    const beds = [];
+    const dept = this.client.departments.filter((d) =>
+     d.name === this.patients[i].record.visits[this.patients[i].record.visits.length - 1].dept)[0];
+     for (let n = 0; n <= dept.beds.length; n++) {
+      if (!dept.beds[n]) {
+        beds.push(n);
+
+      } else {
+      }
+    }
+    return beds;
+  }
+  changeBed(i) {
+    this.bedNum = this.patients[i].record.visits[ this.patients[i].record.visits.length - 1].bedNo;
+    this.patients[i].record.visits[this.patients[i].record.visits.length - 1].bedNo = null;
+  }
+  assignBed(i) {
+    this.dataService.updateBed(this.patients[i]._id, this.bedNum)
+    .subscribe((patient: Patient) => {
+      this.patients[i].record.visits[this.patients[i].record.visits.length - 1].bedNo = this.bedNum;
+     this.client.departments.filter((d) =>
+     d.name === this.patients[i].record.visits[this.patients[i].record.visits.length - 1].dept)[0].beds[this.bedNum] = true;
+    });
+  }
+  updateNote() {
+   this.dataService.updateNote(this.patients[this.curIndex]._id, this.note).subscribe((patient: Patient) => {
+      this.patients[this.curIndex] = patient;
+   });
+  }
+
   selectDrug(p: number, m: number) {
     if (this.patients[p].record.medications[m].selected) {
       this.patients[p].record.medications[m].selected = false;
-
     } else {
       this.patients[p].record.medications[m].selected = true;
     }
   }
+
   updateTimeTaken(p: number, m: number) {
     for (const medication of this.patients[p].record.medications) {
       if (medication.selected) {
@@ -51,8 +96,6 @@ export class WardComponent implements OnInit {
       } else {}
     }
   }
-
-
   selectMedication(p: number, m: number) {
   if (this.patients[p].record.medications[m].paused) {
     this.patients[p].record.medications[m].paused = false;
@@ -60,15 +103,13 @@ export class WardComponent implements OnInit {
   } else {
     this.patients[p].record.medications[m].paused = true;
   }
-
 }
 discharge(i) {
-  this.patients[i].status = 'discharged';
+  // this.patients[i].status = 'discharged';
 }
 gone(i) {
-  this.patients[i].status = 'gone';
+  // this.patients[i].status = 'gone';
 }
-
 switchViews() {
   if (this.view === 'details') {
      this.view = '';
@@ -94,8 +135,6 @@ searchItem (input) {
   });
 }
 }
-
-
 selectProduct(product: Product) {
 this.input = product.item.name + ' ' + product.item.mesure + product.item.unit;
 this.temProducts = new Array<Product>();

@@ -1,11 +1,69 @@
-<div  class="row">
+<!--
+<div class="sidenav">
+    <a href="#" class="home homemenu" title="Menu">
+        <span class="homespan">
+            <i class="material-icons homeicon">sort</i>
+        </span>
+    </a>
 
+    <a href="#" [routerLink]="['/pharmacy']"  class="home dashboard" title="Dashboard">
+        <span class="homespan">
+            <i class="icon ion-android-apps homeicon"></i>
+        </span>
+    </a>
+    <a href="#" [routerLink]="['/information']" routerLinkActive="router-link-active"  class="home patienmenu" title="Patients">
+        <span class="homespan">
+            <i class="icon ion-ios-people-outline homeicon"></i>
+        </span>
+    </a>
+    <a href="#" [routerLink]="['/consultation']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Appointments">
+        <span class="homespan">
+            <i class="icon ion-ios-calendar-outline homeicon"></i>
+        </span>
+    </a>
+    <a href="#" [routerLink]="['/products']" routerLinkActive="active"  class="home cartmenu" title="Products">
+        <span class="homespan"> <i class="icon ion-ios-cart-outline homeicon"></i></span></a>
+    <a href="#" [routerLink]="['/ward']" routerLinkActive="router-link-active"   class="home wardmenu" title="Ward"><span class="homespan"><i class="material-icons homeicon wardicon">airline_seat_individual_suite</i></span></a>
+    <a href="#"  [routerLink]="['/account']" routerLinkActive="router-link-active" class="home settings" title="Settings"><span class="homespan"><i class="icon ion-ios-gear-outline homeicon"></i></span></a>
+  </div>
+  <nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:0px">
+  <div class="container">
+      <a class="navbar-brand" href="#">
+          <em>MS</em>
+      </a>
+      <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navcol-1">
+          <ul class="nav navbar-nav"></ul>
+          <form class="form-inline mr-auto searchform" target="_self">
+              <div class="form-group">
+                  <label for="search-field">
+                      <i class="icon ion-ios-search searchicon" title="Search"></i>
+                  </label>
+                  <input autocomplete="off" style="border-radius:30px; left: 405px; width:220px;background-color: rgb(243, 248, 247); margin: auto;" class="form-control search-field" type="search" name="search" id="search-field" placeholder="Search Patient">
+              </div>
+          </form>
+      </div>
+  </div>
+  <i style="left:20%;" class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
+  <i style="left:80%;" class="icon ion-ios-personadd-outline arrow buble" id="add" title="Add Patient" ></i>
+  <i style="left:83%;" class="icon ion-ios-plus-empty arrow buble" id="add" title="Add Products" data-target="#newModal" data-toggle="modal"></i>
+  <div style="left:87%; top:5px;" class="timeline lastdoc priscriber headerdp"></div>
+  </nav>
+
+
+
+
+
+<div  class="row">
     <div class="col col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
       <div class="card-colums leftcolumn"></div>
     </div>
     <div class="col-xl-4 offset-xl-0 col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
       <div class="card-colums"></div>
-      <form novalidate  class="patientform">
+      <form novalidate  class="patientform" (submit)='submitRecord()'>
       <div class="card card-secondary historycard midlecard profilecard" style="margin:auto;">
           <div class="card-header grapheader"style="border-radius:0px;">
               <h1 class="dept headtitle">NEW PATIENT<span class="headeredit" title="Edit information">Edit</span></h1>
@@ -14,22 +72,22 @@
           <div style="padding-top:10px;padding-left:15px; padding-right:15px"  class="card-body topcardbody clientinfobody nopading" >
               <div style="width:49.3%; margin-top:5px;  margin-right: 5px; display:inline-block" class="form-group vitals-section formGroup" >
                   <label for="firstName" class="labelss complain">FIRST NAME</label>
-                  <input autocomplete="off"  type="text" name="fname" class="patientdata inputs dataInfo" id="" placeholder="Enter First Name"/>
+                  <input [(ngModel)]="patient.personal.firstName" autocomplete="off"  type="text" name="fname" class="patientdata inputs dataInfo" placeholder="Enter First Name"/>
               </div>
               <div style="width:49.3%; margin-top:5px; display:inline-block" class="form-group vitals-section formGroup">
                   <label for="complain" class="labelss complain">LAST NAME</label>
-                  <input autocomplete="off"  type="text" name="lname" class="patientdata inputs dataInfo" id=""  placeholder="Enter Last Name">
+                  <input [(ngModel)]="patient.personal.lastName" autocomplete="off"  type="text" name="lname" class="patientdata inputs dataInfo" id=""  placeholder="Enter Last Name">
               </div>
               <div style="width:49.3%; margin-top:5px;  margin-right: 5px; display:inline-block" class="form-group vitals-section formGroup" >
                   <label for="gender" class="labelss complain">GENDER</label>
-                  <select  class=" patientdata status inputs dataInfo " name="gender" >
+                  <select [(ngModel)]="patient.personal.gender"  class=" patientdata status inputs dataInfo " name="gender" >
                           <option>Male</option>
                           <option>Female</option>
                     </select>
               </div>
               <div style="width:49.3%; margin-top:5px; display:inline-block" class="form-group vitals-section formGroup">
                   <label for="dob" class="labelss complain">DATE OF BIRTH</label>
-                  <input  type="date" name="dob" class="patientdata inputs dataInfo"  placeholder="">
+                  <input [(ngModel)]="patient.personal.dob"  type="date" name="dob" class="patientdata inputs dataInfo"  placeholder="">
               </div>
               <div style="width:49.3%; margin-top:5px;  margin-right: 5px; display:inline-block" class="form-group vitals-section formGroup" >
                   <label for="mstatus" class="labelss complain">MARITAL STATUS</label>
@@ -40,7 +98,7 @@
               </div>
               <div style="width:49.3%; margin-top:5px; display:inline-block" class="form-group vitals-section formGroup">
                   <label for="bgroup" class="labelss complain">OCCUPATION</label>
-                  <select  class="patientdata status inputs dataInfo " name="bgroup" id="">
+                  <select [(ngModel)]="patient.personal.mstatus" class="patientdata status inputs dataInfo " name="bgroup" id="">
                           <option>Civil Servant</option>
                           <option>Entreprenure</option>
                           <option>Farmer</option>
@@ -190,11 +248,11 @@
         </div>
       </div>
       <button style=" width: 130px; left:373px; bottom:5%; "  type="submit" class="btn btn-sm btn-outline-primary inputs mainbtn" >Save Record</button>
-      <button style="width: 61px; left:310px; bottom:5%;" class="btn btn-sm btn-outline-primary inputs mainbtn" >Cancel</button>
+      <button [routerLink]="['/information']" routerLinkActive="router-link-active"  style="width: 61px; left:310px; bottom:5%;" class="btn btn-sm btn-outline-primary inputs mainbtn" >Cancel</button>
     </form>
   </div>
   <div class="col col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
       <div class="card-colums rightcolumn"></div>
   </div>
 
-</div>
+</div> -->

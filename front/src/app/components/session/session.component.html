@@ -1,4 +1,4 @@
-<div  class="row">
+<!-- <div  class="row">
 
     <div class="col col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
       <div class="card-colums leftcolumn"></div>
@@ -6,30 +6,28 @@
     <div class="col-xl-4 offset-xl-0 col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
       <div class="card-colums"></div>
       <form novalidate  class="patientform">
-      <div class="card card-secondary historycard midlecard profilecard" style="margin:auto;">
+      <div class="card card-secondary historycard midlecard profilecard" style="margin:auto; min-height: 170px">
           <div class="card-header grapheader"style="border-radius:0px;">
               <h1 class="dept headtitle">CONSULTATION<span class="headeredit" title="Edit information">Edit</span></h1>
           </div>
-
-          <div style="padding-top:10px;padding-left:15px; padding-right:15px"  class="card-body topcardbody clientinfobody nopading" >
+          <div style="padding-top:2px;padding-left:15px; padding-right:15px"  class="card-body topcardbody clientinfobody nopading" >
               <div class="form-group vitals-section formGroup" >
-                  <label for="height" class="labelss notelabel">CHIEF COMPLAIN</label>
-                  <textarea [(ngModel)]="record.complains.complain"   class="patientdata inputs " name= "note" placeholder="Note">
+                  <label style="bottom:0%;top:12px;position: relative" for="height" class="labelss notelabel">CHIEF COMPLAIN</label>
+                  <textarea style="text-align:left; padding:5px;  border-radius:4px; border:1px solid whitesmoke " [(ngModel)]="record.complains.complain"   class=" inputs " name= "complain" placeholder="Patient complain">
                   </textarea>
               </div>
               <div style="width:49.3%; margin-top:5px; margin-right: 5px; display:inline-block" class="form-group vitals-section formGroup">
                   <label  for="allegies" class="labelss">ALLEGIES</label>
-                  <input [(ngModel)]="record.allegies.allegy" type="text" name="allegies" class=" inputs dataInfo patientdata" placeholder="Eg Peanuts, Shelfish,...">
+                  <input [(ngModel)]="record.allegies.allegy" type="text" name="allegies" class=" inputs dataInfo patientdata" placeholder="Eg Peanuts, Shelfish, ...">
               </div>
               <div style="width:49.3%; margin-top:5px;   display:inline-block" class="form-group vitals-section formGroup" >
                   <label  for="famhistory" class="labelss">FAMILY HISTORY</label>
-                  <input [(ngModel)]="record.famHist.condition" type="text" name="famhistory" class=" inputs dataInfo patientdata" placeholder="Eg Diabetes, Athsma,...">
+                  <input [(ngModel)]="record.famHist.condition" type="text" name="famhistory" class=" inputs dataInfo patientdata" placeholder="Eg Diabetes, Athsma, ...">
               </div>
-
           </div>
       </div>
 
-      <div class="card card-secondary historycard midlecard formcard" style="margin:auto;min-height: 150px;">
+      <div class="card card-secondary historycard midlecard formcard" style="margin:auto;min-height: 190px; border-bottom: 1px solid rgb(243, 248, 247);">
           <div class="card-header grapheader" style="border:none;">
               <h1 class="dept headtitle">BASIC EXAMINATION</h1>
           </div>
@@ -52,16 +50,15 @@
               </div>
               <div style="width:49.3%; margin-top:5px;margin-right: 5px; display:inline-block" class="form-group vitals-section formGroup">
                   <label for="height" class="labelss complain">HIGHT</label>
-                  <input [(ngModel)]="record.vitals.height.value" type="number" name="height" class="patientdata inputs dataInfo" id=""  placeholder="Mesures in ft">
+                  <input [(ngModel)]="record.vitals.height.value" type="number" name="height" class="patientdata inputs dataInfo"  placeholder="Mesures in ft">
               </div>
               <div style="width:49.3%;  display:inline-block" class="form-group vitals-section formGroup">
                   <label for="weight" class="labelss complain">WEIGHT</label>
-                  <input [(ngModel)]="record.vitals.weight.value" type="number" name="weight" class="patientdata inputs dataInfo" id=""  placeholder="Mesures in kg">
+                  <input [(ngModel)]="record.vitals.weight.value" type="number" name="weight" class="patientdata inputs dataInfo"  placeholder="Mesures in kg">
               </div>
-
           </div>
       </div>
-      <div class="card card-secondary historycard midlecard formcard" style="margin:auto;">
+      <div class="card card-secondary historycard midlecard formcard" style="margin:auto;min-height: 200px; border-bottom: 1px solid rgb(243, 248, 247);">
           <div class="card-header grapheader" style="border:none;">
               <h1 class="dept headtitle">DIAGNOSIS</h1>
           </div>
@@ -71,41 +68,39 @@
               <label  for="condition" class="labelss">CONDITION</label>
               <input [(ngModel)]="record.conditions.condition"  type="text" name="condition" class=" inputs dataInfo patientdata" placeholder="Specify diagnosed condition">
           </div>
-          <div style="width:49.3%; margin-top:5px; display:inline-block" class="form-group vitals-section formGroup">
+          <div style="width:49.3%; margin-top:5px; margin-right:5px; display:inline-block" class="form-group vitals-section formGroup">
               <label  for="rel" class="labelss">ORDER</label>
-              <select [(ngModel)]="patient.insurance.rel" class=" status inputs dataInfo patientdata " name="rel">
+              <select [(ngModel)]="patient.insurance.rel" class=" status inputs dataInfo patientdata " name="order">
                   <option>Presume</option>
                   <option>Comfirmed</option>
               </select>
           </div>
           <div style="width:49.3%; display:inline-block" class="form-group vitals-section formGroup">
               <label  for="rel" class="labelss">CONCLUSION</label>
-              <select [(ngModel)]="patient.insurance.rel" class=" status inputs dataInfo patientdata " name="rel">
-                  <option>Discharge</option>
-                  <option>Admit</option>
+              <select [(ngModel)]="patient.record.visits.status" class=" status inputs dataInfo patientdata " name="rel">
+                  <option value="discharged">Discharge</option>
+                  <option value="addmitted">Admit</option>
               </select>
           </div>
-          <div  class="form-group vitals-section formGroup">
-              <label for="height" class="labelss notelabel">ADDITIONAL NOTE</label>
-              <textarea [(ngModel)]="record.notes.note"  class="patientdata note inputs " name="note" placeholder="Note">
-              </textarea>
+          <div class="form-group vitals-section formGroup" >
+              <label style="position: absolute; bottom:89%" for="note" class="labelss notelabel">NOTE</label>
+              <textarea [(ngModel)]="patient.record.notes.note" style="width:100%; min-height: 100px; font-size: 12px; padding: 5px; border-radius: 4px; border:1px solid whitesmoke" name= "note" placeholder="Additional note"></textarea>
           </div>
-
         </div>
       </div>
-      <div class="card card-secondary historycard midlecard formcard" style="margin:auto;">
+      <div class="card card-secondary historycard midlecard formcard" style="margin:auto;border-bottom: 1px solid rgb(243, 248, 247);">
           <div class="card-header grapheader" style="border:none;">
               <h1 class="dept headtitle">MEDICATION</h1>
           </div>
           <div style="padding-top:10px;padding-left:15px; padding-right:15px"  class="card-body topcardbody clientinfobody nopading" >
-
           <div class="form-group vitals-section formGroup" >
               <label for="drug" class="labelss">DRUG NAME</label>
               <input autocomplete="off" (keyup)= "searchItem(input)" [(ngModel)] = input type="text" name="drug" placeholder= "E.g Paracetamol" class="patientdata dystolic inputs dataInfo" />
-
-              <div *ngIf= temItems.length  class="options prisOption">
+              <div *ngIf= temItems.length class="prisOption">
                   <ul class="itemsList" >
-                    <li  *ngFor="let item of temItems"><p (click) = "addSelection(item)"  class="dept firstheader drugItem" style="font-size:13px;padding-left: 10px; padding-right: 10px;font-weight: normal;" >{{item.name+ ' '}}<span class="lastdept timetaken " >{{item.mesure + item.unit}}</span></p>
+                    <li *ngFor="let item of temItems" ><p (click) = "addSelection(item)"  class="dept firstheader drugItem" style="font-size:13px;padding-left: 10px; padding-right: 10px;font-weight: normal;" >
+                        {{item.name+ ' '}}<span class="lastdept timetaken " >
+                            {{item.mesure + item.unit}}</span></p>
                     </li>
 
                   </ul>
@@ -124,23 +119,47 @@
                       <option>as required</option>
               </select>
            </div>
-          <div class="form-group vitals-section formGroup" style=" width:23%;">
-              <label for="piriod" class="labelss complain">PIRIOD</label>
-              <input [(ngModel)]="priscription.piriod" style="border-top-right-radius: 0px;border-bottom-right-radius: 0px;"  type="number" name="piriod" class="patientdata inputs dataInfo"   placeholder="">
-          </div>
-          <div class="form-group vitals-section formGroup" style=" width:23%;">
-              <label for="extend" class="labelss complain">EXTEND</label>
-              <select [(ngModel)]="priscription.extend" style="border-radius: 0px;"  class=" patientdata status inputs dataInfo " name="extend" >
-                      <option>days</option>
-                      <option>weeks</option>
-                      <option>months</option>
-              </select>
-           </div>
-          <div class="form-group vitals-section formGroup" style=" width:6%;">
-
-            <button type = "button" (click)="addMedication()" title="add priscription "  id ="addmorebtn" class="btn btn-sm btn-outline-primary"><i class="icon ion-ios-plus-empty"></i></button>
-          </div>
-
+            <div class="form-group vitals-section formGroup" style=" width:23%;">
+                <label for="piriod" class="labelss complain">PIRIOD</label>
+                <input [(ngModel)]="priscription.piriod" style="border-top-right-radius: 0px;border-bottom-right-radius: 0px;"  type="number" name="piriod" class="patientdata inputs dataInfo"   placeholder="">
+            </div>
+            <div class="form-group vitals-section formGroup" style=" width:23%;">
+                <label for="extend" class="labelss complain">EXTEND</label>
+                <select [(ngModel)]="priscription.extend" style="border-radius: 0px;"  class=" patientdata status inputs dataInfo " name="extend" >
+                        <option>days</option>
+                        <option>weeks</option>
+                        <option>months</option>
+                </select>
+            </div>
+            <div class="form-group vitals-section formGroup" style=" width:6%;">
+              <button type = "button" (click)="addMedication()" title="add priscription "  id ="addmorebtn" class="btn btn-sm btn-outline-primary"><i class="icon ion-ios-plus-empty"></i></button>
+            </div>
+            <div *ngIf="medications.length" class="form-group vitals-section setGroup">
+                <table   cellspacing="0" class="data-table drugs-table" style="width:100%;left:0%;" summary="List of all items in store. " >
+                  <thead class='productHead'>
+                      <tr class="staff-th">
+                          <th class="headlbl staff-th">PRODUCT NAME</th>
+                          <th class="headlbl staff-th">DOSAGE</th>
+                          <th class="headlbl staff-th">DURATION</th>
+                          <th class="headlbl staff-th">PRICE</th>
+                          <th class="headlbl staff-th"></th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr  *ngFor="let med of medications; let i = index; let odd =odd;"   class="ro staff-row">
+                          <td style="padding-left:4px;" class="data">
+                              {{med.product.item.name+ ' ' + med.product.item.mesure+med.product.item.unit}}</td>
+                          <td class="data">{{med.priscription.intake+ ' '+med.priscription.freq}}</td>
+                          <td class="data">{{med.priscription.piriod + ' '+med.priscription.extend}}</td>
+                          <td class="data" style="text-align:center">{{med.product.stockInfo.price}}</td>
+                          <td style="text-align: left; padding-left:3px" class="data" >
+                            <i class="icon ion-edit tableicon " title="Edit" style="color:rgb(149, 149, 149);font-size:14px; top:32px; right: 22px;position:absolute; cursor: pointer;"></i>
+                            <i  (click)= "removePriscription(i)" class="icon ion-ios-trash-outline tableicon" title="Remove" style="font-size:17px; cursor: pointer;"></i>
+                          </td>
+                      </tr>
+                  </tbody>
+              </table>
+            </div>
         </div>
       </div>
       <button style=" width: 130px; left:373px; bottom:5%; "  type="submit" class="btn btn-sm btn-outline-primary inputs mainbtn" >Save Record</button>
@@ -152,4 +171,4 @@
   </div>
 
 </div>
-
+ -->

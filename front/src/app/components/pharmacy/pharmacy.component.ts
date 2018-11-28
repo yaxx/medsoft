@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {DataService} from '../../services/data.service';
 import {SocketService} from '../../services/socket.service';
-import { Patient, Record, Item, StockInfo,
+import { Patient, Item, StockInfo,
   Product, Priscription, Medication
 } from '../../models/data.model';
 
@@ -13,10 +13,10 @@ import { Patient, Record, Item, StockInfo,
 export class PharmacyComponent implements OnInit {
   patients: Patient[] = new Array<Patient>();
   products: Product[] = new Array<Product>();
-  product: Product = new Product(new Item(), new StockInfo());
+  product: Product = new Product();
   priscription: Priscription = new Priscription();
-  medication: Medication = new Medication(new Product(), new Priscription());
-  temProducts: Product[] = new Array<Item>();
+  medication: Medication = new Medication();
+  temProducts: Product[] = new Array<Product>();
   item: Item = new Item();
   items: Item[] = new Array<Item>();
   input = '';

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import {DataService} from '../../services/data.service';
-import {Client, Department, Main, Staff} from '../../models/data.model';
+import {Client, Department, Info, Staff} from '../../models/data.model';
 @Component({
   selector: 'app-account',
   templateUrl: './account.component.html',
@@ -9,7 +9,7 @@ import {Client, Department, Main, Staff} from '../../models/data.model';
 })
 export class AccountComponent implements OnInit {
   department: Department = new Department();
-  main: Main = new Main();
+  info: Info = new Info();
   staff: Staff = new Staff();
   departments: Department[] = [];
   hovers = new Array<boolean>(9);
@@ -26,7 +26,6 @@ export class AccountComponent implements OnInit {
   ngOnInit() {
     this.dataService.getClient().subscribe((client: Client) => {
       this.client = client;
-      console.log(this.client);
     });
 
     this.dataService.getDepartments().subscribe((dept: Department[]) => {

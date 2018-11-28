@@ -49,16 +49,13 @@ export class DeathNote {
 
 }
 
-export class Patient {
-  constructor(public personal?: Personal,
-    public contact?: Contact,
-    public insurance?: Insurance,
-    public record?: Record,
-    public status?: string,
-    public dateCreated?: Date,
+
+export class Info {
+  constructor(
+    public personal: Personal = new Personal(),
+    public contact: Contact = new Contact(),
+    public insurance: Insurance = new Insurance(),
     public _id?: string
-
-
 
     ) {}
 }
@@ -91,7 +88,13 @@ export class StockInfo {
   }
 
 export class Product {
-  constructor(public item?: Item, public stockInfo?: StockInfo, public selected?: boolean, public addedOn?: Date, public _id?: string) {}
+  constructor(
+    public item: Item = new Item(),
+    public stockInfo: StockInfo = new StockInfo(),
+    public selected?: boolean,
+    public addedOn?: Date,
+    public _id?: string
+    ) {}
 }
 
 export class Priscription {
@@ -105,7 +108,9 @@ export class Priscription {
   ) {}
 }
 export class Medication {
-  constructor(  public product?: Product, public priscription?: Priscription,
+  constructor(
+     public product: Product = new Product(),
+     public priscription: Priscription = new Priscription(),
      public _id?: string,
      public paid?: boolean,
      public paused?: boolean,
@@ -128,9 +133,9 @@ export class FamHist {
   }
 export class Note {
   constructor(public note?: string,
-    public noter: string = '5bd40352de1ff71ed4552414',
+    public noter: string = '5befe0aa05ca551d50fd2bf8',
     public noteType?: string,
-    public full: boolean =false,
+    public full: boolean = false,
     public staff?: Staff,
     public dateCreated?: Date
 
@@ -159,13 +164,13 @@ export class Weight {
 }
 
 export class Vital {
-  constructor(public bp?: Bp,
-    public resp?: Resp,
-    public pulse?: Pulse,
-    public bloodGl?: Bg,
-    public tempreture?: Temp,
-    public height?: Height,
-    public weight?: Weight
+  constructor(public bp: Bp= new Bp,
+    public resp: Resp = new Resp(),
+    public pulse: Pulse = new Pulse(),
+    public bloodGl: Bg = new Bg(),
+    public tempreture: Temp = new Temp(),
+    public height: Height = new Height(),
+    public weight: Weight = new Weight()
 
      ) {}
   }
@@ -188,7 +193,9 @@ export class Device {
      ) {}
   }
 export class Visit {
-  constructor( public dept: string = 'Consultation',
+  constructor(
+    public _id?: string,
+    public dept: string = 'GOPD',
     public status: string = 'queued',
     public visitedOn: Date = new Date(),
     public addmittedOn: Date = null,
@@ -216,7 +223,7 @@ export class Sugery {
 
      ) {}
   }
-export class File {
+export class Scan {
   constructor( public fileType: string = null,
     public name: string = null,
     public dateCreated?: Date
@@ -224,32 +231,64 @@ export class File {
      ) {}
   }
 
-export class Record {
+export class Session {
   constructor(
-    public complains: Complain = null,
-    public famHist: FamHist = null,
-    public notes: Note = null,
-    public vitals: Vital = null ,
-    public conditions: Condition = null,
-    public allegies: Allegy = null,
-    public devices: Device = null,
-    public visits: Visit = null,
-    public medications: Medication[] = [],
-    public test: Test = null,
-    public sugery: Sugery = null,
-    public files: File = null,
-    public deathNote: DeathNote = null,
-    public dateCreated: Date= new Date()
-
+    public complains: Complain = new Complain(),
+    public famHist: FamHist = new FamHist(),
+    public notes: Note = new Note(),
+    public vitals: Vital = new Vital(),
+    public conditions: Condition = new Condition(),
+    public allegies: Allegy = new Allegy(),
+    public devices: Device = new Device(),
+    public visits: Visit = new Visit(),
+    public medications: Medication[] = new Array<Medication>(),
+    public test: Test = new Test(),
+    public scan: Scan = new Scan(),
+    // public sugery: Sugery = new Surgery(),
+    public deathNote: DeathNote = new DeathNote(),
 
      ) {}
   }
 
+export class Record {
+  constructor(
+    public complains: Complain[] = new Array<Complain>(),
+    public famHist: FamHist[] = new Array<FamHist>(),
+    public notes: Note[] = new Array<Note>(),
+    public vitals: Vital[] = new Array<Vital>(),
+    public conditions: Condition[] = new Array<Condition>(),
+    public allegies: Allegy[] = new Array<Allegy>(),
+    public devices: Device[] = new Array<Device>(),
+    public visits: Visit[] = new Array<Visit>(new Visit()),
+    public medications: Medication[] = new Array<Medication>(),
+    public test: Test[] = new Array<Test>(),
+    public scan: Scan[] = new Array<Scan>(),
+    public sugery: any[] = [],
+    public deathNote: DeathNote = new DeathNote(),
 
+     ) {}
+  }
+
+  export class Patient {
+    constructor(
+      public info: Info = new Info(),
+      public record: Record = new Record(),
+      public dateCreated?: Date,
+      public _id?: string
+
+      ) {}
+  }
+  export class Bed {
+    constructor(
+      public _id?: string,
+      public numb: number = null,
+      public status: Boolean = false
+      ) {}
+  }
 export class Department {
   constructor(public _id?: string,
     public name: string = null,
-    public hasWard: Boolean = false,
+    public hasWard: boolean = false,
     public numOfBeds: number = null,
     public beds?: Boolean[],
     public description: string = null,

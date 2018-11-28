@@ -29,13 +29,14 @@ const routes: Routes = [
   {path: 'information', component: RegistrationComponent},
   {path: 'information/:mode', component: PatientComponent},
   {path: 'consultation', component: ConsultationComponent},
-  {path: 'product/:mode', component: ProductComponent},
   {path: 'consultation/:mode', component: SessionComponent},
-  {path: 'pharmacy', component:  PharmacyComponent},
-  {path: 'inventory', component: InventoryComponent},
-  {path: 'ward', component: WardComponent},
+  {path: 'consultation/:mode/:id', component: HistoryComponent},
+  {path: 'products', component: InventoryComponent},
+  {path: 'products/:mode', component: ProductComponent},
   {path: 'history/:id', component: HistoryComponent},
-  {path: '', redirectTo: 'login', pathMatch: 'full'}
+  {path: 'pharmacy', component:  PharmacyComponent},
+  {path: 'ward', component: WardComponent},
+  {path: '', redirectTo: 'information', pathMatch: 'full'}
  ];
 @NgModule({
   declarations: [

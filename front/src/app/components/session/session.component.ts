@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import {DataService} from '../../services/data.service';
 import {SocketService} from '../../services/socket.service';
+import {ActivatedRoute} from '@angular/router';
 import { Patient, Record, Item, StockInfo,
   Product, Priscription, Medication, Complain,
-  FamHist, Note, Vital, Condition, Allegy, Device, Visit, Test, Sugery, File,DeathNote, Bp, Bg, Temp, Resp, Pulse, Height, Weight
+  FamHist, Note, Vital, Condition, Allegy, Device, Visit, Test, Sugery, DeathNote, Bp, Bg, Temp, Resp, Pulse, Height, Weight
 } from '../../models/data.model';
+
+
 @Component({
   selector: 'app-session',
   templateUrl: './session.component.html',
@@ -13,8 +16,7 @@ import { Patient, Record, Item, StockInfo,
 export class SessionComponent implements OnInit {
   patient: Patient = new Patient();
   patients: Patient[] = new Array<Patient>();
-  record: Record = new Record(new Complain(),  new FamHist(), new Note(),
-   new Vital(new Bp(), new Resp(),  new Pulse(), new Bg(), new Temp(), new Height(), new Weight()), new Condition(), new Allegy());
+  record: Record = new Record();
   priscription: Priscription = new Priscription();
   medication: Medication =  new Medication(new Product(), new Priscription() );
   medications: Medication[] = new Array<Medication>();
@@ -26,23 +28,23 @@ export class SessionComponent implements OnInit {
   selectedProducts: Product[] = new Array<Product>();
   input = '';
   in = 'discharge';
-  constructor(private dataService: DataService, private socket: SocketService) { }
+  constructor(private dataService: DataService, private route: ActivatedRoute, private socket: SocketService) { }
 
   ngOnInit() {
+    this.getProducts();
+    this.getItems();
   }
   getProducts() {
     this.dataService.getProducts().subscribe((p: any) => {
       this.products = p.inventory;
-
     });
   }
+  // this.route.snapshot.params['id']
   getItems() {
     this.dataService.getItems().subscribe((items: Item[]) => {
       this.items = items;
-
     });
   }
-
   selectItem(i: Item) {
 
   }
@@ -56,6 +58,7 @@ export class SessionComponent implements OnInit {
     return patern.test(item.name);
     });
   }
+
 }
 
   switchBtn(option: string) {

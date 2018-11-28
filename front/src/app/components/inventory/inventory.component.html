@@ -1,4 +1,137 @@
 
+<div class="modal fade" role="dialog" tabindex="-1" id="newModal" style="border-radius:0px;width:auto;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="width:480px;border-radius:0px;;padding-left:0px;padding-right: 0px;">
+            <div class="modal-body" style="border-radius:0px;padding-left:0px;padding-right: 0px;">
+                <div class="card card-secondary historycard midlecard profilecard" style="margin:auto;min-height:645px">
+                    <div class="card-header grapheader"style="border-radius:0px;">
+                        <h1 class="dept headtitle">NEW PRDUCT<span class="headeredit" title="Edit information">Edit</span></h1>
+                    </div>
+                    <div style="padding-top:10px;padding-left:10px; padding-right:10px"  class="card-body topcardbody clientinfobody nopading">
+                        <form novalidate  class="patientform">
+                        <div style="width:49.3%; margin-top:5px;margin-right: 5px; display:inline-block" class="form-group vitals-section formGroup">
+                            <label style="font-size:9px;" for="product" class="labelss duration">PRODUCT</label>
+                            <input style="font-size:11px" autocomplete="off" (keyup)="searchItem(input)"
+                            [(ngModel)] = input  type="text" name="name" class=" inputs dataInfo patientdata"  placeholder="Product name"/>
+                            <div *ngIf= temItems.length class="options">
+                              <ul class="itemsList" >
+                                <li *ngFor="let item of temItems"><p  class="dept firstheader drugItem" style="font-size:12px; padding-left: 5px; font-weight: normal;" >{{item.name+ ' '}}<span class="lastdept timetaken " (click) = "selectItem(item)">{{item.mesure + item.unit}}</span></p>
+                                </li>
+                              </ul>
+                            </div>
+                        </div>
+
+                        <div style="width:49.3%;  display:inline-block" class="form-group vitals-section formGroup">
+                            <label for="price" class="labelss">PRICE</label>
+                            <input style="font-size:11px" [(ngModel)] = "product.stockInfo.price"  type="number" name="price" class=" inputs dataInfo patientdata"  placeholder="Price per item"/>
+                        </div>
+
+                        <div style="width:49.3%; margin-top:5px;margin-right: 5px; display:inline-block" class="form-group vitals-section formGroup">
+                            <label for="quantity" class="labelss">QUANTITY</label>
+                            <input style="font-size:11px" [(ngModel)] = "product.stockInfo.quantity" type="number" name="quantity" class=" inputs dataInfo patientdata"  placeholder="Quantity"/>
+                        </div>
+                        <div style="width:49.3%;  display:inline-block" class="form-group vitals-section formGroup">
+                            <label for="expiry" class="labelss">EXPIRY DATE</label>
+                            <input style=" font-size:11px;" [(ngModel)] = "product.stockInfo.expiry" type="date" name="expiry" class=" inputs dataInfo patientdata"  placeholder="Expiry"/>
+                        </div>
+
+                        <button style=" width: 130px; left:323px; bottom:5%; "  type="submit" class="btn btn-sm btn-outline-primary inputs mainbtn" >Add Product</button>
+                        <button style="width: 61px; left:260px; bottom:5%;" class="btn btn-sm btn-outline-primary inputs mainbtn" >Cancel</button>
+                      </form>
+                      <div  class="form-group vitals-section setGroup">
+                          <table   cellspacing="0" class="data-table drugs-table" style="width:100%;left:0%;" summary="List of all items in store. " >
+                           <thead class='productHead'>
+                               <tr class="staff-th">
+
+                                   <th class="headlbl staff-th">NAME</th>
+                                   <th class="headlbl staff-th">PRICE</th>
+                                   <th class="headlbl staff-th">QUANTITY</th>
+                                   <th class="headlbl staff-th"  style="text-align: center">EXPIRY</th>
+                                   <th class="headlbl headlbl staff-th"  style="text-align: center"></th>
+                               </tr>
+                           </thead>
+                           <tbody>
+                              <tr  class="ro staff-row">
+
+                                  <td style="padding-left:4px;" class="data">
+                                    Paracetamol</td>
+                                  <td class="data">500</td>
+                                  <td class="data">100</td>
+                                  <td class="data" style="text-align:center">
+                                    22/02/2018</td>
+                                  <td style="text-align: left; padding-left:3px" class="data" >
+                                    <i class="icon ion-edit tableicon " title="Edit" style="color:rgb(149, 149, 149);font-size:14px; top:32px; right: 22px;position:absolute; cursor: pointer;"></i>
+                                    <i   class="icon ion-ios-trash-outline tableicon" title="Drop" style="font-size:17px; cursor: pointer;"></i>
+                                  </td>
+                              </tr>
+
+                          </tbody>
+                        </table>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+
+
+
+
+<div class="sidenav">
+    <a href="#" class="home homemenu" title="Menu">
+        <span class="homespan">
+            <i class="material-icons homeicon">sort</i>
+        </span>
+    </a>
+
+    <a href="#" [routerLink]="['/pharmacy']"  class="home dashboard" title="Dashboard">
+        <span class="homespan">
+            <i class="icon ion-android-apps homeicon"></i>
+        </span>
+    </a>
+    <a href="#" [routerLink]="['/information']" routerLinkActive="router-link-active"  class="home patienmenu" title="Patients">
+        <span class="homespan">
+            <i class="icon ion-ios-people-outline homeicon"></i>
+        </span>
+    </a>
+    <a href="#" [routerLink]="['/consultation']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Appointments">
+        <span class="homespan">
+            <i class="icon ion-ios-calendar-outline homeicon"></i>
+        </span>
+    </a>
+    <a href="#" [routerLink]="['/products']" routerLinkActive="active"  class="home cartmenu" title="Products">
+        <span class="homespan"> <i class="icon ion-ios-cart-outline homeicon"></i></span></a>
+    <a href="#" [routerLink]="['/ward']" routerLinkActive="router-link-active"   class="home wardmenu" title="Ward"><span class="homespan"><i class="material-icons homeicon wardicon">airline_seat_individual_suite</i></span></a>
+    <a href="#"  [routerLink]="['/account']" routerLinkActive="router-link-active" class="home settings" title="Settings"><span class="homespan"><i class="icon ion-ios-gear-outline homeicon"></i></span></a>
+  </div>
+  <nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:0px">
+  <div class="container">
+      <a class="navbar-brand" href="#">
+          <em>MS</em>
+      </a>
+      <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navcol-1">
+          <ul class="nav navbar-nav"></ul>
+          <form class="form-inline mr-auto searchform" target="_self">
+              <div class="form-group">
+                  <label for="search-field">
+                      <i class="icon ion-ios-search searchicon" title="Search"></i>
+                  </label>
+                  <input autocomplete="off" style="border-radius:30px; left: 405px; width:220px;background-color: rgb(243, 248, 247); margin: auto;" class="form-control search-field" type="search" name="search" id="search-field" placeholder="Search Patient">
+              </div>
+          </form>
+      </div>
+  </div>
+  <i style="left:20%;" class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
+  <i style="left:80%;" class="icon ion-ios-personadd-outline arrow buble" id="add" title="Add Patient" ></i>
+  <i style="left:83%;" class="icon ion-ios-plus-empty arrow buble" id="add" title="Add Products" data-target="#newModal" data-toggle="modal"></i>
+  <div style="left:87%; top:5px;" class="timeline lastdoc priscriber headerdp"></div>
+  </nav>
 
 
 

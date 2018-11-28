@@ -1,3 +1,53 @@
+
+<div class="sidenav">
+    <a href="#" class="home homemenu" title="Menu">
+        <span class="homespan">
+            <i class="material-icons homeicon">sort</i>
+        </span>
+    </a>
+
+    <a href="#" [routerLink]="['/pharmacy']"  class="home dashboard" title="Dashboard">
+        <span class="homespan">
+            <i class="icon ion-android-apps homeicon"></i>
+        </span>
+    </a>
+    <a href="#" [routerLink]="['/information']" routerLinkActive="router-link-active"  class="home patienmenu" title="Patients">
+        <span class="homespan">
+            <i class="icon ion-ios-people-outline homeicon"></i>
+        </span>
+    </a>
+    <a href="#" [routerLink]="['/consultation']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Appointments">
+        <span class="homespan">
+            <i class="icon ion-ios-calendar-outline homeicon"></i>
+        </span>
+    </a>
+    <a href="#" [routerLink]="['/products']" routerLinkActive="active"  class="home cartmenu" title="Products">
+        <span class="homespan"> <i class="icon ion-ios-cart-outline homeicon"></i></span></a>
+
+    <a href="#" [routerLink]="['/ward']" routerLinkActive="router-link-active"   class="home wardmenu" title="Ward"><span class="homespan"><i class="material-icons homeicon wardicon">airline_seat_individual_suite</i></span></a>
+
+    <a href="#"  [routerLink]="['/account']" routerLinkActive="router-link-active" class="home settings" title="Settings"><span class="homespan"><i class="icon ion-ios-gear-outline homeicon"></i></span></a>
+
+
+  </div>
+  <nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:0px">
+  <div class="container">
+      <a class="navbar-brand" href="#">
+          <em>MS</em>
+      </a>
+      <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="navbar-toggler-icon"></span>
+      </button>
+      
+  </div>
+  <i style="left:20%;" class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
+
+  <div style="left:87%; top:5px;" class="timeline lastdoc priscriber headerdp"></div>
+  </nav>
+
+
+
 <div class="row">
     <div class="col col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
         <div class="card-colums leftcolumn"></div>
@@ -15,14 +65,14 @@
                           {{client.main.name}}
                             <input *ngIf="hovers[0]" type="checkbox" class="checkinfo" [(ngModel)]="checked[0]"/>
                         </span></li>
-                        <li (mouseover)=hovered(1) (mouseleave)=unhovered(1)  >Ownership<span class="timetaken lastdept clientdata">{{client.main.ownership||'---'}} <input *ngIf="hovers[1]" type="checkbox" class="checkinfo" [(ngModel)]="checked[1]" /></span></li>
-                        <li (mouseover)=hovered(2) (mouseleave)=unhovered(2)>Specialization<span class="timetaken lastdept clientdata">{{client.main.specialization||'---'}} <input *ngIf="hovers[2]" type="checkbox" class="checkinfo" [(ngModel)]="checked[2]" /></span></li>
-                        <li (mouseover)=hovered(3) (mouseleave)=unhovered(3)>Mobile:<span class="timetaken lastdept clientdata">{{client.main.mobile||'---'}} <input *ngIf="hovers[3]" type="checkbox" class="checkinfo" [(ngModel)]="checked[3]" /></span></li>
-                        <li (mouseover)=hovered(4) (mouseleave)=unhovered(4)>Email<span class="timetaken lastdept clientdata">{{client.main.email||'---'}}<input *ngIf="hovers[4]" type="checkbox" class="checkinfo" [(ngModel)]="checked[4]" /></span></li>
-                        <li (mouseover)=hovered(5) (mouseleave)=unhovered(5)>Address<span class="timetaken lastdept clientdata">{{client.main.address||'---'}}<input *ngIf="hovers[5]" type="checkbox" class="checkinfo" [(ngModel)]="checked[5]" /></span></li>
-                        <li (mouseover)=hovered(6) (mouseleave)=unhovered(6)>Zip Code:<span class="timetaken lastdept clientdata">{{client.main.zipcode||'---'}}<input *ngIf="hovers[6]" type="checkbox" class="checkinfo" [(ngModel)]="checked[6]" /></span></li>
-                        <li (mouseover)=hovered(7) (mouseleave)=unhovered(7)>State:<span class="timetaken lastdept clientdata">{{client.main.state||'---'}}<input *ngIf="hovers[7]" type="checkbox" class="checkinfo" [(ngModel)]="checked[7]" /></span></li>
-                        <li (mouseover)=hovered(8) (mouseleave)=unhovered(8)>LGA<span class="timetaken lastdept clientdata">{{client.main.lga||'---'}}<input *ngIf="hovers[9]" type="checkbox" class="checkinfo" [(ngModel)]="checked[9]" /></span></li>
+                        <li (mouseover)=hovered(1) (mouseleave)=unhovered(1)  >Ownership<span class="timetaken lastdept clientdata">{{client.main.ownership||'?'}} <input *ngIf="hovers[1]" type="checkbox" class="checkinfo" [(ngModel)]="checked[1]" /></span></li>
+                        <li (mouseover)=hovered(2) (mouseleave)=unhovered(2)>Specialization<span class="timetaken lastdept clientdata">{{client.main.specialization||'?'}} <input *ngIf="hovers[2]" type="checkbox" class="checkinfo" [(ngModel)]="checked[2]" /></span></li>
+                        <li (mouseover)=hovered(3) (mouseleave)=unhovered(3)>Mobile:<span class="timetaken lastdept clientdata">{{client.main.mobile||'?'}} <input *ngIf="hovers[3]" type="checkbox" class="checkinfo" [(ngModel)]="checked[3]" /></span></li>
+                        <li (mouseover)=hovered(4) (mouseleave)=unhovered(4)>Email<span class="timetaken lastdept clientdata">{{client.main.email||'?'}}<input *ngIf="hovers[4]" type="checkbox" class="checkinfo" [(ngModel)]="checked[4]" /></span></li>
+                        <li (mouseover)=hovered(5) (mouseleave)=unhovered(5)>Address<span class="timetaken lastdept clientdata">{{client.main.address||'?'}}<input *ngIf="hovers[5]" type="checkbox" class="checkinfo" [(ngModel)]="checked[5]" /></span></li>
+                        <li (mouseover)=hovered(6) (mouseleave)=unhovered(6)>Zip Code:<span class="timetaken lastdept clientdata">{{client.main.zipcode||'?'}}<input *ngIf="hovers[6]" type="checkbox" class="checkinfo" [(ngModel)]="checked[6]" /></span></li>
+                        <li (mouseover)=hovered(7) (mouseleave)=unhovered(7)>State:<span class="timetaken lastdept clientdata">{{client.main.state||'?'}}<input *ngIf="hovers[7]" type="checkbox" class="checkinfo" [(ngModel)]="checked[7]" /></span></li>
+                        <li (mouseover)=hovered(8) (mouseleave)=unhovered(8)>LGA<span class="timetaken lastdept clientdata">{{client.main.lga||'?'}}<input *ngIf="hovers[9]" type="checkbox" class="checkinfo" [(ngModel)]="checked[9]" /></span></li>
                         <li>Date Created:<span class="timetaken lastdept clientdata">March &nbsp;02, 2019</span></li>
                     </ul>
                 </div>
@@ -62,7 +112,7 @@
 
                     <div *ngFor="let department of client.departments let i = index;"  title="Edit" class="department">
                         <i *ngIf="department.name==='Information'" class="icon ion-information addicon infoicon" ></i>
-                        <i *ngIf="department.name==='Consulting'" class="icon ion-ios-people addicon infoicon consicon" ></i>
+                        <i *ngIf="department.name==='GOPD'" class="icon ion-ios-people addicon infoicon consicon" ></i>
                         <i *ngIf="department.name==='Pharmacy'" class="icon ion-ios-medkit addicon pharmicon"></i>
                         <i *ngIf="department.name==='Maternity'" class="material-icons addicon infoicon maticon" title="Add Department">pregnant_woman</i>
                           <h6 class="deptname">{{department.name}}</h6>

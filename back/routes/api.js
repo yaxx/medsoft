@@ -110,7 +110,7 @@ module.exports = {
             }else{
               console.log(req.signedCookies.e);
             }
-          }) 
+          })
       }
       res.status(200).send(newstaff)
     });
@@ -125,7 +125,7 @@ module.exports = {
     },(e, doc)=>{
         res.send(doc);
     }
- 
+
     )
   },
   deleteStaff: (req, res)=>{
@@ -173,69 +173,70 @@ module.exports = {
   },
 
   addPatient: (req, res)=>{
-        new Record(req.body.record).save((e, info)=>{
+    console.log(req.body);
+        new Patient(req.body).save((e, patient)=>{
         if(e){
+          console.log(e);
+        } else {
+          res.status(200).send(patient)
+            // new Patient({
+            // personal: req.body.personal,
+            // contact: req.body.contact,
+            // insurance: req.body.insurance,
+            // record: info._id,
+            // dateCreated: new Date()
 
-          console(e);
-        } else{
-          var p = null;
-            new Patient({
-            personal: req.body.personal,
-            contact: req.body.contact,
-            insurance: req.body.insurance,
-            record: info._id,
-            dateCreated: new Date()
 
-
-          }).save((err, newpatient) => {
-            if (err) {
-              console.log(err)
-            }else{
-              Patient.findOne({_id: newpatient._id}).populate('record').exec((e, patients)=>{
-                if(!e){
-                  console.log(patients)
-                  res.status(200).send(patients)
-                }else{
-                  console.log(e);
-                }
-              })
-          }
-        })
-
-        }
-      })
-
+          // })
+      }
+     })
   },
   getPatients: (req, res)=>{
-    Patient.find().populate('record').exec((e, patients)=>{
+    Patient.find({},(e, patients)=>{
       if(!e){
         console.log(patients)
         res.status(200).send(patients)
-      }else{
+      } else {
         console.log(e);
       }
     })
+
+
   },
   getConsultees: (req, res)=>{
-    Patient.find({'personal.curentStatus':'queued'}).populate({path:'record', match:{visits: {$size:1}}}).exec((e, patients)=>{
+    Patient.find({
+      'record.visits.status':'queued'
+    },(e, patients)=>{
       if(!e){
+        console.log(patients)
+        res.send(patients)
+      } else {
+        console.log(e)
+      }
 
-        res.status(200).send(patients)
-      }else{
-        console.log(e);
+    })
+  },
+
+  getInPatients: (req, res)=>{
+    Patient.find({'record.visits.status':'admitted'},(e, patients)=>{
+      if(!e){
+        res.send(patients)
+      }
+      else{
+        console.log(e)
       }
     })
   },
   getOrders: (req, res)=>{
-    Patient.find({}).populate({path:'record', match:{medications: {$size:2}}, select:'_id medications'}).exec((e, patients)=>{
+    Patient.find({'record.medications':{$size:{$gt:0}}},(e,patients)=>{
       if(!e){
-        res.status(200).send(patients.filter((p)=>p.record !== null))
-      }else{
-        console.log(e);
+        res.send(patients)
+      }
+      else{
+        console.log(e)
       }
     })
   },
-
   getDepartments: (req, res)=>{
     Department.find({}, (err, departments)=>{
       if(!err){
@@ -247,24 +248,79 @@ module.exports = {
     })
   },
 
-
+  updateBed: (req, res)=>{
+    console.log(req.body)
+    Patient.findOneAndUpdate({
+      _id: req.body.id
+    },{
+      $set:{
+        "record.$.visits[0].bedNo": req.body.bedNo
+      }
+    },{new:true},(e, p)=>{
+      if(!e){
+        // Client.findOneAndUpdate({
+        // _id:"5bcd64c6a75e1f62809b57b3",
+        // "departments.name":"GOPD"
+        // }, {
+        //   $set: {
+        //     "departments.$.beds[req.body.bedNo]" : true
+        //   }
+        // },(e, doc)=>{
+        //   if(e) {
+        //     console.log(e)
+        //   } else{}
+        // })
+        res.send(p)
+      }else{
+        console.log(e)
+      }
+    })
+  },
   updateRecord: (req, res)=>{
    console.log(req.body)
-    Record.findById({"_id":"5bc9ff14c720e10ae8ea2f90"},(e, doc)=>{
+    Patient.findOne({_id:req.body.id},(e, doc)=>{
       if(!e){
-        doc.vitals.bp.push(req.body.record.vitals.bp)
-        doc.vitals.pulse.push(req.body.record.vitals.pulse)
-        doc.vitals.resp.push(req.body.record.vitals.resp)
-        doc.vitals.height.push(req.body.record.vitals.height)
-        doc.vitals.weight.push(req.body.record.vitals.weight)
-        doc.vitals.bloodGl.push(req.body.record.vitals.bg)
-        doc.conditions.push(req.body.record.conditions)
-        doc.complains.push(req.body.record.complains)
-        doc.famHist.push(req.body.record.famHist)
-        doc.notes.push(req.body.record.notes)
-        doc.allegies.push(req.body.record.allegies)
-        doc.medications =  doc.medications.concat(req.body.medications)
-        doc.save((e, doc)=>{
+        if(req.body.session.vitals.bp.value){
+          doc.record.vitals.bp.push(req.body.session.vitals.bp)
+        }else {}
+        if(req.body.session.vitals.pulse.value) {
+          doc.record.vitals.pulse.push(req.body.session.vitals.pulse)
+        }else {}
+         if(req.body.session.vitals.resp.value){
+          doc.record.vitals.resp.push(req.body.session.vitals.resp)
+        }else {}
+         if(req.body.session.vitals.height.value){
+          doc.record.vitals.height.push(req.body.session.vitals.height)
+        }else {}
+         if(req.body.session.vitals.weight.value){
+          doc.record.vitals.weight.push(req.body.session.vitals.weight)
+        }else {}
+         if(req.body.session.vitals.tempreture.value){
+          doc.record.vitals.weight.push(req.body.session.vitals.tempreture)
+        }else {}
+         if(req.body.session.vitals.bloodGl.value){
+          doc.record.vitals.bloodGl.push(req.body.session.vitals.bloodGl)
+        }else {}
+         if(req.body.session.conditions.condition){
+          doc.record.conditions.push(req.body.session.conditions)
+        }else {}
+         if(req.body.session.complains.complain){
+          doc.record.complains.push(req.body.session.complains)
+        }else {}
+         if(req.body.session.famHist.condition){
+          doc.record.famHist.push(req.body.session.famHist)
+        }else {}
+         if(req.body.session.notes.note){
+          doc.record.notes.push(req.body.session.notes)
+        }else {}
+         if(req.body.session.allegies.allegy){
+          doc.record.allegies.push(req.body.session.allegies)
+        }else {}
+         if(req.body.session.medications.length){
+          doc.record.medications =  doc.record.medications.concat(req.body.session.medications)
+        }else {}
+        doc.record.visits.push(req.body.session.visits)
+         doc.save((e, doc)=>{
           if(!e){
             res.send(doc)
           }  else{
@@ -277,23 +333,39 @@ module.exports = {
 
     })
 },
-updateMedication: (req, res)=>{
-     Record.findOneAndUpdate({
-       "_id":"5bc9ff14c720e10ae8ea2f90",
-       "medications._id" :req.body.medication._id
-     },
-     {
-       $set:{
-        "medications.$.product": req.body.medication.product,"medications.$.priscription": req.body.medication.priscription
-      }
-    },
-    {new:true},
-    (e, doc) =>{
-      if(!e){
-        res.send(doc.medications)
-    } else {condole.log(e)}
-  })
+updateNote: (req, res)=>{
+  console.log(req.body)
+  Patient.findOne({ _id:req.body.id} ,(e, doc) => {
+     if(!e){
+      doc.record.notes.push(req.body.note)
+      doc.save((e,p)=>{
+        if(!e){
+          res.send(p)
+        }
+        else{
+          console.log(e)
+        }
+      })
+  } else {console.log(e)}
+  }
  
+ )
+},
+updateMedication: (req, res)=>{
+  Record.findOneAndUpdate({
+    "_id":"5bc9ff14c720e10ae8ea2f90",
+    "medications._id" :req.body.medication._id
+  },
+  {
+    $set:{
+    "medications.$.product": req.body.medication.product,"medications.$.priscription": req.body.medication.priscription
+  }
+},{new:true},(e, doc) =>{
+    if(!e){
+      res.send(doc.medications)
+  } else {condole.log(e)}
+})
+
 },
 
 
@@ -319,6 +391,7 @@ getProducts: (req, res)=>{
     {_id:0, inventory:1},
       (err, products)=>{
       if(!err){
+        console.log(products)
         res.send(products);
       }
       else{
@@ -366,7 +439,7 @@ deleteProducts: (req, res)=>{
 })
 
 },
-  
+
 getItems: (req, res)=>{
   Item.find({}, (e,items)=>{
     if(!e){

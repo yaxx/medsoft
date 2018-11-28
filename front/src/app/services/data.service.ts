@@ -58,11 +58,17 @@ export class DataService {
   saveRecord(record) {
     return this.http.post(`${this.uri}/new-record`, record, {withCredentials: true});
   }
-  updateRecord(record, medications) {
-    return this.http.post(`${this.uri}/update-record`, {record: record, medications: medications}, {withCredentials: true});
+  updateRecord(session, pid) {
+    return this.http.post(`${this.uri}/update-record`, {session: session, id: pid}, {withCredentials: true});
   }
   updateMedication(m) {
     return this.http.post(`${this.uri}/update-medication`, {medication: m}, {withCredentials: true});
+  }
+  updateBed(i, n) {
+    return this.http.post(`${this.uri}/updatebed`, {id: i, bedNo: n}, {withCredentials: true});
+  }
+  updateNote(i, n) {
+    return this.http.post(`${this.uri}/updatenote`, {id: i, note: n}, {withCredentials: true});
   }
   getNew() {
     return this.staff;
@@ -76,6 +82,9 @@ export class DataService {
   }
   getItems() {
     return this.http.get(`${this.uri}/items`, {withCredentials: true});
+  }
+  getInPatients() {
+    return this.http.get(`${this.uri}/inpatients`, {withCredentials: true});
   }
   getOrders() {
     return this.http.get(`${this.uri}/orders`, {withCredentials: true});

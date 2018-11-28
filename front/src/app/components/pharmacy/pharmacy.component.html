@@ -1,62 +1,57 @@
-<!-- <div class="modal fade" role="dialog" tabindex="-1" id="prodModal" style="border-radius:0px;width:auto;">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content" style="width:600px">
-          <div class="modal-header" style="padding:4px; ">
-              <h6 class="modal-title" style="text-align:center; font-size:11px; width:100%; color:blue">EDIT PRISCRIPTION</h6>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">×</span>
-              </button>
-          </div>
-          <div class="modal-body">
-              <form class="accountform staffsform" (submit) = updateMedication()>
 
-                <div class="form-group vitals-section address">
-                    <label for="drug" class="labelss">DRUG NAME</label>
-                    <input autocomplete="off" (keyup)= "searchItem(input)" [(ngModel)] = input type="text" name="drug" placeholder= "E.g Paracetamol" class="patientdata dystolic inputs dataInfo" />
+<div class="sidenav">
+    <a href="#" class="home homemenu" title="Menu">
+        <span class="homespan">
+            <i class="material-icons homeicon">sort</i>
+        </span>
+    </a>
 
-                    <div *ngIf= temProducts.length  class="options prisOption">
-                        <ul class="itemsList" >
-                          <li  *ngFor="let product of temProducts"><p (click) = "selectProduct(product)"  class="dept firstheader drugItem" style="font-size:13px;padding-left: 10px; padding-right: 10px;font-weight: normal;" >{{product.item.name+ ' '}}<span class="lastdept timetaken " >{{product.item.mesure + product.item.unit}}</span></p>
-                          </li>
-
-                        </ul>
-                    </div>
-
-                </div>
-                <div class="form-group vitals-section formGroup" style=" width:24%;">
-                    <label for="dos" class="labelss complain">INTAKE</label>
-                    <input [(ngModel)] = "medication.priscription.intake" style="border-top-right-radius: 0px;border-bottom-right-radius: 0px;"  type="number" name="dos" class="patientdata inputs dataInfo"   placeholder="tabs/spoons">
-                </div>
-                <div class="form-group vitals-section formGroup" style=" width:23%; margin-right:4px; ">
-                    <label for="intake" class="labelss complain">FREQ</label>
-                    <select [(ngModel)]="medication.priscription.freq" style="border-top-left-radius: 0px;border-bottom-left-radius: 0px;"  class=" patientdata status inputs dataInfo " name="intake">
-                            <option>dos</option>
-                            <option>qos</option>
-                            <option>after meal</option>
-                            <option>as required</option>
-                    </select>
-                </div>
-                <div class="form-group vitals-section formGroup" style=" width:23%;">
-                    <label for="piriod" class="labelss complain">PIRIOD</label>
-                    <input [(ngModel)]="medication.priscription.piriod" style="border-top-right-radius: 0px;border-bottom-right-radius: 0px;"  type="number" name="piriod" class="patientdata inputs dataInfo"   placeholder="">
-                </div>
-                <div class="form-group vitals-section formGroup" style=" width:23%;">
-                    <label for="extend" class="labelss complain">EXTEND</label>
-                    <select [(ngModel)]="medication.priscription.extend" style="border-radius: 0px;"  class=" patientdata status inputs dataInfo " name="extend" >
-                            <option>days</option>
-
-                    </select>
-                </div>
-                <div class="form-group vitals-section formGroup" style=" width:6%;">
-
-                  <button type = "submit"  title="Update Medication"  id ="addmorebtn" class="btn btn-sm btn-outline-primary"><i class="icon ion-ios-plus-empty"></i></button>
-                </div>
-            </form>
-          </div>
+    <a href="#" [routerLink]="['/pharmacy']"  class="home dashboard" title="Dashboard">
+        <span class="homespan">
+            <i class="icon ion-android-apps homeicon"></i>
+        </span>
+    </a>
+    <a href="#" [routerLink]="['/information']" routerLinkActive="router-link-active"  class="home patienmenu" title="Patients">
+        <span class="homespan">
+            <i class="icon ion-ios-people-outline homeicon"></i>
+        </span>
+    </a>
+    <a href="#" [routerLink]="['/consultation']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Appointments">
+        <span class="homespan">
+            <i class="icon ion-ios-calendar-outline homeicon"></i>
+        </span>
+    </a>
+    <a href="#" [routerLink]="['/products']" routerLinkActive="active"  class="home cartmenu" title="Products">
+        <span class="homespan"> <i class="icon ion-ios-cart-outline homeicon"></i></span></a>
+    <a href="#" [routerLink]="['/ward']" routerLinkActive="router-link-active"   class="home wardmenu" title="Ward"><span class="homespan"><i class="material-icons homeicon wardicon">airline_seat_individual_suite</i></span></a>
+    <a href="#"  [routerLink]="['/account']" routerLinkActive="router-link-active" class="home settings" title="Settings"><span class="homespan"><i class="icon ion-ios-gear-outline homeicon"></i></span></a>
+  </div>
+  <nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:0px">
+  <div class="container">
+      <a class="navbar-brand" href="#">
+          <em>MS</em>
+      </a>
+      <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navcol-1">
+          <ul class="nav navbar-nav"></ul>
+          <form class="form-inline mr-auto searchform" target="_self">
+              <div class="form-group">
+                  <label for="search-field">
+                      <i class="icon ion-ios-search searchicon" title="Search"></i>
+                  </label>
+                  <input autocomplete="off" style="border-radius:30px; left: 405px; width:220px;background-color: rgb(243, 248, 247); margin: auto;" class="form-control search-field" type="search" name="search" id="search-field" placeholder="Search Patient">
+              </div>
+          </form>
       </div>
   </div>
-</div> -->
-
+  <i style="left:20%;" class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
+  <i style="left:80%;" class="icon ion-ios-personadd-outline arrow buble" id="add" title="Add Patient" ></i>
+  <i style="left:83%;" class="icon ion-ios-plus-empty arrow buble" id="add" title="Add Products" data-target="#newModal" data-toggle="modal"></i>
+  <div style="left:87%; top:5px;" class="timeline lastdoc priscriber headerdp"></div>
+  </nav>
 
 
 
@@ -131,179 +126,53 @@
                 <div class="card card-secondary maincard">
                     <div class="card-header profileheader">
                         <div class="timeline lastdoc priscriber headerdp"></div>
-                        <p class="dept displayname">Amina Sulaiman<span class="predata editicon"><i class="icon ion-ios-close-outline headericon gone"></i><i class="icon ion-android-more-vertical headericon moreicon"></i></span></p>
+                        <p class="dept displayname">Amina Sulaiman<span class="predata editicon"><i class="icon ion-ios-help-outline headericon in"></i><i class="icon ion-android-more-vertical headericon moreicon"></i></span></p>
                         <p class="dept displayname subinfo">Feb 09, 2018</p>
                     </div>
-                    <div class="card-body orderbody">
-                        <div class="carditem priscriptioncontainer order">
-                            <div class="timeline condition drugtimeline">
-                                <p class="timelinedate">08</p>
-                                <p class="timelinedate month">FEB</p>
-                            </div>
-                            <div class="priscription drug">
-                                <h6 class="dept">Paracetamol&nbsp;<span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata editicon"><i class="icon ion-edit predata editicon"></i></span><span class="predata">200mg</span></h6>
-                                <h6 class="dept previnfo">Dosage&nbsp;<span class="predata">dos | 10 days</span></h6>
-                                <h6 class="dept previnfo">Price&nbsp;<span class="predata priceval">150</span></h6>
-                            </div>
-                        </div>
-                        <div class="carditem priscriptioncontainer order">
-                            <div class="timeline condition drugtimeline">
-                                <p class="timelinedate">05</p>
-                                <p class="timelinedate month">FEB</p>
-                            </div>
-                            <div class="priscription drug">
-                                <h6 class="dept">Amoxiline&nbsp;<span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata editicon"><i class="icon ion-edit predata editicon"></i></span><span class="predata">200mg</span></h6>
-                                <h6 class="dept previnfo">Dosage&nbsp;<span class="predata">dos | 10 days</span></h6>
-                                <h6 class="dept previnfo">Price&nbsp;<span class="predata priceval">300</span></h6>
-                            </div>
-                            <div class="priscription drug">
-                                <h6 class="dept">Chloroquine &nbsp;<span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata editicon"><i class="icon ion-edit predata editicon"></i></span><span class="predata">200ml</span></h6>
-                                <h6 class="dept previnfo">Dosage&nbsp;<span class="predata">dos | 10 days</span></h6>
-                                <h6 class="dept previnfo">Price&nbsp;<span class="predata priceval">200</span></h6>
-                            </div>
-                            <div class="priscription drug">
-                                <h6 class="dept">Destrosaline<span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata editicon"><i class="icon ion-edit predata editicon"></i></span><span class="predata">1000ml</span></h6>
-                                <h6 class="dept previnfo">Dosage&nbsp;<span class="predata">dos | 10 days</span></h6>
-                                <h6 class="dept previnfo">Price&nbsp;<span class="predata priceval">500</span></h6>
-                            </div>
-                        </div>
-                        <div class="carditem priscriptioncontainer order">
-                            <div class="timeline condition drugtimeline">
-                                <p class="timelinedate">25</p>
-                                <p class="timelinedate month">SEP</p>
-                            </div>
-                            <div class="priscription drug">
-                                <h6 class="dept"><span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata editicon"><i class="icon ion-edit predata editicon"></i></span>Peritone&nbsp;<span class="predata">200mg</span></h6>
-                                <h6 class="dept previnfo">Dosage&nbsp;<span class="predata">dos | 10 days</span></h6>
-                                <h6 class="dept previnfo">Price&nbsp;<span class="predata priceval">150</span></h6>
-                            </div>
-                            <div class="priscription drug">
-                                <h6 class="dept">Amathem&nbsp;<span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata editicon"><i class="icon ion-edit predata editicon"></i></span><span class="predata">200mg</span></h6>
-                                <h6 class="dept previnfo">Dosage&nbsp;<span class="predata">dos | 10 days</span></h6>
-                                <h6 class="dept previnfo">Price&nbsp;<span class="predata priceval">350</span></h6>
-                            </div>
-                        </div>
+                    <div style="margin-left:0px; padding-top:15%; border-left: none" class="card-body orderbody" >
+                        <form style="top:15%; padding-left: 2%; padding-right: 2%;" class=" staffsform" (submit) = updateMedication()>
+
+                          <div class="form-group vitals-section address">
+                              <label for="drug" class="labelss">Drug Name</label>
+                              <input autocomplete="off" (keyup)= "searchItem(input)" [(ngModel)] = input type="text" name="drug" placeholder= "E.g Paracetamol" class="patientdata dystolic inputs dataInfo" />
+
+                              <div *ngIf= temProducts.length  class="options prisOption edit">
+                                  <ul class="itemsList" >
+                                    <li  *ngFor="let product of temProducts"><p (click) = "selectProduct(product)"  class="dept firstheader drugItem" style="font-size:13px;padding-left: 10px; padding-right: 10px;font-weight: normal;" >{{product.item.name+ ' '}}<span class="lastdept timetaken " >{{product.item.mesure + product.item.unit}}</span></p>
+                                    </li>
+                                  </ul>
+                              </div>
+
+                          </div>
+                          <div class="form-group vitals-section formGroup" style=" width:28%;">
+                              <label for="dos" class="labelss complain">Intake</label>
+                              <input [(ngModel)] = "medication.priscription.intake" style="border-top-right-radius: 0px;border-bottom-right-radius: 0px;"  type="number" name="dos" class="patientdata inputs dataInfo"  >
+                          </div>
+                          <div class="form-group vitals-section formGroup" style=" width:43%; ">
+                              <label for="intake" class="labelss complain">Freq</label>
+                              <select [(ngModel)]="medication.priscription.freq" style="border-radius: 0px;"  class=" patientdata status inputs dataInfo " name="intake">
+                                      <option>dos</option>
+                                      <option>qos</option>
+                                      <option>after meal</option>
+                                      <option>as required</option>
+                              </select>
+                          </div>
+                          <div class="form-group vitals-section formGroup" style=" width:28%;">
+                              <label for="piriod" class="labelss complain">Days</label>
+                              <input [(ngModel)]="medication.priscription.piriod" style="border-top-left-radius: 0px;border-bottom-left-radius: 0px;"  type="number" name="piriod" class="patientdata inputs dataInfo"   placeholder="">
+                          </div>
+                          <div class="form-group vitals-section address">
+                            <button (click)=switchViews() style="font-size:11px; width:50%;border-top-right-radius: 0px;border-bottom-right-radius: 0px; "  type="button" class="btn btn-sm btn-outline-primary inputs" >Cancel</button>
+
+                            <button style="font-size:11px; width:49.5%; border-top-left-radius: 0px;border-bottom-left-radius: 0px; "  type="submit" class="btn btn-sm btn-outline-primary inputs" >Add Medication</button>
+                          </div>
+                      </form>
+
+                      </div>
+                    <div class="floter" title="Examine"><i class="icon ion-person-stalker flotericon consulticon" title="Administered"></i>
                     </div>
                 </div>
-            </div>
-            <div class="col col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                <div class="card card-secondary maincard">
-                    <div class="card-header profileheader">
-                        <div class="timeline lastdoc priscriber headerdp"></div>
-                        <p class="dept displayname">Amina Sulaiman<span class="predata editicon"><i class="icon ion-ios-close-outline headericon gone"></i><i class="icon ion-android-more-vertical headericon moreicon"></i></span></p>
-                        <p class="dept displayname subinfo">Feb 09, 2018</p>
-                    </div>
-                    <div class="card-body orderbody">
-                        <div class="carditem priscriptioncontainer order">
-                            <div class="timeline condition drugtimeline">
-                                <p class="timelinedate">08</p>
-                                <p class="timelinedate month">FEB</p>
-                            </div>
-                            <div class="priscription drug">
-                                <h6 class="dept">Paracetamol&nbsp;<span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata editicon"><i class="icon ion-edit predata editicon"></i></span><span class="predata">200mg</span></h6>
-                                <h6 class="dept previnfo">Dosage&nbsp;<span class="predata">dos | 10 days</span></h6>
-                                <h6 class="dept previnfo">Price&nbsp;<span class="predata priceval">150</span></h6>
-                            </div>
-                        </div>
-                        <div class="carditem priscriptioncontainer order">
-                            <div class="timeline condition drugtimeline">
-                                <p class="timelinedate">05</p>
-                                <p class="timelinedate month">FEB</p>
-                            </div>
-                            <div class="priscription drug">
-                                <h6 class="dept">Amoxiline&nbsp;<span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata editicon"><i class="icon ion-edit predata editicon"></i></span><span class="predata">200mg</span></h6>
-                                <h6 class="dept previnfo">Dosage&nbsp;<span class="predata">dos | 10 days</span></h6>
-                                <h6 class="dept previnfo">Price&nbsp;<span class="predata priceval">300</span></h6>
-                            </div>
-                            <div class="priscription drug">
-                                <h6 class="dept">Chloroquine &nbsp;<span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata editicon"><i class="icon ion-edit predata editicon"></i></span><span class="predata">200ml</span></h6>
-                                <h6 class="dept previnfo">Dosage&nbsp;<span class="predata">dos | 10 days</span></h6>
-                                <h6 class="dept previnfo">Price&nbsp;<span class="predata priceval">200</span></h6>
-                            </div>
-                            <div class="priscription drug">
-                                <h6 class="dept">Destrosaline<span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata editicon"><i class="icon ion-edit predata editicon"></i></span><span class="predata">1000ml</span></h6>
-                                <h6 class="dept previnfo">Dosage&nbsp;<span class="predata">dos | 10 days</span></h6>
-                                <h6 class="dept previnfo">Price&nbsp;<span class="predata priceval">500</span></h6>
-                            </div>
-                        </div>
-                        <div class="carditem priscriptioncontainer order">
-                            <div class="timeline condition drugtimeline">
-                                <p class="timelinedate">25</p>
-                                <p class="timelinedate month">SEP</p>
-                            </div>
-                            <div class="priscription drug">
-                                <h6 class="dept"><span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata editicon"><i class="icon ion-edit predata editicon"></i></span>Peritone&nbsp;<span class="predata">200mg</span></h6>
-                                <h6 class="dept previnfo">Dosage&nbsp;<span class="predata">dos | 10 days</span></h6>
-                                <h6 class="dept previnfo">Price&nbsp;<span class="predata priceval">150</span></h6>
-                            </div>
-                            <div class="priscription drug">
-                                <h6 class="dept">Amathem&nbsp;<span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata editicon"><i class="icon ion-edit predata editicon"></i></span><span class="predata">200mg</span></h6>
-                                <h6 class="dept previnfo">Dosage&nbsp;<span class="predata">dos | 10 days</span></h6>
-                                <h6 class="dept previnfo">Price&nbsp;<span class="predata priceval">350</span></h6>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                <div class="card card-secondary maincard">
-                    <div class="card-header profileheader">
-                        <div class="timeline lastdoc priscriber headerdp"></div>
-                        <p class="dept displayname">Amina Sulaiman<span class="predata editicon"><i class="icon ion-ios-close-outline headericon gone"></i><i class="icon ion-android-more-vertical headericon moreicon"></i></span></p>
-                        <p class="dept displayname subinfo">Feb 09, 2018</p>
-                    </div>
-                    <div class="card-body orderbody">
-                        <div class="carditem priscriptioncontainer order">
-                            <div class="timeline condition drugtimeline">
-                                <p class="timelinedate">08</p>
-                                <p class="timelinedate month">FEB</p>
-                            </div>
-                            <div class="priscription drug">
-                                <h6 class="dept">Paracetamol&nbsp;<span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata editicon"><i class="icon ion-edit predata editicon"></i></span><span class="predata">200mg</span></h6>
-                                <h6 class="dept previnfo">Dosage&nbsp;<span class="predata">dos | 10 days</span></h6>
-                                <h6 class="dept previnfo">Price&nbsp;<span class="predata priceval">150</span></h6>
-                            </div>
-                        </div>
-                        <div class="carditem priscriptioncontainer order">
-                            <div class="timeline condition drugtimeline">
-                                <p class="timelinedate">05</p>
-                                <p class="timelinedate month">FEB</p>
-                            </div>
-                            <div class="priscription drug">
-                                <h6 class="dept">Amoxiline&nbsp;<span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata editicon"><i class="icon ion-edit predata editicon"></i></span><span class="predata">200mg</span></h6>
-                                <h6 class="dept previnfo">Dosage&nbsp;<span class="predata">dos | 10 days</span></h6>
-                                <h6 class="dept previnfo">Price&nbsp;<span class="predata priceval">300</span></h6>
-                            </div>
-                            <div class="priscription drug">
-                                <h6 class="dept">Chloroquine &nbsp;<span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata editicon"><i class="icon ion-edit predata editicon"></i></span><span class="predata">200ml</span></h6>
-                                <h6 class="dept previnfo">Dosage&nbsp;<span class="predata">dos | 10 days</span></h6>
-                                <h6 class="dept previnfo">Price&nbsp;<span class="predata priceval">200</span></h6>
-                            </div>
-                            <div class="priscription drug">
-                                <h6 class="dept">Destrosaline<span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata editicon"><i class="icon ion-edit predata editicon"></i></span><span class="predata">1000ml</span></h6>
-                                <h6 class="dept previnfo">Dosage&nbsp;<span class="predata">dos | 10 days</span></h6>
-                                <h6 class="dept previnfo">Price&nbsp;<span class="predata priceval">500</span></h6>
-                            </div>
-                        </div>
-                        <div class="carditem priscriptioncontainer order">
-                            <div class="timeline condition drugtimeline">
-                                <p class="timelinedate">25</p>
-                                <p class="timelinedate month">SEP</p>
-                            </div>
-                            <div class="priscription drug">
-                                <h6 class="dept"><span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata editicon"><i class="icon ion-edit predata editicon"></i></span>Peritone&nbsp;<span class="predata">200mg</span></h6>
-                                <h6 class="dept previnfo">Dosage&nbsp;<span class="predata">dos | 10 days</span></h6>
-                                <h6 class="dept previnfo">Price&nbsp;<span class="predata priceval">150</span></h6>
-                            </div>
-                            <div class="priscription drug">
-                                <h6 class="dept">Amathem&nbsp;<span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata editicon"><i class="icon ion-edit predata editicon"></i></span><span class="predata">200mg</span></h6>
-                                <h6 class="dept previnfo">Dosage&nbsp;<span class="predata">dos | 10 days</span></h6>
-                                <h6 class="dept previnfo">Price&nbsp;<span class="predata priceval">350</span></h6>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+              </div>
 
           <!-- <div [ngSwitch]="view"  *ngFor="let patient of patients; let i = index"  class="col col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-12">
             <div *ngSwitchCase="'details'" class="card card-secondary maincard">

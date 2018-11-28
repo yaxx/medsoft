@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {DataService} from '../../services/data.service';
 import {SocketService} from '../../services/socket.service';
-import { Patient, Record, Item, StockInfo,
-  Product, Priscription, Medication, Complain,
-  FamHist, Note, Vital, Condition, Allegy, Device, Visit, Test, Sugery, File,DeathNote, Bp, Bg, Temp, Resp, Pulse, Height, Weight
+import {Client, Department,  Patient, Record, Session, Item, StockInfo,
+  Product, Priscription, Medication
 } from '../../models/data.model';
 
 @Component({
@@ -14,10 +13,11 @@ import { Patient, Record, Item, StockInfo,
 export class ConsultationComponent implements OnInit {
   patient: Patient = new Patient();
   patients: Patient[] = new Array<Patient>();
-  record: Record = new Record(new Complain(),  new FamHist(), new Note(),
-   new Vital(new Bp(), new Resp(),  new Pulse(), new Bg(), new Temp(), new Height(), new Weight()), new Condition(), new Allegy());
-
-
+  record: Record = new Record();
+  client: Client = new Client();
+  department: Department = new Department();
+  session: Session = new Session();
+  curIndex = 0;
   priscription: Priscription = new Priscription();
   medication: Medication =  new Medication(new Product(), new Priscription() );
   medications: Medication[] = new Array<Medication>();
@@ -29,6 +29,7 @@ export class ConsultationComponent implements OnInit {
   selectedProducts: Product[] = new Array<Product>();
   input = '';
   in = 'discharge';
+  fowarded = false;
   constructor(private dataService: DataService, private socket: SocketService ) {
 
    }
@@ -37,26 +38,43 @@ export class ConsultationComponent implements OnInit {
    this.getConsultees();
    this.getProducts();
    this.getItems();
+   this.getClient();
    this.socket.io.on('new patient', (patient: Patient) => {
       this.patients.push(patient);
   });
   }
+  getClient() {
+    this.dataService.getClient().subscribe((client: Client) => {
+      this.client = client;
+    });
 
+  }
+  conclude(conclution) {
+    this.fowarded = conclution === 'fowarded' ? true : false;
+  }
+  fetchDept() {
+    if(this.fowarded) {
+      return this.client.departments
+      .filter((dept) => (dept.hasWard) && (dept.name !== this.patients[this.curIndex].record.visits[0].dept));
+    } else {
+      return [];
+    }
+
+  }
   getProducts() {
     this.dataService.getProducts().subscribe((p: any) => {
       this.products = p.inventory;
-
     });
   }
   getItems() {
     this.dataService.getItems().subscribe((items: Item[]) => {
       this.items = items;
-
     });
   }
-
   selectItem(i: Item) {
-
+  }
+  selectPatient(i: number) {
+   this.curIndex = i;
   }
 
   searchItem (i) {
@@ -77,11 +95,10 @@ export class ConsultationComponent implements OnInit {
   getConsultees() {
     this.dataService.getConsultees().subscribe((p: Patient[]) => {
       this.patients = p;
+      console.log(p);
      this.dataService.setCachedPatients(p);
     });
   }
-
-
   addSelection(i: Item) {
     this.input = i.name + ' ' + i.mesure + i.unit;
     this.temItems = new Array<Item>();
@@ -99,8 +116,6 @@ export class ConsultationComponent implements OnInit {
     this.priscription = new Priscription();
     this.input = null;
   }
-
-
   removePriscription(i) {
    this.medications.splice(i);
   }
@@ -111,10 +126,13 @@ export class ConsultationComponent implements OnInit {
     //  }
     //  return sum;
   }
-  saveRecord() {
-    this.dataService.updateRecord(this.record, this.medications).subscribe((newrecord: Record) => {
-      this.patients[0].record = newrecord;
-      this.record = new Record();
+  submitRecord() {
+    this.session.medications = this.medications;
+    this.dataService.updateRecord(this.session, this.patients[this.curIndex]._id).subscribe((p: Patient) => {
+      this.patients[this.curIndex] = p ;
+      this.session = new Session();
+      this.medication = new Medication();
+
     });
   }
 }

@@ -386,8 +386,9 @@ body, html {
 .inputs {
   width:100%;
   text-align:left;
-  font-size:13px;
+  font-size:12px;
   box-shadow:none;
+  text-align: center;
 }
 .mainbtn{
   font-size:13px; text-align: center;
@@ -405,5 +406,72 @@ body, html {
 .home.wardmenu {
   top:59%;
 }
+.placeholder {
+  width:100%;
+  text-align:center;
+  align-self:center;
+  margin:0px;
+  position:absolute;
+  top:45%;
+  color:whitesmoke;
+}
 
+.itemsList{
+  list-style:none;
+  padding: 0px;
 
+}
+.prisOption{
+
+  border: 1px solid whitesmoke;
+  border-radius:4px;
+  position: absolute;
+  width: 80%;
+  left:10%;
+  z-index:1;
+  background: white;
+  -webkit-border-radius:4px;
+  -moz-border-radius:4px;
+  -ms-border-radius:4px;
+  -o-border-radius:4px;
+}
+.drugItem:hover{
+  background:blue;
+  color:white;
+}
+.menu{
+  position: relative;
+  width: 50%;
+  left: 78%;
+  bottom: 10px;
+  height: 100px;
+  border-radius: 4px;
+  border: 1px solid whitesmoke;
+  background-color: white;
+  z-index: 1;
+
+}
+.actions{
+  list-style:none;
+  font-size: 11px;
+  padding: 0px;
+  padding-top:5px;
+}
+.action{
+  padding-left: 10px;
+  cursor: pointer;
+  width:100%;
+  height: 20px;
+  padding-top: 2px;
+}
+
+.action:hover{
+  background:blue;
+  color: white;
+}
+
+#newnote:focus{
+  border: none;
+  border-color: white;
+  box-shadow:none;
+}

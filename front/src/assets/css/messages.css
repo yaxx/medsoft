@@ -1,0 +1,227 @@
+.message-recieved .msg-text {
+  border-bottom-left-radius:0px;
+  border-top-left-radius:0px;
+}
+
+.chatcard.card-body.topcardbody {
+  padding-right:5px;
+}
+
+
+
+.card-body.chat-body {
+  padding-top:4%;
+  padding-left:9px;
+  padding-right:9px;
+  margin-left:0px;
+  border:none;
+}
+
+.message-recieved .msg-text.first-recieved {
+  border-top-left-radius:.999em;
+
+  margin-bottom:0px;
+}
+
+.message-send .msg-text.first-msg {
+  border-top-right-radius:.999em;
+}
+
+.msg-text {
+  background-color:#f5f5f5;
+}
+
+.message-avatar img {
+  border-radius:4px;
+  height:100%;
+  width:100%;
+  object-fit:cover;
+}
+
+.msg-avatar.msg-image {
+  height:100%;
+  width:100%;
+}
+
+.avatar-container {
+  box-sizing:border-box;
+  overflow:hidden;
+  /*height:36px;*/
+  /*width:36p;*/
+}
+
+.msg-avatar {
+  height:100%;
+  width:100%;
+  border-radius:50%;
+  overflow:hidden;
+  position:relative;
+}
+
+.message-avatar {
+  height:34px;
+  width:34px;
+  flex-shrink:0;
+}
+
+.message-send {
+  /* border-top-right-radius:0px; */
+  /* margin-bottom:10px; */
+}
+
+.message.is-rapid.message-send {
+  /* margin-bottom:0px; */
+}
+.message.message-send, .message.message-recieved{
+  /* margin-bottom: 10px; */
+}
+
+
+
+.message-container {
+  display:flex;
+  align-items:flex-end;
+}
+
+.message-send .message-container {
+  flex-direction:row-reverse;
+}
+
+.message-msg {
+  margin:0 10px;
+  max-width:60%;
+  border-radius:20px;
+}
+
+.message-msg.msg-contentContainer {
+  /*border-radius:inherit;*/
+  overflow:hidden;
+}
+
+.message > *:last-child {
+  /*border-bottom-left-radius:inherit;*/
+  /*border-bottom-right-radius:inherit;*/
+}
+
+.message > *:first-child {
+  /*border-top-left-radius:inherit;*/
+  /*border-top-right-radius:inherit;*/
+}
+
+msg-text.msg-container {
+  white-space:pre-wrap;
+  word-wrap:break-word;
+}
+
+message-text.msg-msg {
+  white-space:pre-wrap;
+  word-wrap:break-word;
+}
+
+.msg-msg.msg-size {
+  font-size:14px;
+  line-height:20px;
+  white-space:pre-wrap;
+  word-wrap:break-word;
+  margin:0px;
+}
+
+.conversation-container {
+  display:flex;
+  flex-direction:column;
+  flex-grow:1;
+  flex-shrink:0;
+  justify-content:end;
+  margin-left:0px;
+}
+
+.message-send .msg-text {
+  background-color:#1da1f2;
+  color:#fff!important;
+  border-radius:.999em;
+  border-bottom-right-radius:0px;
+  border-top-right-radius:0px;
+}
+
+.msg-text {
+  box-sizing:border-box;
+  padding:6px 12px;
+  max-width:100%;
+  border-radius:.999em;
+}
+
+.message {
+  flex-direction:column;
+  list-style-type:none;
+  margin-bottom:15px;
+  display:flex;
+}
+
+
+
+.icon.ion-image.attachment {
+  color:#adb0b0;
+  right:9%;
+  font-size:20px;
+  top:14%;
+  height:32px;
+  width:32px;
+  border-radius:50%;
+  position: absolute;
+  text-align:center;
+  cursor:pointer;
+}
+
+.attachment:hover {
+  background:rgba(217, 221, 221, 0.5);
+}
+
+.icon.ion-android-send.attachment {
+  position:absolute;
+  right:0%;
+  top:12%;
+  font-size:20px;
+  height:34px;
+  width:34px;
+  text-align:center;
+  border-radius:50%;
+  background:rgba(60, 176, 248, 0.3);
+  color:white;
+  cursor:pointer;
+  padding-left:4px;
+  position: absolute;
+}
+
+.chat-form {
+  position:absolute;
+  width:95%;
+  bottom:0%;
+}
+
+.form-control.inputs.patientdata.newpatient.chat-message:focus {
+  border:none;
+  border-top:white;
+}
+
+.form-control.inputs.patientdata.newpatient.chat-message {
+  width:85%;
+  text-align:left;
+  border:none;
+  padding-top:10px;
+  border-top:white;
+  /*padding-bottom:12px;*/
+  border-radius:0px;
+  font-size:15px;
+  /*margin:4px;*/
+  /*min-height:15px;*/
+  overflow-wrap: break-word;
+  /*padding-right:1%;*/
+}
+
+.message-group {
+  padding-left:5px;
+  padding-right:5px;
+  position:relative;
+  border-top:1px solid #1da1f2;
+}
+

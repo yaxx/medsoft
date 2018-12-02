@@ -232,3 +232,83 @@
   position:absolute;
 }
 
+.card-colums.rightcolumn.sugcolumn {
+  left:-19px;
+}
+
+.card-colums.leftcolumn.online.column {
+  left:80px;
+}
+
+.card-body.onlinesbody {
+  margin-left:0px;
+  border:none;
+  padding-top:0%;
+}
+
+.timeline.lastdoc.priscriber.headerdp.persondp {
+  left:8px;
+  position:absolute;
+}
+
+.dept.latestmsg {
+  top:7px;
+  left:22px;
+  font-weight:normal;
+}
+
+.dept.personname {
+  font-weight:bold;
+  left:22px;
+  top:9px;
+}
+
+.card-header.profileheader.person {
+  margin-left:0px;
+  left:0px;
+  border-bottom:none;
+  position:relative;
+  padding-top:2px;
+  padding-bottom:2px;
+  height:41px;
+}
+
+.icon.ion-ios-search.searchicon.searchperson {
+  left:93%;
+  bottom:-31%;
+}
+
+.carditem.people {
+  padding-left:0%;
+  margin:0px;
+}
+
+.timetaken.chattime {
+  color:lightgrey;
+  font-weight:normal;
+}
+
+.card.card-secondary.historycard.midlecard.chatcard {
+  min-height:612px;
+  margin:auto;
+}
+
+.dept.personname {
+  font-weight:bold;
+  left:22px;
+  top:9px;
+}
+
+.carditem.person {
+  margin:0px;
+  margin-left:0px;
+}
+
+.row.chatrow {
+  height:100%;
+}
+
+.card.card-secondary.historycard.leftcard {
+  height:450px;
+}
+

@@ -2,7 +2,7 @@ var express = require( 'express')
 var app = express()
 var server = require('http').Server(app)
 var io = require('socket.io')(server)
-import * as api from './routes/api'
+var api = require('./routes/api')
 var Notification = require('./models/schemas/noteschema')
 var Contact = require('./models/schemas/contactschema')
 var Messages = require('./models/schemas/messageschema')

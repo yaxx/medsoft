@@ -1,0 +1,193 @@
+
+<div class="sidenav">
+  <a href="#" class="home homemenu" title="Menu">
+      <span class="homespan">
+          <i class="material-icons homeicon">sort</i>
+      </span>
+  </a>
+
+  <a href="#" [routerLink]="['/pharmacy']"  class="home dashboard" title="Dashboard">
+      <span class="homespan">
+          <i class="icon ion-android-apps homeicon"></i>
+      </span>
+  </a>
+  <a href="#" [routerLink]="['/information']" routerLinkActive="router-link-active"  class="home patienmenu" title="Patients">
+      <span class="homespan">
+          <i class="icon ion-ios-people-outline homeicon"></i>
+      </span>
+  </a>
+  <a href="#" [routerLink]="['/consultation']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Appointments">
+      <span class="homespan">
+          <i class="icon ion-ios-calendar-outline homeicon"></i>
+      </span>
+  </a>
+  <a href="#" [routerLink]="['/products']" routerLinkActive="active"  class="home cartmenu" title="Products">
+      <span class="homespan"> <i class="icon ion-ios-cart-outline homeicon"></i></span></a>
+  <a href="#" [routerLink]="['/ward']" routerLinkActive="router-link-active"   class="home wardmenu" title="Ward"><span class="homespan"><i class="material-icons homeicon wardicon">airline_seat_individual_suite</i></span></a>
+  <a href="#"  [routerLink]="['/account']" routerLinkActive="router-link-active" class="home settings" title="Settings"><span class="homespan"><i class="icon ion-ios-gear-outline homeicon"></i></span></a>
+</div>
+<nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:0px">
+<div class="container">
+    <a class="navbar-brand" href="#">
+        <em>MS</em>
+    </a>
+    <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navcol-1">
+        <ul class="nav navbar-nav"></ul>
+        <form class="form-inline mr-auto searchform" target="_self">
+            <div class="form-group">
+                <label for="search-field">
+                    <i class="icon ion-ios-search searchicon" title="Search"></i>
+                </label>
+                <input autocomplete="off" style="border-radius:30px; left: 405px; width:220px;background-color: rgb(243, 248, 247); margin: auto;" class="form-control search-field" type="search" name="search" id="search-field" placeholder="Search Patient">
+            </div>
+        </form>
+    </div>
+</div>
+<i style="left:20%;" class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
+<i style="left:25%; font-size: 22px;" class="icon ion-ios-chatboxes-outline arrow buble" title="Messages"></i>
+
+<div style="left:87%; top:5px;" class="timeline lastdoc priscriber headerdp"></div>
+</nav>
+<div
+        class="container">
+        <div class="row chatrow">
+            <div class="col col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                <div class="card-colums leftcolumn online column">
+                    <div class="card card-secondary historycard leftcard">
+                        <div class="card-header grapheader">
+                            <h1 class="dept headtitle">Search<i class="icon ion-ios-search searchicon searchperson" title="Search"></i></h1>
+                        </div>
+                        <div class="card-body onlinesbody">
+                            <div class="carditem people">
+                                <div class="card-header profileheader person">
+                                    <div class="timeline lastdoc priscriber headerdp persondp"></div>
+                                    <p class="dept personname">Fareedah Zakari&nbsp;<span class="timetaken chattime">&nbsp;05min&nbsp;</span></p>
+                                    <h1 class="dept latestmsg">Hi</h1>
+                                </div>
+                                <div class="card-header profileheader person">
+                                    <div class="timeline lastdoc priscriber headerdp persondp"></div>
+                                    <p class="dept personname">Amina Sulaiman<span class="timetaken chattime">&nbsp;25min&nbsp;</span></p>
+                                    <h1 class="dept latestmsg">call you later</h1>
+                                </div>
+                                <div class="card-header profileheader person">
+                                    <div class="timeline lastdoc priscriber headerdp persondp"></div>
+                                    <p class="dept personname">Salima Mohammed<span class="timetaken chattime">&nbsp;25min&nbsp;</span></p>
+                                    <h1 class="dept latestmsg">call you later</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 chatcolumn">
+                <div class="card-colums">
+                    <div class="card card-secondary historycard midlecard chatcard">
+                        <div class="card-header grapheader">
+                            <h1 class="dept headtitle">MESSAGES</h1>
+                        </div>
+                        <div class="card-body chat-body">
+                          <div class="conversation-container">
+                            <div class="message message-send">
+                                <div class="message-container">
+                                    <div class="message-avatar"><a href="#" class="profile-link"></a>
+                                        <div class="msg-avatar"><span class="avatar-container"><img src="../../../assets/img/model.jpg" class="invisible msg-image" /></span></div>
+                                    </div>
+                                    <div class="message-msg">
+                                        <div class="msg-contentContainer">
+                                            <div class="msg-text first-msg">
+                                                <div class="msg-container">
+                                                    <p class="msg-msg msg-size">How i have been sending you message</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="message-container">
+                                    <div class="message-avatar"><a href="#" class="profile-link"></a>
+                                        <div class="msg-avatar"><span class="avatar-container"><img src="../../../assets/img/model.jpg" class="msg-image" /></span></div>
+                                    </div>
+                                    <div class="message-msg">
+                                        <div class="msg-contentContainer">
+                                            <div class="msg-text">
+                                                <div class="msg-container">
+                                                    <p class="msg-msg msg-size">How i have been send</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="message message-recieved">
+                                <div class="message-container">
+                                    <div class="message-avatar"><a href="#" class="profile-link"></a>
+                                        <div class="msg-avatar"><span class="avatar-container"><img src="model.jpg" class="invisible msg-image" /></span></div>
+                                    </div>
+                                    <div class="message-msg">
+                                        <div class="msg-contentContainer">
+                                            <div class="msg-text first-recieved">
+                                                <div class="msg-container">
+                                                    <p class="msg-msg msg-size">sending the attachement</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="message-container">
+                                    <div class="message-avatar"><a href="#" class="profile-link"></a>
+                                        <div class="msg-avatar"><span class="avatar-container"><img src="model.jpg" class="invisible msg-image" /></span></div>
+                                    </div>
+                                    <div class="message-msg">
+                                        <div class="msg-contentContainer">
+                                            <div class="msg-text">
+                                                <div class="msg-container">
+                                                    <p class="msg-msg msg-size">check your inbox immediately please</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="message-container">
+                                    <div class="message-avatar"><a href="#" class="profile-link"></a>
+                                        <div class="msg-avatar"><span class="avatar-container"><img src="../../../assets/img/mode.jpg "class="msg-image" /></span></div>
+                                    </div>
+                                    <div class="message-msg">
+                                        <div class="msg-contentContainer">
+                                            <div class="msg-text">
+                                                <div class="msg-container">
+                                                    <p class="msg-msg msg-size">Ok</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <form class="chat-form">
+                          <div class="message-group"><textarea [(ngModel)] ="test"  (keypress)="sendMessage($event)"class="form-control inputs patientdata newpatient chat-message" placeholder="Type a message" rows="1"></textarea><i class="icon ion-image attachment" title="Attach file"></i><i class="icon ion-android-send attachment" title="Send"></i></div>
+                      </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                <div class="card-colums rightcolumn sugcolumn">
+                    <div class="card card-secondary historycard rightcard medication">
+                        <div class="card-header grapheader">
+                            <h1 class="dept headtitle">SUGESTIONS</h1>
+                        </div>
+                        <div class="card-body rightcardbody">
+                            <div class="carditem"></div>
+                            <div class="carditem">
+                                <h1 class="dept">Malaria Fever<span class="predata">&nbsp; 02/15/2018&nbsp;</span></h1>
+                                <h1 class="dept previnfo">Diagnosed By<span class="predata">&nbsp; Dr. Simon Lesi</span></h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>

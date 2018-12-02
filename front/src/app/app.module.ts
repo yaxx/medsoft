@@ -22,6 +22,7 @@ import { NavComponent } from './components/nav/nav.component';
 import { PatientComponent } from './components/patient/patient.component';
 import { SessionComponent } from './components/session/session.component';
 import { ProductComponent } from './components/product/product.component';
+import { MessagesComponent } from './components/messages/messages.component';
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'account', component: AccountComponent},
@@ -32,7 +33,7 @@ const routes: Routes = [
   {path: 'consultation/:mode', component: SessionComponent},
   {path: 'consultation/:mode/:id', component: HistoryComponent},
   {path: 'products', component: InventoryComponent},
-  {path: 'products/:mode', component: ProductComponent},
+  {path: 'messages', component: MessagesComponent},
   {path: 'history/:id', component: HistoryComponent},
   {path: 'pharmacy', component:  PharmacyComponent},
   {path: 'ward', component: WardComponent},
@@ -55,6 +56,7 @@ const routes: Routes = [
     PatientComponent,
     SessionComponent,
     ProductComponent,
+    MessagesComponent,
   ],
   imports: [
     BrowserModule,

@@ -9,6 +9,17 @@ import {CookieService } from 'ngx-cookie-service';
 })
 export class MessagesComponent implements OnInit {
 test = null;
+data = [
+  [
+    {message: 'hi', sender: 'me'},
+    {message: 'are you still comming home?', sender: 'me'}
+  ],
+  [
+    {message: 'yes, latter', sender: 'bot'},
+    {message: 'see you soon', sender: 'bot'},
+    {message: 'dont forget to call', sender: 'bot'}
+  ]
+];
   constructor(
     private dataService: DataService,
     private cookie: CookieService,

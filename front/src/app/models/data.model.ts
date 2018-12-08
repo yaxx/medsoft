@@ -206,7 +206,8 @@ export class Visit {
      ) {}
   }
 export class Test {
-  constructor( public type: string = null,
+  constructor(
+    public type: string = null,
     public status: string = null,
     public result?: Object,
     public by?: Staff,
@@ -215,7 +216,8 @@ export class Test {
      ) {}
   }
 export class Sugery {
-  constructor( public sugery: string = null,
+  constructor(
+    public sugery: string = null,
     public status: string = null,
     public result?: Object,
     public by?: Staff,
@@ -310,28 +312,38 @@ export class Main {
       public dateCreated?: Date) {}
 }
 export class Staff {
-  constructor(public firstName: string = null,
-      public lastName: string = null,
-      public hosId: string = null,
-      public staffId: string = null,
-      public mobile: string = null,
-      public email: string = null,
-      public department: string = null,
-      public role: string = null,
-      public username: string = null,
-      public password: string= null,
-      public dpUrl?: string,
-      public status?: string,
-      public _id?: string,
-      public dateCreated?: Date
+  constructor(
+    public firstName: string = null,
+    public lastName: string = null,
+    public hosId: string = null,
+    public staffId: string = null,
+    public mobile: string = null,
+    public email: string = null,
+    public department: string = null,
+    public role: string = null,
+    public username: string = null,
+    public password: string= null,
+    public dpUrl?: string,
+    public status?: string,
+    public _id?: string,
+    public dateCreated?: Date
 
      ) {}
   }
 export class Client {
-  constructor(public _id?: string, public main?: Main,
+  constructor(
+    public _id?: string, public main?: Main,
     public departments?: Department[],
     public staffs?: Staff[], public inventory?: Product[]) {
   }
+}
+export class Message {
+  constructor(
+    public message: string = null,
+    public sender: string = null,
+    public reciever:   string = null,
+    public sendOn?: Date
+  ){}
 }
 
 

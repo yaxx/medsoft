@@ -91,22 +91,22 @@
                         </div>
                         <div class="card-body chat-body">
                           <div class="conversation-container">
-                            <div class="message message-send">
-                                <div class="message-container">
+                            <div *ngFor="let chats of data; let last = last; let index = index" class="message message-send ">
+                                <div *ngFor="let msg of chats[index]" class="message-container">
                                     <div class="message-avatar"><a href="#" class="profile-link"></a>
-                                        <div class="msg-avatar"><span class="avatar-container"><img src="../../../assets/img/model.jpg" class="invisible msg-image" /></span></div>
+                                        <div class="msg-avatar"><span class="avatar-container"><img src="../../../assets/img/model.jpg" [ngClass]="{'invisible':!last}" class=" msg-image" /></span></div>
                                     </div>
-                                    <div class="message-msg">
+                                    <div class="message-msg" >
                                         <div class="msg-contentContainer">
-                                            <div class="msg-text first-msg">
+                                            <div  class="msg-text">
                                                 <div class="msg-container">
-                                                    <p class="msg-msg msg-size">How i have been sending you message</p>
+                                                    <p class="msg-msg msg-size">{{msg.message}}</p>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="message-container">
+                                <!-- <div class="message-container">
                                     <div class="message-avatar"><a href="#" class="profile-link"></a>
                                         <div class="msg-avatar"><span class="avatar-container"><img src="../../../assets/img/model.jpg" class="msg-image" /></span></div>
                                     </div>
@@ -119,7 +119,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                             <div class="message message-recieved">
                                 <div class="message-container">
@@ -128,7 +128,7 @@
                                     </div>
                                     <div class="message-msg">
                                         <div class="msg-contentContainer">
-                                            <div class="msg-text first-recieved">
+                                            <div class="msg-text">
                                                 <div class="msg-container">
                                                     <p class="msg-msg msg-size">sending the attachement</p>
                                                 </div>

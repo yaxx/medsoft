@@ -17,13 +17,13 @@
   border:none;
 }
 
-.message-recieved .msg-text.first-recieved {
+.message-recieved .message-container:first-child .msg-text {
   border-top-left-radius:.999em;
 
   margin-bottom:0px;
 }
 
-.message-send .msg-text.first-msg {
+.message-send  .message-container:first-child .msg-text {
   border-top-right-radius:.999em;
 }
 

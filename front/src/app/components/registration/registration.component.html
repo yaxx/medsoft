@@ -1,53 +1,53 @@
 <div class="modal fade" role="dialog" tabindex="-1" id="newModal" style="border-radius:0px;width:auto;">
     <div class="modal-dialog" role="document">
-        <div class="modal-content" style="width:500px;border-radius:0px;;padding-left:0px;padding-right: 0px;">
+        <div class="modal-content" style="width:470px;border-radius:0px;;padding-left:0px;padding-right: 0px;">
 
                 <div class="card-header profileheader" style="padding-top:2px;
                 padding-bottom:0px; height: 40px;">
-                    <div class="timeline lastdoc priscriber headerdp"style='top:5px;'></div>
-                    <p style="top:5px;" class="dept displayname">Aisha Mohammed<span class="predata editicon">
-                      <i class="icon ion-ios-checkmark-outline headericon"></i>
-                      <!-- <i *ngIf="patient.record.visits[0].status==='queued'" class="icon ion-ios-clock-outline headericon clock"></i>
-                      <i *ngIf="patient.record.visits[0].status==='addmitted'" class="icon ion-ios-help-outline headericon in"></i>
-                      <i *ngIf="patient.record.visits[0].status==='gone'" class="icon ion-ios-close-outline headericon gone"></i>
-                      <i class="icon ion-android-more-vertical headericon moreicon"></i> -->
-                    </span></p>
-                    <p class="dept displayname subinfo">Feb 09, 2018</p>
                 </div>
             <div class="modal-body" style="border-radius:0px;padding-left:0px;padding-right: 0px;">
-                <form novalidate  class="patientform" (submit)='submitRecord()'>
-                    <div class="card card-secondary historycard midlecard profilecard" style="border-bottom:none;margin:0px;margin-right: 0px;width:100%; min-height: 150px;">
+                <form style="position:relative; width:100%" novalidate  class="patientform" (submit)='submitRecord()'>
+                    <div class="card card-secondary historycard midlecard profilecard" style="border-bottom:none;margin:0px;margin-right: 0px;width:95%;margin:auto; min-height: 150px;">
                         <div class="card-header grapheader" style="border:none;">
                             <h1 class="dept headtitle">PERSONAL INFORMATION </h1>
                         </div>
                         <div style="padding-top:10px;padding-left: 10px; padding-right: 10px;"  class="card-body topcardbody clientinfobody nopading">
-                            <div style="width:49.3%; margin-top:5px;  margin-right: 5px; display:inline-block" class="form-group vitals-section formGroup" >
-                                <label for="firstName" class="labelss complain">FIRST NAME</label>
-                                <input [(ngModel)]="info.personal.firstName" autocomplete="off"  type="text" name="fname" class="patientdata inputs dataInfo" placeholder="Enter First Name"/>
+                            <div style="width:49%; margin-top:7px;  margin-right: 5px; display:inline-block" class="form-group vitals-section formGroup" >
+                              <div *ngIf="!url" (click)="picker.click()" class="dp-wrapper">
+                                <div class="cover">
+                                    <i  class="icon ion-android-image imageicon" title="Messages"></i>
+                                    <p>Add Photo</p>
+                                </div>
+                              </div>
+                              <input style="position:absolute;display:none" (change) = fileSelected($event) #picker type ="file"  name="image"  class="patientdata dystolic inputs dataInfo" />
+                              <div *ngIf='url' class="card scan-thumnail defaul-dp">
+                                <a href="IMG-20180927-WA0000.jpg" target="_blank" class="image-link" data-lightbox="scan"><img [src]= url class="img-fluid" /></a>
+                              </div>
+                                <input [(ngModel)]="info.personal.firstName" autocomplete="off"  type="text" name="fname" class="form-control patientdata inputs dataInfo" placeholder="Enter First Name"/>
                             </div>
-                            <div style="width:49.3%; margin-top:5px; display:inline-block" class="form-group vitals-section formGroup">
+                            <div style="width:49%; margin-top:5px; display:inline-block" class="form-group vitals-section formGroup">
                                 <label for="complain" class="labelss complain">LAST NAME</label>
-                                <input [(ngModel)]="info.personal.lastName" autocomplete="off"  type="text" name="lname" class="patientdata inputs dataInfo"   placeholder="Enter Last Name">
+                                <input [(ngModel)]="info.personal.lastName" autocomplete="off"  type="text" name="lname" class="form-control patientdata inputs dataInfo"   placeholder="Enter Last Name">
                             </div>
-                            <div style="width:49.3%; margin-top:5px;  margin-right: 5px; display:inline-block" class="form-group vitals-section formGroup" >
+                            <div style="width:49%; margin-top:5px;  margin-right: 7px; display:inline-block" class="form-group vitals-section formGroup" >
                                 <label for="gender" class="labelss complain">GENDER</label>
                                 <select [(ngModel)]="info.personal.gender"  class=" patientdata status inputs dataInfo " name="gender" >
                                         <option>Male</option>
                                         <option>Female</option>
                                   </select>
                             </div>
-                            <div style="width:49.3%; margin-top:5px; display:inline-block" class="form-group vitals-section formGroup">
+                            <div style="width:49%; margin-top:5px; display:inline-block" class="form-group vitals-section formGroup">
                                 <label for="dob" class="labelss complain">DATE OF BIRTH</label>
                                 <input [(ngModel)]="info.personal.dob"  type="date" name="dob" class="patientdata inputs dataInfo"  placeholder="">
                             </div>
-                            <div style="width:49.3%; margin-top:5px;  margin-right: 5px; display:inline-block" class="form-group vitals-section formGroup" >
+                            <div style="width:49%; margin-top:5px;  margin-right: 7px; display:inline-block" class="form-group vitals-section formGroup" >
                                 <label for="mstatus" class="labelss complain">MARITAL STATUS</label>
                                 <select [(ngModel)]="info.personal.mstatus" class=" patientdata status inputs dataInfo " name="mstatus" id="">
                                         <option>Married</option>
                                         <option>Single</option>
                                   </select>
                             </div>
-                            <div style="width:49.3%; margin-top:5px; display:inline-block" class="form-group vitals-section formGroup">
+                            <div style="width:49%; margin-top:5px; display:inline-block" class="form-group vitals-section formGroup">
                                 <label for="bgroup" class="labelss complain">OCCUPATION</label>
                                 <select [(ngModel)]="info.personal.occupation" class="patientdata status inputs dataInfo " name="bgroup" id="">
                                         <option>Civil Servant</option>
@@ -58,7 +58,7 @@
                                         <option>Student</option>
                                 </select>
                             </div>
-                            <div style="width:49.3%; margin-top:5px;  margin-right: 5px; display:inline-block" class="form-group vitals-section formGroup" >
+                            <div style="width:49%; margin-top:5px;  margin-right: 7px; display:inline-block" class="form-group vitals-section formGroup" >
                                 <label for="mstatus" class="labelss complain">RELIGION</label>
                                 <select [(ngModel)]="info.personal.religion" class=" patientdata status inputs dataInfo " name="mstatus" id="">
                                         <option>Islam</option>
@@ -66,7 +66,7 @@
                                         <option>Others</option>
                                 </select>
                             </div>
-                            <div style="width:49.3%; margin-top:5px; display:inline-block" class="form-group vitals-section formGroup">
+                            <div style="width:49%; margin-top:5px; display:inline-block" class="form-group vitals-section formGroup">
                                 <label for="bgroup" class="labelss complain">TRIBE</label>
                                 <select [(ngModel)]="info.personal.tribe" class="patientdata status inputs dataInfo " name="bgroup" >
                                         <option>Hausa</option>
@@ -76,7 +76,7 @@
                                         <option>Tiv</option>
                                 </select>
                             </div>
-                            <div style="width:49.3%; margin-top:5px;  margin-right: 5px; display:inline-block" class="form-group vitals-section formGroup" >
+                            <div style="width:49%; margin-top:5px;  margin-right: 7px; display:inline-block" class="form-group vitals-section formGroup" >
                                 <label for="cardtype" class="labelss complain">CARD TYPE</label>
                                 <select [(ngModel)]="info.personal.cardType" class=" patientdata status inputs dataInfo " name="cardtype">
                                         <option>Standard</option>
@@ -85,26 +85,26 @@
                                         <option>Gold</option>
                                   </select>
                             </div>
-                            <div style="width:49.3%; margin-top:5px; display:inline-block" class="form-group vitals-section formGroup">
+                            <div style="width:49%; margin-top:5px; display:inline-block" class="form-group vitals-section formGroup">
                                 <label for="cardnumber" class="labelss complain">CARD No.</label>
                                 <input [(ngModel)]="info.personal.cardNum" type="text" name="cardnumber" class="patientdata inputs dataInfo"   placeholder="Enter card number  ">
                             </div>
                         </div>
                     </div>
-                    <div class="card card-secondary historycard midlecard deptcard" style="width:100%; border-bottom:none; min-height: 120px">
+                    <div class="card card-secondary historycard midlecard deptcard" style="width:95%;margin:auto; border-bottom:none; min-height: 120px">
                         <div class="card-header grapheader" style="border:none;">
                             <h1 class="dept headtitle">CONTACT INFORMATION</h1>
                         </div>
                         <div style="padding-left: 10px; padding-right: 10px;"  class="card-body topcardbody clientinfobody nopading">
-                            <div style="width:49.3%; margin-top:5px;  margin-right: 5px; display:inline-block" class="form-group vitals-section formGroup" >
+                            <div style="width:49%; margin-top:5px;  margin-right: 7px; display:inline-block" class="form-group vitals-section formGroup" >
                                 <label for="phone" class="labelss">PHONE</label>
-                                <input [(ngModel)]="info.contact.mobile" type="phone" name="phone" class=" inputs dataInfo patientdata" />
+                                <input [(ngModel)]="info.contact.mobile" type="phone" name="phone" class="form-control inputs dataInfo patientdata" />
                             </div>
-                            <div style="width:49.3%; margin-top:5px; display:inline-block" class="form-group vitals-section formGroup">
+                            <div style="width:49%; margin-top:5px; display:inline-block" class="form-group vitals-section formGroup">
                                 <label for="mail" class="labelss">EMAIL</label>
-                                <input [(ngModel)]="info.contact.email"  type="email" name="mail" class=" dystolic inputs dataInfo patientdata" />
+                                <input [(ngModel)]="info.contact.email"  type="email" name="mail" class="form-control dystolic inputs dataInfo patientdata" />
                             </div>
-                            <div style="width:49.3%; margin-top:5px;  margin-right: 5px; display:inline-block" class="form-group vitals-section formGroup" >
+                            <div style="width:49%; margin-top:5px;  margin-right: 7px; display:inline-block" class="form-group vitals-section formGroup" >
                                 <label for="state" class="labelss complain">STATE</label>
                                 <select [(ngModel)]="info.contact.state" class="patientdata status inputs dataInfo " name="state" id="">
                                         <option>Abia</option>
@@ -116,9 +116,9 @@
                                         <option>Taraba</option>
                                     </select>
                             </div>
-                            <div style="width:49.3%; margin-top:5px; display:inline-block" class="form-group vitals-section formGroup">
+                            <div style="width:49%; margin-top:5px; display:inline-block" class="form-group vitals-section formGroup">
                                 <label for="lga" class="labelss complain">LGA</label>
-                                <select [(ngModel)]="info.contact.lga" class="patientdata status inputs dataInfo " name="lga" id="">
+                                <select [(ngModel)]="info.contact.lga" class="patientdata status inputs dataInfo " name="lga">
                                         <option>Karim Lamido</option>
                                         <option>Sardauna</option>
                                         <option>Ussa</option>
@@ -129,24 +129,24 @@
                             </div>
                             <div class="form-group vitals-section address">
                                 <label for="address" class="labelss">ADDRESS</label>
-                                <input placeholder="Residential Address" [(ngModel)]="info.contact.address" type="text" name="address" class="patientdata dystolic inputs dataInfo"/>
+                                <input placeholder="Residential Address" [(ngModel)]="info.contact.address" type="text" name="address" class="form-control patientdata dystolic inputs dataInfo"/>
                             </div>
                         </div>
                     </div>
-                    <div class="card card-secondary historycard midlecard formcard" style="min-height: 100px; border-bottom:none; width: 100%;">
+                    <div class="card card-secondary historycard midlecard formcard" style="min-height: 100px; border-bottom:none; width: 95%; margin:auto">
                         <div class="card-header grapheader" style="border:none;">
                             <h1 class="dept headtitle">EMERGENCY CONTACT</h1>
                         </div>
                         <div style="padding-left: 10px; padding-right: 10px;" class="card-body topcardbody clientinfobody nopading" >
-                            <div style="width:49.3%;  margin-top:5px;  margin-right: 5px; display:inline-block" class="form-group vitals-section formGroup" >
+                            <div style="width:49%;  margin-top:5px;  margin-right: 7px; display:inline-block" class="form-group vitals-section formGroup" >
                                 <label for="firstName" class="labelss complain">NAME</label>
-                                <input [(ngModel)]="info.contact.emgName" type="text" name="fname" class="patientdata inputs dataInfo" id="" placeholder="Enter full name"/>
+                                <input [(ngModel)]="info.contact.emgName" type="text" name="fname" class="form-control patientdata inputs dataInfo" id="" placeholder="Enter full name"/>
                             </div>
-                            <div style="width:49.3%; margin-top:5px; display:inline-block" class="form-group vitals-section formGroup">
+                            <div style="width:49%; margin-top:5px; display:inline-block" class="form-group vitals-section formGroup">
                                 <label for="contactphone" class="labelss duration">MOBILE</label>
-                                <input [(ngModel)]="info.contact.emgMobile" type="phone" name="contactphone" class="form-control dystolic inputs dataInfo patientdata" id="" placeholder="Mobile Number">
+                                <input [(ngModel)]="info.contact.emgMobile" type="phone" name="contactphone" class="form-control dystolic inputs dataInfo patientdata" id="" placeholder="Mobile">
                             </div>
-                            <div style="width:49.3%; margin-top:5px;  margin-right: 5px; display:inline-block" class="form-group vitals-section formGroup" >
+                            <div style="width:49%; margin-top:5px;  margin-right: 5px; display:inline-block" class="form-group vitals-section formGroup" >
                                 <label  for="emgrel" class="labelss">RELATIONSHIP</label>
                                 <select [(ngModel)]="info.contact.emgRel" class=" status inputs dataInfo patientdata" name="emgrel">
                                     <option>Parent</option>
@@ -155,9 +155,9 @@
                                     <option>Freind</option>
                                 </select>
                             </div>
-                            <div style="width:49.3%; margin-top:5px; display:inline-block" class="form-group vitals-section formGroup">
+                            <div style="width:49%; margin-top:5px; display:inline-block" class="form-group vitals-section formGroup">
                                 <label  for="emgoccupation" class="labelss">OCCUPATION</label>
-                                <select [(ngModel)]="info.contact.emgOccupation" class=" status inputs dataInfo patientdata " name="emgoccupation">
+                                <select [(ngModel)]="info.contact.emgOccupation" class="status inputs dataInfo patientdata " name="emgoccupation">
                                     <option>Civil Servant</option>
                                     <option>Entreprenure</option>
                                     <option>Farmer</option>
@@ -168,17 +168,17 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card card-secondary historycard midlecard formcard" style="width:100%; min-height:200px">
+                    <div class="card card-secondary historycard midlecard formcard" style="width:95%; margin: auto; min-height:200px">
                         <div class="card-header grapheader" style="border:none;">
                             <h1 class="dept headtitle">MEDICAL INSURANCE</h1>
                         </div>
                         <div style="padding-top:10px; padding-left: 10px;padding-right: 10px"  class="card-body topcardbody clientinfobody nopading" >
 
-                        <div style="width:49.3%; margin-top:5px;  margin-right: 5px; display:inline-block" class="form-group vitals-section formGroup" >
+                        <div style="width:49%; margin-top:5px;  margin-right: 5px; display:inline-block" class="form-group vitals-section formGroup" >
                             <label for="holdername" class="labelss">HOLDER'S NAME</label>
-                            <input [(ngModel)]="info.insurance.name" type="text" name="holdername" class=" inputs dataInfo patientdata" id="" placeholder="Full Name">
+                            <input [(ngModel)]="info.insurance.name" type="text" name="holdername" class="form-control inputs dataInfo patientdata" id="" placeholder="Full Name">
                         </div>
-                        <div style="width:49.3%; margin-top:5px; display:inline-block" class="form-group vitals-section formGroup">
+                        <div style="width:49%; margin-top:5px; display:inline-block" class="form-group vitals-section formGroup">
                             <label  for="rel" class="labelss">RELATIONSHIP</label>
                             <select [(ngModel)]="info.insurance.rel" class=" status inputs dataInfo patientdata " name="rel">
                                 <option>Self</option>
@@ -186,18 +186,18 @@
                                 <option>Sibling</option>
                             </select>
                         </div>
-                        <div style="width:49.3%; margin-top:5px;  margin-right: 5px; display:inline-block" class="form-group vitals-section formGroup" >
+                        <div style="width:49%; margin-top:5px;  margin-right: 7px; display:inline-block" class="form-group vitals-section formGroup" >
                                 <label  for="rel" class="labelss">EMPLOYER</label>
-                                <input [(ngModel)]="info.insurance.employer" type="text" name="employer" class=" inputs dataInfo patientdata" id="" placeholder="Employer Name">
+                                <input [(ngModel)]="info.insurance.employer" type="text" name="employer" class="form-control inputs dataInfo patientdata" id="" placeholder="e.g National hospital">
                         </div>
-                        <div style="width:49.3%; margin-top:5px; display:inline-block" class="form-group vitals-section formGroup">
+                        <div style="width:49%; margin-top:5px; display:inline-block" class="form-group vitals-section formGroup">
                             <label for="holdername" class="labelss">SOCIAL SECURITY</label>
-                            <input [(ngModel)]="info.insurance.ssn" type="text" name="holdername" class=" inputs dataInfo patientdata" id="" placeholder="Social Security Number"/>
+                            <input [(ngModel)]="info.insurance.ssn" type="text" name="holdername" class="form-control inputs dataInfo patientdata" id="" placeholder="Social Security Number"/>
                         </div>
                       </div>
                     </div>
-                    <button style=" width: 130px; left:353px; bottom:5%; "  type="submit" class="btn btn-sm btn-outline-primary inputs mainbtn" >Save Record</button>
-                    <button style="width: 61px; left:290px; bottom:5%;" class="btn btn-sm btn-outline-primary inputs mainbtn" >Cancel</button>
+                    <button style=" width: 130px; left:293px; bottom:5%; "  type="submit" class="btn btn-sm btn-outline-primary inputs mainbtn" >Save Record</button>
+                    <button style="width: 61px; left:230px; bottom:5%;" class="btn btn-sm btn-outline-primary inputs mainbtn" >Cancel</button>
                   </form>
             </div>
         </div>

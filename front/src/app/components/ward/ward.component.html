@@ -15,7 +15,7 @@
               </div>
           <div class="modal-body" style="border-radius:0px;padding-left:0px;padding-right: 0px;padding-top: 0px">
               <form (submit) = updateNote() novalidate  class="patientform" >
-                  <div class="card card-secondary historycard midlecard profilecard" style="border-bottom:none;margin:0px;margin-right: 0px;width:100%; min-height: 110px;">
+                   <div class="card card-secondary historycard midlecard profilecard" style="border-bottom:none;margin:0px;margin-right: 0px;width:100%; min-height: 140px;">
                       <div style="padding-top:0px;padding-left: 10px; padding-right: 10px;"  class="card-body topcardbody clientinfobody nopading">
                         <div class="form-group vitals-section formGroup newnote" >
                           <textarea [(ngModel)]="note.note" id ='newnote' style="width:100%; min-height: 110px; font-size: 13px; padding: 5px; border: 0px; " name= "note" placeholder="Additional note"></textarea>
@@ -23,8 +23,54 @@
                       </div>
                   </div>
 
-            <button style=" width: 130px; left:353px; bottom:5%; "  type="submit" class="btn btn-sm btn-outline-primary inputs mainbtn" >Save Note</button>
-            <button style="width: 61px; left:290px; bottom:5%;" class="btn btn-sm btn-outline-primary inputs mainbtn" >Cancel</button>
+                  <button style=" width: 90px; font-size: 11px; left:393px; bottom:7%; "  type="submit" class="btn btn-sm btn-outline-primary inputs mainbtn" >Add Note</button>
+                  <button style="width: 51px; font-size: 11px; left:340px; bottom:7%;" class="btn btn-sm btn-outline-primary inputs mainbtn" >Cancel</button>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" role="dialog" tabindex="-1" id="filesModal" style="border-radius:4px;width:auto;">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content" style="width:500px;border-radius:4px;;padding-left:0px;padding-right: 0px;">
+              <div class="card-header profileheader" style="padding-top:2px;
+              padding-bottom:0px; height: 40px;">
+                  <div class="timeline lastdoc priscriber headerdp"style='top:5px;'></div>
+                  <p style="top:5px;" class="dept displayname">{{patients[curIndex].info.personal.firstName + ' '+ patients[curIndex].info.personal.lastName}}<span class="predata editicon">
+                    <i class="icon ion-ios-clock-outline headericon clock"></i>
+
+                  </span></p>
+                  <p class="dept displayname subinfo">Feb 09, 2018</p>
+              </div>
+          <div class="modal-body" style="border-radius:0px;padding-left:0px;padding-right: 0px;padding-top: 0px">
+              <form (submit) = uploadFile() novalidate  class="patientform" >
+                <div class="card card-secondary historycard midlecard profilecard" style="border-bottom:none;margin:0px;margin-right: 0px;width:100%; min-height: 140px;">
+                      <div style="padding-top:0px;padding-left: 10px; padding-right: 10px;"  class="card-body topcardbody clientinfobody nopading">
+                        <div class="form-group vitals-section" style="width:50%;
+                        margin: auto; top: 10%;position:absolute;left:25%;">
+                          <div class="card scan-thumnail">
+                            <a href="IMG-20180927-WA0000.jpg" target="_blank" class="image-link" data-lightbox="scan"><img [src]= url class="img-fluid" /></a>
+                          </div>
+                        </div>
+                        <div class="form-group vitals-section" style="width:50%;
+                        margin: auto; top: 10%;position:absolute;left:38%;">
+                          <div class="card scan-thumnail">
+                              <i (click)="picker.click()" class="icon ion-ios-plus-empty addicon" title="Browse file"></i>
+                          </div>
+                        </div>
+                        <div class="form-group vitals-section" style="width:50%;
+                        margin: auto; top: 60%;position:absolute;left:25%;">
+                          <label for="Description" class="labelss" style="font-size:12px">File Description</label>
+                          <input autocomplete="off"  name="description" placeholder= "e.g Mammograph" class="patientdata dystolic inputs dataInfo" />
+                        </div>
+                        <div class="form-group vitals-section" style="width:50%;
+                        margin: auto; top: 60%;position:absolute;left:25%; display:none">
+                          <input (change) = fileSelected($event) #picker type ="file"  name="image"  class="patientdata dystolic inputs dataInfo" />
+                        </div>
+                      </div>
+                  </div>
+            <button style=" width: 90px; font-size: 11px; left:393px; bottom:7%; "  type="submit" class="btn btn-sm btn-outline-primary inputs mainbtn" >Upload</button>
+            <button style="width: 51px; font-size: 11px; left:340px; bottom:7%;" class="btn btn-sm btn-outline-primary inputs mainbtn" >Cancel</button>
           </form>
       </div>
     </div>
@@ -92,7 +138,6 @@
 <div class="container">
 <div class="row">
     <div *ngFor = "let patient of patients; let i = index" class="col col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-12">
-
         <div *ngIf = "patient.record.visits[patient.record.visits.length-1].bedNo!==null"  class="card card-secondary maincard">
             <div class="card-header profileheader">
                 <div class="timeline lastdoc priscriber headerdp"></div>
@@ -103,6 +148,7 @@
                         <li (click) = changeBed(i) class="action">Change Bed</li>
                         <li class="action">Update Vitals</li>
                         <li (click)="selectPatient(i)" data-target="#newModal" data-toggle="modal" class="action">Add Note</li>
+                        <li (click)="selectPatient(i)" data-target="#filesModal" data-toggle="modal" class="action">Attach Files</li>
                     </ul>
                 </div>
             </div>

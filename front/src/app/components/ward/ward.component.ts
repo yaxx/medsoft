@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+
 import {DataService} from '../../services/data.service';
 import {SocketService} from '../../services/socket.service';
 import { Patient, Client, Item, StockInfo,
@@ -20,6 +21,7 @@ export class WardComponent implements OnInit {
   item: Item = new Item();
   items: Item[] = new Array<Item>();
   lastVisit: Visit = new Visit();
+  file: File = null;
   note = new Note();
   input = '';
   view = 'bed';
@@ -27,6 +29,7 @@ export class WardComponent implements OnInit {
   selected = null;
   bedNum = null;
   curIndex = 0;
+  url = '';
 
 
   constructor(private dataService: DataService, private socket: SocketService ) { }
@@ -37,7 +40,28 @@ export class WardComponent implements OnInit {
   getClient() {
     this.dataService.getClient().subscribe((client: Client) => {
       this.client = client;
+      console.log(this.client.departments[2].beds)
     });
+  }
+  fileSelected(event) {
+    if (event.target.files && event.target.files[0]) {
+      this.file = <File>event.target.files[0];
+      const reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]); // read file as data url
+      reader.onload = (e) => { // called once readAsDataURL is completed
+        this.url = e.target.result;
+      }
+    }
+
+  }
+  uploadFile() {
+    const data = new FormData();
+    data.append('image', this.file);
+    console.log(data.get('image'));
+    // this.dataService.upload(this.file,
+    //    this.patients[this.curIndex]._id).subscribe(res => {
+    // });
+
   }
   selectPatient(i: number) {
     this.curIndex = i;
@@ -45,7 +69,6 @@ export class WardComponent implements OnInit {
   getInPatients() {
     this.dataService.getInPatients().subscribe((patients: Patient[]) => {
       this.patients = patients;
-
       this.lastVisit =  this.patients[0].record.visits[-1];
     });
   }
@@ -67,11 +90,14 @@ export class WardComponent implements OnInit {
     this.patients[i].record.visits[this.patients[i].record.visits.length - 1].bedNo = null;
   }
   assignBed(i) {
-    this.dataService.updateBed(this.patients[i]._id, this.bedNum)
-    .subscribe((patient: Patient) => {
-      this.patients[i].record.visits[this.patients[i].record.visits.length - 1].bedNo = this.bedNum;
-     this.client.departments.filter((d) =>
-     d.name === this.patients[i].record.visits[this.patients[i].record.visits.length - 1].dept)[0].beds[this.bedNum] = true;
+   const name = this.client.departments.filter((d) =>
+     d.name === this.patients[i].record.visits.reverse()[0].dept
+    this.dataService.updateBed(this.patients[i]._id, parseInt(this.bedNum), name this.client._id)
+    .subscribe((departments: Department[]) => {
+      this.client.departments = departments
+      console.log(this.client.departments)
+    //  this.client.departments.filter((d) =>
+    //  d.name === this.patients[i].record.visits.reverse()[0].dept)[0].beds[this.bedNum]=true;
     });
   }
   updateNote() {

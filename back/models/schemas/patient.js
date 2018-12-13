@@ -2,7 +2,7 @@
 import mongoose from '../db';
 var Scheema = mongoose.Schema
 var PatientScheema = new Scheema({
-    info:{
+    info: {
         personal:{
             hosId: [],
             dpUrl:  {type: String, default: 'user.jpg'},

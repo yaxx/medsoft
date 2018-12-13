@@ -28,83 +28,151 @@ export class DataService {
     return this.cachedPatients.filter((p) => p._id === id)[0];
   }
   getPatients() {
-    return this.http.get(`${this.uri}/patients`, {withCredentials: true});
+    return this.http.get(
+      `${this.uri}/patients`, {withCredentials: true}
+
+      );
   }
   getConsultees() {
-    return this.http.get(`${this.uri}/consultees`, {withCredentials: true});
+    return this.http.get(
+       `${this.uri}/consultees`, {withCredentials: true}
+          
+       );
   }
   addPatient(patient) {
-    return this.http.post(`${this.uri}/new-patient`, patient, {withCredentials: true});
+    return this.http.post(
+      `${this.uri}/new-patient`, patient,{withCredentials: true}
+     
+      
+      );
   }
   addProduct(product) {
-    return this.http.post(`${this.uri}/new-product`, product, {withCredentials: true});
+    return this.http.post(
+    `${this.uri}/new-product`,  product, {withCredentials: true}
+   
+   
+    );
   }
   updateProducts(product) {
-    return this.http.post(`${this.uri}/update-products`, product, {withCredentials: true});
+    return this.http.post(
+      `${this.uri}/update-products`, product, {withCredentials: true}
+     
+      );
   }
   deleteProducts(product) {
-    return this.http.post(`${this.uri}/delete-products`, product, {withCredentials: true});
+    return this.http.post(
+      `${this.uri}/delete-products`,product, {withCredentials: true}
+     
+      );
   }
   login (staff) {
-    return this.http.post(`${this.uri}/login`, staff, {withCredentials: true});
+    return this.http.post(
+      `${this.uri}/login`, staff,{withCredentials: true}
+       
+       );
   }
   searchPatient(id) {
-    return this.http.get(`${this.uri}/patient/${id}`, {withCredentials: true} );
+    return this.http.get(
+      `${this.uri}/patient/${id}`,{withCredentials: true} );
+       
   }
 
   createClient(client) {
-    return this.http.post(`${this.uri}/new-client`, client, {withCredentials: true});
+    return this.http.post(
+      `${this.uri}/new-client`, client,{withCredentials: true});
+       
   }
   saveRecord(record) {
-    return this.http.post(`${this.uri}/new-record`, record, {withCredentials: true});
+    return this.http.post(
+      `${this.uri}/new-record`, record,{withCredentials: true});
   }
+       
   updateRecord(session, pid) {
-    return this.http.post(`${this.uri}/update-record`, {session: session, id: pid}, {withCredentials: true});
+    return this.http.post(
+      `${this.uri}/update-record`,
+       {session: session, id: pid},{withCredentials: true});
+  }
+       
+  upload(image, pid) {
+    return this.http.post(
+      `${this.uri}/upload`, {scan: image, id: pid}, {withCredentials: true});
+      
   }
   updateMedication(m) {
-    return this.http.post(`${this.uri}/update-medication`, {medication: m}, {withCredentials: true});
+    return this.http.post(
+      `${this.uri}/update-medication`,{medication: m}, {withCredentials: true});
+       
   }
-  updateBed(i, n) {
-    return this.http.post(`${this.uri}/updatebed`, {id: i, bedNo: n}, {withCredentials: true});
+  updateBed(i, n, d, c) {
+    return this.http.post(
+      `${this.uri}/updatebed`,{pid: i, bedNo: n, dname:"GOPD", cid:c}, {withCredentials: true});
+       
   }
   updateNote(i, n) {
-    return this.http.post(`${this.uri}/updatenote`, {id: i, note: n}, {withCredentials: true});
+    return this.http.post(
+      `${this.uri}/updatenote`, {id: i, note: n}, {withCredentials: true});
+      
   }
   getNew() {
     return this.staff;
   }
 
   getClient() {
-    return this.http.get(`${this.uri}/settings`, {withCredentials: true});
+    return this.http.get(
+      `${this.uri}/client`,{withCredentials: true}
+      );
+    
   }
   getProducts() {
-    return this.http.get(`${this.uri}/products`, {withCredentials: true});
+    return this.http.get(
+      `${this.uri}/products`, {withCredentials: true}
+    
+      );
   }
   getItems() {
-    return this.http.get(`${this.uri}/items`, {withCredentials: true});
+    return this.http.get(
+      `${this.uri}/items`,{withCredentials: true}
+      );
+       
   }
   getInPatients() {
-    return this.http.get(`${this.uri}/inpatients`, {withCredentials: true});
+    return this.http.get(
+      `${this.uri}/inpatients`, {withCredentials: true}
+      );
+      
   }
   getOrders() {
-    return this.http.get(`${this.uri}/orders`, {withCredentials: true});
+    return this.http.get(
+      `${this.uri}/orders`,{withCredentials: true});
+     
   }
   getDepartments() {
-    return this.http.get(`${this.uri}/departments`, {withCredentials: true});
+    return this.http.get(
+      `${this.uri}/departments`,{withCredentials: true});
+       
   }
 
   saveStaff(staff, action) {
     if (action === 'new') {
-      return this.http.post(`${this.uri}/new-staff`, staff, {withCredentials: true});
+      return this.http.post(
+        `${this.uri}/new-staff`, staff, {withCredentials: true}
+       
+         );
     } else if (action === 'update') {
-      return this.http.post(`${this.uri}/update-staff`, staff, {withCredentials: true});
+      return this.http.post(
+        `${this.uri}/update-staff`, staff, {withCredentials: true});
+        
     } else {
-      return this.http.post(`${this.uri}/delete-staff`, staff, {withCredentials: true});
+      return this.http.post(
+        `${this.uri}/delete-staff`, staff, {withCredentials: true});
+        
     }
   }
 
   addDepts(d) {
-    return this.http.post(`${this.uri}/new-dept`, d, {withCredentials: true});
+    return this.http.post(
+      `${this.uri}/new-dept`, d, {withCredentials: true});
+      
   }
 
 

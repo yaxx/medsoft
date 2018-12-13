@@ -386,7 +386,7 @@ body, html {
 .inputs {
   width:100%;
   text-align:left;
-  font-size:12px;
+  font-size:13px;
   box-shadow:none;
   text-align: center;
 }
@@ -474,4 +474,16 @@ body, html {
   border: none;
   border-color: white;
   box-shadow:none;
+}
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: lightgrey;
+}
+::-moz-placeholder { /* Firefox 19+ */
+  color: lightgrey;
+}
+:-ms-input-placeholder { /* IE 10+ */
+  color: lightgrey;
+}
+:-moz-placeholder { /* Firefox 18- */
+  color: lightgrey;
 }

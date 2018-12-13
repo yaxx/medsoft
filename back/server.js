@@ -155,7 +155,7 @@ app.get('/', (req, res) => {
 }
 
 )
-app.get('/api/settings', api.getSettings)
+app.get('/api/client', api.getClient)
 app.get('/api/patients', api.getPatients)
 app.get('/api/departments', api.getDepartments)
 app.get('/api/products', api.getProducts)
@@ -170,10 +170,10 @@ app.post('/api/new-product', api.addProduct)
 app.post('/api/new-staff', api.addStaff)
 app.post('/api/update-staff', api.updateStaff)
 app.post('/api/updatenote', api.updateNote)
+app.post('/api/upload', api.uploadFile)
 app.post('/api/updatebed', api.updateBed)
 app.post('/api/delete-staff', api.deleteStaff)
 app.post('/api/update-record', api.updateRecord)
-
 app.post('/api/update-medication', api.updateMedication)
 app.post('/api/new-dept', api.addDept)
 app.get('/api/consultees', api.getConsultees)

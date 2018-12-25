@@ -154,30 +154,19 @@ body {
   /*height:100px;*/
   position:relative;
 }
-
-@media (min-width:1200px) {
+@media (min-width:992px) {
   .container {
-    max-width:1140px;
+    max-width:690px;
   }
 }
 
 @media (min-width:1200px) {
   .container {
-    max-width:1140px;
+    max-width:878px;
   }
 }
 
-@media (min-width:1200px) {
-  .container {
-    max-width:1140px;
-  }
-}
 
-@media (min-width:1200px) {
-  .container {
-    max-width:1140px;
-  }
-}
 
 @media (min-width: 300px) {
   .row {
@@ -268,25 +257,137 @@ body, html {
 }
 
 .timeline.lastdoc.priscriber.headerdp {
-  top:10px;
-  left:12px;
-  height:30px;
-  width:30px;
+  top:36px;
+  left:18px;
+  height:49px;
+  width:49px;
 }
 
-.card-header.profileheader {
-  height:51px;
-  border-bottom:1px solid rgb(249,248,248);
+.card-body.mainbody {
+  margin-left:0px;
+  border:none;
+  padding-top:0px;
 }
 
-.dept.displayname.subinfo {
+.carditem.basic-item {
+  padding-left:0%;
+  width:32%;
+  position:relative;
+  top:28px;
+  display:inline-block;
+}
+
+.dept.basic-info {
+  /*top:25px;*/
+  font-size:13px;
+  /*width:33%;*/
+  left:0px;
+  text-align:center;
+  /*font-weight:bold;*/
   color:grey;
+  position:relative;
   font-weight:normal;
 }
 
-.dept.displayname {
-  left:26px;
+.dept.basic-info.sex-info {
+  /*top:22px;*/
+  position:relative;
+  color:#0000ff;
+  font-size:18px;
   font-weight:bold;
+}
+
+.basic-subinfo {
+  position:relative;
+  top:22px;
+}
+.sub-container {
+  padding:0px;
+  height:13px;
+}
+.dept.basic-secondary {
+  text-align:right;
+  margin-bottom:0px;
+  width:49%;
+  display:inline-block;
+  color:grey;
+}
+
+.dept.basic-secondary.basic-value {
+  text-align:left;
+  color:lightgrey;
+}
+
+.indicator {
+  height:14px;
+  width:14px;
+  position:absolute;
+  left:79%;
+  background:#07f282;
+  border-radius:50%;
+}
+
+.icon.ion-android-more-vertical.headericon.moreicon.actions-icon {
+  position:absolute;
+  top:2%;
+  font-size:22px;
+  left:90%;
+  color:blue;
+}
+
+.floter {
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  border:1px solid whitesmoke;
+  position:absolute;
+  bottom:10%;
+  left:74%;
+  cursor:pointer;
+}
+
+.flotericon {
+  position:relative;
+  left:10px;
+  font-size:20px;
+  color:blue;
+  text-align:center;
+  top:3px;
+}
+
+
+.card-header.profileheader {
+  height:64px;
+  border-bottom:none;
+  /*background:rgb(247,247,251);*/
+}
+
+
+.dept.displayname {
+  left:16px;
+  font-weight:bold;
+  top:24px;
+  font-size:17px;
+  color: #212529;
+  cursor: pointer;
+}
+
+
+.dept.displayname {
+  left:16px;
+  font-weight:bold;
+  top:24px;
+  font-size:17px;
+  position:relative;
+  cursor:pointer;
+  z-index:1;
+  display:inline-block;
+
+
+}
+
+.dept.displayname:hover{
+  text-decoration:underline;
 }
 
 .icon.ion-ios-more-outline.headericon.moreicon {
@@ -487,3 +588,107 @@ body, html {
 :-moz-placeholder { /* Firefox 18- */
   color: lightgrey;
 }
+.card.card-secondary.maincard {
+  max-height:250px;
+  min-height:250px;
+  margin-bottom:10px;
+}
+.patien-name {
+  font-weight:bold;
+  top:20px;
+  position:relative;
+  z-index:2;
+  padding-left:10px;
+  color:rgb(53,77,81);
+}
+.card-header.profileheader.small-header {
+  height:32px;
+  border-bottom:1px solid whitesmoke;
+  /*padding-left:2px;*/
+}
+.timeline.lastdoc.priscriber.headerdp.small-dp {
+  height:27px;
+  width:27px;
+  top:2px;
+  left:12px;
+}
+.patien-name.small-name {
+  top:-11px;
+  font-size:12px;
+  padding-left:25px;
+}
+.icon.ion-android-more-vertical.small-icon {
+  left:90%;
+  position:absolute;
+  font-size:20px;
+  top:0px;
+  color:grey;
+}
+.card-footer {
+  background-color:white;
+  border-top:1px solid rgba(0,0,0,.125);
+}
+.icon-container:hover {
+  background:whitesmoke;
+}
+.material-icons.edit-drug {
+  position:absolute;
+  bottom:4px;
+  font-size:17px;
+  left:19%;
+  cursor:pointer;
+  /*height:5px;*/
+}
+.icon.ion-ios-checkmark-empty {
+  position:absolute;
+  font-size:34px;
+  bottom:-51%;
+  color:lightgreen;
+  left:22%;
+  /*height:10%;*/
+  /*width:10%;*/
+  /*text-align:center;*/
+  /*padding-bottom:20%;*/
+  cursor:pointer;
+}
+.material-icons.edit-drug {
+  position:absolute;
+  bottom:4px;
+  font-size:17px;
+  left:19%;
+  cursor:pointer;
+  /*height:5px;*/
+}
+.icon-container {
+  position:absolute;
+  height:24px;
+  width:25px;
+  /*background:whitesmoke;*/
+  bottom:0px;
+  left:90%;
+}
+
+.user-dp{
+  left:90%;
+  position:absolute;
+}
+
+
+.icon-container.edit-container {
+  left:80%;
+  border-right:1px solid white;
+  width:26px;
+}
+.strike{
+  text-decoration:line-through;
+}
+
+
+
+
+
+
+
+
+
+

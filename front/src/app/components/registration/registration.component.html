@@ -263,7 +263,7 @@
   <i [routerLink]="['/messages']" routerLinkActive="router-link-active"  style="left:23%; font-size: 22px;" class="icon ion-ios-chatboxes-outline arrow buble" title="Messages"></i>
   <i data-target="#newModal" data-toggle="modal" style="left:27%;" class="icon ion-ios-personadd-outline arrow buble" id="add" title="Add Patient" data-target="#newModal" data-toggle="modal"></i>
 
-  <div style="left:87%; top:5px;" class="timeline lastdoc priscriber headerdp"></div>
+  <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:90%;position:absolute;height:30px;width:30px;bottom:-8%"></div>
   </nav>
 
 
@@ -273,8 +273,8 @@
 
 <div  class="container">
         <div class="row">
-            <div  [ngSwitch]="view" *ngFor="let patient of patients"  class="col col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                <div *ngSwitchCase="'info'"  class="card card-secondary maincard">
+            <div  [ngSwitch]="view" *ngFor="let patient of patients"  class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                <!-- <div *ngSwitchCase="'info'"  class="card card-secondary maincard">
                     <div class="card-header profileheader">
                         <div class="timeline lastdoc priscriber headerdp"></div>
                         <p class="dept displayname">{{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}<span class="predata editicon">
@@ -296,10 +296,51 @@
                         </div>
                     </div>
                     <div class="floter"><i class="icon ion-person-stalker flotericon"></i></div>
-                </div>
+                </div> -->
+                <div *ngSwitchCase="'info'"  class="card card-secondary maincard">
+                  <div class="card-header profileheader"><i class="icon ion-android-more-vertical headericon moreicon actions-icon"></i>
+                      <div class="timeline lastdoc priscriber headerdp">
+                          <div class="indicator"></div>
+                      </div>
+                  </div>
+                  <p class="dept displayname">{{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}<span class="predata editicon"></span></p>
+                  <div class="card-body mainbody">
+                      <div class="carditem basic-item">
+                          <h6 class="dept basic-info">Sex</h6>
+                          <h6 class="dept basic-info sex-info">F</h6>
+                      </div>
+                      <div class="carditem basic-item">
+                          <h6 class="dept basic-info">Age</h6>
+                          <h6 class="dept basic-info sex-info">30</h6>
+                      </div>
+                      <div class="carditem basic-item">
+                          <h6 class="dept basic-info">Bed</h6>
+                          <h6 class="dept basic-info sex-info">5</h6>
+                      </div>
+                      <div class="priscription basic-subinfo">
+                          <div class="sub-container">
+                              <h6 class="dept basic-secondary">Department:</h6>
+                              <h6 class="dept basic-secondary basic-value">
+                                {{patient.record.visits[0].dept}}</h6>
+                          </div>
+                          <div *ngIf="patient.record.visits[0].bedNo" class="sub-container">
+                              <h6 class="dept basic-secondary">Bed No:</h6>
+                              <h6 class="dept basic-secondary basic-value">
+                                {{patient.record.visits[0].bedNo}}</h6>
+                          </div>
+                          <div  class="sub-container">
+                              <h6 class="dept basic-secondary">Date Visitted</h6>
+                              <h6 class="dept basic-secondary basic-value">Mar 02 09:50am</h6>
+                          </div>
+                          <div *ngIf="patient.record.visits[0].status==='discharged'" class="sub-container">
+                              <h6 class="dept basic-secondary">Discharged On:</h6>
+                              <h6 class="dept basic-secondary basic-value">Mar 19  02:10pm</h6>
+                          </div>
+                      </div>
+                  </div>
+              </div>
 
-
-                <div *ngSwitchDefault class="card card-secondary maincard">
+              <div *ngSwitchDefault class="card card-secondary maincard">
                     <div class="card-body">
                         <div class="carditem">
                             <div class="timeline condition"><i class="icon ion-ios-person-outline deticon"></i></div>
@@ -335,7 +376,7 @@
                 </div>
 
             </div>
-            <div class="col col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-12">
+            <div class="col col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
                 <div class="card card-secondary maincard">
                     <div class="card-body">
                         <div class="carditem">
@@ -358,7 +399,7 @@
                             <p class="dept previnfo">Email:<span class="predata">&nbsp;{{patient.info.contact.email}}</span></p>
                             <p class="dept previnfo">Address:<span class="predata">&nbsp;{{patient.info.contact.address}}</span></p>
                         </div>
-                        <div class="carditem">
+                        <!-- <div class="carditem">
                             <div class="timeline condition"><i class="icon ion-ios-pulse deticon"></i></div>
                             <h6 class="dept firstheader">EMERGENCY</h6>
                             <p class="dept previnfo">Name:<span class="predata">&nbsp;{{patient.info.contact.emgName}}</span></p>
@@ -366,7 +407,7 @@
                             <p class="dept previnfo">Mobile:<span class="predata">&nbsp;{{patient.info.contact.emgMobile}}</span></p>
                             <p class="dept previnfo">Email:<span class="predata">&nbsp;amina@gamil.com</span></p>
                             <p class="dept previnfo">Address:<span class="predata">&nbsp;No. 25 Kofar wanbai, Azare</span></p>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="floter"><i class="icon ion-edit flotericon"></i></div>
                 </div>

@@ -87,7 +87,7 @@ export class InventoryComponent implements OnInit {
 
     }
   }
-  addMore(){
+  addMore() {
     this.temProducts.push(this.product);
     this.input = '';
     // this.item = new Item();

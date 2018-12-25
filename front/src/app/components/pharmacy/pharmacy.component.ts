@@ -23,6 +23,7 @@ export class PharmacyComponent implements OnInit {
   view = '';
   id = null;
   selected = null;
+  curIndex = 0;
 
 
   constructor(private dataService: DataService, private socket: SocketService ) { }
@@ -41,17 +42,76 @@ export class PharmacyComponent implements OnInit {
       this.view = 'details';
     }
   }
+  selectItem(i: number, j: number, k: number) {
+   this.curIndex = i;
+   this.patients[i].record.medications[j][k].selected =
+   this.patients[i].record.medications[j][k].selected ? false : true;
+  if(this.patients[i].record.medications[j][k].paid) {
+    $('.trigger').click();
+  } else {
+  
+  }
+
+  }
+ 
+  getSelections() {
+    const selected = [];
+     this.patients[0].record.medications.forEach(group => {
+       group.forEach(medic => {
+         if (medic.selected) {
+           selected.push(medic);
+         }
+       });
+     });
+    return selected;
+  }
+  runTransaction() {
+
+    this.dataService.runTransaction(this.patients[this.curIndex],this.products).subscribe((transaction)=>{
+      console.log(transaction);
+      this.patients[this.curIndex] = transaction.patient;
+      this.products = transaction.inventory;
+    });
+  }
+  comfirmPayment() {
+    const selected = [];
+    this.patients[this.curIndex].record.medications.forEach(group => {
+      group.forEach( medic => {
+        if (medic.selected) {
+          medic.selected = false;
+          medic.paid = true;
+          selected.push(medic);
+        }
+      });
+    });
+  
+    selected.forEach(medication => {
+      this.products.forEach(product=>{
+        if(medication.product.item._id===product.item._id) {
+          product.stockInfo.sold = product.stockInfo.sold === product.stockInfo.quantity ? product.stockInfo.sold : product.stockInfo.sold + 1;
+        }else{
+
+        }
+      })
+  
+    });
+    
+    this.runTransaction();
+
+  }
+
 
   getOrders() {
     this.dataService.getOrders().subscribe((patients: Patient[]) => {
       this.patients = patients;
-      console.log(patients);
+     
 
     });
   }
   getProducts() {
     this.dataService.getProducts().subscribe((p: any) => {
       this.products = p.inventory;
+     
 
     });
   }

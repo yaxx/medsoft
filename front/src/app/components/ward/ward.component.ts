@@ -79,23 +79,44 @@ export class WardComponent implements OnInit {
      for (let n = 0; n <= dept.beds.length; n++) {
       if (!dept.beds[n]) {
         beds.push(n);
-
       } else {
       }
     }
     return beds;
   }
   changeBed(i) {
-    this.bedNum = this.patients[i].record.visits[ this.patients[i].record.visits.length - 1].bedNo;
-    this.patients[i].record.visits[this.patients[i].record.visits.length - 1].bedNo = null;
+   
+    const name =  this.patients[i].record.visits.reverse()[0].dept
+    this.client.departments.forEach(department=>{
+      if(department.name !== name){
+        return
+       
+      }
+      else{
+        department.beds[this.patients[i].record.visits[0].bedNo] = false;
+      }
+    })
+    this.patients[i].record.visits[0].bedNo = null;
   }
   assignBed(i) {
+    const n= this.patients[i].record.visits.reverse()[0].dept
    const name = this.client.departments.filter((d) =>
-     d.name === this.patients[i].record.visits.reverse()[0].dept
-    this.dataService.updateBed(this.patients[i]._id, parseInt(this.bedNum), name this.client._id)
-    .subscribe((departments: Department[]) => {
-      this.client.departments = departments
-      console.log(this.client.departments)
+     d.name === n);
+     var dept = this.client.departments;
+     dept.forEach((dep,i)=>{
+       if(dep.name !== n){
+        return
+       }else{
+        dep.beds[parseInt(this.bedNum)] = true;
+       }
+     })
+     var patient = this.patients[i]
+     patient.record.visits.reverse()[0].bedNo = parseInt(this.bedNum)
+     patient.record.visits.reverse();
+     this.dataService.updateBed(patient, dept, this.client._id)    .subscribe((p: Patient) => {
+      this.patients[i] = p;
+      this.bedNum = null;
+     
     //  this.client.departments.filter((d) =>
     //  d.name === this.patients[i].record.visits.reverse()[0].dept)[0].beds[this.bedNum]=true;
     });

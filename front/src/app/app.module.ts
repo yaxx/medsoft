@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { CookieService } from 'ngx-cookie-service';
 import {DataService} from './services/data.service';
 import {SocketService} from './services/socket.service';
+import {NotePipe} from './pipes/note.pipe';
 import {Patient} from './models/data.model';
 import {RouterModule, Routes} from '@angular/router';
 import { RegistrationComponent } from './components/registration/registration.component';
@@ -16,7 +17,7 @@ import { PharmacyComponent } from './components/pharmacy/pharmacy.component';
 import { WardComponent } from './components/ward/ward.component';
 import { AccountsComponent } from './components/accounts/accounts.component';
 import { LoginComponent } from './components/login/login.component';
-import { NotePipe } from './pipes/note.pipe';
+
 import { AccountComponent } from './components/account/account.component';
 import { NavComponent } from './components/nav/nav.component';
 import { PatientComponent } from './components/patient/patient.component';

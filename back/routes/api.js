@@ -182,18 +182,7 @@ deleteStaff: (req, res)=>{
       console.log(e);
     }
   })
-  // .exec(e, docs)=>{
-  //   if(!e){
-  //     Client.findOneAndUpdate({
-  //       _id:req.body.hosId
-  //     },{
-  //     $pull:{
-  //       staffs: req.body._id
-  //    }
-  //   }
-  //     )
-  //   }
-  // })
+
 },
 addDept: (req, res)=>{
   console.log(req.body)
@@ -295,95 +284,66 @@ updateBed: (req, res)=>{
         if(e){
           console.log(e)
         }else{
-          console.log(client.departments[2].beds[req.body.bedNo])
-          client.departments.forEach((d,i)=>{
-            if(d.name!=='GOPD'){
-              return
-            }
-            d.beds[req.body.bedNo] = true
-            // console.log(d.beds[req.body.bedNo])
-           
-          })
+         
+          client.departments = req.body.departments
           client.save((e,cl)=>{
             if(e){
               console.log(e)
             }else{
-              console.log(cl.departments[2].beds[req.body.bedNo])
-              res.send(cl.departments)
-              // console.log(p)
-              // Patient.findById(req.body.pid,(e,p)=>{
-              //   if(e){
-              //     console.log(e)
-              //   }else{
-              //     p.record.visits.reverse()[0].bedNum = req.body.bedNo
-              //     p.record.visits.reverse()
-              //     p.save((e,patient)=>{
-              //       if(e){
-              //         console.log(e)
-              //       }else{
-              //         res.send(patient)
-              //       }
-              //     })
-              //   }
-              // })
+            
+              Patient.findById(req.body.patient._id,(e,p)=>{
+                if(e){
+                  console.log(e)
+                }else{
+                  p.record.visits = req.body.patient.record.visits
+             
+                  p.save((e, patient)=>{
+                    if(e){
+                      console.log(e)
+                    }else{
+                      res.send(patient)
+                    }
+                  })
+                }
+              })
             }
           })
         }
       })
-   
-  
+ 
 },
 updateRecord: (req, res)=>{
-   console.log(req.body)
-    Patient.findOne({_id:req.body.id},(e, doc)=>{
+   console.log(req.body._id)
+    Patient.findByIdAndUpdate(req.body._id,{record:req.body.record},{new:true},(e, doc)=>{
       if(!e){
-        if(req.body.session.vitals.bp.value){
-          doc.record.vitals.bp.push(req.body.session.vitals.bp)
-        }else {}
-        if(req.body.session.vitals.pulse.value) {
-          doc.record.vitals.pulse.push(req.body.session.vitals.pulse)
-        }else {}
-         if(req.body.session.vitals.resp.value){
-          doc.record.vitals.resp.push(req.body.session.vitals.resp)
-        }else {}
-         if(req.body.session.vitals.height.value){
-          doc.record.vitals.height.push(req.body.session.vitals.height)
-        }else {}
-         if(req.body.session.vitals.weight.value){
-          doc.record.vitals.weight.push(req.body.session.vitals.weight)
-        }else {}
-         if(req.body.session.vitals.tempreture.value){
-          doc.record.vitals.weight.push(req.body.session.vitals.tempreture)
-        }else {}
-         if(req.body.session.vitals.bloodGl.value){
-          doc.record.vitals.bloodGl.push(req.body.session.vitals.bloodGl)
-        }else {}
-         if(req.body.session.conditions.condition){
-          doc.record.conditions.push(req.body.session.conditions)
-        }else {}
-         if(req.body.session.complains.complain){
-          doc.record.complains.push(req.body.session.complains)
-        }else {}
-         if(req.body.session.famHist.condition){
-          doc.record.famHist.push(req.body.session.famHist)
-        }else {}
-         if(req.body.session.notes.note){
-          doc.record.notes.push(req.body.session.notes)
-        }else {}
-         if(req.body.session.allegies.allegy){
-          doc.record.allegies.push(req.body.session.allegies)
-        }else {}
-         if(req.body.session.medications.length){
-          doc.record.medications =  doc.record.medications.concat(req.body.session.medications)
-        }else {}
-        doc.record.visits.push(req.body.session.visits)
-         doc.save((e, doc)=>{
-          if(!e){
-            res.send(doc)
-          }  else{
-            console.log(e);
-          }
-        })
+        console.log(doc.record.medications);
+        res.send(doc);
+      } else{
+        console.log(e);
+      }
+
+    })
+},
+runTransaction: (req, res)=>{
+   
+    Patient.findByIdAndUpdate(req.body.patient._id,{record:req.body.patient.record},{new:true},(e, p)=>{
+      if(!e){
+        Client.findOneAndUpdate({
+          'main.email':'mail@cityhospital.com',
+     
+       },
+       {inventory:req.body.inventory},{new:true},(e,i)=>{
+         if(!e){
+           console.log(i)
+           console.log(p)
+           res.send({pateint:p,inventory:i})
+         }
+         else{
+           console.log(e)
+         }
+
+       })
+        
       } else{
         console.log(e);
       }
@@ -446,11 +406,11 @@ getProducts: (req, res)=>{
   Client.findOne({
     'main.email':'mail@cityhospital.com'
   },
-    {_id:0, inventory:1},
-      (err, products)=>{
+   
+      (err, client)=>{
       if(!err){
-        console.log(products)
-        res.send(products);
+        console.log(client.inventory)
+        res.send(client);
       }
       else{
         console.log(err);

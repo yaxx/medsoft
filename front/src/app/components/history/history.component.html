@@ -49,13 +49,13 @@
   </div>
   <i style="left:20%;" class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
   <i [routerLink]="['/messages']" routerLinkActive="router-link-active"  style="left:25%; font-size: 22px;" class="icon ion-ios-chatboxes-outline arrow buble" title="Messages"></i>
-  <div style="left:87%; top:5px;" class="timeline lastdoc priscriber headerdp"></div>
+  <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:90%;position:absolute;height:30px;width:30px;bottom:-8%"></div>
   </nav>
 
 
 
-  <div class="container">
-      <div class="row">
+  <div class="container history-container">
+      <div class="row history-row">
           <div class="col col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
               <div class="card-colums leftcolumn">
                   <div class="card card-secondary historycard leftcard">
@@ -105,8 +105,54 @@
                           <h1 class="dept headtitle">VISITS</h1>
                       </div>
                       <div class="card-body rightcardbody">
-                          <div class="carditem"></div>
-                      </div>
+                            <div class="carditem">
+                                <div class="carditem priscriptioncontainer order">
+                                    <div class="timeline condition drugtimeline">
+                                        <p class="timelinedate">10</p>
+                                        <p class="timelinedate month">FEB</p>
+                                    </div>
+                                    <div class="priscription drug side-item">
+                                        <h6 class="dept">GOPD&nbsp;<span class="timetaken dischargedon">05/10/2018 02:30pm</span></h6>
+                                        <h1 class="dept previnfo sec-info">Seen By: <span class="predata">Dr. Simon Lesi</span></h1>
+                                        
+                                    </div>
+                                    
+                                </div>
+                                <div class="carditem priscriptioncontainer order">
+                                    <div class="timeline condition drugtimeline">
+                                        <p class="timelinedate">25</p>
+                                        <p class="timelinedate month">DEC</p>
+                                    </div>
+                                  
+                                    <div class="priscription drug side-item">
+                                        <h6 class="dept">Family Medicine&nbsp;<span class="timetaken dischargedon">05/10/2018 02:30pm</span></h6>
+                                        <h1 class="dept previnfo sec-info">Seen By: <span class="predata">Dr. Amina Ibrahim</span></h1>
+                                    </div>
+                                </div>
+                                <div class="carditem priscriptioncontainer order">
+                                    <div class="timeline condition drugtimeline">
+                                        <p class="timelinedate">09</p>
+                                        <p class="timelinedate month">JAN</p>
+                                    </div>
+                                  
+                                    <div class="priscription drug">
+                                        <h6 class="dept">Maternity&nbsp;<span class="timetaken dischargedon">05/10/2018 02:30pm</span></h6>
+                                        <h1 class="dept previnfo sec-info">Seen By: <span class="predata">Dr. Amina Ibrahim</span></h1>
+                                    </div>
+                                </div>
+                                <div class="carditem priscriptioncontainer order">
+                                    <div class="timeline condition drugtimeline">
+                                        <p class="timelinedate">09</p>
+                                        <p class="timelinedate month">JAN</p>
+                                    </div>
+                                  
+                                    <div class="priscription drug">
+                                        <h6 class="dept">Padiatrics&nbsp;<span class="timetaken dischargedon">05/10/2018 09:50am</span></h6>
+                                        <h1 class="dept previnfo sec-info">Seen By: <span class="predata">Dr. Hassan Mohammed</span></h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                   </div>
                   <div class="card card-secondary historycard leftcard deathinfo">
                       <div class="card-header grapheader">
@@ -124,7 +170,7 @@
                       <div class="card-body notecardbody">
                           <div class="carditem noteitem writeup">
                               <div class="timeline noter patientdp"></div>
-                              <h1 class="dept previnfo noterinfo patientname">Amina &nbsp;Mohammed<span class="predata notetime">20/10/2018 02:59pm</span></h1>
+                               <h1 class="dept previnfo noterinfo patientname">{{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}} &nbsp;<span class="predata notetime">{{patient.info.dateCreated|date:'longDate'}}</span></h1>
                               <h1 class="dept previnfo patientname">Gender:&nbsp;<span class="predata">Female</span></h1>
                               <h1 class="dept previnfo patientname">Age:&nbsp;<span class="predata">25</span></h1>
                               <h1 class="dept previnfo patientname">Blood Group:&nbsp;<span class="predata">O+</span></h1>
@@ -144,17 +190,18 @@
                           <h1 class="dept headtitle">NOTES</h1>
                       </div>
                       <div class="card-body notecardbody">
-                          <div class="carditem noteitem writeup">
+                         
+                          <div *ngFor = "let item of patient.record.notes" class="carditem noteitem writeup">
                               <div class="timeline noter"></div>
-                              <h1 class="dept previnfo noterinfo">Dr. Aisha Usman&nbsp;<span class="predata notetime">20/20/2018 10:50am</span></h1>
-                              <p class="note-item">This work is subject to copyright. All rights are reserved by the Publisher, whether the whole or part of pecifically the rights of translation, reprinting<br></p>
+                              <h1 class="dept previnfo noterinfo">Dr. Farida Aminu&nbsp;<span class="predata notetime">
+                                  {{item.dateCreated|date:'dd/MM/y hh:mma'|lowercase}}</span></h1>
+                              <p class="note-item">{{item|note}}<br>
+                                <span *ngIf= "!item.full" (click) = "showDetails($event)" class="read-more"><a href="#">Read more</a></span>
+                            </p>
                           </div>
-                          <div class="carditem noteitem writeup">
-                              <div class="timeline noter"></div>
-                              <h1 class="dept previnfo noterinfo">Dr. Aisha Usman&nbsp;<span class="predata notetime">20/20/2018 10:50am</span></h1>
-                              <p class="note-item">This work is subject to copyright. All rights are reserved by the Publisher, whether the whole or part of pecifically the rights of translation, reprinting<br></p>
-                          </div>
+                         
                       </div>
+                      <a href="#" class="card-link view-more">View 10 more<span><i class="icon ion-android-more-vertical thread-icon"></i></span></a>
                   </div>
                   <div class="card-group">
                       <div class="card card-secondary maincard halfcard">
@@ -280,42 +327,87 @@
                           <h1 class="dept headtitle">COMPLAINS</h1>
                       </div>
                       <div class="card-body rightcardbody">
-                          <div class="carditem"></div>
-                          <div class="carditem">
-                              <h1 class="dept">Malaria Fever<span class="predata">&nbsp; 02/15/2018&nbsp;</span></h1>
-                              <h1 class="dept previnfo">Diagnosed By<span class="predata">&nbsp; Dr. Simon Lesi</span></h1>
-                          </div>
-                          <div class="carditem">
-                              <h1 class="dept">Diabetes<span class="predata">&nbsp; 02/15/2018&nbsp;</span></h1>
-                              <h1 class="dept previnfo">Diagnosed By<span class="predata">&nbsp; Prof. Aisha Bello</span></h1>
-                          </div>
-                          <div class="carditem">
-                              <h1 class="dept">Malaria Fever<span class="predata">&nbsp; 02/15/2018&nbsp;</span></h1>
-                              <h1 class="dept previnfo">Diagnosed By<span class="predata">&nbsp; Dr. S. A Lesi</span></h1>
-                              <h1 class="dept previnfo">Date tested<span class="predata">&nbsp; 02/15/2018 10:05am</span></h1>
-                          </div>
-                      </div>
+                            <div *ngFor ="let complain of patient.record.complains" class="carditem">
+                                <div class="carditem priscriptioncontainer order">
+                                    <div class="timeline condition drugtimeline">
+                                        <p class="timelinedate">10</p>
+                                        <p class="timelinedate month">FEB</p>
+                                    </div>
+                                    <div class="priscription drug side-item">
+                                        <h6 class="dept complain">{{complain.complain}}</h6>
+                                        <h6 class="dept priscriptiontime">&nbsp;08:55am</h6>
+                                    </div>
+                                    
+                                    
+                                </div>
+                                <div class="carditem priscriptioncontainer order">
+                                    <div class="timeline condition drugtimeline">
+                                        <p class="timelinedate">09</p>
+                                        <p class="timelinedate month">JAN</p>
+                                    </div>
+                                  
+                                    <div class="priscription drug side-item">
+                                        <h6 class="dept">Pregnancy</h6>
+                                        <h6 class="dept priscriptiontime">&nbsp;05:37pm</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                   </div>
                   <div class="card card-secondary historycard rightcard conditions">
                       <div class="card-header grapheader">
                           <h1 class="dept headtitle">CONDITIONS</h1>
                       </div>
                       <div class="card-body rightcardbody">
-                          <div class="carditem"></div>
-                          <div class="carditem">
-                              <h1 class="dept">Malaria Fever<span class="predata">&nbsp; 02/15/2018&nbsp;</span></h1>
-                              <h1 class="dept previnfo">Diagnosed By<span class="predata">&nbsp; Dr. Simon Lesi</span></h1>
-                          </div>
-                          <div class="carditem">
-                              <h1 class="dept">Diabetes<span class="predata">&nbsp; 02/15/2018&nbsp;</span></h1>
-                              <h1 class="dept previnfo">Diagnosed By<span class="predata">&nbsp; Prof. Aisha Bello</span></h1>
-                          </div>
-                          <div class="carditem">
-                              <h1 class="dept">Malaria Fever<span class="predata">&nbsp; 02/15/2018&nbsp;</span></h1>
-                              <h1 class="dept previnfo">Diagnosed By<span class="predata">&nbsp; Dr. S. A Lesi</span></h1>
-                              <h1 class="dept previnfo">Date tested<span class="predata">&nbsp; 02/15/2018 10:05am</span></h1>
-                          </div>
-                      </div>
+                            <div class="carditem">
+                                <div class="carditem priscriptioncontainer order">
+                                    <div class="timeline condition drugtimeline">
+                                        <p class="timelinedate">10</p>
+                                        <p class="timelinedate month">FEB</p>
+                                    </div>
+                                    <div class="priscription drug side-item">
+                                        <h6 class="dept">Peptic Ulcer</h6>
+                                        <h1 class="dept previnfo sec-info">Diagnosed By: <span class="predata">Dr.Rita Benjamin</span></h1>
+                                    </div>
+                                    
+                                </div>
+                                <div class="carditem priscriptioncontainer order">
+                                    <div class="timeline condition drugtimeline">
+                                        <p class="timelinedate">29</p>
+                                        <p class="timelinedate month">FEB</p>
+                                    </div>
+                                  
+                                    <div class="priscription drug side-item">
+                                        <h6 class="dept">Malaria Fever</h6>
+                                        <h1 class="dept previnfo">Diagnosed By: <span class="predata">Dr.Olumide Bola</span></h1>
+                                    </div>
+                                </div>
+                                <div class="carditem priscriptioncontainer order">
+                                    <div class="timeline condition drugtimeline">
+                                        <p class="timelinedate">12</p>
+                                        <p class="timelinedate month">MAY</p>
+                                    </div>
+                                  
+                                    <div class="priscription drug side-item">
+                                        <h6 class="dept">Pregnancy</h6>
+                                        <h1 class="dept previnfo sec-info">Diagnosed By: <span class="predata">Dr.Rita Benjamin</span></h1>
+                                    </div>
+                                </div>
+                                <div class="carditem priscriptioncontainer order">
+                                    <div class="timeline condition drugtimeline">
+                                        <p class="timelinedate">09</p>
+                                        <p class="timelinedate month">JAN</p>
+                                    </div>
+                                  
+                                    <div class="priscription drug side-item">
+                                        <h6 class="dept">Thyphoid Fever</h6>
+                                        <h1 class="dept previnfo">Diagnosed By: <span class="predata">Dr. Sulaiman Isah</span></h1>
+                                    </div>
+                                </div>
+                                
+                                
+                            </div>
+                        </div>
                   </div>
                   <div class="card card-secondary historycard rightcard medication">
                       <div class="card-header grapheader">

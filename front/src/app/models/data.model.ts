@@ -77,12 +77,14 @@ export class Item {
 export class StockInfo {
   constructor(
 
+
+    public price: number = null,
+    public sold: number = 0,
+    public expired: boolean = false,
+    public status: boolean = false,
+    public quantity: number = null,
     public expiry?: Date,
-    public price?: number,
-    public sold?: number,
-    public expired?: boolean ,
-    public status?: boolean,
-    public quantity?: number
+    public _id?: string
 
     ) {}
   }
@@ -103,8 +105,9 @@ export class Priscription {
     public freq: string= null,
     public piriod: number = null,
     public extend: string = null,
-    public takenOn: Date = null
-
+    public takenOn: Date = null,
+    public priscribedOn?: Date,
+    public by?: Staff
   ) {}
 }
 export class Medication {
@@ -112,13 +115,11 @@ export class Medication {
      public product: Product = new Product(),
      public priscription: Priscription = new Priscription(),
      public _id?: string,
-     public paid?: boolean,
-     public paused?: boolean,
-     public pausedOn?: Date,
-     public lastTaken?: Date,
-     public priscribedOn?: Date,
-     public by?: Staff,
-     public selected?: boolean
+     public paid: boolean = false,
+     public paused: boolean = null,
+     public pausedOn: Date = null,
+     public lastTaken: Date = null,
+     public selected: boolean = false
      ) {}
 }
 export class Complain {
@@ -164,7 +165,7 @@ export class Weight {
 }
 
 export class Vital {
-  constructor(public bp: Bp= new Bp,
+  constructor(public bp: Bp= new Bp(),
     public resp: Resp = new Resp(),
     public pulse: Pulse = new Pulse(),
     public bloodGl: Bg = new Bg(),
@@ -238,7 +239,7 @@ export class Session {
     public complains: Complain = new Complain(),
     public famHist: FamHist = new FamHist(),
     public notes: Note = new Note(),
-    public vitals: Vital = new Vital(),
+    public vital: Vital = new Vital(),
     public conditions: Condition = new Condition(),
     public allegies: Allegy = new Allegy(),
     public devices: Device = new Device(),
@@ -247,26 +248,43 @@ export class Session {
     public test: Test = new Test(),
     public scan: Scan = new Scan(),
     // public sugery: Sugery = new Surgery(),
-    public deathNote: DeathNote = new DeathNote(),
+    public deathNote: DeathNote = new DeathNote()
 
      ) {}
   }
+export class Vitals {
+  constructor(
+    public bp: Bp[] = new Array<Bp>(),
+    public resp: Resp[] = new Array<Resp>(),
+    public pulse: Pulse[] = new Array<Pulse>(),
+    public bloodGl: Bg[] = new Array<Bg>(),
+    public tempreture: Temp[] = new Array<Temp>(),
+    public height: Height[] = new Array<Height>(),
+    public weight: Weight[] = new Array<Weight>()
+
+  ) {}
+}
+// export class Medications{
+//   constructor(
+//     public medication:Medication[] = new Array<Medication>();
+//   ){}
+// }
 
 export class Record {
   constructor(
     public complains: Complain[] = new Array<Complain>(),
     public famHist: FamHist[] = new Array<FamHist>(),
     public notes: Note[] = new Array<Note>(),
-    public vitals: Vital[] = new Array<Vital>(),
+    public vitals: Vitals = new Vitals(),
     public conditions: Condition[] = new Array<Condition>(),
     public allegies: Allegy[] = new Array<Allegy>(),
     public devices: Device[] = new Array<Device>(),
     public visits: Visit[] = new Array<Visit>(new Visit()),
-    public medications: Medication[] = new Array<Medication>(),
+    public medications: any[] = new Array<any>(new Array<Medication>()),
     public test: Test[] = new Array<Test>(),
     public scan: Scan[] = new Array<Scan>(),
     public sugery: any[] = [],
-    public deathNote: DeathNote = new DeathNote(),
+    public deathNote: DeathNote = new DeathNote()
 
      ) {}
   }
@@ -343,7 +361,7 @@ export class Message {
     public sender: string = null,
     public reciever:   string = null,
     public sendOn?: Date
-  ){}
+  ) {}
 }
 
 

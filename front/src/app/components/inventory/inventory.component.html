@@ -130,7 +130,7 @@
   <i style="left:20%;" class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
   <i [routerLink]="['/messages']" routerLinkActive="router-link-active"  style="left:25%; font-size: 22px;" class="icon ion-ios-chatboxes-outline arrow buble" title="Messages"></i>
   <i style="left:83%;" class="icon ion-ios-plus-empty arrow buble" id="add" title="Add Products" data-target="#newModal" data-toggle="modal"></i>
-  <div style="left:87%; top:5px;" class="timeline lastdoc priscriber headerdp"></div>
+  <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:90%;position:absolute;height:30px;width:30px;bottom:-8%"></div>
   </nav>
 
 
@@ -254,17 +254,24 @@
                      </span>
 
                    </th>
+                   <th title = "Sort by price" (click)="sortProducts('price')">QUANTITY
+                      <span class="sorter">
+                          <i *ngIf="sortBy==='price'" style="color:lightgreen" class="icon ion-android-arrow-dropdown"></i>
+                     </span>
+
+                   </th>
+                   <th title = "Sort by sold"   (click)="sortProducts('sold')">SOLD
+                    <span class="sorter">
+                        <i *ngIf="sortBy==='sold'" style="color:lightgreen" class="icon ion-android-arrow-dropdown"></i>
+                  </span>
+                  </th>
                    <th title = "Sort by quantity" (click)="sortProducts('quantity')" title="sort by quantity">IN STOCK
                       <span class="sorter">
                           <i *ngIf="sortBy==='quantity'" style="color:lightgreen" class="icon ion-android-arrow-dropdown"></i>
                      </span>
 
                     </th>
-                      <th title = "Sort by sold"   (click)="sortProducts('sold')">SOLD
-                          <span class="sorter">
-                              <i *ngIf="sortBy==='sold'" style="color:lightgreen" class="icon ion-android-arrow-dropdown"></i>
-                        </span>
-                    </th>
+
                     <th title = "Sort by recently added" (click)="sortProducts('added')" title="Sort by date added">DATE ADDED
                         <span class="sorter">
                             <i *ngIf="sortBy==='added'" style="color:lightgreen" class="icon ion-android-arrow-dropdown"></i>
@@ -298,8 +305,10 @@
                     <td>{{product.item.category}}</td>
                     <td>{{product.item.description}}</td>
                     <td>{{product.stockInfo.price}}</td>
-                    <td>{{product.stockInfo.quantity-product.stockInfo.sold}}</td>
+                    <td>{{product.stockInfo.quantity}}</td>
                     <td>{{product.stockInfo.sold}}</td>
+                    <td>{{product.stockInfo.quantity-product.stockInfo.sold}}</td>
+
                     <td>{{product.addedOn|date:'dd/MM/y'}}</td>
                     <td>{{product.stockInfo.expiry|date:'dd/MM/y'}}</td>
                     <td style="text-align: center"><span class="moreIcon out"><i class="icon ion-ios-circle-filled" ></i></span></td>

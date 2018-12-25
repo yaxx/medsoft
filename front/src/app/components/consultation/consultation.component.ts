@@ -20,7 +20,8 @@ export class ConsultationComponent implements OnInit {
   curIndex = 0;
   priscription: Priscription = new Priscription();
   medication: Medication =  new Medication(new Product(), new Priscription() );
-  medications: Medication[] = new Array<Medication>();
+  medications: any[] = new Array<any>(new Array<Medication>());
+  tempMedications: Medication[] = new Array<Medication>();
   item: Item = new Item();
   items: Item[] = new Array<Item>();
   temItems: Item[] = new Array<Item>();
@@ -53,7 +54,7 @@ export class ConsultationComponent implements OnInit {
     this.fowarded = conclution === 'fowarded' ? true : false;
   }
   fetchDept() {
-    if(this.fowarded) {
+    if (this.fowarded) {
       return this.client.departments
       .filter((dept) => (dept.hasWard) && (dept.name !== this.patients[this.curIndex].record.visits[0].dept));
     } else {
@@ -64,6 +65,7 @@ export class ConsultationComponent implements OnInit {
   getProducts() {
     this.dataService.getProducts().subscribe((p: any) => {
       this.products = p.inventory;
+      
     });
   }
   getItems() {
@@ -73,18 +75,16 @@ export class ConsultationComponent implements OnInit {
   }
   selectItem(i: Item) {
   }
-  selectPatient(i: number) {
-   this.curIndex = i;
-  }
+
 
   searchItem (i) {
     if (i === '') {
       this.temItems = new Array<Item>();
     } else {
-    this.temItems = this.items.filter((item) => {
-    const patern =  new RegExp('\^' + i , 'i');
-    return patern.test(item.name);
-    });
+      this.temItems = this.items.filter((item) => {
+      const patern =  new RegExp('\^' + i , 'i');
+      return patern.test(item.name);
+      });
   }
 }
 
@@ -102,36 +102,96 @@ export class ConsultationComponent implements OnInit {
   addSelection(i: Item) {
     this.input = i.name + ' ' + i.mesure + i.unit;
     this.temItems = new Array<Item>();
-
     const temp: Product[] = this.products.filter((p) => p.item._id === i._id);
     if (temp.length) {
       this.product = temp[0];
     } else {
-      this.product = new Product(i, new StockInfo());
+      this.product = new Product(i);
     }
+    console.log(this.product);
+
   }
+  selectPatient(i: number) {
+   this.patient = this.patients[i];
+    this.medications = this.patient.record.medications.reverse();
+   }
   addMedication() {
-    this.medications.push(new Medication(this.product, this.priscription));
+    this.tempMedications.push(new Medication(this.product, this.priscription));
     this.product = new Product();
     this.priscription = new Priscription();
     this.input = null;
   }
-  removePriscription(i) {
+  removePriscription(i: number) {
    this.medications.splice(i);
   }
   getTotal() {
-    //  let sum = 0;
-    //  for (const item of this.record.medication) {
-    //    sum = sum + item.price;
-    //  }
-    //  return sum;
+
   }
+
+
   submitRecord() {
-    this.session.medications = this.medications;
-    this.dataService.updateRecord(this.session, this.patients[this.curIndex]._id).subscribe((p: Patient) => {
+
+    if (this.medications[0].length) {
+
+      if (new Date(this.medications[0][0].priscription.priscribedOn)
+      .toLocaleDateString() === new Date()
+      .toLocaleDateString()) {
+        for(let m of this.tempMedications){
+          this.medications[0].push(m)
+        }
+       } else {
+        this.medications.push(this.tempMedications);
+       }
+
+  } else {
+
+    this.medications[0] = this.tempMedications;
+
+  }
+
+
+    this.patient.record.medications = this.medications.reverse();
+
+    if (this.session.vital.bp.value) {
+      this.patient.record.vitals.bp.push(this.session.vital.bp);
+    } else {}
+    if (this.session.vital.pulse.value) {
+      this.patient.record.vitals.pulse.push(this.session.vital.pulse);
+    } else {}
+     if (this.session.vital.resp.value) {
+      this.patient.record.vitals.resp.push(this.session.vital.resp);
+    } else {}
+     if (this.session.vital.height.value) {
+      this.patient.record.vitals.height.push(this.session.vital.height);
+    } else {}
+     if (this.session.vital.weight.value) {
+      this.patient.record.vitals.weight.push(this.session.vital.weight);
+    } else {}
+     if (this.session.vital.tempreture.value) {
+      this.patient.record.vitals.tempreture.push(this.session.vital.tempreture);
+    } else {}
+     if (this.session.vital.bloodGl.value) {
+      this.patient.record.vitals.bloodGl.push(this.session.vital.bloodGl);
+    } else {}
+     if (this.session.conditions.condition) {
+      this.patient.record.conditions.push(this.session.conditions);
+    } else {}
+     if (this.session.complains.complain) {
+      this.patient.record.complains.push(this.session.complains);
+    } else {}
+     if (this.session.famHist.condition) {
+      this.patient.record.famHist.push(this.session.famHist);
+    } else {}
+     if (this.session.notes.note) {
+      this.patient.record.notes.push(this.session.notes);
+    } else {}
+     if (this.session.allegies.allegy) {
+      this.patient.record.allegies.push(this.session.allegies);
+    } else {}
+
+    this.dataService.updateRecord(this.patient).subscribe((p: Patient) => {
       this.patients[this.curIndex] = p ;
       this.session = new Session();
-      this.medication = new Medication();
 
     });
   }

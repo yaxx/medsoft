@@ -103,43 +103,49 @@ var PatientScheema = new Scheema({
             wardNo: Number,
             bedNo: Number
         }],
-        medications:[{
-            product:{
-                item:{
-                    name: String,
-                    brand: String,
-                    category: String,
-                    description: String,
-                    mesure:Number,
-                    unit: String,
-                    dateCreated: {type:Date, default: Date.now()}
-                },
-                stockInfo:{
-                    expiry: Date,
-                    price: Number,
-                    sold: Number,
-                    expired: Boolean ,
-                    status: Boolean,
-                    quantity: Number,
-                },
-                selected:Boolean,
-                dateAdded: {type:Date, default: Date.now()}
-            },
-            priscription:{
-                intake: Number,
-                freq: String,
-                piriod: Number,
-                extend: String
-            },
-            paid: {type:Boolean, Default:false},
-            lastTaken: Date,
-            paused: {type:Boolean, Default:false},
-            pausedOn :Date,
-            selected: {type:Boolean, Default:false},
-            priscribedOn: {type:Date, default:Date.now},
-            by: {type: Scheema.Types.ObjectId, ref: 'Staff'}
-        }
-   ],
+        medications:[
+            [
+                {
+                    product:{
+                        item:{
+                            _id: String,
+                            name: String,
+                            brand: String,
+                            category: String,
+                            description: String,
+                            mesure:Number,
+                            unit: String,
+                            dateCreated: {type:Date, default: Date.now()}
+                        },
+                        stockInfo:{
+                            expiry: Date,
+                            price: Number,
+                            sold: Number,
+                            expired: Boolean ,
+                            status: Boolean,
+                            quantity: Number
+                        },
+                        selected:Boolean,
+                        dateAdded: {type:Date, default: Date.now()}
+                    },
+                    priscription:{
+                        intake: Number,
+                        freq: String,
+                        piriod: Number,
+                        extend: String,
+                        priscribedOn: {type:Date, default:Date.now},
+                        by: {type: Scheema.Types.ObjectId, ref: 'Staff'}
+                    },
+                    paid: {type:Boolean, Default:false},
+                    lastTaken: Date,
+                    paused: {type:Boolean, Default:false},
+                    pausedOn :Date,
+                    selected: {type:Boolean, Default:false}
+                  
+                }
+            ]
+        ],
+   
    scans:[],
    Test:[],
    surgeries:[],

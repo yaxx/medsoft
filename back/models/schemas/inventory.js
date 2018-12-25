@@ -17,7 +17,7 @@ var InventoryScheema = new Scheema({
             price: Number ,
             expired: Boolean ,
             status: Boolean,
-            quantity: Number,
+            quantity: Number
         },
         selected:Boolean,
         addedOn: {type:Date, default: Date.now()}   
@@ -26,4 +26,4 @@ var InventoryScheema = new Scheema({
 
 })
 var Inventory = mongoose.model('Inventrory', InventoryScheema)
-module.exports = Inventory
+module.exports = Inventory;

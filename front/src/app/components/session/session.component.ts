@@ -103,10 +103,10 @@ export class SessionComponent implements OnInit {
     //  return sum;
   }
   saveRecord() {
-    this.dataService.updateRecord(this.record, this.medications).subscribe((newrecord: Record) => {
-      this.patients[0].record = newrecord;
-      this.record = new Record();
-    });
+    // this.dataService.updateRecord(this.record, this.medications).subscribe((newrecord: Record) => {
+    //   this.patients[0].record = newrecord;
+    //   this.record = new Record();
+    // });
   }
 
 }

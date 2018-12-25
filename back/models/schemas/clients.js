@@ -42,7 +42,7 @@ var ClientScheema = new Scheema({
                     sold:{type:Number, default:0} ,
                     expired: Boolean,
                     status: Boolean,
-                    quantity: Number,
+                    quantity: Number
                 },
                 selected:{Boolean, default: false},
                 addedOn: {type:Date, default: Date.now()}   

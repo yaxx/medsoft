@@ -156,6 +156,7 @@ app.get('/', (req, res) => {
 
 )
 app.get('/api/client', api.getClient)
+app.get('/api/consultees', api.getConsultees)
 app.get('/api/patients', api.getPatients)
 app.get('/api/departments', api.getDepartments)
 app.get('/api/products', api.getProducts)
@@ -176,11 +177,11 @@ app.post('/api/delete-staff', api.deleteStaff)
 app.post('/api/update-record', api.updateRecord)
 app.post('/api/update-medication', api.updateMedication)
 app.post('/api/new-dept', api.addDept)
-app.get('/api/consultees', api.getConsultees)
 app.post('/api/login', api.login)
+app.post('/api/transaction', api.runTransaction)
 
 
-server.listen(3000, (err) => {
+server.listen(5000, (err) => {
   if (err) {
     console.log(err.stack)
   } else {

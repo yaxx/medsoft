@@ -130,19 +130,19 @@
 
   <i [routerLink]="['/messages']" routerLinkActive="router-link-active"  style="left:25%; font-size: 22px;" class="icon ion-ios-chatboxes-outline arrow buble" title="Messages"></i>
 
-  <div style="left:87%; top:5px;" class="timeline lastdoc priscriber headerdp"></div>
+  <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:90%;position:absolute;height:30px;width:30px;bottom:-8%"></div>
   </nav>
 
 
 
 <div class="container">
 <div class="row">
-    <div *ngFor = "let patient of patients; let i = index" class="col col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-12">
-        <div *ngIf = "patient.record.visits[patient.record.visits.length-1].bedNo!==null"  class="card card-secondary maincard">
+    <div *ngFor = "let patient of patients; let i = index" class="col col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+        <div *ngIf = "patient.record.visits.reverse()[0].bedNo!==null"  class="card card-secondary maincard">
             <div class="card-header profileheader">
                 <div class="timeline lastdoc priscriber headerdp"></div>
                 <p class="dept displayname">{{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}<span class="predata editicon"><i class="icon ion-ios-help-outline headericon in"></i><i class="icon ion-android-more-vertical headericon moreicon"></i></span></p>
-                <p class="dept displayname subinfo">Bed No:&nbsp;<span class="predata">{{patient.record.visits[patient.record.visits.length-1].bedNo || 'Unassigned'}}</span></p>
+                <p class="dept displayname subinfo">Bed No:&nbsp;<span class="predata">{{patient.record.visits.reverse()[0].bedNo || 'Unassigned'}}</span></p>
                 <div class="menu">
                     <ul class="actions primary">
                         <li (click) = changeBed(i) class="action">Change Bed</li>
@@ -193,12 +193,24 @@
 
 
         <div *ngIf = "patient.record.visits[patient.record.visits.length-1].bedNo === null"  class="card card-secondary maincard">
-            <div class="card-header profileheader">
+                <div class="card-header profileheader small-header"><i class="icon ion-android-more-vertical small-icon"></i>
+                    <div class="timeline lastdoc priscriber headerdp small-dp"></div><a href="#" class="patien-name small-name">{{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}<span class="small-headericon"></span></a>
+                    <div class="menu">
+                            <ul class="actions primary">
+                                <li (click) = switchViews() class="action">Add Medication</li>
+                                <li  data-target="#phModal" data-toggle="modal" class="action">Add Note</li>
+                                <li class="action">Discharge</li>
+                                <li class="action">Comfirm Death</li>
+                            </ul>
+                        </div>
+                </div>
+            <!-- <div class="card-header profileheader">
                 <div class="timeline lastdoc priscriber headerdp"></div>
                 <p class="dept displayname">{{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}<span class="predata editicon"><i class="icon ion-ios-help-outline headericon in"></i><i class="icon ion-android-more-vertical headericon moreicon"></i></span></p>
                 <p class="dept displayname subinfo">Bed No:&nbsp;<span class="predata">{{patient.record.visits[patient.record.visits.length-1].bedNo || 'Unassigned'}}</span></p>
 
-            </div>
+            </div> -->
+
             <div style="margin-left:0px; padding-top:15%; border-left: none" class="card-body orderbody" >
                 <form style="top:15%; padding-left: 2%; padding-right: 2%;" class=" staffsform" (submit) = assignBed(i)>
                       <div class="form-group vitals-section address">
@@ -220,14 +232,19 @@
 
 
     </div>
-    <div class="col col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-12">
+    <div  class="col col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
         <div class="card card-secondary maincard">
-            <div class="card-header profileheader">
-                <div class="timeline lastdoc priscriber headerdp"></div>
-                <p class="dept displayname">Amina Sulaiman<span class="predata editicon"><i class="icon ion-ios-help-outline headericon in"></i><i class="icon ion-android-more-vertical headericon moreicon"></i></span></p>
-
-                <p class="dept displayname subinfo">Feb 09, 2018</p>
-            </div>
+                <div class="card-header profileheader small-header"><i class="icon ion-android-more-vertical small-icon"></i>
+                    <div class="timeline lastdoc priscriber headerdp small-dp"></div><a href="#" class="patien-name small-name">{{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}<span class="small-headericon"></span></a>
+                    <div class="menu">
+                            <ul class="actions primary">
+                                <li (click) = switchViews() class="action">Add Medication</li>
+                                <li  data-target="#phModal" data-toggle="modal" class="action">Add Note</li>
+                                <li class="action">Discharge</li>
+                                <li class="action">Comfirm Death</li>
+                            </ul>
+                        </div>
+                </div>
             <div class="card-body orderbody">
                 <div class="carditem priscriptioncontainer order">
                     <div class="timeline condition drugtimeline">
@@ -267,11 +284,20 @@
             </div>
         </div>
       </div>
-        <div class="col col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-12">
+        <div class="col col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
         <div class="card card-secondary maincard">
-            <div class="card-header profileheader">
-                <div class="timeline lastdoc priscriber headerdp"></div>
-                <p class="dept displayname">Amina Sulaiman<span class="predata editicon"><i class="icon ion-ios-help-outline headericon in"></i><i class="icon ion-android-more-vertical headericon moreicon"></i></span></p>
+                <div class="card-header profileheader small-header"><i class="icon ion-android-more-vertical small-icon"></i>
+                    <div class="timeline lastdoc priscriber headerdp small-dp"></div><a href="#" class="patien-name small-name">{{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}<span class="small-headericon"></span></a>
+                    <div class="menu">
+                            <ul class="actions primary">
+                                <li (click) = switchViews() class="action">Add Medication</li>
+                                <li  data-target="#phModal" data-toggle="modal" class="action">Add Note</li>
+                                <li class="action">Discharge</li>
+                                <li class="action">Comfirm Death</li>
+                            </ul>
+                        </div>
+                </div>
+            <!-- <div class="timeline lastdoc priscriber headerdp small-dp"><a href="#" class="patien-name small-name">{{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}<span class="small-headericon"></span></a>
                 <div class="menu">
                     <ul class="actions primary">
                         <li (click) = switchViews() class="action">Add Medication</li>
@@ -280,8 +306,8 @@
                         <li class="action">Comfirm Death</li>
                     </ul>
                 </div>
-                <p class="dept displayname subinfo">Feb 09, 2018</p>
-            </div>
+            </div> -->
+
             <div style="margin-left:0px; padding-top:15%; border-left: none"        class="card-body orderbody" >
               <form style="top:15%; padding-left: 2%; padding-right: 2%;" class="       staffsform" (submit) = updateMedication()>
                   <div class="form-group vitals-section address">

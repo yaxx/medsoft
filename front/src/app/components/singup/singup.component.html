@@ -1,0 +1,27 @@
+<div class="card logincard">
+  <div class="card-body logbody">
+      <form style="padding-left:55px;padding-right:55px">
+          <div class="form-group vitals-section address">
+          <label  for="name" class="labelss">HOSPITAL NAME</label>
+          <input [(ngModel)]="client.info.name"  type="text" name="name" class=" inputs dataInfo patientdata" placeholder="e.g City Hospital">
+          </div>
+          <div  style="width:49.3%; margin-top:5px;  margin-right: 3px; display:inline-block" class="form-group vitals-section">
+          <label  for="email" class="labelss">EMAIL</label>
+          <input [(ngModel)]="client.info.email"  type="text" name="email" class=" inputs dataInfo patientdata" placeholder="hospital email">
+          </div>
+          <div style="width:49.3%; margin-top:5px; display:inline-block" class="form-group vitals-section">
+          <label  for="name" class="labelss">PHONE</label>
+          <input [(ngModel)]="client.info.mobile"  type="text" name="mobile" class=" inputs dataInfo patientdata" placeholder="mobile number">
+          </div>
+          <div  style="width:49.3%; margin-top:5px;  margin-right: 3px; display:inline-block" class="form-group vitals-section">
+          <label  for="name" class="labelss">PASSWORD</label>
+          <input [(ngModel)]="client.info.pwd"  type="password" name="pwd" class=" inputs dataInfo patientdata" placeholder="at least six characters">
+          </div>
+          <div style="width:49.3%; margin-top:5px; display:inline-block" class="form-group vitals-section">
+          <label  for="comfirm" class="labelss">COMPIRM</label>
+          <input [(ngModel)]="client.info.comfirm"  type="password" name="comfirm" class=" inputs dataInfo patientdata" placeholder="re-type password">
+          </div>
+      </form>
+      <button (click)="creatClient()"  style="width: 33%; left:55%;"  type="button" class="btn btn-sm btn-primary inputs mainbtn" >Sign up</button>
+   </div>
+</div>

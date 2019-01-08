@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import {DataService} from '../../services/data.service';
 import {SocketService} from '../../services/socket.service';
-import { Patient, Client, Item, StockInfo,
+import { Person, Client, Item, StockInfo,
   Product, Priscription, Medication, Visit, Note
 } from '../../models/data.model';
 @Component({
@@ -11,7 +11,8 @@ import { Patient, Client, Item, StockInfo,
   styleUrls: ['./ward.component.css']
 })
 export class WardComponent implements OnInit {
-  patients: Patient[] = new Array<Patient>();
+  patients: Person[] = new Array<Person>();
+  patient: Person = new Person();
   products: Product[] = new Array<Product>();
   client: Client = new Client();
   product: Product = new Product();
@@ -67,7 +68,7 @@ export class WardComponent implements OnInit {
     this.curIndex = i;
    }
   getInPatients() {
-    this.dataService.getInPatients().subscribe((patients: Patient[]) => {
+    this.dataService.getInPatients().subscribe((patients: Person[]) => {
       this.patients = patients;
       this.lastVisit =  this.patients[0].record.visits[-1];
     });
@@ -85,12 +86,12 @@ export class WardComponent implements OnInit {
     return beds;
   }
   changeBed(i) {
-   
+
     const name =  this.patients[i].record.visits.reverse()[0].dept
     this.client.departments.forEach(department=>{
       if(department.name !== name){
         return
-       
+
       }
       else{
         department.beds[this.patients[i].record.visits[0].bedNo] = false;
@@ -113,16 +114,16 @@ export class WardComponent implements OnInit {
      var patient = this.patients[i]
      patient.record.visits.reverse()[0].bedNo = parseInt(this.bedNum)
      patient.record.visits.reverse();
-     this.dataService.updateBed(patient, dept, this.client._id)    .subscribe((p: Patient) => {
-      this.patients[i] = p;
+     this.dataService.updateBed(patient, dept, this.client._id).subscribe((patient: Person) => {
+      this.patients[i] = patient;
       this.bedNum = null;
-     
+
     //  this.client.departments.filter((d) =>
     //  d.name === this.patients[i].record.visits.reverse()[0].dept)[0].beds[this.bedNum]=true;
     });
   }
   updateNote() {
-   this.dataService.updateNote(this.patients[this.curIndex]._id, this.note).subscribe((patient: Patient) => {
+   this.dataService.updateNote(this.patients[this.curIndex]._id, this.note).subscribe((patient: Person) => {
       this.patients[this.curIndex] = patient;
    });
   }

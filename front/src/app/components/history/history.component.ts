@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Patient} from '../../models/data.model';
+import { Person} from '../../models/data.model';
 import {DataService} from '../../services/data.service';
 import {ActivatedRoute} from '@angular/router';
 
@@ -9,7 +9,7 @@ import {ActivatedRoute} from '@angular/router';
   styleUrls: ['./history.component.css']
 })
 export class HistoryComponent implements OnInit {
-  patient: any = new Patient();
+  patient: Person = new Person();
   constructor(private dataService: DataService, private route: ActivatedRoute) { }
 
   ngOnInit() {

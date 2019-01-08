@@ -254,24 +254,19 @@
                   <label for="search-field">
                       <i class="icon ion-ios-search searchicon" title="Search"></i>
                   </label>
-                  <input autocomplete="off" style="border-radius:30px; left: 405px; width:220px;background-color: rgb(243, 248, 247); margin: auto;" class="form-control search-field" type="search" name="search" id="search-field" placeholder="Search Patient">
+                  <input autocomplete="off" style="border-radius:30px; left: 350px; width:220px;background-color: rgb(243, 248, 247); margin: auto;" class="form-control search-field" type="search" name="search" id="search-field" placeholder="Search Patient">
               </div>
           </form>
       </div>
   </div>
-  <i style="left:20%;" class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
-  <i [routerLink]="['/messages']" routerLinkActive="router-link-active"  style="left:23%; font-size: 22px;" class="icon ion-ios-chatboxes-outline arrow buble" title="Messages"></i>
-  <i data-target="#newModal" data-toggle="modal" style="left:27%;" class="icon ion-ios-personadd-outline arrow buble" id="add" title="Add Patient" data-target="#newModal" data-toggle="modal"></i>
+  <i style="left:80%;" class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
 
+  <i [routerLink]="['/messages']" data-target="#newModal" data-toggle="modal" style="left:83%;" class="icon ion-ios-person-outline arrow buble" id="add" title="My Account" ></i>
+ <i  style="left:75%;" class="icon ion-ios-plus-empty arrow buble" id="add" title="New Patient" data-target="#newModal" data-toggle="modal"></i>
   <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:90%;position:absolute;height:30px;width:30px;bottom:-8%"></div>
   </nav>
 
-
-
-
-
-
-<div  class="container">
+<div style="padding-top:40px" class="container">
         <div class="row">
             <div  [ngSwitch]="view" *ngFor="let patient of patients"  class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
                 <!-- <div *ngSwitchCase="'info'"  class="card card-secondary maincard">

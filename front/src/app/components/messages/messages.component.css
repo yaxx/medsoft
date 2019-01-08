@@ -1,0 +1,76 @@
+.timeline.lastdoc.priscriber.headerdp.profile-dp {
+  left:63px;
+}
+
+.patien-name.profile-name {
+  text-align:center;
+  font-size:14px;
+  width:100%;
+  padding-left:0px;
+}
+
+.timeline.lastdoc.priscriber.headerdp {
+  top:36px;
+  left:18px;
+  height:49px;
+  width:49px;
+  position:absolute;
+}
+.contacts-card, .profile-card{
+    margin-top:0px;
+}
+.connections{
+    width:48%;
+}
+.timetaken{
+    left:82px;
+}
+.connection-btn{
+  font-size:12px;
+  font-weight:normal;
+  width:70px;
+
+  padding-top:2px;
+  padding-bottom:2px;
+  height:24px;
+
+}
+.bio {
+  font-size:12px;
+  color:lightgrey;
+  font-weight:normal;
+  text-align:center;
+  top:20px;
+  position:relative;
+  margin:0px;
+}
+.card-header.grapheader.explore-header {
+  height:26px;
+  padding:0px;
+  position:relative;
+}
+.explore-search {
+  position:absolute;
+  padding:0px;
+  width:87%;
+  height:100%;
+  /*text-align:center;*/
+  font-size:13px;
+  padding-left:25px;
+  /*padding-right:3px;*/
+  border:none;
+  /*color:lightgrey;*/
+}
+.card.card-secondary.historycard.midlecard.chatcard {
+  min-height:91%;
+  margin:auto;
+  /*vh:100%;*/
+  position:absolute;
+}
+.basic-info {
+  cursor:pointer;
+}
+
+
+
+

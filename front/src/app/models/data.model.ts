@@ -1,9 +1,13 @@
 
 export class Personal {
-  constructor( public hosId?: number[],
+  constructor( public hopitals:any[] = [],
+    public hospNum: string[] = [],
     public firstName: string = null,
     public lastName: string = null,
+    public username: string = null,
+    public password: string = null,
     public gender: string = null,
+    public bio: string = null,
     public dob: Date = null,
     public occupation: string = null,
     public tribe: string = null,
@@ -12,8 +16,7 @@ export class Personal {
     public cardType: string = null,
     public cardNum: number = null,
     public dpUrl: string = 'user.jpg',
-    public curentStatus: string = 'queued',
-    public createdBy?: Staff
+    public coverUrl: string = null
      ) {}
 }
 export class Contact {
@@ -45,19 +48,8 @@ export class DeathNote {
   public releasedTo: string = null,
   public relationship: string = null,
   public diedOn: Date = new Date(),
-  public comfirmedBy?: Staff) {}
+  public comfirmedBy?: Person) {}
 
-}
-
-
-export class Info {
-  constructor(
-    public personal: Personal = new Personal(),
-    public contact: Contact = new Contact(),
-    public insurance: Insurance = new Insurance(),
-    public _id?: string
-
-    ) {}
 }
 
 
@@ -76,17 +68,14 @@ export class Item {
   }
 export class StockInfo {
   constructor(
-
-
+    public _id?: string,
     public price: number = null,
     public sold: number = 0,
     public expired: boolean = false,
     public status: boolean = false,
     public quantity: number = null,
-    public expiry?: Date,
-    public _id?: string
-
-    ) {}
+    public expiry: Date = null
+  ) {}
   }
 
 export class Product {
@@ -107,7 +96,7 @@ export class Priscription {
     public extend: string = null,
     public takenOn: Date = null,
     public priscribedOn?: Date,
-    public by?: Staff
+    public by?: Person
   ) {}
 }
 export class Medication {
@@ -137,7 +126,7 @@ export class Note {
     public noter: string = '5befe0aa05ca551d50fd2bf8',
     public noteType?: string,
     public full: boolean = false,
-    public staff?: Staff,
+    public Person?: Person,
     public dateCreated?: Date
 
      ) {}
@@ -179,7 +168,7 @@ export class Condition {
   constructor( public condition: string = null,
     public order: string  = null,
     public certainty: string = null,
-    public by?: Staff,
+    public by?: Person,
     public dateCreated?: Date
      ) {}
   }
@@ -211,7 +200,7 @@ export class Test {
     public type: string = null,
     public status: string = null,
     public result?: Object,
-    public by?: Staff,
+    public by?: Person,
     public dateCreated?: Date
 
      ) {}
@@ -221,7 +210,7 @@ export class Sugery {
     public sugery: string = null,
     public status: string = null,
     public result?: Object,
-    public by?: Staff,
+    public by?: Person,
     public dateCreated?: Date
 
      ) {}
@@ -264,11 +253,6 @@ export class Vitals {
 
   ) {}
 }
-// export class Medications{
-//   constructor(
-//     public medication:Medication[] = new Array<Medication>();
-//   ){}
-// }
 
 export class Record {
   constructor(
@@ -285,19 +269,83 @@ export class Record {
     public scan: Scan[] = new Array<Scan>(),
     public sugery: any[] = [],
     public deathNote: DeathNote = new DeathNote()
-
      ) {}
   }
-
-  export class Patient {
+  export class Connection {
     constructor(
+      public person: string,
+      public following: boolean,
+      public follower: boolean,
+      public blocked: boolean,
+      public conversations: Message[] = new Array<Message>()
+      ) {}
+
+  }
+  export class Notification {
+    constructor(
+      public person: string = null,
+      public noteType: string = null,
+      public header: string = null,
+      public sendOn: Date = new Date()
+      ) {}
+
+  }
+
+  export class Message {
+    constructor(
+      public message: string = null,
+      public sender: Person = null,
+      public reciever: Person = null,
+      public delivered: boolean = false,
+      public read: boolean = false,
+      public sendOn: Date = new Date()
+    ) {}
+  }
+
+  export class Connections {
+    constructor(
+      public _id?: string,
+      public people: Connection[] = new Array<Connection>(),
+      public notifications: Notification[] = new Array<Notification>()
+    ) {}
+
+  }
+
+export class Person {
+    constructor(
+      public _id?: string,
       public info: Info = new Info(),
+      public connections: any = null,
       public record: Record = new Record(),
-      public dateCreated?: Date,
-      public _id?: string
+      public dateCreated: Date = new Date()
 
       ) {}
   }
+
+
+export class Info {
+  constructor(
+    public lastLogin: Date = new Date(),
+    public online: boolean = true,
+    public status: boolean = null,
+    public personal: Personal = new Personal(),
+    public official: Official = new Official(),
+    public contact: Contact = new Contact(),
+    public insurance: Insurance = new Insurance(),
+    public _id?: string
+    ) {}
+}
+
+
+  export class Official {
+    constructor(
+      public hospId: string = null,
+      public staffId: string = null,
+      public department:string = null,
+      public role:string = null
+      ) {}
+  }
+
   export class Bed {
     constructor(
       public _id?: string,
@@ -323,45 +371,25 @@ export class Main {
       public state: string= null,
       public lga: string= null,
       public zipcode: string = null,
+      public expiry: Date = null,
+      public accType: string = null,
       public ownership: string = null,
       public specialization: string= null,
       public category: string = null,
       public address: string = null,
-      public dateCreated?: Date) {}
+   ) {}
 }
-export class Staff {
-  constructor(
-    public firstName: string = null,
-    public lastName: string = null,
-    public hosId: string = null,
-    public staffId: string = null,
-    public mobile: string = null,
-    public email: string = null,
-    public department: string = null,
-    public role: string = null,
-    public username: string = null,
-    public password: string= null,
-    public dpUrl?: string,
-    public status?: string,
-    public _id?: string,
-    public dateCreated?: Date
 
-     ) {}
-  }
 export class Client {
   constructor(
-    public _id?: string, public main?: Main,
-    public departments?: Department[],
-    public staffs?: Staff[], public inventory?: Product[]) {
+    public _id?: string,
+    public info: Main = new Main(),
+    public departments: Department[] = [],
+    public staffs: Person[] = [],
+    public inventory: Product[] = [],
+    public dateCreated:Date = new Date()
+    ) {
   }
-}
-export class Message {
-  constructor(
-    public message: string = null,
-    public sender: string = null,
-    public reciever:   string = null,
-    public sendOn?: Date
-  ) {}
 }
 
 

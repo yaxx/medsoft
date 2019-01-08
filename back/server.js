@@ -4,7 +4,7 @@ var server = require('http').Server(app)
 var io = require('socket.io')(server)
 var api = require('./routes/api')
 var Notification = require('./models/schemas/noteschema')
-var Contact = require('./models/schemas/contactschema')
+var Connection = require('./models/schemas/connection')
 var Messages = require('./models/schemas/messageschema')
 import {path} from  'path';
 import bodyParser from 'body-parser';
@@ -58,14 +58,14 @@ io.sockets.on('connection', (socket) => {
     
   })
   socket.on('login', (data) => {
-    logins.push({username: data.username, id: socket.id})
-    socket.broadcast.emit('hello', {username: data.username, lastLogin: data.lastLogin})
+    data.si = socket.id;
+    logins.push(data)
+    socket.broadcast.emit('online', data)
   })
 
   socket.on('follow', (data) => {
     let d = data
     d.am = 'Following'
-
     Contact.updateOne({ 'username': socket.request.cookies.username }, {$push: { contacts: d }}, {upsert: true}, (err, obj) => {
       if (!err) {
             // console.log(obj)
@@ -158,18 +158,22 @@ app.get('/', (req, res) => {
 app.get('/api/client', api.getClient)
 app.get('/api/consultees', api.getConsultees)
 app.get('/api/patients', api.getPatients)
-app.get('/api/departments', api.getDepartments)
-app.get('/api/products', api.getProducts)
-app.post('/api/update-products', api.updateProducts)
-app.post('/api/delete-products', api.deleteProducts)
+app.get('/api/myaccount', api.getMyAccount)
+app.get('/api/explore', api.explore)
+// app.get('/api/departments', api.getDepartments)
 app.get('/api/items', api.getItems)
 app.get('/api/inpatients', api.getInPatients)
 app.get('/api/orders', api.getOrders)
+app.get('/api/products', api.getProducts)
+app.post('/api/follow', api.followPerson)
+app.post('/api/update-products', api.updateProducts)
+app.post('/api/delete-products', api.deleteProducts)
+
 app.post('/api/new-client', api.addClient)
 app.post('/api/new-patient', api.addPatient)
 app.post('/api/new-product', api.addProduct)
-app.post('/api/new-staff', api.addStaff)
-app.post('/api/update-staff', api.updateStaff)
+app.post('/api/staff', api.staff)
+// app.post('/api/update-staff', api.updateStaff)
 app.post('/api/updatenote', api.updateNote)
 app.post('/api/upload', api.uploadFile)
 app.post('/api/updatebed', api.updateBed)

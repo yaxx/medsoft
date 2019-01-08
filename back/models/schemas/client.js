@@ -1,7 +1,7 @@
 import mongoose from '../db';
-var Scheema = mongoose.Schema
+var Scheema = mongoose.Schema;
 var ClientScheema = new Scheema({
-        main: {
+        info: {
                 name: String,
                 category:String, 
                 ownership:String,
@@ -13,7 +13,10 @@ var ClientScheema = new Scheema({
                 lga: String, 
                 zipcode: String,
                 address: String,
-               
+                expiry: Date,
+                pwd:String,
+                comfirm:String
+                      
         },
       
         departments: [{
@@ -44,10 +47,10 @@ var ClientScheema = new Scheema({
                     status: Boolean,
                     quantity: Number
                 },
-                selected:{Boolean, default: false},
+                selected:{Boolean, Default: false},
                 addedOn: {type:Date, default: Date.now()}   
             }],
-            staffs: [{type: Scheema.Types.ObjectId, ref: 'Staff'}],
+            staffs: [{type: Scheema.Types.ObjectId, ref: 'Person'}],
             dateCreated: {type: Date, Default: Date.now()}
         
         
@@ -55,5 +58,5 @@ var ClientScheema = new Scheema({
 
 
 
-var Client = mongoose.model('Client', ClientScheema)
-module.exports = Client
+var Client = mongoose.model('Client', ClientScheema);
+module.exports = Client;

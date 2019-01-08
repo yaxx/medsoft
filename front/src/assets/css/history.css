@@ -303,8 +303,9 @@
   left:-19px;
 }
 
-.card-colums.leftcolumn.online.column {
-  left:80px;
+.card-colums.leftcolumn.online-card {
+  left:60px;
+  position:relative
 }
 
 .card-body.onlinesbody {

@@ -26,7 +26,7 @@
   <a href="#" [routerLink]="['/ward']" routerLinkActive="router-link-active"   class="home wardmenu" title="Ward"><span class="homespan"><i class="material-icons homeicon wardicon">airline_seat_individual_suite</i></span></a>
   <a href="#"  [routerLink]="['/account']" routerLinkActive="router-link-active" class="home settings" title="Settings"><span class="homespan"><i class="icon ion-ios-gear-outline homeicon"></i></span></a>
 </div>
-<nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:0px">
+<nav  class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:0px">
 <div class="container">
     <a class="navbar-brand" href="#">
         <em>MS</em>
@@ -37,64 +37,64 @@
     </button>
     <div class="collapse navbar-collapse" id="navcol-1">
         <ul class="nav navbar-nav"></ul>
-        <form class="form-inline mr-auto searchform" target="_self">
-            <div class="form-group">
-                <label for="search-field">
-                    <i class="icon ion-ios-search searchicon" title="Search"></i>
-                </label>
-                <input autocomplete="off" style="border-radius:30px; left: 405px; width:220px;background-color: rgb(243, 248, 247); margin: auto;" class="form-control search-field" type="search" name="search" id="search-field" placeholder="Search Patient">
-            </div>
-        </form>
+
     </div>
 </div>
 <i style="left:20%;" class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
 <i style="left:25%; font-size: 22px;" class="icon ion-ios-chatboxes-outline arrow buble" title="Messages"></i>
 
-<div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:90%;position:absolute;height:30px;width:30px;bottom:-8%"></div>
+<div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:90%;position:absolute;height:30px;width:30px;bottom:8%"></div>
 </nav>
-<div
-        class="container">
-        <div class="row chatrow">
-            <div class="col col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
-                <div class="card-colums leftcolumn online column">
-                    <div class="card card-secondary historycard leftcard">
-                        <div class="card-header grapheader">
-                            <h1 class="dept headtitle">Search<i class="icon ion-ios-search searchicon searchperson" title="Search"></i></h1>
+<div style="padding-top:40px;"
+        class="container history-container">
+        <div style="min-height:100%;position:relative;" class="row chatrow">
+            <div  class="col col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                <div class="card-colums leftcolumn online-column" >
+                    <div class="card card-secondary historycard leftcard contacts-card">
+                        <div class="card-header grapheader explore-header"><input (focus)="explore()" type="search" id="explore-search" class="explore-search" placeholder="Search" />
                         </div>
                         <div class="card-body onlinesbody">
-                            <div class="carditem people">
+                            <div *ngFor="let person of colegues; let i=index" class="carditem people">
+                                <!-- <div class="card-header profileheader person">
+
+                                    <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:5%;position:absolute;height:30px;width:30px;top:25%;"></div>
+                                    <p class="dept personname">Fareedah Za...&nbsp;<span class="timetaken chattime"><button class="btn btn-sm btn-primary inputs  mainbtn connection-btn" >Following</button></span></p>
+                                    <h1 class="dept latestmsg">Hi</h1>
+                                </div> -->
                                 <div class="card-header profileheader person">
-                                    <div class="timeline lastdoc priscriber headerdp persondp"></div>
-                                    <p class="dept personname">Fareedah Zakari&nbsp;<span class="timetaken chattime">&nbsp;05min&nbsp;</span></p>
+                                    <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:5%;position:absolute;height:30px;width:30px;top:25%;"></div>
+                                    <p class="dept personname">
+                                        {{person.info.personal.firstName}}&nbsp;<span class="timetaken chattime"><button (click) = "follow(person)" class="btn btn-sm btn-outline-primary inputs  mainbtn connection-btn"    >Follow</button></span></p>
                                     <h1 class="dept latestmsg">Hi</h1>
                                 </div>
-                                <div class="card-header profileheader person">
-                                    <div class="timeline lastdoc priscriber headerdp persondp"></div>
+
+                                <!-- <div class="card-header profileheader person">
+                                    <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:5%;position:absolute;height:30px;width:30px;top:25%;"></div>
                                     <p class="dept personname">Amina Sulaiman<span class="timetaken chattime">&nbsp;25min&nbsp;</span></p>
                                     <h1 class="dept latestmsg">call you later</h1>
-                                </div>
-                                <div class="card-header profileheader person">
-                                    <div class="timeline lastdoc priscriber headerdp persondp"></div>
-                                    <p class="dept personname">Salima Mohammed<span class="timetaken chattime">&nbsp;25min&nbsp;</span></p>
-                                    <h1 class="dept latestmsg">call you later</h1>
-                                </div>
+                                </div> -->
+
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 chatcolumn">
-                <div class="card-colums">
+                <div class="card-colums chatcard-column">
                     <div class="card card-secondary historycard midlecard chatcard">
                         <div class="card-header grapheader">
                             <h1 class="dept headtitle">MESSAGES</h1>
                         </div>
                         <div class="card-body chat-body">
                           <div class="conversation-container">
-                            <div *ngFor="let chats of data; let last = last; let index = index" class="message message-send ">
-                                <div *ngFor="let msg of chats[index]" class="message-container">
-                                    <div class="message-avatar"><a href="#" class="profile-link"></a>
-                                        <div class="msg-avatar"><span class="avatar-container"><img src="../../../assets/img/model.jpg" [ngClass]="{'invisible':!last}" class=" msg-image" /></span></div>
+                            <div *ngFor="let chats of conversations; let i=index" class="message" [ngClass]="conversations[i][0].sender==='me'?'message-send':'message-recieved'" >
+                                <div *ngFor="let msg of chats; let last = last" class="message-container">
+                                    <div class="message-avatar">
+                                        <a href="#" class="profile-link"></a>
+                                        <div class="msg-avatar">
+                                            <span class="avatar-container"><img src="../../../assets/img/model.jpg" [ngClass]="{'invisible':!last}" class=" msg-image" />
+                                            </span>
+                                        </div>
                                     </div>
                                     <div class="message-msg" >
                                         <div class="msg-contentContainer">
@@ -114,79 +114,88 @@
                                         <div class="msg-contentContainer">
                                             <div class="msg-text">
                                                 <div class="msg-container">
-                                                    <p class="msg-msg msg-size">How i have been send</p>
+                                                    <p class="msg-msg msg-size">Hi</p>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div> -->
                             </div>
-                            <div class="message message-recieved">
-                                <div class="message-container">
-                                    <div class="message-avatar"><a href="#" class="profile-link"></a>
-                                        <div class="msg-avatar"><span class="avatar-container"><img src="model.jpg" class="invisible msg-image" /></span></div>
-                                    </div>
-                                    <div class="message-msg">
-                                        <div class="msg-contentContainer">
-                                            <div class="msg-text">
-                                                <div class="msg-container">
-                                                    <p class="msg-msg msg-size">sending the attachement</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="message-container">
-                                    <div class="message-avatar"><a href="#" class="profile-link"></a>
-                                        <div class="msg-avatar"><span class="avatar-container"><img src="model.jpg" class="invisible msg-image" /></span></div>
-                                    </div>
-                                    <div class="message-msg">
-                                        <div class="msg-contentContainer">
-                                            <div class="msg-text">
-                                                <div class="msg-container">
-                                                    <p class="msg-msg msg-size">check your inbox immediately please</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="message-container">
-                                    <div class="message-avatar"><a href="#" class="profile-link"></a>
-                                        <div class="msg-avatar"><span class="avatar-container"><img src="../../../assets/img/mode.jpg "class="msg-image" /></span></div>
-                                    </div>
-                                    <div class="message-msg">
-                                        <div class="msg-contentContainer">
-                                            <div class="msg-text">
-                                                <div class="msg-container">
-                                                    <p class="msg-msg msg-size">Ok</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
                         </div>
                         <form class="chat-form">
-                          <div class="message-group"><textarea [(ngModel)] ="test"  (keypress)="sendMessage($event)"class="form-control inputs patientdata newpatient chat-message" placeholder="Type a message" rows="1"></textarea><i class="icon ion-image attachment" title="Attach file"></i><i class="icon ion-android-send attachment" title="Send"></i></div>
+                          <div class="message-group"><textarea name="chat" [(ngModel)] ="test"  (keypress)="sendMessage($event)"class="form-control inputs patientdata newpatient chat-message" placeholder="Type a message" rows="1"></textarea><i class="icon ion-image attachment" title="Attach file"></i><i class="icon ion-android-send attachment" title="Send"></i></div>
                       </form>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
-                <div class="card-colums rightcolumn sugcolumn">
-                    <div class="card card-secondary historycard rightcard medication">
-                        <div class="card-header grapheader">
-                            <h1 class="dept headtitle">SUGESTIONS</h1>
+                <div class="card-colums rightcolumn suggest-column">
+                    <div *ngIf = "cardView === 'me'" class="card card-secondary historycard rightcard medication profile-card">
+                      <div class="card-header profileheader">
+                      <i class="icon ion-android-more-vertical headericon moreicon actions-icon"></i>
+                        <div class="timeline lastdoc priscriber headerdp profile-dp"></div>
                         </div>
+                        <a href="#" class="patien-name profile-name">
+                            {{person.info.personal.firstName+' '+person.info.personal.lastName}}</a>
+                        <h6 class="bio">{{person.info.personal.bio}}</h6>
                         <div class="card-body rightcardbody">
-                            <div class="carditem"></div>
-                            <div class="carditem">
-                                <h1 class="dept">Malaria Fever<span class="predata">&nbsp; 02/15/2018&nbsp;</span></h1>
-                                <h1 class="dept previnfo">Diagnosed By<span class="predata">&nbsp; Dr. Simon Lesi</span></h1>
-                            </div>
+                          <div class="carditem basic-item connections">
+                            <h6 (click)="switchPeople('followers')" class="dept basic-info">Followers</h6>
+                            <h6 (click)="switchPeople('followers')" class="dept basic-info sex-info">
+                                {{getFollowers().length}}</h6>
+                        </div>
+                        <div class="carditem basic-item connections">
+                            <h6 (click)="switchPeople('followings')" class="dept basic-info">Following</h6>
+                            <h6 (click)="switchPeople('followings')"  class="dept basic-info sex-info">
+                                {{getFollowings().length}}</h6>
+                        </div>
                         </div>
                     </div>
+                    <div *ngIf = "cardView ==='connections'" class="card card-secondary historycard leftcard contacts-card">
+                      <div class="card-header grapheader">
+                          <h1 class="dept headtitle">FOLLOWERS</h1>
+                      </div>
+                      <div *ngIf = "people === 'followers'" class="card-body onlinesbody">
+                          <!-- <p *ngIf="!getFollowers()" class="placeholder">No followers yet</p> -->
+                          <div *ngFor="let person of getFollowers(); let i=index" class="carditem people">
+                             <div class="card-header profileheader person">
+                                  <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:5%;position:absolute;height:30px;width:30px;top:25%;">
+                                  </div>
+                                  <p class="dept personname">
+                                      {{person.info.personal.firstName}}&nbsp;<span class="timetaken chattime"><button (click) = "followBack(person)" class="btn btn-sm btn-outline-primary inputs  mainbtn connection-btn"    >Follow</button></span></p>
+                                  <h1 class="dept latestmsg">Hi</h1>
+                              </div>
+
+                              <!-- <div class="card-header profileheader person">
+                                  <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:5%;position:absolute;height:30px;width:30px;top:25%;"></div>
+                                  <p class="dept personname">Amina Sulaiman<span class="timetaken chattime">&nbsp;25min&nbsp;</span></p>
+                                  <h1 class="dept latestmsg">call you later</h1>
+                              </div> -->
+
+                          </div>
+                      </div>
+                      <div *ngIf = "people === 'followings'" class="card-body onlinesbody">
+                          <p *ngIf="!getFollowings()" class="placeholder">No followings yet</p>
+                          <div *ngFor="let person of getFollowings(); let i=index" class="carditem people">
+                             <div class="card-header profileheader person">
+                                  <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:5%;position:absolute;height:30px;width:30px;top:25%;">
+                                  </div>
+                                  <p class="dept personname">
+                                      {{person.info.personal.firstName}}&nbsp;<span class="timetaken chattime"><button (click) = "follow(person)" class="btn btn-sm btn-outline-primary inputs  mainbtn connection-btn"    >Follow</button></span></p>
+                                  <h1 class="dept latestmsg">Hi</h1>
+                              </div>
+
+                              <!-- <div class="card-header profileheader person">
+                                  <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:5%;position:absolute;height:30px;width:30px;top:25%;"></div>
+                                  <p class="dept personname">Amina Sulaiman<span class="timetaken chattime">&nbsp;25min&nbsp;</span></p>
+                                  <h1 class="dept latestmsg">call you later</h1>
+                              </div> -->
+
+                          </div>
+                      </div>
+                  </div>
                 </div>
             </div>
         </div>

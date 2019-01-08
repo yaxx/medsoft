@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {DataService} from '../../services/data.service';
 import {SocketService} from '../../services/socket.service';
-import {Client, Department,  Patient, Record, Session, Item, StockInfo,
+import {Client, Department,  Person, Record, Session, Item, StockInfo,
   Product, Priscription, Medication
 } from '../../models/data.model';
 
@@ -11,8 +11,8 @@ import {Client, Department,  Patient, Record, Session, Item, StockInfo,
   styleUrls: ['./consultation.component.css']
 })
 export class ConsultationComponent implements OnInit {
-  patient: Patient = new Patient();
-  patients: Patient[] = new Array<Patient>();
+  patient: Person = new Person();
+  patients: Person[] = new Array<Person>();
   record: Record = new Record();
   client: Client = new Client();
   department: Department = new Department();
@@ -40,7 +40,7 @@ export class ConsultationComponent implements OnInit {
    this.getProducts();
    this.getItems();
    this.getClient();
-   this.socket.io.on('new patient', (patient: Patient) => {
+   this.socket.io.on('new patient', (patient: Person) => {
       this.patients.push(patient);
   });
   }
@@ -65,7 +65,7 @@ export class ConsultationComponent implements OnInit {
   getProducts() {
     this.dataService.getProducts().subscribe((p: any) => {
       this.products = p.inventory;
-      
+
     });
   }
   getItems() {
@@ -93,10 +93,9 @@ export class ConsultationComponent implements OnInit {
    console.log(this.in);
   }
   getConsultees() {
-    this.dataService.getConsultees().subscribe((p: Patient[]) => {
-      this.patients = p;
-      console.log(p);
-     this.dataService.setCachedPatients(p);
+     this.dataService.getConsultees().subscribe((patients: Person[]) => {
+     this.patients = patients;
+     this.dataService.setCachedPatients(patients);
     });
   }
   addSelection(i: Item) {
@@ -108,9 +107,7 @@ export class ConsultationComponent implements OnInit {
     } else {
       this.product = new Product(i);
     }
-    console.log(this.product);
-
-  }
+   }
   selectPatient(i: number) {
    this.patient = this.patients[i];
     this.medications = this.patient.record.medications.reverse();
@@ -189,7 +186,7 @@ export class ConsultationComponent implements OnInit {
       this.patient.record.allegies.push(this.session.allegies);
     } else {}
 
-    this.dataService.updateRecord(this.patient).subscribe((p: Patient) => {
+    this.dataService.updateRecord(this.patient).subscribe((patient: Person) => {
       this.patients[this.curIndex] = p ;
       this.session = new Session();
 

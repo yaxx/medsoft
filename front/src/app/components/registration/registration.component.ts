@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {DataService} from '../../services/data.service';
 import {SocketService} from '../../services/socket.service';
-import {Patient, Info} from '../../models/data.model';
+import {Person, Info} from '../../models/data.model';
 import {CookieService } from 'ngx-cookie-service';
 @Component({
   selector: 'app-registration',
@@ -12,8 +12,8 @@ import {CookieService } from 'ngx-cookie-service';
 export class RegistrationComponent implements OnInit {
   form: NgForm;
   // personal: Personal = new Personal();
-  patients: Patient[] = new Array<Patient>();
-  patient: Patient = new Patient();
+ patients: Person[] = new Array<Person>();
+ patient:Person = new Person();
   file: File = null;
   info: Info = new Info();
   url = '';
@@ -30,7 +30,7 @@ export class RegistrationComponent implements OnInit {
     // this.socket.io.emit('hello', {});
   }
   getPatients() {
-    this.dataService.getPatients().subscribe((patients: Patient[]) => {
+    this.dataService.getPatients().subscribe((patients:Person[]) => {
       this.patients = patients;
     });
   }
@@ -45,17 +45,17 @@ export class RegistrationComponent implements OnInit {
     }
 
   }
-  addPatient(patient: Patient) {
-      this.dataService.addPatient(patient).subscribe((newpatient: Patient) => {
-        this.patients.push(newpatient);
-        // this.socket.io.emit('new patient', newpatient);
+  addPatient(patient:Person) {
+      this.dataService.addPatient(patient).subscribe((patient:Person) => {
+        this.patients.push(patient);
+        // this.socket.io.emit('newPerson', newpatient);
      });
   }
   submitRecord() {
     this.patient.info = this.info;
-      this.dataService.addPatient(this.patient).subscribe((newpatient: Patient) => {
-      this.patients.push(newpatient);
-      // this.socket.io.emit('new patient', newpatient);
+      this.dataService.addPatient(this.patient).subscribe((patient:Person) => {
+      this.patients.push(patient);
+      // this.socket.io.emit('newPerson', newpatient);
    });
   }
   switchViews() {

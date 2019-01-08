@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import {DataService} from '../../services/data.service';
-import {Client, Department, Info, Staff} from '../../models/data.model';
+import {Client, Department, Connection, Connections, Info, Person} from '../../models/data.model';
 @Component({
   selector: 'app-account',
   templateUrl: './account.component.html',
@@ -10,8 +10,11 @@ import {Client, Department, Info, Staff} from '../../models/data.model';
 export class AccountComponent implements OnInit {
   department: Department = new Department();
   info: Info = new Info();
-  staff: Staff = new Staff();
+  staff: Person = new Person();
+  staffs: Person[] = new Array<Person>();
   departments: Department[] = [];
+  connections: Connections =  new Connections();
+  connection: Connection =  new Connection();
   hovers = new Array<boolean>(9);
   checked = new Array<boolean>(9);
   selectedDept: Department = new Department();
@@ -24,14 +27,17 @@ export class AccountComponent implements OnInit {
   exist = false;
   constructor(private dataService: DataService, private router: Router) { }
   ngOnInit() {
-    this.dataService.getClient().subscribe((client: Client) => {
-      this.client = client;
+    this.dataService.getClient().subscribe((res:any) => {
+      this.client = res.client;
+      this.staffs = res.client.staffs;
+      this.departments = res.departments;
+      console.log(res);
     });
 
-    this.dataService.getDepartments().subscribe((dept: Department[]) => {
-      this.departments = dept;
-      this.selectedDept  = dept[0];
-    });
+    // this.dataService.getDepartments().subscribe((dept: Department[]) => {
+    //   this.departments = dept;
+    //   this.selectedDept  = dept[0];
+    // });
   }
   unhovered(n: number) {
     this.hovers[n] = this.checked[n] ? true : false;
@@ -71,38 +77,56 @@ export class AccountComponent implements OnInit {
    }
    checkStaff(name) {
     this.selectedDept2 = this.departments.filter((dept) => dept.name === name)[0];
-     this.staff.department = this.selectedDept2.name;
-
+     this.staff.info.official.department = this.selectedDept2.name;
    }
-   generatePassword(): number {
-    return Math.floor(Math.random() * (10000 - 1000 + 1) + 1000);
+   generatePassword(): string {
+    return Math.floor(Math.random() * (10000 - 1000 + 1) + 1000).toString();
   }
-  addStaff() {
-    if (!this.selectedDept2.hasWard) {
-       this.staff.role = null;
-     } else {
-
-     }
-    this.staff.hosId = this.client._id;
-    this.staff.username = this.staff.firstName.toLowerCase();
-    this.staff.password = this.generatePassword().toString();
-    this.dataService.saveStaff(this.staff, this.action).subscribe((staff: Staff) => {
-      this.client.staffs = this.client.staffs.filter((s) => s._id !== this.staff._id);
-      this.client.staffs.push(staff);
-      this.staff = new Staff();
-      this.action = 'new';
-      this.switchMode('staffmode', 'view');
-    });
-
+  saveStaffInfo() {
+  this.staff.info.personal.password = this.generatePassword();
+  this.staff.info.personal.username = this.staff.info.personal.firstName.toLowerCase();
+  this.staff.info.official.hospId = this.client._id;
+    // this.staffs.map(staff=>staff._id).forEach(id=>{
+    //   let p = new Connection();
+    //   p.person = id;
+    //   p.follower = true;
+    //   p.following = true;
+    //   this.connections.people.push(p);
+    // })
+   this.dataService.saveStaff(this.staff).subscribe((staff: Person) => {
+     this.staffs.push(staff);
+     this.staff = new Person();
+    //  this.connection = new Connection();
+     this.staffmode = 'view';
+   });
   }
+
+  // addStaff() {
+  //   if (!this.selectedDept2.hasWard) {
+  //      this.staff.info.official.role = null;
+  //    } else {
+
+  //    }
+  //   this.staff.info.official.hospitalID = this.client._id;
+  //   this.staff.info.personal.username = this.staff.info.personal.firstName.toLowerCase();
+  //   this.staff.info.personal.password = this.generatePassword().toString();
+  //   this.dataService.saveStaff(this.staff, this.action).subscribe((staff: Person) => {
+  //     this.client.staffs = this.client.staffs.filter((s) => s._id !== this.staff._id);
+  //     this.client.staffs.push(staff);
+  //     this.staff = new Person();
+  //     this.action = 'new';
+  //     this.switchMode('staffmode', 'view');
+  //   });
+
+  // }
   deleteStaff(staff) {
     this.dataService.saveStaff(staff, 'delete').subscribe((doc) => {
       this.client.staffs = this.client.staffs.filter((s) => s._id !== staff._id);
     });
   }
-  selectStaff(staff: Staff) {
+  selectStaff(staff: Person) {
     this.staff = staff;
-    this.selectedDept2 = this.departments.filter((dept) => dept.name === staff.department)[0];
+    this.selectedDept2 = this.departments.filter((dept) => dept.name === staff.info.official.department)[0];
     this.action = 'update';
     this.switchMode('staffmode', 'newstaff');
   }
@@ -112,7 +136,7 @@ export class AccountComponent implements OnInit {
   }
   addNewDept() {
     if (this.selectedDept.hasWard) {
-    this.selectedDept.beds = new Array<Boolean>(this.selectedDept.numOfBeds);
+    this.selectedDept.beds = new Array<boolean>(this.selectedDept.numOfBeds);
     this.dataService.addDepts(this.selectedDept).subscribe((dept: Department[]) => {
       this.selectedDept = new Department();
       this.client.departments = dept;

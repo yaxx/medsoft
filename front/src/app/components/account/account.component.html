@@ -48,7 +48,7 @@
 
 
 
-<div class="row">
+<div class="row"style="padding-top:40px">
     <div class="col col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
         <div class="card-colums leftcolumn"></div>
     </div>
@@ -62,17 +62,17 @@
                 <div  class="carditem">
                     <ul class="itemlist clientinfo">
                         <li (mouseover)=hovered(0) (mouseleave)=unhovered(0) >Hospital Name<span class="timetaken lastdept clientdata">
-                          {{client.main.name}}
+                          {{client.info.name}}
                             <input *ngIf="hovers[0]" type="checkbox" class="checkinfo" [(ngModel)]="checked[0]"/>
                         </span></li>
-                        <li (mouseover)=hovered(1) (mouseleave)=unhovered(1)  >Ownership<span class="timetaken lastdept clientdata">{{client.main.ownership||'?'}} <input *ngIf="hovers[1]" type="checkbox" class="checkinfo" [(ngModel)]="checked[1]" /></span></li>
-                        <li (mouseover)=hovered(2) (mouseleave)=unhovered(2)>Specialization<span class="timetaken lastdept clientdata">{{client.main.specialization||'?'}} <input *ngIf="hovers[2]" type="checkbox" class="checkinfo" [(ngModel)]="checked[2]" /></span></li>
-                        <li (mouseover)=hovered(3) (mouseleave)=unhovered(3)>Mobile:<span class="timetaken lastdept clientdata">{{client.main.mobile||'?'}} <input *ngIf="hovers[3]" type="checkbox" class="checkinfo" [(ngModel)]="checked[3]" /></span></li>
-                        <li (mouseover)=hovered(4) (mouseleave)=unhovered(4)>Email<span class="timetaken lastdept clientdata">{{client.main.email||'?'}}<input *ngIf="hovers[4]" type="checkbox" class="checkinfo" [(ngModel)]="checked[4]" /></span></li>
-                        <li (mouseover)=hovered(5) (mouseleave)=unhovered(5)>Address<span class="timetaken lastdept clientdata">{{client.main.address||'?'}}<input *ngIf="hovers[5]" type="checkbox" class="checkinfo" [(ngModel)]="checked[5]" /></span></li>
-                        <li (mouseover)=hovered(6) (mouseleave)=unhovered(6)>Zip Code:<span class="timetaken lastdept clientdata">{{client.main.zipcode||'?'}}<input *ngIf="hovers[6]" type="checkbox" class="checkinfo" [(ngModel)]="checked[6]" /></span></li>
-                        <li (mouseover)=hovered(7) (mouseleave)=unhovered(7)>State:<span class="timetaken lastdept clientdata">{{client.main.state||'?'}}<input *ngIf="hovers[7]" type="checkbox" class="checkinfo" [(ngModel)]="checked[7]" /></span></li>
-                        <li (mouseover)=hovered(8) (mouseleave)=unhovered(8)>LGA<span class="timetaken lastdept clientdata">{{client.main.lga||'?'}}<input *ngIf="hovers[9]" type="checkbox" class="checkinfo" [(ngModel)]="checked[9]" /></span></li>
+                        <li (mouseover)=hovered(1) (mouseleave)=unhovered(1)  >Ownership<span class="timetaken lastdept clientdata">{{client.info.ownership||'?'}} <input *ngIf="hovers[1]" type="checkbox" class="checkinfo" [(ngModel)]="checked[1]" /></span></li>
+                        <li (mouseover)=hovered(2) (mouseleave)=unhovered(2)>Specialization<span class="timetaken lastdept clientdata">{{client.info.specialization||'?'}} <input *ngIf="hovers[2]" type="checkbox" class="checkinfo" [(ngModel)]="checked[2]" /></span></li>
+                        <li (mouseover)=hovered(3) (mouseleave)=unhovered(3)>Mobile:<span class="timetaken lastdept clientdata">{{"+234"+client.info.mobile||'?'}} <input *ngIf="hovers[3]" type="checkbox" class="checkinfo" [(ngModel)]="checked[3]" /></span></li>
+                        <li (mouseover)=hovered(4) (mouseleave)=unhovered(4)>Email<span class="timetaken lastdept clientdata">{{client.info.email||'?'}}<input *ngIf="hovers[4]" type="checkbox" class="checkinfo" [(ngModel)]="checked[4]" /></span></li>
+                        <li (mouseover)=hovered(5) (mouseleave)=unhovered(5)>Address<span class="timetaken lastdept clientdata">{{client.info.address||'?'}}<input *ngIf="hovers[5]" type="checkbox" class="checkinfo" [(ngModel)]="checked[5]" /></span></li>
+                        <li (mouseover)=hovered(6) (mouseleave)=unhovered(6)>Zip Code:<span class="timetaken lastdept clientdata">{{client.info.zipcode||'?'}}<input *ngIf="hovers[6]" type="checkbox" class="checkinfo" [(ngModel)]="checked[6]" /></span></li>
+                        <li (mouseover)=hovered(7) (mouseleave)=unhovered(7)>State:<span class="timetaken lastdept clientdata">{{client.info.state||'?'}}<input *ngIf="hovers[7]" type="checkbox" class="checkinfo" [(ngModel)]="checked[7]" /></span></li>
+                        <li (mouseover)=hovered(8) (mouseleave)=unhovered(8)>LGA<span class="timetaken lastdept clientdata">{{client.info.lga||'?'}}<input *ngIf="hovers[9]" type="checkbox" class="checkinfo" [(ngModel)]="checked[9]" /></span></li>
                         <li>Date Created:<span class="timetaken lastdept clientdata">March &nbsp;02, 2019</span></li>
                     </ul>
                 </div>
@@ -81,7 +81,7 @@
                 <div  class="form-group vitals-section">
                     <form>
                         <div class="formGroup newdept">
-                            <input [(ngModel)]="client.main.name" *ngIf="checked[0]" name="name" class="form-control inputs patientdata" type="text" placeholder="Hospital name">
+                            <input [(ngModel)]="client.info.name" *ngIf="checked[0]" name="name" class="form-control inputs patientdata" type="text" placeholder="Hospital name">
                             <select name="ownership" *ngIf="checked[1]" class=" patientdata inputs dataInfo newpatient" name="department">
                                 <option >Private</option>
                                 <option >Public</option>
@@ -90,10 +90,10 @@
                                 <option >Ohtopedics</option>
                                 <option >General</option>
                           </select>
-                            <input [(ngModel)]="client.main.mobile" *ngIf="checked[3]" name="mobile" class="form-control inputs patientdata" type="number" placeholder="Mobile">
-                            <input [(ngModel)]="client.main.email" *ngIf="checked[4]" name="email" class="form-control inputs patientdata" type="email" placeholder="Email">
-                            <input [(ngModel)]="client.main.address" *ngIf="checked[5]" name="address" class="form-control inputs patientdata" type="text" placeholder="Address">
-                            <input [(ngModel)]="client.main.zipcode" *ngIf="checked[6]" name="zip" class="form-control inputs patientdata" type="number" placeholder="Zip code">
+                            <input [(ngModel)]="client.info.mobile" *ngIf="checked[3]" name="mobile" class="form-control inputs patientdata" type="number" placeholder="Mobile">
+                            <input [(ngModel)]="client.info.email" *ngIf="checked[4]" name="email" class="form-control inputs patientdata" type="email" placeholder="Email">
+                            <input [(ngModel)]="client.info.address" *ngIf="checked[5]" name="address" class="form-control inputs patientdata" type="text" placeholder="Address">
+                            <input [(ngModel)]="client.info.zipcode" *ngIf="checked[6]" name="zip" class="form-control inputs patientdata" type="number" placeholder="Zip code">
                         </div>
                     </form>
 
@@ -158,11 +158,11 @@
                             <div class="dp staff-dp" ></div>
                           </td>
                           <td style="padding-left:4px;" class="data">
-                            {{staff.firstName + ' ' + staff.lastName}}</td>
-                          <td class="data">{{staff.department}}</td>
-                          <td class="data">{{staff.username}}</td>
+                            {{staff.info.personal.firstName + ' ' + staff.info.personal.lastName}}</td>
+                          <td class="data">{{staff.info.official.department}}</td>
+                          <td class="data">{{staff.info.personal.username}}</td>
                           <td class="data" style="text-align:center">
-                            {{staff.password}}</td>
+                            {{staff.info.personal.password}}</td>
                           <td style="text-align: left; padding-left:3px" class="data" >
                             <i (click)="selectStaff(staff)"  class="icon ion-edit tableicon " title="Edit" style="color:rgb(149, 149, 149);font-size:14px; top:32px; right: 22px;position:absolute; cursor: pointer;"></i>
                             <i (click)="deleteStaff(staff)"  class="icon ion-ios-trash-outline tableicon" title="Drop" style="font-size:17px; cursor: pointer;"></i>
@@ -185,18 +185,18 @@
            <div *ngIf="staffmode === 'newstaff'"  class="form-group vitals-section">
            <form>
               <div class="formGroup newdept">
-                <input name="firstname" [(ngModel)]="staff.firstName" class=" form-control inputs patientdata newpatient" type="text" placeholder="First name"/>
-                <input [(ngModel)]="staff.lastName" name="lastname" class="form-control inputs patientdata newpatient" type="text" placeholder="Last name"/>
+                <input name="firstname" [(ngModel)]="staff.info.personal.firstName" class=" form-control inputs patientdata newpatient" type="text" placeholder="First name"/>
+                <input [(ngModel)]="staff.info.personal.lastName" name="lastname" class="form-control inputs patientdata newpatient" type="text" placeholder="Last name"/>
                 <select [(ngModel)]="staff.department" (change)=checkStaff($event.target.value)  class="patientdata inputs dataInfo newpatient" name="department">
                       <option *ngFor="let d of client.departments">{{d.name}}</option>
                 </select>
-                <select [(ngModel)]="staff.role" *ngIf="selectedDept2.hasWard" class="patientdata inputs dataInfo newpatient" name="role">
+                <select [(ngModel)]="staff.info.official.role" *ngIf="selectedDept2.hasWard" class="patientdata inputs dataInfo newpatient" name="role">
                       <option>Doctor</option>
                       <option>Nurse</option>
                 </select>
               </div>
           </form>
-          <button (click)="addStaff()" style=" width: 25%; left:70%; "  type="button" class="btn btn-sm btn-outline-primary inputs mainbtn" >Save changes</button>
+          <button (click)="saveStaffInfo()" style=" width: 25%; left:70%; "  type="button" class="btn btn-sm btn-outline-primary inputs mainbtn" >Save changes</button>
           <button (click)="switchMode('staffmode','view')" style="width: 15%; left:53%;"  type="button" class="btn btn-sm btn-outline-primary inputs mainbtn" >Cancel</button>
           </div>
 

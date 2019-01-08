@@ -1,0 +1,16 @@
+
+.card.logincard {
+  height:100%;
+  width:35%;
+  /*left:100%;*/
+  position:absolute;
+  right:1px;
+  border:none;
+  margin:0px;
+  border-radius:0px;
+}
+.card-body.logbody {
+  margin-left:0px;
+  padding-top:40%;
+  border-left:0px;
+}

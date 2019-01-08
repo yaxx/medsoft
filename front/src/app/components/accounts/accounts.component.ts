@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import {DataService} from '../../services/data.service';
-import {Main, Staff, Department} from '../../models/data.model';
+import {Main, Person, Department} from '../../models/data.model';
 @Component({
   selector: 'app-accounts',
   templateUrl: './accounts.component.html',

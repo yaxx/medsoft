@@ -17,17 +17,17 @@ import { PharmacyComponent } from './components/pharmacy/pharmacy.component';
 import { WardComponent } from './components/ward/ward.component';
 import { AccountsComponent } from './components/accounts/accounts.component';
 import { LoginComponent } from './components/login/login.component';
-
 import { AccountComponent } from './components/account/account.component';
 import { NavComponent } from './components/nav/nav.component';
 import { PatientComponent } from './components/patient/patient.component';
 import { SessionComponent } from './components/session/session.component';
 import { ProductComponent } from './components/product/product.component';
 import { MessagesComponent } from './components/messages/messages.component';
+import { SingupComponent } from './components/singup/singup.component';
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'account', component: AccountComponent},
-  {path: 'signup', component: AccountsComponent},
+  {path: 'signup', component: SingupComponent},
   {path: 'information', component: RegistrationComponent},
   {path: 'information/:mode', component: PatientComponent},
   {path: 'consultation', component: ConsultationComponent},
@@ -58,6 +58,7 @@ const routes: Routes = [
     SessionComponent,
     ProductComponent,
     MessagesComponent,
+    SingupComponent,
   ],
   imports: [
     BrowserModule,

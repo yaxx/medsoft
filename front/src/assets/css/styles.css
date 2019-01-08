@@ -1,5 +1,7 @@
+
+
 body {
-  padding-top:41px;
+ 
   background-color: rgb(243, 248, 247);
 }
 @media (min-width:768px) {
@@ -498,6 +500,7 @@ body, html {
   position: absolute;
 }
 
+
 .material-icons.homeicon.wardicon {
   text-align:center;
   position:relative;
@@ -681,6 +684,53 @@ body, html {
 }
 .strike{
   text-decoration:line-through;
+}
+
+
+.icon.ion-ios-checkmark-empty.paid-icon {
+  position:absolute;
+  /*bottom:6%;*/
+  font-size:34px;
+  color:lightgreen;
+  top:-13px;
+}
+.shift-icon {
+  font-size:28px;
+  color:blue;
+  position:absolute;
+  left:40%;
+  top:-35%;
+  cursor: pointer;
+  z-index: 1;
+  height:15px;
+}
+.shift-icon.next-icon{
+  left: 55%;
+
+}
+.container.history-container {
+  max-width:957px;
+  margin:auto;
+}
+.card-colums.leftcolumn {
+  width:230px;
+  position:relative;
+  /*left:-44px;*/
+}
+
+
+.card-colums.rightcolumn {
+  width:230px;
+ 
+  /*right:-84px;*/
+}
+.card-colums.leftcolumn.online-column {
+  left:-10px;
+  position:relative
+}
+.card-colums.rightcolumn.suggest-column {
+  right:-27px;
+   position:relative;
 }
 
 

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Client, Department, Staff, Patient} from '../models/data.model';
+import {Client, Department, Person} from '../models/data.model';
 import * as socketIo from 'socket.io-client';
 
 import { Socket } from '../models/socket';
@@ -16,78 +16,80 @@ declare var io: {
 export class DataService {
   uri = 'http://localhost:5000/api';
   socket: Socket;
-  staff: Staff = new Staff();
-  patients: Patient[] = new Array<Patient>();
-  cachedPatients: Patient[] = new Array<Patient>();
+  staff: Person = new Person();
+  patients: Person[] = new Array<Person>();
+  cachedPatients: Person[] = new Array<Person>();
 
   constructor(private http: HttpClient) { }
-  setCachedPatients(patients: Patient[]) {
+  setCachedPatients(patients: Person[]) {
      this.cachedPatients = patients;
   }
   getCachedPatient(id) {
     return this.cachedPatients.filter((p) => p._id === id)[0];
   }
+  getMyAccount(){
+    return this.http.get(
+      `${this.uri}/myaccount`, {withCredentials: true}
+      );
+  }
+  explore(){
+    return this.http.get(
+      `${this.uri}/explore`, {withCredentials: true}
+      );
+  }
   getPatients() {
     return this.http.get(
       `${this.uri}/patients`, {withCredentials: true}
-
       );
   }
   getConsultees() {
     return this.http.get(
        `${this.uri}/consultees`, {withCredentials: true}
-
        );
+  }
+  follow(me, you) {
+    return this.http.post(
+      `${this.uri}/follow`, {myconnect:me, yourconnect:you}, {withCredentials: true}
+      );
   }
   addPatient(patient) {
     return this.http.post(
       `${this.uri}/new-patient`, patient, {withCredentials: true}
-
-
       );
   }
   addProduct(product) {
     return this.http.post(
     `${this.uri}/new-product`,  product, {withCredentials: true}
-
-
     );
   }
   updateProducts(product) {
     return this.http.post(
       `${this.uri}/update-products`, product, {withCredentials: true}
-
       );
   }
   runTransaction(p,i) {
     return this.http.post(
-     
       `${this.uri}/transaction`, {patient:p, inventory:i}, {withCredentials: true}
-
       );
   }
   deleteProducts(product) {
     return this.http.post(
       `${this.uri}/delete-products`, product, {withCredentials: true}
-
       );
   }
-  login (staff) {
+  login (user) {
     return this.http.post(
-      `${this.uri}/login`, staff, {withCredentials: true}
-
+      `${this.uri}/login`, user, {withCredentials: true}
        );
   }
   searchPatient(id) {
     return this.http.get(
       `${this.uri}/patient/${id}`, {withCredentials: true} );
-
   }
 
   createClient(client) {
     return this.http.post(
       `${this.uri}/new-client`, client, {withCredentials: true});
-
   }
   saveRecord(record) {
     return this.http.post(
@@ -95,7 +97,6 @@ export class DataService {
   }
 
   updateRecord(patient) {
-   
     return this.http.post(
       `${this.uri}/update-record`, patient , {withCredentials: true});
 
@@ -160,22 +161,12 @@ export class DataService {
 
   }
 
-  saveStaff(staff, action) {
-    if (action === 'new') {
-      return this.http.post(
-        `${this.uri}/new-staff`, staff, {withCredentials: true}
-
+  saveStaff(staff:Person) {
+     return this.http.post(
+        `${this.uri}/staff`, staff, {withCredentials: true}
          );
-    } else if (action === 'update') {
-      return this.http.post(
-        `${this.uri}/update-staff`, staff, {withCredentials: true});
-
-    } else {
-      return this.http.post(
-        `${this.uri}/delete-staff`, staff, {withCredentials: true});
-
     }
-  }
+
 
   addDepts(d) {
     return this.http.post(

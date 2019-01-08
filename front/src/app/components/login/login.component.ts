@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {Client, Department, Main, Staff} from '../../models/data.model';
+import {Client, Department, Main, Person} from '../../models/data.model';
 import {DataService} from '../../services/data.service';
+import {SocketService} from '../../services/socket.service';
+import {CookieService } from 'ngx-cookie-service';
 import {Router} from '@angular/router';
 
 @Component({
@@ -9,20 +11,34 @@ import {Router} from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  staff: Staff = new Staff();
-  in =  false;
+ user = {
+   username: null,
+   pwd: null
+};
 
-  constructor(private dataService: DataService, private router: Router) { }
+
+  constructor(
+    private data: DataService,
+    private socket: SocketService,
+    private cookie: CookieService, private router: Router
+    ) { }
 
   ngOnInit() {
   }
   login() {
-    this.dataService.login(this.staff).subscribe((staff: Staff) => {
-       this.in = false ;
-       this.dataService.staff = staff;
-       this.router.navigate([`/${staff.department.toLowerCase()}`]);
+    this.data.login(this.user).subscribe((person: Person) => {
+      console.log(person);
+      this.cookie.set('i', person._id);
+      this.cookie.set('h', person.info.official.hospId);
+      this.socket.io.emit('login', {user: person._id, lastLogin: person.info.lastLogin});
+      if ((person.info.official.department === 'GOPD') || (person.info.official.department === 'Maternity')) {
+        this.router.navigate(['/consultation']);
+      } else {
+        this.router.navigate([`/${person.info.official.department.toLowerCase()}`]);
+      }
+
     }, (err) => {
-      this.in = true;
+
     });
   }
 }

@@ -12,18 +12,22 @@ import {Socket} from '../../models/socket';
 })
 export class InventoryComponent implements OnInit {
   product: Product = new Product(new Item(), new StockInfo());
-  // item: Item = new Item();
-  // stockInfo: StockInfo = new StockInfo();
+  item: Item = new Item();
+  stockInfo: StockInfo = new StockInfo();
   temItems: Item[] = new Array<Item>();
   items: Item[] = new Array<Item>();
   products: Product[] = new Array<Product>();
   image: Product[];
   temProducts: Product[] = new Array<Product>();
+  editables: Product[] = new Array<Product>();
+  edited: Product[] = new Array<Product>();
   selections: number[] = new Array<number>();
   input = '';
   sortBy = 'added';
   view = 'products';
-  mode = 'new';
+  mode = '';
+  count = 0;
+
 
      constructor(private dataService: DataService) {
    }
@@ -32,14 +36,14 @@ export class InventoryComponent implements OnInit {
     this.getItems();
     this.getProducts();
   }
-  switchViews() {
-   this.view = this.view === 'products' ? 'new' : 'products';
+  switcMode(mode) {
+   this.mode = mode;
   }
   switchToEdit() {
     this.product = this.products.filter((pr) => pr.selected)[0];
     this.input = this.product.item.name + ' ' + this.product.item.mesure + this.product.item.unit;
     this.mode = 'edit';
-    this.switchViews();
+
   }
   getProducts() {
     this.dataService.getProducts().subscribe((p: any) => {
@@ -90,32 +94,97 @@ export class InventoryComponent implements OnInit {
   addMore() {
     this.temProducts.push(this.product);
     this.input = '';
-    // this.item = new Item();
-    // this.stockInfo = new StockInfo();
+    this.item = new Item();
+    this.product = new Product();
   }
-  addProducts(){
+  addProducts() {
     this.dataService.addProduct(this.temProducts)
     .subscribe((products: Product[]) => {
       this.products = products;
       this.temProducts = new Array<Product>();
-      this.view = 'products';
+
    });
 
   }
-
-
-  selectItem(i: Item) {
-    this.product.item = i;
+  addSelection(i: Item) {
     this.input = i.name + ' ' + i.mesure + i.unit;
+    this.product.item = i;
     this.temItems = new Array<Item>();
-  }
+    // const temp: Product[] = this.products.filter((p) => p.item._id === i._id);
+    // if (temp.length) {
+    //   this.product = temp[0];
+    // } else {
+    //   this.product = new Product(i);
+    // }
+   }
+
+
+
+  // selectItem(i: Item) {
+  //   this.product.item = i;
+  //   this.input = i.name + ' ' + i.mesure + i.unit;
+  //   this.temItems = new Array<Item>();
+  // }
 
   selectProduct(i) {
     this.products[i].selected = this.products[i].selected ? false : true;
+    }
+  pickSelection() {
+    this.mode = 'edit';
+    this.editables = this.products.filter((p) => p.selected);;
+
+    this.count = this.editables.length;
+    this.product = Object.assign( this.product, this.editables.shift());
+    this.input = this.product.item.name + ' ' + this.product.item.mesure + this.product.item.unit;
+  }
+  next() {
+    if (this.product.addedOn) {
+        if (this.item.name) {
+          this.product.item = this.item;
+          this.edited.unshift(this.product);
+          this.item = new Item();
+          // this.counter = this.counter + 1;
+        } else {
+          this.edited.unshift(this.product);
+          // this.counter = this.counter + 1;
+        }
+        if (this.editables.length) {
+          this.product = this.editables.shift();
+          this.input = this.product.item.name + ' ' + this.product.item.mesure + this.product.item.unit;
+        } else {
+          this.product = new Product();
+          this.input = '';
+
+        }
+
+    } else {
+
+    }
+
+  }
+  previous() {
+    if (!this.edited.length) {
+
+    } else {
+      if (this.item.name) {
+        this.product.item = this.item;
+        this.temProducts.unshift(this.product);
+        this.item = new Item();
+      } else {
+        this.temProducts.unshift(this.product);
+      }
+      this.product = this.edited.shift();
+      this.input = this.product.item.name + ' ' + this.product.item.mesure + this.product.item.unit;
+
+    }
 
   }
   selectionOccure() {
     return this.products.some((product) => product.selected);
+  }
+  dropSelection(p: Product) {
+    this.mode = 'add';
+    this.temProducts = this.temProducts.filter(product => product.item._id !== p.item._id);
   }
 
   searchItem (i) {
@@ -128,20 +197,27 @@ export class InventoryComponent implements OnInit {
     });
   }
   }
+  
 
   submit() {
-    if (this.mode === 'new') {
-      this.addProducts();
+    if (this.mode === 'add') {
+      this.updateProducts(this.temProducts);
+      this.temProducts = new Array<Product>();
+        } else if (this.mode === 'edit') {
+       this.updateProducts(this.products.filter(p => !p.selected).concat(this.edited));
+       this.editables = new Array<Product>();
+       this.edited = new Array<Product>();
     } else {
-      this.updateProducts();
+        this.updateProducts(this.products.filter((p) => !p.selected));
     }
   }
-  updateProducts() {
-    this.dataService.updateProducts(this.product)
+  updateProducts(update: Product[]) {
+    this.dataService.updateProducts(update)
     .subscribe((products: Product[]) => {
       this.products = products;
       this.product = new Product(new Item(), new StockInfo());
-      this.switchViews();
+      this.input = '';
+      this.mode = '';
    });
 
   }

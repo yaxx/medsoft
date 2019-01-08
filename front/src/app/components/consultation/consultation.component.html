@@ -102,7 +102,6 @@
                                     </option>
                                 </select>
                             </div>
-
                             <div class="form-group vitals-section formGroup" >
                                 <label style="position: absolute; bottom:89%" for="note" class="labelss notelabel">NOTE</label>
                                 <textarea [(ngModel)]="session.notes.note" style="width:100%; min-height: 100px; font-size: 13px; padding: 5px; border-radius: 4px; border:1px solid whitesmoke" name= "note" placeholder="Additional note"></textarea>
@@ -147,9 +146,9 @@
                   <div class="form-group vitals-section formGroup" style=" width:23%;">
                       <label for="extend" class="labelss complain">EXTEND</label>
                       <select [(ngModel)]="priscription.extend" style="border-radius: 0px;"  class=" patientdata status inputs dataInfo " name="extend" >
-                              <option>days</option>
-                              <option>weeks</option>
-                              <option>months</option>
+                        <option>days</option>
+                        <option>weeks</option>
+                        <option>months</option>
                       </select>
                   </div>
                   <div class="form-group vitals-section formGroup" style=" width:6%;">
@@ -249,14 +248,14 @@
     <i style="left:20%;" class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
     <i [routerLink]="['/messages']" routerLinkActive="router-link-active"  style="left:25%; font-size: 22px;" class="icon ion-ios-chatboxes-outline arrow buble" title="Messages"></i>
     <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:90%;position:absolute;height:30px;width:30px;bottom:-8%"></div>
-    
+
     </nav>
 
 
 
 
 
-<div  class="container">
+<div style="padding-top:40px" class="container">
     <div class="row">
         <div *ngFor="let patient of patients; let i = index"  class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
 
@@ -267,7 +266,7 @@
                 </div>
             </div>
             <a href="#" title="View history" [routerLink]="['/history/', patient._id]" routerLinkActive="router-link-active" class="patien-name">{{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}<span class="predata editicon"></span></a>
-            
+
             <div class="card-body mainbody">
                 <div class="carditem basic-item">
                     <h6 class="dept basic-info">Sex</h6>
@@ -294,7 +293,7 @@
 
               <button (click)="selectPatient(i)" style="border-radius: 30px; position:relative;font-size:12px; width:40%; left:52%; font-weight:bold" data-target="#newModal" data-toggle="modal" class="btn btn-sm btn-outline-primary inputs" >Attend to</button>
             </div>
-           
+
             <!-- <div class="floter" title="Attend to">
                 <i (click)="selectPatient(i)"  data-target="#newModal" data-toggle="modal" class="icon ion-person-stalker flotericon consulticon" title="Attend to"></i>
             </div> -->

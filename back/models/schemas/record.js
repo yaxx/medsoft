@@ -7,7 +7,6 @@ var RecordScheema = new Scheema({
     notes: [{note:String, noteType:String, noter:{type: Scheema.Types.ObjectId, ref: 'Staff'}, dateCreated:{type:Date,default:Date.now()}}],
 
     vitals: {
-
         bp: [{value: Number, dateCreated: {type:Date, default:Date.now()}}],
         resp: [{value: Number, dateCreated: {type:Date, default:Date.now()}}],
         pulse: [{value: Number, dateCreated: {type:Date, default:Date.now()}}],

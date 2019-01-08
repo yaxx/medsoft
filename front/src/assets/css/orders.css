@@ -8,6 +8,11 @@
   position:absolute;
   text-align:center;
 }
+.predata.priceval.number{
+  left:71%;
+  text-align:right;
+  width:52px;
+}
 
 .timeline.lastdoc.priscriber {
   top:-6%;

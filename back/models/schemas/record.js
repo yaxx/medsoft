@@ -62,8 +62,7 @@ var RecordScheema = new Scheema({
             freq: String,
             piriod: Number,
             extend: String
-            
-            
+  
         },
         paid: {type:Boolean, Default:false},
         lastTaken: Date,

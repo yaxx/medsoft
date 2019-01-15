@@ -27,10 +27,9 @@ export class LoginComponent implements OnInit {
   }
   login() {
     this.data.login(this.user).subscribe((person: Person) => {
-      console.log(person);
       this.cookie.set('i', person._id);
       this.cookie.set('h', person.info.official.hospId);
-      this.socket.io.emit('login', {user: person._id, lastLogin: person.info.lastLogin});
+      this.socket.io.emit('login', {ui: person._id, lastLogin: person.info.lastLogin});
       if ((person.info.official.department === 'GOPD') || (person.info.official.department === 'Maternity')) {
         this.router.navigate(['/consultation']);
       } else {

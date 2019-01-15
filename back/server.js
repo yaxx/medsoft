@@ -34,34 +34,28 @@ io.sockets.on('connection', (socket) => {
   connections.push(socket)
   console.log('%s socket(s) connected', connections.length)
 
-  socket.on('message', (msg) => {
-    Messages.update(
-      {'parties': {$in: [socket.request.cookies.username, msg.to]}}, {$push: {'chats': msg}}, {upsert: true}, (err, message) => {
-        if (!err) {
-          console.log('message saved')
-          logins.forEach((user) => {
-            if (user.username === msg.to) {
-              socket.to(user.id).emit('message', msg)
-            } else {
+  socket.on('login', (data) => {
+    data.si = socket.id;
+    logins.push({ui:data.ui,si:socket.id})
+    console.log(logins);
+    socket.broadcast.emit('online', data.ui)
+  })
 
-            }
-          })
-        } else {
-          console.log(err)
-        }
-      }
-      )
+  socket.on('new message', (data) => {
+    console.log('new message')
+  //  api.updateMessages(data)
+   logins.forEach(function (user) {
+    if (user.ui === data.reciever) {
+      socket.to(user.si).emit('new message', data)
+    } else {}
+  })
   })
   socket.on('new patient',(patient)=>{
     console.log(patient)
     socket.broadcast.emit('new patient', patient);
     
   })
-  socket.on('login', (data) => {
-    data.si = socket.id;
-    logins.push(data)
-    socket.broadcast.emit('online', data)
-  })
+
 
   socket.on('follow', (data) => {
     let d = data
@@ -122,9 +116,7 @@ io.sockets.on('connection', (socket) => {
       if (!err) {
         mynote.button = 'Following'
         mynote.save((err, n) => {
-
           if (!err) {
-
           }
           console.log(err)
         })
@@ -161,11 +153,14 @@ app.get('/api/patients', api.getPatients)
 app.get('/api/myaccount', api.getMyAccount)
 app.get('/api/explore', api.explore)
 // app.get('/api/departments', api.getDepartments)
+app.get('/api/connections/:id', api.getConnections)
 app.get('/api/items', api.getItems)
 app.get('/api/inpatients', api.getInPatients)
 app.get('/api/orders', api.getOrders)
 app.get('/api/products', api.getProducts)
 app.post('/api/follow', api.followPerson)
+app.post('/api/followback', api.followBack)
+app.post('/api/unfollow', api.unFollow)
 app.post('/api/update-products', api.updateProducts)
 app.post('/api/delete-products', api.deleteProducts)
 

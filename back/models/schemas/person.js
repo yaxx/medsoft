@@ -101,7 +101,8 @@ var personScheema = new Scheema({
             }]
         },
         conditions:[{
-            condition:String, oreder:String,
+            condition:String,
+            oreder:String,
             certainty: String,
             dateCreated: {type:Date, default:Date.now()},
             by: {type: Scheema.Types.ObjectId, ref: 'Staff'}

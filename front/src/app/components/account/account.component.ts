@@ -120,7 +120,7 @@ export class AccountComponent implements OnInit {
 
   // }
   deleteStaff(staff) {
-    this.dataService.saveStaff(staff, 'delete').subscribe((doc) => {
+    this.dataService.saveStaff(staff).subscribe((doc) => {
       this.client.staffs = this.client.staffs.filter((s) => s._id !== staff._id);
     });
   }

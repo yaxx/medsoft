@@ -29,10 +29,10 @@
   font-size:12px;
   font-weight:normal;
   width:70px;
-
+  border-radius:999em;
   padding-top:2px;
   padding-bottom:2px;
-  height:24px;
+  height:25px;
 
 }
 .bio {
@@ -70,6 +70,28 @@
 .basic-info {
   cursor:pointer;
 }
+.backIcon {
+  position:absolute;
+  font-size: 17px;
+  color: blue;
+  top: -4px;
+  cursor:pointer;
+  right:95%;
+
+}
+.profile-card{
+  width:200px;
+}
+.people{
+  cursor:pointer
+}
+.indicator.indicator-online {
+  width:8px;
+  height:8px;
+  top:70%;
+}
+
+
 
 
 

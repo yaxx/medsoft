@@ -187,7 +187,7 @@ export class ConsultationComponent implements OnInit {
     } else {}
 
     this.dataService.updateRecord(this.patient).subscribe((patient: Person) => {
-      this.patients[this.curIndex] = p ;
+      this.patients[this.curIndex] = patient ;
       this.session = new Session();
 
     });

@@ -10,10 +10,10 @@ var connectionScheema = new Schema({
     conversations: [
       [{
         message:String,
-        sender:{type: Schema.Types.ObjectId, ref: 'Person'},
-        reciever:{type: Schema.Types.ObjectId, ref: 'Person'},
-        delivered:Boolean,
-        read:Boolean,
+        sender: {type: Schema.Types.ObjectId, ref: 'Person'},
+        reciever: {type: Schema.Types.ObjectId, ref: 'Person'},
+        delivered: Boolean,
+        read: Boolean,
         sendOn:Date
     }]
   ]

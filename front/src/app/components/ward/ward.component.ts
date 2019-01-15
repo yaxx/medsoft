@@ -41,8 +41,7 @@ export class WardComponent implements OnInit {
   getClient() {
     this.dataService.getClient().subscribe((client: Client) => {
       this.client = client;
-      console.log(this.client.departments[2].beds)
-    });
+  });
   }
   fileSelected(event) {
     if (event.target.files && event.target.files[0]) {

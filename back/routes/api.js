@@ -86,14 +86,35 @@ addClient: (req, res)=>{
     }
   });
 },
+getConnections: (req, res) => {
+  Connection.findOne({ _id: req.params.id})
+    .populate('people.person')
+    .exec((err, con) => {
+      if (err) {
+        console.log(err)
+      } else {
+        res.send(con)
+      }
+  })
+},
 
 getMyAccount: (req, res)=> {
   Person.findById(req.cookies.i)
   .populate('connections')
-  .populate('people.person', '-record')
+  .populate('people.person')
   .exec((err, person) => {
     if(!err){
-        res.send(person);
+      Connection.findOne({ _id: person.connections})
+      .populate('people.person')
+      .exec((err, con) => {
+        if (err) {
+          console.log(err)
+        } else {
+          
+          res.send({p:person, c:con})
+        }
+    })
+       
       }
     else{
       console.log(err)
@@ -101,6 +122,7 @@ getMyAccount: (req, res)=> {
   });
 },
 followPerson: (req, res)=>{
+  console.log(req.body)
   Connection.findOneAndUpdate({_id: req.body.myconnect._id},{people:req.body.myconnect.people}, {new:true},(e, me)=>{
     if(!e){
       Connection.findOneAndUpdate({_id: req.body.yourconnect._id},req.body.yourconnect,{new:true},(e, you)=>{
@@ -116,13 +138,66 @@ followPerson: (req, res)=>{
   })
  
 },
-explore:(req, res)=>{
+
+followBack: (req, res)=>{
   console.log(req.body)
+  Connection.findOneAndUpdate({_id: req.body.yourcon,"people.person":req.cookies.i},{$set:{"people.$.follower":true},$push:{notifications:req.body.note}}, {new:true},(e, me)=>{
+    if(!e){
+      Connection.findOneAndUpdate({_id: req.body.id,"people.person":req.body.yourid},{$set:{"people.$.following":true}},{new:true},(e, myconn)=>{
+        if(!e){
+          res.send(myconn);
+        }else{
+          console.log(e)
+        }
+      })
+    }else{
+      console.log(e)
+    }
+  })
+ 
+},
+unFollow: (req, res)=>{
+  Connection.findOneAndUpdate({_id: req.body.yourcon,"people.person":req.cookies.i},{$set:{"people.$.follower":false}}, {new:true},(e, me)=>{
+    if(!e){
+      Connection.findOneAndUpdate({_id: req.body.id,"people.person":req.body.yourid},{$set:{"people.$.following":false}},{new:true},(e, myconn)=>{
+        if(!e){
+          res.send(myconn);
+        }else{
+          console.log(e)
+        }
+      })
+    }else{
+      console.log(e)
+    }
+  })
+ 
+},
+
+updateMessages: (data)=>{
+  console.log(data)
+  Connection.findOneAndUpdate({'people.person': data.sender},{$set:{"people.$.conversations": data.convs}},(e, me)=>{
+    if(!e){
+      Connection.findOneAndUpdate({'people.person': data.reciever},{$set:{"people.$.conversations": data.convs}},(e, myconn)=>{
+        if(!e){
+          console.log(myconn)// res.send(myconn);
+        }else{
+          console.log(e)
+        }
+      })
+    }else{
+      console.log(e)
+    }
+  })
+ 
+},
+
+explore:(req, res)=>{
+ 
   Person.find({'info.official.hospId':req.cookies.h})
-  .populate('connections', '-record')
+  .populate('connections')
   .exec((err, people) => {
     if(!err){
-      console.log(people)
+     
       res.send(people);
       }
     else{
@@ -133,9 +208,19 @@ explore:(req, res)=>{
 login:(req, res)=>{
   Person.findOne({"info.personal.username": req.body.username, "info.personal.password": req.body.pwd},  (err, person) => {
     if(person !== null){ 
-       res.status(200).send(person)
-    }else{
-        res.status(400).send('Invalid credentials');
+      person.info.online = true
+      person.info.lastLogin = new Date()
+      person.save((e,p)=>{
+        if(!e){
+          res.status(200).send(p)
+        }else{
+          console.log(e)
+          res.status(400).send('Invalid credentials');
+        }
+      })
+      
+    } else {
+      res.status(400).send('Invalid credentials');
     }
   })
 },
@@ -146,7 +231,6 @@ getClient: (req, res)=>{
     if(!err){
           Department.find({}, (err, departments)=>{
           if(!err){
-           console.log(client)
             res.send({client:client, departments:departments});
           }
           else{
@@ -197,7 +281,7 @@ getClient: (req, res)=>{
   });
 }
 else {
-  console.log(req.body)
+
     new Connection({}).save((err,con)=>{
         if(err){
           console.log(err)
@@ -284,7 +368,7 @@ addPatient: (req, res)=>{
 getPatients: (req, res)=>{
  Person.find({},(e, patients)=>{
     if(!e){
-      console.log(patients)
+     
       res.status(200).send(patients)
     } else {
       console.log(e);
@@ -310,7 +394,6 @@ getConsultees: (req, res)=>{
 getInPatients: (req, res)=>{
  Person.find({'record.visits.status':'admitted'},(e, patients)=>{
     if(!e){
-
       res.send(patients)
     }
     else{
@@ -514,22 +597,6 @@ getItems: (req, res)=>{
 },
 
 
-
-
-
-// getContacts:  (req, res) {
-//   Contacts.findOne({
-//     username: req.cookies.username})
-//     .populate('contacts.userid contacts.messages')
-//     .exec((err, con) => {
-//       if (err) {
-//         console.log(err)
-//       } else {
-//         console.log(con)
-//         res.send(con)
-//       }
-//   })
-// },
 
 // checkSession: (req, res) => {
 //   if (req.cookies.q) {

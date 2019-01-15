@@ -37,6 +37,10 @@ export class DataService {
       `${this.uri}/explore`, {withCredentials: true}
       );
   }
+  getConnections(id){
+     return this.http.get(
+      `${this.uri}/connections/${id}`, {withCredentials: true} );
+  }
   getPatients() {
     return this.http.get(
       `${this.uri}/patients`, {withCredentials: true}
@@ -50,6 +54,16 @@ export class DataService {
   follow(me, you) {
     return this.http.post(
       `${this.uri}/follow`, {myconnect:me, yourconnect:you}, {withCredentials: true}
+      );
+  }
+  followBack(me, you, note) {
+    return this.http.post(
+      `${this.uri}/followback`, {id:me, yourid:you.person._id, yourcon:you.person.connections, note:note}, {withCredentials: true}
+      );
+  }
+  unFollow(me, you) {
+    return this.http.post(
+      `${this.uri}/unfollow`, {id:me, yourid:you.person._id, yourcon:you.person.connections}, {withCredentials: true}
       );
   }
   addPatient(patient) {

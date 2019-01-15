@@ -46,9 +46,9 @@ export class RegistrationComponent implements OnInit {
 
   }
   addPatient(patient:Person) {
-      this.dataService.addPatient(patient).subscribe((patient:Person) => {
+      this.dataService.addPatient(patient).subscribe((newpatient:Person) => {
         this.patients.push(patient);
-        // this.socket.io.emit('newPerson', newpatient);
+        this.socket.io.emit('newPerson', newpatient);
      });
   }
   submitRecord() {

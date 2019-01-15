@@ -135,7 +135,7 @@
 
 
 
-<div class="container">
+<div style="padding-top:40px;" class="container">
 <div class="row">
     <div *ngFor = "let patient of patients; let i = index" class="col col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
         <div *ngIf = "patient.record.visits.reverse()[0].bedNo!==null"  class="card card-secondary maincard">

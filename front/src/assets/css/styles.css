@@ -264,6 +264,15 @@ body, html {
   height:49px;
   width:49px;
 }
+.timeline.lastdoc.priscriber.headerdp img {
+  position:relative;
+  height:100%;
+  width:100%;
+  object-fit:cover;
+  border-radius:50%;
+}
+
+
 
 .card-body.mainbody {
   margin-left:0px;

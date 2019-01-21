@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-
+import { FileSelectDirective, FileUploader } from 'ng2-file-upload';
 import {DataService} from '../../services/data.service';
 import {SocketService} from '../../services/socket.service';
 import { Person, Client, Item, StockInfo,
   Product, Priscription, Medication, Visit, Note
 } from '../../models/data.model';
+const uri = 'http://localhost:5000/api/upload';
 @Component({
   selector: 'app-ward',
   templateUrl: './ward.component.html',
@@ -31,12 +32,21 @@ export class WardComponent implements OnInit {
   bedNum = null;
   curIndex = 0;
   url = '';
+  uploader: FileUploader = new FileUploader({url:uri});
+  attachments:any = [];
 
 
   constructor(private dataService: DataService, private socket: SocketService ) { }
   ngOnInit() {
     this.getInPatients();
     this.getClient();
+    this.uploader.onBuildItemForm = (fileItem: any, form: any) => {
+      form.append('id', this.patients[this.curIndex]._id);
+
+     };
+    this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any ) => {
+      this.attachments.push(JSON.parse(response))
+    }
   }
   getClient() {
     this.dataService.getClient().subscribe((client: Client) => {
@@ -50,17 +60,18 @@ export class WardComponent implements OnInit {
       reader.readAsDataURL(event.target.files[0]); // read file as data url
       reader.onload = (e) => { // called once readAsDataURL is completed
         this.url = e.target.result;
-      }
+        console.log(e.target);
+      };
     }
 
   }
   uploadFile() {
-    const data = new FormData();
-    data.append('image', this.file);
-    console.log(data.get('image'));
-    // this.dataService.upload(this.file,
-    //    this.patients[this.curIndex]._id).subscribe(res => {
-    // });
+    const data: FormData = new FormData();
+    data.append('file', this.file);
+    console.log(data);
+    this.dataService.upload(this.file,
+       this.patients[this.curIndex]._id).subscribe(res => {
+    });
 
   }
   selectPatient(i: number) {
@@ -69,6 +80,7 @@ export class WardComponent implements OnInit {
   getInPatients() {
     this.dataService.getInPatients().subscribe((patients: Person[]) => {
       this.patients = patients;
+      console.log(patients);
       this.lastVisit =  this.patients[0].record.visits[-1];
     });
   }
@@ -86,35 +98,35 @@ export class WardComponent implements OnInit {
   }
   changeBed(i) {
 
-    const name =  this.patients[i].record.visits.reverse()[0].dept
-    this.client.departments.forEach(department=>{
+    const name =  this.patients[i].record.visits.reverse()[0].dept;
+    this.client.departments.forEach(department => {
       if(department.name !== name){
-        return
+        return;
 
-      }
-      else{
+      }  else {
         department.beds[this.patients[i].record.visits[0].bedNo] = false;
       }
-    })
+
+    });
     this.patients[i].record.visits[0].bedNo = null;
   }
   assignBed(i) {
-    const n= this.patients[i].record.visits.reverse()[0].dept
+    const n= this.patients[i].record.visits.reverse()[0].dept;
    const name = this.client.departments.filter((d) =>
      d.name === n);
-     var dept = this.client.departments;
+     const dept = this.client.departments;
      dept.forEach((dep,i)=>{
        if(dep.name !== n){
-        return
-       }else{
+        return;
+       } else {
         dep.beds[parseInt(this.bedNum)] = true;
        }
      })
-     var patient = this.patients[i]
-     patient.record.visits.reverse()[0].bedNo = parseInt(this.bedNum)
+     const patient = this.patients[i];
+     patient.record.visits.reverse()[0].bedNo = parseInt(this.bedNum);
      patient.record.visits.reverse();
-     this.dataService.updateBed(patient, dept, this.client._id).subscribe((patient: Person) => {
-      this.patients[i] = patient;
+     this.dataService.updateBed(patient, dept, this.client._id).subscribe((p: Person) => {
+      this.patients[i] = p;
       this.bedNum = null;
 
     //  this.client.departments.filter((d) =>

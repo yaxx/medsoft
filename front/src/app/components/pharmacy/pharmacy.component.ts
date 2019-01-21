@@ -32,7 +32,7 @@ export class PharmacyComponent implements OnInit {
   comfirmables = [];
 
 
-  constructor(private dataService: DataService, 
+  constructor(private dataService: DataService,
     private socket: SocketService ) { }
 
   ngOnInit() {
@@ -127,6 +127,7 @@ export class PharmacyComponent implements OnInit {
   getOrders() {
     this.dataService.getOrders().subscribe((patients: Person[]) => {
       this.patients = patients;
+      console.log(patients);
     });
   }
   getProducts() {

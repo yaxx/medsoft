@@ -19,7 +19,7 @@
                                     <p>Add Photo</p>
                                 </div>
                               </div>
-                              <input style="position:absolute;display:none" (change) = fileSelected($event) #picker type ="file"  name="image"  class="patientdata dystolic inputs dataInfo" />
+                              <input style="position:absolute;display:none" (change) = fileSelected($event) #picker type ="file"  name="file"  class="patientdata dystolic inputs dataInfo" name="file" multipe ng2FileSelect [uploader] = uploader />
                               <div *ngIf='url' class="card scan-thumnail defaul-dp">
                                 <a href="IMG-20180927-WA0000.jpg" target="_blank" class="image-link" data-lightbox="scan"><img [src]= url class="img-fluid" /></a>
                               </div>
@@ -296,9 +296,11 @@
                   <div class="card-header profileheader"><i class="icon ion-android-more-vertical headericon moreicon actions-icon"></i>
                       <div class="timeline lastdoc priscriber headerdp">
                           <div class="indicator"></div>
+                       <img src = 'http://localhost:5000/uploads/aa.jpg'/>
                       </div>
                   </div>
-                  <p class="dept displayname">{{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}<span class="predata editicon"></span></p>
+                  <p class="dept displayname">
+                  {{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}<span class="predata editicon"></span></p>
                   <div class="card-body mainbody">
                       <div class="carditem basic-item">
                           <h6 class="dept basic-info">Sex</h6>

@@ -18,38 +18,56 @@ let name = null
 const store = multer.diskStorage({
  destination:'../uploads',
  filename: (req, file, cb) => {
-   name = req.id + '-' +Date.now() +path.extname(file.fieldname)
- cb(null, name)
+ cb(null, Date.now() + path.extname(file.originalname))
 }
 })
 const upload = multer({
   storage: store
-}).single('scan')
+}).single('file')
 
 module.exports = {
 uploadFile: (req, res)=>{
-  console.log(req.body)
-  multer(req, res, (err)=>{
+  upload(req, res, (err)=>{
     if(err){
-      console.log(err)
+     return res.status(501).jason({error:err})
     }else{
-     Person.findOne({ _id:req.body.id} ,(e, doc) => {
-        if(!e){
-          doc.record.scans.push(name)
-          doc.save((e,p)=>{
-            if(!e){
-              res.send(p)
-            }
-            else{
-              console.log(e)
-            }
-          })
-      } else {console.log(e)}
-      }
-    )
+
+     res.send(req.file.filename)
+    //  Person.findOne({ _id:req.body.id} ,(e, doc) => {
+    //     if(!e){
+    //       doc.record.scans.push(name)
+    //       doc.save((e,p)=>{
+    //         if(!e){
+    //           res.send(p)
+    //         }
+    //         else{
+    //           console.log(e)
+    //         }
+    //       })
+    //   } else {console.log(e)}
+    //   }
+    // )
     }
   })
-  
+
+},
+addPatient: (req, res)=>{
+   new Person(req.body).save((e, patient)=>{
+      if(e){
+        console.log(e);
+      } else {
+        res.status(200).send(patient)
+    }
+  })
+},
+getPatients: (req, res)=>{
+ Person.find({},(e, patients)=>{
+    if(!e){
+      res.status(200).send(patients)
+    } else {
+      console.log(e);
+    }
+  })
 },
 addSettings: (req, res)=>{
   // console.log(req.body);
@@ -110,11 +128,11 @@ getMyAccount: (req, res)=> {
         if (err) {
           console.log(err)
         } else {
-          
+
           res.send({p:person, c:con})
         }
     })
-       
+
       }
     else{
       console.log(err)
@@ -136,7 +154,7 @@ followPerson: (req, res)=>{
       console.log(e)
     }
   })
- 
+
 },
 
 followBack: (req, res)=>{
@@ -154,7 +172,7 @@ followBack: (req, res)=>{
       console.log(e)
     }
   })
- 
+
 },
 unFollow: (req, res)=>{
   Connection.findOneAndUpdate({_id: req.body.yourcon,"people.person":req.cookies.i},{$set:{"people.$.follower":false}}, {new:true},(e, me)=>{
@@ -170,7 +188,7 @@ unFollow: (req, res)=>{
       console.log(e)
     }
   })
- 
+
 },
 
 updateMessages: (data)=>{
@@ -188,16 +206,16 @@ updateMessages: (data)=>{
       console.log(e)
     }
   })
- 
+
 },
 
 explore:(req, res)=>{
- 
+
   Person.find({'info.official.hospId':req.cookies.h})
   .populate('connections')
   .exec((err, people) => {
     if(!err){
-     
+
       res.send(people);
       }
     else{
@@ -207,7 +225,7 @@ explore:(req, res)=>{
 },
 login:(req, res)=>{
   Person.findOne({"info.personal.username": req.body.username, "info.personal.password": req.body.pwd},  (err, person) => {
-    if(person !== null){ 
+    if(person !== null){
       person.info.online = true
       person.info.lastLogin = new Date()
       person.save((e,p)=>{
@@ -218,7 +236,7 @@ login:(req, res)=>{
           res.status(400).send('Invalid credentials');
         }
       })
-      
+
     } else {
       res.status(400).send('Invalid credentials');
     }
@@ -273,10 +291,10 @@ getClient: (req, res)=>{
                   }
                   )
               }
-              
+
             }
        )
-         
+
     }
   });
 }
@@ -299,19 +317,19 @@ else {
                    res.send(person);
                  }
                })
-            
+
             }
           })
-        
+
         }
     })
   }
-  
+
 
 },
 updateStaff: (req, res)=>{
- 
- 
+
+
 },
 deleteStaff: (req, res)=>{
  Person.findByIdAndRemove(req.body._id).exec((e, docs)=>{
@@ -331,7 +349,7 @@ deleteStaff: (req, res)=>{
 
 },
 addDept: (req, res)=>{
-  console.log(req.body)
+
     Client.findOneAndUpdate({
       'info.email':'mail@cityhospital.com'}, {
         $push:{departments:req.body}},{
@@ -346,37 +364,7 @@ addDept: (req, res)=>{
     })
 },
 
-addPatient: (req, res)=>{
-  console.log(req.body);
-      new Person(req.body).save((e, patient)=>{
-      if(e){
-        console.log(e);
-      } else {
-        res.status(200).send(patient)
-          // newPerson({
-          // personal: req.body.personal,
-          // contact: req.body.contact,
-          // insurance: req.body.insurance,
-          // record: info._id,
-          // dateCreated: new Date()
 
-
-        // })
-    }
-    })
-},
-getPatients: (req, res)=>{
- Person.find({},(e, patients)=>{
-    if(!e){
-     
-      res.status(200).send(patients)
-    } else {
-      console.log(e);
-    }
-  })
-
-
-},
 getConsultees: (req, res)=>{
  Person.find({
     'record.visits.status':'queued'
@@ -394,6 +382,7 @@ getConsultees: (req, res)=>{
 getInPatients: (req, res)=>{
  Person.find({'record.visits.status':'admitted'},(e, patients)=>{
     if(!e){
+      console.log(patients)
       res.send(patients)
     }
     else{
@@ -404,6 +393,7 @@ getInPatients: (req, res)=>{
 getOrders: (req, res)=>{
  Person.find({},(e,patients)=>{
     if(!e){
+      console.log(patients)
       res.send(patients)
     }
     else{
@@ -425,13 +415,13 @@ updateBed: (req, res)=>{
             if(e){
               console.log(e)
             }else{
-            
+
              Person.findById(req.body.patient._id,(e,p)=>{
                 if(e){
                   console.log(e)
                 }else{
                   p.record.visits = req.body.patient.record.visits
-             
+
                   p.save((e, patient)=>{
                     if(e){
                       console.log(e)
@@ -445,7 +435,7 @@ updateBed: (req, res)=>{
           })
         }
       })
- 
+
 },
 updateRecord: (req, res)=>{
    console.log(req.body._id)
@@ -475,7 +465,7 @@ runTransaction: (req, res)=>{
            console.log(e)
          }
        })
-        
+
       } else{
         console.log(e);
       }
@@ -498,7 +488,7 @@ updateNote: (req, res)=>{
       })
   } else {console.log(e)}
   }
- 
+
  )
 },
 updateMedication: (req, res)=>{
@@ -538,7 +528,7 @@ getProducts: (req, res)=>{
   Client.findOne({
     'info.email':'mail@cityhospital.com'
   },
-   
+
       (err, client)=>{
       if(!err){
         console.log(client.inventory)

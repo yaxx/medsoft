@@ -1,18 +1,14 @@
 <div class="modal fade" role="dialog" tabindex="-1" id="newModal" style="border-radius:4px;width:auto;">
   <div class="modal-dialog" role="document">
       <div class="modal-content" style="width:500px;border-radius:4px;;padding-left:0px;padding-right: 0px;">
-              <div class="card-header profileheader" style="padding-top:2px;
-              padding-bottom:0px; height: 40px;">
-                  <div class="timeline lastdoc priscriber headerdp"style='top:5px;'></div>
-                  <p style="top:5px;" class="dept displayname">{{patients[curIndex].info.personal.firstName + ' '+ patients[curIndex].info.personal.lastName}}<span class="predata editicon">
-                    <i class="icon ion-ios-clock-outline headericon clock"></i>
-                    <!-- <i *ngIf="patient.record.visits[0].status==='queued'" class="icon ion-ios-clock-outline headericon clock"></i>
-                    <i *ngIf="patient.record.visits[0].status==='addmitted'" class="icon ion-ios-help-outline headericon in"></i>
-                    <i *ngIf="patient.record.visits[0].status==='gone'" class="icon ion-ios-close-outline headericon gone"></i>
-                    <i class="icon ion-android-more-vertical headericon moreicon"></i> -->
-                  </span></p>
-                  <p class="dept displayname subinfo">Feb 09, 2018</p>
-              </div>
+          <div class="card-header profileheader small-header">
+              <i class="icon ion-android-more-vertical small-icon"></i>
+                <div class="timeline lastdoc priscriber headerdp small-dp">
+                </div>
+                <a href="#" class="patien-name small-name">
+                  {{patients[curIndex].info.personal.firstName + ' '+ patients[curIndex].info.personal.lastName}}<span class="small-headericon"></span>
+                </a>
+            </div>
           <div class="modal-body" style="border-radius:0px;padding-left:0px;padding-right: 0px;padding-top: 0px">
               <form (submit) = updateNote() novalidate  class="patientform" >
                    <div class="card card-secondary historycard midlecard profilecard" style="border-bottom:none;margin:0px;margin-right: 0px;width:100%; min-height: 140px;">
@@ -33,17 +29,16 @@
 <div class="modal fade" role="dialog" tabindex="-1" id="filesModal" style="border-radius:4px;width:auto;">
   <div class="modal-dialog" role="document">
       <div class="modal-content" style="width:500px;border-radius:4px;;padding-left:0px;padding-right: 0px;">
-              <div class="card-header profileheader" style="padding-top:2px;
-              padding-bottom:0px; height: 40px;">
-                  <div class="timeline lastdoc priscriber headerdp"style='top:5px;'></div>
-                  <p style="top:5px;" class="dept displayname">{{patients[curIndex].info.personal.firstName + ' '+ patients[curIndex].info.personal.lastName}}<span class="predata editicon">
-                    <i class="icon ion-ios-clock-outline headericon clock"></i>
-
-                  </span></p>
-                  <p class="dept displayname subinfo">Feb 09, 2018</p>
-              </div>
+          <div class="card-header profileheader small-header">
+              <i class="icon ion-android-more-vertical small-icon"></i>
+                <div class="timeline lastdoc priscriber headerdp small-dp">
+                </div>
+                <a href="#" class="patien-name small-name">
+                  {{patients[curIndex].info.personal.firstName + ' '+ patients[curIndex].info.personal.lastName}}<span class="small-headericon"></span>
+                </a>
+            </div>
           <div class="modal-body" style="border-radius:0px;padding-left:0px;padding-right: 0px;padding-top: 0px">
-              <form (submit) = uploadFile() novalidate  class="patientform" >
+              <form (submit) = uploader.uploadAll() novalidate  class="patientform" >
                 <div class="card card-secondary historycard midlecard profilecard" style="border-bottom:none;margin:0px;margin-right: 0px;width:100%; min-height: 140px;">
                       <div style="padding-top:0px;padding-left: 10px; padding-right: 10px;"  class="card-body topcardbody clientinfobody nopading">
                         <div class="form-group vitals-section" style="width:50%;
@@ -65,7 +60,7 @@
                         </div>
                         <div class="form-group vitals-section" style="width:50%;
                         margin: auto; top: 60%;position:absolute;left:25%; display:none">
-                          <input (change) = fileSelected($event) #picker type ="file"  name="image"  class="patientdata dystolic inputs dataInfo" />
+                          <input (change) = fileSelected($event) #picker type ="file"  name="file" multipe ng2FileSelect [uploader] = uploader  class="patientdata dystolic inputs dataInfo" />
                         </div>
                       </div>
                   </div>
@@ -138,11 +133,15 @@
 <div style="padding-top:40px;" class="container">
 <div class="row">
     <div *ngFor = "let patient of patients; let i = index" class="col col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
-        <div *ngIf = "patient.record.visits.reverse()[0].bedNo!==null"  class="card card-secondary maincard">
-            <div class="card-header profileheader">
-                <div class="timeline lastdoc priscriber headerdp"></div>
-                <p class="dept displayname">{{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}<span class="predata editicon"><i class="icon ion-ios-help-outline headericon in"></i><i class="icon ion-android-more-vertical headericon moreicon"></i></span></p>
-                <p class="dept displayname subinfo">Bed No:&nbsp;<span class="predata">{{patient.record.visits.reverse()[0].bedNo || 'Unassigned'}}</span></p>
+        <div  style="min-height:400px;max-height:400px;"  *ngIf = "patient.record.visits.reverse()[0].bedNo ==null"  class="card card-secondary maincard">
+            <div class="card-header profileheader small-header">
+                <i class="icon ion-android-more-vertical small-icon"></i>
+                <div class="timeline lastdoc priscriber headerdp small-dp">
+                  </div>
+                  <a href="#" class="patien-name small-name">
+                    {{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}<span class="small-headericon"></span>
+                  </a>
+                <!-- <p class="dept displayname subinfo">Bed No:&nbsp;<span class="predata">{{patient.record.visits.reverse()[0].bedNo || 'Unassigned'}}</span></p> -->
                 <div class="menu">
                     <ul class="actions primary">
                         <li (click) = changeBed(i) class="action">Change Bed</li>
@@ -153,46 +152,48 @@
                 </div>
             </div>
             <div class="card-body orderbody">
-                <div class="carditem priscriptioncontainer order">
-                    <div class="timeline condition drugtimeline">
-                        <p class="timelinedate">10</p>
-                        <p class="timelinedate month">FEB</p>
-                    </div>
-                    <div class="priscription drug">
-                        <h6 class="dept">Paracetamol&nbsp;<span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata editicon"></span><span class="predata">200mg</span></h6>
-                        <h6 class="dept priscriptiontime">&nbsp;10:05am<span class="timetaken">05/10/2018 05:30pm</span></h6>
-                    </div>
-                    <div class="priscription drug">
-                        <h6 class="dept">Destrosaline&nbsp;<span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata editicon"></span><span class="predata">1000ml</span></h6>
-                        <h6 class="dept priscriptiontime">&nbsp;10:30am<span class="timetaken">05/10/2018 05:30pm</span></h6>
-                    </div>
-                    <div class="priscription drug">
-                        <h6 class="dept">Chloroquine&nbsp;<span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata editicon"></span><span class="predata">200ml</span></h6>
-                        <h6 class="dept priscriptiontime">&nbsp;10:30am<span class="timetaken">05/10/2018 05:30pm</span></h6>
-                    </div>
-                </div>
-                <div class="carditem priscriptioncontainer order">
-                    <div class="timeline condition drugtimeline">
-                        <p class="timelinedate">05</p>
-                        <p class="timelinedate month">FEB</p>
-                    </div>
-                    <div class="priscription drug"></div>
-                    <div class="priscription drug">
-                        <h6 class="dept">Perition&nbsp;<span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata editicon"></span><span class="predata">100mg</span></h6>
-                        <h6 class="dept priscriptiontime">&nbsp;10:30am<span class="timetaken">05/10/2018 05:30pm</span></h6>
-                    </div>
-                    <div class="priscription drug">
-                        <h6 class="dept">Chloroquine&nbsp;<span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata editicon"></span><span class="predata">200ml</span></h6>
-                        <h6 class="dept priscriptiontime">&nbsp;10:30am<span class="timetaken">05/10/2018 05:30pm</span></h6>
-                    </div>
-                </div>
-            </div>
+              <div *ngFor="let medic of patient.record.medications; let j = index" class="carditem priscriptioncontainer order">
+                  <div  class="timeline condition drugtimeline">
+                      <p class="timelinedate">{{medic[j].priscription.priscribedOn|date:'dd'}}</p>
+                      <p class="timelinedate month">{{medic[j].priscription.priscribedOn|date:'MMM'|uppercase}}</p>
+                  </div>
+                  <div *ngFor ="let m of medic; let k= index" class="priscription drug">
+                      <h6 class="dept">{{m.product.item.name}}&nbsp;<span class="predata">{{m.product.item.mesure+m.product.item.unit}}</span><span class="predata priceval">
+                          <i *ngIf="m.paid" class="icon ion-ios-checkmark-empty paid-icon" title="Comfirm payment"></i>
+                          <input *ngIf ="!m.paid" (click)="selectItem(i,j,k)" type="checkbox"></span></h6>
+                      <h6 class="dept previnfo">Dosage&nbsp;<span class="predata">{{m.priscription.freq+' '+ '|'+' '+m.priscription.piriod+' '+ m.priscription.extend}} </span></h6>
+                     
+                  </div>
+             </div>
+             <div class="carditem priscriptioncontainer order">
+                  <div class="timeline condition drugtimeline">
+                      <p class="timelinedate">05</p>
+                      <p class="timelinedate month">FEB</p>
+                  </div>
+                  <div class="priscription drug">
+                      <h6 class="dept">Amoxiline&nbsp;<span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata">200mg</span></h6>
+                      <h6 class="dept previnfo">Dosage&nbsp;<span class="predata">dos | 10 days</span></h6>
+                      <h6 class="dept previnfo">Price&nbsp;<span class="predata priceval">300</span></h6>
+                  </div>
+                  <div class="priscription drug">
+                      <h6 class="dept">Chloroquine &nbsp;<span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata">200ml</span></h6>
+                      <h6 class="dept previnfo">Dosage&nbsp;<span class="predata">dos | 10 days</span></h6>
+                      <h6 class="dept previnfo">Price&nbsp;<span class="predata priceval">200</span></h6>
+                  </div>
+                  <div class="priscription drug">
+                      <h6 class="dept">Destrosaline<span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata">1000ml</span></h6>
+                      <h6 class="dept previnfo">Dosage&nbsp;<span class="predata">dos | 10 days</span></h6>
+                      <h6 class="dept previnfo">Price&nbsp;<span class="predata priceval">500</span></h6>
+                  </div>
+              </div>
+
+          </div>
             <div class="floter" title="Examine"><i (click)="updateTimeTaken()"class="icon ion-person-stalker flotericon consulticon" title="Administered"></i>
             </div>
         </div>
 
 
-        <div *ngIf = "patient.record.visits[patient.record.visits.length-1].bedNo === null"  class="card card-secondary maincard">
+        <!-- <div *ngIf = "patient.record.visits[patient.record.visits.length-1].bedNo !== null"  class="card card-secondary maincard">
                 <div class="card-header profileheader small-header"><i class="icon ion-android-more-vertical small-icon"></i>
                     <div class="timeline lastdoc priscriber headerdp small-dp"></div><a href="#" class="patien-name small-name">{{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}<span class="small-headericon"></span></a>
                     <div class="menu">
@@ -204,12 +205,12 @@
                             </ul>
                         </div>
                 </div>
-            <!-- <div class="card-header profileheader">
+            <div class="card-header profileheader">
                 <div class="timeline lastdoc priscriber headerdp"></div>
                 <p class="dept displayname">{{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}<span class="predata editicon"><i class="icon ion-ios-help-outline headericon in"></i><i class="icon ion-android-more-vertical headericon moreicon"></i></span></p>
                 <p class="dept displayname subinfo">Bed No:&nbsp;<span class="predata">{{patient.record.visits[patient.record.visits.length-1].bedNo || 'Unassigned'}}</span></p>
 
-            </div> -->
+            </div>
 
             <div style="margin-left:0px; padding-top:15%; border-left: none" class="card-body orderbody" >
                 <form style="top:15%; padding-left: 2%; padding-right: 2%;" class=" staffsform" (submit) = assignBed(i)>
@@ -227,13 +228,14 @@
               </div>
             <div class="floter" title="Examine"><i (click)="updateTimeTaken()"class="icon ion-person-stalker flotericon consulticon" title="Administered"></i>
             </div>
-        </div>
+        </div> -->
 
 
 
     </div>
-    <div  class="col col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
-        <div class="card card-secondary maincard">
+
+        <!-- <div class="col col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+        <div  style="min-height:400px;max-height:400px;"  class="card card-secondary maincard">
                 <div class="card-header profileheader small-header"><i class="icon ion-android-more-vertical small-icon"></i>
                     <div class="timeline lastdoc priscriber headerdp small-dp"></div><a href="#" class="patien-name small-name">{{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}<span class="small-headericon"></span></a>
                     <div class="menu">
@@ -245,59 +247,7 @@
                             </ul>
                         </div>
                 </div>
-            <div class="card-body orderbody">
-                <div class="carditem priscriptioncontainer order">
-                    <div class="timeline condition drugtimeline">
-                        <p class="timelinedate">10</p>
-                        <p class="timelinedate month">FEB</p>
-                    </div>
-                    <div class="priscription drug">
-                        <h6 class="dept">Paracetamol&nbsp;<span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata editicon"></span><span class="predata">200mg</span></h6>
-                        <h6 class="dept priscriptiontime">&nbsp;10:05am<span class="timetaken">05/10/2018 05:30pm</span></h6>
-                    </div>
-                    <div class="priscription drug">
-                        <h6 class="dept">Destrosaline&nbsp;<span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata editicon"></span><span class="predata">1000ml</span></h6>
-                        <h6 class="dept priscriptiontime">&nbsp;10:30am<span class="timetaken">05/10/2018 05:30pm</span></h6>
-                    </div>
-                    <div class="priscription drug">
-                        <h6 class="dept">Chloroquine&nbsp;<span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata editicon"></span><span class="predata">200ml</span></h6>
-                        <h6 class="dept priscriptiontime">&nbsp;10:30am<span class="timetaken">05/10/2018 05:30pm</span></h6>
-                    </div>
-                </div>
-                <div class="carditem priscriptioncontainer order">
-                    <div class="timeline condition drugtimeline">
-                        <p class="timelinedate">05</p>
-                        <p class="timelinedate month">FEB</p>
-                    </div>
-                    <div class="priscription drug"></div>
-                    <div class="priscription drug">
-                        <h6 class="dept">Perition&nbsp;<span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata editicon"></span><span class="predata">100mg</span></h6>
-                        <h6 class="dept priscriptiontime">&nbsp;10:30am<span class="timetaken">05/10/2018 05:30pm</span></h6>
-                    </div>
-                    <div class="priscription drug">
-                        <h6 class="dept">Chloroquine&nbsp;<span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata editicon"></span><span class="predata">200ml</span></h6>
-                        <h6 class="dept priscriptiontime">&nbsp;10:30am<span class="timetaken">05/10/2018 05:30pm</span></h6>
-                    </div>
-                </div>
-            </div>
-            <div class="floter" title="Examine"><i class="icon ion-person-stalker flotericon consulticon" title="Administered"></i>
-            </div>
-        </div>
-      </div>
-        <div class="col col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
-        <div class="card card-secondary maincard">
-                <div class="card-header profileheader small-header"><i class="icon ion-android-more-vertical small-icon"></i>
-                    <div class="timeline lastdoc priscriber headerdp small-dp"></div><a href="#" class="patien-name small-name">{{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}<span class="small-headericon"></span></a>
-                    <div class="menu">
-                            <ul class="actions primary">
-                                <li (click) = switchViews() class="action">Add Medication</li>
-                                <li  data-target="#phModal" data-toggle="modal" class="action">Add Note</li>
-                                <li class="action">Discharge</li>
-                                <li class="action">Comfirm Death</li>
-                            </ul>
-                        </div>
-                </div>
-            <!-- <div class="timeline lastdoc priscriber headerdp small-dp"><a href="#" class="patien-name small-name">{{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}<span class="small-headericon"></span></a>
+            <div class="timeline lastdoc priscriber headerdp small-dp"><a href="#" class="patien-name small-name">{{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}<span class="small-headericon"></span></a>
                 <div class="menu">
                     <ul class="actions primary">
                         <li (click) = switchViews() class="action">Add Medication</li>
@@ -306,7 +256,7 @@
                         <li class="action">Comfirm Death</li>
                     </ul>
                 </div>
-            </div> -->
+            </div>
 
             <div style="margin-left:0px; padding-top:15%; border-left: none"        class="card-body orderbody" >
               <form style="top:15%; padding-left: 2%; padding-right: 2%;" class="       staffsform" (submit) = updateMedication()>
@@ -346,7 +296,70 @@
             <div class="floter" title="Examine"><i class="icon ion-person-stalker flotericon consulticon" title="Administered"></i>
             </div>
         </div>
-      </div>
+      </div> -->
+      <!-- <div class="col col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+        <div  style="min-height:400px;max-height:400px;"  class="card card-secondary maincard">
+                <div class="card-header profileheader small-header"><i class="icon ion-android-more-vertical small-icon"></i>
+                    <div class="timeline lastdoc priscriber headerdp small-dp"></div><a href="#" class="patien-name small-name">{{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}<span class="small-headericon"></span></a>
+                    <div class="menu">
+                            <ul class="actions primary">
+                                <li (click) = switchViews() class="action">Add Medication</li>
+                                <li  data-target="#phModal" data-toggle="modal" class="action">Add Note</li>
+                                <li class="action">Discharge</li>
+                                <li class="action">Comfirm Death</li>
+                            </ul>
+                        </div>
+                </div>
+            <div class="timeline lastdoc priscriber headerdp small-dp"><a href="#" class="patien-name small-name">{{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}<span class="small-headericon"></span></a>
+                <div class="menu">
+                    <ul class="actions primary">
+                        <li (click) = switchViews() class="action">Add Medication</li>
+                        <li  data-target="#phModal" data-toggle="modal" class="action">Add Note</li>
+                        <li class="action">Discharge</li>
+                        <li class="action">Comfirm Death</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div style="margin-left:0px; padding-top:15%; border-left: none"        class="card-body orderbody" >
+              <form style="top:15%; padding-left: 2%; padding-right: 2%;" class="       staffsform" (submit) = updateMedication()>
+                  <div class="form-group vitals-section address">
+                      <label for="drug" class="labelss">Drug Name</label>
+                      <input autocomplete="off" (keyup)= "searchItem(input)" [(ngModel)] = input type="text" name="drug" placeholder= "E.g Paracetamol" class="patientdata dystolic inputs dataInfo" />
+                      <div *ngIf= temProducts.length  class="options prisOption edit">
+                          <ul class="itemsList" >
+                            <li  *ngFor="let product of temProducts"><p (click) = "selectProduct(product)"  class="dept firstheader drugItem" style="font-size:13px;padding-left: 10px; padding-right: 10px;font-weight: normal;" >{{product.item.name+ ' '}}<span class="lastdept timetaken " >{{product.item.mesure + product.item.unit}}</span></p>
+                            </li>
+                          </ul>
+                      </div>
+                  </div>
+                  <div class="form-group vitals-section formGroup" style=" width:28%;">
+                      <label for="dos" class="labelss complain">Intake</label>
+                      <input [(ngModel)] = "medication.priscription.intake" style="border-top-right-radius: 0px;border-bottom-right-radius: 0px;"  type="number" name="dos" class="patientdata inputs dataInfo"  >
+                  </div>
+                  <div class="form-group vitals-section formGroup" style=" width:43%; ">
+                      <label for="intake" class="labelss complain">Freq</label>
+                      <select [(ngModel)]="medication.priscription.freq" style="border-radius: 0px;"  class=" patientdata status inputs dataInfo " name="intake">
+                              <option>dos</option>
+                              <option>qos</option>
+                              <option>after meal</option>
+                              <option>as required</option>
+                      </select>
+                  </div>
+                  <div class="form-group vitals-section formGroup" style=" width:28%;">
+                      <label for="piriod" class="labelss complain">Days</label>
+                      <input [(ngModel)]="medication.priscription.piriod" style="border-top-left-radius: 0px;border-bottom-left-radius: 0px;"  type="number" name="piriod" class="patientdata inputs dataInfo"   placeholder="">
+                  </div>
+                  <div class="form-group vitals-section address">
+                    <button (click)=switchViews() style="font-size:11px; width:50%;border-top-right-radius: 0px;border-bottom-right-radius: 0px; "  type="button" class="btn btn-sm btn-outline-primary inputs" >Cancel</button>
+                    <button style="font-size:11px; width:49.5%; border-top-left-radius: 0px;border-bottom-left-radius: 0px; "  type="submit" class="btn btn-sm btn-outline-primary inputs" >Add Medication</button>
+                  </div>
+              </form>
+            </div>
+            <div class="floter" title="Examine"><i class="icon ion-person-stalker flotericon consulticon" title="Administered"></i>
+            </div>
+        </div>
+      </div> -->
 
 
 

@@ -7,7 +7,7 @@ import { CookieService } from 'ngx-cookie-service';
 import {DataService} from './services/data.service';
 import {SocketService} from './services/socket.service';
 import {NotePipe} from './pipes/note.pipe';
-// import {Patient} from './models/data.model';
+import {FileUploadModule} from 'ng2-file-upload';
 import {RouterModule, Routes} from '@angular/router';
 import { RegistrationComponent } from './components/registration/registration.component';
 import { ConsultationComponent } from './components/consultation/consultation.component';
@@ -58,12 +58,13 @@ const routes: Routes = [
     SessionComponent,
     ProductComponent,
     MessagesComponent,
-    SingupComponent,
+    SingupComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
+    FileUploadModule,
     RouterModule.forRoot(routes)
   ],
   providers: [DataService, CookieService, SocketService],

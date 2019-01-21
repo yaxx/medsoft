@@ -164,17 +164,20 @@
 
 
 
-<div style="padding-top:40px;"
-        class="container">
+<div style="padding-top:40px;" class="container">
         <div class="row">
-            <div *ngFor="let patient of patients; let i = index" class="col col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12"  >
-                <div *ngIf = "view==='default'" style="min-height:400px;max-height:400px" class="card card-secondary maincard">
-                    <div class="card-header profileheader small-header"><i class="icon ion-android-more-vertical small-icon"></i>
-                        <div class="timeline lastdoc priscriber headerdp small-dp"></div><a href="#" class="patien-name small-name">
-                          {{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}<span class="small-headericon"></span></a>
+            <div *ngFor="let patient of patients; let i = index" class="col col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+              <div *ngIf = "view==='default'" style="min-height:400px;max-height:400px;" class="card card-secondary maincard">
+                   <div class="card-header profileheader small-header">
+                      <i class="icon ion-android-more-vertical small-icon"></i>
+                        <div class="timeline lastdoc priscriber headerdp small-dp">
+                        </div>
+                        <a href="#" class="patien-name small-name">
+                          {{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}<span class="small-headericon"></span>
+                        </a>
                     </div>
                     <div class="card-body orderbody">
-                        <div *ngFor="let medic of patient.record.medications; let j = index" class="carditem priscriptioncontainer order">
+                        <!-- <div *ngFor="let medic of patient.record.medications; let j = index" class="carditem priscriptioncontainer order">
                             <div  class="timeline condition drugtimeline">
                                 <p class="timelinedate">{{medic[j].priscription.priscribedOn|date:'dd'}}</p>
                                 <p class="timelinedate month">{{medic[j].priscription.priscribedOn|date:'MMM'|uppercase}}</p>
@@ -186,7 +189,7 @@
                                 <h6 class="dept previnfo">Dosage&nbsp;<span class="predata">{{m.priscription.freq+' '+ '|'+' '+m.priscription.piriod+' '+ m.priscription.extend}} </span></h6>
                                 <h6 class="dept previnfo">Price&nbsp;<span class="predata priceval number "[class.strike]="m.product.stockInfo.quantity===m.product.stockInfo.sold">{{m.product.stockInfo.price||'---'}}</span></h6>
                             </div>
-                        </div>
+                       </div> -->
                        <div class="carditem priscriptioncontainer order">
                             <div class="timeline condition drugtimeline">
                                 <p class="timelinedate">05</p>
@@ -208,22 +211,7 @@
                                 <h6 class="dept previnfo">Price&nbsp;<span class="predata priceval">500</span></h6>
                             </div>
                         </div>
-                         <!-- <div class="carditem priscriptioncontainer order">
-                            <div class="timeline condition drugtimeline">
-                                <p class="timelinedate">25</p>
-                                <p class="timelinedate month">SEP</p>
-                            </div>
-                            <div class="priscription drug">
-                                <h6 class="dept"><span class="predata prescriptionicon"><input type="checkbox"></span>Peritone&nbsp;<span class="predata">200mg</span></h6>
-                                <h6 class="dept previnfo">Dosage&nbsp;<span class="predata">dos | 10 days</span></h6>
-                                <h6 class="dept previnfo">Price&nbsp;<span class="predata priceval">150</span></h6>
-                            </div>
-                            <div class="priscription drug">
-                                <h6 class="dept">Amathem&nbsp;<span class="predata prescriptionicon"><input type="checkbox"></span><span class="predata">200mg</span></h6>
-                                <h6 class="dept previnfo">Dosage&nbsp;<span class="predata">dos | 10 days</span></h6>
-                                <h6 class="dept previnfo">Price&nbsp;<span class="predata priceval">350</span></h6>
-                            </div>
-                        </div> -->
+
                     </div>
                     <div class="card-footer">
                         <div class="icon-container edit-container"><i (click)="switchToEdit()" class="material-icons edit-drug" title="Edit medication">mode_edit</i></div>
@@ -232,7 +220,7 @@
                 </div>
 
 
-                <div *ngIf = "view==='edit'" style="min-height:400px;max-height:400px;" class="card card-secondary maincard">
+                <!-- <div *ngIf = "view==='edit'" style="min-height:400px;max-height:400px;" class="card card-secondary maincard">
                   <div class="card-header profileheader small-header"><i class="icon ion-android-more-vertical small-icon"></i>
                     <div class="timeline lastdoc priscriber headerdp small-dp"></div><a href="#" class="patien-name small-name">
                       {{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}<span class="small-headericon"></span></a>
@@ -290,9 +278,9 @@
                         </div>
                     </form>
                   </div>
-              </div>
+              </div> -->
             </div>
-            <div  class="col col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12" >
+            <!-- <div  class="col col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12" >
                 <div style="min-height:400px;max-height:400px;" class="card card-secondary maincard">
                     <div style="margin-left:0px; padding-top:15%; border-left: none" class="card-body orderbody" >
                         <form style="top:15%; padding-left: 2%; padding-right: 2%;" class=" staffsform" (submit) = updateMedication()>
@@ -333,7 +321,7 @@
                     <div class="floter" title="Examine"><i class="icon ion-person-stalker flotericon consulticon" title="Administered"></i>
                     </div>
                 </div>
-              </div>
+              </div> -->
 
           <!-- <div [ngSwitch]="view"  *ngFor="let patient of patients; let i = index"  class="col col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-12">
             <div *ngSwitchCase="'details'" class="card card-secondary maincard">

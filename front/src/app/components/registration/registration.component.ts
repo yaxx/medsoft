@@ -15,13 +15,13 @@ export class RegistrationComponent implements OnInit {
   form: NgForm;
   // personal: Personal = new Personal();
  patients: Person[] = new Array<Person>();
- patient:Person = new Person();
+ patient: Person = new Person();
   file: File = null;
   info: Info = new Info();
   url = '';
   view = 'info';
   regMode =  'all';
-  dpurl = 'http://localhost:5000/uploads/aa.jpg';
+  dpurl = 'http://localhost:5000/api/dp/';
 
   uploader: FileUploader = new FileUploader({url: uri});
   constructor(
@@ -38,12 +38,15 @@ export class RegistrationComponent implements OnInit {
      this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any ) => {
      console.log(response);
      this.patient.info.personal.dpUrl = response;
-      this.dataService.addPatient(this.patient).subscribe((newpatient:Person) => {
+      this.dataService.addPatient(this.patient).subscribe((newpatient: Person) => {
         this.patients.push(newpatient);
         this.socket.io.emit('newPerson', newpatient);
      });
     };
     // this.socket.io.emit('hello', {});
+  }
+  getDp(p:Person){
+    return 'http://localhost:5000/api/dp/' + p.info.personal.dpUrl;
   }
   getPatients() {
     this.dataService.getPatients().subscribe((patients: Person[]) => {
@@ -57,11 +60,11 @@ export class RegistrationComponent implements OnInit {
       reader.readAsDataURL(event.target.files[0]); // read file as data url
       reader.onload = (e) => { // called once readAsDataURL is completed
         this.url = e.target.result;
-      }
+      };
     }
 
   }
-  addPatient(patient:Person) {
+  addPatient(patient: Person) {
       this.dataService.addPatient(patient).subscribe((newpatient: Person) => {
         this.patients.push(patient);
         this.socket.io.emit('newPerson', newpatient);

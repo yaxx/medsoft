@@ -7,6 +7,10 @@
   padding-right:5px;
 }
 
+.message.message-recieved.is-rapid {
+  margin-bottom:0px;
+}
+
 .card-body.chat-body {
   padding-top:4%;
   padding-left:9px;
@@ -15,13 +19,13 @@
   border:none;
 }
 
-.message-recieved .message-container:first-child .msg-text {
+.message-recieved .msg-text.first-recieved {
   border-top-left-radius:.999em;
-
+  border-bottom-left-radius:0px;
   margin-bottom:0px;
 }
 
-.message-send  .message-container:first-child .msg-text {
+.message-send .msg-text.first-msg {
   border-top-right-radius:.999em;
 }
 
@@ -62,19 +66,18 @@
   flex-shrink:0;
 }
 
-.message-send {
-  /* border-top-right-radius:0px; */
-  /* margin-bottom:10px; */
+.message.message-send {
+  border-top-right-radius:0px;
 }
 
 .message.is-rapid.message-send {
-  /* margin-bottom:0px; */
-}
-.message.message-send, .message.message-recieved{
-  /* margin-bottom: 10px; */
+  margin-bottom:0px;
 }
 
-
+.message-send.msg-text {
+  background-color:#1da1f2;
+  color:#fff!important;
+}
 
 .message-container {
   display:flex;
@@ -151,49 +154,55 @@ message-text.msg-msg {
 .message {
   flex-direction:column;
   list-style-type:none;
-  margin-bottom:15px;
+  margin-bottom:10px;
   display:flex;
 }
 
+.btn.btn-primary.submitmsg.send-btn {
+  border-radius:50%;
+  background:#f4f2f2;
+  border:none;
+  position:absolute;
+  right:2%;
+}
 
-
-.icon.ion-image.attachment {
+.icon.ion-image.attachment, .icon ion-android-send.attachment {
   color:#adb0b0;
   right:9%;
   font-size:20px;
-  top:14%;
+  top:10%;
   height:32px;
   width:32px;
   border-radius:50%;
-  position: absolute;
+  /*background:#f4f2f2;*/
   text-align:center;
   cursor:pointer;
+  position:absolute;
 }
 
 .attachment:hover {
-  background:rgba(217, 221, 221, 0.5);
+  background:rgba(244,242,242, 0.5);
 }
 
 .icon.ion-android-send.attachment {
   position:absolute;
   right:0%;
-  top:12%;
+  top:10%;
   font-size:20px;
-  height:34px;
-  width:34px;
+  height:32px;
+  width:32px;
   text-align:center;
   border-radius:50%;
-  background:rgba(60, 176, 248, 0.3);
-  color:white;
+  background:rgba(244,242,242, 0.5);
+  color:#adb0b0;
   cursor:pointer;
   padding-left:4px;
-  position: absolute;
 }
 
 .chat-form {
   position:absolute;
   width:95%;
-  bottom:0%;
+  bottom:1%;
 }
 
 .form-control.inputs.patientdata.newpatient.chat-message:focus {
@@ -209,10 +218,10 @@ message-text.msg-msg {
   border-top:white;
   /*padding-bottom:12px;*/
   border-radius:0px;
-  font-size:15px;
+  font-size:14px;
   /*margin:4px;*/
   /*min-height:15px;*/
-  overflow-wrap: break-word;
+  scroll:hiden;
   /*padding-right:1%;*/
 }
 
@@ -220,6 +229,10 @@ message-text.msg-msg {
   padding-left:5px;
   padding-right:5px;
   position:relative;
-  border-top:1px solid #1da1f2;
+  border-top:1px solid rgb(29,161,242);
+}
+
+.timeline.lastdoc.priscriber.headerdp.profile-dp {
+  left:63px;
 }
 

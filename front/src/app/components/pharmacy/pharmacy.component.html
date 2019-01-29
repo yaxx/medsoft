@@ -171,6 +171,7 @@
                    <div class="card-header profileheader small-header">
                       <i class="icon ion-android-more-vertical small-icon"></i>
                         <div class="timeline lastdoc priscriber headerdp small-dp">
+                         <img [src] = getDp(patient)/>
                         </div>
                         <a href="#" class="patien-name small-name">
                           {{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}<span class="small-headericon"></span>

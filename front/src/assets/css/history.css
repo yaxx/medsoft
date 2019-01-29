@@ -47,6 +47,13 @@
   height:424px;
   left:20px;
 }
+.card-body.midcardbody {
+  /*height:370px;*/
+  position:relative;
+  margin-left:0px;
+  border-left:0px;
+}
+
 
 
 
@@ -126,7 +133,7 @@
 }
 
 .card-body.midcardbody {
-  height:370px;
+  /* height:370px; */
   position:relative;
 }
 
@@ -387,17 +394,17 @@ p {
   /*margin-bottom:1rem;*/
 }
 .card{
-  margin-bottom: 4px;
+  /* margin-bottom: 4px; */
 }
 .card-group {
-  /*display:-webkit-box;*/
+  display:-webkit-box;
   display:-ms-flexbox;
-  /*display:flex;*/
+  display:flex;
   -webkit-box-orient:vertical;
   -webkit-box-direction:normal;
   /*-ms-flex-direction:column;*/
-  /*flex-direction:column;*/
-  width:90%;
+  flex-direction:row;
+  width:100%;
   /* margin-bottom:5px; */
 }
 
@@ -418,19 +425,59 @@ p {
   position:relative;
   display:block;
 }
+.carditem.scan-items {
+  margin-bottom:0px;
+  padding-top:5px;
+  border-top:1px solid #f8f7f7;
+  /*border-bottom:1px solid #f8f7f7;*/
+  height:40px;
+  width:81%;
+  margin:auto;
+}
 
 .card.scan-thumnail {
-  width:30%;
-  height:50px;
+  width:30px;
+  height:30px;
   display:inline-block;
   margin:0px;
   border-color:white;
   margin-bottom:0px;
-  margin-right:3px;
+  margin-right:4px;
   margin-left:0px;
   border-collapse:collapse;
-  position: relative;
 }
+.icon.ion-ios-download-outline.downloadicon {
+  font-size:22px;
+  position:absolute;
+  cursor:pointer;
+  left:91%;
+  color:lightgrey;
+  bottom:10%;
+}
+
+.filename {
+  font-size:11px;
+  width:57%;
+  bottom:34%;
+  position:absolute;
+  color:grey;
+  margin-bottom:0px;
+  left:29%;
+  font-weight:normal;
+}
+
+.timeline.lastdoc.priscriber.headerdp.seenby {
+  height:22px;
+  width:22px;
+  top:5px;
+  left:1%;
+  /* margin-bottom:10px; */
+  position:relative;
+  display:inline-block;
+}
+
+
+
 
 .card.card-secondary.maincard.halfcard.halfcard-right {
   left:8px;
@@ -465,6 +512,8 @@ p {
 .container.history-container {
   max-width:957px;
   margin:auto;
+  position:relative;
+  height:100%;
 }
 
 

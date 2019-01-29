@@ -1,15 +1,15 @@
 <div class="modal fade" role="dialog" tabindex="-1" id="newModal" style="border-radius:0px;width:auto;">
     <div class="modal-dialog" role="document">
         <div class="modal-content" style="width:500px;border-radius:0px;;padding-left:0px;padding-right: 0px;">
-                <div class="card-header profileheader" style="padding-top:2px;
-                padding-bottom:0px; height: 40px;">
-                    <div class="timeline lastdoc priscriber headerdp"style='top:5px;'></div>
-                    <p style="top:5px;" class="dept displayname">{{patients[curIndex].info.personal.firstName + ' '+ patients[curIndex].info.personal.lastName}}<span class="predata editicon">
-                      <i class="icon ion-ios-clock-outline headericon clock"></i>
-
-                    </span></p>
-                    <p class="dept displayname subinfo">Feb 09, 2018</p>
-                </div>
+            <div class="card-header profileheader small-header">
+                <i class="icon ion-android-more-vertical small-icon"></i>
+                  <div class="timeline lastdoc priscriber headerdp small-dp">
+                      <img [src] = getDp(patient)/>
+                  </div>
+                  <a href="#" class="patien-name small-name">
+                    {{patients[curIndex].info.personal.firstName + ' '+ patients[curIndex].info.personal.lastName}}<span class="small-headericon"></span>
+                  </a>
+            </div>
             <div class="modal-body" style="border-radius:0px;padding-left:0px;padding-right: 0px;">
                 <form novalidate  class="patientform" >
                     <div class="card card-secondary historycard midlecard profilecard" style="border-bottom:none;margin:0px;margin-right: 0px;width:100%; min-height: 100px;">
@@ -263,6 +263,7 @@
             <div class="card-header profileheader"><i class="icon ion-android-more-vertical headericon moreicon actions-icon"></i>
                 <div class="timeline lastdoc priscriber headerdp">
 
+                       <img [src] = getDp(patient)/>
                 </div>
             </div>
             <a href="#" title="View history" [routerLink]="['/history/', patient._id]" routerLinkActive="router-link-active" class="patien-name">{{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}<span class="predata editicon"></span></a>

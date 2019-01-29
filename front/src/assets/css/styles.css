@@ -1,7 +1,7 @@
 
 
 body {
- 
+
   background-color: rgb(243, 248, 247);
 }
 @media (min-width:768px) {
@@ -325,8 +325,9 @@ body, html {
 }
 
 .dept.basic-secondary.basic-value {
-  text-align:left;
+  text-align:center;
   color:lightgrey;
+  width:100%;
 }
 
 .indicator {
@@ -336,6 +337,7 @@ body, html {
   left:79%;
   background:#07f282;
   border-radius:50%;
+  z-index:2;
 }
 
 .icon.ion-android-more-vertical.headericon.moreicon.actions-icon {
@@ -641,7 +643,7 @@ body, html {
   border-top:1px solid rgba(0,0,0,.125);
 }
 .icon-container:hover {
-  background:whitesmoke;
+ background: #0798f1;
 }
 .material-icons.edit-drug {
   position:absolute;
@@ -651,6 +653,11 @@ body, html {
   cursor:pointer;
   /*height:5px;*/
 }
+.material-icons.editicon.continue.blocked-icon {
+  font-size:17px;
+}
+
+
 .icon.ion-ios-checkmark-empty {
   position:absolute;
   font-size:34px;
@@ -678,6 +685,7 @@ body, html {
   /*background:whitesmoke;*/
   bottom:0px;
   left:90%;
+  cursor: pointer;
 }
 
 .user-dp{
@@ -690,6 +698,7 @@ body, html {
   left:80%;
   border-right:1px solid white;
   width:26px;
+  cursor: pointer;
 }
 .strike{
   text-decoration:line-through;
@@ -730,7 +739,7 @@ body, html {
 
 .card-colums.rightcolumn {
   width:230px;
- 
+
   /*right:-84px;*/
 }
 .card-colums.leftcolumn.online-column {

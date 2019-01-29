@@ -46,15 +46,15 @@ export class DataService {
       `${this.uri}/patients`, {withCredentials: true}
       );
   }
-  getConsultees() {
+  getConsultees(dept) {
     return this.http.get(
-       `${this.uri}/consultees`, {withCredentials: true}
+       `${this.uri}/department/${dept}`, {withCredentials: true}
        );
   }
   follow(me, you) {
     return this.http.post(
       `${this.uri}/follow`, {myconnect:me, yourconnect:you}, {withCredentials: true}
-      );
+    );
   }
   followBack(me, you, note) {
     return this.http.post(
@@ -119,14 +119,14 @@ export class DataService {
     return this.http.post(
       `${this.uri}/upload`, image, {withCredentials: true});
   }
-  updateMedication(m) {
+  updateMedication(i, m) {
+    console.log('sending');
     return this.http.post(
-      `${this.uri}/update-medication`, {medication: m}, {withCredentials: true});
+      `${this.uri}/update-medication`, {id: i, medication: m}, {withCredentials: true});
   }
   updateBed(pat, depts, client) {
     return this.http.post(
       `${this.uri}/updatebed`, {patient: pat , departments: depts, cid: client}, {withCredentials: true});
-
   }
   updateNote(i, n) {
     return this.http.post(
@@ -153,18 +153,15 @@ export class DataService {
     return this.http.get(
       `${this.uri}/items`, {withCredentials: true}
       );
-
   }
   getInPatients() {
     return this.http.get(
       `${this.uri}/inpatients`, {withCredentials: true}
       );
-
   }
   getOrders() {
     return this.http.get(
       `${this.uri}/orders`, {withCredentials: true});
-
   }
   getDepartments() {
     return this.http.get(

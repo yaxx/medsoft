@@ -152,13 +152,15 @@ var personScheema = new Scheema({
                         piriod: Number,
                         extend: String,
                         priscribedOn: {type:Date, default:Date.now},
-                        by: {type: Scheema.Types.ObjectId, ref: 'Staff'}
+                        
                     },
                     paid: {type:Boolean, Default:false},
                     lastTaken: Date,
                     paused: {type:Boolean, Default:false},
                     pausedOn :Date,
-                    selected: {type:Boolean, Default:false}
+                    selected: {type:Boolean, Default:false},
+                    dateAdded: {type:Date, default: Date.now()},
+                    by: {type: Scheema.Types.ObjectId, ref: 'Person'}
                   
                 }
             ]

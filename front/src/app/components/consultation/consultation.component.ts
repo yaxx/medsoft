@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {DataService} from '../../services/data.service';
 import {SocketService} from '../../services/socket.service';
+import {ActivatedRoute} from '@angular/router';
 import {Client, Department,  Person, Record, Session, Item, StockInfo,
   Product, Priscription, Medication
 } from '../../models/data.model';
@@ -19,7 +20,7 @@ export class ConsultationComponent implements OnInit {
   session: Session = new Session();
   curIndex = 0;
   priscription: Priscription = new Priscription();
-  medication: Medication =  new Medication(new Product(), new Priscription() );
+  medication: Medication =  new Medication(new Product(), new Priscription());
   medications: any[] = new Array<any>(new Array<Medication>());
   tempMedications: Medication[] = new Array<Medication>();
   item: Item = new Item();
@@ -31,7 +32,7 @@ export class ConsultationComponent implements OnInit {
   input = '';
   in = 'discharge';
   fowarded = false;
-  constructor(private dataService: DataService, private socket: SocketService ) {
+  constructor(private dataService: DataService, private route: ActivatedRoute, private socket: SocketService ) {
 
    }
 
@@ -52,6 +53,9 @@ export class ConsultationComponent implements OnInit {
   }
   conclude(conclution) {
     this.fowarded = conclution === 'fowarded' ? true : false;
+  }
+  getDp(p:Person){
+    return 'http://localhost:5000/api/dp/' + p.info.personal.dpUrl;
   }
   fetchDept() {
     if (this.fowarded) {
@@ -93,7 +97,7 @@ export class ConsultationComponent implements OnInit {
    console.log(this.in);
   }
   getConsultees() {
-     this.dataService.getConsultees().subscribe((patients: Person[]) => {
+     this.dataService.getConsultees(this.route.snapshot.params['department']).subscribe((patients: Person[]) => {
      this.patients = patients;
      this.dataService.setCachedPatients(patients);
     });
@@ -124,16 +128,35 @@ export class ConsultationComponent implements OnInit {
   getTotal() {
 
   }
+  
+  composeMedication(){
+    if (this.medications[0].length) {
+      if (new Date(this.medications[0][0].priscription.priscribedOn)
+      .toLocaleDateString() === new Date()
+      .toLocaleDateString()) {
+        for(let m of this.tempMedications) {
+          this.medications[0].push(m)
+        }
+       } else {
+        this.medications.push(this.tempMedications);
+       }
+
+  } else {
+
+    this.medications[0] = this.tempMedications;
+
+  }
+  }
 
 
   submitRecord() {
-
+    this.composeMedication();
     if (this.medications[0].length) {
 
       if (new Date(this.medications[0][0].priscription.priscribedOn)
       .toLocaleDateString() === new Date()
       .toLocaleDateString()) {
-        for(let m of this.tempMedications){
+        for(let m of this.tempMedications) {
           this.medications[0].push(m)
         }
        } else {

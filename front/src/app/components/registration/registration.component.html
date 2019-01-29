@@ -295,8 +295,8 @@
                 <div *ngSwitchCase="'info'"  class="card card-secondary maincard">
                   <div class="card-header profileheader"><i class="icon ion-android-more-vertical headericon moreicon actions-icon"></i>
                       <div class="timeline lastdoc priscriber headerdp">
-                          <div class="indicator"></div>
-                       <img src = 'http://localhost:5000/uploads/aa.jpg'/>
+                        <div class="indicator"></div>
+                        <img [src] = getDp(patient)/>
                       </div>
                   </div>
                   <p class="dept displayname">
@@ -316,23 +316,23 @@
                       </div>
                       <div class="priscription basic-subinfo">
                           <div class="sub-container">
-                              <h6 class="dept basic-secondary">Department:</h6>
+                            
                               <h6 class="dept basic-secondary basic-value">
                                 {{patient.record.visits[0].dept}}</h6>
                           </div>
-                          <div *ngIf="patient.record.visits[0].bedNo" class="sub-container">
-                              <h6 class="dept basic-secondary">Bed No:</h6>
+                          <div class="sub-container">
+                            
                               <h6 class="dept basic-secondary basic-value">
-                                {{patient.record.visits[0].bedNo}}</h6>
+                                15/02/2019 04:50pm</h6>
                           </div>
-                          <div  class="sub-container">
-                              <h6 class="dept basic-secondary">Date Visitted</h6>
-                              <h6 class="dept basic-secondary basic-value">Mar 02 09:50am</h6>
-                          </div>
-                          <div *ngIf="patient.record.visits[0].status==='discharged'" class="sub-container">
-                              <h6 class="dept basic-secondary">Discharged On:</h6>
-                              <h6 class="dept basic-secondary basic-value">Mar 19  02:10pm</h6>
-                          </div>
+                          <!-- <div class="sub-container">
+                            
+                              <h6 class="dept basic-secondary basic-value">
+                                27/02/2019 08:30am</h6>
+                          </div> -->
+                         
+                         
+                         
                       </div>
                   </div>
               </div>

@@ -93,27 +93,27 @@ export class Priscription {
     public intake = null,
     public freq: string= null,
     public piriod: number = null,
-    public extend: string = null,
-    public takenOn: Date = null,
-    public priscribedOn?: Date,
-    public by?: Person
+    public extend: string = null
   ) {}
 }
 export class Medication {
   constructor(
      public product: Product = new Product(),
      public priscription: Priscription = new Priscription(),
-     public _id?: string,
      public paid: boolean = false,
-     public paused: boolean = null,
+     public paused: boolean = false,
      public pausedOn: Date = null,
      public lastTaken: Date = null,
-     public selected: boolean = false
+     public selected: boolean = false,
+     public dateAdded: Date = new Date(),
+     public by: any =  null,
+     public _id?: string
      ) {}
 }
 export class Complain {
-  constructor(public complain: string = null,
-           public dateCreated?: Date
+  constructor(
+    public complain: string = null,
+    public dateCreated: Date = new Date()
      ) {}
   }
 export class FamHist {
@@ -317,7 +317,8 @@ export class Person {
       public info: Info = new Info(),
       public connections: any = null,
       public record: Record = new Record(),
-      public dateCreated: Date = new Date()
+      public dateCreated: Date = new Date(),
+      public card?: any
 
       ) {}
   }
@@ -356,6 +357,7 @@ export class Info {
 export class Department {
   constructor(public _id?: string,
     public name: string = null,
+    public type: string = null,
     public hasWard: boolean = false,
     public numOfBeds: number = null,
     public beds?: Boolean[],

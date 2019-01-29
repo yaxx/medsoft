@@ -54,18 +54,19 @@
   padding:0px;
   width:87%;
   height:100%;
-  /*text-align:center;*/
+
   font-size:13px;
   padding-left:25px;
-  /*padding-right:3px;*/
+
   border:none;
-  /*color:lightgrey;*/
+
 }
 .card.card-secondary.historycard.midlecard.chatcard {
   min-height:91%;
   margin:auto;
-  /*vh:100%;*/
+
   position:absolute;
+  height:100%;
 }
 .basic-info {
   cursor:pointer;

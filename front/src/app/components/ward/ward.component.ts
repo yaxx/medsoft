@@ -32,25 +32,29 @@ export class WardComponent implements OnInit {
   bedNum = null;
   curIndex = 0;
   url = '';
-  uploader: FileUploader = new FileUploader({url:uri});
-  attachments:any = [];
+  uploader: FileUploader = new FileUploader({url: uri});
+  attachments: any = [];
 
 
   constructor(private dataService: DataService, private socket: SocketService ) { }
   ngOnInit() {
     this.getInPatients();
     this.getClient();
+
     this.uploader.onBuildItemForm = (fileItem: any, form: any) => {
       form.append('id', this.patients[this.curIndex]._id);
 
      };
     this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any ) => {
-      this.attachments.push(JSON.parse(response))
-    }
+      this.attachments.push(JSON.parse(response));
+    };
+  }
+  getDp(p: Person) {
+    return 'http://localhost:5000/api/dp/' + p.info.personal.dpUrl;
   }
   getClient() {
-    this.dataService.getClient().subscribe((client: Client) => {
-      this.client = client;
+    this.dataService.getClient().subscribe((client: any) => {
+      this.client = client.client;
   });
   }
   fileSelected(event) {
@@ -65,10 +69,13 @@ export class WardComponent implements OnInit {
     }
 
   }
+  medidcationsSelected(i: number) {
+    return this.patients[i].record.medications.some(med => med.some(m => m.selected));
+  }
   uploadFile() {
     const data: FormData = new FormData();
     data.append('file', this.file);
-    console.log(data);
+
     this.dataService.upload(this.file,
        this.patients[this.curIndex]._id).subscribe(res => {
     });
@@ -77,11 +84,26 @@ export class WardComponent implements OnInit {
   selectPatient(i: number) {
     this.curIndex = i;
    }
+   showMenu(i: number) {
+     this.hideMenu();
+     this.patients[i].card.menu = true;
+   }
+   hideMenu() {
+     this.patients.forEach(p => {
+       p.card.menu =  false;
+     });
+   }
   getInPatients() {
     this.dataService.getInPatients().subscribe((patients: Person[]) => {
+      patients.forEach(p => {
+        if (p.record.visits[p.record.visits.length - 1].bedNo === null) {
+          p.card = {menu: false, view: 'back'};
+        } else {
+          p.card = {menu: false, view: 'front'};
+        }
+      });
       this.patients = patients;
-      console.log(patients);
-      this.lastVisit =  this.patients[0].record.visits[-1];
+     this.lastVisit =  this.patients[0].record.visits[-1];
     });
   }
   getBeds(i) {
@@ -94,13 +116,15 @@ export class WardComponent implements OnInit {
       } else {
       }
     }
+
     return beds;
   }
   changeBed(i) {
-
+    this.patients[i].card.view = 'back';
+    this.hideMenu();
     const name =  this.patients[i].record.visits.reverse()[0].dept;
     this.client.departments.forEach(department => {
-      if(department.name !== name){
+      if (department.name !== name) {
         return;
 
       }  else {
@@ -108,36 +132,45 @@ export class WardComponent implements OnInit {
       }
 
     });
-    this.patients[i].record.visits[0].bedNo = null;
   }
+  swichtToFront(i) {
+    this.patients[i].card.view = 'front';
+  }
+
   assignBed(i) {
-    const n= this.patients[i].record.visits.reverse()[0].dept;
-   const name = this.client.departments.filter((d) =>
+    const n = this.patients[i].record.visits.reverse()[0].dept;
+    const name = this.client.departments.filter((d) =>
      d.name === n);
      const dept = this.client.departments;
-     dept.forEach((dep,i)=>{
-       if(dep.name !== n){
+     dept.forEach((dep, i) => {
+       if (dep.name !== n) {
         return;
        } else {
+        // tslint:disable-next-line:radix
         dep.beds[parseInt(this.bedNum)] = true;
        }
-     })
+     });
      const patient = this.patients[i];
-     patient.record.visits.reverse()[0].bedNo = parseInt(this.bedNum);
+     // tslint:disable-next-line:radix
+     patient.record.visits[ patient.record.visits.length - 1].bedNo = parseInt(this.bedNum);
      patient.record.visits.reverse();
      this.dataService.updateBed(patient, dept, this.client._id).subscribe((p: Person) => {
+      p.card = {menu: false, view: 'front'};
       this.patients[i] = p;
-      this.bedNum = null;
-
-    //  this.client.departments.filter((d) =>
-    //  d.name === this.patients[i].record.visits.reverse()[0].dept)[0].beds[this.bedNum]=true;
     });
   }
   updateNote() {
    this.dataService.updateNote(this.patients[this.curIndex]._id, this.note).subscribe((patient: Person) => {
+    patient.card = {menu: false, view: 'front'};
       this.patients[this.curIndex] = patient;
    });
+
   }
+  selectItem(i: number, j: number, k: number) {
+    this.patients[i].record.medications[j][k].selected =
+    this.patients[i].record.medications[j][k].selected ? false : true;
+
+   }
 
   selectDrug(p: number, m: number) {
     if (this.patients[p].record.medications[m].selected) {
@@ -147,13 +180,21 @@ export class WardComponent implements OnInit {
     }
   }
 
-  updateTimeTaken(p: number, m: number) {
-    for (const medication of this.patients[p].record.medications) {
-      if (medication.selected) {
-        medication.lastTaken = new Date();
-        medication.selected = false;
-      } else {}
-    }
+  updateTimeTaken(i: number) {
+    this.patients[i].record.medications.forEach(group => {
+      group.forEach(medic => {
+        if (medic.selected) {
+          medic.lastTaken = new Date();
+          medic.selected = false;
+        } else {
+
+        }
+      });
+    });
+    this.dataService.updateMedication(this.patients[i]._id, this.patients[i].record.medications).subscribe((p: Person) => {
+      p.card = {menu: false, view: 'front'};
+      this.patients[i] = p;
+    });
   }
   selectMedication(p: number, m: number) {
   if (this.patients[p].record.medications[m].paused) {
@@ -202,14 +243,14 @@ this.medication.product = product;
 
 }
 
-updateMedication() {
-  this.dataService.updateMedication(this.medication).subscribe((medications: Medication[]) => {
-    console.log(this.selected);
-    console.log(medications);
-   this.patients[this.selected].record.medications = medications;
-   this.medication = new Medication(new Product(), new Priscription());
-  });
-}
+// updateMedication() {
+//   this.dataService.updateMedication(this.medication).subscribe((medications: Medication[]) => {
+//     console.log(this.selected);
+//     console.log(medications);
+//    this.patients[this.selected].record.medications = medications;
+//    this.medication = new Medication(new Product(), new Priscription());
+//   });
+// }
 
 
 

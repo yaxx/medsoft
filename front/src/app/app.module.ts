@@ -24,13 +24,15 @@ import { SessionComponent } from './components/session/session.component';
 import { ProductComponent } from './components/product/product.component';
 import { MessagesComponent } from './components/messages/messages.component';
 import { SingupComponent } from './components/singup/singup.component';
+
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'account', component: AccountComponent},
   {path: 'signup', component: SingupComponent},
+  {path: 'inpatients', component: PatientComponent},
   {path: 'information', component: RegistrationComponent},
-  {path: 'information/:mode', component: PatientComponent},
-  {path: 'consultation', component: ConsultationComponent},
+  // {path: 'information/:mode', component: PatientComponent},
+  {path: 'department/:department', component: ConsultationComponent},
   {path: 'consultation/:mode', component: SessionComponent},
   {path: 'consultation/:mode/:id', component: HistoryComponent},
   {path: 'products', component: InventoryComponent},
@@ -59,6 +61,7 @@ const routes: Routes = [
     ProductComponent,
     MessagesComponent,
     SingupComponent
+
   ],
   imports: [
     BrowserModule,

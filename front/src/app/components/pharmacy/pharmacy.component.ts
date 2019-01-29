@@ -21,10 +21,12 @@ export class PharmacyComponent implements OnInit {
   items: Item[] = new Array<Item>();
   temItems: Item[] = new Array<Item>();
   searchedItems: Item[] = new Array<Item>();
+  medications: any[] = new Array<any>(new Array<Medication>());
+  edited: Medication[] = new Array<Medication>();
+  editables: Medication[] = new Array<Medication>();
+  tempMedications: Medication[] = new Array<Medication>();
   input = '';
   view = 'default';
-  editables: Medication[] = new Array<Medication>();
-  edited: Medication[] = new Array<Medication>();
   count = 0;
   id = null;
   selected = null;
@@ -91,8 +93,8 @@ export class PharmacyComponent implements OnInit {
     return selected;
   }
   runTransaction() {
-    this.dataService.runTransaction(this.patients[this.curIndex], this.products).subscribe((transaction) => {
-      console.log(transaction);
+    this.dataService.runTransaction(this.patients[this.curIndex], this.products).subscribe((transaction:any) => {
+
       this.patients[this.curIndex] = transaction.patient;
       this.products = transaction.inventory;
     });
@@ -129,6 +131,9 @@ export class PharmacyComponent implements OnInit {
       this.patients = patients;
       console.log(patients);
     });
+  }
+  getDp(p:Person){
+    return 'http://localhost:5000/api/dp/' + p.info.personal.dpUrl;
   }
   getProducts() {
     this.dataService.getProducts().subscribe((p: any) => {
@@ -209,8 +214,8 @@ previous() {
 
 
 updateMedication() {
-  this.dataService.updateMedication(this.medication).subscribe((medications: Medication[]) => {
-   this.patients[this.selected].record.medications = medications;
+  this.dataService.updateMedication(this.patients[this.selected]._id, this.medication).subscribe((patient: Person) => {
+   this.patients[this.selected] = patient;
    this.medication = new Medication(new Product(), new Priscription());
   });
 }

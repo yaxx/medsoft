@@ -9,6 +9,7 @@ import Department from '../models/schemas/department'
 import multer from 'multer'
 import path from  'path';
 import { truncate } from 'fs';
+
 var Notifications = require('../models/schemas/noteschema')
 var Connection = require('../models/schemas/connection')
 // var Messages = require('../models/schemas/messageschema')
@@ -50,6 +51,10 @@ uploadFile: (req, res)=>{
     }
   })
 
+},
+getDp: (req, res)=>{
+  const filePath = path.join(__dirname, '../uploads') + '/'+req.params.id
+  res.sendFile(filePath);
 },
 addPatient: (req, res)=>{
    new Person(req.body).save((e, patient)=>{
@@ -249,6 +254,7 @@ getClient: (req, res)=>{
     if(!err){
           Department.find({}, (err, departments)=>{
           if(!err){
+          
             res.send({client:client, departments:departments});
           }
           else{
@@ -367,7 +373,7 @@ addDept: (req, res)=>{
 
 getConsultees: (req, res)=>{
  Person.find({
-    'record.visits.status':'queued'
+    'record.visits':{$elemMatch:{'dept':req.params.department,status:'queued'}}
   },(e, patients)=>{
     if(!e){
       console.log(patients)
@@ -382,7 +388,7 @@ getConsultees: (req, res)=>{
 getInPatients: (req, res)=>{
  Person.find({'record.visits.status':'admitted'},(e, patients)=>{
     if(!e){
-      console.log(patients)
+      console.log(patients);
       res.send(patients)
     }
     else{
@@ -487,23 +493,21 @@ updateNote: (req, res)=>{
         }
       })
   } else {console.log(e)}
-  }
-
- )
+  })
 },
-updateMedication: (req, res)=>{
-  Record.findOneAndUpdate({
-    "_id":"5bc9ff14c720e10ae8ea2f90",
-    "medications._id" :req.body.medication._id
-  },
-  {
-    $set:{
-    "medications.$.product": req.body.medication.product,"medications.$.priscription": req.body.medication.priscription
-  }
-},{new:true},(e, doc) =>{
+
+updateMedication: (req, res) => {
+ 
+  Person.findOneAndUpdate({_id:req.body.id },
+     {
+       'record.medications': req.body.medication
+     },{new:true},(e, patient) => {
     if(!e){
-      res.send(doc.medications)
-  } else {condole.log(e)}
+      console.log(patient)
+      res.send(patient)
+  } else {
+    console.log(e)
+  }
 })
 
 },

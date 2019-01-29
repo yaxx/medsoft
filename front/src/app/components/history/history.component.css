@@ -1,27 +1,4 @@
 
-@media (min-width:1200px) {
-    .newproduct {
-      width:40%;
-      height:100%;
-      background: white;
-      margin: auto;
-    }
-  }
-
-  .preveiewtable{
-    width:100%;
-    left: 0%;
-  }
-
-  table {
-    border-collapse: collapse;
-    width: 93%;
-    left: 5%;
-    position: relative;
-    /* margin: auto; */
-    /* border: 1px solid #666; */
-
-  }
   #tableContainer
   {
     width:70%;
@@ -73,7 +50,7 @@
   }
 
   thead {
-    /* background: #ccc url(images/bar.gif) repeat-x left center; */
+
     background: #f9fafb;
     font-weight: bold;
   }
@@ -112,11 +89,7 @@
     font-size: large;
     color:rgb(235, 232, 232);
     align-self: center;
-    /* margin-right: 10px; */
-    /* vertical-align: top; */
 
-    /* position: absolute; */
-    /* bottom: 4px; */
   }
   .above
   {
@@ -156,7 +129,7 @@
     font-size: x-large;
     position: absolute;
     left: 86%;
-    /* top: 10%; */
+
     color:grey;
     cursor: pointer;
     height: 100%;
@@ -186,7 +159,7 @@
   .check-box
   {
     width: 4%;
-    /* background: #c8ccd4; */
+
   }
 
   .check {

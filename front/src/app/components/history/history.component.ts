@@ -14,10 +14,13 @@ export class HistoryComponent implements OnInit {
 
   ngOnInit() {
     this.patient = this.dataService.getCachedPatient(this.route.snapshot.params['id']);
-    
+
 
   }
-showDetails(e) {
+  getDp(p: Person){
+    return 'http://localhost:5000/api/dp/' + p.info.personal.dpUrl;
+  }
+  showDetails(e) {
   e.preventDefault();
   this.patient.record.notes[0].full = true;
 }

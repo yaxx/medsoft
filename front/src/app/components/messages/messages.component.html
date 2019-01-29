@@ -47,7 +47,7 @@
 </nav>
 <div style="padding-top:40px;"
         class="container history-container">
-        <div style="min-height:100%;position:relative;" class="row chatrow">
+        <div   class="row chatrow">
             <div  class="col col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
                 <div class="card-colums leftcolumn online-column" >
                     <div *ngIf = "leftcard==='contacts'" class="card card-secondary historycard leftcard contacts-card">
@@ -93,7 +93,7 @@
                                 </div> -->
                                 <div class="card-header profileheader person">
                                     <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:5%;position:absolute;height:30px;width:30px;top:25%;">
-                                    
+
                                     </div>
                                     <p class="dept personname">
                                         {{person.info.personal.firstName}}&nbsp;<span class="timetaken chattime"><button (click) = "follow(person)" class="btn btn-sm btn-outline-primary inputs  mainbtn connection-btn"    >Follow</button></span></p>
@@ -155,7 +155,7 @@
                             </div>
 
                         </div>
-                       
+
                         </div>
                          <form class="chat-form">
                           <div class="message-group"><textarea name="chat" [(ngModel)] ="message"  (keypress)="check($event)"class="form-control inputs patientdata newpatient chat-message" placeholder="Type a message" rows="1"></textarea><i class="icon ion-image attachment" title="Attach file"></i><i (click)="sendTest('hello')" class="icon ion-android-send attachment" title="Send"></i></div>
@@ -222,7 +222,7 @@
                                   </div>
                                   <p class="dept personname">
                                       {{person.person.info.personal.firstName}}&nbsp;<span class="timetaken chattime">
-                                         
+
                                           <button title="Unfollow" (click) = "unFollow(person)" class="btn btn-sm btn-primary inputs  mainbtn connection-btn"    >Following</button></span></p>
                                   <h1 *ngIf="person.follower" style="color:lightgrey" class="dept latestmsg">Follows you</h1>
                               </div>

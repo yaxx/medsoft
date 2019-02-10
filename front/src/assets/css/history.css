@@ -166,7 +166,7 @@
 
 .icon.ion-android-more-vertical.thread-icon {
   font-size:22px;
-  color:blue;
+  color:#1da1f2;
   position:absolute;
   /*right:2px;*/
   top:-20%;
@@ -218,7 +218,7 @@
 }
 
 .dept.headtitle {
-  color:blue;
+  color:#1da1f2;
 }
 
 .dept.previnfo.weightval {

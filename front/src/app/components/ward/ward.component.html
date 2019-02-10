@@ -93,10 +93,10 @@
         </span>
     </a>
     <a href="#" [routerLink]="['/consultation']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Appointments">
-        <span class="homespan">
-            <i class="icon ion-ios-calendar-outline homeicon"></i>
-        </span>
-    </a>
+      <span class="homespan">
+          <i class="icon ion-ios-calendar-outline homeicon"></i>
+      </span>
+  </a>
     <a href="#" [routerLink]="['/products']" routerLinkActive="active"  class="home cartmenu" title="Products">
         <span class="homespan"> <i class="icon ion-ios-cart-outline homeicon"></i></span></a>
     <a href="#" [routerLink]="['/ward']" routerLinkActive="router-link-active"   class="home wardmenu" title="Ward"><span class="homespan"><i class="material-icons homeicon wardicon">airline_seat_individual_suite</i></span></a>
@@ -174,7 +174,7 @@
                         </span>
                         <span *ngIf = '!m.paused' class="predata priceval">
                           <i (click)="selectItem(i,j,k)" *ngIf="m.selected" class="icon ion-ios-checkmark-empty paid-icon" title="Comfirm payment"></i>
-                         
+
                           <div class="mycheckbox" *ngIf ="!m.selected" (click)="selectItem(i,j,k)" ></div>
                         </span>
                         </h6>
@@ -184,16 +184,15 @@
 
                   </div>
              </div>
-           
+
           </div>
           <div *ngIf ='medidcationsSelected(i)' style="border:none;background:#1da1f2" class="card-footer">
               <div style="width:50%;border:none;left:0%;color:white;padding-top:5px;" class="icon-container edit-container">
-                <h6 style="text-align:center" class="dept">Cancel</h6>
+                <h6 style="text-align:left;padding-left:10px;" class="dept">Cancel</h6>
               </div>
-              <div (click)="updateTimeTaken(i)" style="width:50%;left:50%;border:none;color:white;padding-top:5px;"  class="icon-container"> <h6 style="text-align:center" class="dept">Administered</h6></div>
+              <div (click)="updateTimeTaken(i)" style="width:50%;left:50%;border:none;color:white;padding-top:5px;padding-right:15px"  class="icon-container"> <h6 style="text-align:right;font-weight:bold;" class="dept">TAKEN</h6>
+              </div>
           </div>
-            <!-- <div class="floter" title="Examine"><i (click)="updateTimeTaken()"class="icon ion-person-stalker flotericon consulticon" title="Administered"></i>
-            </div> -->
         </div>
 
 

@@ -13,11 +13,9 @@ import { truncate } from 'fs';
 var Notifications = require('../models/schemas/noteschema')
 var Connection = require('../models/schemas/connection')
 // var Messages = require('../models/schemas/messageschema')
-
-
 let name = null
 const store = multer.diskStorage({
- destination:'../uploads',
+ destination:'./uploads',
  filename: (req, file, cb) => {
  cb(null, Date.now() + path.extname(file.originalname))
 }
@@ -373,10 +371,10 @@ addDept: (req, res)=>{
 
 getConsultees: (req, res)=>{
  Person.find({
-    'record.visits':{$elemMatch:{'dept':req.params.department,status:'queued'}}
+    'record.visits':{$elemMatch:{'dept':'GOPD',status:'queued'}}
   },(e, patients)=>{
     if(!e){
-      console.log(patients)
+     
       res.send(patients)
     } else {
       console.log(e)
@@ -442,6 +440,17 @@ updateBed: (req, res)=>{
         }
       })
 
+},
+updateInfo: (req, res)=>{
+   console.log(req.body._id)
+   Person.findByIdAndUpdate(req.body._id,{info:req.body.info},{new:true},(e, doc)=>{
+      if(!e){
+         res.send(doc);
+      } else{
+        console.log(e);
+      }
+
+    })
 },
 updateRecord: (req, res)=>{
    console.log(req.body._id)

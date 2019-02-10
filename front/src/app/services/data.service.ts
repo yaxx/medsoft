@@ -48,7 +48,7 @@ export class DataService {
   }
   getConsultees(dept) {
     return this.http.get(
-       `${this.uri}/department/${dept}`, {withCredentials: true}
+       `${this.uri}/consutation`, {withCredentials: true}
        );
   }
   follow(me, you) {
@@ -113,6 +113,10 @@ export class DataService {
   updateRecord(patient) {
     return this.http.post(
       `${this.uri}/update-record`, patient , {withCredentials: true});
+ }
+  updateInfo(person) {
+    return this.http.post(
+      `${this.uri}/update-info`, person , {withCredentials: true});
  }
 
   upload(image, pid) {

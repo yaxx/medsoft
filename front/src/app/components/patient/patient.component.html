@@ -87,16 +87,16 @@
             <i class="icon ion-android-apps homeicon"></i>
         </span>
     </a>
-    <a href="#" [routerLink]="['/information']" routerLinkActive="router-link-active"  class="home patienmenu" title="Patients">
-        <span class="homespan">
-            <i class="icon ion-ios-people-outline homeicon"></i>
-        </span>
-    </a>
-    <a href="#" [routerLink]="['/consultation']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Appointments">
-        <span class="homespan">
-            <i class="icon ion-ios-calendar-outline homeicon"></i>
-        </span>
-    </a>
+    <a href="#" [routerLink]="['/department/information']" routerLinkActive="router-link-active"  class="home patienmenu" title="Patients">
+      <span class="homespan">
+          <i class="icon ion-ios-people-outline homeicon"></i>
+      </span>
+  </a>
+  <a href="#" [routerLink]="['/department/gopd']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Appointments">
+    <span class="homespan">
+        <i class="icon ion-ios-calendar-outline homeicon"></i>
+    </span>
+  </a>
     <a href="#" [routerLink]="['/products']" routerLinkActive="active"  class="home cartmenu" title="Products">
         <span class="homespan"> <i class="icon ion-ios-cart-outline homeicon"></i></span></a>
     <a href="#" [routerLink]="['/ward']" routerLinkActive="router-link-active"   class="home wardmenu" title="Ward"><span class="homespan"><i class="material-icons homeicon wardicon">airline_seat_individual_suite</i></span></a>
@@ -118,7 +118,7 @@
                   <label for="search-field">
                       <i class="icon ion-ios-search searchicon" title="Search"></i>
                   </label>
-                  <input autocomplete="off" style="border-radius:30px; left: 405px; width:220px;background-color: rgb(243, 248, 247); margin: auto;" class="form-control search-field" type="search" name="search" id="search-field" placeholder="Search Patient">
+                  <input autocomplete="off" style="border-radius:30px; left: 270px; width:220px;background-color: rgb(243, 248, 247); margin: auto;" class="form-control search-field" type="search" name="search" id="search-field" placeholder="Search Patient">
               </div>
           </form>
       </div>
@@ -168,7 +168,8 @@
                       <p class="timelinedate month">{{medic[0].dateAdded|date:'MMM'|uppercase}}</p>
                   </div>
                   <div *ngFor ="let m of medic; let k = index" class="priscription drug">
-                      <h6 class="dept">{{m.product.item.name}}&nbsp;<span class="predata">{{m.product.item.mesure+m.product.item.unit}}
+                      <h6 class="dept">{{m.product.item.name}}&nbsp;<span class="predata">
+                        {{m.product.item.mesure+m.product.item.unit}}
                         <i title="Continue" (click)=playMedication(i,j,k) *ngIf = m.paused class="icon ion-ios-play-outline editicon continue"></i>
                         <i title="Discontinue" (click)= pauseMedication(i,j,k) *ngIf = !m.paused class="icon ion-ios-pause-outline editicon continue"></i></span><span class="predata priceval">
                         </span></h6>
@@ -181,10 +182,10 @@
 
                   </div>
              </div>
-             
+
           </div>
           <div *ngIf ='medidcationsSelected(i)' style="border:none;background:blue" class="card-footer">
-              <div (click)="swichtToFront(i)" style="width:50%;border:none;left:0%;color:white;padding-top:5px;" class="icon-container edit-container">
+              <div (click)="switchToFront(i)" style="width:50%;border:none;left:0%;color:white;padding-top:5px;" class="icon-container edit-container">
                 <h6 style="text-align:center" class="dept">Cancel</h6>
               </div>
               <div (click)="updateTimeTaken(i)" style="width:50%;left:50%;border:none;color:white;padding-top:5px;"  class="icon-container"> <h6 style="text-align:center" class="dept">Administered</h6></div>
@@ -248,11 +249,11 @@
             </form>
           </div>
 
-          <div (click)='switchToFront(i)'  style="border:none;background:#1da1f2" class="card-footer">
-              <div style="width:50%;border:none;left:0%;color:white;padding-top:5px;" class="icon-container edit-container">
+          <div style="border:none;background:#1da1f2" class="card-footer">
+              <div (click)='switchToFront(i)' style="width:50%;border:none;left:0%;color:white;padding-top:5px;" class="icon-container edit-container">
                 <h6 style="text-align:center" class="dept">Cancel</h6>
               </div>
-              <div (click)=saveMedication(i) style="width:50%;left:50%;border:none;color:white;padding-top:5px;"  class="icon-container"> <h6 style="text-align:center" class="dept">Done</h6></div>
+              <div (click)=saveMedication(i) style="width:50%;left:50%;border:none;color:white;padding-top:5px;"  class="icon-container"> <h6 style="text-align:center; font-size:13px" class="dept">DONE</h6></div>
           </div>
       </div>
 

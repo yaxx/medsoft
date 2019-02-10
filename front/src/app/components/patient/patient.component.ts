@@ -53,7 +53,7 @@ export class PatientComponent implements OnInit {
     this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any ) => {
       this.attachments.push(JSON.parse(response));
     };
-   
+
   }
   getItems() {
     this.dataService.getItems().subscribe((items: Item[]) => {
@@ -125,8 +125,8 @@ export class PatientComponent implements OnInit {
     this.medications = this.patients[i].record.medications ;
     this.patients[i].card.view = 'back';
   }
-  swichtToFront(i) {
-    this.patients[i].card.view = 'front';
+  switchToFront(i) {
+    this.patients[i].card= {menu: false, view: 'front'};;
   }
   composeMedication() {
     if (this.medications[0].length) {
@@ -200,7 +200,7 @@ export class PatientComponent implements OnInit {
     this.dataService.updateMedication(this.patients[i]._id, this.patients[i].record.medications).subscribe((p: Person) => {
       p.card = {menu: false, view: 'front'};
       this.patients[i] = p;
-    
+
     });
    }
 

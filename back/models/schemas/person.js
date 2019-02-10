@@ -7,15 +7,17 @@ var personScheema = new Scheema({
         online: Boolean,
         lastLogin: {type: Date, Default: Date.now()},
         personal:{
+            firstName: String,
+            lastName: String,
+            gender:String,
+            dob: Date,
             hospitals: [],
             hospNum:[],
             dpUrl:String, 
             coverUrl: String,
             cardType: String,
             cardNum: Number,
-            firstName: String,
-            lastName: String,
-            dob: Date,
+    
             bio: String,
             occupation: String,
             religion: String,
@@ -170,7 +172,8 @@ var personScheema = new Scheema({
    Test:[],
    surgeries:[],
    dateCreated: {type: Date, Default: Date.now()}
-}
+},
+dateCreated: {type: Date, Default: Date.now()}
 
 })
 const Person = mongoose.model('Person', personScheema)

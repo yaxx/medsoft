@@ -126,7 +126,7 @@ export class Note {
     public noter: string = '5befe0aa05ca551d50fd2bf8',
     public noteType?: string,
     public full: boolean = false,
-    public Person?: Person,
+    public person?: Person,
     public dateCreated?: Date
 
      ) {}
@@ -319,7 +319,6 @@ export class Person {
       public record: Record = new Record(),
       public dateCreated: Date = new Date(),
       public card?: any
-
       ) {}
   }
 

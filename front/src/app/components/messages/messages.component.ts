@@ -2,18 +2,23 @@ import { Component, OnInit } from '@angular/core';
 import {DataService} from '../../services/data.service';
 import {SocketService} from '../../services/socket.service';
 import {CookieService } from 'ngx-cookie-service';
+import { FileSelectDirective, FileUploader } from 'ng2-file-upload';
+
 import { Connection, Person, Notification, Message} from '../../models/data.model';
+const uri = 'http://localhost:5000/api/upload';
 @Component({
   selector: 'app-messages',
   templateUrl: './messages.component.html',
   styleUrls: ['./messages.component.css']
 })
 export class MessagesComponent implements OnInit {
-test = null;
-cardView = 'me';
+url = null;
+uploader: FileUploader = new FileUploader({url: uri});
 people = '';
 leftcard = 'contacts';
+file: File = null;
 curConversations: any[] = new Array<any>(new Array<Message>(new Message()));
+cardView = null;
 curPerson = new Person();
 follows: Person[] = new Array<Person>();
 contacts: any[] = [];
@@ -21,7 +26,14 @@ message = null;
 me = null;
 person: Person = new Person();
 colegues: Person[] = new Array<Person>();
-
+hovers = [0, 0, 0, 0];
+input = [0, 0, 0, 0];
+rightCard = 'profile';
+leftCard = '';
+editing = null;
+errLine = false;
+showMenu = false;
+oldPwd = null;
   constructor(
     private data: DataService,
     private cookies: CookieService,
@@ -39,7 +51,6 @@ colegues: Person[] = new Array<Person>();
 
           }
         });
-
         if (this.curPerson._id === data.sender) {
           this.curConversations = data.convs;
         } else {
@@ -56,14 +67,31 @@ colegues: Person[] = new Array<Person>();
           }
         });
       });
+      this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any ) => {
+        this.person.info.personal.dpUrl = response;
+         this.data.updateInfo(this.person).subscribe((person: Person) => {
+           this.person = person;
+        });
+       };
    }
+   fileSelected(event) {
+    if (event.target.files && event.target.files[0]) {
+      this.file = <File>event.target.files[0];
+      const reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]); // read file as data url
+      reader.onload = (e) => { // called once readAsDataURL is completed
+        this.url = e.target.result;
+      };
+    }
 
+  }
 
   getMe() {
     return this.cookies.get('i');
   }
-
-
+  showInput(i: number) {
+    this.input[i] = 1;
+  }
   check($event) {
     if ($event.keyCode === 13 ) {
       $event.preventDefault();
@@ -105,15 +133,15 @@ colegues: Person[] = new Array<Person>();
     this.data.getMyAccount().subscribe((res: any) => {
       this.person = res.p;
       this.contacts = res.c.people.filter(person => (person.follower && person.following));
-
      });
-
   }
   back() {
     this.cardView = 'me';
     this.people = '';
   }
-
+  getDp(p: Person) {
+    return 'http://localhost:5000/api/dp/' + p.info.personal.dpUrl;
+  }
   explore() {
     this.data.explore().subscribe((suggestions: Person[]) => {
       if (this.person.connections.people.length) {
@@ -140,7 +168,53 @@ colegues: Person[] = new Array<Person>();
      }
 
   }
-
+  updateProfile() {
+    this.person.info = this.editing;
+    if(this.url) {
+      if(this.oldPwd) {
+       if(this.editing.personal.password === this.oldPwd){
+        this.person.info.personal.password = this.oldPwd;
+        this.uploader.uploadAll();
+        this.rightCard = 'profile';
+        this.input = [0, 0, 0, 0];
+       } else {
+        this.errLine = true;
+       }
+      } else {
+        this.uploader.uploadAll();
+        this.rightCard = 'profile';
+        this.input = [0, 0, 0, 0];
+        this.showMenu = false;
+      }
+    } else if(this.oldPwd) {
+      if(this.editing.personal.password === this.oldPwd) {
+        this.person.info.personal.password = this.oldPwd;
+        this.uploader.uploadAll();
+        this.rightCard = 'profile';
+        this.input = [0, 0, 0, 0];
+        this.showMenu = false;
+    } else {
+      this.errLine = true;
+    }
+    } else {
+    this.uploader.uploadAll();
+    this.rightCard = 'profile';
+    this.input = [0, 0, 0, 0];
+    this.showMenu = false;
+   }
+  }
+  toggleMenu() {
+    this.showMenu = this.showMenu ? false : true;
+  }
+  switchToEdit(view: string) {
+    this.editing = this.person.info;
+    this.switchMenu(view);
+    this.toggleMenu();
+  }
+  switchMenu(view: string) {
+  this.rightCard = view;
+  this.toggleMenu();
+}
 
 
   getFollowers() {
@@ -155,8 +229,8 @@ colegues: Person[] = new Array<Person>();
     const i = myConnects.people.findIndex((p) => {
       return p.person._id === you._id;
     });
-    
-    if (i!==-1) {
+
+    if (i !== -1) {
       const j = yourConnects.people.findIndex((me) => {
         return me.person === this.person._id;
       });
@@ -167,20 +241,20 @@ colegues: Person[] = new Array<Person>();
       yourConnects.people.push(new Connection(this.cookies.get('i'), false, true, false, new Array<Message>()));
       yourConnects.notifications.push(new Notification(this.person._id, 'follow', 'follows you', new Date()));
     }
-   
+
       // this.socket.io.emit('newfollower', res.yourconnect);
 
     this.data.follow(myConnects, yourConnects).subscribe((res: any) => {
       this.person.connections = res.myconnect;
     });
   }
-followBack(you: Person) {
+  followBack(you: Person) {
   this.data.followBack(this.person.connections._id, you,
     new Notification(this.person._id, 'follow', 'followed back', new Date())).subscribe((res: any) => {
       this.person.connections = res;
   });
 }
-unFollow(you: Person) {
+  unFollow(you: Person) {
   this.data.unFollow(this.person.connections._id, you)
   .subscribe((res: any) => {
       this.person.connections = res;

@@ -53,11 +53,15 @@ export class PharmacyComponent implements OnInit {
   switchViews(view) {
     this.view = view;
   }
-  switchToEdit() {
-    this.editables = this.getSelections();
+  swichtToFront(i) {
+    this.patients[i].card.view = 'front';
+  }
+  switchToEdit(i: number) {
+    this.editables = this.getSelections(i);
     this.medication = this.editables.shift();
     this.input = this.medication.product.item.name + ' ' + this.medication.product.item.mesure + this.medication.product.item.unit;
-    this.switchViews('edit');
+    this.count = this.editables.length;
+    // this.switchViews('edit');
   }
   comfirmable() {
     const selected = [];
@@ -79,18 +83,18 @@ export class PharmacyComponent implements OnInit {
   } else {
   }
   }
-
-  getSelections() {
-    const selected = [];
-     this.patients[0].record.medications.forEach(group => {
-       group.forEach(medic => {
-         if (medic.selected) {
-           selected.push(medic);
-         }
-       });
-     });
-     this.count = selected.length;
-    return selected;
+  medidcationsSelected(i: number) {
+    return this.patients[i].record.medications.some(med => med.some(m => m.selected));
+  }
+  getSelections(i:number) {
+    // const selected = [];
+     this.patients[0].record.medications.filter(group => 
+       filter.map(medic => 
+        medic.selected;
+       );
+     );
+    //  this.count = selected.length;
+    // return selected;
   }
   runTransaction() {
     this.dataService.runTransaction(this.patients[this.curIndex], this.products).subscribe((transaction:any) => {
@@ -128,11 +132,11 @@ export class PharmacyComponent implements OnInit {
   }
   getOrders() {
     this.dataService.getOrders().subscribe((patients: Person[]) => {
-      this.patients = patients;
+      this.patients = patients.filter(p=>p.record.medications[0].length);
       console.log(patients);
     });
   }
-  getDp(p:Person){
+  getDp(p: Person){
     return 'http://localhost:5000/api/dp/' + p.info.personal.dpUrl;
   }
   getProducts() {

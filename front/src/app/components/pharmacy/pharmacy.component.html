@@ -29,73 +29,86 @@
                               <td class="data"[class.strike]="item.product.stockInfo.quantity===item.product.stockInfo.sold">{{item.product.stockInfo.price||'---'}}</td>
 
                           </tr>
-
-
                       </tbody>
                     </table>
                 </div>
-                      <!-- <form novalidate  class="patientform">
-                      <div style="width:49.3%; margin-top:5px;margin-right: 5px; display:inline-block" class="form-group vitals-section formGroup">
-                          <label style="font-size:9px;" for="product" class="labelss duration">PRODUCT</label>
-                          <input style="font-size:11px" autocomplete="off" (keyup)="searchItem(input)"
-                          [(ngModel)] = input  type="text" name="name" class=" inputs dataInfo patientdata"  placeholder="Product name"/>
-                          <div *ngIf= temItems.length class="options">
-                            <ul class="itemsList" >
-                              <li *ngFor="let item of temItems"><p  class="dept firstheader drugItem" style="font-size:12px; padding-left: 5px; font-weight: normal;" >{{item.name+ ' '}}<span class="lastdept timetaken " (click) = "selectItem(item)">{{item.mesure + item.unit}}</span></p>
-                              </li>
-                            </ul>
-                          </div>
-                      </div>
-
-                      <div style="width:49.3%;  display:inline-block" class="form-group vitals-section formGroup">
-                          <label for="price" class="labelss">PRICE</label>
-                          <input style="font-size:11px" [(ngModel)] = "product.stockInfo.price"  type="number" name="price" class=" inputs dataInfo patientdata"  placeholder="Price per item"/>
-                      </div>
-
-                      <div style="width:49.3%; margin-top:5px;margin-right: 5px; display:inline-block" class="form-group vitals-section formGroup">
-                          <label for="quantity" class="labelss">QUANTITY</label>
-                          <input style="font-size:11px" [(ngModel)] = "product.stockInfo.quantity" type="number" name="quantity" class=" inputs dataInfo patientdata"  placeholder="Quantity"/>
-                      </div>
-                      <div style="width:49.3%;  display:inline-block" class="form-group vitals-section formGroup">
-                          <label for="expiry" class="labelss">EXPIRY DATE</label>
-                          <input style=" font-size:11px;" [(ngModel)] = "product.stockInfo.expiry" type="date" name="expiry" class=" inputs dataInfo patientdata"  placeholder="Expiry"/>
-                      </div>
-
-                      <button style=" width: 130px; left:323px; bottom:5%; "  type="submit" class="btn btn-sm btn-outline-primary inputs mainbtn" >Add Product</button>
-                      <button style="width: 61px; left:260px; bottom:5%;" class="btn btn-sm btn-outline-primary inputs mainbtn" >Cancel</button>
-                    </form> -->
-                    <!-- <div  class="form-group vitals-section setGroup">
-                        <table   cellspacing="0" class="data-table drugs-table" style="width:100%;left:0%;" summary="List of all items in store. " >
-                         <thead class='productHead'>
-                             <tr class="staff-th">
-
-                                 <th class="headlbl staff-th">NAME</th>
-                                 <th class="headlbl staff-th">PRICE</th>
-                                 <th class="headlbl staff-th">QUANTITY</th>
-                                 <th class="headlbl staff-th"  style="text-align: center">EXPIRY</th>
-                                 <th class="headlbl headlbl staff-th"  style="text-align: center"></th>
-                             </tr>
-                         </thead>
-                         <tbody>
-                            <tr  class="ro staff-row">
-
-                                <td style="padding-left:4px;" class="data">
-                                  Paracetamol</td>
-                                <td class="data">500</td>
-                                <td class="data">100</td>
-                                <td class="data" style="text-align:center">
-                                  22/02/2018</td>
-                                <td style="text-align: left; padding-left:3px" class="data" >
-                                  <i class="icon ion-edit tableicon " title="Edit" style="color:rgb(149, 149, 149);font-size:14px; top:32px; right: 22px;position:absolute; cursor: pointer;"></i>
-                                  <i   class="icon ion-ios-trash-outline tableicon" title="Drop" style="font-size:17px; cursor: pointer;"></i>
-                                </td>
-                            </tr>
-
-                        </tbody>
-                      </table>
-                  </div> -->
+                      
                   </div>
                   <button style=" width: 90px; font-size: 11px; left:373px; bottom:7%;"  (click)="comfirmPayment()" class="btn btn-sm btn-outline-primary inputs mainbtn" >COMFIRM</button>
+                  <button data-dismiss="modal" style="width: 51px; font-size: 11px; left:320px; bottom:7%;" class="btn btn-sm btn-outline-primary inputs mainbtn" >Cancel</button>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<div class="modal fade" role="dialog" tabindex="-1" id="editMedication" style="border-radius:0px;width:auto;">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content" style="width:480px;border-radius:0px;;padding-left:0px;padding-right: 0px;">
+          <div class="modal-body" style="border-radius:0px;padding: 0px">
+              <div class="card card-secondary historycard midlecard profilecard" style="margin:auto;min-height:200px">
+                  <div class="card-header grapheader"style="border-radius:0px;">
+                      <h1 class="dept headtitle">EDIT MEDICATION<span class="headeredit" title="Edit information"></span></h1>
+                  </div>
+                  <div style="padding-top:10px;padding-left:10px; padding-right:10px"  class="card-body topcardbody clientinfobody nopading">
+                    
+                    <form style="top:15%; padding-left: 18%; padding-right: 18%;" class=" staffsform" (submit) = updateMedication()>
+                        <div class="form-group vitals-section address">
+                            <label for="drug" class="labelss">DRUG NAME</label>
+                            <input style='font-size:11px' autocomplete="off" (keyup)= "searchItems(input)" [(ngModel)] = input type="text" name="drug" placeholder= "E.g Paracetamol" class="patientdata dystolic inputs dataInfo" />
+                            <div *ngIf = searchedItems.length  class="options prisOption edit">
+                                <ul class="itemsList" >
+                                  <li *ngFor="let item of searchedItems"><p (click) = "addSelection(item)"  class="dept firstheader drugItem" style="font-size:13px;padding-left: 10px; padding-right: 10px;font-weight: normal;" >{{item.name+ ' '}}<span class="lastdept timetaken " >{{item.mesure + item.unit}}</span></p>
+                                  </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="form-group vitals-section formGroup" style=" width:22%;">
+                            <label for="dos" class="labelss complain">INTAKE</label>
+                            <input [(ngModel)] = "medication.priscription.intake" style="border-top-right-radius: 0px;border-bottom-right-radius: 0px;font-size:11px"  type="number" name="dos" class="patientdata inputs dataInfo"  >
+                        </div>
+                        <div class="form-group vitals-section formGroup" style=" width:28%; ">
+                            <label for="intake" class="labelss complain">FREQ</label>
+                            <select [(ngModel)]="medication.priscription.freq" style="border-radius: 0px;font-size:11px"  class=" patientdata status inputs dataInfo " name="intake">
+                                <option>dos</option>
+                                <option>qos</option>
+                                <option>am</option>
+                                <option>ar</option>
+                            </select>
+                        </div>
+                        <div class="form-group vitals-section formGroup" style=" width:28%;">
+                            <label for="intake" class="labelss complain">DAYS</label>
+                            <input [(ngModel)]="medication.priscription.piriod" style="border-radius: 0px;font-size:11px;"type="number" name="piriod" class="patientdata inputs dataInfo"   placeholder="">
+                        </div>
+                        <div class="form-group vitals-section formGroup" style=" width:22%;">
+                            <label for="piriod" class="labelss complain">QTY</label>
+                            <input [(ngModel)]="medication.priscription.piriod" style="border-top-left-radius: 0px;border-bottom-left-radius: 0px;font-size:11px"  type="number" name="piriod" class="patientdata inputs dataInfo"   placeholder="">
+                        </div>
+                        <div style="margin-bottom:0px; width:100%;position:relative;height:25px;" class="form-group vitals-section formGroup">
+                          <p style='position: absolute;left:45%;text-align:center'>{{editables.length}}<span>/</span><span>{{count}}</span></p>
+                          <i (click)='previous()' title="Previous" class="icon ion-ios-arrow-left shift-icon"></i>
+                          <i (click)='next()' title="Next" class="icon ion-ios-arrow-right shift-icon next-icon"></i>
+                        </div>
+
+                        <div *ngIf="edited.length" style="top:1px; margin-bottom:25px;"  class="form-group vitals-section setGroup">
+                          <table   cellspacing="0" class="data-table drugs-table" style="width:100%;left:0%;" summary="List of all items in store. " >
+                               <tbody>
+                                  <tr *ngFor="let med of edited; let i = index; let odd = odd;"  style="border-bottom:2px solid white;" [class.even]=odd  class="ro staff-row">
+                                      <td style="padding-left:4px;" class="data">
+                                      {{med.product.item.name}}<span class="predata">{{med.product.item.mesure+med.product.item.unit}}</span></td>
+                                      <td class="data">{{med.priscription.intake +med.priscription.freq+ ' '+'|'+' '+ med.priscription.piriod}}</td>
+                                      <td class="data">{{med.product.stockInfo.price}}</td>
+                                  </tr>
+                              </tbody>
+                            </table>
+                        </div>
+                        <!-- <div class="form-group vitals-section address">
+                          <button (click)="switchViews('default') "style="font-size:11px; width:50%;border-top-right-radius: 0px;border-bottom-right-radius: 0px; "  type="button" class="btn btn-sm btn-outline-primary inputs" >Cancel</button>
+                          <button style="font-size:11px; width:49.5%; border-top-left-radius: 0px;border-bottom-left-radius: 0px; "  type="submit" class="btn btn-sm btn-outline-primary inputs" >Done</button>
+                        </div> -->
+                    </form>
+                  </div>
+                  <button style=" width: 90px; font-size: 11px; left:373px; bottom:7%;"  (click)="comfirmPayment()" class="btn btn-sm btn-outline-primary inputs mainbtn" >UPDATE</button>
                   <button data-dismiss="modal" style="width: 51px; font-size: 11px; left:320px; bottom:7%;" class="btn btn-sm btn-outline-primary inputs mainbtn" >Cancel</button>
               </div>
           </div>
@@ -178,6 +191,40 @@
                         </a>
                     </div>
                     <div class="card-body orderbody">
+                        <div *ngFor="let medic of patient.record.medications; let j = index" class="carditem priscriptioncontainer order">
+                            <div  class="timeline condition drugtimeline">
+                                <p class="timelinedate">
+                                  {{medic[0].dateAdded|date:'dd'}}
+                                </p>
+                                <p class="timelinedate month">
+                                  {{medic[0].dateAdded|date:'MMM'|uppercase}}
+                                </p>
+                            </div>
+                            <div *ngFor ="let m of medic; let k= index" class="priscription drug">
+                                <h6 class="dept">{{m.product.item.name}}&nbsp;<span class="predata">
+                                    {{m.product.item.mesure+m.product.item.unit}}</span>
+
+                                    <span  class="predata priceval">
+                                    <i (click)="selectItem(i,j,k)" *ngIf="m.selected" class="icon ion-ios-checkmark-empty paid-icon" title="Comfirm payment"></i>
+
+                                    <div class="mycheckbox" *ngIf ="!m.selected" (click)="selectItem(i,j,k)" ></div>
+                                    </span>
+                                    </h6>
+                                <h6 class="dept previnfo">Dosage&nbsp;<span class="predata">{{m.priscription.piriod+' '+ '|'+' '+m.priscription.freq}} </span></h6>
+                                <h6 class="dept previnfo"style="color:lightgrey">
+                                    Price&nbsp;<span class="predata priceval">500</span></h6>
+                             </div>
+                           </div>
+                          
+                        </div>
+                        <div *ngIf = medidcationsSelected(i) style="border:none;background:#1da1f2" class="card-footer">
+                            <div style="width:50%;border:none;left:0%;color:white;padding-top:5px;padding-left:18px" class="icon-container edit-container">
+                              <h6 style="text-align:left;" class="dept">Cancel</h6>
+                            </div>
+                            <div (click)="switchToEdit(i)" data-toggle="modal" data-target="#editMedication"   style="width:50%;left:50%;border:none;color:white;padding-top:5px;padding-right:15px"  class="icon-container"> <h6 style="text-align:right;font-weight:bold;padding-right:5px;" class="dept">EDIT</h6>
+                            </div>
+                        </div>
+                    <!-- <div class="card-body orderbody"> -->
                         <!-- <div *ngFor="let medic of patient.record.medications; let j = index" class="carditem priscriptioncontainer order">
                             <div  class="timeline condition drugtimeline">
                                 <p class="timelinedate">{{medic[j].priscription.priscribedOn|date:'dd'}}</p>
@@ -191,7 +238,7 @@
                                 <h6 class="dept previnfo">Price&nbsp;<span class="predata priceval number "[class.strike]="m.product.stockInfo.quantity===m.product.stockInfo.sold">{{m.product.stockInfo.price||'---'}}</span></h6>
                             </div>
                        </div> -->
-                       <div class="carditem priscriptioncontainer order">
+                       <!-- <div class="carditem priscriptioncontainer order">
                             <div class="timeline condition drugtimeline">
                                 <p class="timelinedate">05</p>
                                 <p class="timelinedate month">FEB</p>
@@ -218,7 +265,7 @@
                         <div class="icon-container edit-container"><i (click)="switchToEdit()" class="material-icons edit-drug" title="Edit medication">mode_edit</i></div>
                         <div data-toggle="modal" data-target="#revokeModal"  class="icon-container"><i *ngIf ="comfirmable().length" class="icon ion-ios-checkmark-empty edit-drug" title="Comfirm payment"></i></div>
                     </div>
-                </div>
+                </div> -->
 
 
                 <!-- <div *ngIf = "view==='edit'" style="min-height:400px;max-height:400px;" class="card card-secondary maincard">

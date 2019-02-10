@@ -1,27 +1,27 @@
 <div class="modal fade" role="dialog" tabindex="-1" id="newModal" style="border-radius:0px;width:auto;">
     <div class="modal-dialog" role="document">
         <div class="modal-content" style="width:470px;border-radius:0px;;padding-left:0px;padding-right: 0px;">
-
-                <div class="card-header profileheader" style="padding-top:2px;
-                padding-bottom:0px; height: 40px;">
-                </div>
+                <div class="card-header grapheader">
+                        <h1 class="dept headtitle">NEW PATIENT</h1>
+                    </div>
             <div class="modal-body" style="border-radius:0px;padding-left:0px;padding-right: 0px;">
                 <form style="position:relative; width:100%" novalidate  class="patientform" (submit)='submitRecord()'>
                     <div class="card card-secondary historycard midlecard profilecard" style="border-bottom:none;margin:0px;margin-right: 0px;width:95%;margin:auto; min-height: 150px;">
                         <div class="card-header grapheader" style="border:none;">
-                            <h1 class="dept headtitle">PERSONAL INFORMATION </h1>
+                            <!-- <h1 class="dept headtitle">PERSONAL INFORMATION </h1> -->
                         </div>
                         <div style="padding-top:10px;padding-left: 10px; padding-right: 10px;"  class="card-body topcardbody clientinfobody nopading">
                             <div style="width:49%; margin-top:7px;  margin-right: 5px; display:inline-block" class="form-group vitals-section formGroup" >
                               <div *ngIf="!url" (click)="picker.click()" class="dp-wrapper">
                                 <div class="cover">
-                                    <i  class="icon ion-android-image imageicon" title="Messages"></i>
+
                                     <p>Add Photo</p>
                                 </div>
                               </div>
                               <input style="position:absolute;display:none" (change) = fileSelected($event) #picker type ="file"  name="file"  class="patientdata dystolic inputs dataInfo" name="file" multipe ng2FileSelect [uploader] = uploader />
                               <div *ngIf='url' class="card scan-thumnail defaul-dp">
-                                <a href="IMG-20180927-WA0000.jpg" target="_blank" class="image-link" data-lightbox="scan"><img [src]= url class="img-fluid" /></a>
+                                <a href="IMG-20180927-WA0000.jpg" target="_blank" class="image-link" data-lightbox="scan">
+                                  <img [src]= url class="img-fluid" /></a>
                               </div>
                                 <input [(ngModel)]="info.personal.firstName" autocomplete="off"  type="text" name="fname" class="form-control patientdata inputs dataInfo" placeholder="Enter First Name"/>
                             </div>
@@ -196,8 +196,12 @@
                         </div>
                       </div>
                     </div>
-                    <button style=" width: 130px; left:293px; bottom:5%; "  type="submit" class="btn btn-sm btn-outline-primary inputs mainbtn" >Save Record</button>
+                    <i class="fa fa-circle-o-notch editicon continue blocked-icon fa-spin" style="font-size:15px;"></i>
+                    <button style=" width: 130px; left:293px; bottom:5%; "  type="submit" class="btn btn-sm btn-outline-primary inputs mainbtn" >
+                            <i class="fa fa-circle-o-notch editicon continue blocked-icon fa-spin" style="font-size:15px;"></i>
+                        Save Record</button>
                     <button style="width: 61px; left:230px; bottom:5%;" class="btn btn-sm btn-outline-primary inputs mainbtn" >Cancel</button>
+
                   </form>
             </div>
         </div>
@@ -251,12 +255,35 @@
           <ul class="nav navbar-nav"></ul>
           <form class="form-inline mr-auto searchform" target="_self">
               <div class="form-group">
-                  <label for="search-field">
+                  <label style="left:500px;position:absolute;"  for="search-field">
                       <i class="icon ion-ios-search searchicon" title="Search"></i>
                   </label>
-                  <input autocomplete="off" style="border-radius:30px; left: 350px; width:220px;background-color: rgb(243, 248, 247); margin: auto;" class="form-control search-field" type="search" name="search" id="search-field" placeholder="Search Patient">
+                  <input [(ngModel)] = searchTerm #search (keyup)='searchPatient(searchTerm)' autocomplete = "off" style="border-radius:30px;
+                  left: 270px;
+                  width:220px;
+                  background-color: rgb(243, 248, 247);
+                  margin: auto;"
+                  class="form-control search-field"
+                  type="search" name="search" id="search-field" placeholder="Search patient">
               </div>
           </form>
+          <h6 style='font-size:12px;
+                      left:780px;position:absolute;
+                      color:grey;
+                      font-weight:normal;'>Sort by: <span stye='cursor:pointer'(click)='showSortMenu()'>
+                        {{nowSorting}}</span></h6>
+          <div *ngIf=sortMenu style='position: absolute;
+                      left:824px;
+                      width:100px;top:6px;
+                      height:110px'  class="menu">
+            <ul class="actions primary">
+                <li (click)='sortPatients("name")' class="action">A-Z</li>
+                <li (click)='sortPatients("age")' class="action">Age</li>
+                <li (click)='sortPatients("status")' class="action">Status</li>
+                <li (click)='sortPatients("sex")' class="action">Gender</li>
+                <li (click)='sortPatients("date")' class="action">Date added</li>
+            </ul>
+        </div>
       </div>
   </div>
   <i style="left:80%;" class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
@@ -268,47 +295,26 @@
 
 <div style="padding-top:40px" class="container">
         <div class="row">
-            <div  [ngSwitch]="view" *ngFor="let patient of patients"  class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                <!-- <div *ngSwitchCase="'info'"  class="card card-secondary maincard">
-                    <div class="card-header profileheader">
-                        <div class="timeline lastdoc priscriber headerdp"></div>
-                        <p class="dept displayname">{{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}<span class="predata editicon">
-                          <i *ngIf="patient.record.visits[0].status==='discharged'"class="icon ion-ios-checkmark-outline headericon"></i>
-                          <i *ngIf="patient.record.visits[0].status==='queued'" class="icon ion-ios-clock-outline headericon clock"></i>
-                          <i *ngIf="patient.record.visits[0].status==='admitted'" class="icon ion-ios-help-outline headericon in"></i>
-                          <i *ngIf="patient.record.visits[0].status==='gone'" class="icon ion-ios-close-outline headericon gone"></i>
-                          <i class="icon ion-android-more-vertical headericon moreicon"></i></span></p>
-                        <p class="dept displayname subinfo">Feb 09, 2018</p>
-                    </div>
-                    <div *ngFor="let visit of patient.record.visits" class="card-body regbody">
-                        <div class="carditem">
-                            <h6 class="dept firstheader">{{visit.dept|uppercase}}<span class="timetaken dischargedon">05/10/2018 02:30pm</span></h6>
-                            <p *ngIf="visit.bedNo" class="dept previnfo">Bed Number<span class="predata">&nbsp;{{visit.bedNo}}</span></p>
-                            <div class="timeline condition">
-                                <p class="timelinedate">{{visit.visitedOn|date:'dd'}}</p>
-                                <p class="timelinedate month">{{visit.visitedOn|date:'MMM'|uppercase}}</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="floter"><i class="icon ion-person-stalker flotericon"></i></div>
-                </div> -->
-                <div *ngSwitchCase="'info'"  class="card card-secondary maincard">
+            <div  *ngFor="let patient of patients; let i=index"  class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+
+                <div *ngIf = "patient.card.view == 'front'"  class="card card-secondary maincard">
                   <div class="card-header profileheader"><i class="icon ion-android-more-vertical headericon moreicon actions-icon"></i>
                       <div class="timeline lastdoc priscriber headerdp">
                         <div class="indicator"></div>
-                        <img [src] = getDp(patient)/>
+                            <img [src] = getDp(patient)/>
                       </div>
                   </div>
-                  <p class="dept displayname">
+                  <p (click)= 'switchToBack(i)' class="dept displayname">
                   {{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}<span class="predata editicon"></span></p>
                   <div class="card-body mainbody">
                       <div class="carditem basic-item">
                           <h6 class="dept basic-info">Sex</h6>
-                          <h6 class="dept basic-info sex-info">F</h6>
+                          <h6 class="dept basic-info sex-info">
+                              {{patient.info.personal.gender.charAt(0).toUpperCase()}}</h6>
                       </div>
                       <div class="carditem basic-item">
                           <h6 class="dept basic-info">Age</h6>
-                          <h6 class="dept basic-info sex-info">30</h6>
+                          <h6 class="dept basic-info sex-info">{{patient.info.personal.dob|dob}}</h6>
                       </div>
                       <div class="carditem basic-item">
                           <h6 class="dept basic-info">Bed</h6>
@@ -316,65 +322,21 @@
                       </div>
                       <div class="priscription basic-subinfo">
                           <div class="sub-container">
-                            
+
                               <h6 class="dept basic-secondary basic-value">
                                 {{patient.record.visits[0].dept}}</h6>
                           </div>
                           <div class="sub-container">
-                            
+
                               <h6 class="dept basic-secondary basic-value">
                                 15/02/2019 04:50pm</h6>
                           </div>
-                          <!-- <div class="sub-container">
-                            
-                              <h6 class="dept basic-secondary basic-value">
-                                27/02/2019 08:30am</h6>
-                          </div> -->
-                         
-                         
-                         
-                      </div>
+                        </div>
                   </div>
               </div>
 
-              <div *ngSwitchDefault class="card card-secondary maincard">
-                    <div class="card-body">
-                        <div class="carditem">
-                            <div class="timeline condition"><i class="icon ion-ios-person-outline deticon"></i></div>
-                            <h6 class="dept firstheader">PERSONAL INFO</h6>
-                            <p class="dept previnfo">Age:<span class="predata">&nbsp;25</span></p>
-                            <p class="dept previnfo">Gender:<span class="predata">{{patient.info.personal.gender}}</span></p>
-                            <p class="dept previnfo">Blood Group:<span class="predata">&nbsp;O+</span></p>
-                            <p class="dept previnfo">Marital Staus:<span class="predata">&nbsp;{{patient.info.personal.mstatus}}</span></p>
-                            <p class="dept previnfo">Religion:<span class="predata">&nbsp;{{patient.info.personal.religion}}</span></p>
-                            <p class="dept previnfo">Tribe:<span class="predata">&nbsp;{{patient.info.personal.tribe}}</span></p>
-                            <p class="dept previnfo">Occupation:<span class="predata">&nbsp;{{patient.info.personal.occupation}}</span></p>
-                        </div>
-                        <div class="carditem">
-                            <div class="timeline condition"><i class="icon ion-ios-location-outline deticon"></i></div>
-                            <h6 class="dept firstheader">CONTACT</h6>
-                            <p class="dept previnfo">State:<span class="predata">&nbsp;{{patient.info.contact.lga}}</span></p>
-                            <p class="dept previnfo">LGA:<span class="predata">&nbsp;Azare</span></p>
-                            <p class="dept previnfo">Mobile:<span class="predata">&nbsp;{{patient.info.contact.mobile}}</span></p>
-                            <p class="dept previnfo">Email:<span class="predata">&nbsp;{{patient.info.contact.email}}</span></p>
-                            <p class="dept previnfo">Address:<span class="predata">&nbsp;{{patient.info.contact.address}}</span></p>
-                        </div>
-                        <div class="carditem">
-                            <div class="timeline condition"><i class="icon ion-ios-pulse deticon"></i></div>
-                            <h6 class="dept firstheader">EMERGENCY</h6>
-                            <p class="dept previnfo">Name:<span class="predata">&nbsp;{{patient.info.contact.emgName}}</span></p>
-                            <p class="dept previnfo">Relationship:<span class="predata">&nbsp;{{patient.info.contact.emgRel}}</span></p>
-                            <p class="dept previnfo">Mobile:<span class="predata">&nbsp;{{patient.info.contact.emgMobile}}</span></p>
-                            <p class="dept previnfo">Email:<span class="predata">&nbsp;amina@gamil.com</span></p>
-                            <p class="dept previnfo">Address:<span class="predata">&nbsp;No. 25 Kofar wanbai, Azare</span></p>
-                        </div>
-                    </div>
-                    <div class="floter"><i class="icon ion-edit flotericon"></i></div>
-                </div>
-
-            </div>
-            <div class="col col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                <div class="card card-secondary maincard">
+              <div  *ngIf = "patient.card.view == 'back'" class="card card-secondary maincard">
+                    <i (click)='switchToFront(i)' style='font-size:19px;right:93%' title="Back" class="icon ion-android-arrow-back backIcon"></i>
                     <div class="card-body">
                         <div class="carditem">
                             <div class="timeline condition"><i class="icon ion-ios-person-outline deticon"></i></div>
@@ -404,82 +366,18 @@
                             <p class="dept previnfo">Mobile:<span class="predata">&nbsp;{{patient.info.contact.emgMobile}}</span></p>
                             <p class="dept previnfo">Email:<span class="predata">&nbsp;amina@gamil.com</span></p>
                             <p class="dept previnfo">Address:<span class="predata">&nbsp;No. 25 Kofar wanbai, Azare</span></p>
-                        </div> -->
-                    </div>
-                    <div class="floter"><i class="icon ion-edit flotericon"></i></div>
+                        </div>
+                    </div> -->
+                    <div title ='Edit' class="floter"><i (click)=selectPatient(i) data-target="#newModal" data-toggle="modal" class="icon ion-edit flotericon"></i></div>
                 </div>
+
             </div>
 
 
 
 
 
-            <!-- <div [ngSwitch]="view" *ngFor="let patient of patients" class="col col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-12" data-aos-duration="900" data-aos-delay="50" data-aos-once="true">
 
-                <div *ngSwitchCase="'details'" class="card card-secondary maincard">
-                    <i class="icon ion-ios-arrow-right backicon" title="Back"></i>
-                    <div (click)=switchViews() data-aos-duration="900" data-aos-delay="50" data-aos-once="true" class="card-body">
-                        <div class="carditem">
-                            <h1 class="dept firstheader">PERSONAL INFO</h1>
-                            <h1 class="dept previnfo">Age: &nbsp;<span class="predata">21</span></h1>
-                            <h1 class="dept previnfo">Gender: &nbsp;<span class="predata">
-                              {{patient.personal.gender}}</span></h1>
-                            <h1 class="dept previnfo">Blood Group: &nbsp;<span class="predata">O+</span></h1>
-                            <h1 class="dept previnfo">Marital Status: &nbsp;<span class="predata">{{patient.personal.mstatus}}</span></h1>
-                            <h1 class="dept previnfo">Religion &nbsp;<span class="predata">{{patient.personal.religion}}</span></h1>
-                            <h1 class="dept previnfo">Tribe &nbsp;<span class="predata">{{patient.personal.tribe}}</span></h1>
-                            <h1 class="dept previnfo">Occupation &nbsp;<span class="predata">{{patient.personal.occupation}}</span></h1>
-                            <h1 class="dept previnfo">Card Number &nbsp;<span class="predata">{{patient.personal.cardNum}}</span></h1>
-                            <div class="timeline"><i class="icon ion-ios-person-outline deticon" title=""></i></div>
-                            <h1 class="dept previnfo">Date Created &nbsp;<span class="predata">{{patient.dateCreated|date:'longDate'}}</span></h1>
-                            <div class="timeline"><i class="icon ion-ios-person-outline deticon" title=""></i></div>
-                        </div>
-                      <div class="carditem">
-                            <h1 class="dept firstheader">CONTACT</h1>
-                            <h1 class="dept previnfo">Mobile: &nbsp;<span class="predata">08056784435</span></h1>
-                            <h1 class="dept previnfo">E-Mail: &nbsp;<span class="predata">{{patient.contact.email}}</span></h1>
-
-                            <h1 class="dept previnfo">State: &nbsp;<span class="predata">{{patient.contact.state}}</span></h1>
-                            <h1 class="dept previnfo">LGA: &nbsp;<span class="predata">{{patient.contact.lga}}</span></h1>
-                            <h1 class="dept previnfo">Address: &nbsp;<span class="predata">{{patient.contact.address}}</span></h1>
-                            <h1 class="dept previnfo">Next of Kin: &nbsp;<span class="predata">Hassan Sani</span></h1>
-                            <div class="timeline"><i class="icon ion-ios-location-outline deticon" title=""></i></div>
-                        </div>
-                        <div class="carditem">
-                            <h1 class="dept firstheader">EMERGENCY CONTACT</h1>
-                            <h1 class="dept previnfo">Name: &nbsp;<span class="predata">{{patient.contact.emgName}}</span></h1>
-                            <h1 class="dept previnfo">Relationship: &nbsp;<span class="predata">{{patient.contact.emgRel}}</span></h1>
-                            <h1 class="dept previnfo">Mobile &nbsp;<span class="predata">{{patient.contact.emgMobile}}</span></h1>
-                            <h1 class="dept previnfo">E-Mail: &nbsp;<span class="predata">mosani@gmail.com</span></h1>
-                            <div class="timeline"><i class="icon ion-ios-pulse deticon" title=""></i></div>
-                        </div>
-                    </div>
-                    <div class="floter" title="Edit"><i class="icon ion-edit flotericon" title="Edit Information"></i></div>
-                </div>
-
-                <div  *ngSwitchDefault data-aos-duration="900" data-aos-delay="50" data-aos-once="true" class="card card-secondary maincard">
-                    <div class="card-header profileheader">
-                        <div class="timeline lastdoc priscriber headerdp"></div>
-                        <h1 class="dept displayname">{{patient.personal.firstName + ' '+ patient.personal.lastName}}<span class="predata editicon" title="Edit"><i class="icon ion-ios-checkmark-empty headericon" title=""></i><i class="icon ion-android-more-vertical headericon moreicon" title="more actions"></i></span></h1>
-                        <h1 class="dept displayname subinfo">{{patient.dateCreated|date:'mediumDate'}}</h1>
-                    </div>
-                    <div (click) = switchViews() class="card-body">
-                        <div class="carditem" *ngFor="let visit of patient.record.visits">
-                            <h1  [ngSwitch]=visit.status class="dept firstheader">{{visit.dept|uppercase}}<span *ngSwitchCase="'discharged'"    class="timetaken lastdept">{{visit.dischargedOn}}</span>
-                              <span *ngSwitchCase="'deseased'"    class="timetaken lastdept">{{visit.diedOn}}</span>
-                              <span *ngSwitchDefault class="timetaken lastdept">On Queue</span>
-                            </h1>
-                            <h1 class="dept previnfo">Bed Number: &nbsp;<span class="predata">21</span></h1>
-                              <div class="timeline" style="background:white; border-radius:0px">
-                                <h1 class="timelinedate">{{visit.visitedOn|date:'dd'}}</h1>
-                                <h1 class="timelinedate month">{{visit.visitedOn|date:'MMM'|uppercase}}</h1>
-                              </div>
-                        </div>
-
-                    </div>
-                    <div class="floter" title="Edit"><i class="icon ion-ios-person flotericon infoicon" title="Patient Information"></i></div>
-                </div>
-            </div> -->
             </div>
 
   </div>

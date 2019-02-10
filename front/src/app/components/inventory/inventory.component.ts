@@ -197,7 +197,7 @@ export class InventoryComponent implements OnInit {
     });
   }
   }
-  
+
 
   submit() {
     if (this.mode === 'add') {

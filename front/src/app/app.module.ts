@@ -24,6 +24,7 @@ import { SessionComponent } from './components/session/session.component';
 import { ProductComponent } from './components/product/product.component';
 import { MessagesComponent } from './components/messages/messages.component';
 import { SingupComponent } from './components/singup/singup.component';
+import { DobPipe } from './pipes/dob.pipe';
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -32,7 +33,7 @@ const routes: Routes = [
   {path: 'inpatients', component: PatientComponent},
   {path: 'information', component: RegistrationComponent},
   // {path: 'information/:mode', component: PatientComponent},
-  {path: 'department/:department', component: ConsultationComponent},
+  {path: 'consultation', component: ConsultationComponent},
   {path: 'consultation/:mode', component: SessionComponent},
   {path: 'consultation/:mode/:id', component: HistoryComponent},
   {path: 'products', component: InventoryComponent},
@@ -60,7 +61,8 @@ const routes: Routes = [
     SessionComponent,
     ProductComponent,
     MessagesComponent,
-    SingupComponent
+    SingupComponent,
+    DobPipe
 
   ],
   imports: [

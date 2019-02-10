@@ -60,7 +60,7 @@
   position:relative;
   left:7px;
   font-size:13px;
-  color:blue;
+  color:#1da1f2;
 }
 
 .flotericon.consulticon {
@@ -91,7 +91,7 @@
 }
 
 .carditem.priscriptioncontainer.order {
-  border-left:2px solid blue;
+  border-left:2px solid #1da1f2;
   margin-bottom:0px;
   padding-top:4px;
 }

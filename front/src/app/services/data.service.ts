@@ -48,7 +48,7 @@ export class DataService {
   }
   getConsultees(dept) {
     return this.http.get(
-       `${this.uri}/consutation`, {withCredentials: true}
+       `${this.uri}/consultation`, {withCredentials: true}
        );
   }
   follow(me, you) {
@@ -58,7 +58,7 @@ export class DataService {
   }
   followBack(me, you, note) {
     return this.http.post(
-      `${this.uri}/followback`, {id:me, yourid:you.person._id, yourcon:you.person.connections, note:note}, {withCredentials: true}
+      `${this.uri}/followback`, {id:me, yourid: you.person._id, yourcon:you.person.connections, note:note}, {withCredentials: true}
       );
   }
   unFollow(me, you) {
@@ -111,6 +111,7 @@ export class DataService {
   }
 
   updateRecord(patient) {
+    console.log('sending');
     return this.http.post(
       `${this.uri}/update-record`, patient , {withCredentials: true});
  }
@@ -124,8 +125,7 @@ export class DataService {
       `${this.uri}/upload`, image, {withCredentials: true});
   }
   updateMedication(i, m) {
-    console.log('sending');
-    return this.http.post(
+     return this.http.post(
       `${this.uri}/update-medication`, {id: i, medication: m}, {withCredentials: true});
   }
   updateBed(pat, depts, client) {

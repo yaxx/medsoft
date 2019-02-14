@@ -154,7 +154,6 @@ export class InventoryComponent implements OnInit {
         } else {
           this.product = new Product();
           this.input = '';
-
         }
 
     } else {

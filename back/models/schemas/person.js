@@ -133,7 +133,7 @@ var personScheema = new Scheema({
                             brand: String,
                             category: String,
                             description: String,
-                            mesure:Number,
+                            mesure: Number,
                             unit: String,
                             dateCreated: {type:Date, default: Date.now()}
                         },
@@ -162,6 +162,7 @@ var personScheema = new Scheema({
                     pausedOn :Date,
                     selected: {type:Boolean, Default:false},
                     dateAdded: {type:Date, default: Date.now()},
+                    purchased: Number,
                     by: {type: Scheema.Types.ObjectId, ref: 'Person'}
                   
                 }

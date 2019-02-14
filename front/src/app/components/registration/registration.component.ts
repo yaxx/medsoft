@@ -61,8 +61,8 @@ export class RegistrationComponent implements OnInit {
       patients.forEach(p => {
         p.card = {menu: false, view: 'front'};
       });
-      this.patients = patients;
-      this.temPatients = patients;
+      this.patients = patients.reverse();
+      this.temPatients = patients.reverse();
     });
   }
   fileSelected(event) {
@@ -120,7 +120,7 @@ export class RegistrationComponent implements OnInit {
       , 'i');
       return patern.test(patient.info.personal.firstName);
       });
-   }else{
+   } else {
      this.patients = this.temPatients;
    }
 

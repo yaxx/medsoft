@@ -106,6 +106,7 @@ export class Medication {
      public lastTaken: Date = null,
      public selected: boolean = false,
      public dateAdded: Date = new Date(),
+     public purchased: number = 0,
      public by: any =  null,
      public _id?: string
      ) {}

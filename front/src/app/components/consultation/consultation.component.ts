@@ -14,6 +14,7 @@ import {Client, Department,  Person, Record, Session, Item, StockInfo,
 export class ConsultationComponent implements OnInit {
   patient: Person = new Person();
   patients: Person[] = new Array<Person>();
+  temPatients: Person[] = new Array<Person>();
   record: Record = new Record();
   client: Client = new Client();
   department: Department = new Department();
@@ -32,6 +33,11 @@ export class ConsultationComponent implements OnInit {
   input = '';
   in = 'discharge';
   fowarded = false;
+  fowardedTo = null;
+  sortBy = 'added';
+  sortMenu = false;
+  nowSorting = 'Date added';
+
   constructor(private dataService: DataService, private route: ActivatedRoute, private socket: SocketService ) {
 
    }
@@ -51,7 +57,7 @@ export class ConsultationComponent implements OnInit {
     });
 
   }
-  conclude(conclution) {
+  conclude(conclution: string) {
     this.fowarded = conclution === 'fowarded' ? true : false;
   }
   getDp(p:Person){
@@ -65,6 +71,51 @@ export class ConsultationComponent implements OnInit {
       return [];
     }
 
+  }
+
+  sortPatients(sortOption: string) {
+    this.sortMenu = false;
+    switch (sortOption) {
+      case 'name':
+        this.patients.sort((m: Person, n: Person) => m.info.personal.firstName.localeCompare(n.info.personal.firstName));
+        this.nowSorting = 'A-Z';
+        break;
+      case 'sex':
+        this.patients.sort((m: Person, n: Person) => n.info.personal.gender.localeCompare(m.info.personal.gender));
+        this.nowSorting = 'Gender';
+        break;
+      case 'status':
+        this.patients.sort((m, n) => m.record.visits[m.record.visits.length-1].status.localeCompare(m.record.visits[n.record.visits.length-1].status.localeCompare));
+        this.nowSorting = 'Status';
+        break;
+        case 'age':
+        this.patients.sort((m, n) => new Date(m.info.personal.dob).getFullYear() - new Date(n.info.personal.dob).getFullYear());
+
+        this.nowSorting = 'Age';
+        break;
+      case 'date':
+        this.patients.sort((m, n) => new Date(n.dateCreated).getTime() - new Date(m.dateCreated).getTime());
+        this.nowSorting = 'Date added';
+        break;
+        default:
+        break;
+    }
+  }
+  searchPatient(name: string) {
+    if(name!==''){
+     this.patients = this.patients.filter((patient) => {
+       const patern =  new RegExp('\^' + name
+       , 'i');
+       return patern.test(patient.info.personal.firstName);
+       });
+    } else {
+      this.patients = this.temPatients;
+    }
+
+
+   }
+  showSortMenu(){
+    this.sortMenu = true;
   }
   getProducts() {
     this.dataService.getProducts().subscribe((p: any) => {
@@ -99,6 +150,7 @@ export class ConsultationComponent implements OnInit {
   getConsultees() {
      this.dataService.getConsultees(this.route.snapshot.params['department']).subscribe((patients: Person[]) => {
      this.patients = patients;
+     this.temPatients = patients;
      this.dataService.setCachedPatients(patients);
     });
   }
@@ -128,50 +180,31 @@ export class ConsultationComponent implements OnInit {
   getTotal() {
 
   }
-  
-  composeMedication(){
+
+  composeMedication() {
     if (this.medications[0].length) {
-      if (new Date(this.medications[0][0].priscription.priscribedOn)
-      .toLocaleDateString() === new Date()
-      .toLocaleDateString()) {
-        for(let m of this.tempMedications) {
-          this.medications[0].push(m)
-        }
-       } else {
-        this.medications.push(this.tempMedications);
-       }
+      this.medications.push(this.tempMedications);
+      // if (new Date(this.medications[0][0].priscription.priscribedOn)
+      // .toLocaleDateString() === new Date()
+      // .toLocaleDateString()) {
+      //   for(let m of this.tempMedications) {
+      //     this.medications[0].push(m)
+      //   }
+      //  } else {
+      //   this.medications.push(this.tempMedications);
+      //  }
 
   } else {
 
     this.medications[0] = this.tempMedications;
-
   }
+
   }
 
 
   submitRecord() {
     this.composeMedication();
-    if (this.medications[0].length) {
-
-      if (new Date(this.medications[0][0].priscription.priscribedOn)
-      .toLocaleDateString() === new Date()
-      .toLocaleDateString()) {
-        for(let m of this.tempMedications) {
-          this.medications[0].push(m)
-        }
-       } else {
-        this.medications.push(this.tempMedications);
-       }
-
-  } else {
-
-    this.medications[0] = this.tempMedications;
-
-  }
-
-
-    this.patient.record.medications = this.medications.reverse();
-
+      this.patient.record.medications = this.medications.reverse();
     if (this.session.vital.bp.value) {
       this.patient.record.vitals.bp.push(this.session.vital.bp);
     } else {}
@@ -196,6 +229,12 @@ export class ConsultationComponent implements OnInit {
      if (this.session.conditions.condition) {
       this.patient.record.conditions.push(this.session.conditions);
     } else {}
+     if (this.fowardedTo) {
+      this.patient.record.visits[this.patient.record.visits.length - 1].dept = this.fowardedTo;
+      this.patient.record.visits[this.patient.record.visits.length - 1].status  = this.session.visits.status;
+    } else {
+      this.patient.record.visits[this.patient.record.visits.length - 1].status  = this.session.visits.status;
+    }
      if (this.session.complains.complain) {
       this.patient.record.complains.push(this.session.complains);
     } else {}
@@ -210,8 +249,9 @@ export class ConsultationComponent implements OnInit {
     } else {}
 
     this.dataService.updateRecord(this.patient).subscribe((patient: Person) => {
-      this.patients[this.curIndex] = patient ;
+      this.patients = this.patients.filter(p => p._id !== this.patient._id);
       this.session = new Session();
+      this.tempMedications = [];
 
     });
   }

@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {DataService} from '../../services/data.service';
 import {SocketService} from '../../services/socket.service';
+import update from 'react-addons-update';
 import { Person, Item, StockInfo,
   Product, Priscription, Medication
 } from '../../models/data.model';
+
 
 @Component({
   selector: 'app-pharmacy',
@@ -60,7 +62,6 @@ export class PharmacyComponent implements OnInit {
     this.editables = this.getSelections(i);
     this.medication = this.editables.shift();
     this.input = this.medication.product.item.name + ' ' + this.medication.product.item.mesure + this.medication.product.item.unit;
-    this.count = this.editables.length;
     // this.switchViews('edit');
   }
   comfirmable() {
@@ -86,15 +87,22 @@ export class PharmacyComponent implements OnInit {
   medidcationsSelected(i: number) {
     return this.patients[i].record.medications.some(med => med.some(m => m.selected));
   }
-  getSelections(i:number) {
-    // const selected = [];
-     this.patients[0].record.medications.filter(group => 
-       filter.map(medic => 
-        medic.selected;
-       );
-     );
-    //  this.count = selected.length;
-    // return selected;
+  getSelections(i: number) {
+    const selected = [];
+     this.patients[i].record.medications.forEach(group => {
+       group.forEach(medic => {
+         if (medic.selected) {
+            selected.push(update(medic, {
+             selected: {$set: false}
+           }));
+         } else {
+          return;
+         }
+       });
+     });
+     this.count = selected.length;
+
+    return selected;
   }
   runTransaction() {
     this.dataService.runTransaction(this.patients[this.curIndex], this.products).subscribe((transaction:any) => {
@@ -130,9 +138,16 @@ export class PharmacyComponent implements OnInit {
     this.runTransaction();
 
   }
+  getPriceTotal() {
+    let total = 0;
+     this.edited.forEach((m) => {
+       total = total + m.purchased * m.product.stockInfo.price;
+     });
+     return total;
+  }
   getOrders() {
     this.dataService.getOrders().subscribe((patients: Person[]) => {
-      this.patients = patients.filter(p=>p.record.medications[0].length);
+      this.patients = patients.filter(p => p.record.medications[0].length);
       console.log(patients);
     });
   }

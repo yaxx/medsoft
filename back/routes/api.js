@@ -374,7 +374,7 @@ getConsultees: (req, res)=>{
     'record.visits':{$elemMatch:{'dept':'GOPD',status:'queued'}}
   },(e, patients)=>{
     if(!e){
-     
+   
       res.send(patients)
     } else {
       console.log(e)
@@ -384,9 +384,10 @@ getConsultees: (req, res)=>{
 },
 
 getInPatients: (req, res)=>{
- Person.find({'record.visits.status':'admitted'},(e, patients)=>{
+
+    Person.find({'record.visits.status':'admitted'},(e, patients)=>{
     if(!e){
-      console.log(patients);
+     
       res.send(patients)
     }
     else{
@@ -442,7 +443,6 @@ updateBed: (req, res)=>{
 
 },
 updateInfo: (req, res)=>{
-   console.log(req.body._id)
    Person.findByIdAndUpdate(req.body._id,{info:req.body.info},{new:true},(e, doc)=>{
       if(!e){
          res.send(doc);
@@ -453,11 +453,9 @@ updateInfo: (req, res)=>{
     })
 },
 updateRecord: (req, res)=>{
-   console.log(req.body._id)
    Person.findByIdAndUpdate(req.body._id,{record:req.body.record},{new:true},(e, doc)=>{
       if(!e){
-        console.log(doc.record.medications);
-        res.send(doc);
+          res.send(doc);
       } else{
         console.log(e);
       }
@@ -541,7 +539,6 @@ getProducts: (req, res)=>{
   Client.findOne({
     'info.email':'mail@cityhospital.com'
   },
-
       (err, client)=>{
       if(!err){
         console.log(client.inventory)

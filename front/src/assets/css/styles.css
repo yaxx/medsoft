@@ -530,7 +530,10 @@ body, html {
   top:45%;
   color:whitesmoke;
 }
-
+#drugsearch:focus{
+  border-color:whitesmoke;
+  box-shadow:none;
+}
 .itemsList{
   list-style:none;
   padding: 0px;

@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FileSelectDirective, FileUploader } from 'ng2-file-upload';
 import {DataService} from '../../services/data.service';
 import {SocketService} from '../../services/socket.service';
-import { Person, Client, Item, StockInfo,
-  Product, Priscription, Medication, Visit, Note
+import { Person, Client, Item,
+  Product, Priscription, Vital, Medication, Note
 } from '../../models/data.model';
 const uri = 'http://localhost:5000/api/upload';
 @Component({
@@ -17,21 +17,25 @@ export class WardComponent implements OnInit {
   products: Product[] = new Array<Product>();
   client: Client = new Client();
   product: Product = new Product();
+  vitals: Vital = new Vital();
   priscription: Priscription = new Priscription();
   medication: Medication = new Medication();
   temProducts: Product[] = new Array<Product>();
   item: Item = new Item();
   items: Item[] = new Array<Item>();
-  lastVisit: Visit = new Visit();
   file: File = null;
   note = new Note();
   input = '';
   view = 'bed';
   id = null;
+  loading = false;
   selected = null;
   bedNum = null;
   curIndex = 0;
   url = '';
+  sortBy = 'added';
+  sortMenu = false;
+  nowSorting = 'Date added';
   uploader: FileUploader = new FileUploader({url: uri});
   attachments: any = [];
 
@@ -69,8 +73,8 @@ export class WardComponent implements OnInit {
     }
 
   }
-  medidcationsSelected(i: number) {
-    return this.patients[i].record.medications.some(med => med.some(m => m.selected));
+  medicationSelected() {
+    return this.patients[this.curIndex].record.medications.some(med => med.some(m => m.selected));
   }
   uploadFile() {
     const data: FormData = new FormData();
@@ -82,7 +86,6 @@ export class WardComponent implements OnInit {
 
   }
   selectPatient(i: number) {
-    this.curIndex = i;
    }
    showMenu(i: number) {
      this.hideMenu();
@@ -93,20 +96,50 @@ export class WardComponent implements OnInit {
        p.card.menu =  false;
      });
    }
+   sortPatients(sortOption: string) {
+    this.sortMenu = false;
+    switch (sortOption) {
+      case 'name':
+        this.patients.sort((m: Person, n: Person) => m.info.personal.firstName.localeCompare(n.info.personal.firstName));
+        this.nowSorting = 'A-Z';
+        break;
+      case 'sex':
+        this.patients.sort((m: Person, n: Person) => n.info.personal.gender.localeCompare(m.info.personal.gender));
+        this.nowSorting = 'Gender';
+        break;
+      case 'status':
+        this.patients.sort((m, n) => m.record.visits[m.record.visits.length-1].status.localeCompare(m.record.visits[n.record.visits.length-1].status.localeCompare()));
+        this.nowSorting = 'Status';
+        break;
+        case 'age':
+        this.patients.sort((m, n) => new Date(m.info.personal.dob).getFullYear() - new Date(n.info.personal.dob).getFullYear());
+
+        this.nowSorting = 'Age';
+        break;
+      case 'date':
+        this.patients.sort((m, n) => new Date(n.dateCreated).getTime() - new Date(m.dateCreated).getTime());
+        this.nowSorting = 'Date added';
+        break;
+
+        default:
+        break;
+    }
+  }
+
   getInPatients() {
     this.dataService.getInPatients().subscribe((patients: Person[]) => {
       patients.forEach(p => {
-        if (p.record.visits[p.record.visits.length - 1].bedNo === null) {
-          p.card = {menu: false, view: 'back'};
-        } else {
+        if (p.record.visits[p.record.visits.length - 1].bedNo) {
           p.card = {menu: false, view: 'front'};
+        } else {
+          p.card = {menu: false, view: 'bed'};
         }
       });
       this.patients = patients;
-     this.lastVisit =  this.patients[0].record.visits[-1];
+      this.patient = patients[0]; 
     });
   }
-  getBeds(i) {
+  getBeds(i: number) {
     const beds = [];
     const dept = this.client.departments.filter((d) =>
      d.name === this.patients[i].record.visits[this.patients[i].record.visits.length - 1].dept)[0];
@@ -119,25 +152,87 @@ export class WardComponent implements OnInit {
 
     return beds;
   }
-  changeBed(i) {
-    this.patients[i].card.view = 'back';
+  changeBed(i: number) {
+    this.patients[i].card.view = 'bed';
     this.hideMenu();
     const name =  this.patients[i].record.visits.reverse()[0].dept;
     this.client.departments.forEach(department => {
       if (department.name !== name) {
         return;
-
       }  else {
         department.beds[this.patients[i].record.visits[0].bedNo] = false;
       }
 
     });
   }
-  swichtToFront(i) {
+  switchToFront(i: number) {
     this.patients[i].card.view = 'front';
   }
+  switchToVitals(i: number){
+    this.patients[i].card.view = 'vitals';
+  }
+  updateVitals(i: number) {
 
-  assignBed(i) {
+    if(this.vitals.tempreture) {
+      this.patients[i].record.vitals.bp = 
+      this.patients[i].record.vitals.tempreture.filter(t => new Date(t.dateCreated).toLocaleDateString() !== new Date()
+      .toLocaleDateString())
+      this.patients[i].record.vitals.tempreture.unshift(this.vitals.tempreture);
+    } else {
+
+    }
+    if(this.vitals.bp) {
+      this.patients[i].record.vitals.bp =
+      this.patients[i].record.vitals.bp
+      .filter(b => new Date(b.dateCreated).toLocaleDateString() !== new Date()
+      .toLocaleDateString())
+      this.patients[i].record.vitals.bp.unshift(this.vitals.bp);
+    } else {
+
+    }
+    if(this.vitals.pulse.value) {
+      this.patients[i].record.vitals.pulse =
+      this.patients[i].record.vitals.pulse
+      .filter(p => new Date(p.dateCreated).toLocaleDateString() !== new Date()
+      .toLocaleDateString())
+      this.patients[i].record.vitals.pulse.unshift(this.vitals.pulse);
+    } else {
+
+    }
+    if(this.vitals.resp.value) {
+      this.patients[i].record.vitals.resp =
+      this.patients[i].record.vitals.resp
+      .filter(r => new Date(r.dateCreated).toLocaleDateString() !== new Date()
+      .toLocaleDateString())
+      this.patients[i].record.vitals.resp.unshift(this.vitals.resp);
+    } else {
+
+    }
+    if(this.vitals.height.value) {
+      this.patients[i].record.vitals.height = 
+      this.patients[i].record.vitals.height.filter(h => new Date(h.dateCreated).toLocaleDateString() !== new Date()
+      .toLocaleDateString())
+      this.patients[i].record.vitals.height.unshift(this.vitals.height);
+    } else {
+
+    }
+    if(this.vitals.weight.value) {
+      this.patients[i].record.vitals.weight = 
+      this.patients[i].record.vitals.weight.filter(w => new Date(w.dateCreated).toLocaleDateString() !== new Date()
+      .toLocaleDateString());
+      this.patients[i].record.vitals.weight.unshift(this.vitals.weight);
+    } else {
+
+    }
+
+    this.dataService.updateRecord(this.patients[i]).subscribe((p: Person) => {
+      p.card = {menu: false, view: 'front'};
+      this.patients[i] = p;
+      this.loading = false;
+      this.vitals = new Vital();
+    });
+  }
+  assignBed(i: number) {
     const n = this.patients[i].record.visits.reverse()[0].dept;
     const name = this.client.departments.filter((d) =>
      d.name === n);
@@ -166,9 +261,9 @@ export class WardComponent implements OnInit {
    });
 
   }
-  selectItem(i: number, j: number, k: number) {
-    this.patients[i].record.medications[j][k].selected =
-    this.patients[i].record.medications[j][k].selected ? false : true;
+  selectItem(i: number, j: number) {
+    this.patients[this.curIndex].record.medications[i][j].selected =
+    this.patients[this.curIndex].record.medications[i][j].selected ? false : true;
 
    }
 

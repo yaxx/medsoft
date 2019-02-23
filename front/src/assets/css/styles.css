@@ -303,7 +303,7 @@ body, html {
 .dept.basic-info.sex-info {
   /*top:22px;*/
   position:relative;
-  color:#0000ff;
+  color:#1da1f2;
   font-size:18px;
   font-weight:bold;
 }
@@ -347,6 +347,14 @@ body, html {
   left:90%;
   color:#1da1f2;
 }
+#moreBtn{
+  display:inline-block;
+  position:absolute; 
+  border-top-right-radius: 4px;
+  border-bottom-right-radius:4px; 
+  height:27px; width:25px;
+  background-color:lightgrey
+}
 
 .floter {
   width:28px;
@@ -368,6 +376,19 @@ body, html {
   /* top:3px; */
 }
 
+.slow-spin {
+  -webkit-animation: fa-spin 1s infinite linear;
+  animation: fa-spin 1s infinite linear;
+}
+.cardFooter {
+ 
+  font-size:11px; 
+  text-align:right;
+  position:absolute; 
+  font-weight:bold;
+  padding-right: 10px; 
+  border-top: 1px solid whitesmoke;width:100%
+}
 
 .card-header.profileheader {
   height:64px;

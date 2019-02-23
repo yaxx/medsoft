@@ -28,12 +28,17 @@ export class PatientComponent implements OnInit {
   edited: Medication[] = new Array<Medication>();
   tempMedications: Medication[] = new Array<Medication>();
   uploader: FileUploader = new FileUploader({url: uri});
-  lastVisit: Visit = new Visit();
   file: File = null;
   note = new Note();
   input = '';
   view = 'bed';
   id = null;
+  medicView = false;
+  sortBy = 'added';
+  sortMenu = false;
+  nowSorting = 'Date added';
+  view = 'info';
+  searchTerm = '';
   selected = null;
   bedNum = null;
   curIndex = 0;
@@ -107,8 +112,14 @@ export class PatientComponent implements OnInit {
         }
       });
       this.patients = patients;
-      this.lastVisit =  this.patients[0].record.visits[-1];
+      this.patient = patients[0];
     });
+  }
+  switchToNewMedic(){
+    this.medicView = !this.medicView;
+  }
+  showSortMenu() {
+    this.sortMenu = true;
   }
   searchItems(i: string) {
     if (i === '') {
@@ -126,7 +137,7 @@ export class PatientComponent implements OnInit {
     this.patients[i].card.view = 'back';
   }
   switchToFront(i) {
-    this.patients[i].card= {menu: false, view: 'front'};;
+    this.patients[i].card = {menu: false, view: 'front'};
   }
   composeMedication() {
     if (this.medications[0].length) {
@@ -145,6 +156,35 @@ export class PatientComponent implements OnInit {
     this.medications[0] = this.tempMedications;
 
   }
+  }
+  sortPatients(sortOption: string) {
+    this.sortMenu = false;
+    switch (sortOption) {
+      case 'name':
+        this.patients.sort((m: Person, n: Person) => m.info.personal.firstName.localeCompare(n.info.personal.firstName));
+        this.nowSorting = 'A-Z';
+        break;
+      case 'sex':
+        this.patients.sort((m: Person, n: Person) => n.info.personal.gender.localeCompare(m.info.personal.gender));
+        this.nowSorting = 'Gender';
+        break;
+      case 'status':
+        this.patients.sort((m, n) => m.record.visits[m.record.visits.length-1].status.localeCompare(m.record.visits[n.record.visits.length-1].status.localeCompare));
+        this.nowSorting = 'Status';
+        break;
+        case 'age':
+        this.patients.sort((m, n) => new Date(m.info.personal.dob).getFullYear() - new Date(n.info.personal.dob).getFullYear());
+
+        this.nowSorting = 'Age';
+        break;
+      case 'date':
+        this.patients.sort((m, n) => new Date(n.dateCreated).getTime() - new Date(m.dateCreated).getTime());
+        this.nowSorting = 'Date added';
+        break;
+
+        default:
+        break;
+    }
   }
 
   saveMedication(i) {
@@ -187,16 +227,16 @@ export class PatientComponent implements OnInit {
     this.patients[i].record.medications[j][k].selected =
     this.patients[i].record.medications[j][k].selected ? false : true;
    }
-   playMedication(i: number, j: number, k: number) {
-    this.patients[i].record.medications[j][k].paused = false;
-    this.dataService.updateMedication(this.patients[i]._id, this.patients[i].record.medications).subscribe((p: Person) => {
+   playMedication(i: number, j: number) {
+    this.patients[this.curIndex].record.medications[i][j].paused = false;
+    this.dataService.updateMedication(this.patients[this.curIndex]._id, this.patients[this.curIndex].record.medications).subscribe((p: Person) => {
       p.card = {menu: false, view: 'front'};
       this.patients[i] = p;
     });
    }
-   pauseMedication(i: number, j: number, k: number) {
-    this.patients[i].record.medications[j][k].paused = true;
-    this.patients[i].record.medications[j][k].pausedOn = new Date();
+   pauseMedication(i: number, j: number) {
+    this.patients[this.curIndex].record.medications[i][j].paused = true;
+    this.patients[this.curIndex].record.medications[i][j].pausedOn = new Date();
     this.dataService.updateMedication(this.patients[i]._id, this.patients[i].record.medications).subscribe((p: Person) => {
       p.card = {menu: false, view: 'front'};
       this.patients[i] = p;

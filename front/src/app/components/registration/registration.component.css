@@ -76,3 +76,6 @@ top:12%;
   font-weight: bold;
 
 }
+.card:hover{
+  border:1px solid #1da1f2;
+}

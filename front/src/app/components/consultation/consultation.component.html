@@ -279,7 +279,15 @@
         <div *ngFor="let patient of patients; let i = index"  class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
 
         <div class="card card-secondary maincard">
-            <div class="card-header profileheader"><i class="icon ion-android-more-vertical headericon moreicon actions-icon"></i>
+            <div class="card-header profileheader"><i (click)='showMenu(i)' class="icon ion-android-more-vertical headericon moreicon actions-icon"></i>
+              <div *ngIf = "patient.card.menu" class="menu">
+                  <ul class="actions primary">
+                      <li (click)="selectPatient(i)" data-target="#newModal" data-toggle="modal" class="action">Discharge</li>
+                      <li (click) = changeBed(i) class="action">Set Appointment</li>
+                      <li (click) = switchToVitals(i) class="action">Update Vitals</li>
+                      <li (click)="selectPatient(i)" data-target="#medicModal" data-toggle="modal" class="action">Medications</li>
+                   </ul>
+              </div>
                 <div class="timeline lastdoc priscriber headerdp">
 
                        <img [src] = getDp(patient)/>
@@ -306,18 +314,25 @@
 
                     <div class="sub-container">
                         <!-- <h6 class="dept basic-secondary">Date Visitted:</h6> -->
-                        <h6 style="width:100%;text-align:center" class="dept basic-secondary basic-value">Mar 02  09:50am</h6>
+                        <h6 style="width:100%;text-align:center" class="dept basic-secondary basic-value"> {{patient.record.visits[patient.record.visits.length-1].visitedOn|date:'dd MMM hh:mma'|lowercase}}</h6>
                     </div>
-
                 </div>
             </div>
-            <div style="bottom:20px;" class="form-group vitals-section address">
-              <button (click)="selectPatient(i)" style="border-radius: 30px; position:relative;font-size:12px; width:44%; left:52%; font-weight:bold" data-target="#newModal" data-toggle="modal" class="btn btn-sm btn-outline-primary inputs" > <i style='position:absolute;bottom:5%;' class="icon ion-person-stalker flotericon consulticon" (click)="selectPatient(i)"></i>
-                Attend to</button>
-            </div>
+            <div data-target="#newModal" data-toggle="modal"
+                       style='left:80%; height:32px;width:32px'
+                       title ='Add Medication' class="floter">
+                    <i style="color:#1da1f2; left:6px; font-size:17px;"
+                       class="icon ion-person-stalker arrow flotericon">
+                    </i>
+                </div>
+            <!-- <div style="bottom:20px;" class="form-group vitals-section address">
+              <button (click)="selectPatient(i)" style="border-radius: 30px; position:relative;font-size:10px; width:44%; left:52%; font-weight:bold" data-target="#newModal" data-toggle="modal" class="btn btn-sm btn-outline-primary inputs" > <i style='position:absolute;bottom:5%;' class="icon ion-person-stalker flotericon consulticon" (click)="selectPatient(i)"></i>
+                ATTEND TO</button>
+            </div> -->
           </div>
 
 
     </div>
+</div>
 </div>
 

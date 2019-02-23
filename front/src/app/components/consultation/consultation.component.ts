@@ -38,7 +38,8 @@ export class ConsultationComponent implements OnInit {
   sortMenu = false;
   nowSorting = 'Date added';
 
-  constructor(private dataService: DataService, private route: ActivatedRoute, private socket: SocketService ) {
+  constructor(private dataService: DataService,
+     private route: ActivatedRoute, private socket: SocketService ) {
 
    }
 
@@ -72,7 +73,15 @@ export class ConsultationComponent implements OnInit {
     }
 
   }
-
+  showMenu(i: number) {
+    this.hideMenu();
+    this.patients[i].card.menu = true;
+  }
+  hideMenu() {
+    this.patients.forEach(p => {
+      p.card.menu =  false;
+    });
+  }
   sortPatients(sortOption: string) {
     this.sortMenu = false;
     switch (sortOption) {
@@ -149,6 +158,11 @@ export class ConsultationComponent implements OnInit {
   }
   getConsultees() {
      this.dataService.getConsultees(this.route.snapshot.params['department']).subscribe((patients: Person[]) => {
+      patients.forEach(p => {
+      
+          p.card = {menu: false, view: 'front'};
+        
+      });
      this.patients = patients;
      this.temPatients = patients;
      this.dataService.setCachedPatients(patients);

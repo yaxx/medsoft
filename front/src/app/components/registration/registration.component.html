@@ -296,12 +296,14 @@
 <div style="padding-top:60px" class="container">
         <div class="row">
             <div  *ngFor="let patient of patients; let i=index"  class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
-
                 <div *ngIf = "patient.card.view == 'front'"  class="card card-secondary maincard">
                   <div class="card-header profileheader"><i class="icon ion-android-more-vertical headericon moreicon actions-icon"></i>
                       <div class="timeline lastdoc priscriber headerdp">
-                        <div class="indicator"></div>
-                            <img [src] = getDp(patient)/>
+                          <div style='background:lightgrey' *ngIf='patient.info.status==="queued"' class="indicator"></div>
+                          <div style='background:yellow' *ngIf='patient.info.status==="admitted"' class="indicator"></div>
+                          <div *ngIf='patient.info.status==="discharged"' class="indicator"></div>
+                          <div  style='background:red' *ngIf='patient.info.status==="gone"' class="indicator"></div>
+                          <img [src] = getDp(patient)/>
                       </div>
                   </div>
                   <p (click)= 'switchToBack(i)' class="dept displayname">
@@ -368,17 +370,11 @@
                             <p class="dept previnfo">Address:<span class="predata">&nbsp;No. 25 Kofar wanbai, Azare</span></p>
                         </div>
                     </div> -->
-                    <div title ='Edit' class="floter"><i (click)=selectPatient(i) data-target="#newModal" data-toggle="modal" class="icon ion-edit flotericon"></i></div>
+                    <div title ='Edit' class="floter"><i (click)=selectPatient(i) data-target="#newModal" data-toggle="modal" class="icon ion-edit flotericon"></i>
+                    </div>
                 </div>
-
             </div>
-
-
-
-
-
-
-            </div>
-
-  </div>
+        </div>
+    </div>
+</div>
 

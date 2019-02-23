@@ -30,10 +30,10 @@ export class PharmacyComponent implements OnInit {
   input = '';
   view = 'default';
   count = 0;
-  id = null;
+  id = '';
   selected = null;
   curIndex = 0;
-  comfirmables = [];
+  reversedProduct = [];
 
 
   constructor(private dataService: DataService,
@@ -59,21 +59,16 @@ export class PharmacyComponent implements OnInit {
     this.patients[i].card.view = 'front';
   }
   switchToEdit(i: number) {
+    this.curIndex = i;
     this.editables = this.getSelections(i);
     this.medication = this.editables.shift();
     this.input = this.medication.product.item.name + ' ' + this.medication.product.item.mesure + this.medication.product.item.unit;
     // this.switchViews('edit');
   }
-  comfirmable() {
-    const selected = [];
-    this.patients[0].record.medications.forEach(group => {
-      group.forEach(medic => {
-        if ((medic.selected) && (medic.product.stockInfo.price || medic.product.stockInfo.quantity === medic.product.stockInfo.sold)) {
-          selected.push(medic);
-        }
-      });
-    });
-   return selected;
+  getReversables(i: number, j: number, k: number) {
+    this.curIndex = i;
+    this.edited.push(this.patients[i].record.medications[j][k]);
+
   }
   selectItem(i: number, j: number, k: number) {
    this.curIndex = i;
@@ -101,42 +96,124 @@ export class PharmacyComponent implements OnInit {
        });
      });
      this.count = selected.length;
-
     return selected;
   }
-  runTransaction() {
-    this.dataService.runTransaction(this.patients[this.curIndex], this.products).subscribe((transaction:any) => {
+  reset() {
+    this.edited = [];
+    this.editables = [];
+  }
+  reversePayment() {
+    let inlinePatients = [];
+    this.edited.forEach(medic => {
+    this.patients.forEach(pat => {
+      pat.record.medications.forEach(med => {
+        med.forEach(m => {
+          if(m.product.item._id === medic.product.item._id) {
+            m.product.stockInfo.quantity = m.product.stockInfo.quantity + medic.purchased;
+            inlinePatients.push(pat);
+          } else {
 
-      this.patients[this.curIndex] = transaction.patient;
+          }
+        })
+      });
+    })
+  })
+
+  this.edited.forEach(medic => {
+    this.products.forEach(prod => {
+      if(prod.item._id === medic.product.item._id) {
+          prod.stockInfo.quantity = prod.stockInfo.quantity + medic.purchased;
+          prod.stockInfo.sold = prod.stockInfo.sold - medic.purchased;
+          this.reversedProduct.push(medic);
+          } else {
+
+          }
+        });
+      });
+    this.edited.forEach(medication => {
+      this.patients[this.curIndex].record.medications.forEach(group => {
+        group.forEach(medic => {
+          if (medic._id === medication._id) {
+            medic.product.stockInfo.quantity = medic.product.stockInfo.quantity + medication.purchased;
+            medic.paid = false;
+            medic.purchased = 0;
+          } else {
+
+          }
+        });
+      });
+    });
+    inlinePatients.push(this.patients[this.curIndex]);
+    this.runTransaction(inlinePatients, 'refund');
+  }
+
+  runTransaction(patients: Person[], type: string) {
+    this.dataService.runTransaction(patients, this.products).subscribe((transaction: any) => {
       this.products = transaction.inventory;
+      if(type === 'purchase') {
+         this.socket.io.emit('purchase', this.edited);
+      } else {
+         this.socket.io.emit('refund', this.reversedProduct);
+         this.reversedProduct = [];
+      }
+      this.reset();
     });
   }
   comfirmPayment() {
-    const selected = [];
-    this.patients[this.curIndex].record.medications.forEach(group => {
-      group.forEach( medic => {
-        if (medic.selected) {
-          medic.selected = false;
+    let inlinePatients = [];
+    this.edited.forEach(medication => {
+     this.patients[this.curIndex].record.medications.forEach(group => {
+      group.forEach(medic => {
+        if (medic._id === medication._id) {
+          medic.purchased = medication.purchased;
+          medic.product.stockInfo.quantity = medic.product.stockInfo.quantity - medication.purchased;
           medic.paid = true;
-          selected.push(medic);
-        }
-      });
-    });
-
-    selected.forEach(medication => {
-      this.products.forEach(product => {
-        if (medication.product.item._id === product.item._id) {
-        product.stockInfo.sold =
-        product.stockInfo.sold === product.stockInfo.quantity ? product.stockInfo.sold : product.stockInfo.sold + 1;
+          medic.selected = false;
+          // selected.push(medic);
         } else {
 
         }
       });
-
     });
+  });
+  inlinePatients.push(this.patients[this.curIndex]);
+  this.edited.forEach(medic => {
+    this.patients.forEach(pat => {
+      pat.record.medications.forEach(med => {
+        med.forEach(m => {
+          if(m.product.item._id === medic.product.item._id) {
+            m.product.stockInfo.quantity = m.product.stockInfo.quantity - medic.purchased;
+            inlinePatients.push(pat);
+          } else {
 
-    this.runTransaction();
+          }
+        })
+      })
+    })
+  })
 
+  this.edited.forEach(medic => {
+    this.products.forEach(prod => {
+      if(prod.item._id === medic.product.item._id) {
+          prod.stockInfo.quantity = prod.stockInfo.quantity - medic.purchased;
+          prod.stockInfo.sold = prod.stockInfo.sold + medic.purchased;
+          } else {
+
+          }
+        });
+      });
+
+  this.runTransaction(inlinePatients,'purchase');
+  }
+  somePaid(i, j) {
+    return this.patients[i].record.medications[j].some(m => m.paid );
+   }
+  getTransTotal(i, j) {
+    let total = 0;
+    this.patients[i].record.medications[j].forEach((m) => {
+      total = total + m.purchased * m.product.stockInfo.price;
+    });
+    return total;
   }
   getPriceTotal() {
     let total = 0;
@@ -194,6 +271,7 @@ next() {
         this.medication.product.item = this.item;
         this.edited.unshift(this.medication);
         this.item = new Item();
+        this.edited.unshift(this.medication);
         // this.counter = this.counter + 1;
       } else {
         this.edited.unshift(this.medication);
@@ -223,6 +301,7 @@ previous() {
       this.item = new Item();
     } else {
       this.editables.unshift(this.medication);
+      this.input = this.medication.product.item.name + ' ' + this.medication.product.item.mesure + this.medication.product.item.unit;
     }
     this.medication = this.edited.shift();
     this.input = this.medication.product.item.name + ' ' + this.medication.product.item.mesure + this.medication.product.item.unit;

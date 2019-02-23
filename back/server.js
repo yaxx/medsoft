@@ -55,6 +55,12 @@ io.sockets.on('connection', (socket) => {
     socket.broadcast.emit('new patient', patient);
     
   })
+  socket.on('purchase', items => {
+    socket.broadcast.emit('purchase', items);
+  })
+  socket.on('refund', items => {
+    socket.broadcast.emit('refund', items);
+  })
 
 
   socket.on('follow', (data) => {

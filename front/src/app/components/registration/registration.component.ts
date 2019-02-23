@@ -53,7 +53,7 @@ export class RegistrationComponent implements OnInit {
   getDp(p: Person) {
     return 'http://localhost:5000/api/dp/' + p.info.personal.dpUrl;
   }
-  showSortMenu(){
+  showSortMenu() {
     this.sortMenu = true;
   }
   getPatients() {
@@ -155,8 +155,6 @@ export class RegistrationComponent implements OnInit {
 
         default:
         break;
-
-
     }
   }
 }

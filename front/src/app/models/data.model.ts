@@ -133,25 +133,32 @@ export class Note {
      ) {}
   }
 export class Bp {
-  constructor(public value: number = null, dateCreated?: Date) {}
+  constructor(public value: number = null,
+    public dateCreated: Date = new Date()) {}
 }
 export class Resp {
-  constructor(public value: number = null, dateCreated?: Date) {}
+  constructor(public value: number = null,
+    public dateCreated: Date = new Date()) {}
 }
 export class Pulse {
-  constructor(public value: number = null, dateCreated?: Date) {}
+  constructor(public value: number = null,
+    public dateCreated: Date = new Date()) {}
 }
 export class Temp {
-  constructor(public value: number = null, dateCreated?: Date) {}
+  constructor(public value: number = null,
+    public dateCreated: Date = new Date()) {}
 }
 export class Bg {
-  constructor(public value: number = null, dateCreated?: Date) {}
+  constructor(public value: number = null,
+    public dateCreated: Date = new Date()) {}
 }
 export class Height {
-  constructor(public value: number = null, dateCreated?: Date) {}
+  constructor(public value: number = null,
+    public dateCreated: Date = new Date()) {}
 }
 export class Weight {
-  constructor(public value: number = null, dateCreated?: Date) {}
+  constructor(public value: number = null,
+    public dateCreated: Date = new Date()) {}
 }
 
 export class Vital {

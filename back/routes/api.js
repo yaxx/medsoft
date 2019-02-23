@@ -398,7 +398,7 @@ getInPatients: (req, res)=>{
 getOrders: (req, res)=>{
  Person.find({},(e,patients)=>{
     if(!e){
-      console.log(patients)
+     
       res.send(patients)
     }
     else{
@@ -462,33 +462,38 @@ updateRecord: (req, res)=>{
 
     })
 },
-runTransaction: (req, res)=>{
-   Person.findByIdAndUpdate(req.body.patient._id,{record:req.body.patient.record},{new:true},(e, p)=>{
-      if(!e){
-        Client.findOneAndUpdate({
-          'info.email':'mail@cityhospital.com',
-       },
-       {inventory:req.body.inventory},{new:true},(e,i)=>{
-         if(!e){
-           console.log(i)
-           console.log(p)
-           res.send({pateint:p,inventory:i})
-         }
-         else{
-           console.log(e)
-         }
-       })
+runTransaction: (req, res) => {
+  req.body.patients.forEach(person => {
+           Person.findOneAndUpdate({
+            _id: person._id,
+         },
+         {'record.medications':person.record.medications},{new:true},(e,i) => {
+           if(!e) {
+             
+           }
+           else{
+             console.log(e)
+           }
+         })
+        
+     })
 
-      } else{
-        console.log(e);
-      }
-
-    })
+     Client.findOneAndUpdate({
+      'info.email':'mail@cityhospital.com' },
+         {
+           inventory:req.body.inventory},{new:true},(e,i) => {
+           if(!e) {
+              res.send({inventory:i})
+           }
+           else {
+             console.log(e)
+           }
+        })
+ 
 },
 
 updateNote: (req, res)=>{
-  console.log(req.body)
- Person.findOne({ _id:req.body.id} ,(e, doc) => {
+  Person.findOne({ _id:req.body.id} ,(e, doc) => {
      if(!e){
       doc.record.notes.push(req.body.note)
       doc.save((e,p)=>{
@@ -510,7 +515,7 @@ updateMedication: (req, res) => {
        'record.medications': req.body.medication
      },{new:true},(e, patient) => {
     if(!e){
-      console.log(patient)
+      
       res.send(patient)
   } else {
     console.log(e)
@@ -541,7 +546,7 @@ getProducts: (req, res)=>{
   },
       (err, client)=>{
       if(!err){
-        console.log(client.inventory)
+        
         res.send(client);
       }
       else{
@@ -564,7 +569,7 @@ updateProducts: (req, res)=>{
 },
 
 deleteProducts: (req, res)=>{
-  console.log(req.body)
+  
   Client.findOneAndUpdate({
     'info.email':'mail@cityhospital.com'
   },
@@ -632,7 +637,7 @@ getNotifications: function (req, res) {
   })
   Notifications.find({to: req.cookies.username}).populate('from', 'name username dp _id').exec((err, notes) => {
     if (!err) {
-      console.log(notes)
+      
       res.send(notes)
     } else { console.log(err) }
   })
@@ -640,7 +645,7 @@ getNotifications: function (req, res) {
 getNewNotifications: function (req, res) {
   Notifications.find({to: req.cookies.username, seen: false}, (err, notes) => {
     if (!err) {
-      console.log(notes)
+    
       res.send(notes)
     } else { console.log(err) }
   })
@@ -648,7 +653,7 @@ getNewNotifications: function (req, res) {
 getProfile: function (req, res) {
   User.find({username: req.cookies.username}, (err, prof) => {
     if (!err) {
-      console.log(prof)
+  
       res.send(prof)
     } else { console.log(err) }
   })
@@ -661,7 +666,9 @@ getPeople: function (req, res) {
     if (!err) {
       // console.log(ppl)
       res.send(ppl)
-    } else { console.log(err) }
+    } else {
+       console.log(err)
+       }
   })
 },
 

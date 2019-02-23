@@ -2,9 +2,7 @@ import { Component, OnInit, OnDestroy} from '@angular/core';
 import {DataService} from '../../services/data.service';
 import {Product, Item, StockInfo} from '../../models/data.model';
 import { sortBy } from 'sort-by-typescript';
-
-import * as socketIo from 'socket.io-client';
-import {Socket} from '../../models/socket';
+import {SocketService} from '../../services/socket.service';
 @Component({
   selector: 'app-inventory',
   templateUrl: './inventory.component.html',
@@ -29,12 +27,38 @@ export class InventoryComponent implements OnInit {
   count = 0;
 
 
-     constructor(private dataService: DataService) {
+     constructor(private dataService: DataService, private socket: SocketService) {
    }
 
   ngOnInit() {
     this.getItems();
     this.getProducts();
+    this.socket.io.on('purchase', items => {
+      items.forEach(i => {
+        this.products.forEach(prod => {
+          if(prod.item._id === i.product.item._id) {
+              prod.stockInfo.quantity = prod.stockInfo.quantity - i.purchased;
+              prod.stockInfo.sold = prod.stockInfo.sold + i.purchased;
+              } else {
+     
+              }
+            });
+          });
+     
+    })
+    this.socket.io.on('refund', items => {
+      items.forEach(i => {
+        this.products.forEach(prod => {
+          if(prod.item._id === i.product.item._id) {
+              prod.stockInfo.quantity = prod.stockInfo.quantity + i.purchased;
+              prod.stockInfo.sold = prod.stockInfo.sold - i.purchased;
+              } else {
+     
+              }
+            });
+          });
+     
+    })
   }
   switcMode(mode) {
    this.mode = mode;
@@ -45,6 +69,7 @@ export class InventoryComponent implements OnInit {
     this.mode = 'edit';
 
   }
+  
   getProducts() {
     this.dataService.getProducts().subscribe((p: any) => {
       this.products = p.inventory;

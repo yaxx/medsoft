@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Client, Department, Person} from '../models/data.model';
+import {Client, Product, Department, Person} from '../models/data.model';
 import * as socketIo from 'socket.io-client';
-
 import { Socket } from '../models/socket';
 
 declare var io: {
@@ -81,9 +80,9 @@ export class DataService {
       `${this.uri}/update-products`, product, {withCredentials: true}
       );
   }
-  runTransaction(p,i) {
+  runTransaction(patients:Person[], i:Product[]) {
     return this.http.post(
-      `${this.uri}/transaction`, {patient:p, inventory:i}, {withCredentials: true}
+      `${this.uri}/transaction`, {patients:patients, inventory:i}, {withCredentials: true}
       );
   }
   deleteProducts(product) {
@@ -111,7 +110,7 @@ export class DataService {
   }
 
   updateRecord(patient) {
-    console.log('sending');
+   
     return this.http.post(
       `${this.uri}/update-record`, patient , {withCredentials: true});
  }

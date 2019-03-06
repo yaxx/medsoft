@@ -60,7 +60,7 @@ export class InventoryComponent implements OnInit {
      
     })
   }
-  switcMode(mode) {
+  switchMode(mode) {
    this.mode = mode;
   }
   switchToEdit() {
@@ -156,10 +156,9 @@ export class InventoryComponent implements OnInit {
     }
   pickSelection() {
     this.mode = 'edit';
-    this.editables = this.products.filter((p) => p.selected);;
-
+    this.editables = this.products.slice().filter((p) => p.selected);
     this.count = this.editables.length;
-    this.product = Object.assign( this.product, this.editables.shift());
+    this.product = {...this.editables.shift()};
     this.input = this.product.item.name + ' ' + this.product.item.mesure + this.product.item.unit;
   }
   next() {

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {DataService} from '../../services/data.service';
 import {SocketService} from '../../services/socket.service';
 import {ActivatedRoute} from '@angular/router';
-import {Client, Department,  Person, Record, Session, Item, StockInfo,
+import {Client, Department,  Person, Record, Session,Note, Item, StockInfo,
   Product, Priscription, Medication
 } from '../../models/data.model';
 
@@ -20,6 +20,8 @@ export class ConsultationComponent implements OnInit {
   department: Department = new Department();
   session: Session = new Session();
   curIndex = 0;
+  searchTerm = '';
+  medicView = false;
   priscription: Priscription = new Priscription();
   medication: Medication =  new Medication(new Product(), new Priscription());
   medications: any[] = new Array<any>(new Array<Medication>());
@@ -30,13 +32,16 @@ export class ConsultationComponent implements OnInit {
   product: Product = new Product(new Item(), new StockInfo());
   products: Product[] = new Array<Product>();
   selectedProducts: Product[] = new Array<Product>();
+  note = new Note();
   input = '';
   in = 'discharge';
+  loading  = false;
   fowarded = false;
   fowardedTo = null;
   sortBy = 'added';
   sortMenu = false;
   nowSorting = 'Date added';
+  myDepartment = null;
 
   constructor(private dataService: DataService,
      private route: ActivatedRoute, private socket: SocketService ) {
@@ -48,8 +53,10 @@ export class ConsultationComponent implements OnInit {
    this.getProducts();
    this.getItems();
    this.getClient();
+   this.myDepartment = this.route.snapshot.params['mode'];
    this.socket.io.on('new patient', (patient: Person) => {
       this.patients.push(patient);
+    
   });
   }
   getClient() {
@@ -57,6 +64,9 @@ export class ConsultationComponent implements OnInit {
       this.client = client;
     });
 
+  }
+  getLink(dept: string): String {
+    return `/department/${this.myDepartment}/consultation/${dept}`;
   }
   conclude(conclution: string) {
     this.fowarded = conclution === 'fowarded' ? true : false;
@@ -82,6 +92,16 @@ export class ConsultationComponent implements OnInit {
       p.card.menu =  false;
     });
   }
+  switchToNewMedic(){
+    this.medicView = !this.medicView;
+  }
+  switchToAp(i: number){
+    this.patients[i].card.view = 'ap';
+    this.curIndex = i
+  }
+  switchToFront(i: number) {
+    this.patients[i].card.view = 'front';
+  }
   sortPatients(sortOption: string) {
     this.sortMenu = false;
     switch (sortOption) {
@@ -93,10 +113,10 @@ export class ConsultationComponent implements OnInit {
         this.patients.sort((m: Person, n: Person) => n.info.personal.gender.localeCompare(m.info.personal.gender));
         this.nowSorting = 'Gender';
         break;
-      case 'status':
-        this.patients.sort((m, n) => m.record.visits[m.record.visits.length-1].status.localeCompare(m.record.visits[n.record.visits.length-1].status.localeCompare));
-        this.nowSorting = 'Status';
-        break;
+      // case 'status':
+      //   this.patients.sort((m, n) => m.record.visits[m.record.visits.length-1].status.localeCompare(m.record.visits[n.record.visits.length-1].status.localeCompare));
+      //   this.nowSorting = 'Status';
+      //   break;
         case 'age':
         this.patients.sort((m, n) => new Date(m.info.personal.dob).getFullYear() - new Date(n.info.personal.dob).getFullYear());
 
@@ -109,6 +129,15 @@ export class ConsultationComponent implements OnInit {
         default:
         break;
     }
+  }
+   
+   saveMedication(i) {
+    this.composeMedication();
+    this.dataService.updateMedication(this.patients[i]._id, this.medications).subscribe((p: Person) => {
+      p.card = {menu: false, view: 'front'};
+      this.patients[i] = p;
+      this.medications = new Array<any>(new Array<Medication>());
+    });
   }
   searchPatient(name: string) {
     if(name!==''){
@@ -139,29 +168,35 @@ export class ConsultationComponent implements OnInit {
   }
   selectItem(i: Item) {
   }
-
-
-  searchItem (i) {
-    if (i === '') {
+searchItems(item: string) {
+    if (item === '') {
       this.temItems = new Array<Item>();
     } else {
       this.temItems = this.items.filter((item) => {
-      const patern =  new RegExp('\^' + i , 'i');
+      const patern =  new RegExp('\^' + item , 'i');
       return patern.test(item.name);
       });
   }
 }
-
-  switchBtn(option: string) {
-   this.in = option;
-   console.log(this.in);
-  }
-  getConsultees() {
-     this.dataService.getConsultees(this.route.snapshot.params['department']).subscribe((patients: Person[]) => {
-      patients.forEach(p => {
-      
+saveNote() {
+  this.loading = true;
+  this.patients[this.curIndex].record.notes.unshift(this.note)
+    this.dataService.updateRecord(this.patients[this.curIndex]).subscribe((p: Person) => {
           p.card = {menu: false, view: 'front'};
-        
+          this.loading = false;
+          this.note = new Note();
+    });
+
+  }
+
+switchBtn(option: string) {
+   this.in = option;
+
+}
+getConsultees() {
+  this.dataService.getConsultees(this.route.snapshot.params['mode']).subscribe((patients: Person[]) => {
+      patients.forEach(p => {
+          p.card = {menu: false, view: 'front'};
       });
      this.patients = patients;
      this.temPatients = patients;
@@ -179,6 +214,7 @@ export class ConsultationComponent implements OnInit {
     }
    }
   selectPatient(i: number) {
+   this.curIndex = i;
    this.patient = this.patients[i];
     this.medications = this.patient.record.medications.reverse();
    }

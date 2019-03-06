@@ -47,7 +47,7 @@
         </form>
     </div>
 </div>
-<i style="left:20%;" class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
+<!-- <i style="left:20%;" class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i> -->
 <i [routerLink]="['/messages']" routerLinkActive="router-link-active"  style="left:25%; font-size: 22px;" class="icon ion-ios-chatboxes-outline arrow buble" title="Messages"></i>
 <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:90%;position:absolute;height:30px;width:30px;bottom:-8%"></div>
 </nav>
@@ -83,7 +83,7 @@
                         </div>
                         <div class="carditem">
                             <div class="timeline detailstimeline"><i class="icon ion-ios-pulse deticon"></i></div>
-                            <h6 class="dept detailshead">CONTACT</h6>
+                            <h6 class="dept detailshead">EMERGENCY</h6>
                             <p class="dept previnfo">Name&nbsp;<span class="predata">Ahmed Tinibu</span></p>
                             <p class="dept previnfo">Mobile:&nbsp;<span class="predata">08035998732</span></p>
                             <p class="dept previnfo">Email:&nbsp;<span class="predata">amina@gmail.com</span></p>
@@ -116,7 +116,6 @@
                                       <div class="timeline lastdoc priscriber headerdp seenby">
 
                                       </div>
-
                                   </div>
 
                               </div>
@@ -183,16 +182,17 @@
                             <div class="timeline noter patientdp">
                              <img style='height:100%; width:100%; object-fit:cover; border-radius:4px;' [src] = getDp(patient)/>
                             </div>
-                             <h1 class="dept previnfo noterinfo patientname">{{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}} &nbsp;<span class="predata notetime">{{patient.info.dateCreated|date:'longDate'}}</span></h1>
-                            <h1 class="dept previnfo patientname">Gender:&nbsp;<span class="predata">Female</span></h1>
-                            <h1 class="dept previnfo patientname">Age:&nbsp;<span class="predata">25</span></h1>
+                             <h1 class="dept previnfo noterinfo patientname">
+                               {{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}} &nbsp;<span class="predata notetime">{{patient.dateCreated|date:'longDate'}}</span></h1>
+                          <h1 class="dept previnfo patientname">Gender:&nbsp;<span class="predata">{{patient.info.personal.gender}}</span></h1>
+                            <h1 class="dept previnfo patientname">Age:&nbsp;<span class="predata">{{patient.info.personal.dob|dob}}</span></h1>
                             <h1 class="dept previnfo patientname">Blood Group:&nbsp;<span class="predata">O+</span></h1>
                         </div>
                         <div class="progress bpmesure dystoprogress">
-                            <div class="progress-bar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;">50%</div>
+                            <div class="progress-bar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 30%;">30%</div>
                         </div>
                         <div class="progress bpmesure">
-                            <div class="progress-bar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;">50%</div>
+                            <div class="progress-bar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 55%;">55%</div>
                         </div>
                         <h1 class="dept systolic">Blood Presure:</h1>
                         <h1 class="dept systolic dystolic">Blood Sugar:</h1>
@@ -203,16 +203,16 @@
                         <h1 class="dept headtitle">NOTES</h1>
                     </div>
                     <div class="card-body notecardbody">
-
-                        <div *ngFor = "let item of patient.record.notes" class="carditem noteitem writeup">
-                            <div class="timeline noter"></div>
+                        <div *ngFor = "let item of patient.record.notes;let i=index" class="carditem noteitem writeup">
+                          <div style="position:absolute;left:-3%;" class="timeline lastdoc priscriber headerdp small-dp">
+                            <img [src] = getDp(patient)/>
+                          </div>
                             <h1 class="dept previnfo noterinfo">Dr. Farida Aminu&nbsp;<span class="predata notetime">
                                 {{item.dateCreated|date:'dd/MM/y hh:mma'|lowercase}}</span></h1>
                             <p class="note-item">{{item|note}}<br>
-                              <span *ngIf= "!item.full" (click) = "showDetails($event)" class="read-more"><a href="#">Read more</a></span>
+                              <span *ngIf= "!item.full" (click) = "showDetails($event,i)" class="read-more"><a href="#">Read more</a></span>
                           </p>
                         </div>
-
                     </div>
                     <a href="#" class="card-link view-more">View 10 more<span><i class="icon ion-android-more-vertical thread-icon"></i></span></a>
                 </div>
@@ -256,44 +256,23 @@
                             <h1 class="dept headtitle">SCANNED FILES</h1>
                         </div>
                         <div class="card-body midcardbody">
-                            <div class="carditem scan-items">
-
-                                <div class="card scan-thumnail"><a href="assets/img/IMG-20180927-WA0000.jpg" target="_blank" class="image-link" data-lightbox="scan"><img class="img-fluid" src="assets/img/IMG-20180927-WA0000.jpg"></a></div>
-
-
-                                 <i title = 'download' class="icon ion-ios-download-outline downloadicon"></i>
-                                <h6 class="filename">Mamaograph</h6>
+                            <div *ngFor='let scan of patient.record.scans' class="carditem scan-items">
+                                <div class="card scan-thumnail"><a href="assets/img/IMG-20180927-WA0000.jpg" target="_blank" class="image-link" data-lightbox="scan"><img class="img-fluid" [src] = getImage(scan.name)></a></div>
+                                 <i (click)='downloadImage(scan.name)'title = 'download' class="icon ion-ios-download-outline downloadicon"></i>
+                                <h6 class="filename">{{scan.description}}</h6>
                                 <div class="timeline condition drugtimeline">
                                     <p class="timelinedate">05</p>
                                     <p class="timelinedate month">FEB</p>
                                 </div>
                             </div>
-                            <div class="carditem scan-items">
 
-                                <div class="card scan-thumnail"><a href="assets/img/IMG-20180927-WA0000.jpg" target="_blank"><img class="img-fluid" src="assets/img/IMG-20180927-WA0000.jpg"></a></div>
-                                 <i title = 'download'  class="icon ion-ios-download-outline downloadicon"></i>
-                                <h6 class="filename">Chest x-ray</h6>
-                                <div class="timeline condition drugtimeline">
-                                    <p class="timelinedate">08</p>
-                                    <p class="timelinedate month">FEB</p>
-                                </div>
-                            </div>
-                            <div class="carditem scan-items">
-                                <div class="card scan-thumnail"><a href="assets/img/IMG-20180927-WA0000.jpg" target="_blank"><img class="img-fluid" src="assets/img/IMG-20180927-WA0000.jpg"></a></div>
-                                 <i title = 'download' class="icon ion-ios-download-outline downloadicon"></i>
-                                <h6 class="filename">Spinal cord</h6>
-                                <div class="timeline condition drugtimeline">
-                                    <p class="timelinedate">12</p>
-                                    <p class="timelinedate month">MAR</p>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="card card-secondary historycard midlecard topcard graphcard">
                     <div class="card-header grapheader">
                         <h1 class="dept headtitle">VITALS</h1>
-                        
+
                     </div>
                     <div class="card-body topcardbody nopadding">
                         <div style='padding-left:0%' class="carditem">
@@ -440,16 +419,16 @@
                               <p class="timelinedate month">FEB</p>
                           </div>
                           <div class="priscription drug">
-                              <h6 class="dept">Amoxiline&nbsp;<span class="predata prescriptionicon"></span><span class="predata">200mg</span></h6>
+                              <h6 style='font-weight:normal' class="dept">Amoxiline&nbsp;<span class="predata prescriptionicon"></span><span class="predata">200mg</span></h6>
 
                           </div>
                           <div class="priscription drug">
-                              <h6 class="dept">Chloroquine &nbsp;<span class="predata prescriptionicon">
+                              <h6  style='font-weight:normal' class="dept">Chloroquine &nbsp;<span class="predata prescriptionicon">
                               </span><span class="predata">200ml</span></h6>
 
                           </div>
                           <div class="priscription drug">
-                              <h6 class="dept">Amathem<span class="predata prescriptionicon">
+                              <h6 style='font-weight:normal' class="dept">Amathem<span class="predata prescriptionicon">
                               </span><span class="predata">1000mg</span></h6>
 
                           </div>
@@ -501,273 +480,4 @@
         </div>
     </div>
 
-<!-- <div class="row">
-  <div class="col col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
-      <div class="card-colums leftcolumn">
-          <div class="card card-secondary historycard leftcard">
-              <div class="card-body infobody">
-                  <div class="carditem">
-                      <h1 class="dept detailshead">PERSONAL INFO</h1>
-                      <h1 class="dept previnfo">Age: &nbsp;<span class="predata">21</span></h1>
-                      <h1 class="dept previnfo">Gender: &nbsp;<span class="predata">{{patient.personal.gender}}</span></h1>
-                      <h1 class="dept previnfo">Blood Group: &nbsp;<span class="predata">O+</span></h1>
-                      <h1 class="dept previnfo">Marital Status: &nbsp;<span class="predata">{{patient.personal.mstatus}}</span></h1>
-                      <h1 class="dept previnfo">Religion &nbsp;<span class="predata">{{patient.personal.religion}}</span></h1>
-                      <h1 class="dept previnfo">Tribe &nbsp;<span class="predata">{{patient.personal.tribe}}</span></h1>
-                      <h1 class="dept previnfo">Occupation: &nbsp;<span class="predata">{{patient.personal.occupation}}</span></h1>
-                      <h1 class="dept previnfo">Card Number: &nbsp;<span class="predata">{{patient.personal.cardNum}}</span></h1>
-
-                      <div class="timeline detailstimeline"><i class="icon ion-ios-person-outline deticon" title=""></i></div>
-                  </div>
-                  <div class="carditem">
-                      <h1 class="dept detailshead">CONTACT</h1>
-                      <h1 class="dept previnfo">Mobile: &nbsp;<span class="predata">{{patient.contact.mobile}}</span></h1>
-                      <h1 class="dept previnfo">E-Mail: &nbsp;<span class="predata">{{patient.contact.email}}</span></h1>
-                      <h1 class="dept previnfo">State: &nbsp;<span class="predata">{{patient.contact.state}}</span></h1>
-                      <h1 class="dept previnfo">LGA: &nbsp;<span class="predata">{{patient.contact.lga}}</span></h1>
-                      <h1 class="dept previnfo">Address: &nbsp;<span class="predata">{{patient.contact.address}}</span></h1>
-                      <h1 class="dept previnfo">Next of Kin: &nbsp;<span class="predata">Fassan Sani</span></h1>
-                      <div class="timeline detailstimeline"><i class="icon ion-ios-location-outline deticon" title=""></i></div>
-                  </div>
-                  <div class="carditem">
-                      <h1 class="dept detailshead">EMERGENCY CONTACT</h1>
-                      <h1 class="dept previnfo">Name: &nbsp;<span class="predata">{{patient.contact.emgName}}</span></h1>
-                      <h1 class="dept previnfo">Relationship: &nbsp;<span class="predata">{{patient.contact.emgRel}}</span></h1>
-                      <h1 class="dept previnfo">Mobile &nbsp;<span class="predata">{{patient.contact.emgMobile}}</span></h1>
-                      <h1 class="dept previnfo">E-Mail: &nbsp;<span class="predata">{{patient.contact.emgRel}}</span></h1>
-                      <h1 class="dept previnfo">Occupation: &nbsp;<span class="predata">{{patient.contact.emgOccupation}}</span></h1>
-                      <div class="timeline detailstimeline"><i class="icon ion-ios-pulse deticon" title=""></i></div>
-                  </div>
-              </div>
-          </div>
-          <div class="card card-secondary historycard leftcard deathinfo">
-              <div class="card-header grapheader">
-                  <h1 class="dept headtitle">HEALTH INSURANCE</h1>
-              </div>
-              <div class="card-body rightcardbody">
-                  <div class="carditem"></div>
-              </div>
-          </div>
-          <div class="card card-secondary historycard leftcard visits">
-              <div class="card-header grapheader">
-                  <h1 class="dept headtitle">VISITS</h1>
-              </div>
-              <div class="card-body rightcardbody">
-                  <div class="carditem"></div>
-              </div>
-          </div>
-          <div class="card card-secondary historycard leftcard deathinfo">
-              <div class="card-header grapheader">
-                  <h1 class="dept headtitle">DEATH INFORMATION</h1>
-              </div>
-              <div class="card-body rightcardbody">
-                  <div class="carditem"></div>
-              </div>
-          </div>
-      </div>
-  </div>
-  <div class="col col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-      <div class="card-colums">
-          <div class="card card-secondary historycard midlecard graphcard">
-              <div class="card-body notecardbody">
-                  <div class="carditem noteitem writeup">
-                      <div class="timeline noter patientdp"></div>
-                      <h1 class="dept previnfo noterinfo patientname">{{patient.personal.firstName + ' '+ patient.personal.lastName}} &nbsp;<span class="predata notetime">{{patient.dateCreated|date:'longDate'}}</span></h1>
-                      <h1 class="dept previnfo patientname">Gender: &nbsp;<span class="predata">{{patient.personal.gender}}</span></h1>
-                      <h1 class="dept previnfo patientname">Age: &nbsp;<span class="predata">25</span></h1>
-                      <h1 class="dept previnfo patientname">Blood Group: &nbsp;<span class="predata">O+</span></h1>
-                  </div>
-                  <div class="progress bpmesure">
-                      <div class="progress-bar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;">50%</div>
-                  </div>
-                  <div class="progress bpmesure dystoprogress">
-                      <div class="progress-bar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;">50%</div>
-                  </div>
-                  <h1 class="dept systolic dystolic">Dystolic</h1>
-                  <h1 class="dept systolic">Systolic &nbsp;</h1>
-              </div>
-          </div>
-          <div id="notescard" class="card card-secondary">
-              <div class="card-header grapheader">
-                  <h1 class="dept headtitle">&nbsp;NOTES</h1>
-              </div>
-              <div class="card-body notecardbody">
-                  <div class="carditem noteitem writeup">
-                      <div class="timeline noter"></div>
-                      <h1 class="dept previnfo noterinfo">Dr. Aisha Mohammed &nbsp;  <span class="predata notetime">{{patient.record.notes[0].dateCreated|date:'dd/MM/y hh:mma'|lowercase}}</span>
-                        <span class="predata notetime notedept">Family Medicine</span>
-                      </h1>
-
-                      <p class="writeup">{{patient.record.notes[0]|note}}<span class="readmore"><label *ngIf= "!patient.record.notes[0].full" (click) = "showDetails()" title="Read complete note ">Read More</label></span></p>
-                  </div>
-
-              </div>
-          </div>
-          <div class="card card-secondary maincard halfcard">
-              <div class="card-header grapheader">
-                  <h1 class="dept headtitle">LAB TESTS</h1>
-              </div>
-              <div class="card-body midcardbody">
-                  <div class="carditem">
-                      <h1 class="dept">RAST</h1>
-                      <h1 class="dept previnfo">Test result: &nbsp;<span class="predata">Positive</span></h1>
-                      <h1 class="dept previnfo">Date tested: &nbsp;<span class="predata">21/11/2018</span></h1>
-                      <div class="timeline">
-                          <h1 class="timelinedate">5</h1>
-                          <h1 class="timelinedate timelinemonth">MAY</h1>
-                      </div>
-                  </div>
-                  <div class="carditem">
-                      <h1 class="dept">Peneciline Allegy&nbsp;</h1>
-                      <h1 class="dept previnfo">Test &nbsp;result: &nbsp;<span class="predata">Negative</span></h1>
-                      <h1 class="dept previnfo">Date of test: &nbsp;<span class="predata">21/11/2018</span></h1>
-                      <div class="timeline">
-                          <h1 class="timelinedate">10</h1>
-                          <h1 class="timelinedate timelinemonth">MAY</h1>
-                      </div>
-                  </div>
-              </div>
-          </div>
-          <div class="card card-secondary maincard halfcard midright">
-              <div class="card-header grapheader">
-                  <h1 class="dept headtitle">FILE ATATCHEMENTS</h1>
-              </div>
-              <div class="card-body midcardbody">
-                  <div class="carditem">
-                      <h1 class="dept">Appendice</h1>
-                      <h1 class="dept previnfo">Proceeded By: &nbsp;<span class="predata">Dr. Sani Maina</span></h1>
-                      <h1 class="dept previnfo">Date of procedure: &nbsp;<span class="predata">21/11/2018</span></h1>
-                      <div class="timeline">
-                          <h1 class="timelinedate">10</h1>
-                          <h1 class="timelinedate timelinemonth">MAY</h1>
-                      </div>
-                  </div>
-                  <div class="carditem">
-                      <h1 class="dept">Blood Transfusion</h1>
-                      <h1 class="dept previnfo">Proceeded By: &nbsp;<span class="predata">Dr. Kate Benjamin</span></h1>
-                      <h1 class="dept previnfo">Date of procedure: &nbsp;<span class="predata">21/11/2018</span></h1>
-                      <div class="timeline">
-                          <h1 class="timelinedate">5</h1>
-                          <h1 class="timelinedate timelinemonth">MAY</h1>
-                      </div>
-                  </div>
-              </div>
-          </div>
-          <div class="card card-secondary historycard midlecard topcard graphcard">
-              <div class="card-header grapheader">
-                  <h1 class="dept headtitle">BLOOD PRESURE</h1>
-              </div>
-              <div class="card-body topcardbody">
-                  <div class="carditem"></div>
-              </div>
-          </div>
-          <div class="card card-secondary historycard midlecard topcard graphcard">
-              <div class="card-header grapheader">
-                  <h1 class="dept headtitle">BLOOD GLUCOSE</h1>
-              </div>
-              <div class="card-body topcardbody">
-                  <div class="carditem"></div>
-              </div>
-          </div>
-      </div>
-  </div>
-  <div class="col col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
-      <div class="card-colums rightcolumn">
-          <div class="card card-secondary historycard rightcard allegies">
-              <div class="card-header grapheader">
-                  <h1 class="dept headtitle">ALLEGIES</h1>
-              </div>
-              <div class="card-body rightcardbody">
-                  <div class="carditem">
-                      <ul class="itemlist">
-                          <li>Nuts</li>
-                          <li>Shelfish</li>
-                          <li>Sporse</li>
-                      </ul>
-                  </div>
-              </div>
-          </div>
-          <div class="card card-secondary historycard rightcard allegies">
-              <div class="card-header grapheader">
-                  <h1 class="dept headtitle">FAMILY HISTORY</h1>
-              </div>
-              <div class="card-body rightcardbody">
-                  <div class="carditem">
-                      <ul class="itemlist">
-                          <li>Diabetes</li>
-                          <li>Asthma</li>
-                          <li>Hepatitis B</li>
-                          <li>Tooth Ache</li>
-                      </ul>
-                  </div>
-              </div>
-          </div>
-          <div class="card card-secondary historycard rightcard medication">
-              <div class="card-header grapheader">
-                  <h1 class="dept headtitle">COMPLAINS</h1>
-              </div>
-              <div class="card-body rightcardbody conditionbody">
-                  <div class="carditem">
-                      <h1 class="dept">Diabetes</h1>
-                      <h1 class="dept previnfo">Diagnosed By &nbsp;<span class="predata">Dr Mikel Lesi</span></h1>
-                      <h1 class="dept previnfo">Date of Diagnosis: &nbsp;<span class="predata">15/12/2018</span></h1>
-                  </div>
-                  <div class="carditem">
-                      <h1 class="dept">Malaria Fever</h1>
-                      <h1 class="dept previnfo">Diagnosed By &nbsp;<span class="predata">Dr Aisha Bello</span></h1>
-                      <h1 class="dept previnfo">Date of Diagnosis: &nbsp;<span class="predata">15/12/2018</span></h1>
-                  </div>
-                  <div class="carditem">
-                      <h1 class="dept">Tooth Ache</h1>
-                      <h1 class="dept previnfo">Diagnosed By &nbsp;<span class="predata">Dr Mikel Lesi</span></h1>
-                      <h1 class="dept previnfo">Date of Diagnosis: &nbsp;<span class="predata">15/12/2018</span></h1>
-                  </div>
-              </div>
-          </div>
-          <div class="card card-secondary historycard rightcard medication">
-              <div class="card-header grapheader">
-                  <h1 class="dept headtitle">CONDITIONS</h1>
-              </div>
-              <div class="card-body rightcardbody conditionbody">
-                  <div class="carditem">
-                      <h1 class="dept">Diabetes</h1>
-                      <h1 class="dept previnfo">Diagnosed By &nbsp;<span class="predata">Dr Mikel Lesi</span></h1>
-                      <h1 class="dept previnfo">Date of Diagnosis: &nbsp;<span class="predata">15/12/2018</span></h1>
-                  </div>
-                  <div class="carditem">
-                      <h1 class="dept">Malaria Fever</h1>
-                      <h1 class="dept previnfo">Diagnosed By &nbsp;<span class="predata">Dr Aisha Bello</span></h1>
-                      <h1 class="dept previnfo">Date of Diagnosis: &nbsp;<span class="predata">15/12/2018</span></h1>
-                  </div>
-                  <div class="carditem">
-                      <h1 class="dept">Tooth Ache</h1>
-                      <h1 class="dept previnfo">Diagnosed By &nbsp;<span class="predata">Dr Mikel Lesi</span></h1>
-                      <h1 class="dept previnfo">Date of Diagnosis: &nbsp;<span class="predata">15/12/2018</span></h1>
-                  </div>
-              </div>
-          </div>
-          <div class="card card-secondary historycard rightcard condition">
-              <div class="card-header grapheader">
-                  <h1 class="dept headtitle">MEDICATIONS</h1>
-              </div>
-              <div class="card-body rightcardbody conditionbody">
-                  <div class="carditem">
-                      <div class="priscription wardpriscription">
-                          <h1 class="dept">Senamen<span class="predata">&nbsp;500mg</span></h1>
-                          <h1 class="dept priscriptiontime">2/18/2018&nbsp;<span class="timetaken">5/18/2018 &nbsp;</span></h1>
-                      </div>
-                      <div class="priscription wardpriscription">
-                          <h1 class="dept">Amoxiline<span class="predata">&nbsp;200mg</span></h1>
-                          <h1 class="dept priscriptiontime">2/18/2018&nbsp;<span class="timetaken">5/18/2018 &nbsp;</span></h1>
-                      </div>
-                      <div class="priscription wardpriscription">
-                          <h1 class="dept">Chloroquine Injection<span class="predata">&nbsp;200ml</span></h1>
-                          <h1 class="dept priscriptiontime">2/18/2018&nbsp;<span class="timetaken">5/18/2018 &nbsp;</span></h1>
-                      </div>
-                  </div>
-              </div>
-          </div>
-        </div>
-     </div>
-    </div> -->
 </div>

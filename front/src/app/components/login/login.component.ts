@@ -30,11 +30,21 @@ export class LoginComponent implements OnInit {
       this.cookie.set('i', person._id);
       this.cookie.set('h', person.info.official.hospId);
       this.socket.io.emit('login', {ui: person._id, lastLogin: person.info.lastLogin});
-      this.router.navigate(['/information']);
-    //   if ((person.info.official.department === 'GOPD') || (person.info.official.department === 'Maternity')) {
-    //     this.router.navigate(['/consultation']);
-    //   } else {
-    //     this.router.navigate([`department/$//{person.info.official.department}`]);
+      let route = null;
+      const role = person.info.official.role;
+      switch (role) {
+        case 'doctor':
+          route = `department/${person.info.official.department.toLowerCase()}/consultation`;
+          break;
+        case 'Nurse':
+          route = `department/${person.info.official.department.toLowerCase()}/ward`;
+        break;
+        default:
+          route = `department/${person.info.official.department.toLowerCase()}`;
+        break;
+      }
+      this.router.navigate([route]);
+ 
       }
      , (err) => {
 

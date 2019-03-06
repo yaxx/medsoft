@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FileSelectDirective, FileUploader } from 'ng2-file-upload';
 import {DataService} from '../../services/data.service';
 import {SocketService} from '../../services/socket.service';
-import { Person, Client, Item,
+import { Person, Client, Item, Scan,
   Product, Priscription, Vital, Medication, Note
 } from '../../models/data.model';
 const uri = 'http://localhost:5000/api/upload';
@@ -20,16 +20,19 @@ export class WardComponent implements OnInit {
   vitals: Vital = new Vital();
   priscription: Priscription = new Priscription();
   medication: Medication = new Medication();
+  temPatients: Person[] = new Array<Person>();
   temProducts: Product[] = new Array<Product>();
   item: Item = new Item();
   items: Item[] = new Array<Item>();
   file: File = null;
+  filesDesc = null;
   note = new Note();
   input = '';
   view = 'bed';
   id = null;
   loading = false;
   selected = null;
+  searchTerm = '';
   bedNum = null;
   curIndex = 0;
   url = '';
@@ -44,14 +47,15 @@ export class WardComponent implements OnInit {
   ngOnInit() {
     this.getInPatients();
     this.getClient();
-
-    this.uploader.onBuildItemForm = (fileItem: any, form: any) => {
-      form.append('id', this.patients[this.curIndex]._id);
-
+    this.uploader.onCompleteItem = (item: any, fileName: any, status: any, headers: any ) => {
+      this.patients[this.curIndex].record.scans.unshift(new Scan(fileName, this.filesDesc))
+       this.dataService.updateRecord(this.patients[this.curIndex]).subscribe((newpatient: Person) => {
+        console.log(newpatient.record.scans);
+      });
      };
-    this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any ) => {
-      this.attachments.push(JSON.parse(response));
-    };
+    // this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any ) => {
+    //   this.attachments.push(JSON.parse(response));
+    // };
   }
   getDp(p: Person) {
     return 'http://localhost:5000/api/dp/' + p.info.personal.dpUrl;
@@ -67,25 +71,36 @@ export class WardComponent implements OnInit {
       const reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]); // read file as data url
       reader.onload = (e) => { // called once readAsDataURL is completed
-        this.url = e.target.result;
-        console.log(e.target);
+        let ev = <any>e;
+        this.url = ev.target.result;
+
       };
     }
 
   }
+   searchPatient(name:string) {
+   if(name!==''){
+    this.patients = this.patients.filter((patient) => {
+      const patern =  new RegExp('\^' + name
+      , 'i');
+      return patern.test(patient.info.personal.firstName);
+      });
+   } else {
+     this.patients = this.temPatients;
+   }
+   }
   medicationSelected() {
     return this.patients[this.curIndex].record.medications.some(med => med.some(m => m.selected));
   }
   uploadFile() {
     const data: FormData = new FormData();
     data.append('file', this.file);
-
     this.dataService.upload(this.file,
        this.patients[this.curIndex]._id).subscribe(res => {
     });
-
   }
   selectPatient(i: number) {
+    this.curIndex = i;
    }
    showMenu(i: number) {
      this.hideMenu();
@@ -96,6 +111,9 @@ export class WardComponent implements OnInit {
        p.card.menu =  false;
      });
    }
+   showSortMenu() {
+    this.sortMenu = true;
+  }
    sortPatients(sortOption: string) {
     this.sortMenu = false;
     switch (sortOption) {
@@ -107,10 +125,10 @@ export class WardComponent implements OnInit {
         this.patients.sort((m: Person, n: Person) => n.info.personal.gender.localeCompare(m.info.personal.gender));
         this.nowSorting = 'Gender';
         break;
-      case 'status':
-        this.patients.sort((m, n) => m.record.visits[m.record.visits.length-1].status.localeCompare(m.record.visits[n.record.visits.length-1].status.localeCompare()));
-        this.nowSorting = 'Status';
-        break;
+      // case 'status':
+      //   this.patients.sort((m, n) => m.record.visits[m.record.visits.length-1].status.localeCompare(m.record.visits[n.record.visits.length-1].status.localeCompare()));
+      //   this.nowSorting = 'Status';
+      //   break;
         case 'age':
         this.patients.sort((m, n) => new Date(m.info.personal.dob).getFullYear() - new Date(n.info.personal.dob).getFullYear());
 
@@ -136,7 +154,7 @@ export class WardComponent implements OnInit {
         }
       });
       this.patients = patients;
-      this.patient = patients[0]; 
+      this.patient = patients[0];
     });
   }
   getBeds(i: number) {
@@ -170,13 +188,13 @@ export class WardComponent implements OnInit {
   }
   switchToVitals(i: number){
     this.patients[i].card.view = 'vitals';
+    this.curIndex = i
   }
   updateVitals(i: number) {
-
     if(this.vitals.tempreture) {
-      this.patients[i].record.vitals.bp = 
-      this.patients[i].record.vitals.tempreture.filter(t => new Date(t.dateCreated).toLocaleDateString() !== new Date()
-      .toLocaleDateString())
+      this.patients[i].record.vitals.bp =
+      this.patients[i].record.vitals.tempreture.filter(t => new Date(t.dateCreated).toLocaleDateString() !== new Date().toLocaleDateString())
+
       this.patients[i].record.vitals.tempreture.unshift(this.vitals.tempreture);
     } else {
 
@@ -209,7 +227,7 @@ export class WardComponent implements OnInit {
 
     }
     if(this.vitals.height.value) {
-      this.patients[i].record.vitals.height = 
+      this.patients[i].record.vitals.height =
       this.patients[i].record.vitals.height.filter(h => new Date(h.dateCreated).toLocaleDateString() !== new Date()
       .toLocaleDateString())
       this.patients[i].record.vitals.height.unshift(this.vitals.height);
@@ -217,7 +235,7 @@ export class WardComponent implements OnInit {
 
     }
     if(this.vitals.weight.value) {
-      this.patients[i].record.vitals.weight = 
+      this.patients[i].record.vitals.weight =
       this.patients[i].record.vitals.weight.filter(w => new Date(w.dateCreated).toLocaleDateString() !== new Date()
       .toLocaleDateString());
       this.patients[i].record.vitals.weight.unshift(this.vitals.weight);

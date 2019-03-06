@@ -22,7 +22,7 @@ export class RegistrationComponent implements OnInit {
   url = '';
   sortBy = 'added';
   sortMenu = false;
-  nowSorting = 'Date added'
+  nowSorting = 'Date added';
   view = 'info';
   searchTerm = '';
   regMode =  'all';
@@ -71,18 +71,18 @@ export class RegistrationComponent implements OnInit {
       const reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]); // read file as data url
       reader.onload = (e) => { // called once readAsDataURL is completed
-        this.url = e.target.result;
+        // this.url = e.target.result;
       };
     }
 
   }
-  switchToBack(i) {
+  switchToBack(i: number) {
     this.patients[i].card.view = 'back';
   }
-  switchToFront(i){
+  switchToFront(i: number){
     this.patients[i].card.view = 'front';
   }
-  selectPatient(i){
+  selectPatient(i: number){
     this.info = this.patients[i].info;
   }
   addPatient(patient: Person) {
@@ -140,9 +140,9 @@ export class RegistrationComponent implements OnInit {
         this.nowSorting = 'Gender';
         break;
       case 'status':
-        this.patients.sort((m, n) => m.record.visits[m.record.visits.length-1].status.localeCompare(m.record.visits[n.record.visits.length-1].status.localeCompare));
-        this.nowSorting = 'Status';
-        break;
+        // this.patients.sort((m, n) => m.record.visits[m.record.visits.length-1].status.localeCompare(m.record.visits[n.record.visits.length-1].status.localeCompare));
+        // this.nowSorting = 'Status';
+        // break;
         case 'age':
         this.patients.sort((m, n) => new Date(m.info.personal.dob).getFullYear() - new Date(n.info.personal.dob).getFullYear());
 

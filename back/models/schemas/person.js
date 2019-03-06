@@ -169,7 +169,11 @@ var personScheema = new Scheema({
             ]
         ],
    
-   scans:[],
+   scans:[{
+       name: String,
+       description: String,
+       dateCreated: Date 
+   }],
    Test:[],
    surgeries:[],
    dateCreated: {type: Date, Default: Date.now()}

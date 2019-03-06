@@ -54,6 +54,10 @@ getDp: (req, res)=>{
   const filePath = path.join(__dirname, '../uploads') + '/'+req.params.id
   res.sendFile(filePath);
 },
+downloadFile: (req, res)=>{
+  const filename = path.join(__dirname, '../uploads') + '/'+req.body.fileName
+  res.sendFile(filename);
+},
 addPatient: (req, res)=>{
    new Person(req.body).save((e, patient)=>{
       if(e){

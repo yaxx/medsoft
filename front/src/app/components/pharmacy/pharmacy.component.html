@@ -141,37 +141,62 @@
             <i class="icon ion-ios-calendar-outline homeicon"></i>
         </span>
     </a>
-    <a href="#" [routerLink]="['/products']" routerLinkActive="active"  class="home cartmenu" title="Products">
+    <a href="#" [routerLink]="['/products']" routerLinkActive="router-link-active"  class="home cartmenu" title="Products">
         <span class="homespan"> <i class="icon ion-ios-cart-outline homeicon"></i></span></a>
     <a href="#" [routerLink]="['/ward']" routerLinkActive="router-link-active"   class="home wardmenu" title="Ward"><span class="homespan"><i class="material-icons homeicon wardicon">airline_seat_individual_suite</i></span></a>
     <a href="#"  [routerLink]="['/account']" routerLinkActive="router-link-active" class="home settings" title="Settings"><span class="homespan"><i class="icon ion-ios-gear-outline homeicon"></i></span></a>
   </div>
 <nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:0px">
-<div class="container">
-    <a class="navbar-brand" href="#">
-        <em>MS</em>
-    </a>
-    <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navcol-1">
-        <ul class="nav navbar-nav"></ul>
-        <form class="form-inline mr-auto searchform" target="_self">
-            <div class="form-group">
-                <label for="search-field">
-                    <i class="icon ion-ios-search searchicon" title="Search"></i>
-                </label>
-                <input autocomplete="off" style="border-radius:30px; left: 405px; width:220px;background-color: rgb(243, 248, 247); margin: auto;" class="form-control search-field" type="search" name="search" id="search-field" placeholder="Search Patient">
-            </div>
-        </form>
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <em>MS</em>
+        </a>
+        <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navcol-1">
+            <ul class="nav navbar-nav"></ul>
+            <form class="form-inline mr-auto searchform" target="_self">
+                <div class="form-group">
+                    <label style="left:500px;position:absolute;"  for="search-field">
+                        <i class="icon ion-ios-search searchicon" title="Search"></i>
+                    </label>
+                    <input autocomplete = "off" style="border-radius:30px;
+                    left: 270px;
+                    width:220px;
+                    background-color: rgb(243, 248, 247);
+                    margin: auto;"
+                    class="form-control search-field"
+                    type="search" name="search" id="search-field" placeholder="Search patient">
+                </div>
+            </form>
+            <h6 style='font-size:12px;
+                        left:830px;position:absolute;
+                        color:grey;
+                        font-weight:normal;'>Sort by: <span stye='cursor:pointer'(click)='showSortMenu()'>
+                          {{nowSorting}}</span></h6>
+            <div *ngIf=sortMenu style='position: absolute;
+                        left:880px;
+                        width:100px;top:6px;
+                        height:110px'  class="menu">
+              <ul class="actions primary">
+                  <li (click)='sortPatients("name")' class="action">A-Z</li>
+                  <li (click)='sortPatients("age")' class="action">Age</li>
+                  <li (click)='sortPatients("status")' class="action">Status</li>
+                  <li (click)='sortPatients("sex")' class="action">Gender</li>
+                  <li (click)='sortPatients("date")' class="action">Date added</li>
+              </ul>
+          </div>
+        </div>
     </div>
-</div>
-<i style="left:80%;" class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
 
-<i [routerLink]="['/messages']" data-target="#newModal" data-toggle="modal" style="left:83%;" class="icon ion-ios-person-outline arrow buble" id="add" title="My Account" ></i>
-<div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:90%;position:absolute;height:30px;width:30px;bottom:-8%"></div>
-</nav>
+    <i style="left:80%;" class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
+
+    <i [routerLink]="['/messages']" data-target="#newModal" data-toggle="modal" style="left:83%;" class="icon ion-ios-person-outline arrow buble" id="add" title="Me" ></i>
+
+    <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:90%;position:absolute;height:30px;width:30px;bottom:-8%"></div>
+    </nav>
 
 
 
@@ -183,8 +208,8 @@
 <div style="padding-top:40px;" class="container">
         <div class="row">
             <div *ngFor="let patient of patients; let i = index" class="col col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
-              <div *ngIf = "view==='default'" style="min-height:400px;max-height:400px;" class="card card-secondary maincard">
-                   <div class="card-header profileheader small-header">
+              <div *ngIf = "view ==='default'" style="border-radius: 12px;min-height:400px;max-height:400px;" class="card card-secondary maincard">
+                   <div style='border-top-right-radius: 12px;border-top-left-radius: 12px' class="card-header profileheader small-header">
                       <i class="icon ion-android-more-vertical small-icon"></i>
                         <div class="timeline lastdoc priscriber headerdp small-dp">
                          <img [src] = getDp(patient)/>

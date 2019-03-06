@@ -2,8 +2,8 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content" style="width:470px;border-radius:0px;;padding-left:0px;padding-right: 0px;">
                 <div class="card-header grapheader">
-                        <h1 class="dept headtitle">NEW PATIENT</h1>
-                    </div>
+                      <h1 class="dept headtitle">NEW PATIENT</h1>
+                </div>
             <div class="modal-body" style="border-radius:0px;padding-left:0px;padding-right: 0px;">
                 <form style="position:relative; width:100%" novalidate  class="patientform" (submit)='submitRecord()'>
                     <div class="card card-secondary historycard midlecard profilecard" style="border-bottom:none;margin:0px;margin-right: 0px;width:95%;margin:auto; min-height: 150px;">
@@ -212,34 +212,20 @@
 
 
 <div class="sidenav">
-    <a href="#" class="home homemenu" title="Menu">
-        <span class="homespan">
-            <i class="material-icons homeicon">sort</i>
-        </span>
-    </a>
-
-    <a href="#" [routerLink]="['/pharmacy']"  class="home dashboard" title="Dashboard">
-        <span class="homespan">
-            <i class="icon ion-android-apps homeicon"></i>
-        </span>
-    </a>
-    <a href="#" [routerLink]="['/information']" routerLinkActive="router-link-active"  class="home patienmenu" title="Patients">
+   
+    <a style="top:21%" href="#" [routerLink]="['/department/information']" routerLinkActive="router-link-active"  class="home patienmenu" title="Out Patients">
         <span class="homespan">
             <i class="icon ion-ios-people-outline homeicon"></i>
         </span>
     </a>
-    <a href="#" [routerLink]="['/consultation']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Appointments">
-        <span class="homespan">
-            <i class="icon ion-ios-calendar-outline homeicon"></i>
-        </span>
-    </a>
-    <a href="#" [routerLink]="['/products']" routerLinkActive="active"  class="home cartmenu" title="Products">
-        <span class="homespan"> <i class="icon ion-ios-cart-outline homeicon"></i></span></a>
+    
+    <a style="top:28%" href="#" [routerLink]="['/department/information/inpatients']" routerLinkActive="router-link-active"   class="home wardmenu" title="Inpatients"><span class="homespan"><i class="material-icons homeicon wardicon">airline_seat_individual_suite</i></span></a>
 
-    <a href="#" [routerLink]="['/ward']" routerLinkActive="router-link-active"   class="home wardmenu" title="Ward"><span class="homespan"><i class="material-icons homeicon wardicon">airline_seat_individual_suite</i></span></a>
-
-    <a href="#"  [routerLink]="['/account']" routerLinkActive="router-link-active" class="home settings" title="Settings"><span class="homespan"><i class="icon ion-ios-gear-outline homeicon"></i></span></a>
-
+    <a style="top:34%" href="#" [routerLink]="['/department/information/appointments']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Appointments">
+      <span class="homespan">
+          <i class="icon ion-ios-calendar-outline homeicon"></i>
+      </span>
+  </a>
 
   </div>
   <nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:0px">
@@ -297,12 +283,12 @@
         <div class="row">
             <div  *ngFor="let patient of patients; let i=index"  class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
                 <div *ngIf = "patient.card.view == 'front'"  class="card card-secondary maincard">
-                  <div class="card-header profileheader"><i class="icon ion-android-more-vertical headericon moreicon actions-icon"></i>
+                  <div style="border-radius:12px" class="card-header profileheader"><i class="icon ion-android-more-vertical headericon moreicon actions-icon"></i>
                       <div class="timeline lastdoc priscriber headerdp">
-                          <div style='background:lightgrey' *ngIf='patient.info.status==="queued"' class="indicator"></div>
+                          <!-- <div style='background:lightgrey' *ngIf='patient.info.status==="queued"' class="indicator"></div>
                           <div style='background:yellow' *ngIf='patient.info.status==="admitted"' class="indicator"></div>
                           <div *ngIf='patient.info.status==="discharged"' class="indicator"></div>
-                          <div  style='background:red' *ngIf='patient.info.status==="gone"' class="indicator"></div>
+                          <div  style='background:red' *ngIf='patient.info.status==="gone"' class="indicator"></div> -->
                           <img [src] = getDp(patient)/>
                       </div>
                   </div>

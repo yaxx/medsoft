@@ -7,7 +7,15 @@ import {Note} from '../models/data.model';
 export class NotePipe implements PipeTransform {
 
   transform(note: Note, args?: any): string {
-    return note.note.length < 200 || note.full ? note.note : note.note.substr(0, 149);
+    return note.note.length < 20 && note.full ? note.note : note.note.substr(0, 149);
+    // let reading = null;
+    // if(note.note.length > 200||!note.full) {
+    //   reading = note.note.substr(0, 197);
+    // } else {
+    //   note.full = true;
+    //   reading = note.note;
+    // }
+    // return reading;
   }
-
+ 
 }

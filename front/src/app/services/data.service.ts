@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Client, Product, Department, Person} from '../models/data.model';
 import * as socketIo from 'socket.io-client';
 import { Socket } from '../models/socket';
@@ -123,6 +123,15 @@ export class DataService {
     return this.http.post(
       `${this.uri}/upload`, image, {withCredentials: true});
   }
+  download(file: string){
+    return this.http.post(
+      `${this.uri}/download`, {fileName:file}, {
+        withCredentials: true,
+        responseType: 'blob',
+        headers: new HttpHeaders().append('Content-Type','application/json')
+
+      });
+  }
   updateMedication(i, m) {
      return this.http.post(
       `${this.uri}/update-medication`, {id: i, medication: m}, {withCredentials: true});
@@ -149,7 +158,6 @@ export class DataService {
   getProducts() {
     return this.http.get(
       `${this.uri}/products`, {withCredentials: true}
-
       );
   }
   getItems() {

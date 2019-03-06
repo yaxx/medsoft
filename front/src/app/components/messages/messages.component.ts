@@ -43,16 +43,17 @@ oldPwd = null;
       this.getMyAccount();
       this.me = this.cookies.get('i');
       this.socket.io.on('new message', (data) => {
-        this.curConversations = data.convs;
+        console.log(data);
+        this.curConversations = data.msgs;
         this.contacts.forEach(contact => {
           if (contact.person === data.sender) {
-              contact.conversations = data.convs;
+              contact.conversations = data.msgs;
           } else {
 
           }
         });
         if (this.curPerson._id === data.sender) {
-          this.curConversations = data.convs;
+          this.curConversations = data.msgs;
         } else {
 
         }
@@ -79,8 +80,9 @@ oldPwd = null;
       this.file = <File>event.target.files[0];
       const reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]); // read file as data url
-      reader.onload = (e) => { // called once readAsDataURL is completed
-        this.url = e.target.result;
+      reader.onload = (e) => {
+        let ev = <any>e; // called once readAsDataURL is completed
+        this.url = ev.target.result;
       };
     }
 
@@ -112,7 +114,8 @@ oldPwd = null;
   } else {
     this.curConversations[0] = new Array<Message>(new Message(this.message, this.cookies.get('i'), this.curPerson._id));
   }
-  this.socket.io.emit('new message', {convs: this.curConversations, sender: this.cookies.get('i'), reciever: this.curPerson._id});
+  this.socket.io.emit('new message', {msgs: this.curConversations, sender: this.cookies.get('i'), reciever: this.curPerson._id});
+  console.log(this.curConversations);
   }
   switchPeople(view: string) {
     this.cardView = 'connections';
@@ -139,8 +142,18 @@ oldPwd = null;
     this.cardView = 'me';
     this.people = '';
   }
-  getDp(p: Person) {
-    return 'http://localhost:5000/api/dp/' + p.info.personal.dpUrl;
+  getDp(p:Person) {
+
+      return 'http://localhost:5000/api/dp/' + p.info.personal.dpUrl;
+  
+  }
+  getMsgDp(id: string) {
+    if(id===this.curPerson._id){
+      return 'http://localhost:5000/api/dp/' + this.curPerson.info.personal.dpUrl;
+    } else {
+      return 'http://localhost:5000/api/dp/' + this.person.info.personal.dpUrl;
+    }
+    
   }
   explore() {
     this.data.explore().subscribe((suggestions: Person[]) => {

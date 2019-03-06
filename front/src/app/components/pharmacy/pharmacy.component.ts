@@ -27,7 +27,13 @@ export class PharmacyComponent implements OnInit {
   edited: Medication[] = new Array<Medication>();
   editables: Medication[] = new Array<Medication>();
   tempMedications: Medication[] = new Array<Medication>();
+  temPatients: Person[] = new Array<Person>();
   input = '';
+  searchTerm = '';
+  medicView = false;
+  sortBy = 'added';
+  sortMenu = false;
+  nowSorting = 'Date added';
   view = 'default';
   count = 0;
   id = '';
@@ -52,8 +58,14 @@ export class PharmacyComponent implements OnInit {
       this.items = items;
     });
   }
+   showSortMenu() {
+    this.sortMenu = true;
+  }
   switchViews(view) {
     this.view = view;
+  }
+  switchToNewMedic(){
+    this.medicView = !this.medicView;
   }
   swichtToFront(i) {
     this.patients[i].card.view = 'front';
@@ -68,14 +80,40 @@ export class PharmacyComponent implements OnInit {
   getReversables(i: number, j: number, k: number) {
     this.curIndex = i;
     this.edited.push(this.patients[i].record.medications[j][k]);
-
+  }
+  sortPatients(sortOption: string) {
+    this.sortMenu = false;
+    switch (sortOption) {
+      case 'name':
+        this.patients.sort((m: Person, n: Person) => m.info.personal.firstName.localeCompare(n.info.personal.firstName));
+        this.nowSorting = 'A-Z';
+        break;
+      case 'sex':
+        this.patients.sort((m: Person, n: Person) => n.info.personal.gender.localeCompare(m.info.personal.gender));
+        this.nowSorting = 'Gender';
+        break;
+      // case 'status':
+      //   this.patients.sort((m, n) => m.record.visits[m.record.visits.length-1].status.localeCompare(m.record.visits[n.record.visits.length-1].status.localeCompare));
+      //   this.nowSorting = 'Status';
+      //   break;
+        case 'age':
+        this.patients.sort((m, n) => new Date(m.info.personal.dob).getFullYear() - new Date(n.info.personal.dob).getFullYear());
+        this.nowSorting = 'Age';
+        break;
+      case 'date':
+        this.patients.sort((m, n) => new Date(n.dateCreated).getTime() - new Date(m.dateCreated).getTime());
+        this.nowSorting = 'Date added';
+        break;
+        default:
+        break;
+    }
   }
   selectItem(i: number, j: number, k: number) {
    this.curIndex = i;
    this.patients[i].record.medications[j][k].selected =
    this.patients[i].record.medications[j][k].selected ? false : true;
    if (this.patients[i].record.medications[j][k].paid) {
-    $('.trigger').click();
+    // $('.trigger').click();
   } else {
   }
   }
@@ -237,7 +275,7 @@ export class PharmacyComponent implements OnInit {
     });
   }
   selectMedication(m: Medication, selected: number) {
-    this.medication = new Medication(m.product, m.priscription,  m._id);
+    this.medication = new Medication(m.product, m.priscription);
     this.id = m._id;
     this.selected = selected;
     this.input = m.product.item.name + ' ' + m.product.item.mesure +     m.product.item.unit;
@@ -254,6 +292,17 @@ searchItems(i: string) {
     });
 }
 }
+ searchPatient(name:string) {
+   if(name!==''){
+    this.patients = this.patients.filter((patient) => {
+      const patern =  new RegExp('\^' + name
+      , 'i');
+      return patern.test(patient.info.personal.firstName);
+      });
+   } else {
+     this.patients = this.temPatients;
+   }
+ }
 addSelection(item: Item) {
   this.input = item.name + ' ' + item.mesure + item.unit;
     this.products.forEach(prod => {

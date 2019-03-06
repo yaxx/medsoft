@@ -223,13 +223,7 @@ export class Sugery {
 
      ) {}
   }
-export class Scan {
-  constructor( public fileType: string = null,
-    public name: string = null,
-    public dateCreated?: Date
 
-     ) {}
-  }
 
 export class Session {
   constructor(
@@ -274,18 +268,25 @@ export class Record {
     public visits: Visit[] = new Array<Visit>(new Visit()),
     public medications: any[] = new Array<any>(new Array<Medication>()),
     public test: Test[] = new Array<Test>(),
-    public scan: Scan[] = new Array<Scan>(),
+    public scans: Scan[] = new Array<Scan>(),
     public sugery: any[] = [],
     public deathNote: DeathNote = new DeathNote()
      ) {}
   }
+  export class Scan {
+    constructor(
+      public name?: string,
+      public description?: string,
+      public dateCreated: Date = new Date()
+    ){}
+  }
   export class Connection {
     constructor(
-      public person: string,
-      public following: boolean,
-      public follower: boolean,
-      public blocked: boolean,
-      public conversations: Message[] = new Array<Message>()
+      public person?: string,
+      public following?: boolean,
+      public follower?: boolean,
+      public blocked?: boolean,
+      public conversations?: Message[]
       ) {}
 
   }

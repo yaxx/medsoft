@@ -9,10 +9,7 @@ import {Main, Person, Department} from '../../models/data.model';
 })
 export class AccountsComponent implements OnInit {
   main: Main = new Main();
-
-
   constructor(private dataService: DataService, private router: Router) { }
-
   ngOnInit() {
   }
 creatClient() {

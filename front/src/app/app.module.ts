@@ -20,28 +20,30 @@ import { LoginComponent } from './components/login/login.component';
 import { AccountComponent } from './components/account/account.component';
 import { NavComponent } from './components/nav/nav.component';
 import { PatientComponent } from './components/patient/patient.component';
-import { SessionComponent } from './components/session/session.component';
+
 import { ProductComponent } from './components/product/product.component';
 import { MessagesComponent } from './components/messages/messages.component';
 import { SingupComponent } from './components/singup/singup.component';
 import { DobPipe } from './pipes/dob.pipe';
+import { AppointmentsComponent } from './components/appointments/appointments.component';
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'account', component: AccountComponent},
   {path: 'signup', component: SingupComponent},
   {path: 'inpatients', component: PatientComponent},
-  {path: 'information', component: RegistrationComponent},
-  // {path: 'information/:mode', component: PatientComponent},
-  {path: 'consultation', component: ConsultationComponent},
-  {path: 'consultation/:mode', component: SessionComponent},
-  {path: 'consultation/:mode/:id', component: HistoryComponent},
   {path: 'products', component: InventoryComponent},
   {path: 'messages', component: MessagesComponent},
+  {path: 'department', component: MessagesComponent},
+  {path: 'department/information', component: RegistrationComponent},
+  {path: 'department/pharmacy', component: PharmacyComponent},
+  {path: 'department/:mode/ward', component: WardComponent},
+  {path: 'department/:mode/consultation', component: ConsultationComponent},
+  {path: 'department/:mode/consultation/inpatients', component: PatientComponent},
   {path: 'history/:id', component: HistoryComponent},
-  {path: 'pharmacy', component:  PharmacyComponent},
-  {path: 'ward', component: WardComponent},
-  {path: '', redirectTo: 'information', pathMatch: 'full'}
+  // {path: 'consultation/:mode/:id', component: HistoryComponent},
+  {path: '', redirectTo: 'login', pathMatch: 'full'}
+
  ];
 @NgModule({
   declarations: [
@@ -58,11 +60,12 @@ const routes: Routes = [
     AccountComponent,
     NavComponent,
     PatientComponent,
-    SessionComponent,
+    
     ProductComponent,
     MessagesComponent,
     SingupComponent,
-    DobPipe
+    DobPipe,
+    AppointmentsComponent
 
   ],
   imports: [

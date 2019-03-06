@@ -3,6 +3,7 @@ import { Person} from '../../models/data.model';
 import {DataService} from '../../services/data.service';
 import {ActivatedRoute} from '@angular/router';
 import {Chart} from 'chart.js';
+import {saveAs} from 'file-saver';
 
 
 @Component({
@@ -12,22 +13,30 @@ import {Chart} from 'chart.js';
 })
 export class HistoryComponent implements OnInit {
   patient: Person = new Person();
-  bpChart=[];
+  bpChart = [];
+  chartData = [];
+  chartLabels = new Array<String>(10);
   constructor(private dataService: DataService, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    let day = null;
+    let months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC']
     this.patient = this.dataService.getCachedPatient(this.route.snapshot.params['id']);
+    this.patient.record.vitals.bp.forEach((bp,i) => {
+
+      this.chartData.push(bp.value)
+      this.chartLabels[i] = new Date(bp.dateCreated).getDate().toString()+months[new Date(bp.dateCreated).getMonth()];
+    });
     this.bpChart = new Chart('bpChart', {
       type: 'bar',
         options: {
-            maintainAspectRatio:false,
+            maintainAspectRatio: false,
             layout:{
-                padding:{
+                padding: {
                     left:5,
                     right:20,
                     top:0,
                     bottom:0
-    
                 }
             },
           legend: {
@@ -37,23 +46,26 @@ export class HistoryComponent implements OnInit {
             xAxes: [{
               gridLines: {
                 display: false,
-                // color:whitesmoke
+                color:'white'
               },
               ticks: {
-                fontSize: 11,
+                fontSize: 10,
                 fontColor: 'lightgrey'
               }
             }],
             yAxes: [{
               gridLines: {
                 drawBorder: false,
+                color:'whitesmoke'
               },
               ticks: {
-                beginAtZero: true,
-                fontSize: 11,
+                beginAtZero: false,
+                fontSize: 10,
                 fontColor: 'lightgrey',
-                maxTicksLimit: 5,
-                padding: 20,
+                maxTicksLimit: 20,
+                padding: 10,
+                suggestedMin: 60,
+                suggestedMax: 140
               }
             }]
           },
@@ -62,9 +74,9 @@ export class HistoryComponent implements OnInit {
           }
         },
         data: {
-          labels: ['02FE', '07MA', '10MY', '15AU', '22AU', '30SE', '11OC','27OC','05NO','10DE'],
+          labels: this.chartLabels,
         datasets: [{
-          data: [6, 10, 12, 18, 8, 7, 10, 4,7,2],
+          data: this.chartData,
           tension: 0.0,
           borderColor: '#96f4f4',
           backgroundColor: '#96f4f4',
@@ -78,9 +90,18 @@ export class HistoryComponent implements OnInit {
   getDp(p: Person){
     return 'http://localhost:5000/api/dp/' + p.info.personal.dpUrl;
   }
-  showDetails(e) {
+  getImage(fileName: String){
+    return 'http://localhost:5000/api/dp/' + fileName;
+  }
+  downloadImage(file: string) {
+    this.dataService.download(file).subscribe(
+      res =>  saveAs(res, file)
+    );
+  }
+  
+  showDetails(e: Event, i: string) {
   e.preventDefault();
-  this.patient.record.notes[0].full = true;
+  this.patient.record.notes[i].full = true;
 }
 
 // getPatient(): Patient {

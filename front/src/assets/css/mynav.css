@@ -16,8 +16,8 @@
   width:28px;
   position:relative;
   border-radius:50%;
-  background:url(../../assets/img/model.jpg);
-  background-size:cover;
+  /* background:url(../../assets/img/model.jpg); */
+  /* background-size:cover; */
   background-repeat:no-repeat;
   margin-right:5px;
   background-position:center;

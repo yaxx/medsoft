@@ -1,9 +1,59 @@
 <div class="card logincard">
   <div class="card-body logbody">
-      <form>
-          <div class="formGroup newdept"><input name="username" [(ngModel)]='user.username'  class="form-control inputs patientdata newpatient" type="text" placeholder="Username"><input name="password" [(ngModel)]='user.pwd' class="form-control inputs patientdata newpatient" type="password" placeholder="Password"></div>
-      </form>
-      <button (click)="login()"  style=" width: 25%; left:50%; "  type="button" class="btn btn-sm btn-primary inputs mainbtn" >Sign in</button>
-   </div>
+  <div *ngIf="!signin">
+   <form style = 'width:80%;margin:auto; position:relative; '  (submit)="creatClient()">
+    <h6 style='width:100%;text-align:center;display:inline-block;position:relative;color: #1da1f2;'>Create Account</h6>
+    <div  class="form-group vitals-section address ">
+      <label style='font-size:8px' for="name" class="labelss">HOSPITAL NAME</label>
+      <input style= 'font-size:11px' [(ngModel)]="client.info.name"  type="text" name="name" class=" inputs dataInfo patientdata" placeholder="e.g City Hospital">
+    </div>
+    <div style='width:49%; margin-right:5px; display:inline-block' class="form-group vitals-section formGroup" >
+        <label style='font-size:8px'  for="email" class="labelss">EMAIL</label>
+        <input  style= 'font-size:11px' [(ngModel)]="client.info.email"  type="text" name="email" class=" inputs dataInfo patientdata"    placeholder="email"/>
+    </div>
+
+    <div style='width:49%;' class="form-group vitals-section formGroup">
+        <label style='font-size:8px' for="speciment" class="labelss">MOBILE</label>
+        <input style= 'font-size:11px' [(ngModel)]="client.info.mobile"  type="text" name="mobile" class=" inputs dataInfo patientdata"  placeholder="mobile "/>
+
+    </div>
+    <div style='width:49%; margin-right:5px; ' class="form-group vitals-section formGroup" >
+        <label style='font-size:8px'  for="pwd" class="labelss">PASSWORD</label>
+        <input style= 'font-size:11px' [(ngModel)]="client.info.pwd"  type=password name="pwd" class=" inputs dataInfo patientdata"  placeholder="new password"/>
+
+    </div>
+    <div style='width:49%;' class="form-group vitals-section formGroup">
+        <label style='font-size:8px' for="comfirm" class="labelss">COMFIRM PASSWORD</label>
+        <input style= 'font-size:11px' [(ngModel)]="client.info.comfirm"  type="password" name="comfirm" class=" inputs dataInfo patientdata" id="" placeholder="comfirm passoword"/>
+
+    </div>
+    <div class="form-group vitals-section address">
+      <label style='font-size:8px'  for="comname" class="labelss">ADDRESS</label>
+      <input style='font-size:11px' [(ngModel)]="client.info.address"  type="text" name="comaddress" class=" inputs dataInfo patientdata" placeholder="e.g block 4 city plaza, kaduna, kaduna state"></div>
+
+    </form>
+
+   <button (click)='signup()' style=" width: 49%; margin-top:20px; left:25.5%;color: #1da1f2; border-radius:4px; font-size:11px; color:white; "  type="button" class="btn btn-sm btn-primary inputs mainbtn" >
+      <i *ngIf ='creating'  class="fa fa-circle-o-notch fa-spin fa-10x slow-spin" style="position:absolute;bottom:4px;left:22%;font-size:17px;color: white;"></i>
+      Create Account
+    </button>
+    <h6 *ngIf='accountExist'  style='font-size:11px;position:absolute;bottom:43%;width:100%;text-align:center;display:inline-block; color:red; font-weight:normal' >Account already exist</h6>
+     <a [routerLink]="['/login']" routerLinkActive="" (click) = 'switch()' style='width:100%;text-align:center;display:inline-block;color: #1da1f2;font-size:13px;position:absolute;bottom:22%;'  >Sign in</a>
+</div>
+<div *ngIf="signin">
+    <form style='height:80%;'>
+    <h6 style='width:100%;text-align:center;display:inline-block;position:relative;color: #1da1f2;'> Sign in</h6>
+        <div class="formGroup newdept"><input name="username" [(ngModel)]='user.username' (focus)='hideError()' style='font-size:11px;' class="form-control inputs patientdata newpatient" type="text" auto-complete = 'off' placeholder="Username"><input (focus)='hideError()' name="password" [(ngModel)]='user.pwd' style='font-size:11px;' class="form-control inputs patientdata newpatient" type="password" placeholder="Password">
+        </div>
+    </form>
+    <button (click)="login()"  style=" width: 46.5%;left:26.5%;color: #1da1f2;   border-radius:4px; font-size:11px;  color:white; margin-top:7px; "  type="button" class="btn btn-sm btn-primary inputs mainbtn" >
+    <i *ngIf ='loading'  class="fa fa-circle-o-notch fa-spin fa-10x slow-spin" style="position:absolute;bottom:4px;left:25%;font-size:18px;color: white;"></i>
+    Sign in
+    </button>
+   
+    <a  [routerLink]="['/login']" routerLinkActive="" (click) = 'switch()' style='font-size:11px;position:absolute;bottom:48%;width:49%;text-align:right; left:25.5%; margin:auto;display:inline-block; color:#1da1f2; font-weight:normal' >Forgot passoword?</a>
+    <h6 *ngIf='loginError' (click) = 'switch()' style='font-size:11px;position:absolute;bottom:43%;width:100%;text-align:center;display:inline-block; color:red; font-weight:normal' >Invalid Username or passoword</h6>
+     <a (click) = 'switch()' style='font-size:13px;position:absolute;bottom:32%;width:100%;text-align:center;display:inline-block;' [routerLink]="['/signup']" routerLinkActive="" >Create Account</a>
+</div>
 </div>
 

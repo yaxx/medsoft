@@ -4,7 +4,8 @@ import {SocketService} from '../../services/socket.service';
 import {CookieService } from 'ngx-cookie-service';
 import { FileSelectDirective, FileUploader } from 'ng2-file-upload';
 
-import { Connection, Person, Notification, Message} from '../../models/data.model';
+import { Connection, Person, Notification } from '../../models/person.model';
+import { Message } from '../../models/message.model';
 const uri = 'http://localhost:5000/api/upload';
 @Component({
   selector: 'app-messages',

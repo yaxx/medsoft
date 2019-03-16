@@ -266,8 +266,9 @@ body, html {
 .timeline.lastdoc.priscriber.headerdp {
   top:36px;
   left:18px;
-  height:49px;
-  width:49px;
+  height:65px;
+  width:65px;
+  margin-bottom:35px;
 }
 .timeline.lastdoc.priscriber.headerdp img {
   position:relative;
@@ -289,7 +290,7 @@ body, html {
   padding-left:0%;
   width:32%;
   position:relative;
-  top:28px;
+  top:38px;
   display:inline-block;
 }
 
@@ -406,26 +407,22 @@ body, html {
 }
 
 
-.dept.displayname {
-  left:16px;
-  font-weight:bold;
-  top:24px;
-  font-size:17px;
-  color: #212529;
-  cursor: pointer;
-}
+
 
 
 .dept.displayname {
   left:16px;
   font-weight:bold;
-  top:24px;
+  top:38px;
   font-size:17px;
   position:relative;
   cursor:pointer;
   z-index:1;
   display:inline-block;
-
+  width: 180px;
+  white-space: nowrap;
+  overflow:hidden;
+  text-overflow: ellipsis;
 
 }
 
@@ -652,11 +649,16 @@ body, html {
 }
 .patien-name {
   font-weight:bold;
-  top:20px;
+  top:38px;
   position:relative;
   z-index:2;
   padding-left:10px;
   color:rgb(53,77,81);
+  font-size:17px;
+  width: 180px;
+  white-space: nowrap;
+  overflow:hidden;
+  text-overflow: ellipsis;
 }
 .card-header.profileheader.small-header {
   height:32px;

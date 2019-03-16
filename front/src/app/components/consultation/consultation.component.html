@@ -36,12 +36,244 @@
 </div>
 
 
-<div class="modal fade" role="dialog" tabindex="-1" id="medicModal" style="border-radius:0px;width:auto;">
+
+<!-- <div class="modal fade" role="dialog" tabindex="-1" id="newModal" style="border-radius:0px;width:auto;">
     <div class="modal-dialog" role="document">
-        <div class="modal-content" style="width:480px;border-radius:0px;;padding-left:0px;padding-right: 0px;">
-            <div class="modal-body" style="border-radius:0px;padding: 0px">
-                <div class="card card-secondary historycard midlecard profilecard" style="margin:auto;min-height:200px">
-                    <div style='padding-left: 30px' class="card-header profileheader small-header">
+        <div class="modal-content" style="width:470px;border-radius:0px;;padding-left:0px;padding-right: 0px;">
+                <div class="card-header grapheader">
+                      <h1 class="dept headtitle">NEW PATIENT</h1>
+                </div>
+            <div class="modal-body" style="border-radius:0px;padding-left:0px;padding-right: 0px;">
+                <form style="position:relative; width:100%" novalidate  class="patientform" (submit)='submitRecord()'>
+                    <div class="card card-secondary historycard midlecard profilecard" style="border-bottom:none;margin:0px;margin-right: 0px;width:95%;margin:auto; min-height: 150px;">
+                        <div class="card-header grapheader" style="border:none;">
+                          
+                        </div>
+                        <div style="padding-top:10px;padding-left: 10px; padding-right: 10px;"  class="card-body topcardbody clientinfobody nopading">
+                            <div style="width:49%; margin-top:7px;  margin-right: 5px; display:inline-block" class="form-group vitals-section formGroup" >
+                              <div *ngIf="!url" (click)="picker.click()" class="dp-wrapper">
+                                <div class="cover">
+
+                                    <p>Add Photo</p>
+                                </div>
+                              </div>
+                              <input style="position:absolute;display:none" (change) = fileSelected($event) #picker type ="file"  name="file"  class="patientdata dystolic inputs dataInfo" name="file" multipe ng2FileSelect [uploader] = uploader />
+                              <div *ngIf='url' class="card scan-thumnail defaul-dp">
+                                <a href="IMG-20180927-WA0000.jpg" target="_blank" class="image-link" data-lightbox="scan">
+                                  <img [src]= url class="img-fluid" /></a>
+                              </div>
+                                <input style="font-size:11px;" [(ngModel)]="info.personal.firstName" autocomplete="off"  type="text" name="fname" class="form-control patientdata inputs dataInfo" placeholder="Enter First Name"/>
+                            </div>
+                            <div style="width:49%; margin-top:5px; display:inline-block" class="form-group vitals-section formGroup">
+                                <label for="complain" class="labelss complain">LAST NAME</label>
+                                <input style="font-size:11px;" [(ngModel)]="info.personal.lastName" autocomplete="off"  type="text" name="lname" class="form-control patientdata inputs dataInfo"   placeholder="Enter Last Name">
+                            </div>
+                            <div style="width:49%; margin-top:5px;  margin-right: 7px; display:inline-block" class="form-group vitals-section formGroup" >
+                                <label for="gender" class="labelss complain">GENDER</label>
+                                <select style="font-size:11px;" [(ngModel)]="info.personal.gender"  class=" patientdata status inputs dataInfo " name="gender" >
+                                        <option>Male</option>
+                                        <option>Female</option>
+                                  </select>
+                            </div>
+                            <div style="width:49%; margin-top:5px; display:inline-block" class="form-group vitals-section formGroup">
+                                <label for="dob" class="labelss complain">DATE OF BIRTH</label>
+                                <input style="font-size:11px;" [(ngModel)]="info.personal.dob"  type="date" name="dob" class="patientdata inputs dataInfo"  placeholder="">
+                            </div>
+                            <div style="width:49%; margin-top:5px;  margin-right: 7px; display:inline-block" class="form-group vitals-section formGroup" >
+                                <label for="mstatus" class="labelss complain">MARITAL STATUS</label>
+                                <select style="font-size:11px;" [(ngModel)]="info.personal.mstatus" class=" patientdata status inputs dataInfo " name="mstatus" id="">
+                                        <option>Married</option>
+                                        <option>Single</option>
+                                  </select>
+                            </div>
+                            <div style="width:49%; margin-top:5px; display:inline-block" class="form-group vitals-section formGroup">
+                                <label for="bgroup" class="labelss complain">OCCUPATION</label>
+                                <select style="font-size:11px;" [(ngModel)]="info.personal.occupation" class="patientdata status inputs dataInfo " name="bgroup" id="">
+                                        <option>Civil Servant</option>
+                                        <option>Entreprenure</option>
+                                        <option>Farmer</option>
+                                        <option>House wife</option>
+                                        <option>Applicant</option>
+                                        <option>Student</option>
+                                </select>
+                            </div>
+                            <div style="width:49%; margin-top:5px;  margin-right: 7px; display:inline-block" class="form-group vitals-section formGroup" >
+                                <label for="mstatus" class="labelss complain">RELIGION</label>
+                                <select style="font-size:11px;" [(ngModel)]="info.personal.religion" class=" patientdata status inputs dataInfo " name="mstatus" id="">
+                                        <option>Islam</option>
+                                        <option>Christianity</option>
+                                        <option>Others</option>
+                                </select>
+                            </div>
+                            <div style="width:49%; margin-top:5px; display:inline-block" class="form-group vitals-section formGroup">
+                                <label for="bgroup" class="labelss complain">TRIBE</label>
+                                <select  style="font-size:11px;" [(ngModel)]="info.personal.tribe" class="patientdata status inputs dataInfo " name="bgroup" >
+                                        <option>Hausa</option>
+                                        <option>Fulani</option>
+                                        <option>Igbo</option>
+                                        <option>Yoruba</option>
+                                        <option>Tiv</option>
+                                </select>
+                            </div>
+                            <div style="width:49%; margin-top:5px;  margin-right: 7px; display:inline-block" class="form-group vitals-section formGroup" >
+                                <label for="cardtype" class="labelss complain">CARD TYPE</label>
+                                <select style="font-size:11px;" [(ngModel)]="info.personal.cardType" class=" patientdata status inputs dataInfo " name="cardtype">
+                                        <option>Standard</option>
+                                        <option>Classic</option>
+                                        <option>Silver</option>
+                                        <option>Gold</option>
+                                  </select>
+                            </div>
+                            <div style="width:49%; margin-top:5px; display:inline-block" class="form-group vitals-section formGroup">
+                                <label for="cardnumber" class="labelss complain">CARD No.</label>
+                                <input style="font-size:11px;" [(ngModel)]="info.personal.cardNum" type="text" name="cardnumber" class="patientdata inputs dataInfo"   placeholder="Enter card number  ">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card card-secondary historycard midlecard deptcard" style="width:95%;margin:auto; border-bottom:none; min-height: 120px">
+                        <div class="card-header grapheader" style="border:none;">
+                            <h1 class="dept headtitle">CONTACT INFORMATION</h1>
+                        </div>
+                        <div style="padding-left: 10px; padding-right: 10px;"  class="card-body topcardbody clientinfobody nopading">
+                            <div style="width:49%; margin-top:5px;  margin-right: 7px; display:inline-block" class="form-group vitals-section formGroup" >
+                                <label for="phone" class="labelss">PHONE</label>
+                                <input style="font-size:11px;" [(ngModel)]="info.contact.mobile" type="phone" name="phone" class="form-control inputs dataInfo patientdata" />
+                            </div>
+                            <div style="width:49%; margin-top:5px; display:inline-block" class="form-group vitals-section formGroup">
+                                <label for="mail" class="labelss">EMAIL</label>
+                                <input style="font-size:11px;" [(ngModel)]="info.contact.email"  type="email" name="mail" class="form-control dystolic inputs dataInfo patientdata" />
+                            </div>
+                            <div style="width:49%; margin-top:5px;  margin-right: 7px; display:inline-block" class="form-group vitals-section formGroup" >
+                                <label for="state" class="labelss complain">STATE</label>
+                                <select style="font-size:11px;" [(ngModel)]="info.contact.state" class="patientdata status inputs dataInfo " name="state" id="">
+                                        <option>Abia</option>
+                                        <option>Anambra</option>
+                                        <option>Adamawa</option>
+                                        <option>Akwa Ibom</option>
+                                        <option>Bauchi</option>
+                                        <option>Bayelsa</option>
+                                        <option>Taraba</option>
+                                    </select>
+                            </div>
+                            <div style="width:49%; margin-top:5px; display:inline-block" class="form-group vitals-section formGroup">
+                                <label for="lga" class="labelss complain">LGA</label>
+                                <select style="font-size:11px;" [(ngModel)]="info.contact.lga" class="patientdata status inputs dataInfo " name="lga">
+                                        <option>Karim Lamido</option>
+                                        <option>Sardauna</option>
+                                        <option>Ussa</option>
+                                        <option>Bali</option>
+                                        <option>Mutum Biyu</option>
+                                        <option>Wukari</option>
+                                    </select>
+                            </div>
+                            <div class="form-group vitals-section address">
+                                <label for="address" class="labelss">ADDRESS</label>
+                                <input style="font-size:11px;" placeholder="Residential Address" [(ngModel)]="info.contact.address" type="text" name="address" class="form-control patientdata dystolic inputs dataInfo"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card card-secondary historycard midlecard formcard" style="min-height: 100px; border-bottom:none; width: 95%; margin:auto">
+                        <div class="card-header grapheader" style="border:none;">
+                            <h1 class="dept headtitle">EMERGENCY CONTACT</h1>
+                        </div>
+                        <div style="padding-left: 10px; padding-right: 10px;" class="card-body topcardbody clientinfobody nopading" >
+                            <div style="width:49%;  margin-top:5px;  margin-right: 7px; display:inline-block" class="form-group vitals-section formGroup" >
+                                <label for="firstName" class="labelss complain">NAME</label>
+                                <input style="font-size:11px;" [(ngModel)]="info.contact.emgName" type="text" name="fname" class="form-control patientdata inputs dataInfo" id="" placeholder="Enter full name"/>
+                            </div>
+                            <div style="width:49%; margin-top:5px; display:inline-block" class="form-group vitals-section formGroup">
+                                <label for="contactphone" class="labelss duration">MOBILE</label>
+                                <input style="font-size:11px;" [(ngModel)]="info.contact.emgMobile" type="phone" name="contactphone" class="form-control dystolic inputs dataInfo patientdata" id="" placeholder="Mobile">
+                            </div>
+                            <div style="width:49%; margin-top:5px;  margin-right: 5px; display:inline-block" class="form-group vitals-section formGroup" >
+                                <label  for="emgrel" class="labelss">RELATIONSHIP</label>
+                                <select style="font-size:11px;"  [(ngModel)]="info.contact.emgRel" class=" status inputs dataInfo patientdata" name="emgrel">
+                                    <option>Parent</option>
+                                    <option>Spouse</option>
+                                    <option>Sibling</option>
+                                    <option>Freind</option>
+                                </select>
+                            </div>
+                            <div style="width:49%; margin-top:5px; display:inline-block" class="form-group vitals-section formGroup">
+                                <label style="font-size:8px"  for="emgoccupation" class="labelss">OCCUPATION</label>
+                                <select style="font-size:11px;" [(ngModel)]="info.contact.emgOccupation" class="status inputs dataInfo patientdata " name="emgoccupation">
+                                    <option>Civil Servant</option>
+                                    <option>Entreprenure</option>
+                                    <option>Farmer</option>
+                                    <option>House Wife</option>
+                                    <option>Applicant</option>
+                                    <option>Student</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card card-secondary historycard midlecard formcard" style="width:95%; margin: auto; min-height:200px">
+                        <div class="card-header grapheader" style="border:none;">
+                            <h1 class="dept headtitle">MEDICAL INSURANCE</h1>
+                        </div>
+                        <div style="padding-top:10px; padding-left: 10px;padding-right: 10px"  class="card-body topcardbody clientinfobody nopading" >
+
+                        <div style="width:49%; margin-top:5px;  margin-right: 5px; display:inline-block" class="form-group vitals-section formGroup" >
+                            <label for="holdername" class="labelss">HOLDER'S NAME</label>
+                            <input [(ngModel)]="info.insurance.name" type="text" name="holdername" class="form-control inputs dataInfo patientdata" id="" placeholder="Full Name">
+                        </div>
+                        <div style="width:49%; margin-top:5px; display:inline-block" class="form-group vitals-section formGroup">
+                            <label  for="rel" class="labelss">RELATIONSHIP</label>
+                            <select [(ngModel)]="info.insurance.rel" class=" status inputs dataInfo patientdata " name="rel">
+                                <option>Self</option>
+                                <option>Spouse</option>
+                                <option>Sibling</option>
+                            </select>
+                        </div>
+                        <div style="width:49%; margin-top:5px;  margin-right: 7px; display:inline-block" class="form-group vitals-section formGroup" >
+                                <label  for="rel" class="labelss">EMPLOYER</label>
+                                <input [(ngModel)]="info.insurance.employer" type="text" name="employer" class="form-control inputs dataInfo patientdata" id="" placeholder="e.g National hospital">
+                        </div>
+                        <div style="width:49%; margin-top:5px; display:inline-block" class="form-group vitals-section formGroup">
+                            <label for="holdername" class="labelss">SOCIAL SECURITY</label>
+                            <input [(ngModel)]="info.insurance.ssn" type="text" name="holdername" class="form-control inputs dataInfo patientdata" id="" placeholder="Social Security Number"/>
+                        </div>
+                      </div>
+                    </div>
+                   
+                    <button style=" width: 130px; left:293px; bottom:5%; "  type="submit" class="btn btn-sm btn-outline-primary inputs mainbtn" >
+                      <i *ngIf ='loading'  class="fa fa-circle-o-notch fa-spin fa-10x slow-spin" style="position:absolute;bottom:4px;left:25%;font-size:18px;color: white;"></i>
+                        Save Record</button>
+                    <button style="width: 61px; left:230px; bottom:5%;" class="btn btn-sm btn-outline-primary inputs mainbtn" >Cancel</button>
+
+                  </form>
+            </div>
+        </div>
+    </div>
+  </div>-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="modal fade" role="dialog" tabindex="-1" id="medicModal" style="border-radius:12px;width:auto;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="width:480px;border-radius:0px;;padding-left:0px;padding-right: 0px;border-radius:12px;">
+            <div class="modal-body" style="border-radius:0px;padding: 0px;border-radius:12px;">
+                <div class="card card-secondary historycard midlecard profilecard" style="margin:auto;min-height:200px;border-radius:12px;">
+                    <div style='padding-left: 30px;border-top-right-radius:12px;border-top-left-radius:12px;' class="card-header profileheader small-header">
                         <i  (click)=switchToNewMedic() style='position:absolute;
                           left:1%;top:2%; cursor:pointer;
                           display: inline-block;
@@ -108,7 +340,7 @@
                   </div>
                  <div  (click) = saveNote() style='left:78%; height:32px;width:32px;'
                        title ='Update' class="floter">
-                        <i *ngIf='loading' class="fa fa-circle-o-notch fa-spin fa-10x slow-spin" style="position:absolute;bottom:5px;left:5px;font-size:20px;color: #1da1f2;%;">
+                        <i *ngIf='loading' class="fa fa-circle-o-notch fa-spin fa-10x slow-spin" style="position:absolute;bottom:5px;left:5px;font-size:20px;color: #1da1f2;">
                         </i>
                        <i style="color:#1da1f2;bottom:-10px;" class="icon ion-ios-checkmark-empty flotericon">
                       </i>
@@ -118,6 +350,9 @@
      </div>
   </div>
 </div>
+
+
+
 
 
 
@@ -284,7 +519,8 @@
                               <td style="padding-left:4px;" class="data">
                                   {{med.product.item.name+ ' ' + med.product.item.mesure+med.product.item.unit}}</td>
                               <td class="data">{{med.priscription.intake+'-'+med.priscription.freq+'-'+med.priscription.piriod}}</td>
-                              <td class="data" style="text-align:center">{{med.product.stockInfo.price}}</td>
+                              <td class="data" style="text-align:center">
+                                {{med.product.stockInfo.price}}</td>
                               <td style="text-align: left; padding-left:3px" class="data" >
                                 <i class="icon ion-edit tableicon " title="Edit" style="color:rgb(149, 149, 149);font-size:14px; top:32px; right: 22px;position:absolute; cursor: pointer;"></i>
                                 <i  (click)= "removePriscription(i)" class="icon ion-ios-trash-outline tableicon" title="Remove" style="font-size:17px; cursor: pointer;"></i>
@@ -305,81 +541,407 @@
 
 
 
+  <div class="modal fade" role="dialog" tabindex="-1" id="addModal" style="border-radius:12px;width:auto;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="width:480px;border-radius:0px;border-radius:12px;padding-left:0px;padding-right: 0px;">
+            <div class="modal-body" style="border-radius:0px;padding: 0px;">
+                <div  class="card card-secondary historycard midlecard profilecard" style="margin:auto;min-height:200px;border-radius:12px;">
+                    <div style='padding-left: 30px;border-top-right-radius:12px;border-top-left-radius:12px;' class="card-header profileheader small-header">
+                        <i   style='position:absolute;left:1%;top:2%; cursor:pointer; display: inline-block;
+                          color:#1da1f2;' title="Back"
+                          class="icon ion-android-arrow-back "> </i>
+                        <div style="left:23px" class="timeline lastdoc priscriber headerdp small-dp">
+                          <img [src] = getDp(patients[curIndex])/>
+                        </div>
+                        <a href="#" class="patien-name small-name">
+                          {{patients[curIndex]?.info.personal.firstName + ' '+ patients[curIndex].info.personal.lastName}}<span class="small-headericon"></span>
+                        </a>
+                    </div>
+                  
+                    <div  class="card-body orderbody"style="width:62%;margin:auto;">
+                      <form  style="top:15%;" class=" staffsform">
+                        <div style="width:49%; margin-top:7px;  margin-right: 5px; display:inline-block" class="form-group vitals-section formGroup" >
+                          <div *ngIf="!url" (click)="picker.click()" class="dp-wrapper">
+                            <div class="cover">
+                                <p>Add Photo</p>
+                            </div>
+                          </div>
+                          <input style="position:absolute;display:none" (change) = fileSelected($event) #picker type ="file"  name="file"  class="patientdata dystolic inputs dataInfo" name="file" multipe ng2FileSelect [uploader] = uploader />
+                          <div *ngIf='url' class="card scan-thumnail defaul-dp">
+                            <a href="IMG-20180927-WA0000.jpg" target="_blank" class="image-link" data-lightbox="scan">
+                              <img [src]= url class="img-fluid" /></a>
+                          </div>
+                        </div>
+                      
+
+                        <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block" >
+                          <label style="font-size:10px;position: relative;left: 0px;color: #1da1f2"  class="labelss primary"> 
+                            PERSONAL INFO</label>
+
+                            
+                        </div>
+                        <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block" >
+                            <label style="font-size:8px" for="drug" class="labelss">FIRST NAME<span style='font-size:11px; color:red;'>*</span> </label>
+                            <input style='font-size:11px;text-align: left' autocomplete="off"  type="text" name="drug" class="patientdata dystolic inputs dataInfo" />
+                        </div>
+                        <div style="width:49%; display:inline-block"  class="form-group vitals-section">
+                            <label style="font-size:8px" for="firstName" class="labelss">LAST NAME<span style='font-size:11px; color:red;'>*</span> </label>
+                            <input style='font-size:11px' autocomplete="off"  type="text" name="drug"  class="patientdata dystolic inputs dataInfo" />
+                        </div>
+                        <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block" >
+                            <label style="font-size:8px" for="gender" class="labelss">GENDER</label>
+                            <select style='font-size:11px' autocomplete="off"   class="patientdata dystolic inputs dataInfo" >
+                              <option>Male</option>
+                              <option>Female</option>
+                            </select>
+                        </div>
+                        <div style="width:49%; display:inline-block"  class="form-group vitals-section">
+                            <label style="font-size:8px" for="drug" class="labelss">MARITAL STATUS</label>
+                            <select style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo" >
+                              <option>Married</option>
+                              <option>Single</option>
+                            </select>
+                        </div>
+                        <div style="width:49%; display:inline-block;margin-right: 5px; "  class="form-group vitals-section">
+                            <label style="font-size:8px" for="drug" class="labelss">DATE OF BIRTH</label>
+                            <input type="date" style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo" />
+                        </div>
+                        <div style="width:49%; display:inline-block; "  class="form-group vitals-section">
+                            <label style="font-size:8px" for="drug" class="labelss">TRIBE</label>
+                            <input type="text" style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo" />
+                        </div>
+                        <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block" >
+                            <label style="font-size:8px" for="drug" class="labelss">RELIGION</label>
+                            <select style='font-size:11px' autocomplete="off"   class="patientdata dystolic inputs dataInfo" >
+                              <option>Islam</option>
+                              <option>Christianity</option>
+                          </select>
+                        </div>
+                        <div class="form-group vitals-section" style="width:49%; display:inline-block" >
+                            <label style="font-size:8px" for="drug" class="labelss">OCCUPATION</label>
+                            <select style='font-size:11px' autocomplete="off"   class="patientdata dystolic inputs dataInfo" >
+                              <option>Civil Servant</option>
+                              <option>Entreprenure</option>
+                              <option>Farmer</option>
+                              <option>House Wife</option>
+                              <option>Applicant</option>
+                              <option>Student</option>
+                            </select>
+                        </div>
+                        <div class="form-group vitals-section" style="width:49%; margin-right: 5px;  display:inline-block" >
+                            <label style="font-size:8px" for="drug" class="labelss">CARD TYPE</label>
+                            <select style='font-size:11px' autocomplete="off"   class="patientdata dystolic inputs dataInfo" >
+                              <option>Gold</option>
+                              <option>Silver</option>
+                              <option>Bronze</option>
+                              </select>
+                        </div>
+                        <div class="form-group vitals-section" style="width:49%; display:inline-block" >
+                          <label style="font-size:8px" for="drug" class="labelss">CARD NUMBER</label>
+                          <input type="text" style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo" />
+                        </div>
+
+                        <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block" >
+                            <label style="font-size:10px;position: relative;left: 0px;color: #1da1f2"  class="labelss primary"> 
+                              CONTACT</label>
+                        </div>
+
+                        <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block" >
+                            <label style="font-size:8px" for="drug" class="labelss">MOBILE<span style='font-size:11px; color:red;'>*</span></label>
+                            <input type="text" style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo" />
+                        </div>
+                        <div class="form-group vitals-section" style="width:49%; display:inline-block" >
+                              <label style="font-size:8px" for="drug" class="labelss">EMAIL</label>
+                              <input type="text" style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo" />
+                        </div>
+                        <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block" >
+                              <label style="font-size:8px" for="drug" class="labelss">STATE</label>
+                              <select style='font-size:11px' autocomplete="off"   class="patientdata dystolic inputs dataInfo" >
+                                <option>Abia</option>
+                                <option>Adamawa</option>
+                              </select>
+                        </div>
+                        <div style="width:49%; display:inline-block"  class="form-group vitals-section">
+                            <label style="font-size:8px" for="drug" class="labelss">LGA</label>
+                            <select style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo" >
+                              <option>Umahia</option>
+                              <option>Yola</option>
+                            </select>
+                        </div>
+                            <div class="form-group vitals-section address">
+                            <label style="font-size:8px" for="drug" class="labelss">ADDRESS</label>
+                            <input style='font-size:11px' autocomplete="off"  type="text" name="address"  class="patientdata dystolic inputs dataInfo" />
+                        </div>
+
+                        <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block" >
+                          <label style="font-size:10px;position: relative;left: 0px;color: #1da1f2"  class="labelss primary"> 
+                            EMERGENCY CONTACT</label>
+                        </div>
+
+                        <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block" >
+                            <label style="font-size:8px" for="drug" class="labelss">NAME</label>
+                            <input type="text" style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo" />
+                        </div>
+                        <div class="form-group vitals-section" style="width:49%; display:inline-block" >
+                              <label style="font-size:8px" for="drug" class="labelss">MOBILE</label>
+                              <input type="text" style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo" />
+                        </div>
+                       
+                        <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block" >
+                              <label style="font-size:8px" for="drug" class="labelss">OCCUPATION  </label>
+                              <select style='font-size:11px' autocomplete="off"   class="patientdata dystolic inputs dataInfo" > 
+                                <option>Civil Servant</option>
+                                <option>Entreprenure</option>
+                                <option>Farmer</option>
+                                <option>House Wife</option>
+                                <option>Applicant</option>
+                                <option>Student</option>
+                              </select>
+                        </div>
+                        <div style="width:49%; display:inline-block"  class="form-group vitals-section">
+                            <label style="font-size:8px" for="drug" class="labelss">RELATIONSHIP</label>
+                            <select style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo" >
+                              <option>Parent</option>
+                              <option>Spouse</option>
+                              <option>Sibling</option>
+                              <option>Freind</option>
+                            </select>
+                        </div>
+                        <div class="form-group vitals-section address">
+                            <label style="font-size:8px" for="drug" class="labelss">ADDRESS</label>
+                            <input style='font-size:11px' autocomplete="off"  type="text" name="address" class="patientdata dystolic inputs dataInfo" />
+                        </div>
 
 
-
-
-
-  <div class="sidenav">
-     
-
-      
-      <a href="#" [routerLink]="[getLink('consultation')]" routerLinkActive="router-link-active"  class="home patienmenu" title="On Queue">
-          <span class="homespan">
-              <i class="icon ion-ios-people-outline homeicon"></i>
-          </span>
-        </a>
-
-      <a href="#" [routerLink]="[getLink('appointments')]" routerLinkActive="router-link-active"  class="home reviewmenu" title="Appointments">
-          <span class="homespan">
-              <i class="icon ion-ios-calendar-outline homeicon"></i>
-          </span>
-      </a>
-     
-      <a href="#" [routerLink]="[getLink('inpatients')]" routerLinkActive="router-link-active"   class="home wardmenu" title="In Patients"><span class="homespan"><i class="material-icons homeicon wardicon">airline_seat_individual_suite</i></span></a>
-
-    </div>
-    <nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:0px">
-    <div class="container">
-        <a class="navbar-brand" href="#">
-            <em>MS</em>
-        </a>
-        <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navcol-1">
-            <ul class="nav navbar-nav"></ul>
-            <form class="form-inline mr-auto searchform" target="_self">
-                <div class="form-group">
-                    <label style="left:500px;position:absolute;"  for="search-field">
-                        <i class="icon ion-ios-search searchicon" title="Search"></i>
-                    </label>
-                    <input  autocomplete = "off" style="border-radius:30px;
-                    left: 270px;
-                    width:220px;
-                    background-color: rgb(243, 248, 247);
-                    margin: auto;"
-                    class="form-control search-field"
-                    type="search" name="search" id="search-field" placeholder="Search patient">
-                </div>
-            </form>
-            <h6 style='font-size:12px;
-                        left:830px;position:absolute;
-                        color:grey;
-                        font-weight:normal;'>Sort by: <span stye='cursor:pointer'(click)='showSortMenu()'>
-                          {{nowSorting}}</span></h6>
-            <div *ngIf=sortMenu style='position: absolute;
-                        left:880px;
-                        width:100px;top:6px;
-                        height:110px'  class="menu">
-              <ul class="actions primary">
-                  <li (click)='sortPatients("name")' class="action">A-Z</li>
-                  <li (click)='sortPatients("age")' class="action">Age</li>
-                  <li (click)='sortPatients("status")' class="action">Status</li>
-                  <li (click)='sortPatients("sex")' class="action">Gender</li>
-                  <li (click)='sortPatients("date")' class="action">Date added</li>
-              </ul>
+                        <button  type ="submit"  style=" width: 95px; position:relative; outline: none; box-shadow: none;  font-size: 10px; left:195px; margin:25px 0px 25px 0px; border-radius: 0px; border-top-right-radius:4px;border-bottom-right-radius:4px;" class="btn btn-sm btn-outline-primary inputs mainbtn" >SAVE</button>
+                        <button  data-dismiss="modal" style="width: 57px; font-size: 10px; border-right: 0px; margin:25px 0px 25px 0px; left: 45px; position:relative; border-radius: 4px 0px 0px 4px;" class="btn btn-sm btn-outline-primary inputs mainbtn" >CANCEL</button>
+                      </form>
+                  </div>
+                
+              </div>
           </div>
+      </div>
+  </div>
+</div>
+
+  <div class="modal fade" role="dialog" tabindex="-1" id="consModal" style="border-radius:12px;width:auto;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="width:480px;border-radius:0px;border-radius:12px;padding-left:0px;padding-right: 0px;">
+            <div class="modal-body" style="border-radius:0px;padding: 0px;">
+                <div  class="card card-secondary historycard midlecard profilecard" style="margin:auto;min-height:200px;border-radius:12px;">
+                    <div style='padding-left: 30px;border-top-right-radius:12px;border-top-left-radius:12px;' class="card-header profileheader small-header">
+                        <i   style='position:absolute;left:1%;top:2%; cursor:pointer; display: inline-block;
+                          color:#1da1f2;' title="Back"
+                          class="icon ion-android-arrow-back "> </i>
+                        <div style="left:23px" class="timeline lastdoc priscriber headerdp small-dp">
+                          <img [src] = getDp(patients[curIndex])/>
+                        </div>
+                        <a href="#" class="patien-name small-name">
+                          {{patients[curIndex]?.info.personal.firstName + ' '+ patients[curIndex].info.personal.lastName}}<span class="small-headericon"></span>
+                        </a>
+                    </div>
+                  
+                    <div  class="card-body orderbody"style="width:65%;margin:auto;">
+                      <form  style="top:15%;" class=" staffsform">
+    
+                        <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block" >
+                          <label style="font-size:10px;position: relative;left: 0px;color: #1da1f2"  class="labelss primary"> 
+                            HISTORY</label>
+                           
+                        </div>
+                        <div class="form-group vitals-section address">
+                          <label style="font-size:8px" for="drug" class="labelss">CHIEF COMPLAIN</label>
+                          <input placeholder="E.g Night sweat, Headache" style='font-size:11px' autocomplete="off"  type="text" name="address"  class="patientdata dystolic inputs dataInfo" />
+                        </div>
+                        <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block" >
+                            <label style="font-size:8px" for="drug" class="labelss">FAMILY HISTORY<span style='font-size:11px; color:red;'>*</span> </label>
+                            <input placeholder="E.g Asthma, Diabetes" style='font-size:11px;text-align: left' autocomplete="off"  type="text" name="drug" class="patientdata dystolic inputs dataInfo" />
+                        </div>
+                        <div style="width:49%; display:inline-block"  class="form-group vitals-section">
+                            <label style="font-size:8px" for="firstName" class="labelss">ALLEGIES<span style='font-size:11px; color:red;'>*</span> </label>
+                            <input placeholder="E.g Peanuts" style='font-size:11px' autocomplete="off"  type="text" name="drug"  class="patientdata dystolic inputs dataInfo" />
+                        </div>
+
+                        <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block" >
+                            <label style="font-size:10px;position: relative;left: 0px;color: #1da1f2"  class="labelss primary"> 
+                              VITAL SIGNS</label>
+                        </div>
+
+                        <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block" >
+                            <label style="font-size:8px" for="gender" class="labelss">RESP. RATE</label>
+                            <input type="number" placeholder="in bpm" style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo" />
+                        </div>
+                   
+                        <div class="form-group vitals-section" style="width:49%; display:inline-block" >
+                            <label style="font-size:8px" for="gender" class="labelss">PULSE. RATE</label>
+                            <input type="number" placeholder="in bpm" style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo" />
+                        </div>
+                   
+                        <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block" >
+                            <label style="font-size:8px" for="gender" class="labelss">BP</label>
+                            <input type="number" placeholder="in mmHg" style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo" />
+                        </div>
+                        <div class="form-group vitals-section" style="width:49%; display:inline-block" >
+                            <label style="font-size:8px" for="gender" class="labelss">TEMP</label>
+                            <input type="number" placeholder="in mmHg" style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo" />
+                        </div>
+                        <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block" >
+                            <label style="font-size:8px" for="gender" class="labelss">HEIGH</label>
+                            <input type="number" placeholder="in ft" style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo" />
+                        </div>
+                        <div class="form-group vitals-section" style="width:49%; display:inline-block" >
+                            <label style="font-size:8px" for="gender" class="labelss">WEIGHT</label>
+                            <input type="number" placeholder="in Kg" style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo" />
+                        </div>
+
+                        <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block" >
+                            <label style="font-size:10px;position: relative;left: 0px;color: #1da1f2"  class="labelss primary"> 
+                              DIAGNOSIS</label>
+                        </div>
+
+                        <div style="width:49%; display:inline-block;margin-right: 5px; "  class="form-group vitals-section">
+                            <label style="font-size:8px" for="drug" class="labelss">CONDITION</label>
+                            <input type="text" placeholder="Malaria fever" style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo" />
+                        </div>
+                        
+                        <div class="form-group vitals-section" style="width:49%;display:inline-block" >
+                            <label style="font-size:8px" for="drug" class="labelss">CERTAINTY</label>
+                            <select style='font-size:11px' autocomplete="off"   class="patientdata dystolic inputs dataInfo" >
+                              <option>Presume</option>
+                              <option>Comfirmed</option>
+                          </select>
+                        </div>
+
+                        <div class="form-group vitals-section" style="width:49%;display:inline-block;margin-right: 5px;" >
+                            <label style="font-size:8px" for="drug" class="labelss">CONCLUSION</label>
+                            <select style='font-size:11px' autocomplete="off"   class="patientdata dystolic inputs dataInfo" >
+                              <option>Admit</option>
+                              <option>Discharge</option>
+                              <option>Refer</option>
+                          </select>
+                        </div>
+                        <div style="width:49%; display:inline-block; "  class="form-group vitals-section">
+                            <label style="font-size:8px" for="drug" class="labelss">DEPARTMENT</label>
+                            <select style='font-size:11px' autocomplete="off"   class="patientdata dystolic inputs dataInfo" >
+                                <option>Maternity</option>
+                                <option>Psychatrics</option>
+                                <option>Emergency</option>
+                            </select>
+                        </div>
+                      
+                        <div class="form-group vitals-section address">
+                            <label style="font-size:8px; position: absolute; bottom:70%" for="note" class="labelss">ADDITONAL NOTE</label>
+                            <textarea placeholder="Additional note"
+                             style='font-size:11px;min-height: 110px; text-align: left' autocomplete="off"   class="patientdata dystolic inputs dataInfo" >
+                           </textarea>
+                        </div>
+
+                        <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block" >
+                            <label style="font-size:10px;position: relative;left: 0px;color: #1da1f2"  class="labelss primary"> 
+                              MEDICATION</label>
+                        </div>
+                       
+                        <div class="form-group vitals-section address">
+                            <label style="font-size:8px" for="drug" class="labelss">DRUG</label>
+                            <input placeholder="E.g paracetamol 500mg" style='font-size:11px' autocomplete="off"  type="text" name="address"  class="patientdata dystolic inputs dataInfo" />
+                            <div *ngIf= temItems.length  class="options prisOption edit">
+                                <ul class="itemsList" >
+                                  <li  *ngFor="let item of temItems"><p (click) = "addSelection(item)"  class="dept firstheader drugItem" style="font-size:13px;padding-left: 10px; padding-right: 10px;font-weight: normal;" >{{item.name+ ' '}}<span class="lastdept timetaken " >{{item.mesure + item.unit}}</span></p>
+                                  </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                        <div class="form-group vitals-section formGroup" style=" width:26%;">
+                            <label style="font-size:8px" for="dos" class="labelss complain">INTAE</label>
+                            <input [(ngModel)] = "priscription.intake" style="border-top-right-radius: 0px;border-bottom-right-radius: 0px;font-size:11px"  type="number" name="dos" class="patientdata inputs dataInfo"  >
+                        </div>
+                        <div class="form-group vitals-section formGroup" style=" width:39%; ">
+                            <label style="font-size:8px" for="intake" class="labelss complain">FREQ</label>
+                            <select [(ngModel)]="priscription.freq" style="border-radius: 0px;font-size:11px;                      border-top-right-radius: 0px;          border-bottom-right-radius:0px"
+                              class=" patientdata status inputs dataInfo " name="intake">
+                                <option>dos</option>
+                                <option>qos</option>
+                                <option>am</option>
+                                <option>ar</option>
+                            </select>
+                        </div>
+                        <div class="form-group vitals-section formGroup" style=" width:26%;">
+                            <label style="font-size:8px" for="piriod" class="labelss complain">DAYS</label>
+                            <input  [(ngModel)]="priscription.piriod" style="border-radius: 0px; font-size:11px;"
+                            type="number" name="piriod" class="patientdata inputs dataInfo" placeholder="">
+                            <div id='moreBtn' title="Add medication"><i (click)="addMedication()" class="icon ion-ios-plus-empty arrow " style="font-size:25px;position: absolute;left:27%;top:-17%; cursor:pointer"></i>
+                            </div>
+                        </div>
+
+                       
+
+
+                        <button  type ="submit"  style=" width: 95px; position:relative; outline: none; box-shadow: none;  font-size: 10px; left:195px; margin:25px 0px 25px 0px; border-radius: 0px; border-top-right-radius:4px;border-bottom-right-radius:4px;" class="btn btn-sm btn-outline-primary inputs mainbtn" >SAVE</button>
+                        <button  data-dismiss="modal" style="width: 57px; font-size: 10px; border-right: 0px; margin:25px 0px 25px 0px; left: 45px; position:relative; border-radius: 4px 0px 0px 4px;" class="btn btn-sm btn-outline-primary inputs mainbtn" >CANCEL</button>
+                      </form>
+                  </div>
+                
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+
+
+
+
+<nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:0px">
+  <div class="container">
+      <a class="navbar-brand" href="#">
+          <em>MS</em>
+      </a>
+      <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navcol-1">
+          <ul class="nav navbar-nav"></ul>
+          <form class="form-inline mr-auto searchform" target="_self">
+              <div class="form-group">
+                  <label style="left:500px;position:absolute;"  for="search-field">
+                      <i class="icon ion-ios-search searchicon" title="Search"></i>
+                  </label>
+                  <input [(ngModel)] = searchTerm #search (keyup)='searchPatient(searchTerm)' autocomplete = "off" style="border-radius:30px;
+                  left: 270px;
+                  width:220px;
+                  background-color: rgb(243, 248, 247);
+                  margin: auto;"
+                  class="form-control search-field"
+                  type="search" name="search" id="search-field" placeholder="Search patient">
+              </div>
+          </form>
+          <h6 style='font-size:12px;
+                      left:780px;position:absolute;
+                      color:grey;
+                      font-weight:normal;'>Sort by: <span stye='cursor:pointer'(click)='showSortMenu()'>
+                        {{nowSorting}}</span></h6>
+          <div *ngIf=sortMenu style='position: absolute;
+                      left:824px;
+                      width:100px;top:6px;
+                      height:110px'  class="menu">
+            <ul class="actions primary">
+                <li (click)='sortPatients("name")' class="action">A-Z</li>
+                <li (click)='sortPatients("age")' class="action">Age</li>
+                <li (click)='sortPatients("status")' class="action">Status</li>
+                <li (click)='sortPatients("sex")' class="action">Gender</li>
+                <li (click)='sortPatients("date")' class="action">Date added</li>
+            </ul>
         </div>
-    </div>
-
-    <i style="left:80%;" class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
-
-    <i [routerLink]="['/messages']" data-target="#newModal" data-toggle="modal" style="left:83%;" class="icon ion-ios-person-outline arrow buble" id="add" title="Me" ></i>
-
+      </div>
+  </div>
+  <i style="left:80%;" class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
+    <i [routerLink]="['/messages']" data-target="#newModal" data-toggle="modal" style="left:83%;" class="icon ion-ios-person-outline arrow buble" id="add" title="My Account" ></i>
+    <i  style="left:75%;" class="icon ion-ios-plus-empty arrow buble" id="add" title="New Patient" data-target="#addModal" data-toggle="modal"></i>
     <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:90%;position:absolute;height:30px;width:30px;bottom:-8%"></div>
-    </nav>
+</nav>
 
 
 
@@ -387,23 +949,24 @@
 
 <div style="padding-top:60px"  class="container">
     <div class="row">
+     <h6 *ngIf ='!patients.length' style='font-size:13px;position:relative;top:170px;text-align:center;display:inline-block; color:lightgrey; width:30%; margin:auto;' [routerLink]="['/signup']" routerLinkActive="" >No New Patient Yet</h6>
         <div *ngFor="let patient of patients; let i = index"  class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
         <div *ngIf = "patient.card.view == 'front'"   style="border-radius:12px"  class="card card-secondary maincard">
             <div style="border-radius:12px"  class="card-header profileheader"><i (click)='showMenu(i)' class="icon ion-android-more-vertical headericon moreicon actions-icon"></i>
               <div *ngIf = "patient.card.menu" class="menu">
                   <ul class="actions primary">
-                      <li (click)="selectPatient(i)" data-target="#noteModal" data-toggle="modal" class="action">Add Note</li>  
+                      <li (click)="selectPatient(i)" data-target="#noteModal" data-toggle="modal" class="action">Add Note</li>
                       <li (click)="selectPatient(i)" data-target="#medicModal" data-toggle="modal" class="action">Medications</li>
                       <li (click) = switchToVitals(i) class="action">Update Vitals</li>
                       <li (click) = switchToAp(i) class="action">Set Appointment</li>
-                     
+
                    </ul>
               </div>
                 <div class="timeline lastdoc priscriber headerdp">
                     <img [src] = getDp(patient)/>
                 </div>
             </div>
-            <a href="#" title="View history" [routerLink]="['/history/', patient._id]" routerLinkActive="router-link-active" class="patien-name">
+            <a href="#" title="View history" [routerLink]="['./history', patient._id]" routerLinkActive="router-link-active" class="patien-name">
             {{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}<span class="predata editicon"></span></a>
 
             <div class="card-body mainbody">
@@ -418,27 +981,20 @@
                     <h6 class="dept basic-info sex-info">{{patient.info.personal.dob|dob}}</h6>
                 </div>
                 <div class="carditem basic-item">
-                    <h6 class="dept basic-info">Bed</h6>
-                    <h6 class="dept basic-info sex-info">5</h6>
+                    <h6 class="dept basic-info">Seen</h6>
+                    <h6 class="dept basic-info sex-info">{{patient.record.visits.length}}</h6>
                 </div>
                 <div class="priscription basic-subinfo">
-
                     <div class="sub-container">
-                    
-                        <h6 style="width:100%;text-align:center" class="dept basic-secondary basic-value"> {{patient.record.visits[patient.record.visits.length-1].visitedOn|date:'dd MMM hh:mma'|lowercase}}</h6>
+                        <h6 style="width:100%;text-align:center" class="dept basic-secondary basic-value"> {{patient.record.visits[0].visitedOn|date:'dd MMM hh:mma'|uppercase}}</h6>
                     </div>
                 </div>
             </div>
-            <div data-target="#newModal" data-toggle="modal"
-                       style='left:80%; height:32px;width:32px'
-                       title ='Add Medication' class="floter">
-                    <i style="color:#1da1f2; left:6px; font-size:17px;"
-                       class="icon ion-person-stalker arrow flotericon">
-                    </i>
-                </div>
+            <button data-toggle="modal" data-target="#consModal" *ngIf='myDepartment' (click) = "selectPatient(i)"  style=" width: 90px;font-size: 10px; height:27px;left:52%; bottom:7%;" class="btn btn-sm btn-outline-primary inputs mainbtn" >ATTEND TO</button>
+
             </div>
             <div style="border-radius:12px"  *ngIf = "patient.card.view == 'ap'"   class="card card-secondary maincard">
-                    <div style='padding-left: 30px;border-radius:12px' class="card-header profileheader small-header">
+                    <div style='padding-left: 30px;border-top-right-radius:12px;border-top-left-radius:12px' class="card-header profileheader small-header">
                         <i (click)=switchToFront(i) style='position:absolute;
                           left:3%;top:2%; cursor:pointer;
                           display: inline-block;
@@ -455,21 +1011,26 @@
                     <div  class="card-body mainbody" style="padding-top:20px">
                         <form style="top:15%; padding-left: 2%; padding-right: 2%;" class=" staffsform" >
                             <div style=" margin-top:3px;   " class="form-group vitals-section formGroup" >
-                                <label for="apDate" class="labelss complain">DATE</label>
-                                <input  style='font-size:11px'  type="date" name="pulse" class="patientdata inputs dataInfo"   placeholder="in celsius">
+                                <label for="title" class="labelss complain">TITLE</label>
+                                <input [(ngModel)]="appointment.title"  style='font-size:11px'  type="text" name="pulse" class="patientdata inputs dataInfo"   placeholder="e.g Anti natal routine">
                             </div>
-                            <div style=" margin-top:5px;" class="form-group vitals-section formGroup">
-                                <label for="bp" class="labelss complain">TIME</label>
-                                <input style='font-size:11px' type="time" name="bp" class="patientdata inputs dataInfo" placeholder="HH:MM">
+                             <div style="width:49.3%;margin-right:3px; margin-top:3px; display:inline-block"  class="form-group vitals-section formGroup" >
+                                <label for="date" class="labelss complain">DATE</label>
+                                <input [(ngModel)]="appointment.setOn"   style='font-size:11px'  type="date" name="date" class="patientdata inputs dataInfo">
                             </div>
-       
+                            <div style="width:49.3%; display:inline-block;margin-top:3px;" class="form-group vitals-section formGroup">
+                                <label for="time" class="labelss complain">TIME</label>
+                                <input [(ngModel)]="appointment.time"   style='font-size:11px' type="time" name="time" class="patientdata inputs dataInfo">
+                            </div>
+
                         </form>
                     </div>
-                    <div style='left:78%; height:32px;width:32px'
+                    <div (click) = 'setAppointment()' style='left:78%; height:32px;width:32px'
                          title ='Set appointment' class="floter">
-                        <i style="color:#1da1f2;bottom:-10px"
-                           class="icon ion-ios-checkmark-empty flotericon">
+                         <i *ngIf='loading'  class="fa fa-circle-o-notch fa-spin fa-10x slow-spin" style="position:absolute;bottom:5px;left:5px;font-size:20px;color: #1da1f2;">
                         </i>
+                       <i *ngIf='!loading' style="color:#1da1f2;bottom:-10px;" class="icon ion-ios-checkmark-empty flotericon">
+                      </i>
                    </div>
                 </div>
        </div>

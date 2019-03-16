@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {Client, Department, Main, Person} from '../../models/data.model';
+import {Client} from '../../models/client.model';
+import {Person} from '../../models/person.model';
 import {DataService} from '../../services/data.service';
 import {SocketService} from '../../services/socket.service';
 import {CookieService } from 'ngx-cookie-service';
@@ -15,39 +16,73 @@ export class LoginComponent implements OnInit {
    username: null,
    pwd: null
 };
-
+signin = true;
+loginError = false;
+accountExist = false;
+loading = false;
+creating = false;
+client:Client = new Client();
 
   constructor(
-    private data: DataService,
+    private accountService: DataService,
     private socket: SocketService,
     private cookie: CookieService, private router: Router
     ) { }
 
   ngOnInit() {
   }
+  switch() {
+    this.signin = false;
+  }
+  hideError(){
+    this.loginError = false;
+  }
   login() {
-    this.data.login(this.user).subscribe((person: Person) => {
-      this.cookie.set('i', person._id);
-      this.cookie.set('h', person.info.official.hospId);
-      this.socket.io.emit('login', {ui: person._id, lastLogin: person.info.lastLogin});
+    this.loading = true;
+
+    this.accountService.login(this.user).subscribe((person: any) => {
+      if(person.info.official) {
+        this.cookie.set('i', person._id);
+        this.cookie.set('h', person.info.official.hospId);
+        this.socket.io.emit('login', {ui: person._id, lastLogin: person.info.lastLogin})
       let route = null;
       const role = person.info.official.role;
+
       switch (role) {
-        case 'doctor':
-          route = `department/${person.info.official.department.toLowerCase()}/consultation`;
+        case 'Doctor':
+          route = `/${person.info.official.department.toLowerCase()}/consultation`;
           break;
         case 'Nurse':
-          route = `department/${person.info.official.department.toLowerCase()}/ward`;
+          route = `/${person.info.official.department.toLowerCase()}/ward`;
         break;
         default:
-          route = `department/${person.info.official.department.toLowerCase()}`;
+          route = `/${person.info.official.department.toLowerCase()}`;
         break;
       }
       this.router.navigate([route]);
- 
+      } else {
+        
+          this.cookie.set('i', person._id);
+          this.router.navigate(['/account']);
       }
-     , (err) => {
-
+    },
+     (err) => {
+      this.loading = false;
+        this.loginError = true;
     });
+  }
+  signup() {
+    this.creating = true;
+    console.log(this.client)
+    this.accountService.createClient(this.client).subscribe((res:any) => {
+      this.cookie.set('i', res._id);
+      this.creating = false;
+      this.loading = false;
+      this.client = new Client();
+      this.router.navigate(['/account']);
+    } , (err) => {
+      this.accountExist = true;
+      this.creating = false;
+  });
   }
 }

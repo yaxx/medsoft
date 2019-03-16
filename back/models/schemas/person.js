@@ -107,7 +107,7 @@ var personScheema = new Scheema({
             oreder:String,
             certainty: String,
             dateCreated: {type:Date, default:Date.now()},
-            by: {type: Scheema.Types.ObjectId, ref: 'Staff'}
+            by: {type: Scheema.Types.ObjectId, ref: 'Person'}
         }],
         allegies:[{
             allegy:String,
@@ -122,6 +122,14 @@ var personScheema = new Scheema({
             diedOn: Date,
             wardNo: Number,
             bedNo: Number
+        }],
+        appointments: [{
+            title:String,
+            setOn:Date,
+            time:String,
+            attended: Boolean,
+            setBy: {type: Scheema.Types.ObjectId, ref: 'Person'}
+            
         }],
         medications:[
             [

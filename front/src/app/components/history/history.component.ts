@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Person} from '../../models/data.model';
+import { Person} from '../../models/person.model';
 import {DataService} from '../../services/data.service';
 import {ActivatedRoute} from '@angular/router';
 import {Chart} from 'chart.js';

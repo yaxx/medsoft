@@ -2,10 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {DataService} from '../../services/data.service';
 import {SocketService} from '../../services/socket.service';
 import update from 'react-addons-update';
-import { Person, Item, StockInfo,
-  Product, Priscription, Medication
-} from '../../models/data.model';
-
+import {Person} from '../../models/person.model';
+import {Product, Item, StockInfo} from '../../models/inventory.model';
+import {Priscription, Medication} from '../../models/record.model';
 
 @Component({
   selector: 'app-pharmacy',
@@ -14,6 +13,7 @@ import { Person, Item, StockInfo,
 })
 export class PharmacyComponent implements OnInit {
   patients: Person[] = new Array<Person>();
+  patient: Person = new Person();
   products: Product[] = new Array<Product>();
   product: Product = new Product();
   priscription: Priscription = new Priscription();
@@ -30,7 +30,11 @@ export class PharmacyComponent implements OnInit {
   temPatients: Person[] = new Array<Person>();
   input = '';
   searchTerm = '';
-  medicView = false;
+  cardView = {
+    orders: true,
+    editing: false,
+    reversing: false
+  };
   sortBy = 'added';
   sortMenu = false;
   nowSorting = 'Date added';
@@ -46,7 +50,7 @@ export class PharmacyComponent implements OnInit {
     private socket: SocketService ) { }
 
   ngOnInit() {
-    this.getOrders();
+    this.getPatients();
     this.getProducts();
     this.getItems();
     this.socket.io.on('new order', (patient: Person) => {
@@ -61,25 +65,57 @@ export class PharmacyComponent implements OnInit {
    showSortMenu() {
     this.sortMenu = true;
   }
-  switchViews(view) {
-    this.view = view;
+  getPatients() {
+    let orders;
+    this.dataService.getPatients().subscribe((patients: Person[]) => {
+      orders = patients.filter(patient=>patient.record.medications[0].length);
+      orders.forEach(p => {
+        p.card = {menu: false, view: 'front'};
+      });
+      this.patients = orders;
+      this.dataService.setCachedPatients(orders);
+    });
   }
-  switchToNewMedic(){
-    this.medicView = !this.medicView;
-  }
-  swichtToFront(i) {
-    this.patients[i].card.view = 'front';
-  }
-  switchToEdit(i: number) {
+  selectPatient(i: number) {
     this.curIndex = i;
-    this.editables = this.getSelections(i);
+    this.patient = this.patients[i];
+     this.medications = this.patient.record.medications.reverse();
+    }
+  switchViews(view) {
+    switch(view){
+      case 'orders':
+      this.cardView.orders = true;
+      this.cardView.editing = false;
+      this.cardView.reversing = false;
+      break;
+      case 'editing':
+      this.cardView.orders = false;
+      this.cardView.editing = true;
+      this.cardView.reversing = false;
+     
+      break;
+      case 'reversing':
+      this.cardView.orders = false;
+      this.cardView.editing = false;
+      this.cardView.reversing = true;
+      break;
+      default:
+      break;
+    }
+
+  }
+  
+  switchToEdit() {
+    this.editables = this.getSelections(this.curIndex);
     this.medication = this.editables.shift();
     this.input = this.medication.product.item.name + ' ' + this.medication.product.item.mesure + this.medication.product.item.unit;
-    // this.switchViews('edit');
+    this.switchViews('editing');
+   
   }
-  getReversables(i: number, j: number, k: number) {
+  getReversables(i: number, j: number) {
     this.curIndex = i;
-    this.edited.push(this.patients[i].record.medications[j][k]);
+    this.edited.push(this.patients[this.curIndex].record.medications[i][j]);
+    this.switchViews('reversing');
   }
   sortPatients(sortOption: string) {
     this.sortMenu = false;
@@ -108,17 +144,17 @@ export class PharmacyComponent implements OnInit {
         break;
     }
   }
-  selectItem(i: number, j: number, k: number) {
+  selectItem(i: number, j: number) {
    this.curIndex = i;
-   this.patients[i].record.medications[j][k].selected =
-   this.patients[i].record.medications[j][k].selected ? false : true;
-   if (this.patients[i].record.medications[j][k].paid) {
+   this.patients[this.curIndex].record.medications[i][j].selected =
+   this.patients[this.curIndex].record.medications[i][j].selected ? false : true;
+   if (this.patients[this.curIndex].record.medications[i][j].paid) {
     // $('.trigger').click();
   } else {
   }
   }
   medidcationsSelected(i: number) {
-    return this.patients[i].record.medications.some(med => med.some(m => m.selected));
+    return this.patients[this.curIndex].record.medications.some(med => med.some(m => m.selected));
   }
   getSelections(i: number) {
     const selected = [];
@@ -243,12 +279,12 @@ export class PharmacyComponent implements OnInit {
 
   this.runTransaction(inlinePatients,'purchase');
   }
-  somePaid(i, j) {
-    return this.patients[i].record.medications[j].some(m => m.paid );
+  somePaid(i) {
+    return this.patients[this.curIndex].record.medications[i].some(m => m.paid );
    }
-  getTransTotal(i, j) {
+  getTransTotal(i) {
     let total = 0;
-    this.patients[i].record.medications[j].forEach((m) => {
+    this.patients[this.curIndex].record.medications[i].forEach((m) => {
       total = total + m.purchased * m.product.stockInfo.price;
     });
     return total;

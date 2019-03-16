@@ -1,3 +1,179 @@
-<p>
-  appointments works!
-</p>
+
+
+
+
+<!-- 
+<div class="sidenav">
+
+  <a style="top:21%" href="#" [routerLink]="['/department/information']" routerLinkActive="router-link-active"  class="home patienmenu" title="Out Patients">
+      <span class="homespan">
+          <i class="icon ion-ios-people-outline homeicon"></i>
+      </span>
+  </a>
+
+  <a style="top:28%" href="#" [routerLink]="['/department/information/inpatients']" routerLinkActive="router-link-active"   class="home wardmenu" title="Inpatients"><span class="homespan"><i class="material-icons homeicon wardicon">airline_seat_individual_suite</i></span></a>
+
+  <a style="top:34%" href="#" [routerLink]="['/department/information/appointments']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Appointments">
+    <span class="homespan">
+        <i class="icon ion-ios-calendar-outline homeicon"></i>
+    </span>
+</a>
+
+</div> -->
+<nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:0px">
+<div class="container">
+    <a class="navbar-brand" href="#">
+        <em>MS</em>
+    </a>
+    <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navcol-1">
+        <ul class="nav navbar-nav"></ul>
+        <form class="form-inline mr-auto searchform" target="_self">
+            <div class="form-group">
+                <label style="left:500px;position:absolute;"  for="search-field">
+                    <i class="icon ion-ios-search searchicon" title="Search"></i>
+                </label>
+                <input [(ngModel)] = searchTerm #search (keyup)='searchPatient(searchTerm)' autocomplete = "off" style="border-radius:30px;
+                left: 270px;
+                width:220px;
+                background-color: rgb(243, 248, 247);
+                margin: auto;"
+                class="form-control search-field"
+                type="search" name="search" id="search-field" placeholder="Search patient">
+            </div>
+        </form>
+        <h6 style='font-size:12px;
+                    left:780px;position:absolute;
+                    color:grey;
+                    font-weight:normal;'>Sort by: <span stye='cursor:pointer'(click)='showSortMenu()'>
+                      {{nowSorting}}</span></h6>
+        <div *ngIf=sortMenu style='position: absolute;
+                    left:824px;
+                    width:100px;top:6px;
+                    height:110px'  class="menu">
+          <ul class="actions primary">
+              <li (click)='sortPatients("name")' class="action">A-Z</li>
+              <li (click)='sortPatients("age")' class="action">Age</li>
+              <li (click)='sortPatients("status")' class="action">Status</li>
+              <li (click)='sortPatients("sex")' class="action">Gender</li>
+              <li (click)='sortPatients("date")' class="action">Date added</li>
+          </ul>
+      </div>
+    </div>
+</div>
+<i style="left:80%;" class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
+
+<i [routerLink]="['/messages']" data-target="#newModal" data-toggle="modal" style="left:83%;" class="icon ion-ios-person-outline arrow buble" id="add" title="My Account" ></i>
+<i  style="left:75%;" class="icon ion-ios-plus-empty arrow buble" id="add" title="New Patient" data-target="#newModal" data-toggle="modal"></i>
+<div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:90%;position:absolute;height:30px;width:30px;bottom:-8%"></div>
+</nav>
+
+<div style="padding-top:60px" class="container">
+      <div class="row">
+          <h6 *ngIf ='!patients.length' style='font-size:13px;position:relative;top:170px;text-align:center;display:inline-block; color:lightgrey; width:30%; margin:auto;' [routerLink]="['/signup']" routerLinkActive="" >No Record Found</h6>
+          <div  *ngFor="let patient of patients; let i=index"  class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+              <div *ngIf = "patient.card.view == 'front'"  class="card card-secondary maincard">
+                <div style="border-radius:12px" class="card-header profileheader"><i (click)='showMenu(i)' class="icon ion-android-more-vertical headericon moreicon actions-icon"></i>
+                  <div *ngIf = "patient.card.menu" class="menu">
+                    <ul class="actions primary">
+                        <li (click)="selectPatient(i)" data-target="#medicModal" data-toggle="modal" class="action">Attend to</li>
+                         <li (click) = switchToAp(i) class="action">Edit AP</li>
+                         <li (click)="selectPatient(i)" data-target="#medicModal" data-toggle="modal" class="action">Cancel AP</li>
+                    
+                     </ul>
+                </div>
+                    <div class="timeline lastdoc priscriber headerdp">
+                        <img [src] = getDp(patient)/>
+                    </div>
+                </div>
+                <p (click)= 'switchToBack(i)' class="dept displayname">
+                {{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}<span class="predata editicon"></span></p>
+                <div class="card-body mainbody">
+                    <div class="carditem basic-item">
+                        <h6 class="dept basic-info">Sex</h6>
+                        <h6 class="dept basic-info sex-info">
+                            {{patient.info.personal.gender.charAt(0).toUpperCase()}}</h6>
+                    </div>
+                    <div class="carditem basic-item">
+                        <h6 class="dept basic-info">Age</h6>
+                        <h6 class="dept basic-info sex-info">{{patient.info.personal.dob|dob}}</h6>
+                    </div>
+                    <div class="carditem basic-item">
+                       <h6 class="dept basic-info">APs</h6>
+                       <h6 class="dept basic-info sex-info">{{patient.record.appointments.length}}</h6>
+                    </div>
+                    <div class="priscription basic-subinfo">
+                        <!-- <div class="sub-container">
+                            <h6 class="dept basic-secondary basic-value">
+                              {{patient.record.visits[0].dept.toUpperCase()}}</h6>
+                        </div> -->
+                        <div class="sub-container">
+                            <h6 class="dept basic-secondary basic-value">
+                              Anti Natal Routine</h6>
+                        </div>
+                        <div class="sub-container">
+                          <h6 style="width:100%;text-align:center" class="dept basic-secondary basic-value"> {{patient.record.visits[0].visitedOn|date:'dd MMM hh:mma'|uppercase}}</h6>
+                        </div>
+                      </div>
+                </div>
+                <button *ngIf='!myDepartment' (click) = "submitRecord()"  style=" width: 90px;font-size: 10px; height:27px;left:52%; bottom:7%;" class="btn btn-sm btn-outline-primary inputs mainbtn" >ENROLE</button>
+                <div *ngIf='myDepartment' style='padding: 4px 4px 4px 27px;border-top:none;border-bottom:none;border-bottom-right-radius:12px;border-bottom-left-radius:12px' class="card-footer profileheader small-header">
+                  <div style="left:10%; top:84%" class="timeline lastdoc priscriber headerdp small-dp">
+                    <img [src] = getDp(patient)/>
+                  </div>
+                  <h6 style="font-weight:normal;width:125px; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;margin: 2px;" href="#" class="patien-name small-name">
+                    {{'Dr.'+' '+patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}
+                  </h6>
+                  <p style='position: absolute;bottom:0.1%;font-size: 10px;color:lightgrey;left: 70%;'>02 DEC, 2019</p>
+              </div>
+             
+            </div>
+
+            <div style="border-radius:12px"  *ngIf = "patient.card.view == 'ap'"   class="card card-secondary maincard">
+              <div style='padding-left: 30px;border-top-right-radius:12px;border-top-left-radius:12px' class="card-header profileheader small-header">
+                  <i (click)=switchToFront(i) style='position:absolute;
+                    left:3%;top:2%; cursor:pointer;
+                    display: inline-block;
+                    color:#1da1f2;' title="Back"
+                    class="icon ion-android-arrow-back ">
+                </i>
+                  <div style="left:23px" class="timeline lastdoc priscriber headerdp small-dp">
+                    <img [src] = getDp(patient)/>
+                  </div>
+                  <a href="#" class="patien-name small-name">
+                    {{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}<span class="small-headericon"></span>
+                  </a>
+              </div>
+              <div  class="card-body mainbody" style="padding-top:20px">
+                  <form style="top:15%; padding-left: 2%; padding-right: 2%;" class=" staffsform" >
+                      <div style=" margin-top:3px;   " class="form-group vitals-section formGroup" >
+                          <label for="title" class="labelss complain">TITLE</label>
+                          <input [(ngModel)]="appointment.title"  style='font-size:11px'  type="text" name="pulse" class="patientdata inputs dataInfo"   placeholder="e.g Anti natal routine">
+                      </div>
+                       <div style="width:49.3%;margin-right:3px; margin-top:3px; display:inline-block"  class="form-group vitals-section formGroup" >
+                          <label for="date" class="labelss complain">DATE</label>
+                          <input [(ngModel)]="appointment.setOn"   style='font-size:11px'  type="date" name="date" class="patientdata inputs dataInfo">
+                      </div>
+                      <div style="width:49.3%; display:inline-block;margin-top:3px;" class="form-group vitals-section formGroup">
+                          <label for="time" class="labelss complain">TIME</label>
+                          <input [(ngModel)]="appointment.time"   style='font-size:11px' type="time" name="time" class="patientdata inputs dataInfo">
+                      </div>
+ 
+                  </form>
+              </div>
+              <div (click) = 'setAppointment()' style='left:78%; height:32px;width:32px'
+                   title ='Set appointment' class="floter">
+                   <i *ngIf='loading'  class="fa fa-circle-o-notch fa-spin fa-10x slow-spin" style="position:absolute;bottom:5px;left:5px;font-size:20px;color: #1da1f2;">
+                  </i>
+                 <i *ngIf='!loading' style="color:#1da1f2;bottom:-10px;" class="icon ion-ios-checkmark-empty flotericon">
+                </i>
+             </div>
+          </div>
+          
+      </div>
+  </div>
+</div>
+

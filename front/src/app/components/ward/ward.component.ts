@@ -2,9 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FileSelectDirective, FileUploader } from 'ng2-file-upload';
 import {DataService} from '../../services/data.service';
 import {SocketService} from '../../services/socket.service';
-import { Person, Client, Item, Scan,
-  Product, Priscription, Vital, Medication, Note
-} from '../../models/data.model';
+import {ActivatedRoute} from '@angular/router';
+import { Priscription, Scan, Vital, Medication, Note} from '../../models/record.model';
+import { Person} from '../../models/person.model';
+import { Product, Item} from '../../models/inventory.model';
+import { Client} from '../../models/client.model';
+  
+
 const uri = 'http://localhost:5000/api/upload';
 @Component({
   selector: 'app-ward',
@@ -43,14 +47,17 @@ export class WardComponent implements OnInit {
   attachments: any = [];
 
 
-  constructor(private dataService: DataService, private socket: SocketService ) { }
+  constructor(
+      private dataService: DataService,
+      private route: ActivatedRoute, 
+      private socket: SocketService ) { }
   ngOnInit() {
     this.getInPatients();
     this.getClient();
     this.uploader.onCompleteItem = (item: any, fileName: any, status: any, headers: any ) => {
       this.patients[this.curIndex].record.scans.unshift(new Scan(fileName, this.filesDesc))
        this.dataService.updateRecord(this.patients[this.curIndex]).subscribe((newpatient: Person) => {
-        console.log(newpatient.record.scans);
+        
       });
      };
     // this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any ) => {
@@ -145,16 +152,18 @@ export class WardComponent implements OnInit {
   }
 
   getInPatients() {
-    this.dataService.getInPatients().subscribe((patients: Person[]) => {
-      patients.forEach(p => {
+    this.dataService.getPatients().subscribe((patients: Person[]) => {
+       let myPatients = patients.filter(p=>p.record.visits.some(v=>v.dept===this.route.snapshot.params['mode'] && v.status === 'admitted'))
+         myPatients.forEach(p => {
         if (p.record.visits[p.record.visits.length - 1].bedNo) {
           p.card = {menu: false, view: 'front'};
         } else {
           p.card = {menu: false, view: 'bed'};
         }
       });
-      this.patients = patients;
-      this.patient = patients[0];
+      this.patients = myPatients;
+      console.log(myPatients)
+      this.patient = myPatients[0];
     });
   }
   getBeds(i: number) {

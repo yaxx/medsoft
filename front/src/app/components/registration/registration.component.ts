@@ -3,7 +3,9 @@ import {NgForm} from '@angular/forms';
 import { FileSelectDirective, FileUploader } from 'ng2-file-upload';
 import {DataService} from '../../services/data.service';
 import {SocketService} from '../../services/socket.service';
-import {Person, Info} from '../../models/data.model';
+import {ActivatedRoute,Router} from '@angular/router';
+import {Person, Info} from '../../models/person.model';
+import {Visit} from '../../models/record.model';
 import {CookieService } from 'ngx-cookie-service';
 const uri = 'http://localhost:5000/api/upload';
  @Component({
@@ -22,6 +24,7 @@ export class RegistrationComponent implements OnInit {
   url = '';
   sortBy = 'added';
   sortMenu = false;
+  loading = false;
   nowSorting = 'Date added';
   view = 'info';
   searchTerm = '';
@@ -29,11 +32,13 @@ export class RegistrationComponent implements OnInit {
   dpurl = 'http://localhost:5000/api/dp/';
 
 
-  uploader: FileUploader = new FileUploader({url: uri});
+  uploader: FileUploader = new FileUploader({url: ''});
   constructor(
     private dataService: DataService,
     private cookie: CookieService,
-    private socket: SocketService
+    private socket: SocketService,
+    private route: ActivatedRoute,
+    private router: Router
     ) { }
 
   ngOnInit() {
@@ -43,12 +48,16 @@ export class RegistrationComponent implements OnInit {
   // };
      this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any ) => {
      this.patient.info.personal.dpUrl = response;
-      this.dataService.addPatient(this.patient).subscribe((newpatient: Person) => {
-        this.patients.push(newpatient);
-        this.socket.io.emit('newPerson', newpatient);
+     this.patient.record.visits.unshift(new Visit());
+      this.dataService.addPerson(this.patient).subscribe((newpatient: Person) => {
+        newpatient.card = {menu: false, view: 'front'};
+        this.patients.unshift(newpatient);
+      
+        this.socket.io.emit('new patient', newpatient);
+        this.loading = false;
      });
     };
-    // this.socket.io.emit('hello', {});
+
   }
   getDp(p: Person) {
     return 'http://localhost:5000/api/dp/' + p.info.personal.dpUrl;
@@ -57,12 +66,14 @@ export class RegistrationComponent implements OnInit {
     this.sortMenu = true;
   }
   getPatients() {
+    let discharged;
     this.dataService.getPatients().subscribe((patients: Person[]) => {
-      patients.forEach(p => {
+      discharged = patients.filter(patient=>patient.record.visits[0].status === 'discharged');
+      discharged.forEach(p => {
         p.card = {menu: false, view: 'front'};
       });
-      this.patients = patients.reverse();
-      this.temPatients = patients.reverse();
+      this.patients = discharged;
+      this.dataService.setCachedPatients(discharged);
     });
   }
   fileSelected(event) {
@@ -70,8 +81,9 @@ export class RegistrationComponent implements OnInit {
       this.file = <File>event.target.files[0];
       const reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]); // read file as data url
-      reader.onload = (e) => { // called once readAsDataURL is completed
-        // this.url = e.target.result;
+      reader.onload = (e) => { 
+        let evnt = <any>e;
+        this.url = evnt.target.result;
       };
     }
 
@@ -82,29 +94,24 @@ export class RegistrationComponent implements OnInit {
   switchToFront(i: number){
     this.patients[i].card.view = 'front';
   }
-  selectPatient(i: number){
+  selectPatient(i: number) {
     this.info = this.patients[i].info;
   }
-  addPatient(patient: Person) {
-      this.dataService.addPatient(patient).subscribe((newpatient: Person) => {
-        this.patients.push(patient);
-        this.socket.io.emit('newPerson', newpatient);
-     });
+  // addPatient(patient: Person) {
+  //     this.dataService.addPerson(patient).subscribe((newpatient: Person) => {
+  //       this.patients.unshift(patient);
+  //       this.socket.io.emit('newPerson', newpatient);
+  //    });
+  // }
+  goTo(location,e){
+    e.preventDefault()
+    this.router.navigate([location],{relativeTo: this.route});
+
   }
   submitRecord() {
+    this.loading = true;
     this.patient.info = this.info;
-    // let form = new FormData();
-    // form.append('patient', this.patient);
-    // form.append('file', this.file);
-    // console.log(form);
-
-    // this.uploader.queue[0].formData.append('patient', this.patient);
-
-    this.uploader.uploadAll();
-
-    // this.dataService.addPatient(this.patient).subscribe((patient:Person) => {
-    //   this.patients.push(patient);
-    //   this.socket.io.emit('newPerson', newpatient);
+      this.uploader.uploadAll();
   }
   switchViews() {
     if (this.view === 'details') {
@@ -123,7 +130,6 @@ export class RegistrationComponent implements OnInit {
    } else {
      this.patients = this.temPatients;
    }
-
 
   }
 

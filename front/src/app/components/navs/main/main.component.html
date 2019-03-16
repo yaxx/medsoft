@@ -1,0 +1,39 @@
+
+<router-outlet></router-outlet>
+<div class="sidenav">
+
+  <a *ngIf='!dept' style="top:21%" href="#" [routerLink]="['./']" [routerLinkActiveOptions]={exact:true}  routerLinkActive="router-link-active"  class="home reviewmenu" title="Discharged">
+      <span class="homespan">
+          <i  style ='font-size: 26px;position:relative; ' class="icon ion-ios-checkmark-outline homeicon"></i>
+      </span>
+  </a>
+  <a style="top:28%" href="#" [routerLink]="['./appointments']"   routerLinkActive="router-link-active"  class="home reviewmenu" title="Appointments">
+    <span class="homespan">
+        <i class="icon ion-ios-calendar-outline homeicon"></i>
+    </span>
+  </a>
+ 
+  <a  style="top:35%" href="#" [routerLink]="['./consultations']" routerLinkActive="router-link-active"  class="home patienmenu" title="Consultation">
+    <span class="homespan">
+        <i class="icon ion-ios-people-outline homeicon"></i>
+    </span>
+  </a>
+
+  <a style="top:42%" href="#" [routerLink]="['./addmisions']" routerLinkActive="router-link-active"   class="home wardmenu" title="Addmisions"><span class="homespan"><i class="material-icons homeicon wardicon">airline_seat_individual_suite</i></span>
+  </a>
+
+  <a  style="top:49%" href="#" [routerLink]="['./deceased']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Deceased">
+    <span class="homespan">
+        <i  style ='font-size: 26px;position:relative; ' class="icon ion-ios-close-outline homeicon"></i>
+    </span>
+</a>
+  <a  style="top:57%" href="#" [routerLink]="['./products']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Products">
+    <span class="homespan">
+        <i  style ='font-size: 26px;position:relative;' class="icon ion-android-apps homeicon"></i>
+    </span>
+</a>
+
+  
+  
+<a href="#"  [routerLink]="['./settings']" routerLinkActive="router-link-active" class="home settings" title="Settings"><span class="homespan"><i class="icon ion-ios-gear-outline homeicon"></i></span></a>
+</div>

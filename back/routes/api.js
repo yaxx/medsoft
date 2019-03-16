@@ -32,20 +32,7 @@ uploadFile: (req, res)=>{
     }else{
 
      res.send(req.file.filename)
-    //  Person.findOne({ _id:req.body.id} ,(e, doc) => {
-    //     if(!e){
-    //       doc.record.scans.push(name)
-    //       doc.save((e,p)=>{
-    //         if(!e){
-    //           res.send(p)
-    //         }
-    //         else{
-    //           console.log(e)
-    //         }
-    //       })
-    //   } else {console.log(e)}
-    //   }
-    // )
+   
     }
   })
 
@@ -58,19 +45,46 @@ downloadFile: (req, res)=>{
   const filename = path.join(__dirname, '../uploads') + '/'+req.body.fileName
   res.sendFile(filename);
 },
-addPatient: (req, res)=>{
-   new Person(req.body).save((e, patient)=>{
-      if(e){
-        console.log(e);
-      } else {
-        res.status(200).send(patient)
+
+addPerson: (req, res)=>{
+  Person.findOne({'info.contact.mobile':req.body.info.contact.mobile},(e, existed)=>{
+    if(existed){
+        res.status(400).send(existed)
+    }else{
+      new Person(req.body).save((e, newPerson)=>{
+        if(e){
+          console.log(e);
+        } else {
+          if(newPerson.info.official.hospId){
+            Client.findOneAndUpdate({
+              _id:newPerson.info.official.hospId
+            },{
+              $push:{
+                staffs:newPerson._id
+              }
+            },(e,client)=>{
+              if(e){
+                console.log(e)
+              }else{
+                console.log(client)
+              }
+            })
+           
+          } else {
+
+          }
+         
+          res.status(200).send(newPerson)
+      }
+    })
     }
   })
 },
 getPatients: (req, res)=>{
- Person.find({},(e, patients)=>{
+ Person.find({$where: 'this.record.visits.length'},(e, patients)=>{
     if(!e){
-      res.status(200).send(patients)
+           res.status(200).send(patients)
+           
     } else {
       console.log(e);
     }
@@ -80,8 +94,6 @@ addSettings: (req, res)=>{
   // console.log(req.body);
   let d = req.body.depts;
   let s = req.body.staffs;
-
-
   Person.insert(s, (e, staff)=>{
     let a = [];
     if(e){
@@ -101,15 +113,20 @@ addSettings: (req, res)=>{
 
 },
 addClient: (req, res)=>{
-  console.log(req.body)
-  new Client(req.body).save((err, client) => {
-    if (err) {
-      console.log(err.stack)
-    }else{
-      res.cookie('i', client._id, {signed: true});
-      res.send(client);
-    }
-  });
+Client.find({ $or: [{email:req.body.info.email},{mobile:req.body.info.mobile}]},(e, client)=>{
+  if(client.length>0){
+    res.status(500).send(client)
+  }else{
+    new Client(req.body).save((err, client) => {
+      if (err) {
+        console.log(err.stack)
+      }else{
+        res.send(client);
+      }
+    });
+  }
+})
+ 
 },
 getConnections: (req, res) => {
   Connection.findOne({ _id: req.params.id})
@@ -231,43 +248,44 @@ explore:(req, res)=>{
     });
 },
 login:(req, res)=>{
-  Person.findOne({"info.personal.username": req.body.username, "info.personal.password": req.body.pwd},  (err, person) => {
-    if(person !== null){
-      person.info.online = true
-      person.info.lastLogin = new Date()
-      person.save((e,p)=>{
-        if(!e){
-          res.status(200).send(p)
-        }else{
-          console.log(e)
-          res.status(400).send('Invalid credentials');
-        }
-      })
-
-    } else {
-      res.status(400).send('Invalid credentials');
-    }
-  })
+  console.log(req.body)
+  if(req.body.username.includes('@')){ 
+    Client.findOne({"info.email": req.body.username, "info.pwd": req.body.pwd},  (err, client) => {
+      if(client !== null){
+            res.status(200).send(client);
+      } else {
+        res.status(400).send('Invalid credentials');
+      }
+    })
+  } else {
+    Person.findOne({"info.personal.username": req.body.username, "info.personal.password": req.body.pwd},  (err, person) => {
+      if(person) {
+        res.status(200).send(person)
+      } else {
+        res.status(400).send('Invalid credentials');
+      }
+    })
+  }
 },
-
+  
 getClient: (req, res)=>{
-  Client.findOne({"info.email":"mail@cityhospital.com"}
+  Client.findOne({_id:req.cookies.i}
   ).populate('staffs').exec((err, client) => {
     if(!err){
-          Department.find({}, (err, departments)=>{
-          if(!err){
-          
-            res.send({client:client, departments:departments});
-          }
-          else{
-            console.log(err);
-          }
-        })
-      }
+        Department.find({}, (err, departments)=>{
+        if(!err){
+        
+          res.send({client:client, departments:departments});
+        }
+        else{
+          console.log(err);
+        }
+      })
+    }
     else{
       console.log(err)
     }
-    });
+  });
 },
 
  staff:(req, res)=>{
@@ -307,7 +325,6 @@ getClient: (req, res)=>{
   });
 }
 else {
-
     new Connection({}).save((err,con)=>{
         if(err){
           console.log(err)
@@ -335,39 +352,33 @@ else {
 
 
 },
-updateStaff: (req, res)=>{
 
-
-},
 deleteStaff: (req, res)=>{
- Person.findByIdAndRemove(req.body._id).exec((e, docs)=>{
-    if(!e){
-      Client.findOneAndUpdate({
-        _id:req.body.hosId
-      },{
-        $pull:{
-          staffs:req.body._id
-        }
-      })
-      res.send(docs)
-    }else{
-      console.log(e);
-    }
-  })
+  //     Client.findOneAndUpdate({
+  //       _id:req.body.hosId
+  //     },{
+  //       $pull:{
+  //         staffs:req.body._id
+  //       }
+  //     })
+  //     res.send(docs)
+    
+  // })
 
 },
-addDept: (req, res)=>{
-
+updateClient: (req, res)=>{
+  console.log(req.body)
     Client.findOneAndUpdate({
-      'info.email':'mail@cityhospital.com'}, {
-        $push:{departments:req.body}},{
-          new:true
-        }, (err, docs)=>{
+      _id:req.cookies.i}, {$set:{
+        info:req.body.info,
+        departments:req.body.departments,
+        inventory:req.body.inventory
+      }},{new:true},(err, docs)=>{
       if(err){
         console.log(err)
       }else{
         console.log(docs)
-        res.status(200).send(docs.departments)
+        res.status(200).send(docs)
       }
     })
 },
@@ -375,10 +386,10 @@ addDept: (req, res)=>{
 
 getConsultees: (req, res)=>{
  Person.find({
-    'record.visits':{$elemMatch:{'dept':'GOPD',status:'queued'}}
+    'record.visits':{$size:{'dept':req.params.mydept,status:'queued'}}
   },(e, patients)=>{
     if(!e){
-   
+ 
       res.send(patients)
     } else {
       console.log(e)
@@ -388,10 +399,9 @@ getConsultees: (req, res)=>{
 },
 
 getInPatients: (req, res)=>{
-
     Person.find({'record.visits.status':'admitted'},(e, patients)=>{
     if(!e){
-     
+ 
       res.send(patients)
     }
     else{

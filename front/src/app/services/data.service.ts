@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Client, Product, Department, Person} from '../models/data.model';
+import { Product} from '../models/inventory.model';
+import {Client, Department} from '../models/client.model';
+import { Person} from '../models/person.model';
 import * as socketIo from 'socket.io-client';
 import { Socket } from '../models/socket';
 
@@ -47,7 +49,7 @@ export class DataService {
   }
   getConsultees(dept) {
     return this.http.get(
-       `${this.uri}/consultation`, {withCredentials: true}
+       `${this.uri}/consultation/${dept}`, {withCredentials: true}
        );
   }
   follow(me, you) {
@@ -110,7 +112,7 @@ export class DataService {
   }
 
   updateRecord(patient) {
-   
+
     return this.http.post(
       `${this.uri}/update-record`, patient , {withCredentials: true});
  }
@@ -180,16 +182,16 @@ export class DataService {
 
   }
 
-  saveStaff(staff:Person) {
+  addPerson(staff:Person) {
      return this.http.post(
-        `${this.uri}/staff`, staff, {withCredentials: true}
-         );
+        `${this.uri}/person`, staff, {withCredentials: true}
+      );
     }
 
 
-  addDepts(d) {
+  updateClient(client) {
     return this.http.post(
-      `${this.uri}/new-dept`, d, {withCredentials: true});
+      `${this.uri}/updateclient`, client, {withCredentials: true});
 
   }
 

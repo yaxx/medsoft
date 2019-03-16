@@ -3,9 +3,11 @@ import { FileSelectDirective, FileUploader } from 'ng2-file-upload';
 import {DataService} from '../../services/data.service';
 import {SocketService} from '../../services/socket.service';
 import {ActivatedRoute} from '@angular/router';
-import { Person, Client, Item, StockInfo,
-  Product, Priscription, Medication, Visit, Note
-} from '../../models/data.model';
+import {Item, StockInfo, Product} from '../../models/inventory.model';
+import {Client} from '../../models/client.model';
+import { Person} from '../../models/person.model';
+import { Priscription, Medication, Visit, Note} from '../../models/record.model';
+
 const uri = 'http://localhost:5000/api/upload';
 @Component({
   selector: 'app-patient',
@@ -35,7 +37,7 @@ export class PatientComponent implements OnInit {
   input = '';
   view = 'bed';
   id = null;
-  medicView = false; 
+  medicView = false;
   sortBy = 'added';
   sortMenu = false;
   nowSorting = 'Date added';
@@ -54,11 +56,11 @@ export class PatientComponent implements OnInit {
      private route: ActivatedRoute,
       ) { }
   ngOnInit() {
-    this.getInPatients();
+    this.getPatients();
     this.getClient();
-    this.getProducts();
+    // this.getProducts();
     this.getItems();
-    this.myDepartment = this.route.snapshot.params['mode'];
+    this.myDepartment = this.route.snapshot.params['dept'];
     this.uploader.onBuildItemForm = (fileItem: any, form: any) => {
       form.append('id', this.patients[this.curIndex]._id);
      };
@@ -70,6 +72,7 @@ export class PatientComponent implements OnInit {
   getItems() {
     this.dataService.getItems().subscribe((items: Item[]) => {
       this.items = items;
+      console.log(items);
     });
   }
   getDp(p: Person) {
@@ -85,7 +88,7 @@ export class PatientComponent implements OnInit {
       this.file = <File>event.target.files[0];
       const reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]); // read file as data url
-      reader.onload = (e) => { 
+      reader.onload = (e) => {
         let ev = <any>e.target;
         // called once readAsDataURL is completed
         this.url = ev.target.result;
@@ -112,20 +115,25 @@ export class PatientComponent implements OnInit {
   pullNote(i: number) {
     this.curIndex = i;
    }
-  getInPatients() {
-    this.dataService.getInPatients().subscribe((patients: Person[]) => {
-      console.log(patients);
-      patients.forEach(p => {
-        if (p.record.visits[p.record.visits.length - 1].bedNo === null) {
-          p.card = {menu: false, view: 'back'};
-        } else {
-          p.card = {menu: false, view: 'front'};
-        }
+   getPatients() {
+    this.dataService.getPatients().subscribe((patients: Person[]) => {
+      let myPatients;
+      if(this.myDepartment) {
+         myPatients = patients.filter(
+         p => p.record.visits[0].dept === this.myDepartment && p.record.visits[0].status === 'addmited');
+      } else {
+       myPatients = patients.filter(p => p.record.visits[0].status === 'addmited');
+     
+      }
+      myPatients.forEach(p => {
+        p.card = {menu: false, view: 'front'}
+
       });
-      this.patients = patients;
-      this.dataService.setCachedPatients(patients);
+      this.patients = myPatients;
+      this.dataService.setCachedPatients(myPatients);
     });
   }
+
   switchToNewMedic() {
     this.medicView = !this.medicView;
   }
@@ -136,16 +144,16 @@ export class PatientComponent implements OnInit {
     if (i === '') {
       this.temItems = new Array<Item>();
     } else {
-      this.temItems = this.items.filter((item) => {
-      const patern =  new RegExp('\^' + i , 'i');
-      return patern.test(item.name);
+        this.temItems = this.items.filter((item) => {
+        const patern =  new RegExp('\^' + i , 'i');
+        return patern.test(item.name);
       });
   }
 
   }
-  getLink(dept: string): String {
-    return `/department/${this.myDepartment}/consultation/${dept}`;
-  }
+  // getLink(dept: string): String {
+  //   return `/department/${this.myDepartment}/consultation`;
+  // }
   swichtToBack(i) {
     this.tempMedications = new Array<Medication>();
     this.medications = this.patients[i].record.medications ;
@@ -284,7 +292,7 @@ export class PatientComponent implements OnInit {
           this.loading = false;
           this.note = new Note();
     });
- 
+
   }
 
   selectDrug(p: number, m: number) {
@@ -332,12 +340,12 @@ switchViews() {
   }
 }
 
-getProducts() {
-  this.dataService.getProducts().subscribe((p: any) => {
-    this.products = p.inventory;
+// getProducts() {
+//   this.dataService.getProducts().subscribe((p: any) => {
+//     this.products = p.inventory;
 
-  });
-}
+//   });
+// }
 
 searchItem (i) {
   if (i === '') {

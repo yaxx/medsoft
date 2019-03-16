@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import {Note} from '../models/data.model';
+import {Note} from '../models/record.model';
 @Pipe({
   name: 'note',
   pure: false

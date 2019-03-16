@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import {DataService} from '../../services/data.service';
 import {SocketService} from '../../services/socket.service';
+import { FileSelectDirective, FileUploader } from 'ng2-file-upload';
 import {ActivatedRoute} from '@angular/router';
-import {Client, Department,  Person, Record, Session,Note, Item, StockInfo,
-  Product, Priscription, Medication
-} from '../../models/data.model';
+import {Person} from '../../models/person.model';
+import {Client, Department} from '../../models/client.model';
+import { Item, StockInfo,Product} from '../../models/inventory.model'; 
+import { Record, Session, Appointment,
+         Priscription, Medication, Visit, Note} from '../../models/record.model'; 
 
 @Component({
   selector: 'app-consultation',
@@ -32,8 +35,10 @@ export class ConsultationComponent implements OnInit {
   product: Product = new Product(new Item(), new StockInfo());
   products: Product[] = new Array<Product>();
   selectedProducts: Product[] = new Array<Product>();
+  appointment: Appointment = new Appointment();
   note = new Note();
   input = '';
+
   in = 'discharge';
   loading  = false;
   fowarded = false;
@@ -42,6 +47,9 @@ export class ConsultationComponent implements OnInit {
   sortMenu = false;
   nowSorting = 'Date added';
   myDepartment = null;
+  url = '';
+  file: File = null;
+  uploader: FileUploader = new FileUploader({url: 'http://localhost:5000/api/dp/'});
 
   constructor(private dataService: DataService,
      private route: ActivatedRoute, private socket: SocketService ) {
@@ -50,19 +58,47 @@ export class ConsultationComponent implements OnInit {
 
   ngOnInit() {
    this.getConsultees();
-   this.getProducts();
+  //  this.getProducts();
    this.getItems();
    this.getClient();
-   this.myDepartment = this.route.snapshot.params['mode'];
+   this.myDepartment = this.route.snapshot.params['dept'];
+   console.log(this.myDepartment)
    this.socket.io.on('new patient', (patient: Person) => {
       this.patients.push(patient);
+
+
+
     
   });
+  this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any ) => {
+    this.patient.info.personal.dpUrl = response;
+    this.patient.record.visits.unshift(new Visit());
+     this.dataService.addPerson(this.patient).subscribe((newpatient: Person) => {
+       newpatient.card = {menu: false, view: 'front'};
+       this.patients.unshift(newpatient);
+     
+       this.socket.io.emit('new patient', newpatient);
+       this.loading = false;
+    });
+   };
+
   }
   getClient() {
     this.dataService.getClient().subscribe((client: Client) => {
       this.client = client;
     });
+
+  }
+  fileSelected(event) {
+    if (event.target.files && event.target.files[0]) {
+      this.file = <File>event.target.files[0];
+      const reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]); // read file as data url
+      reader.onload = (e) => { 
+        let evnt = <any>e;
+        this.url = evnt.target.result;
+      };
+    }
 
   }
   getLink(dept: string): String {
@@ -71,7 +107,7 @@ export class ConsultationComponent implements OnInit {
   conclude(conclution: string) {
     this.fowarded = conclution === 'fowarded' ? true : false;
   }
-  getDp(p:Person){
+  getDp(p:Person) {
     return 'http://localhost:5000/api/dp/' + p.info.personal.dpUrl;
   }
   fetchDept() {
@@ -82,6 +118,21 @@ export class ConsultationComponent implements OnInit {
       return [];
     }
 
+  }
+  setAppointment(){
+    this.patients[this.curIndex].record.appointments.push(this.appointment);
+    this.patients[this.curIndex].record.visits[this.patients[this.curIndex].record.visits.length-1].status = 'appointment'
+    this.loading = true;
+    this.dataService.updateRecord(this.patients[this.curIndex]).subscribe(patient=>{
+      this.loading = false;
+      setTimeout(() => {
+            this.patients[this.curIndex].card = {menu: false, view: 'front'};
+      }, 3000);
+      setTimeout(() => {
+          this.patients.splice(this.curIndex , 1);
+      }, 3000);
+    
+    })
   }
   showMenu(i: number) {
     this.hideMenu();
@@ -155,12 +206,12 @@ export class ConsultationComponent implements OnInit {
   showSortMenu(){
     this.sortMenu = true;
   }
-  getProducts() {
-    this.dataService.getProducts().subscribe((p: any) => {
-      this.products = p.inventory;
+  // getProducts() {
+  //   this.dataService.getProducts().subscribe((p: any) => {
+  //     this.products = p.inventory;
 
-    });
-  }
+  //   });
+  // }
   getItems() {
     this.dataService.getItems().subscribe((items: Item[]) => {
       this.items = items;
@@ -172,9 +223,9 @@ searchItems(item: string) {
     if (item === '') {
       this.temItems = new Array<Item>();
     } else {
-      this.temItems = this.items.filter((item) => {
-      const patern =  new RegExp('\^' + item , 'i');
-      return patern.test(item.name);
+      this.temItems = this.items.filter((i) => {
+      const patern =  new RegExp('\^' + i , 'i');
+      return patern.test(i.name);
       });
   }
 }
@@ -193,13 +244,22 @@ switchBtn(option: string) {
    this.in = option;
 
 }
+
 getConsultees() {
-  this.dataService.getConsultees(this.route.snapshot.params['mode']).subscribe((patients: Person[]) => {
-      patients.forEach(p => {
-          p.card = {menu: false, view: 'front'};
-      });
-     this.patients = patients;
-     this.temPatients = patients;
+  this.dataService.getPatients().subscribe((patients: Person[]) => {
+    let myPatients;
+    if(this.myDepartment){
+
+    myPatients = patients.filter(p => p.record.visits[0].dept === this.myDepartment && p.record.visits[0].status === 'queued')
+    } else {
+      myPatients = patients.filter(p => p.record.visits[0].status === 'queued')
+    }
+    myPatients.forEach(p => {
+      p.card = {menu: false, view: 'front'};
+    });
+    
+     this.patients = myPatients;
+     this.temPatients = myPatients;
      this.dataService.setCachedPatients(patients);
     });
   }

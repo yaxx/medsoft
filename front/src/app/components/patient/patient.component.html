@@ -86,12 +86,12 @@
 </div>
 
 
-<div class="modal fade" role="dialog" tabindex="-1" id="medicModal" style="border-radius:0px;width:auto;">
+<div class="modal fade" role="dialog" tabindex="-1" id="medicModal" style="border-radius:12px;width:auto;">
     <div class="modal-dialog" role="document">
-        <div class="modal-content" style="width:480px;border-radius:0px;;padding-left:0px;padding-right: 0px;">
-            <div class="modal-body" style="border-radius:0px;padding: 0px">
-                <div class="card card-secondary historycard midlecard profilecard" style="margin:auto;min-height:200px">
-                    <div style='padding-left: 30px' class="card-header profileheader small-header">
+        <div class="modal-content" style="width:480px;border-radius:0px;border-radius:12px;padding-left:0px;padding-right: 0px;">
+            <div class="modal-body" style="border-radius:0px;padding: 0px;">
+                <div class="card card-secondary historycard midlecard profilecard" style="margin:auto;min-height:200px;border-radius:12px;">
+                    <div style='padding-left: 30px;border-top-right-radius:12px;border-top-left-radius:12px;' class="card-header profileheader small-header">
                         <i *ngIf = medicView (click)=switchToNewMedic() style='position:absolute;
                           left:1%;top:2%; cursor:pointer;
                           display: inline-block;
@@ -108,8 +108,8 @@
                     <div *ngIf="!medicView" style="width:54%;margin:auto" class="card-body orderbody">
                         <div *ngFor="let medic of patients[curIndex]?.record.medications; let i = index" class="carditem priscriptioncontainer order">
                             <div  class="timeline condition drugtimeline">
-                                <p class="timelinedate">{{medic[0].dateAdded|date:'dd'}}</p>
-                                <p class="timelinedate month">{{medic[0].dateAdded|date:'MMM'|uppercase}}</p>
+                                <p class="timelinedate">{{medic[0]?.dateAdded|date:'dd'}}</p>
+                                <p class="timelinedate month">{{medic[0]?.dateAdded|date:'MMM'|uppercase}}</p>
                             </div>
                             <div *ngFor ="let m of medic; let j = index" class="priscription drug">
                                 <h6 class="dept">{{m.product.item.name}}&nbsp;<span class="predata">
@@ -199,25 +199,7 @@
   </div>
 </div>
 
-<div class="sidenav">
-     
 
-      
-  <a href="#" [routerLink]="[getLink('consultation')]" routerLinkActive="router-link-active"  class="home patienmenu" title="On Queue">
-      <span class="homespan">
-          <i class="icon ion-ios-people-outline homeicon"></i>
-      </span>
-    </a>
-
-  <a href="#" [routerLink]="[getLink('appointments')]" routerLinkActive="router-link-active"  class="home reviewmenu" title="Appointments">
-      <span class="homespan">
-          <i class="icon ion-ios-calendar-outline homeicon"></i>
-      </span>
-  </a>
- 
-  <a href="#" [routerLink]="[getLink('inpatients')]" routerLinkActive="router-link-active"   class="home wardmenu" title="In Patients"><span class="homespan"><i class="material-icons homeicon wardicon">airline_seat_individual_suite</i></span></a>
-
-</div>
 
 <nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:0px">
     <div class="container">
@@ -314,7 +296,8 @@
                           </div>
                           <div class="sub-container">
                               <h6 class="dept basic-secondary basic-value">
-                                {{patient.record.visits[patient.record.visits.length-1].visitedOn|date:'dd MMM hh:mma'|lowercase}}</h6>
+                                {{patient.record.visits[patient.record.visits.length-1].visitedOn|date:'dd MMM hh:mma'|uppercase}}
+                              </h6>
                           </div>
                         </div>
                     </div>

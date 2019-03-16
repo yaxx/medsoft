@@ -6,10 +6,10 @@
   top:1.5%;
 }
 
-.home:focus {
+/* .home:focus {
   border-right:1px solid rgb(2,209,184);
   background:rgb(249,250,251);
-}
+} */
 
 a {
   background-color:transparent;

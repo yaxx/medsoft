@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy} from '@angular/core';
 import {DataService} from '../../services/data.service';
-import {Product, Item, StockInfo} from '../../models/data.model';
+import {Product, Item, StockInfo} from '../../models/inventory.model';
 import { sortBy } from 'sort-by-typescript';
 import {SocketService} from '../../services/socket.service';
 @Component({

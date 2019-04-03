@@ -3,14 +3,14 @@
         <div class="modal-content" style="width:480px;border-radius:0px;padding-left:0px;padding-right: 0px;">
             <div class="modal-body" style="border-radius:0px;padding: 0px">
                 <div class="card card-secondary historycard midlecard profilecard" style="margin:auto;min-height:200px">
-                    <div style='padding-left: 10px' class="card-header profileheader small-header">
+                    <!-- <div style='padding-left: 10px' class="card-header profileheader small-header">
                         <div style="left:10px" class="timeline lastdoc priscriber headerdp small-dp">
                           <img [src] = getDp(patients[curIndex])/>
                         </div>
                         <a style='left: 7px;' href="#" class="patien-name small-name">
                           {{patients[curIndex]?.info.personal.firstName + ' '+ patients[curIndex]?.info.personal.lastName}}<span class="small-headericon"></span>
                         </a>
-                    </div>
+                    </div> -->
                     <div style="width:90%;margin:auto" class="card-body orderbody">
                       <form novalidate  class="patientform" >
                         <div class="card card-secondary historycard midlecard profilecard" style="border-bottom:none;margin:0px;margin-right: 0px;width:100%; min-height: 140px;">
@@ -263,15 +263,13 @@
                         <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block" >
                               <label style="font-size:8px" for="statee" class="labelss">STATE</label>
                               <select name='state' [(ngModel)]="patient.info.contact.me.state" style='font-size:11px' autocomplete="off"   class="patientdata dystolic inputs dataInfo" >
-                                <option>Abia</option>
-                                <option>Adamawa</option>
+                                <option  *ngFor='let state of states'>{{state}}</option>
                               </select>
                         </div>
                         <div style="width:49%; display:inline-block"  class="form-group vitals-section">
                             <label style="font-size:8px" for="lga" class="labelss">LGA</label>
                             <select name='lga' [(ngModel)]="patient.info.contact.me.lga" style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo" >
-                              <option>Umahia</option>
-                              <option>Yola</option>
+                             <option *ngFor='let lga of getLgas()'>{{lga}}</option>
                             </select>
                         </div>
                             <div class="form-group vitals-section address">

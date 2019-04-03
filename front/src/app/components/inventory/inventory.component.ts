@@ -121,7 +121,14 @@ export class InventoryComponent implements OnInit {
     }
   }
   addMore() {
-    this.temProducts.push(this.product);
+   if( this.product.item.name){
+        this.temProducts.unshift(this.product);
+   }else{
+      this.product.item.name = this.input;
+        this.temProducts.unshift(this.product);
+   }
+  
+    
     this.input = '';
     this.item = new Item();
     this.product = new Product();

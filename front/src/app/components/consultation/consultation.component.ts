@@ -4,6 +4,7 @@ import {SocketService} from '../../services/socket.service';
 import { FileSelectDirective, FileUploader } from 'ng2-file-upload';
 import {ActivatedRoute} from '@angular/router';
 import {Person} from '../../models/person.model';
+import {states, lgas} from '../../models/data.model';
 import {Client, Department} from '../../models/client.model';
 import { Item, StockInfo,Product} from '../../models/inventory.model';
 import { Record, Session, Appointment,
@@ -17,6 +18,8 @@ const uri = 'http://localhost:5000/api/upload';
 })
 
 export class ConsultationComponent implements OnInit {
+  states = states;
+  lgas = lgas;
   patient: Person = new Person();
   patients: Person[] = new Array<Person>();
   temPatients: Person[] = new Array<Person>();
@@ -40,7 +43,6 @@ export class ConsultationComponent implements OnInit {
   appointment: Appointment = new Appointment();
   note = new Note();
   input = '';
-
   in = 'discharge';
   loading  = false;
   fowarded = false;
@@ -59,6 +61,7 @@ export class ConsultationComponent implements OnInit {
    }
 
   ngOnInit() {
+   
    this.getConsultees();
    this.getItems();
    this.getClient();
@@ -89,7 +92,7 @@ export class ConsultationComponent implements OnInit {
   });
 
   this.socket.io.on('Discharge', (patient: Person) => {
-    console.log(patient);
+    
     const i = this.patients.findIndex(p=>p._id === patient._id)
       if(patient.record.visits[0].dept.toLowerCase() === this.myDepartment ) {
          if(i<0){
@@ -119,6 +122,11 @@ export class ConsultationComponent implements OnInit {
    };
 
   }
+ 
+  getLgas(){
+    return this.lgas[this.states.indexOf(this.patient.info.contact.me.state)];
+  }
+  
 addPatient() {
     this.loading = true;
     this.uploader.uploadAll();

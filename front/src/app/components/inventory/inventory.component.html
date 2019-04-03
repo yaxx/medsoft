@@ -13,7 +13,7 @@
                             <input autocomplete="off" (keyup)= "searchItems(input)" [(ngModel)] = input type="text" name="drug" placeholder= "E.g Paracetamol" class="patientdata dystolic inputs dataInfo" style="font-size:11px;" />
                             <div *ngIf= temItems.length  class="options prisOption edit">
                                 <ul class="itemsList" >
-                                  <li  *ngFor="let item of temItems"><p (click) = "addSelection(item)"  class="dept firstheader drugItem" style="font-size:11px;padding-left: 10px; padding-right: 10px;font-weight: normal;" >{{item.name+ ' '}}<span class="lastdept timetaken " >{{item.mesure + item.unit}}</span></p>
+                                  <li  *ngFor="let item of temItems"><p (click) = "addSelection(item)"  class="dept firstheader drugItem" style="font-size:11px;padding-left: 10px; padding-right: 10px;font-weight: normal;" >{{item.name||''+ ' '}}<span class="lastdept timetaken " >{{item.mesure||'' + item.unit||''}}</span></p>
                                   </li>
                                 </ul>
                             </div>
@@ -77,7 +77,7 @@
                             <input autocomplete="off" (keyup)= "searchItems(input)" [(ngModel)] = input type="text" name="drug" placeholder= "E.g Paracetamol" class="patientdata dystolic inputs dataInfo" style="font-size:11px;" />
                             <div *ngIf= temItems.length  class="options prisOption edit">
                                 <ul class="itemsList" >
-                                  <li  *ngFor="let item of temItems"><p (click) = "addSelection(item)"  class="dept firstheader drugItem" style="font-size:11px;padding-left: 10px; padding-right: 10px;font-weight: normal;" >{{item.name+ ' '}}<span class="lastdept timetaken " >{{item.mesure + item.unit}}</span></p>
+                                  <li  *ngFor="let item of temItems"><p (click) = "addSelection(item)"  class="dept firstheader drugItem" style="font-size:11px;padding-left: 10px; padding-right: 10px;font-weight: normal;" >{{item.name+ ' '}}<span class="lastdept timetaken " >{{item.mesure||'' + item.unit||''}}</span></p>
                                   </li>
                                 </ul>
                             </div>
@@ -104,7 +104,7 @@
                               <tr *ngFor="let product of temProducts; let i = index; let odd = odd;"  style="border-bottom:2px solid white;" [class.even] = odd  class="ro staff-row">
                                   <td style="padding-left:4px;" class="data">
                                   {{product.item.name}}<span class="predata">
-                                    {{product.item.mesure+product.item.unit}}</span></td>
+                                    {{product.item.mesure||''+product.item.unit||''}}</span></td>
                                   <td class="data">{{product.stockInfo.quantity}}</td>
                                   <td class="data">{{product.stockInfo.price}}</td>
                                   <td style='text-align: right;padding-right: 2px;' class="data">{{product.stockInfo.expiry}}</td>

@@ -52,7 +52,7 @@ export class AppointmentsComponent implements OnInit {
   
      this.getPatients();
       this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any ) => {
-      this.patient.info.personal.dpUrl = response;
+      this.patient.info.personal.avatar = response;
       this.patient.record.visits.unshift(new Visit());
        this.dataService.addPerson(this.patient).subscribe((newpatient: Person) => {
          newpatient.card = {menu: false, view: 'front'};
@@ -64,7 +64,7 @@ export class AppointmentsComponent implements OnInit {
 
    }
    getDp(p: Person) {
-     return 'http://localhost:5000/api/dp/' + p.info.personal.dpUrl;
+     return 'http://localhost:5000/api/dp/' + p.info.personal.avatar;
    }
    showSortMenu() {
      this.sortMenu = true;
@@ -181,14 +181,12 @@ export class AppointmentsComponent implements OnInit {
          // break;
          case 'age':
          this.patients.sort((m, n) => new Date(m.info.personal.dob).getFullYear() - new Date(n.info.personal.dob).getFullYear());
-
          this.nowSorting = 'Age';
          break;
        case 'date':
-         this.patients.sort((m, n) => new Date(n.dateCreated).getTime() - new Date(m.dateCreated).getTime());
+         this.patients.sort((m, n) => new Date(n.createdAt).getTime() - new Date(m.createdAt).getTime());
          this.nowSorting = 'Date added';
          break;
-
          default:
          break;
      }

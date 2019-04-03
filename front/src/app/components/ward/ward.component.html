@@ -15,15 +15,13 @@
                            </div>
                          </div>
                      </div>
-
-               </form>
+                    </form>
                </div>
                <div *ngIf='note.note' style='left:78%; height:32px;width:32px;'
                      title ='Taken' class="floter">
                      <i style="color:#1da1f2;bottom:-10px;" class="icon ion-ios-checkmark-empty flotericon">
                     </i>
                 </div>
-
                </div>
           </div>
       </div>
@@ -53,7 +51,6 @@
                                   </span>
                                   <span *ngIf = '!m.paused' class="predata priceval">
                                     <i (click)="selectItem(i,j)" *ngIf="m.selected" class="icon ion-ios-checkmark-empty paid-icon" title="Comfirm payment"></i>
-
                                     <div class="mycheckbox" *ngIf ="!m.selected" (click)="selectItem(i,j)" ></div>
                                   </span>
                                   </h6>
@@ -125,72 +122,60 @@
 </div>
 
 
-<div class="sidenav">
-    <a href="#" class="home homemenu" title="Menu">
-        <span class="homespan">
-            <i class="material-icons homeicon">sort</i>
-        </span>
-    </a>
+
 
     
-   
-    <a style="top:21%" href="#" [routerLink]="['/department/maternity/ward']" routerLinkActive="router-link-active"   class="home wardmenu" title="Ward"><span class="homespan"><i class="material-icons homeicon wardicon">airline_seat_individual_suite</i></span>
-    </a>
-    <a style="top:28%"  href="#" [routerLink]="['/department/:mode/consultation']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Appointments">
-      <span class="homespan">
-          <i class="icon ion-ios-calendar-outline homeicon"></i>
-      </span>
-  </a> 
-   
-</div>
+
+
 <nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:0px">
-    <div class="container">
-        <a class="navbar-brand" href="#">
-            <em>MS</em>
-        </a>
-        <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navcol-1">
-            <ul class="nav navbar-nav"></ul>
-            <form class="form-inline mr-auto searchform" target="_self">
-                <div class="form-group">
-                    <label style="left:500px;position:absolute;"  for="search-field">
-                        <i class="icon ion-ios-search searchicon" title="Search"></i>
-                    </label>
-                    <input  autocomplete = "off" style="border-radius:30px;
-                    left: 270px;
-                    width:220px;
-                    background-color: rgb(243, 248, 247);
-                    margin: auto;"
-                    class="form-control search-field"
-                    type="search" name="search" id="search-field" placeholder="Search patient">
-                </div>
-            </form>
-            <h6 style='font-size:12px;
-                        left:780px;position:absolute;
-                        color:grey;
-                        font-weight:normal;'>Sort by: <span stye='cursor:pointer'(click)='showSortMenu()'>
-                          {{nowSorting}}</span></h6>
-            <div *ngIf=sortMenu style='position: absolute;
-                        left:824px;
-                        width:100px;top:6px;
-                        height:110px'  class="menu">
-              <ul class="actions primary">
-                  <li (click)='sortPatients("name")' class="action">A-Z</li>
-                  <li (click)='sortPatients("age")' class="action">Age</li>
-                  <li (click)='sortPatients("status")' class="action">Status</li>
-                  <li (click)='sortPatients("sex")' class="action">Gender</li>
-                  <li (click)='sortPatients("date")' class="action">Date added</li>
-              </ul>
-          </div>
+  <div class="container">
+      <a class="navbar-brand" href="#">
+          <em>MS</em>
+      </a>
+      <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navcol-1">
+          <ul class="nav navbar-nav"></ul>
+          <form class="form-inline mr-auto searchform" target="_self">
+              <div class="form-group">
+                  <label style="left:500px;position:absolute;"  for="search-field">
+                      <i class="icon ion-ios-search searchicon" title="Search"></i>
+                  </label>
+                  <input [(ngModel)] = searchTerm #search (keyup)='searchPatient(searchTerm)' autocomplete = "off" style="border-radius:30px;
+                  left: 270px;
+                  width:220px;
+                  background-color: rgb(243, 248, 247);
+                  margin: auto;"
+                  class="form-control search-field"
+                  type="search" name="search" id="search-field" placeholder="Search patient">
+              </div>
+          </form>
+          <h6 style='font-size:12px;
+                      left:780px;position:absolute;
+                      color:grey;
+                      font-weight:normal;'>Sort by: <span stye='cursor:pointer'(click)='showSortMenu()'>
+                        {{nowSorting}}</span></h6>
+          <div *ngIf=sortMenu style='position: absolute;
+                      left:824px;
+                      width:100px;top:6px;
+                      height:110px'  class="menu">
+            <ul class="actions primary">
+                <li (click)='sortPatients("name")' class="action">A-Z</li>
+                <li (click)='sortPatients("age")' class="action">Age</li>
+                <li (click)='sortPatients("status")' class="action">Status</li>
+                <li (click)='sortPatients("sex")' class="action">Gender</li>
+                <li (click)='sortPatients("date")' class="action">Date added</li>
+            </ul>
         </div>
-    </div>
-    <i style="left:80%;" class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
+      </div>
+  </div>
+  <i style="left:80%;" class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
+    <i [routerLink]="['./me']" data-target="#newModal" data-toggle="modal" style="left:83%;" class="icon ion-ios-person-outline arrow buble" id="add" title="Me" ></i>
+  
     <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:90%;position:absolute;height:30px;width:30px;bottom:-8%"></div>
 </nav>
-
 <div style="padding-top:60px"  class="container">
     <div class="row">
         <div *ngFor="let patient of patients; let i = index"  class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
@@ -225,12 +210,12 @@
                       </div>
                       <div class="carditem basic-item">
                           <h6 class="dept basic-info">Bed</h6>
-                          <h6 class="dept basic-info sex-info"> {{patient.record.visits[patient.record.visits.length-1].bedNo ||'---'}}</h6>
+                          <h6 class="dept basic-info sex-info"> {{patient.record.visits[0].bedNo ||'---'}}</h6>
                       </div>
                       <div class="priscription basic-subinfo">
                           <div class="sub-container">
                             <h6 style="width:100%;text-align:center" class="dept basic-secondary basic-value">
-                              {{patient.record.visits[patient.record.visits.length-1].visitedOn|date:'dd MMM hh:mma'|lowercase}}</h6>
+                              {{patient.record.visits[0].visitedOn|date:'dd MMM hh:mma'|lowercase}}</h6>
                           </div>
                       </div>
                   </div>
@@ -255,8 +240,8 @@
               <form style="top:15%; padding-left: 2%; padding-right: 2%;" class=" staffsform" >
                 <div class="form-group vitals-section address">
                   <label for="bedno" class="labelss">BED No.</label>
-                  <select [(ngModel)]="bedNum" class=" patientdata status inputs dataInfo " name="bedno">
-                      <option *ngFor = "let i of getBeds(i)">{{i}}</option>
+                  <select [(ngModel)]="allocation" class=" patientdata status inputs dataInfo " name="bedno">
+                      <option *ngFor = "let bed of getBeds(i)">{{bed.number}}</option>
                   </select>
                 </div>
               </form>

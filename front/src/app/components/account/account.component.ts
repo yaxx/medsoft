@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import {DataService} from '../../services/data.service';
-import {Client, Department} from '../../models/client.model';
+import {Client, Department, Bed} from '../../models/client.model';
 import {Connection, Connections, Info, Person} from '../../models/person.model';
 @Component({
   selector: 'app-account',
@@ -22,7 +22,9 @@ export class AccountComponent implements OnInit {
   selectedDept2: Department = new Department();
   client: Client  = new Client();
   cachedClient: Client  = new Client();
-  loading = false
+  bed: Bed = new Bed();
+  loading = false;
+  bedNumber = 0;
   infomode = 'view';
   deptsmode = 'view';
   staffmode = 'view';
@@ -68,24 +70,22 @@ export class AccountComponent implements OnInit {
       case 'staffmode': this.staffmode = face;
       this.selectedDept = new Department();
       break;
-      case 'allmodes': this.staffmode = this.deptsmode = face;
-      break;
       default:
       break;
     }
    }
-   switchToEditDept(mode: string, face: string, i){
+   switchToEditDept(mode: string, face: string, i) {
      this.switchMode(mode,face);
      this.departments.unshift(this.client.departments[i]);
-     this.selectedDept = this.client.departments[i];
+     this.selectedDept = {...this.client.departments[i]};
    }
    checkDept(name) {
      if (this.client.departments.some((dept) => dept.name === name)) {
-       this.exist = true;
-       this.selectedDept = this.departments.filter((dept) => dept.name === name)[0];
+        this.exist = true;
+        this.selectedDept = this.departments.filter((dept) => dept.name === name)[0];
      } else {
-       this.exist = false;
-       this.selectedDept = this.departments.filter((dept) => dept.name === name)[0];
+        this.exist = false;
+        this.selectedDept = this.departments.filter((dept) => dept.name === name)[0];
      }
    }
    checkStaff(name) {
@@ -98,7 +98,7 @@ export class AccountComponent implements OnInit {
   addStaff() {
     this.staff.info.personal.password = this.generatePassword();
     this.staff.info.personal.username = this.staff.info.personal.firstName.toLowerCase();
-     this.staff.info.official.hospId = this.client._id;
+     this.staff.info.official.hospital = this.client._id;
      this.dataService.addPerson(this.staff).subscribe((staff: Person) => {
      this.staffs.push(staff);
      this.staff = new Person();
@@ -113,7 +113,7 @@ export class AccountComponent implements OnInit {
   // }
   selectStaff(staff: Person) {
     this.staff = staff;
-    this.selectedDept2 = this.departments.filter((dept) => dept.name === staff.info.official.department)[0];
+    this.selectedDept2 = this.departments.filter((dept) => dept.name === staff.info.official[0].department)[0];
     this.action = 'update';
     this.switchMode('staffmode', 'newstaff');
   }
@@ -124,26 +124,28 @@ export class AccountComponent implements OnInit {
   addDepartment() {
     this.loading = true;
     if (this.selectedDept.hasWard) {
-    this.selectedDept.beds = new Array<boolean>(this.selectedDept.numOfBeds);
-    this.client.departments.push(this.selectedDept);
-    this.dataService.updateClient(this.client).subscribe((client: Client) => {
-      this.selectedDept = new Department();
-      // this.cachedClient = client;
-      this.client.departments = this.client.departments;
-      this.loading = false;
-    });
-    } else {
+      for(let i = 0; i < this.bedNumber; i++) {
+        this.selectedDept.beds.push(new Bed(i + 1));
+      }
+      this.selectedDept.numOfBeds = this.bedNumber;
       this.client.departments.push(this.selectedDept);
       this.dataService.updateClient(this.client).subscribe((client: Client) => {
         this.selectedDept = new Department();
-        // this.cachedClient = client;
         this.client.departments = this.client.departments;
         this.loading = false;
+    });
+    } else {
+        this.client.departments.push(this.selectedDept);
+        this.dataService.updateClient(this.client).subscribe((client: Client) => {
+          this.selectedDept = new Department();
+          // this.cachedClient = client;
+          this.client.departments = this.client.departments;
+          this.loading = false;
       });
   }
 }
-getDp(p:Person) {
-  return 'http://localhost:5000/api/dp/' + p.info.personal.dpUrl;
+getDp(p: Person) {
+  return 'http://localhost:5000/api/dp/' + p.info.personal.avatar;
 }
 }
 

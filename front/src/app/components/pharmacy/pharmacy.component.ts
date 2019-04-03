@@ -137,7 +137,7 @@ export class PharmacyComponent implements OnInit {
         this.nowSorting = 'Age';
         break;
       case 'date':
-        this.patients.sort((m, n) => new Date(n.dateCreated).getTime() - new Date(m.dateCreated).getTime());
+        this.patients.sort((m, n) => new Date(n.createdAt).getTime() - new Date(m.createdAt).getTime());
         this.nowSorting = 'Date added';
         break;
         default:
@@ -303,7 +303,7 @@ export class PharmacyComponent implements OnInit {
     });
   }
   getDp(p: Person){
-    return 'http://localhost:5000/api/dp/' + p.info.personal.dpUrl;
+    return 'http://localhost:5000/api/dp/' + p.info.personal.avatar;
   }
   getProducts() {
     this.dataService.getProducts().subscribe((p: any) => {

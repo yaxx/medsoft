@@ -31,7 +31,7 @@ const routes: Routes = [
             {path: 'addmisions', component: PatientComponent},
             { path: 'discharged', component: RegistrationComponent},
             {path: 'pharmacy', component: PharmacyComponent},
-            {path: 'products', component: InventoryComponent},
+            {path: 'inventory', component: InventoryComponent},
             {path: 'dashbord', component: InventoryComponent},
             { path: 'me', component: MessagesComponent},
             {path: 'settings', component: AccountComponent},
@@ -71,10 +71,8 @@ const routes: Routes = [
 
   {path: 'login', component: LoginComponent},
   {path: 'signup', component: LoginComponent},
-  {path: 'account', component: AccountComponent},
-  {path: 'inpatients', component: PatientComponent},
-  {path: 'products', component: InventoryComponent},
-  {path: 'messages', component: MessagesComponent},
+
+  
   
   {path: 'pharmacy', component: PharmacyComponent},
   {path: 'history/:id', component: HistoryComponent},

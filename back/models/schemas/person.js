@@ -1,23 +1,19 @@
 
-import mongoose from '../db';
-var Scheema = mongoose.Schema
-var personScheema = new Scheema({
+const mongoose = require('../db') ;
+const Scheema = mongoose.Schema
+const personScheema = new Scheema({
     info: {
         status:String,
         online: Boolean,
-        lastLogin: {type: Date, Default: Date.now()},
-        personal:{
+        lastLogin: Date,
+        personal: {
             firstName: String,
             lastName: String,
-            gender:String,
+            gender: String,
             dob: Date,
-            hospitals: [],
-            hospNum:[],
-            dpUrl:String, 
-            coverUrl: String,
+            avatar: String, 
             cardType: String,
             cardNum: Number,
-    
             bio: String,
             occupation: String,
             religion: String,
@@ -25,21 +21,25 @@ var personScheema = new Scheema({
             mstatus: String,
             username: String,
             password: String,
-            status:String
+            status: String
           
         },
-        contact:{
-            mobile: Number,
-            email: String,
-            state: String,
-            lga: String,
-            address: String,
-            emgName: String,
-            emgMobile: String,
-            emgEmail: String,
-            emgRel: String,
-            emgOccupation: String,
-            zipcode: String
+        contact: {
+            me: {
+                mobile: Number,
+                email: String,
+                state: String,
+                lga: String,
+                address: String
+            },
+            emergency: {
+                name: String,
+                mobile: String,
+                email: String,
+                rel: String,
+                occupation: String,
+                address: String
+            }
         },
         insurance:{
             name: String,
@@ -48,75 +48,82 @@ var personScheema = new Scheema({
             ssn: String
         },
         official:{
-            hospId:String,
-            staffId: String,
+            hospital: {
+                type: Scheema.Types.ObjectId,
+                ref: 'Client'
+            }, 
+            id: String,
             department: String,
-            role:String
+            role: String
         }
       
     },
-    connections:{type: Scheema.Types.ObjectId, ref: 'Connection'},
+    connections:{
+        type: Scheema.Types.ObjectId,
+         ref: 'Connection'
+        },
     
     record:{
         complains:[{
             complain:String,
-            dateCreated:{type:Date, default:Date.now()}
+            dateCreated:Date
         }],
         famHist:[{
              condition:String,
-             dateCreated:{type:Date, default:Date.now()}
+             dateCreated:Date
             }],
         notes: [{
             note:String,
             noteType:String,
             noter:{type: Scheema.Types.ObjectId, ref: 'Staff'},
-            dateCreated:{type:Date,default:Date.now()}
+            dateCreated:Date
         }],
         vitals: {
             bp: [{
                 value: Number,
-                dateCreated: {type:Date, default:Date.now()}
+                dateCreated: Date
             }],
             resp: [{
                 value: Number,
-                dateCreated: {type:Date, default:Date.now()}
+                dateCreated: Date
             }],
             pulse: [{
                 value: Number,
-                dateCreated: {type:Date, default:Date.now()}
+                dateCreated: Date
             }],
             height: [{
                 value: Number,
-                dateCreated: {type:Date, default:Date.now()}
+                dateCreated: Date
             }],
             weight: [{
                 value: Number,
-                dateCreated: {type:Date, default:Date.now()}
+                dateCreated: Date
             }],
             tempreture: [{
                 value: Number,
-                dateCreated: {type:Date, default:Date.now()}
+                dateCreated: Date
             }],
             bloodGl: [{
                 value: Number,
-                dateCreated: {type:Date, default:Date.now()}
+                dateCreated: Date
             }]
         },
         conditions:[{
             condition:String,
             oreder:String,
             certainty: String,
-            dateCreated: {type:Date, default:Date.now()},
+            dateCreated: Date,
             by: {type: Scheema.Types.ObjectId, ref: 'Person'}
         }],
         allegies:[{
             allegy:String,
-            dateCreated:{type: Date,default:Date.now}
+            dateCreated: Date,
         }],
         visits: [{
-            dept:String,
+            hospital: {type: Scheema.Types.ObjectId, ref: 'Client'},
+            dept: String,
             status:String,
-            visitedOn: {type:Date, default: Date.now()},
+            visitedOn: Date,
             addmittedOn: Date,
             dischargedOn:Date,
             diedOn: Date,
@@ -124,9 +131,9 @@ var personScheema = new Scheema({
             bedNo: Number
         }],
         appointments: [{
-            title:String,
-            setOn:Date,
-            time:String,
+            title: String,
+            setOn: Date,
+            time: String,
             attended: Boolean,
             setBy: {type: Scheema.Types.ObjectId, ref: 'Person'}
             
@@ -135,17 +142,16 @@ var personScheema = new Scheema({
             [
                 {
                     product:{
-                        item:{
+                        item: {
                             _id: String,
                             name: String,
                             brand: String,
-                            category: String,
                             description: String,
                             mesure: Number,
                             unit: String,
-                            dateCreated: {type:Date, default: Date.now()}
+                            dateCreated: Date
                         },
-                        stockInfo:{
+                        stockInfo: {
                             expiry: Date,
                             price: Number,
                             sold: Number,
@@ -153,42 +159,43 @@ var personScheema = new Scheema({
                             status: Boolean,
                             quantity: Number
                         },
-                        selected:Boolean,
-                        dateAdded: {type:Date, default: Date.now()}
+                        dateCreated: Date
                     },
                     priscription:{
                         intake: Number,
                         freq: String,
                         piriod: Number,
                         extend: String,
-                        priscribedOn: {type:Date, default:Date.now},
-                        
+                        priscribedOn: Date
                     },
-                    paid: {type:Boolean, Default:false},
+                    paid: Boolean,
                     lastTaken: Date,
-                    paused: {type:Boolean, Default:false},
+                    paused: Boolean,
                     pausedOn :Date,
-                    selected: {type:Boolean, Default:false},
-                    dateAdded: {type:Date, default: Date.now()},
+                    dateCreated: Date,
                     purchased: Number,
-                    by: {type: Scheema.Types.ObjectId, ref: 'Person'}
+                    by: {
+                            type: Scheema.Types.ObjectId,
+                            ref: 'Person'
+                        }
                   
                 }
             ]
         ],
    
-   scans:[{
-       name: String,
-       description: String,
-       dateCreated: Date 
-   }],
-   Test:[],
-   surgeries:[],
-   dateCreated: {type: Date, Default: Date.now()}
+        scans:[{
+            name: String,
+            description: String,
+            dateCreated: Date 
+        }],
+        Test:[],
+        surgeries:[]
+ 
+    }
 },
-dateCreated: {type: Date, Default: Date.now()}
+{timestamps: true}
+)
 
-})
 const Person = mongoose.model('Person', personScheema)
 module.exports = Person;
 

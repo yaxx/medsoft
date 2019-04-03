@@ -1,19 +1,15 @@
-import mongoose from '../db';
-var Scheema = mongoose.Schema
-var ItemScheema = new Scheema({
-
-        in:String,
+const mongoose = require('../db') ;
+const Scheema = mongoose.Schema
+const ItemScheema = new Scheema({
         name: String,
         brand: String,
-        descriptions: String,
-        measure: Number,
+        description: String,
+        mesure: Number,
         unit: String,
         dateCreated: {type: Date, Default: Date.now()},
-        
-
 })
-var Item = mongoose.model('Item', ItemScheema)
-module.exports = Item
+const Item = mongoose.model('Item', ItemScheema)
+module.exports  = Item
 
 
 

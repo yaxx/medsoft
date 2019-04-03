@@ -1,31 +1,34 @@
-var express = require( 'express')
-var app = express()
-var server = require('http').Server(app)
-var io = require('socket.io')(server)
-var api = require('./routes/api')
-var Notification = require('./models/schemas/noteschema')
-var Connection = require('./models/schemas/connection')
-var Messages = require('./models/schemas/messageschema')
-import {path} from  'path';
-import bodyParser from 'body-parser';
-import cors from 'cors';
+const express = require( 'express')
+const app = express()
+const server = require('http').Server(app)
+const io = require('socket.io')(server)
+const api = require('./routes/api')
+const Notification = require('./models/schemas/noteschema')
+const Connection = require('./models/schemas/connection')
+const Messages = require('./models/schemas/messageschema')
+const path = require('path');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const graphQlHttp = require('express-graphql')
+const {buildSchema} = require('graphql')
+const graphQlSchema = require('./graphql/schemas/index')
+const graphQlResolvers = require('./graphql/resolvers/index')
+
+app.use('/graphql', graphQlHttp({
+  schema: graphQlSchema,
+  rootValue: graphQlResolvers,
+  graphiql: true
+}))
 
 app.use(cors({origin:["http://localhost:4200"], credentials: true}))
+// app.use((req,res, next)=>{
+//   res.setHeader('Access-Control-Allow-Origin','*')
+//   res.setHeader('Access-Control-Allow-Headers','Origin, X-Requested-with, Content-Type, Accept')
+//   res.setHeader('Access-Control-Allow-Method','POST, GET, DELETE, OPTIONs')
+// })
 app.use(require('morgan')('dev'))
 app.use(bodyParser.json())
-// app.use(bodyParser.urlencoded())
-
 app.use(require('cookie-parser')('blackfly'))
-
-// io.use(require('socket.io-cookie-parser')())
-// app.use(require('express-session')(
-//   {
-//   secret:'somme', 
-//   resave:false, 
-//   saveUninitialized:true,
-//   httpOnly:false
-// }))
-
 
 var connections = []
 var logins = []
@@ -42,7 +45,7 @@ io.sockets.on('connection', (socket) => {
   })
 
   socket.on('new message', (data) => {
-    console.log('new message')
+    console.log(data.msgs)
   //  api.updateMessages(data)
    logins.forEach(function (user) {
     if (user.ui === data.reciever) {
@@ -50,10 +53,17 @@ io.sockets.on('connection', (socket) => {
     } else {}
   })
   })
-  socket.on('new patient',(patient)=>{
+  socket.on('enroled',(patient)=>{
     console.log(patient)
-    socket.broadcast.emit('new patient', patient);
+    socket.broadcast.emit('enroled', patient);  
+  })
+  socket.on('consulted',(patient)=>{
     
+    socket.broadcast.emit('consulted', patient);  
+  })
+  socket.on('Discharge',(patient)=>{
+    console.log(patient)
+    socket.broadcast.emit('Discharge', patient);  
   })
   socket.on('purchase', items => {
     socket.broadcast.emit('purchase', items);
@@ -154,7 +164,7 @@ app.get('/', (req, res) => {
 
 )
 app.get('/api/client', api.getClient)
-app.get('/api/consultation/:mydept', api.getPatients)
+
 app.get('/api/patients', api.getPatients)
 app.get('/api/myaccount', api.getMyAccount)
 app.get('/api/explore', api.explore)

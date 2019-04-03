@@ -88,7 +88,7 @@ export class HistoryComponent implements OnInit {
     });
   }
   getDp(p: Person){
-    return 'http://localhost:5000/api/dp/' + p.info.personal.dpUrl;
+    return 'http://localhost:5000/api/dp/' + p.info.personal.avatar;
   }
   getImage(fileName: String){
     return 'http://localhost:5000/api/dp/' + fileName;

@@ -14,7 +14,7 @@ import {Router} from '@angular/router';
 export class LoginComponent implements OnInit {
  user = {
    username: null,
-   pwd: null
+   password: null
 };
 signin = true;
 loginError = false;
@@ -22,7 +22,11 @@ accountExist = false;
 loading = false;
 creating = false;
 client:Client = new Client();
-
+cred = {
+  username: String,
+  password: String ,
+  comfirm: String 
+}
   constructor(
     private accountService: DataService,
     private socket: SocketService,
@@ -34,16 +38,15 @@ client:Client = new Client();
   switch() {
     this.signin = false;
   }
-  hideError(){
+  hideError() {
     this.loginError = false;
   }
   login() {
     this.loading = true;
-
-    this.accountService.login(this.user).subscribe((person: any) => {
-      if(person.info.official) {
+    this.accountService.login(this.user).subscribe((person: Person) => {
+      if( person.info.official.role !== 'admin') {
         this.cookie.set('i', person._id);
-        this.cookie.set('h', person.info.official.hospId);
+        this.cookie.set('h', person.info.official.hospital);
         this.socket.io.emit('login', {ui: person._id, lastLogin: person.info.lastLogin})
       let route = null;
       const role = person.info.official.role;
@@ -61,9 +64,10 @@ client:Client = new Client();
       }
       this.router.navigate([route]);
       } else {
-        
           this.cookie.set('i', person._id);
-          this.router.navigate(['/account']);
+          this.cookie.set('h', person.info.official.hospital);
+          this.socket.io.emit('login', {ui: person._id, lastLogin: person.info.lastLogin})
+          this.router.navigate(['/admin']);
       }
     },
      (err) => {
@@ -73,13 +77,15 @@ client:Client = new Client();
   }
   signup() {
     this.creating = true;
-    console.log(this.client)
-    this.accountService.createClient(this.client).subscribe((res:any) => {
-      this.cookie.set('i', res._id);
+    this.accountService.createClient({client: this.client, cred: this.cred}).subscribe((person: Person) => {
+      console.log(person)
+      this.cookie.set('i', person._id);
+      this.cookie.set('h', person.info.official.hospital);
       this.creating = false;
       this.loading = false;
       this.client = new Client();
-      this.router.navigate(['/account']);
+      this.socket.io.emit('login', {ui: person._id, lastLogin: person.info.lastLogin})
+      this.router.navigate(['/admin']);
     } , (err) => {
       this.accountExist = true;
       this.creating = false;

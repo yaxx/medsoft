@@ -1,7 +1,7 @@
-var mongoose = require('../db')
-var Schema = mongoose.Schema
+const mongoose = require('../db')
+const Schema = mongoose.Schema
 
-var notificationSchema = new Schema({
+const notificationSchema = new Schema({
   to: String,
   from: {type: Schema.Types.ObjectId, ref: 'User'},
   button: String,
@@ -9,5 +9,5 @@ var notificationSchema = new Schema({
   noteOn: { type: Date, default: Date.now() },
   seen: {type: Boolean, default: false}
 })
-var Notification = mongoose.model('Notification', notificationSchema)
+const Notification = mongoose.model('Notification', notificationSchema)
 module.exports = Notification

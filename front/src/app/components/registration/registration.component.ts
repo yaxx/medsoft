@@ -21,7 +21,11 @@ export class RegistrationComponent implements OnInit {
  patient: Person = new Person();
   file: File = null;
   info: Info = new Info();
+  visit:Visit = new Visit();
+  card:string = null;
   url = '';
+  curIndex = 0;
+
   sortBy = 'added';
   sortMenu = false;
   loading = false;
@@ -32,7 +36,7 @@ export class RegistrationComponent implements OnInit {
   dpurl = 'http://localhost:5000/api/dp/';
 
 
-  uploader: FileUploader = new FileUploader({url: ''});
+  uploader: FileUploader = new FileUploader({url: uri});
   constructor(
     private dataService: DataService,
     private cookie: CookieService,
@@ -43,24 +47,21 @@ export class RegistrationComponent implements OnInit {
 
   ngOnInit() {
     this.getPatients();
-  //   this.uploader.onBuildItemForm = (fileItem: any, form: any) => { form.append('patient', this.patient);
+    this.socket.io.on('consulted', (patient: Person) => {
+      const i = this.patients.findIndex(p => p._id === patient._id);
+      if(patient.record.visits[0].status === 'Discharged'){
+        this.patients.unshift(patient);
+      }
+  });
 
-  // };
-     this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any ) => {
-     this.patient.info.personal.dpUrl = response;
-     this.patient.record.visits.unshift(new Visit());
-      this.dataService.addPerson(this.patient).subscribe((newpatient: Person) => {
-        newpatient.card = {menu: false, view: 'front'};
-        this.patients.unshift(newpatient);
-      
-        this.socket.io.emit('new patient', newpatient);
-        this.loading = false;
-     });
-    };
+    this.socket.io.on('enroled', (patient: Person) => {
+      this.patients.unshift(patient);
+  });
+
 
   }
   getDp(p: Person) {
-    return 'http://localhost:5000/api/dp/' + p.info.personal.dpUrl;
+    return 'http://localhost:5000/api/dp/' + p.info.personal.avatar;
   }
   showSortMenu() {
     this.sortMenu = true;
@@ -68,7 +69,7 @@ export class RegistrationComponent implements OnInit {
   getPatients() {
     let discharged;
     this.dataService.getPatients().subscribe((patients: Person[]) => {
-      discharged = patients.filter(patient=>patient.record.visits[0].status === 'discharged');
+      discharged = patients.filter(patient=>patient.record.visits[0].status === 'Discharge');
       discharged.forEach(p => {
         p.card = {menu: false, view: 'front'};
       });
@@ -76,18 +77,27 @@ export class RegistrationComponent implements OnInit {
       this.dataService.setCachedPatients(discharged);
     });
   }
-  fileSelected(event) {
-    if (event.target.files && event.target.files[0]) {
-      this.file = <File>event.target.files[0];
-      const reader = new FileReader();
-      reader.readAsDataURL(event.target.files[0]); // read file as data url
-      reader.onload = (e) => { 
-        let evnt = <any>e;
-        this.url = evnt.target.result;
-      };
-    }
-
+  enrolePatient()  {
+    this.loading = true;
+    this.patients[this.curIndex].record.visits.unshift(this.visit);
+    this.dataService.updateRecord(this.patients[this.curIndex]).subscribe(patient=>{
+      this.socket.io.emit('enroled',patient)
+      this.patients.splice(this.curIndex,1)
+      this.loading = false;
+    })
   }
+  // fileSelected(event) {
+  //   if (event.target.files && event.target.files[0]) {
+  //     this.file = <File>event.target.files[0];
+  //     const reader = new FileReader();
+  //     reader.readAsDataURL(event.target.files[0]); // read file as data url
+  //     reader.onload = (e) => {
+  //       let evnt = <any>e;
+  //       this.url = evnt.target.result;
+  //     };
+  //   }
+
+  // }
   switchToBack(i: number) {
     this.patients[i].card.view = 'back';
   }
@@ -95,24 +105,15 @@ export class RegistrationComponent implements OnInit {
     this.patients[i].card.view = 'front';
   }
   selectPatient(i: number) {
-    this.info = this.patients[i].info;
+    this.curIndex = i;
   }
-  // addPatient(patient: Person) {
-  //     this.dataService.addPerson(patient).subscribe((newpatient: Person) => {
-  //       this.patients.unshift(patient);
-  //       this.socket.io.emit('newPerson', newpatient);
-  //    });
-  // }
-  goTo(location,e){
-    e.preventDefault()
-    this.router.navigate([location],{relativeTo: this.route});
 
-  }
-  submitRecord() {
-    this.loading = true;
-    this.patient.info = this.info;
-      this.uploader.uploadAll();
-  }
+
+  // submitRecord() {
+  //   this.loading = true;
+  //   this.patient.info = this.info;
+  //     this.uploader.uploadAll();
+  // }
   switchViews() {
     if (this.view === 'details') {
        this.view = '';
@@ -132,8 +133,10 @@ export class RegistrationComponent implements OnInit {
    }
 
   }
-
-
+ 
+  getMe() {
+    return this.cookie.get('a');
+  }
   sortPatients(sortOption: string) {
     this.sortMenu = false;
     switch (sortOption) {
@@ -155,10 +158,9 @@ export class RegistrationComponent implements OnInit {
         this.nowSorting = 'Age';
         break;
       case 'date':
-        this.patients.sort((m, n) => new Date(n.dateCreated).getTime() - new Date(m.dateCreated).getTime());
+        this.patients.sort((m, n) => new Date(n.createdAt).getTime() - new Date(m.createdAt).getTime());
         this.nowSorting = 'Date added';
         break;
-
         default:
         break;
     }

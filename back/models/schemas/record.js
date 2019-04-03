@@ -25,9 +25,10 @@ var RecordScheema = new Scheema({
   
     allegies:[{allegy:String, dateCreated:{type: Date,default:Date.now}}],
 
-    visits: [{dept:String,
+    visits: [{
+        dept:String,
         status:String,
-        visitedOn: {type:Date, default: Date.now()},
+        visitedOn: Date, 
         addmittedOn: Date,
         dischargedOn:Date,
         diedOn: Date,
@@ -89,4 +90,4 @@ files: [{
 )
 
 const Record = mongoose.model('Record', RecordScheema)
-module.exports = Record;
+module.exports  = Record;

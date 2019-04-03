@@ -4,10 +4,10 @@ import {DataService} from '../../services/data.service';
 import {SocketService} from '../../services/socket.service';
 import {ActivatedRoute} from '@angular/router';
 import { Priscription, Scan, Vital, Medication, Note} from '../../models/record.model';
-import { Person} from '../../models/person.model';
+import { Person } from '../../models/person.model';
 import { Product, Item} from '../../models/inventory.model';
 import { Client} from '../../models/client.model';
-  
+
 
 const uri = 'http://localhost:5000/api/upload';
 @Component({
@@ -37,39 +37,63 @@ export class WardComponent implements OnInit {
   loading = false;
   selected = null;
   searchTerm = '';
-  bedNum = null;
+  allocation = null;
   curIndex = 0;
+  curBed = null;
   url = '';
   sortBy = 'added';
   sortMenu = false;
   nowSorting = 'Date added';
   uploader: FileUploader = new FileUploader({url: uri});
   attachments: any = [];
-
-
+  myDepartment = null;
   constructor(
       private dataService: DataService,
-      private route: ActivatedRoute, 
+      private route: ActivatedRoute,
       private socket: SocketService ) { }
   ngOnInit() {
-    this.getInPatients();
+    this.myDepartment = this.route.snapshot.params['dept'];
     this.getClient();
+    this.getPatients();
     this.uploader.onCompleteItem = (item: any, fileName: any, status: any, headers: any ) => {
       this.patients[this.curIndex].record.scans.unshift(new Scan(fileName, this.filesDesc))
        this.dataService.updateRecord(this.patients[this.curIndex]).subscribe((newpatient: Person) => {
-        
       });
      };
-    // this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any ) => {
-    //   this.attachments.push(JSON.parse(response));
-    // };
+
+    this.socket.io.on('Discharge', (patient: Person) => {
+    console.log(patient);
+    const i = this.patients.findIndex(p=>p._id === patient._id)
+      if(patient.record.visits[0].dept.toLowerCase() === this.myDepartment ) {
+         if(i<0){
+
+         } else {
+           this.patients.splice(i,1);
+         }
+      } else {
+         this.patients.splice(i,1);
+      }
+
+  });
+
+  this.socket.io.on('consulted', (patient: Person) => {
+    const i = this.patients.findIndex(p=>p._id === patient._id)
+      if(patient.record.visits[0].dept.toLowerCase() === this.myDepartment && patient.record.visits[0].status ==='Admit') {
+        this.patients.unshift(patient);
+      } else if (patient.record.visits[0].dept.toLowerCase() === this.myDepartment && patient.record.visits[0].status ==='Discharged') {
+         this.patients.splice(i, 1);
+      }
+
+  });
+
   }
+
   getDp(p: Person) {
-    return 'http://localhost:5000/api/dp/' + p.info.personal.dpUrl;
+    return 'http://localhost:5000/api/dp/' + p.info.personal.avatar;
   }
   getClient() {
-    this.dataService.getClient().subscribe((client: any) => {
-      this.client = client.client;
+    this.dataService.getClient().subscribe((res: any) => {
+      this.client = res.client;
   });
   }
   fileSelected(event) {
@@ -142,56 +166,71 @@ export class WardComponent implements OnInit {
         this.nowSorting = 'Age';
         break;
       case 'date':
-        this.patients.sort((m, n) => new Date(n.dateCreated).getTime() - new Date(m.dateCreated).getTime());
+        this.patients.sort((m, n) => new Date(n.createdAt).getTime() - new Date(m.createdAt).getTime());
         this.nowSorting = 'Date added';
         break;
-
         default:
         break;
     }
   }
 
-  getInPatients() {
+  getPatients() {
     this.dataService.getPatients().subscribe((patients: Person[]) => {
-       let myPatients = patients.filter(p=>p.record.visits.some(v=>v.dept===this.route.snapshot.params['mode'] && v.status === 'admitted'))
-         myPatients.forEach(p => {
-        if (p.record.visits[p.record.visits.length - 1].bedNo) {
-          p.card = {menu: false, view: 'front'};
-        } else {
-          p.card = {menu: false, view: 'bed'};
-        }
+      let myPatients;
+      if(this.myDepartment) {
+         myPatients = patients.filter(
+         p => p.record.visits[0].dept.toLowerCase() === this.myDepartment && p.record.visits[0].status === 'Admit');
+      } else {
+       myPatients = patients.filter(p => p.record.visits[0].status === 'Admit');
+
+      }
+      myPatients.forEach(p => {
+        p.card = {menu: false, view: 'front'}
+
       });
       this.patients = myPatients;
-      console.log(myPatients)
-      this.patient = myPatients[0];
+      this.dataService.setCachedPatients(myPatients);
     });
   }
   getBeds(i: number) {
-    const beds = [];
     const dept = this.client.departments.filter((d) =>
-     d.name === this.patients[i].record.visits[this.patients[i].record.visits.length - 1].dept)[0];
-     for (let n = 0; n <= dept.beds.length; n++) {
-      if (!dept.beds[n]) {
-        beds.push(n);
-      } else {
-      }
-    }
-
-    return beds;
+     d.name.toLowerCase() === this.patients[i].record.visits[0].dept)[0];
+     return  dept.beds.filter(bed => !bed.allocated)
   }
   changeBed(i: number) {
     this.patients[i].card.view = 'bed';
     this.hideMenu();
-    const name =  this.patients[i].record.visits.reverse()[0].dept;
-    this.client.departments.forEach(department => {
-      if (department.name !== name) {
-        return;
-      }  else {
-        department.beds[this.patients[i].record.visits[0].bedNo] = false;
-      }
+    this.curBed = this.patients[i].record.visits[0].bedNo;
+    this.allocation = this.patients[i].record.visits[0].bedNo;
+    // const deptname =  this.patients[i].record.visits[0].dept;
+    // this.client.departments.forEach(department => {
+    //   if (department.name === deptname) {
+    //     this.allocation = department.beds[this.patients[i].record.visits[0].bedNo] = false;
+    //   }  else {
 
-    });
+    //   }
+
+    // });
   }
+  assignBed(i: number) {
+    const dept = this.client.departments.filter((d) =>
+    d.name === this.patients[i].record.visits[0].dept)[0];
+    console.log(dept);
+    dept.beds.forEach((bed) => {
+      if (bed.number === +this.allocation) {
+         bed.allocated = true;
+      }
+      if(bed.number === +this.curBed) {
+         bed.allocated = false;
+      } 
+    });
+
+    this.patients[i].record.visits[0].bedNo = this.allocation;
+    this.dataService.updateBed(this.patients[i], this.client).subscribe((p: Person) => {
+        this.switchToFront(i);
+   });
+ }
+
   switchToFront(i: number) {
     this.patients[i].card.view = 'front';
   }
@@ -259,28 +298,7 @@ export class WardComponent implements OnInit {
       this.vitals = new Vital();
     });
   }
-  assignBed(i: number) {
-    const n = this.patients[i].record.visits.reverse()[0].dept;
-    const name = this.client.departments.filter((d) =>
-     d.name === n);
-     const dept = this.client.departments;
-     dept.forEach((dep, i) => {
-       if (dep.name !== n) {
-        return;
-       } else {
-        // tslint:disable-next-line:radix
-        dep.beds[parseInt(this.bedNum)] = true;
-       }
-     });
-     const patient = this.patients[i];
-     // tslint:disable-next-line:radix
-     patient.record.visits[ patient.record.visits.length - 1].bedNo = parseInt(this.bedNum);
-     patient.record.visits.reverse();
-     this.dataService.updateBed(patient, dept, this.client._id).subscribe((p: Person) => {
-      p.card = {menu: false, view: 'front'};
-      this.patients[i] = p;
-    });
-  }
+
   updateNote() {
    this.dataService.updateNote(this.patients[this.curIndex]._id, this.note).subscribe((patient: Person) => {
     patient.card = {menu: false, view: 'front'};

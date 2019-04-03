@@ -1,7 +1,6 @@
-import mongoose from '../db';
-var Scheema = mongoose.Schema
-var InventoryScheema = new Scheema({
-    hosId: String,
+const mongoose = require('../db') ;
+const Scheema = mongoose.Schema
+const InventoryScheema = new Scheema({
     products:[{
         item:{
             name: String,
@@ -10,7 +9,7 @@ var InventoryScheema = new Scheema({
             description: String,
             mesure:Number,
             unit: String,
-            dateCreated: {type:Date, default: Date.now()}   
+            dateCreated: date 
         },
         stockInfo:{
             expiry: Date,
@@ -19,11 +18,10 @@ var InventoryScheema = new Scheema({
             status: Boolean,
             quantity: Number
         },
-        selected:Boolean,
-        addedOn: {type:Date, default: Date.now()}   
+        addedOn: date 
     }],
-    dateCreated:{type:Date, default: Date.now()}   
+    dateCreated:Date  
 
 })
-var Inventory = mongoose.model('Inventrory', InventoryScheema)
+const Inventory = mongoose.model('Inventrory', InventoryScheema)
 module.exports = Inventory;

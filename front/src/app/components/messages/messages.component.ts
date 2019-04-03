@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, AfterViewInit , OnInit } from '@angular/core';
 import {DataService} from '../../services/data.service';
 import {SocketService} from '../../services/socket.service';
 import {CookieService } from 'ngx-cookie-service';
@@ -12,15 +12,15 @@ const uri = 'http://localhost:5000/api/upload';
   templateUrl: './messages.component.html',
   styleUrls: ['./messages.component.css']
 })
-export class MessagesComponent implements OnInit {
+export class MessagesComponent implements  OnInit {
 url = null;
 uploader: FileUploader = new FileUploader({url: uri});
-people = '';
+people = 'followings';
 leftcard = 'contacts';
 file: File = null;
-curConversations: any[] = new Array<any>(new Array<Message>(new Message()));
+curMessages: any[] = new Array<any>(new Array<Message>(new Message()));
 cardView = null;
-curPerson = new Person();
+curPerson = new Connection();
 follows: Person[] = new Array<Person>();
 contacts: any[] = [];
 message = null;
@@ -44,22 +44,8 @@ oldPwd = null;
       this.getMyAccount();
       this.me = this.cookies.get('i');
       this.socket.io.on('new message', (data) => {
-        console.log(data);
-        this.curConversations = data.msgs;
-        this.contacts.forEach(contact => {
-          if (contact.person === data.sender) {
-              contact.conversations = data.msgs;
-          } else {
-
-          }
-        });
-        if (this.curPerson._id === data.sender) {
-          this.curConversations = data.msgs;
-        } else {
-
-        }
+        this.curPerson.messages = data.msgs;
       });
-
       this.socket.io.on('online', (data) => {
         this.contacts.forEach(contact => {
           if (contact.person._id === data.sender) {
@@ -70,12 +56,13 @@ oldPwd = null;
         });
       });
       this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any ) => {
-        this.person.info.personal.dpUrl = response;
+        this.person.info.personal.avatar = response;
          this.data.updateInfo(this.person).subscribe((person: Person) => {
            this.person = person;
         });
        };
    }
+
    fileSelected(event) {
     if (event.target.files && event.target.files[0]) {
       this.file = <File>event.target.files[0];
@@ -105,26 +92,25 @@ oldPwd = null;
     }
   }
   sendMessage() {
-    if (this.curConversations[0][0].sender !== null) {
-      if (this.curConversations[this.curConversations.length - 1][0].sender === this.cookies.get('i')) {
-        this.curConversations[this.curConversations.length - 1].push(new Message(this.message, this.cookies.get('i'), this.curPerson._id));
-
+    if (this.curPerson.messages[0][0]) {
+      if (this.curPerson.messages[this.curPerson.messages.length - 1][0].sender === this.cookies.get('i')) {
+        this.curPerson.messages[this.curPerson.messages.length - 1].push(new Message(this.message, this.cookies.get('i'), this.curPerson.person._id));
        } else {
-       this.curConversations.push(new Array<Message>(new Message(this.message, this.cookies.get('i'), this.curPerson._id)));
+       this.curPerson.messages.push(new Array<Message>(new Message(this.message, this.cookies.get('i'), this.curPerson.person._id)));
        }
   } else {
-    this.curConversations[0] = new Array<Message>(new Message(this.message, this.cookies.get('i'), this.curPerson._id));
+    this.curPerson.messages[0] = new Array<Message>(new Message(this.message, this.cookies.get('i'), this.curPerson.person._id));
   }
-  this.socket.io.emit('new message', {msgs: this.curConversations, sender: this.cookies.get('i'), reciever: this.curPerson._id});
-  console.log(this.curConversations);
+  this.socket.io.emit('new message', {msgs: this.curPerson.messages, sender: this.cookies.get('i'), reciever: this.curPerson.person._id});
+
   }
   switchPeople(view: string) {
     this.cardView = 'connections';
     this.people = view;
-    this.data.getConnections(this.person.connections._id).subscribe((con: any) => {
-      this.follows = view === 'followers' ? con.people.filter(person => person.follower) : con.people.filter(person => person.following);
+    // this.data.getConnections(this.person.connections._id).subscribe((con: any) => {
+    //   this.follows = view === 'followers' ? con.people.filter(person => person.follower) : con.people.filter(person => person.following);
 
-    });
+    // });
 
   }
   switchLeftCard(view: string) {
@@ -134,49 +120,36 @@ oldPwd = null;
     });
   }
   getMyAccount() {
-    this.data.getMyAccount().subscribe((res: any) => {
-      this.person = res.p;
-      this.contacts = res.c.people.filter(person => (person.follower && person.following));
+    this.data.getMyAccount().subscribe((me: Person) => {
+      console.log(me)
+      this.person = me
+      // this.contacts = res.c.people.filter(person => (person.follower && person.following));
      });
   }
-  back() {
-    this.cardView = 'me';
-    this.people = '';
+  back(view) {
+    this.rightCard = view;
+
   }
   getDp(p:Person) {
-
-      return 'http://localhost:5000/api/dp/' + p.info.personal.dpUrl;
-  
+      return 'http://localhost:5000/api/dp/' + p.info.personal.avatar;
   }
   getMsgDp(id: string) {
-    if(id===this.curPerson._id){
-      return 'http://localhost:5000/api/dp/' + this.curPerson.info.personal.dpUrl;
+    if(id === this.curPerson.person._id){
+      return 'http://localhost:5000/api/dp/' + this.curPerson.person.info.personal.avatar;
     } else {
-      return 'http://localhost:5000/api/dp/' + this.person.info.personal.dpUrl;
+      return 'http://localhost:5000/api/dp/' + this.person.info.personal.avatar;
     }
-    
+
   }
   explore() {
     this.data.explore().subscribe((suggestions: Person[]) => {
-      if (this.person.connections.people.length) {
-        const filter = suggestions.filter(p => p._id !== this.cookies.get('i'));
-        filter.forEach((person) => {
-          this.person.connections.people.forEach((contact) => {
-            if (contact.person !== person._id) {
-              this.colegues.push(person);
-            } else {
-          }
-        });
-      });
-      } else {
          this.colegues = suggestions.filter(p => p._id !== this.cookies.get('i'));
-      }
     });
   }
   selectPerson(person) {
-    this.curPerson = person.person;
-      if (person.conversations.length) {
-      this.curConversations = person.conversations;
+    this.curPerson = person;
+      if (person.messages.length) {
+      this.curMessages = person.messages;
      } else {
 
      }
@@ -229,47 +202,35 @@ oldPwd = null;
   this.rightCard = view;
   this.toggleMenu();
 }
-
+switchRightCard(view){
+  this.rightCard = view;
+}
 
   getFollowers() {
-    return this.person.connections.people.filter(p => p.follower);
+      return this.person.connections.people.filter(p => p.follower);
   }
   getFollowings() {
-      return this.person.connections.people.filter(p => p.following);
+        return this.person.connections.people.filter(p => p.following);
   }
-  follow(you: any) {
-    const myConnects = this.person.connections;
-    const yourConnects = you.connections;
-    const i = myConnects.people.findIndex((p) => {
-      return p.person._id === you._id;
-    });
-
-    if (i !== -1) {
-      const j = yourConnects.people.findIndex((me) => {
-        return me.person === this.person._id;
-      });
-      myConnects.people[i].following = true;
-      yourConnects.people[j].follower = true;
-    } else {
-      myConnects.people.push(new Connection(you._id, true, false, false, new Array<Message>()));
-      yourConnects.people.push(new Connection(this.cookies.get('i'), false, true, false, new Array<Message>()));
-      yourConnects.notifications.push(new Notification(this.person._id, 'follow', 'follows you', new Date()));
-    }
-
-      // this.socket.io.emit('newfollower', res.yourconnect);
-
-    this.data.follow(myConnects, yourConnects).subscribe((res: any) => {
-      this.person.connections = res.myconnect;
+  getContacts(){
+    const contacts = this.person.connections.people.filter(contact=>contact.follower&&contact.following).sort((i, j) => new Date(i.lastChated).getTime() - new Date(j.lastChated).getTime())
+    
+    return contacts;
+  }
+  follow(person, i) {
+     this.data.follow(person._id).subscribe((res: any) => {
+      this.person.connections.people.push(new Connection(person, true ))
+      this.colegues.splice(i, 1);
     });
   }
-  followBack(you: Person) {
-  this.data.followBack(this.person.connections._id, you,
-    new Notification(this.person._id, 'follow', 'followed back', new Date())).subscribe((res: any) => {
-      this.person.connections = res;
+  followBack(person: Person, i) {
+    this.data.followBack(person._id).subscribe((res: any) => {
+      console.log(res)
+      this.person.connections.people[i].follower = true;
   });
 }
   unFollow(you: Person) {
-  this.data.unFollow(this.person.connections._id, you)
+    this.data.unFollow(this.person.connections._id, you)
   .subscribe((res: any) => {
       this.person.connections = res;
   });

@@ -1,4 +1,4 @@
-import mongoose from '../db';
+const mongoose = require('../db') ;
 var Scheema = mongoose.Schema
 var DepartmentScheema = new Scheema({
         name: String,

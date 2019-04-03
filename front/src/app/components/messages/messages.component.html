@@ -1,50 +1,39 @@
-
-<div class="sidenav">
-  <a href="#" class="home homemenu" title="Menu">
-      <span class="homespan">
-          <i class="material-icons homeicon">sort</i>
-      </span>
-  </a>
-
-  <a href="#" [routerLink]="['/pharmacy']"  class="home dashboard" title="Dashboard">
-      <span class="homespan">
-          <i class="icon ion-android-apps homeicon"></i>
-      </span>
-  </a>
-  <a href="#" [routerLink]="['/information']" routerLinkActive="router-link-active"  class="home patienmenu" title="Patients">
-      <span class="homespan">
-          <i class="icon ion-ios-people-outline homeicon"></i>
-      </span>
-  </a>
-  <a href="#" [routerLink]="['/consultation']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Appointments">
-      <span class="homespan">
-          <i class="icon ion-ios-calendar-outline homeicon"></i>
-      </span>
-  </a>
-  <a href="#" [routerLink]="['/products']" routerLinkActive="active"  class="home cartmenu" title="Products">
-      <span class="homespan"> <i class="icon ion-ios-cart-outline homeicon"></i></span></a>
-  <a href="#" [routerLink]="['/ward']" routerLinkActive="router-link-active"   class="home wardmenu" title="Ward"><span class="homespan"><i class="material-icons homeicon wardicon">airline_seat_individual_suite</i></span></a>
-  <a href="#"  [routerLink]="['/account']" routerLinkActive="router-link-active" class="home settings" title="Settings"><span class="homespan"><i class="icon ion-ios-gear-outline homeicon"></i></span></a>
-</div>
-<nav  class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:0px">
-<div class="container">
-    <a class="navbar-brand" href="#">
-        <em>MS</em>
-    </a>
-    <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navcol-1">
-        <ul class="nav navbar-nav"></ul>
-
+  <nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:0px">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <em>MS</em>
+        </a>
+        <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navcol-1">
+            <ul class="nav navbar-nav"></ul>
+            <form class="form-inline mr-auto searchform" target="_self">
+                <div class="form-group">
+                    <label style="left:500px;position:absolute;"  for="search-field">
+                        <i class="icon ion-ios-search searchicon" title="Search"></i>
+                    </label>
+                    <input  autocomplete = "off" style="border-radius:30px;
+                    left: 270px;
+                    width:220px;
+                    background-color: rgb(243, 248, 247);
+                    margin: auto;"
+                    class="form-control search-field"
+                    type="search" name="search" id="search-field" placeholder="Search patient">
+                </div>
+            </form>
+           
+        </div>
     </div>
-</div>
-<i style="left:20%;" class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
-<i style="left:25%; font-size: 22px;" class="icon ion-ios-chatboxes-outline arrow buble" title="Messages"></i>
+    <i style="left:80%;" class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
+      <i  style="left:83%;" class="icon ion-ios-person-outline arrow buble" id="add" title="Me" ></i>
+    
+      <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:90%;position:absolute;height:30px;width:30px;bottom:-8%"></div>
+  </nav>
 
-<div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:90%;position:absolute;height:30px;width:30px;bottom:8%"></div>
-</nav>
+
+
 <div style="padding-top:40px;"
         class="container history-container">
         <div   class="row chatrow">
@@ -58,20 +47,14 @@
                               <i (click)="switchLeftCard('explore')" style="left:90%; top:0%; position:absolute" class="icon ion-ios-search searchicon" title="Search"></i>
                         </div>
                         <div class="card-body onlinesbody">
-                            <div (click)=selectPerson(person) *ngFor="let person of contacts; let i=index" class="carditem people">
-                                <!-- <div class="card-header profileheader person">
-
-                                    <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:5%;position:absolute;height:30px;width:30px;top:25%;"></div>
-                                    <p class="dept personname">Fareedah Za...&nbsp;<span class="timetaken chattime"><button class="btn btn-sm btn-primary inputs  mainbtn connection-btn" >Following</button></span></p>
-                                    <h1 class="dept latestmsg">Hi</h1>
-                                </div> -->
+                            <div (click)=selectPerson(contact) *ngFor="let contact of getContacts(); let i=index" class="carditem people">
                                 <div class="card-header profileheader person">
                                     <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:5%;position:absolute;height:30px;width:30px;top:25%;">
-                                        <img [src] = getDp(person.person)/>
-                                    <div *ngIf = 'person.person.info.online' class="indicator indicator-online"></div>
+                                        <img [src] = getDp(contact.person)/>
+                                    <div *ngIf = 'contact.person.info.online' class="indicator indicator-online"></div>
                                     </div>
                                     <p class="dept personname">
-                                      {{person.person.info.personal.firstName}}&nbsp;<span class="timetaken chattime">&nbsp;25min&nbsp;</span></p>
+                                      {{contact.person.info.personal.firstName+' '+contact.person.info.personal.lastName}}&nbsp;<span class="timetaken chattime">&nbsp;25min&nbsp;</span></p>
                                     <h1 class="dept latestmsg">Hi</h1>
                                 </div>
 
@@ -86,27 +69,15 @@
                         </div>
                         <div class="card-body onlinesbody">
                             <div *ngFor="let person of colegues; let i=index" class="carditem people">
-                                <!-- <div class="card-header profileheader person">
-
-                                    <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:5%;position:absolute;height:30px;width:30px;top:25%;"></div>
-                                    <p class="dept personname">Fareedah Za...&nbsp;<span class="timetaken chattime"><button class="btn btn-sm btn-primary inputs  mainbtn connection-btn" >Following</button></span></p>
-                                    <h1 class="dept latestmsg">Hi</h1>
-                                </div> -->
                                 <div class="card-header profileheader person">
                                     <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:5%;position:absolute;height:30px;width:30px;top:25%;">
-
+                                            <img [src] = getDp(person)/>
                                     </div>
-                                    <p class="dept personname">
-                                        {{person.info.personal.firstName}}&nbsp;<span class="timetaken chattime"><button (click) = "follow(person)" class="btn btn-sm btn-outline-primary inputs  mainbtn connection-btn"    >Follow</button></span></p>
-                                    <h1 class="dept latestmsg">Hi</h1>
+                                    <p style='margin-left:2px;' class="dept personname">
+                                        {{person.info.personal.firstName+' '+person.info.personal.lastName}}&nbsp;<span class="timetaken chattime"></span></p>
+                                        <i (click)='follow(person, i)' title='Follow' class="icon ion-ios-plus-empty follow" style="font-size:23px;position: absolute;left:90%; bottom:3px; cursor:pointer"></i>
+                                    <h1 class="dept latestmsg">{{person.info.official.department}}</h1>
                                 </div>
-
-                                <!-- <div class="card-header profileheader person">
-                                    <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:5%;position:absolute;height:30px;width:30px;top:25%;"></div>
-                                    <p class="dept personname">Amina Sulaiman<span class="timetaken chattime">&nbsp;25min&nbsp;</span></p>
-                                    <h1 class="dept latestmsg">call you later</h1>
-                                </div> -->
-
                             </div>
                         </div>
                     </div>
@@ -115,12 +86,19 @@
             <div class="col col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 chatcolumn">
                 <div class="card-colums chatcard-column">
                     <div class="card card-secondary historycard midlecard chatcard">
-                        <div class="card-header grapheader">
-                            <h1 class="dept headtitle">{{curPerson.info.personal.firstName}}</h1>
+                       <div style='padding: 0px 5px 0px 10px; height:26px;' class="card-header grapheader">
+                        <div *ngIf='curPerson._id' >
+                            <div style="left:10px;height:22px; width:22px;position:relative; display:inline-block; margin-bottom:0px; top:0px; background:white" class="timeline lastdoc priscriber headerdp small-dp">
+                              <img [src] = getDp(curPerson.person)/>
+                            </div>
+                            <p style='margin:0px 0px 0px 3px;position:absolute;padding-left:13px;top:4px;display:inline-block;' class="patien-name small-name">
+                              {{curPerson.person.info.personal.firstName +' '+curPerson.person.info.personal.lastName}}<span class="small-headericon"></span>
+                            </p>
                         </div>
-                        <div *ngIf='curConversations[0][0].sender!==null' class="card-body chat-body">
-                          <div class="conversation-container">
-                            <div *ngFor="let chats of curConversations; let i=index" class="message" [ngClass]="curConversations[i][0].sender === me?'message-send':'message-recieved'" >
+                        </div>
+                        <div  class="card-body chat-body">
+                          <div  class="conversation-container">
+                            <div *ngFor="let chats of curPerson.messages; let i=index" class="message" [ngClass]="curPerson.messages[i][0]?.sender === me?'message-send':'message-recieved'" >
                                 <div *ngFor="let msg of chats; let last = last" class="message-container">
                                     <div class="message-avatar">
                                         <a href="#" class="profile-link"></a>
@@ -139,29 +117,16 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- <div class="message-container">
-                                    <div class="message-avatar"><a href="#" class="profile-link"></a>
-                                        <div class="msg-avatar"><span class="avatar-container"><img src="../../../assets/img/model.jpg" class="msg-image" /></span></div>
-                                    </div>
-                                    <div class="message-msg">
-                                        <div class="msg-contentContainer">
-                                            <div class="msg-text">
-                                                <div class="msg-container">
-                                                    <p class="msg-msg msg-size">Hi</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> -->
+
                             </div>
 
                         </div>
 
                         </div>
-                         <form class="chat-form">
+                        <form class="chat-form">
                           <div class="message-group"><textarea name="chat" [(ngModel)] ="message"  (keypress)="check($event)"class="form-control inputs patientdata newpatient chat-message" placeholder="Type a message" rows="1"></textarea><i class="icon ion-image attachment" title="Attach file"></i>
                             <i class="icon ion-android-send attachment" title="Send"></i></div>
-                      </form>
+                       </form>
                     </div>
                 </div>
             </div>
@@ -186,19 +151,20 @@
                         <h6 class="bio">{{person.info.official.department}}</h6>
                         <div class="card-body rightcardbody">
                           <div class="carditem basic-item connections">
-                            <h6 (click)="switchPeople('followers')" class="dept basic-info">Followers</h6>
-                            <h6 (click)="switchPeople('followers')" class="dept basic-info sex-info">
-                                {{getFollowers().length}}</h6>
+                            <h6 (click)="switchRightCard('followers')" class="dept basic-info">Followers</h6>
+                            <h6 (click)="switchRightCard('followers')" class="dept basic-info sex-info">
+                                {{getFollowers().length}}
+                            </h6>
                         </div>
                         <div class="carditem basic-item connections">
-                            <h6 (click)="switchPeople('followings')" class="dept basic-info">Following</h6>
-                            <h6 (click)="switchPeople('followings')"  class="dept basic-info sex-info">
+                            <h6 (click)="switchRightCard('followings')" class="dept basic-info">Following</h6>
+                            <h6 (click)="switchRightCard('followings')"  class="dept basic-info sex-info">
                                 {{getFollowings().length}}</h6>
                         </div>
                        <ul class="profile-info">
                           <li class="profile-item">
                               <span style='font-size:17px; top:2px;position:relative;  color: rgb(114, 114, 114);'><i class='icon ion-ios-home'></i></span>
-                             Maternity
+                             {{person.info.official.department}}
                             </li>
                          <li class="profile-item"><span style='font-size:18px; top:3px;position:relative;  color: rgb(114, 114, 114);'><i class='icon ion-ios-person-outline'></i></span>
                           Born 11 Febuary, 1989
@@ -247,7 +213,7 @@
                           <span *ngIf='hovers[0]' class='predata' style='font-size:12px; top:5px;position:absolute; left:93%; color: rgb(114, 114, 114);'>
                             <i (click)='showInput(0)' class='icon ion-edit'></i>
                           </span>
-                          {{person.info.contact.mobile}}
+                          {{person.info.contact.me.mobile}}
                         </li>
                          <li *ngIf='input[0]' class="profile-item">
                           <div class="form-group vitals-section address">
@@ -260,7 +226,7 @@
                            <span *ngIf='hovers[1]' class='predata' style='font-size:12px; top:5px;position:absolute; left:93%; color: rgb(114, 114, 114);'>
                             <i (click)='showInput(1)' class='icon ion-edit'></i>
                           </span>
-                         {{person.info.contact.email}}
+                         {{person.info.contact.me.email}}
                         </li>
                         <li *ngIf='input[1]' class="profile-item">
                             <div class="form-group vitals-section address">
@@ -303,62 +269,57 @@
                     </div>
 
                     <button (click)='updateProfile()' style=" width: 90px; left:81px; bottom:2%; padding-top:3px;padding-bottom: 3px; "  type="submit" class="btn btn-sm btn-outline-primary inputs mainbtn" >
-                        <i class="fa fa-circle-o-notch editicon continue blocked-icon fa-spin" style="font-size:11px;"></i>
+                        <i class="fa fa-circle-o-notch editicon continue blocked-icon fa-spin" style="font-size:15px;"></i>
                     Save
                     </button>
                     </div>
-                    <div style="width:200px" *ngIf = "rightCard ==='connections'" class="card card-secondary historycard rightcard medication profile-card">
+                    <div style="width:200px" *ngIf = "rightCard ==='followers'" class="card card-secondary historycard rightcard medication profile-card">
                       <div class="card-header grapheader">
-                          <h1 style="padding-left:20px;" class="dept headtitle">FOLLOWERS<span (click)="back()" class="backIcon">
+                          <h1 style="padding-left:20px;" class="dept headtitle">FOLLOWERS<span (click)="back('profile')" class="backIcon">
                             <i title="Back" class="icon ion-android-arrow-back "></i></span>
                           </h1>
                       </div>
-                      <div *ngIf = "people === 'followers'" class="card-body onlinesbody">
+                      <div  class="card-body onlinesbody">
                           <!-- <p *ngIf="!getFollowers()" class="placeholder">No followers yet</p> -->
-                          <div *ngFor="let person of follows; let i=index" class="carditem people">
+                          <div *ngFor="let p of getFollowers(); let i=index" class="carditem people">
                              <div class="card-header profileheader person">
                                   <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:5%;position:absolute;height:30px;width:30px;top:25%;">
-                                    <img [src] = getDp(person.person)/>
+                                    <img [src] = getDp(p.person)/>
                                   </div>
                                   <p class="dept personname">
-                                      {{person.person.info.personal.firstName}}&nbsp;<span class="timetaken chattime"><button *ngIf = '!person.following'
-                                        (click)="followBack(person)" class="btn btn-sm btn-outline-primary inputs  mainbtn connection-btn"    >Follow</button>
-                                        <button (click)= "unFollow(person)" title='Unfollow' *ngIf = 'person.following' class="btn btn-sm btn-primary inputs  mainbtn connection-btn" >Following</button>
+                                    {{p.person.info.personal.firstName+' '+p.person.info.personal.lastName}}<span class="timetaken chattime">
                                       </span></p>
-                                  <h1 class="dept latestmsg">Hi</h1>
+                                      <i *ngIf = 'p.follower'  (click)="followBack(p.person)"  title='Unfollow' class="icon ion-ios-plus-empty follow" style="font-size:22px;position: absolute;left:88%; bottom:4px; cursor:pointer"></i>
+                                      <i *ngIf = 'p.following'  (click)="unfollow(person)"  title='Unfollow' class="icon ion-ios-minus-empty follow" style="font-size:22px;position: absolute;left:88%; bottom:4px; cursor:pointer"></i>
+                                      <h1 class="dept latestmsg">{{p.person.info.official.department}}</h1>
                               </div>
-
-                              <!-- <div class="card-header profileheader person">
-                                  <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:5%;position:absolute;height:30px;width:30px;top:25%;"></div>
-                                  <p class="dept personname">Amina Sulaiman<span class="timetaken chattime">&nbsp;25min&nbsp;</span></p>
-                                  <h1 class="dept latestmsg">call you later</h1>
-                              </div> -->
-
-                          </div>
-                      </div>
-                      <div *ngIf = "people === 'followings'" class="card-body onlinesbody">
-                          <p *ngIf="!getFollowings().length" class="placeholder">No followings yet</p>
-                          <div *ngFor="let person of follows; let i=index" class="carditem people">
-                             <div class="card-header profileheader person">
-                                  <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:5%;position:absolute;height:30px;width:30px;top:25%;">
-                                    <img [src] = getDp(person.person)/>
-                                  </div>
-                                  <p class="dept personname">
-                                      {{person.person.info.personal.firstName}}&nbsp;<span class="timetaken chattime">
-                                          <button title="Unfollow" (click) = "unFollow(person)" class="btn btn-sm btn-primary inputs  mainbtn connection-btn"    >Following</button></span></p>
-                                  <h1 *ngIf="person.follower" style="color:lightgrey" class="dept latestmsg">Follows you</h1>
-                              </div>
-
-                              <!-- <div class="card-header profileheader person">
-                                  <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:5%;position:absolute;height:30px;width:30px;top:25%;"></div>
-                                  <p class="dept personname">Amina Sulaiman<span class="timetaken chattime">&nbsp;25min&nbsp;</span></p>
-                                  <h1 class="dept latestmsg">call you later</h1>
-                              </div> -->
-
                           </div>
                       </div>
                   </div>
+                  <div style="width:200px" *ngIf = "rightCard ==='followings'" class="card card-secondary historycard rightcard medication profile-card">
+                    <div class="card-header grapheader">
+                        <h1 style="padding-left:20px;" class="dept headtitle">FOLLOWING<span (click)="back('profile')" class="backIcon">
+                          <i title="Back" class="icon ion-android-arrow-back "></i></span>
+                        </h1>
+                    </div>
+                   <div  class="card-body onlinesbody">
+                        <!-- <p *ngIf="!getFollowings().length" class="placeholder">No followings yet</p> -->
+                        <div *ngFor="let p of getFollowings(); let i=index" class="carditem people">
+                           <div class="card-header profileheader person">
+                                <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:5%;position:absolute;height:30px;width:30px;top:25%;">
+                                  <img [src] = getDp(p.person)/>
+                                </div>
+                                <p class="dept personname">
+                                    {{p.person.info.personal.firstName+' '+p.person.info.personal.lastName}}&nbsp;<span class="timetaken chattime">
+                                      </span></p>
+                                      <i  title='Unfollow' class="icon ion-ios-minus-empty follow" style="font-size:22px;position: absolute;left:88%; bottom:4px; cursor:pointer"></i>
+                                      <h1 class="dept latestmsg">{{p.person.info.official.department}}</h1>
+                                <!-- <h1 *ngIf="person.follower" style="color:lightgrey" class="dept latestmsg">Follows you</h1> -->
+                            </div>
+                        </div>
+                    </div>
                 </div>
+              </div>
             </div>
         </div>
       </div>

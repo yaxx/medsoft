@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy} from '@angular/core';
 import {DataService} from '../../services/data.service';
 import {Product, Item, StockInfo} from '../../models/inventory.model';
+import {Person} from '../../models/person.model';
 import { sortBy } from 'sort-by-typescript';
 import {SocketService} from '../../services/socket.service';
 @Component({
@@ -40,11 +41,11 @@ export class InventoryComponent implements OnInit {
               prod.stockInfo.quantity = prod.stockInfo.quantity - i.purchased;
               prod.stockInfo.sold = prod.stockInfo.sold + i.purchased;
               } else {
-     
+
               }
             });
           });
-     
+
     })
     this.socket.io.on('refund', items => {
       items.forEach(i => {
@@ -53,26 +54,29 @@ export class InventoryComponent implements OnInit {
               prod.stockInfo.quantity = prod.stockInfo.quantity + i.purchased;
               prod.stockInfo.sold = prod.stockInfo.sold - i.purchased;
               } else {
-     
+
               }
             });
           });
-     
+
     })
   }
   switchMode(mode) {
    this.mode = mode;
   }
   switchToEdit() {
-    this.product = this.products.filter((pr) => pr.selected)[0];
+    this.product = this.products.filter((p) => p.selected)[0];
     this.input = this.product.item.name + ' ' + this.product.item.mesure + this.product.item.unit;
     this.mode = 'edit';
 
   }
-  
+
   getProducts() {
     this.dataService.getProducts().subscribe((p: any) => {
-      this.products = p.inventory;
+      this.products = p.inventory.map(product => ({
+        ...product,
+        selected: false
+      }));
     });
   }
   getItems() {
@@ -107,7 +111,7 @@ export class InventoryComponent implements OnInit {
         this.sortBy = 'sold';
         break;
       case 'added':
-        this.products.sort((m, n) => new Date(n.addedOn).getTime() - new Date(m.addedOn).getTime());
+        this.products.sort((m, n) => new Date(n.dateCreated).getTime() - new Date(m.dateCreated).getTime());
         this.sortBy = 'added';
         break;
         default:
@@ -156,13 +160,13 @@ export class InventoryComponent implements OnInit {
     }
   pickSelection() {
     this.mode = 'edit';
-    this.editables = this.products.slice().filter((p) => p.selected);
+    this.editables = this.products.filter(p => p.selected);
     this.count = this.editables.length;
     this.product = {...this.editables.shift()};
     this.input = this.product.item.name + ' ' + this.product.item.mesure + this.product.item.unit;
   }
   next() {
-    if (this.product.addedOn) {
+    if (this.product.dateCreated) {
         if (this.item.name) {
           this.product.item = this.item;
           this.edited.unshift(this.product);
@@ -210,7 +214,7 @@ export class InventoryComponent implements OnInit {
     this.temProducts = this.temProducts.filter(product => product.item._id !== p.item._id);
   }
 
-  searchItem (i) {
+  searchItems (i) {
     if (i === '') {
       this.temItems = new Array<Item>();
     } else {

@@ -56,11 +56,11 @@ export class PatientComponent implements OnInit {
      private route: ActivatedRoute,
       ) { }
   ngOnInit() {
+    this.myDepartment = this.route.snapshot.params['dept'];
     this.getPatients();
     this.getClient();
     // this.getProducts();
     this.getItems();
-    this.myDepartment = this.route.snapshot.params['dept'];
     this.uploader.onBuildItemForm = (fileItem: any, form: any) => {
       form.append('id', this.patients[this.curIndex]._id);
      };
@@ -76,7 +76,7 @@ export class PatientComponent implements OnInit {
     });
   }
   getDp(p: Person) {
-    return 'http://localhost:5000/api/dp/' + p.info.personal.dpUrl;
+    return 'http://localhost:5000/api/dp/' + p.info.personal.avatar;
   }
   getClient() {
     this.dataService.getClient().subscribe((client: any) => {
@@ -120,9 +120,9 @@ export class PatientComponent implements OnInit {
       let myPatients;
       if(this.myDepartment) {
          myPatients = patients.filter(
-         p => p.record.visits[0].dept === this.myDepartment && p.record.visits[0].status === 'addmited');
+         p => p.record.visits[0].dept === this.myDepartment && p.record.visits[0].status === 'Admit');
       } else {
-       myPatients = patients.filter(p => p.record.visits[0].status === 'addmited');
+       myPatients = patients.filter(p => p.record.visits[0].status === 'Admit');
      
       }
       myPatients.forEach(p => {
@@ -214,7 +214,7 @@ export class PatientComponent implements OnInit {
         this.nowSorting = 'Age';
         break;
       case 'date':
-        this.patients.sort((m, n) => new Date(n.dateCreated).getTime() - new Date(m.dateCreated).getTime());
+        this.patients.sort((m, n) => new Date(n.createdAt).getTime() - new Date(m.createdAt).getTime());
         this.nowSorting = 'Date added';
         break;
 

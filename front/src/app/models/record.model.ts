@@ -3,18 +3,18 @@ import {Product} from './inventory.model';
 
 export class Record {
   constructor(
-    public complains: Complain[] = new Array<Complain>(),
-    public famHist: FamHist[] = new Array<FamHist>(),
+    public complains: Complain[] = [],
+    public famHist: FamHist[] = [],
     public notes: Note[] = new Array<Note>(),
     public vitals: Vitals = new Vitals(),
-    public conditions: Condition[] = new Array<Condition>(),
-    public allegies: Allegy[] = new Array<Allegy>(),
-    public devices: Device[] = new Array<Device>(),
-    public visits: Visit[] = new Array<Visit>(),
-    public appointments: Appointment[] = new Array<Appointment>(),
+    public conditions: Condition[] = [],
+    public allegies: Allegy[] = [],
+    public devices: Device[] = [],
+    public visits: Visit[] = [],
+    public appointments: Appointment[] = [],
     public medications: any[] = new Array<any>(new Array<Medication>()),
-    public test: Test[] = new Array<Test>(),
-    public scans: Scan[] = new Array<Scan>(),
+    public test: Test[] = [],
+    public scans: Scan[] = [],
     public sugery: any[] = [],
     public deathNote: DeathNote = new DeathNote()
      ) {}
@@ -32,7 +32,7 @@ export class Record {
  export class Bed {
     constructor(
       public _id?: string,
-      public numb: number = null,
+      public number: number = null,
       public status: Boolean = false
       ) {}
 }
@@ -45,10 +45,11 @@ export class Medication {
      public pausedOn: Date = null,
      public lastTaken: Date = null,
      public selected: boolean = false,
-     public dateAdded: Date = new Date(),
+     public dateCreated: Date = new Date(),
      public purchased: number = 0,
      public by: any =  null,
      public _id?: string
+    
      ) {}
 }
 export class Complain {
@@ -132,8 +133,8 @@ export class Device {
   }
 export class Visit {
   constructor(
-    public _id?: string,
-    public dept: string = 'gopd',
+    public hospital?: any,
+    public dept: string = 'GOPD',
     public status: string = 'queued',
     public visitedOn: Date = new Date(),
     public addmittedOn: Date = null,

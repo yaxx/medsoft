@@ -52,14 +52,14 @@ export class DataService {
        `${this.uri}/consultation/${dept}`, {withCredentials: true}
        );
   }
-  follow(me, you) {
-    return this.http.post(
-      `${this.uri}/follow`, {myconnect:me, yourconnect:you}, {withCredentials: true}
+  follow(id) {
+     return this.http.post(
+      `${this.uri}/follow`, {id:id}, {withCredentials: true}
     );
   }
-  followBack(me, you, note) {
+  followBack(id) {
     return this.http.post(
-      `${this.uri}/followback`, {id:me, yourid: you.person._id, yourcon:you.person.connections, note:note}, {withCredentials: true}
+      `${this.uri}/followback`, {id:id}, {withCredentials: true}
       );
   }
   unFollow(me, you) {
@@ -103,6 +103,7 @@ export class DataService {
   }
 
   createClient(client) {
+    console.log(client)
     return this.http.post(
       `${this.uri}/new-client`, client, {withCredentials: true});
   }
@@ -112,7 +113,6 @@ export class DataService {
   }
 
   updateRecord(patient) {
-
     return this.http.post(
       `${this.uri}/update-record`, patient , {withCredentials: true});
  }
@@ -138,9 +138,9 @@ export class DataService {
      return this.http.post(
       `${this.uri}/update-medication`, {id: i, medication: m}, {withCredentials: true});
   }
-  updateBed(pat, depts, client) {
+  updateBed(patient, client) {
     return this.http.post(
-      `${this.uri}/updatebed`, {patient: pat , departments: depts, cid: client}, {withCredentials: true});
+      `${this.uri}/updatebed`, {patient, client}, {withCredentials: true});
   }
   updateNote(i, n) {
     return this.http.post(

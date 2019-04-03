@@ -2,26 +2,6 @@ import {Record} from './record.model';
 import {Message} from './message.model';
 
 
-export class Person {
-    constructor(
-      public _id?: string,
-      public info: Info = new Info(),
-      public connections: any = null,
-      public record: Record = new Record(),
-      public dateCreated: Date = new Date(),
-      public card?: any
-      ) {}
-  }
-export class Connection {
-    constructor(
-      public person?: string,
-      public following?: boolean,
-      public follower?: boolean,
-      public blocked?: boolean,
-      public conversations?: Message[]
-      ) {}
-
-  }
  
   export class Notification {
     constructor(
@@ -29,30 +9,34 @@ export class Connection {
       public noteType: string = null,
       public header: string = null,
       public sendOn: Date = new Date()
-      ) {}
+    ) {}
 
   } 
-export class Info {
-  constructor(
-    public lastLogin: Date = new Date(),
-    public online: boolean = true,
-    public status: string = null,
-    public personal: Personal = new Personal(),
-    public official: Official = new Official(),
-    public contact: Contact = new Contact(),
-    public insurance: Insurance = new Insurance(),
-    public _id?: string
-    ) {}
-  }
-
   export class Official {
     constructor(
-      public hospId: string = null,
-      public staffId: string = null,
-      public department:string = null,
-      public role:string = null
-      ) {}
+      public _id?: string,
+      public hospital: any = null,
+      public id: string = null,
+      public department: string = null,
+      public role: string = null,
+      public dateCreated = new Date()
+    ) {}
   }
+  
+
+  export class Connection {
+    constructor(
+      public person: any = null,
+      public following: boolean = false,
+      public follower: boolean = false,
+      public blocked: boolean = false,
+      public dateCreated: Date = new Date(),
+      public lastChated: Date = new Date(),
+      public messages: any[] = new Array<any>(new Array<Message>(new Message()))
+      ) {}
+
+  }
+
   
   export class Connections {
     constructor(
@@ -62,11 +46,9 @@ export class Info {
     ) {}
 
   }
-
   
 export class Personal {
-  constructor( public hopitals:any[] = [],
-    public hospNum: string[] = [],
+  constructor(
     public firstName: string = null,
     public lastName: string = null,
     public username: string = null,
@@ -80,27 +62,66 @@ export class Personal {
     public mstatus: string = null,
     public cardType: string = null,
     public cardNum: number = null,
-    public dpUrl: string = 'user.jpg',
-    public coverUrl: string = null
+    public avatar: string = 'avatar.jpg'
+   
      ) {}
 }
-export class Contact {
-  constructor(public mobile: number = null,
+
+export class Me {
+  constructor (
+    public mobile: number = null,
     public email: string = null,
-    public state: string = null,
-    public lga: string =  null,
     public address: string = null,
-    public emgName: string = null,
-    public emgMobile: number = null,
-    public emgEmail: string = null,
-    public emgRel: string = null,
-    public emgOccupation: string = null) {}
+    public state: string = null,
+    public lga: string =  null
+  ) {}
+}
+
+export class Emergency {
+  constructor(
+    public name: string =  null,
+    public mobile: number = null,
+    public email: string = null,
+    public address: string = null,
+    public rel: string = null
+  
+  ) {}
+}
+
+export class Contact {
+  constructor(
+    public me: Me = new Me(),
+    public emergency: Emergency = new Emergency()
+  ) {}
+}
+export class Info {
+  constructor(
+    public _id?: string,
+    public personal: Personal = new Personal(),
+    public official: Official = new Official(),
+    public contact: Contact = new Contact(),
+    public lastLogin: Date = new Date(),
+    public online: boolean = true
+  ) {}
 }
 export class Insurance {
   constructor(public name: string = null,
     public mobile: number = null ,
     public rel: string = null,
     public employer: string = null,
-    public ssn: string = null ) {}
+    public ssn: string = null 
+    ) {}
 
+}
+
+export class Person {
+  constructor(
+    public _id?: string,
+    public info: Info = new Info(),
+    public connections: any   = null,
+    public record: Record = new Record(), 
+    public createdAt?: Date,
+    public modifiedAt?: Date,
+    public card?: any
+    ) {}
 }

@@ -83,3 +83,6 @@ top:12%;
   font-weight: bold;
 
 }
+.drugs-table td {
+  font-size:11px;
+}

@@ -19,12 +19,12 @@
     </div>
     <div style='width:49%; margin-right:5px; ' class="form-group vitals-section formGroup" >
         <label style='font-size:8px'  for="pwd" class="labelss">PASSWORD</label>
-        <input style= 'font-size:11px' [(ngModel)]="client.info.pwd"  type=password name="pwd" class=" inputs dataInfo patientdata"  placeholder="new password"/>
+        <input style= 'font-size:11px' [(ngModel)]="cred.password"  type=password name="pwd" class=" inputs dataInfo patientdata"  placeholder="new password"/>
 
     </div>
     <div style='width:49%;' class="form-group vitals-section formGroup">
         <label style='font-size:8px' for="comfirm" class="labelss">COMFIRM PASSWORD</label>
-        <input style= 'font-size:11px' [(ngModel)]="client.info.comfirm"  type="password" name="comfirm" class=" inputs dataInfo patientdata" id="" placeholder="comfirm passoword"/>
+        <input style= 'font-size:11px' [(ngModel)]="cred.comfirm"  type="password" name="comfirm" class=" inputs dataInfo patientdata" id="" placeholder="comfirm passoword"/>
 
     </div>
     <div class="form-group vitals-section address">
@@ -42,8 +42,9 @@
 </div>
 <div *ngIf="signin">
     <form style='height:80%;'>
-    <h6 style='width:100%;text-align:center;display:inline-block;position:relative;color: #1da1f2;'> Sign in</h6>
-        <div class="formGroup newdept"><input name="username" [(ngModel)]='user.username' (focus)='hideError()' style='font-size:11px;' class="form-control inputs patientdata newpatient" type="text" auto-complete = 'off' placeholder="Username"><input (focus)='hideError()' name="password" [(ngModel)]='user.pwd' style='font-size:11px;' class="form-control inputs patientdata newpatient" type="password" placeholder="Password">
+    <h6 style='width:100%;text-align:center;display:inline-block;position:relative;color: #1da1f2;'>
+     Sign in</h6>
+        <div class="formGroup newdept"><input name="username" [(ngModel)]='user.username' (focus)='hideError()' style='font-size:11px;' class="form-control inputs patientdata newpatient" type="text" auto-complete = 'off' placeholder="Username"><input (focus)='hideError()' name="password" [(ngModel)]='user.password' style='font-size:11px;' class="form-control inputs patientdata newpatient" type="password" placeholder="Password">
         </div>
     </form>
     <button (click)="login()"  style=" width: 46.5%;left:26.5%;color: #1da1f2;   border-radius:4px; font-size:11px;  color:white; margin-top:7px; "  type="button" class="btn btn-sm btn-primary inputs mainbtn" >

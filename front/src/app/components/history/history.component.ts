@@ -21,7 +21,9 @@ export class HistoryComponent implements OnInit {
   ngOnInit() {
     let day = null;
     let months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC']
-    this.patient = this.dataService.getCachedPatient(this.route.snapshot.params['id']);
+    this.dataService.getHistory(this.route.snapshot.params['id']).subscribe((patient:Person)=>{
+      this.patient = patient;
+    });
     this.patient.record.vitals.bp.forEach((bp,i) => {
 
       this.chartData.push(bp.value)
@@ -33,7 +35,7 @@ export class HistoryComponent implements OnInit {
             maintainAspectRatio: false,
             layout:{
                 padding: {
-                    left:5,
+                    left: 5,
                     right:20,
                     top:0,
                     bottom:0

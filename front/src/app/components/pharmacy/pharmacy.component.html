@@ -146,10 +146,10 @@
                         <div *ngFor="let medic of patient.record.medications; let j = index" class="carditem priscriptioncontainer order">
                             <div  class="timeline condition drugtimeline">
                                 <p class="timelinedate">
-                                  {{medic[0].dateAdded|date:'dd'}}
+                                  {{medic[0].dateCreated|date:'dd'}}
                                 </p>
                                 <p class="timelinedate month">
-                                  {{medic[0].dateAdded|date:'MMM'|uppercase}}
+                                  {{medic[0].dateCreated|date:'MMM'|uppercase}}
                                 </p>
                             </div>
                             <div *ngFor ="let m of medic; let k= index" class="priscription drug">
@@ -204,10 +204,10 @@
                         </a>
                     </div>
                     <div *ngIf='cardView.orders' class="card-body orderbody"style="width:56%;margin:auto;height: 255px;">
-                      <div  *ngFor="let medic of patients[curIndex]?.record.medications; let i = index"  class="carditem priscriptioncontainer order">
+                      <div  *ngFor="let medic of medications; let i = index"  class="carditem priscriptioncontainer order">
                           <div  class="timeline condition drugtimeline">
-                              <p class="timelinedate"> {{medic[0].dateAdded|date:'dd'}}</p>
-                              <p class="timelinedate month"> {{medic[0].dateAdded|date:'MMM'|uppercase}}</p>
+                              <p class="timelinedate"> {{medic[0]?.dateCreated|date:'dd'}}</p>
+                              <p class="timelinedate month"> {{medic[0]?.dateCreated|date:'MMM'|uppercase}}</p>
                           </div>
                           <div *ngFor ="let m of medic; let j= index" class="priscription drug">
                               <h6 class="dept">{{m.product.item.name}}&nbsp;<span class="predata">
@@ -373,8 +373,8 @@
                     <!-- <div *ngIf="!medicView" style="width:54%;margin:auto" class="card-body orderbody">
                         <div *ngFor="let medic of patients[curIndex]?.record.medications; let i = index" class="carditem priscriptioncontainer order">
                             <div  class="timeline condition drugtimeline">
-                                <p class="timelinedate">{{medic[0]?.dateAdded|date:'dd'}}</p>
-                                <p class="timelinedate month">{{medic[0]?.dateAdded|date:'MMM'|uppercase}}</p>
+                                <p class="timelinedate">{{medic[0]?.dateCreated|date:'dd'}}</p>
+                                <p class="timelinedate month">{{medic[0]?.dateCreated|date:'MMM'|uppercase}}</p>
                             </div>
                             <div *ngFor ="let m of medic; let j = index" class="priscription drug">
                                 <h6 class="dept">{{m.product.item.name}}&nbsp;<span class="predata">
@@ -385,7 +385,7 @@
                                 <h6 class="dept previnfo">Dosage&nbsp;<span class="predata">{{m.priscription.piriod+' '+ '|'+' '+m.priscription.freq}} </span>
                                 </h6>
                                 <h6 class="dept previnfo"style="color:lightgrey">
-                                  {{m.dateAdded|date:'hh:mma'|lowercase}}<span class="predata lastadministered" style="left:49%;width:97px; position:absolute; text-align:right">
+                                  {{m.dateCreated|date:'hh:mma'|lowercase}}<span class="predata lastadministered" style="left:49%;width:97px; position:absolute; text-align:right">
                                     {{m.lastTaken|date:'dd MMM hh:mma'|lowercase}}</span>
                                 </h6>
                             </div>

@@ -47,12 +47,13 @@ const routes: Routes = [
              { path: '', component: RegistrationComponent}
           ]
         },
-  {path: ':dept/consultation', component: MainComponent,
+  {path: ':dept/consultation', component: MainComponent,pathMatch: 'full'
           children: [
-            {path: 'appointments', component: AppointmentsComponent},
-            { path: 'addmisions', component: PatientComponent},
-            { path: 'me', component: MessagesComponent},
-            { path: '', component: ConsultationComponent}
+            {path: 'appointments', component: AppointmentsComponent,pathMatch: 'full'},
+            { path: 'addmisions', component: PatientComponent,pathMatch: 'full'},
+            { path: 'history/:id', component: HistoryComponent,pathMatch: 'full'},
+            { path: 'me', component: MessagesComponent,pathMatch: 'full'},
+            { path: '', component: ConsultationComponent,pathMatch: 'full'}
           ]
         },
   {path: ':dept/ward', component: MainComponent,
@@ -64,7 +65,7 @@ const routes: Routes = [
   {path: 'pharmacy', component: MainComponent,
           children: [
             { path: 'me', component: MessagesComponent},
-            { path: 'addmisions', component: PatientComponent},
+          
             { path: '', component: PharmacyComponent}
           ]
         },
@@ -107,7 +108,7 @@ const routes: Routes = [
     FormsModule,
     HttpClientModule,
     FileUploadModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes,{ enableTracing: true })
   ],
   providers: [DataService, CookieService, SocketService],
   bootstrap: [AppComponent]

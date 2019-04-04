@@ -166,7 +166,7 @@ const personScheema = new Scheema({
                         freq: String,
                         piriod: Number,
                         extend: String,
-                        priscribedOn: Date
+                     
                     },
                     paid: Boolean,
                     lastTaken: Date,

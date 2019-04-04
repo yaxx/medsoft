@@ -25,8 +25,9 @@ export class DataService {
   setCachedPatients(patients: Person[]) {
      this.cachedPatients = patients;
   }
-  getCachedPatient(id) {
-    return this.cachedPatients.filter((p) => p._id === id)[0];
+  getHistory(id) {
+    return this.http.get(
+      `${this.uri}/history/${id}`, {withCredentials: true} );
   }
   getMyAccount(){
     return this.http.get(

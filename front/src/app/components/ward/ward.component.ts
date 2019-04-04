@@ -194,7 +194,7 @@ export class WardComponent implements OnInit {
   }
   getBeds(i: number) {
     const dept = this.client.departments.filter((d) =>
-     d.name.toLowerCase() === this.patients[i].record.visits[0].dept)[0];
+     d.name === this.patients[i].record.visits[0].dept)[0];
      return  dept.beds.filter(bed => !bed.allocated)
   }
   changeBed(i: number) {

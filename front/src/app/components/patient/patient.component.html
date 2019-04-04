@@ -269,7 +269,7 @@
                       <img [src] = getDp(patient)/>
                   </div>
                   </div>
-                  <a href="#" title="View history" [routerLink]="['/history/', patient._id]" routerLinkActive="router-link-active" class="patien-name">
+                  <a href="#" title="View history" [routerLink]="['../history/', patient._id]" routerLinkActive="router-link-active" class="patien-name">
                   {{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}<span class="predata editicon"></span>
                 </a>
                   <div class="card-body mainbody">

@@ -66,20 +66,22 @@ export class PharmacyComponent implements OnInit {
     this.sortMenu = true;
   }
   getPatients() {
-    let orders;
+
     this.dataService.getPatients().subscribe((patients: Person[]) => {
-      orders = patients.filter(patient=>patient.record.medications[0].length);
-      orders.forEach(p => {
-        p.card = {menu: false, view: 'front'};
-      });
-      this.patients = orders;
-      this.dataService.setCachedPatients(orders);
+    this.patients = patients.filter(patient=>patient.record.medications[0].length)
+    .map( patient => ({
+        ...patient,
+        card: {menu: false, view: 'front'}
+       
+      }));
+      
+      this.dataService.setCachedPatients(this.patients);
     });
   }
   selectPatient(i: number) {
     this.curIndex = i;
     this.patient = this.patients[i];
-     this.medications = this.patient.record.medications.reverse();
+     this.medications = this.patient.record.medications.map(medication=>medication.map(medic=>({...medic,selected:false})))
     }
   switchViews(view) {
     switch(view){
@@ -146,19 +148,19 @@ export class PharmacyComponent implements OnInit {
   }
   selectItem(i: number, j: number) {
    this.curIndex = i;
-   this.patients[this.curIndex].record.medications[i][j].selected =
-   this.patients[this.curIndex].record.medications[i][j].selected ? false : true;
+   this.medications[i][j].selected = !this.medications[i][j].selected;
+  
    if (this.patients[this.curIndex].record.medications[i][j].paid) {
     // $('.trigger').click();
   } else {
   }
   }
   medidcationsSelected(i: number) {
-    return this.patients[this.curIndex].record.medications.some(med => med.some(m => m.selected));
+    return this.medications.some(med => med.some(m => m.selected));
   }
   getSelections(i: number) {
     const selected = [];
-     this.patients[i].record.medications.forEach(group => {
+     this.medications.forEach(group => {
        group.forEach(medic => {
          if (medic.selected) {
             selected.push(update(medic, {
@@ -205,7 +207,7 @@ export class PharmacyComponent implements OnInit {
         });
       });
     this.edited.forEach(medication => {
-      this.patients[this.curIndex].record.medications.forEach(group => {
+      this.medications.forEach(group => {
         group.forEach(medic => {
           if (medic._id === medication._id) {
             medic.product.stockInfo.quantity = medic.product.stockInfo.quantity + medication.purchased;
@@ -236,7 +238,7 @@ export class PharmacyComponent implements OnInit {
   comfirmPayment() {
     let inlinePatients = [];
     this.edited.forEach(medication => {
-     this.patients[this.curIndex].record.medications.forEach(group => {
+     this.forEach(group => {
       group.forEach(medic => {
         if (medic._id === medication._id) {
           medic.purchased = medication.purchased;
@@ -280,11 +282,11 @@ export class PharmacyComponent implements OnInit {
   this.runTransaction(inlinePatients,'purchase');
   }
   somePaid(i) {
-    return this.patients[this.curIndex].record.medications[i].some(m => m.paid );
+    return this.medications[i].some(m => m.paid );
    }
   getTransTotal(i) {
     let total = 0;
-    this.patients[this.curIndex].record.medications[i].forEach((m) => {
+    this.medications[i].forEach((m) => {
       total = total + m.purchased * m.product.stockInfo.price;
     });
     return total;
@@ -296,12 +298,12 @@ export class PharmacyComponent implements OnInit {
      });
      return total;
   }
-  getOrders() {
-    this.dataService.getOrders().subscribe((patients: Person[]) => {
-      this.patients = patients.filter(p => p.record.medications[0].length);
-      console.log(patients);
-    });
-  }
+  // getOrders() {
+  //   this.dataService.getOrders().subscribe((patients: Person[]) => {
+  //     this.patients = patients.filter(p => p.record.medications[0].length);
+  //     console.log(patients);
+  //   });
+  // }
   getDp(p: Person){
     return 'http://localhost:5000/api/dp/' + p.info.personal.avatar;
   }

@@ -1,58 +1,41 @@
 
-<div class="sidenav">
-  <a href="#" class="home homemenu" title="Menu">
-      <span class="homespan">
-          <i class="material-icons homeicon">sort</i>
-      </span>
-  </a>
 
-  <a href="#" [routerLink]="['/pharmacy']"  class="home dashboard" title="Dashboard">
-      <span class="homespan">
-          <i class="icon ion-android-apps homeicon"></i>
-      </span>
-  </a>
-  <a href="#" [routerLink]="['/information']" routerLinkActive="router-link-active"  class="home patienmenu" title="Patients">
-      <span class="homespan">
-          <i class="icon ion-ios-people-outline homeicon"></i>
-      </span>
-  </a>
-  <a href="#" [routerLink]="['/consultation']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Appointments">
-      <span class="homespan">
-          <i class="icon ion-ios-calendar-outline homeicon"></i>
-      </span>
-  </a>
-  <a href="#" [routerLink]="['/products']" routerLinkActive="active"  class="home cartmenu" title="Products">
-      <span class="homespan"> <i class="icon ion-ios-cart-outline homeicon"></i></span></a>
-  <a href="#" [routerLink]="['/ward']" routerLinkActive="router-link-active"   class="home wardmenu" title="Ward"><span class="homespan"><i class="material-icons homeicon wardicon">airline_seat_individual_suite</i></span></a>
-  <a href="#"  [routerLink]="['/account']" routerLinkActive="router-link-active" class="home settings" title="Settings"><span class="homespan"><i class="icon ion-ios-gear-outline homeicon"></i></span></a>
-</div>
 <nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:0px">
-<div class="container">
-    <a class="navbar-brand" href="#">
-        <em>MS</em>
-    </a>
-    <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navcol-1">
-        <ul class="nav navbar-nav"></ul>
-        <form class="form-inline mr-auto searchform" target="_self">
-            <div class="form-group">
-                <label for="search-field">
-                    <i class="icon ion-ios-search searchicon" title="Search"></i>
-                </label>
-                <input autocomplete="off" style="border-radius:30px; left: 405px; width:220px;background-color: rgb(243, 248, 247); margin: auto;" class="form-control search-field" type="search" name="search" id="search-field" placeholder="Search Patient">
-            </div>
-        </form>
-    </div>
-</div>
-<!-- <i style="left:20%;" class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i> -->
-<i [routerLink]="['/messages']" routerLinkActive="router-link-active"  style="left:25%; font-size: 22px;" class="icon ion-ios-chatboxes-outline arrow buble" title="Messages"></i>
-<div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:90%;position:absolute;height:30px;width:30px;bottom:-8%"></div>
-</nav>
+  <div class="container">
+      <a class="navbar-brand" href="#">
+          <em>MS</em>
+      </a>
+      <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navcol-1">
+          <ul class="nav navbar-nav"></ul>
+          <form class="form-inline mr-auto searchform" target="_self">
+              <div class="form-group">
+                  <label style="left:500px;position:absolute;"  for="search-field">
+                      <i class="icon ion-ios-search searchicon" title="Search"></i>
+                  </label>
+                  <input autocomplete = "off" style="border-radius:30px;
+                  left: 270px;
+                  width:220px;
+                  background-color: rgb(243, 248, 247);
+                  margin: auto;"
+                  class="form-control search-field"
+                  type="search" name="search" id="search-field" placeholder="Search patient">
+              </div>
+          </form>
+        
+         
+      </div>
+  </div>
 
+  <i style="left:80%;" class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
 
+  <i [routerLink]="['./messages']" data-target="#newModal" data-toggle="modal" style="left:83%;" class="icon ion-ios-person-outline arrow buble" id="add" title="Me" ></i>
+
+  <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:90%;position:absolute;height:30px;width:30px;bottom:-8%"></div>
+  </nav>
 
 <div style="padding-top:40px" class="container history-container">
     <div class="row history-row">
@@ -183,7 +166,7 @@
                              <img style='height:100%; width:100%; object-fit:cover; border-radius:4px;' [src] = getDp(patient)/>
                             </div>
                              <h1 class="dept previnfo noterinfo patientname">
-                               {{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}} &nbsp;<span class="predata notetime">{{patient.dateCreated|date:'longDate'}}</span></h1>
+                               {{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}} &nbsp;<span class="predata notetime">{{patient.createdAt|date:'longDate'}}</span></h1>
                           <h1 class="dept previnfo patientname">Gender:&nbsp;<span class="predata">{{patient.info.personal.gender}}</span></h1>
                             <h1 class="dept previnfo patientname">Age:&nbsp;<span class="predata">{{patient.info.personal.dob|dob}}</span></h1>
                             <h1 class="dept previnfo patientname">Blood Group:&nbsp;<span class="predata">O+</span></h1>

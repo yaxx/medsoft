@@ -107,6 +107,16 @@ getPatients: async (req, res) => {
   }
    
 },
+getHistory: async (req, res) => {
+  try {
+    const patient = await Person.findById(req.params.id)
+    res.send(patient) 
+  }
+  catch(e){
+    throw e
+  }
+   
+},
 
 addClient: async (req, res) => {
   try {

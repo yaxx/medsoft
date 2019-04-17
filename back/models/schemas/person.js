@@ -75,7 +75,7 @@ const personScheema = new Scheema({
         notes: [{
             note:String,
             noteType:String,
-            noter:{type: Scheema.Types.ObjectId, ref: 'Staff'},
+            noter:{type: Scheema.Types.ObjectId, ref: 'Person'},
             dateCreated:Date
         }],
         vitals: {

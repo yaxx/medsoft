@@ -1,50 +1,14 @@
-
-<div class="sidenav">
-    <a href="#" class="home homemenu" title="Menu">
-        <span class="homespan">
-            <i class="material-icons homeicon">sort</i>
-        </span>
-    </a>
-
-    <a href="#" [routerLink]="['/pharmacy']"  class="home dashboard" title="Dashboard">
-        <span class="homespan">
-            <i class="icon ion-android-apps homeicon"></i>
-        </span>
-    </a>
-    <a href="#" [routerLink]="['/information']" routerLinkActive="router-link-active"  class="home patienmenu" title="Patients">
-        <span class="homespan">
-            <i class="icon ion-ios-people-outline homeicon"></i>
-        </span>
-    </a>
-    <a href="#" [routerLink]="['/consultation']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Appointments">
-        <span class="homespan">
-            <i class="icon ion-ios-calendar-outline homeicon"></i>
-        </span>
-    </a>
-    <a href="#" [routerLink]="['/products']" routerLinkActive="active"  class="home cartmenu" title="Products">
-        <span class="homespan"> <i class="icon ion-ios-cart-outline homeicon"></i></span></a>
-
-    <a href="#" [routerLink]="['/ward']" routerLinkActive="router-link-active"   class="home wardmenu" title="Ward"><span class="homespan"><i class="material-icons homeicon wardicon">airline_seat_individual_suite</i></span></a>
-
-    <a href="#"  [routerLink]="['/account']" routerLinkActive="router-link-active" class="home settings" title="Settings"><span class="homespan"><i class="icon ion-ios-gear-outline homeicon"></i></span></a>
-
-
-  </div>
-  <nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:0px">
+<nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:0px">
   <div class="container">
       <a class="navbar-brand" href="#">
           <em>MS</em>
       </a>
-      <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="navbar-toggler-icon"></span>
-      </button>
 
   </div>
-  <i style="left:20%;" class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
-
-  <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:90%;position:absolute;height:30px;width:30px;bottom:-8%"></div>
-  </nav>
+  <i style="left:80%;" class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
+    <i [routerLink]="['./me']" data-target="#newModal" data-toggle="modal" style="left:83%;" class="icon ion-ios-person-outline arrow buble" id="add" title="Me" ></i>
+<div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:90%;position:absolute;height:30px;width:30px;top:5px; margin-bottom:0px;"> <img style='height:100%; width:100%; object-fit:cover;' [src] = getMyDp()/></div>
+</nav>
 
 
 
@@ -124,14 +88,13 @@
               <form style='height:150px;'>
                 <div class="formGroup newdept">
                     <label style='font-size:8px'  for="email" class="labelss">DEPARTMENT</label>
-                    <select style='font-size:11px' (change)=checkDept($event.target.value)  class=" patientdata inputs dataInfo newpatient" name="department">
+                    <select (change)=selectDept($event.target.value) [(ngModel)]="department.name" style='font-size:11px'   class=" patientdata inputs dataInfo newpatient" name="department">
                           <option *ngFor="let dept of departments">{{dept.name}}</option>
                     </select>
                 </div>
-
-                <div *ngIf="selectedDept.hasWard" class="formGroup newdept">
+                <div *ngIf="department.hasWard" class="formGroup newdept">
                     <label style='font-size:8px'  for="email" class="labelss">#BEDS</label>
-                    <input [min]='0' [(ngModel)]="bedNumber"  name="numofBeds" class="form-control inputs patientdata" type="number" placeholder="Number of beds">
+                    <input [min]='1' [(ngModel)]="department.numOfBeds"  name="numofBeds" class="form-control inputs patientdata" type="number" placeholder="Number of beds">
                 </div>
               </form>
               <div (click)="addDepartment()"  style='left:78%; height:32px;width:32px;position:absolute;'
@@ -141,7 +104,6 @@
                        <i *ngIf='!loading' style="color:#1da1f2;bottom:-10px;" class="icon ion-ios-checkmark-empty flotericon">
                       </i>
                 </div>
-
         </div>
         <div class="card card-secondary historycard midlecard formcard" style="margin:auto;">
             <div class="card-header grapheader" style="border:none;">
@@ -200,11 +162,11 @@
               </div>
               <div class="formGroup newdept">
                     <label style='font-size:8px'  for="departments" class="labelss">DEPARTMENT</label>
-                    <select (change)='checkStaff($event.target.value)' style='font-size:11px'   class="patientdata inputs dataInfo newpatient" name="department">
+                    <select [(ngModel)]="staff.info.official.department"  style='font-size:11px'   class="patientdata inputs dataInfo newpatient" name="department">
                        <option *ngFor="let d of client.departments">{{d.name}}</option>
                 </select>
             </div>
-            <div *ngIf="selectedDept2.hasWard"  class="formGroup newdept">
+            <div *ngIf="isAddminStaff()"  class="formGroup newdept">
                     <label style='font-size:8px'  for="role" class="labelss">DESIGNATION</label>
                     <select [(ngModel)]="staff.info.official.role" class="patientdata inputs dataInfo newpatient" name="role">
                       <option>Doctor</option>

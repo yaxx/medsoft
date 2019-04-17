@@ -193,20 +193,24 @@
             <div class="modal-body" style="border-radius:0px;padding: 0px;">
                 <div  class="card card-secondary historycard midlecard profilecard" style="margin:auto;min-height:200px;border-radius:12px;">
                     <div style='padding-left: 30px;border-top-right-radius:12px;border-top-left-radius:12px;' class="card-header profileheader small-header">
-                        <i  *ngIf='cardView.editing' (click)="switchViews('orders')"  style='position:absolute;left:1%;top:2%; cursor:pointer; display: inline-block;
+                        <i  *ngIf='cardView.editing||cardView.reversing' (click)="switchViews('orders')"  style='position:absolute;left:1%;top:2%; cursor:pointer; display: inline-block;
                           color:#1da1f2;' title="Back"
                           class="icon ion-android-arrow-back "> </i>
                         <div style="left:23px" class="timeline lastdoc priscriber headerdp small-dp">
-                          <img [src] = getDp(patients[curIndex])/>
+                          <img [src] = getDp(patients[curIndex].info.personal.avatar)/>
                         </div>
                         <a href="#" class="patien-name small-name">
                           {{patients[curIndex]?.info.personal.firstName + ' '+ patients[curIndex].info.personal.lastName}}<span class="small-headericon"></span>
                         </a>
+                        <h6 style='font-size:10px; font-weight:bold; position:absolute;color:dodgerblue;  top:4%;left:76%' class="patien-name small-name">MEDICATIONS</h6>
                     </div>
-                    <div *ngIf='cardView.orders' class="card-body orderbody"style="width:56%;margin:auto;height: 255px;">
-                      <div  *ngFor="let medic of medications; let i = index"  class="carditem priscriptioncontainer order">
-                          <div  class="timeline condition drugtimeline">
-                              <p class="timelinedate"> {{medic[0]?.dateCreated|date:'dd'}}</p>
+
+                  <div *ngIf='cardView.orders' class="card-body orderbody"style=" width:65%; margin:auto;">
+
+                      <div data-simplebar style="border-left:2px solid #1da1f2;height:200px; width:100%;">
+                      <div style='border:none'   *ngFor="let medic of medications; let i = index"  class="carditem priscriptioncontainer order">
+                          <div style='left:-4%' class="timeline condition drugtimeline">
+                              <p class="timelinedate">{{medic[0]?.dateCreated|date:'dd'}}</p>
                               <p class="timelinedate month"> {{medic[0]?.dateCreated|date:'MMM'|uppercase}}</p>
                           </div>
                           <div *ngFor ="let m of medic; let j= index" class="priscription drug">
@@ -217,20 +221,27 @@
                                   </span>
                                   <span *ngIf="!m.paid"  class="predata priceval">
                                   <i (click)="selectItem(i,j)" style=' color:lightgrey;'  *ngIf="m.selected" class="icon ion-ios-checkmark-empty paid-icon" title="Deselect "></i>
-                                  <div class="mycheckbox" *ngIf ="!m.selected" (click)="selectItem(i,j)" ></div>
+                                <div class="mycheckbox" *ngIf ="!m.selected" (click)="selectItem(i,j)" ></div>
                                   </span>
                               </h6>
                               <h6 class="dept previnfo">Dosage&nbsp;<span class="predata"> {{m.priscription.intake+'-'+m.priscription.freq+'-'+ m.priscription.piriod}} </span></h6>
                               <h6 class="dept previnfo"style="color:lightgrey">
-                                  Price&nbsp;<span style="text-align:right;left:70%;display: inline-block;width:50px" *ngIf = m.product.stockInfo.price class="predata priceval">{{(m.product.stockInfo.price)*(m.purchased||1)}}</span>
+                                  Price&nbsp;<span style="text-align:right;left:80%;display: inline-block;width:50px" *ngIf = m.product.stockInfo.price class="predata priceval">{{(m.product.stockInfo.price)*(m.purchased||1)}}</span>
                                   <span *ngIf = !m.product.stockInfo.price class="predata priceval">---</span>
                                 </h6>
                            </div>
                            <label  class='totalLbl' *ngIf='somePaid(i)' >{{getTransTotal(i)}} </label>
                       </div>
-                      <button (click)='switchToEdit()' type ="submit"  style="top:100px; width: 95px; position:relative;  font-size: 10px; left:152px;  border-radius: 0px; border-top-right-radius:4px;border-bottom-right-radius:4px;" class="btn btn-sm btn-outline-primary inputs mainbtn" >EDIT</button>
-                      <button (click)='reset()' id ='cancel' data-dismiss="modal" style="width: 57px; font-size: 10px;border-right: 0px; top: 100px;  position:relative; border-radius: 4px 0px 0px 4px;" class="btn btn-sm btn-outline-primary inputs mainbtn" >CANCEL</button>
                     </div>
+                    <div style='left:105%; height:32px;width:32px'title ='Process tranasaction' class="floter">
+                        <i *ngIf='loading' class="fa fa-circle-o-notch fa-spin fa-10x slow-spin" style="position:absolute;bottom:5px;left:5px;font-size:20px;color: #1da1f2;"> </i>
+                        <i (click)='switchToEdit()' style='font-size: 23px;left:3px; top:4px;' class="material-icons flotericon">swap_horiz</i>
+                    </div>
+                      <!-- <button (click)='switchToEdit()' type ="submit"  style="top:100px; width: 95px; position:relative;  font-size: 10px; left:152px;  border-radius: 0px; border-top-right-radius:4px;border-bottom-right-radius:4px;" class="btn btn-sm btn-outline-primary inputs mainbtn" >EDIT</button>
+                      <button (click)='reset()' id ='cancel' data-dismiss="modal" style="width: 57px; font-size: 10px;border-right: 0px; top: 100px;  position:relative; border-radius: 4px 0px 0px 4px;" class="btn btn-sm btn-outline-primary inputs mainbtn" >CANCEL</button> -->
+                    </div>
+
+
                     <div *ngIf='cardView.editing' class="card-body orderbody"style="width:56%;margin:auto;">
                       <form  style="top:15%;" class=" staffsform">
                         <div class="form-group vitals-section address">
@@ -263,7 +274,7 @@
                         </div>
                         <div class="form-group vitals-section formGroup" style=" width:22%;">
                             <label style="font-size:8px" for="purchase" class="labelss complain">QTY</label>
-                            <input [min] = '0' [max] = 'medication.product.stockInfo.quantity' [(ngModel)]="medication.purchased" style="border-top-left-radius: 0px;border-bottom-left-radius: 0px;font-size:11px"  type="number" name="purchase" class="patientdata inputs dataInfo"   placeholder="">
+                            <input [min] = '0' [max] = 'medication.product.stockInfo.inStock||0' [(ngModel)]="medication.purchased" style="border-top-left-radius: 0px;border-bottom-left-radius: 0px;font-size:11px"  type="number" name="purchase" class="patientdata inputs dataInfo"   placeholder="">
                         </div>
                         <div style="margin-bottom:0px; width:100%;position:relative;height:25px;" class="form-group vitals-section formGroup">
                           <p style='position: absolute;left:47%;text-align:center; font-size:11px; top:10%;'>
@@ -271,9 +282,16 @@
                           <i (click)='previous()' title="Previous" class="icon ion-ios-arrow-left shift-icon"></i>
                           <i (click)='next()' title="Next" class="icon ion-ios-arrow-right shift-icon next-icon"></i>
                         </div>
-
                         <div  style="top:1px; margin-bottom:25px; min-height: 80px;max-height: 120;"  class="form-group vitals-section setGroup">
                           <table *ngIf="edited.length"  cellspacing="0" class="data-table drugs-table" style="width:100%;left:0%;" >
+                          <thead class='productHead'>
+                              <tr class="staff-th">
+                                  <th style="padding-left:4px;" class="headlbl staff-th">PRODUCT</th>
+                                  <th class="headlbl staff-th">DOSAGE</th>
+                                  <th class="headlbl staff-th">QTY</th>
+                                  <th style='text-align:right' class="headlbl staff-th">PRICE</th>
+                              </tr>
+                            </thead>
                                <tbody>
                                   <tr *ngFor="let med of edited; let i = index; let odd = odd;"  style="border-bottom:2px solid white;" [class.even] = odd  class="ro staff-row">
                                       <td style="padding-left:4px;" class="data">
@@ -288,12 +306,49 @@
                               <tfoot col-span='4' style='font-size:11px; text-align:right; position:absolute; font-weight:bold;padding-right: 10px; border-top: 1px solid whitesmoke;width:100%'>Total: <span>{{getPriceTotal()}}</span> </tfoot>
                             </table>
                         </div>
-                        <button (click)='switchToEdit()' type ="submit"  style=" width: 95px; position:relative; outline: none; box-shadow: none;  font-size: 10px; left:143px; margin:15px; border-radius: 0px; border-top-right-radius:4px;border-bottom-right-radius:4px;" class="btn btn-sm btn-outline-primary inputs mainbtn" >PAID</button>
-                        <button (click)='reset()' id ='cancel' data-dismiss="modal" style="width: 57px; font-size: 10px;right:39px; border-right: 0px; margin:15px; position:relative; border-radius: 4px 0px 0px 4px;" class="btn btn-sm btn-outline-primary inputs mainbtn" >CANCEL</button>
+                        <div style='left:110%; height:32px;width:32px'title ='Commit tranasaction' class="floter">
+                          <i *ngIf='processing' class="fa fa-circle-o-notch fa-spin fa-10x slow-spin" style="position:absolute;bottom:5px;left:5px;font-size:20px;color: #1da1f2;"> </i>
+                          <i (click)=comfirmPayment()  *ngIf='!processing' style="color:#1da1f2;bottom:-10px"
+                           class="icon ion-ios-checkmark-empty flotericon"> </i>
+                        </div>
+                    </form>
+                  </div>
+
+                  <div *ngIf='cardView.reversing' class="card-body orderbody"style="width:56%;margin:auto;">
+                      <form  style="top:15%;" class=" staffsform">
+                        <div  style="top:1px; margin-bottom:25px; min-height: 80px;max-height: 120;"  class="form-group vitals-section setGroup">
+                          <table *ngIf="edited.length"  cellspacing="0" class="data-table drugs-table" style="width:100%;left:0%;" >
+                          <thead class='productHead'>
+                              <tr class="staff-th">
+                                  <th style="padding-left:4px;" class="headlbl staff-th">PRODUCT</th>
+                                  <th class="headlbl staff-th">DOSAGE</th>
+                                  <th class="headlbl staff-th">QTY</th>
+                                  <th style='text-align:right' class="headlbl staff-th">PRICE</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                  <tr *ngFor="let med of edited; let i = index; let odd = odd;"  style="border-bottom:2px solid white;" [class.even] = odd  class="ro staff-row">
+                                      <td style="padding-left:4px;" class="data">
+                                      {{med.product.item.name}}<span class="predata">
+                                        {{med.product.item.mesure+med.product.item.unit}}</span></td>
+                                      <td style='font-size:11px' class="data">
+                                        {{med.priscription.intake+'-'+med.priscription.freq+'-'+ med.priscription.piriod}}</td>
+                                      <td style='font-size:11px' class="data">{{med.purchased}}</td>
+                                      <td style='font-size:11px' class="data">{{med.purchased*med.product.stockInfo.price}}</td>
+                                  </tr>
+                              </tbody>
+                              <tfoot col-span='4' style='font-size:11px; text-align:right; position:absolute; font-weight:bold;padding-right: 10px; border-top: 1px solid whitesmoke;width:100%'>Total: <span>{{getPriceTotal()}}</span> </tfoot>
+                            </table>
+                        </div>
+                        <div style='left:110%; height:32px;width:32px'title ='Commit tranasaction' class="floter">
+                          <i *ngIf='processing' class="fa fa-circle-o-notch fa-spin fa-10x slow-spin" style="position:absolute;bottom:5px;left:5px;font-size:20px;color: #1da1f2;"> </i>
+                          <i (click)=reversePayment()  *ngIf='!processing' style="color:#1da1f2;bottom:-10px"
+                           class="icon ion-ios-checkmark-empty flotericon"> </i>
+                        </div>
                     </form>
 
                   </div>
-                
+                 <div *ngIf = transMsg style="padding:5px;border-top: 1px solid rgb(248, 247, 247)" class="card-footer"> <h6  class="feedbackMsg">{{transMsg}}</h6><button class ='okbtn'>OK</button></div>
               </div>
           </div>
       </div>
@@ -314,7 +369,7 @@
                         <div class="form-group vitals-section address">
                             <label for="drug" class="labelss">DRUG NAME</label>
                             <input style='font-size:11px' autocomplete="off" (keyup)= "searchItems(input)" [(ngModel)] = input type="text" name="drug" placeholder= "E.g Paracetamol" class="patientdata dystolic inputs dataInfo" />
-                            <div *ngIf = searchedItems.length  class="options prisOption edit">
+                            <div  *ngIf = searchedItems.length  class="options prisOption edit">
                                 <ul class="itemsList" >
                                   <li *ngFor="let item of searchedItems"><p (click) = "addSelection(item)"  class="dept firstheader drugItem" style="font-size:13px;padding-left: 10px; padding-right: 10px;font-weight: normal;" >{{item.name+ ' '}}<span class="lastdept timetaken " >
                                     {{item.mesure + item.unit}}</span></p>
@@ -471,7 +526,7 @@
 </div>
 
 
-  
+
 
 <nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:0px">
   <div class="container">
@@ -484,27 +539,23 @@
       </button>
       <div class="collapse navbar-collapse" id="navcol-1">
           <ul class="nav navbar-nav"></ul>
-          <form class="form-inline mr-auto searchform" target="_self">
+          <form class="top-searchform" target="_self">
               <div class="form-group">
-                  <label style="left:500px;position:absolute;"  for="search-field">
-                      <i class="icon ion-ios-search searchicon" title="Search"></i>
-                  </label>
-                  <input [(ngModel)] = searchTerm #search (keyup)='searchPatient(searchTerm)' autocomplete = "off" style="border-radius:30px;
-                  left: 270px;
-                  width:220px;
+                  <input [(ngModel)] = searchTerm #search (keyup)='searchPatient(searchTerm)' autocomplete = "off" style="border-radius:.999em;
+                  width:80%;display:inline-block;
+                  position:absolute;bottom:-2%;
                   background-color: rgb(243, 248, 247);
-                  margin: auto;"
-                  class="form-control search-field"
+                  "
+                  class="form-control"
                   type="search" name="search" id="search-field" placeholder="Search patient">
-              </div>
-          </form>
-          <h6 style='font-size:12px;
-                      left:780px;position:absolute;
+                  <i style='font-size:20px; top:5px;left:85%;position:relative;display:inline' class="icon ion-ios-search " title="Search"></i>
+         <h6 style='font-size:12px;
+                      left:98%;position:relative;display:inline-block;
                       color:grey;
                       font-weight:normal;'>Sort by: <span stye='cursor:pointer'(click)='showSortMenu()'>
                         {{nowSorting}}</span></h6>
           <div *ngIf=sortMenu style='position: absolute;
-                      left:824px;
+                      left:120%;
                       width:100px;top:6px;
                       height:110px'  class="menu">
             <ul class="actions primary">
@@ -515,22 +566,28 @@
                 <li (click)='sortPatients("date")' class="action">Date added</li>
             </ul>
         </div>
+     </div>
+    </form>
       </div>
   </div>
   <i style="left:80%;" class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
     <i [routerLink]="['./me']" data-target="#newModal" data-toggle="modal" style="left:83%;" class="icon ion-ios-person-outline arrow buble" id="add" title="Me" ></i>
-  
-    <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:90%;position:absolute;height:30px;width:30px;bottom:-8%"></div>
+
+   <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:90%;position:absolute;height:30px;width:30px;top:5px; margin-bottom:0px;"> <img style='height:100%; width:100%; object-fit:cover;' [src] = getMyDp()/></div>
 </nav>
 
     <div style="padding-top:60px" class="container">
           <div class="row">
-              <h6 *ngIf ='!patients.length' style='font-size:13px;position:relative;top:170px;text-align:center;display:inline-block; color:lightgrey; width:30%; margin:auto;' [routerLink]="['/signup']" routerLinkActive="" >No Record Found</h6>
-              <div  *ngFor="let patient of patients; let i=index"  class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+            <div *ngIf='!patients.length' class='issue'>
+              <div *ngIf='loading' class="lds-css ng-scope"><div style="width:100%;height:100%" class="lds-rolling"><div></div></div></div>
+              <div (click)=refresh()  *ngIf='message' title='Refresh' class='refresh'><i class="icon ion-ios-reload "></i></div>
+              <h6 *ngIf='message' style='font-size:13px;position:absolute;top:65%; width:100%; color:lightgrey;text-align: center' >{{message}}</h6>
+            </div>
+            <div  *ngFor="let patient of patients; let i=index"  class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
                   <div *ngIf = "patient.card.view == 'front'"  class="card card-secondary maincard">
                     <div style="border-radius:12px" class="card-header profileheader"><i class="icon ion-android-more-vertical headericon moreicon actions-icon"></i>
                         <div class="timeline lastdoc priscriber headerdp">
-                            <img [src] = getDp(patient)/>
+                            <img [src] = getDp(patient.info.personal.avatar)/>
                         </div>
                     </div>
                     <p class="dept displayname">

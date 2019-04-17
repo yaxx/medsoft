@@ -32,7 +32,7 @@ import {Message} from './message.model';
       public blocked: boolean = false,
       public dateCreated: Date = new Date(),
       public lastChated: Date = new Date(),
-      public messages: any[] = new Array<any>(new Array<Message>(new Message()))
+      public messages: any[] = []
       ) {}
 
   }
@@ -83,6 +83,7 @@ export class Emergency {
     public mobile: number = null,
     public email: string = null,
     public address: string = null,
+    public occupation: string = null,
     public rel: string = null
   
   ) {}

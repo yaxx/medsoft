@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FileSelectDirective, FileUploader } from 'ng2-file-upload';
 import {DataService} from '../../services/data.service';
 import {SocketService} from '../../services/socket.service';
+import {CookieService } from 'ngx-cookie-service';
 import {ActivatedRoute} from '@angular/router';
 import {Item, StockInfo, Product} from '../../models/inventory.model';
 import {Client} from '../../models/client.model';
@@ -41,7 +42,7 @@ export class PatientComponent implements OnInit {
   sortBy = 'added';
   sortMenu = false;
   nowSorting = 'Date added';
-  // view = 'info';
+   message = null;
   searchTerm = '';
   selected = null;
   bedNum = null;
@@ -54,12 +55,12 @@ export class PatientComponent implements OnInit {
   constructor(private dataService: DataService,
      private socket: SocketService,
      private route: ActivatedRoute,
+     private cookies: CookieService
       ) { }
   ngOnInit() {
     this.myDepartment = this.route.snapshot.params['dept'];
     this.getPatients();
     this.getClient();
-    // this.getProducts();
     this.getItems();
     this.uploader.onBuildItemForm = (fileItem: any, form: any) => {
       form.append('id', this.patients[this.curIndex]._id);
@@ -75,13 +76,29 @@ export class PatientComponent implements OnInit {
       console.log(items);
     });
   }
-  getDp(p: Person) {
-    return 'http://localhost:5000/api/dp/' + p.info.personal.avatar;
+  getDp(avatar: String) {
+    return 'http://localhost:5000/api/dp/' + avatar;
+  }
+
+  getMyDp() {
+    return this.getDp(this.cookies.get('d'))
+  }
+  refresh(){
+    this.getPatients();
+    this.getClient();
+    this.getItems();
   }
   getClient() {
     this.dataService.getClient().subscribe((client: any) => {
       this.client = client.client;
   });
+  }
+   getPriceTotal() {
+    let total = 0;
+     this.tempMedications.forEach((medic) => {
+       total = total +  medic.product.stockInfo.price;
+     });
+     return total;
   }
   fileSelected(event) {
     if (event.target.files && event.target.files[0]) {
@@ -108,7 +125,7 @@ export class PatientComponent implements OnInit {
     });
 
   }
-  pullMedication(i: number) {
+  pullMedications(i: number) {
     this.curIndex = i;
     this.medications = this.patients[i].record.medications;
    }
@@ -116,6 +133,7 @@ export class PatientComponent implements OnInit {
     this.curIndex = i;
    }
    getPatients() {
+    this.loading = true;
     this.dataService.getPatients().subscribe((patients: Person[]) => {
       let myPatients;
       if(this.myDepartment) {
@@ -123,14 +141,23 @@ export class PatientComponent implements OnInit {
          p => p.record.visits[0].dept === this.myDepartment && p.record.visits[0].status === 'Admit');
       } else {
        myPatients = patients.filter(p => p.record.visits[0].status === 'Admit');
-     
       }
-      myPatients.forEach(p => {
+      if(myPatients.length) {
+        myPatients.forEach(p => {
         p.card = {menu: false, view: 'front'}
-
       });
       this.patients = myPatients;
       this.dataService.setCachedPatients(myPatients);
+      this.loading = false;
+      this.message = null;
+      } else {
+        this.message = 'No Records So Far';
+        this.loading = false;
+      }
+
+    },(e) => {
+      this.message = 'Something went wrong';
+      this.loading = false;
     });
   }
 
@@ -163,8 +190,8 @@ export class PatientComponent implements OnInit {
     this.patients[i].card = {menu: false, view: 'front'};
   }
   composeMedication() {
-    if (this.medications[0].length) {
-      if (new Date(this.medications[0][0].dateAdded)
+    if (this.medications.length) {
+      if (new Date(this.medications[0][0].dateCreated)
       .toLocaleDateString() === new Date()
       .toLocaleDateString()) {
         for(let m of this.tempMedications) {
@@ -175,9 +202,7 @@ export class PatientComponent implements OnInit {
        }
 
   } else {
-
-    this.medications[0] = this.tempMedications;
-
+    this.medications = [this.tempMedications];
   }
   }
     searchPatient(name:string) {
@@ -188,7 +213,7 @@ export class PatientComponent implements OnInit {
       return patern.test(patient.info.personal.firstName);
       });
    } else {
-     this.patients = this.temPatients;
+     this.patients = this.dataService.getCachedPatients();
    }
 
 
@@ -237,15 +262,10 @@ export class PatientComponent implements OnInit {
   }
 
 
-  addSelection(i: Item) {
-    this.input = i.name + ' ' + i.mesure + i.unit;
+ addSelection(item: Item) {
+    this.input = item.name + ' ' + item.mesure + item.unit;
     this.temItems = new Array<Item>();
-    const temp: Product[] = this.products.filter((p) => p.item._id === i._id);
-    if (temp.length) {
-      this.product = temp[0];
-    } else {
-      this.product = new Product(i);
-    }
+    this.product = new Product(item, new StockInfo());
    }
    showMenu(i: number) {
     this.hideMenu();
@@ -257,19 +277,33 @@ export class PatientComponent implements OnInit {
 
     });
   }
-  addMedication() {
-    this.tempMedications.push(new Medication(this.product, this.priscription));
+ addMore() {
+    let tempro = null;
+    if( this.product.item.name) {
+      } else {
+       this.product.item.name = this.input;
+     }
+    this.client.inventory.forEach(prod => {
+      if(prod.item._id === this.product.item._id) {
+        tempro = prod;
+      }
+    })
+    if (tempro) {
+      this.tempMedications.unshift(new Medication(tempro, this.priscription))
+    } else {
+       this.tempMedications.unshift(new Medication(this.product, this.priscription));
+    }
     this.product = new Product();
     this.priscription = new Priscription();
     this.input = null;
-  }
+   }
   selectItem(i: number, j: number, k: number) {
     this.patients[i].record.medications[j][k].selected =
     this.patients[i].record.medications[j][k].selected ? false : true;
    }
    playMedication(i: number, j: number) {
     this.patients[this.curIndex].record.medications[i][j].paused = false;
-    this.dataService.updateMedication(this.patients[this.curIndex]._id, this.patients[this.curIndex].record.medications).subscribe((p: Person) => {
+    this.dataService.updateRecord(this.patients[this.curIndex]).subscribe((p: Person) => {
       p.card = {menu: false, view: 'front'};
       this.patients[i] = p;
     });
@@ -277,7 +311,7 @@ export class PatientComponent implements OnInit {
    pauseMedication(i: number, j: number) {
     this.patients[this.curIndex].record.medications[i][j].paused = true;
     this.patients[this.curIndex].record.medications[i][j].pausedOn = new Date();
-    this.dataService.updateMedication(this.patients[i]._id, this.patients[i].record.medications).subscribe((p: Person) => {
+    this.dataService.updateRecord(this.patients[this.curIndex]).subscribe((p: Person) => {
       p.card = {menu: false, view: 'front'};
       this.patients[i] = p;
 
@@ -285,15 +319,16 @@ export class PatientComponent implements OnInit {
    }
 
 
-  saveNote() {
-    this.patients[this.curIndex].record.notes.unshift(this.note)
-    this.dataService.updateRecord(this.patients[this.curIndex]).subscribe((p: Person) => {
-          p.card = {menu: false, view: 'front'};
-          this.loading = false;
-          this.note = new Note();
-    });
+   saveNote() {
+    this.loading = true;
+    this.patients[this.curIndex].record.notes.unshift({...this.note, noter: this.cookies.get('i')})
+      this.dataService.updateRecord(this.patients[this.curIndex]).subscribe((p: Person) => {
+            p.card = {menu: false, view: 'front'};
+            this.loading = false;
+            this.note = new Note();
+      });
 
-  }
+    }
 
   selectDrug(p: number, m: number) {
     if (this.patients[p].record.medications[m].selected) {
@@ -314,7 +349,7 @@ export class PatientComponent implements OnInit {
         }
       });
     });
-    this.dataService.updateMedication(this.patients[i]._id, this.patients[i].record.medications).subscribe((p: Person) => {
+    this.dataService.updateRecord(this.patients[this.curIndex]).subscribe((p: Person) => {
       this.patients[i] = p;
     });
   }

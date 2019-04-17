@@ -44,7 +44,7 @@
   box-shadow:none;
   border:none;
   padding:0px;
-  margin-bottom:7px;
+  /* margin-bottom:7px; */
   padding-top:0px;
   padding-bottom:0px;
   border-bottom:1px solid whitesmoke;
@@ -152,21 +152,24 @@
 #search-field:focus {
   background:inherit;
   border-color:#7f9bfe;
+  outline:none;
 }
 
 #search-field {
   width:110%;
   position:absolute;
   border:1px solid #f4f2f2;
-  border-radius:5px;
+  /* border-radius:5px; */
   padding:3px;
   padding-left:30px;
   font-size:small;
   background:#f3f8f7;
-  left:46%;
+  /* left:46%; */
   opacity:0.3;
   text-align:center;
   color:grey;
+  vertical-align:center;
+  
 }
 
 article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {

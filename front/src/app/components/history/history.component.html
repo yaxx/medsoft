@@ -1,42 +1,16 @@
 
 
 <nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:0px">
-  <div class="container">
-      <a class="navbar-brand" href="#">
-          <em>MS</em>
-      </a>
-      <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navcol-1">
-          <ul class="nav navbar-nav"></ul>
-          <form class="form-inline mr-auto searchform" target="_self">
-              <div class="form-group">
-                  <label style="left:500px;position:absolute;"  for="search-field">
-                      <i class="icon ion-ios-search searchicon" title="Search"></i>
-                  </label>
-                  <input autocomplete = "off" style="border-radius:30px;
-                  left: 270px;
-                  width:220px;
-                  background-color: rgb(243, 248, 247);
-                  margin: auto;"
-                  class="form-control search-field"
-                  type="search" name="search" id="search-field" placeholder="Search patient">
-              </div>
-          </form>
-        
-         
-      </div>
-  </div>
-
-  <i style="left:80%;" class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
-
-  <i [routerLink]="['./messages']" data-target="#newModal" data-toggle="modal" style="left:83%;" class="icon ion-ios-person-outline arrow buble" id="add" title="Me" ></i>
-
-  <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:90%;position:absolute;height:30px;width:30px;bottom:-8%"></div>
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <em>MS</em>
+        </a>
+    </div>
+<i style="left:80%;" class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
+      <i [routerLink]="['../../me']" data-target="#newModal" data-toggle="modal" style="left:83%;" class="icon ion-ios-person-outline arrow buble" id="add" title="Me" ></i>
+ 
+<div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:90%;position:absolute;height:30px;width:30px;top:5px; margin-bottom:0px;"> <img style='height:100%; width:100%; object-fit:cover;' [src] = getMyDp()/></div>
   </nav>
-
 <div style="padding-top:40px" class="container history-container">
     <div class="row history-row">
         <div class="col col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
@@ -46,32 +20,42 @@
                         <div class="carditem">
                             <div class="timeline detailstimeline"><i class="icon ion-ios-person-outline deticon"></i></div>
                             <h6 class="dept detailshead">PERSONAL INFO</h6>
-                            <p class="dept previnfo">Age:&nbsp;<span class="predata">25</span></p>
-                            <p class="dept previnfo">Gender:&nbsp;<span class="predata">Female</span></p>
+                            <p class="dept previnfo">Age:&nbsp;<span class="predata">{{patient.info.personal.dob|dob}}</span></p>
+                            <p class="dept previnfo">Gender:&nbsp;<span class="predata">{{patient.info.personal.gender}}</span></p>
                             <p class="dept previnfo">Blood Group:&nbsp;<span class="predata">O+</span></p>
-                            <p class="dept previnfo">Marital Status:&nbsp;<span class="predata">Single</span></p>
-                            <p class="dept previnfo">Occupation:&nbsp;<span class="predata">Enterprenure</span></p>
-                            <p class="dept previnfo">Religion:&nbsp;<span class="predata">Islam</span></p>
-                            <p class="dept previnfo">Tribe:&nbsp;<span class="predata">Yoruba</span></p>
-                            <p class="dept previnfo">Card No:&nbsp;<span class="predata">0005689923341</span></p>
+                            <p class="dept previnfo">Marital Status:&nbsp;<span class="predata">{{patient.info.personal.mstatus}}</span></p>
+                            <p class="dept previnfo">Occupation:&nbsp;<span class="predata">{{patient.info.personal.occupation}}</span></p>
+                            <p class="dept previnfo">Religion:&nbsp;<span class="predata">{{patient.info.personal.religion}}</span></p>
+                            <p class="dept previnfo">Tribe:&nbsp;<span class="predata">{{patient.info.personal.tribe}}</span></p>
+                            <p class="dept previnfo">Card Type:&nbsp;<span class="predata">{{patient.info.personal.cardType}}</span></p>
+                            <p class="dept previnfo">Card No:&nbsp;<span class="predata">{{patient.info.personal.cardNum}}</span></p>
                         </div>
                         <div class="carditem">
                             <div class="timeline detailstimeline"><i class="icon ion-ios-location-outline deticon"></i></div>
                             <h6 class="dept detailshead">CONTACT</h6>
-                            <p class="dept previnfo">Mobile:&nbsp;<span class="predata">08035998732</span></p>
-                            <p class="dept previnfo">Email:&nbsp;<span class="predata">amina@gmail.com</span></p>
-                            <p class="dept previnfo">Address:&nbsp;<span class="predata">No. 25 city Rd. Ikeja, Lagos</span></p>
-                            <p class="dept previnfo">State:&nbsp;<span class="predata">Lagos</span></p>
-                            <p class="dept previnfo">LGA:&nbsp;<span class="predata">Ikeja</span></p>
+                            <p class="dept previnfo">Mobile:&nbsp;<span class="predata">
+                              {{patient.info.contact.me.mobile}}</span></p>
+                            <p class="dept previnfo">Email:&nbsp;<span class="predata">
+                              {{patient.info.contact.me.email}}</span></p>
+                            <p class="dept previnfo">Address:&nbsp;<span class="predata">
+                              {{patient.info.contact.me.address}}</span></p>
+                            <p class="dept previnfo">State:&nbsp;<span class="predata">
+                              {{patient.info.contact.me.state}}</span></p>
+                            <p class="dept previnfo">LGA:&nbsp;<span class="predata">
+                              {{patient.info.contact.me.lga}}</span></p>
                         </div>
                         <div class="carditem">
                             <div class="timeline detailstimeline"><i class="icon ion-ios-pulse deticon"></i></div>
                             <h6 class="dept detailshead">EMERGENCY</h6>
-                            <p class="dept previnfo">Name&nbsp;<span class="predata">Ahmed Tinibu</span></p>
-                            <p class="dept previnfo">Mobile:&nbsp;<span class="predata">08035998732</span></p>
+                            <p class="dept previnfo">Name&nbsp;<span class="predata">
+                              {{patient.info.contact.emergency.name}}</span></p>
+                            <p class="dept previnfo">Mobile:&nbsp;<span class="predata">
+                              {{patient.info.contact.emergency.mobile}}</span></p>
                             <p class="dept previnfo">Email:&nbsp;<span class="predata">amina@gmail.com</span></p>
-                            <p class="dept previnfo">Relashionship:&nbsp;<span class="predata">Father</span></p>
-                            <p class="dept previnfo">Address:&nbsp;<span class="predata">No. 25 city Rd. Ikeja</span></p>
+                            <p class="dept previnfo">Relashionship:&nbsp;<span class="predata">
+                              {{patient.info.contact.emergency.rel}}</span></p>
+                            <p class="dept previnfo">Address:&nbsp;<span class="predata">
+                              {{patient.info.contact.emergency.address}}</span></p>
                         </div>
                     </div>
                 </div>
@@ -80,6 +64,7 @@
                         <h1 class="dept headtitle">HEALTH INSURANCE</h1>
                     </div>
                     <div class="card-body rightcardbody">
+                        <h1  style='color:lightgrey; width:100%; text-align:center;top:43%;position:absolute;' class="dept headtitle">NO RECORD</h1>
                         <div class="carditem"></div>
                     </div>
                 </div>
@@ -88,21 +73,23 @@
                         <h1 class="dept headtitle">VISITS</h1>
                     </div>
                     <div class="card-body rightcardbody">
+                        <h1 style='color:lightgrey; width:100%; text-align:center;top:43%;position:absolute;' class="dept headtitle">NO RECORD</h1>
                           <div class="carditem">
-                              <div class="carditem priscriptioncontainer order">
+                             
+                              <!-- <div class="carditem priscriptioncontainer order">
                                   <div class="timeline condition drugtimeline">
                                       <p class="timelinedate">10</p>
                                       <p class="timelinedate month">FEB</p>
                                   </div>
                                   <div class="priscription drug side-item">
                                       <h6 class="dept">GOPD&nbsp;<span class="timetaken dischargedon">05/10/2018 02:30pm</span></h6>
-                                      <div class="timeline lastdoc priscriber headerdp seenby">
+                                      <div class="timeline lastdoc priscriber headerdp seenby"> </div>
 
-                                      </div>
+                                     
                                   </div>
 
-                              </div>
-                              <div class="carditem priscriptioncontainer order">
+                              </div> -->
+                              <!-- <div class="carditem priscriptioncontainer order">
                                   <div class="timeline condition drugtimeline">
                                       <p class="timelinedate">25</p>
                                       <p class="timelinedate month">DEC</p>
@@ -110,15 +97,15 @@
 
                                   <div class="priscription drug side-item">
                                       <h6 class="dept">Family Medicine&nbsp;<span class="timetaken dischargedon">05/10/2018 02:30pm</span></h6>
-                                      <div class="timeline lastdoc priscriber headerdp seenby">
+                                      <div class="timeline lastdoc priscriber headerdp seenby"></div>
 
-                                      </div>
-                                      <div class="timeline lastdoc priscriber headerdp seenby">
+                                      
+                                      <div class="timeline lastdoc priscriber headerdp seenby"></div>
 
-                                      </div>
+                                      
                                   </div>
-                              </div>
-                              <div class="carditem priscriptioncontainer order">
+                              </div> -->
+                              <!-- <div class="carditem priscriptioncontainer order">
                                   <div class="timeline condition drugtimeline">
                                       <p class="timelinedate">09</p>
                                       <p class="timelinedate month">JAN</p>
@@ -130,8 +117,8 @@
 
                                       </div>
                                   </div>
-                              </div>
-                              <div class="carditem priscriptioncontainer order">
+                              </div> -->
+                              <!-- <div class="carditem priscriptioncontainer order">
                                   <div class="timeline condition drugtimeline">
                                       <p class="timelinedate">09</p>
                                       <p class="timelinedate month">JAN</p>
@@ -143,7 +130,7 @@
 
                                       </div>
                                   </div>
-                              </div>
+                              </div> -->
                           </div>
                       </div>
                 </div>
@@ -152,6 +139,7 @@
                         <h1 class="dept headtitle">DEATH INFORMATION</h1>
                     </div>
                     <div class="card-body rightcardbody">
+                        <h1 style='color:lightgrey; width:100%; text-align:center;top:43%;position:absolute;' class="dept headtitle">NO RECORD</h1>
                         <div class="carditem"></div>
                     </div>
                 </div>
@@ -163,7 +151,7 @@
                     <div class="card-body notecardbody">
                         <div class="carditem noteitem writeup">
                             <div class="timeline noter patientdp">
-                             <img style='height:100%; width:100%; object-fit:cover; border-radius:4px;' [src] = getDp(patient)/>
+                             <img style='height:100%; width:100%; object-fit:cover; border-radius:4px;' [src] = getDp(patient.info.personal.avatar)/>
                             </div>
                              <h1 class="dept previnfo noterinfo patientname">
                                {{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}} &nbsp;<span class="predata notetime">{{patient.createdAt|date:'longDate'}}</span></h1>
@@ -182,83 +170,61 @@
                     </div>
                 </div>
                 <div class="card card-secondary historycard midlecard graphcard">
-                    <div class="card-header grapheader">
+                    <div style='border-top-right-radius:12px;border-top-left-radius:12px;' class="card-header grapheader">
                         <h1 class="dept headtitle">NOTES</h1>
                     </div>
                     <div class="card-body notecardbody">
-                        <div *ngFor = "let item of patient.record.notes;let i=index" class="carditem noteitem writeup">
+                        <h1 *ngIf='!patient.record.notes.length' style='color:lightgrey; width:100%; text-align:center;top:43%;position:absolute;' class="dept headtitle">NO NOTES</h1>
+                        <div *ngFor = "let note of patient.record.notes;let i=index" class="carditem noteitem writeup">
                           <div style="position:absolute;left:-3%;" class="timeline lastdoc priscriber headerdp small-dp">
-                            <img [src] = getDp(patient)/>
+                            <img [src] = getDp(note.noter.info.personal.avatar)/>
                           </div>
-                            <h1 class="dept previnfo noterinfo">Dr. Farida Aminu&nbsp;<span class="predata notetime">
-                                {{item.dateCreated|date:'dd/MM/y hh:mma'|lowercase}}</span></h1>
-                            <p class="note-item">{{item|note}}<br>
-                              <span *ngIf= "!item.full" (click) = "showDetails($event,i)" class="read-more"><a href="#">Read more</a></span>
+                            <h1 class="dept previnfo noterinfo">{{note.noter.info.personal.firstName+' '+note.noter.info.personal.lastName}}
+                              <span style='color: lightgray;font-weight: normal' >
+                                {{'|'+' '+ note.noter.info.official.department}}</span>
+                              <span class="predata notetime">
+                                {{note.dateCreated|date:'dd/MM/y hh:mma'|lowercase}}</span></h1>
+                            <p class="note-item">{{note.note}}<br>
+                              <span *ngIf= "!compareNotes(i, note)" (click) = "readMore($event,i)" class="read-more"><a href="#">Read more</a></span>
                           </p>
                         </div>
                     </div>
-                    <a href="#" class="card-link view-more">View 10 more<span><i class="icon ion-android-more-vertical thread-icon"></i></span></a>
+                    <!-- <a href="#" class="card-link view-more">View 10 more<span><i class="icon ion-android-more-vertical thread-icon"></i></span></a> -->
                 </div>
                 <div class="card-group">
-                    <div class="card card-secondary maincard halfcard">
-                        <div class="card-header grapheader">
+                    <div style='border-radius:12px' class="card card-secondary maincard halfcard">
+                        <div style='border-top-right-radius:12px;border-top-left-radius:12px'  class="card-header grapheader">
                             <h1 class="dept headtitle">TESTS</h1>
                         </div>
-                        <div class="card-body midcardbody">
-                            <div class="carditem">
-                                <h1 class="dept">RAST</h1>
-                                <h1 class="dept previnfo">Test Result<span class="predata">&nbsp; Positive</span></h1>
-                                <h1 class="dept previnfo">Date tested<span class="predata">&nbsp; 02/15/2018 10:05am</span></h1>
-                                <div class="timeline condition drugtimeline">
-                                    <p class="timelinedate">05</p>
-                                    <p class="timelinedate month">FEB</p>
-                                </div>
-                            </div>
-                            <div class="carditem">
-                                <h1 class="dept">Penecilene Allegy</h1>
-                                <h1 class="dept previnfo">Test Result<span class="predata">&nbsp; Positive</span></h1>
-                                <h1 class="dept previnfo">Date tested<span class="predata">&nbsp; 02/15/2018 10:05am</span></h1>
-                                <div class="timeline condition drugtimeline">
-                                    <p class="timelinedate">05</p>
-                                    <p class="timelinedate month">FEB</p>
-                                </div>
-                            </div>
-                            <div class="carditem">
-                                <h1 class="dept">Hepatitis B</h1>
-                                <h1 class="dept previnfo">Test Result<span class="predata">&nbsp; Negative</span></h1>
-                                <h1 class="dept previnfo">Date tested<span class="predata">&nbsp; 02/15/2018 10:05am</span></h1>
-                                <div class="timeline condition drugtimeline">
-                                    <p class="timelinedate">02</p>
-                                    <p class="timelinedate month">FEB</p>
-                                </div>
-                            </div>
+                        <div style='height:100%;' class="card-body midcardbody">
+                            <h1 style='color:lightgrey; width:100%; text-align:center;top:43%;position:absolute;' class="dept headtitle">NO RECORD</h1>
                         </div>
                     </div>
-                    <div class="card card-secondary maincard halfcard halfcard-right">
-                        <div class="card-header grapheader">
+                    <div style='border-radius:12px' class="card card-secondary maincard halfcard halfcard-right">
+                        <div style='border-top-right-radius:12px;border-top-left-radius:12px' class="card-header grapheader">
                             <h1 class="dept headtitle">SCANNED FILES</h1>
                         </div>
-                        <div class="card-body midcardbody">
+                        <div style='height:100%;' class="card-body midcardbody">
+                            <h1 *ngIf='!patient.record.scans.length'  style='color:lightgrey; width:100%; text-align:center;top:43%;position:absolute;' class="dept headtitle">NO ATTACHMENTS</h1>
                             <div *ngFor='let scan of patient.record.scans' class="carditem scan-items">
-                                <div class="card scan-thumnail"><a href="assets/img/IMG-20180927-WA0000.jpg" target="_blank" class="image-link" data-lightbox="scan"><img class="img-fluid" [src] = getImage(scan.name)></a></div>
+                                <div class="card scan-thumnail"><a target="_blank" class="image-link" data-lightbox="scan"><img class="img-fluid" [src] = getImage(scan.name)></a></div>
                                  <i (click)='downloadImage(scan.name)'title = 'download' class="icon ion-ios-download-outline downloadicon"></i>
                                 <h6 class="filename">{{scan.description}}</h6>
                                 <div class="timeline condition drugtimeline">
-                                    <p class="timelinedate">05</p>
-                                    <p class="timelinedate month">FEB</p>
+                                    <p class="timelinedate">{{scan.dateCreated|date:'dd'}}</p>
+                                    <p class="timelinedate month">{{scan.dateCreated|date:'MMM'|uppercase}}</p>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
                 <div class="card card-secondary historycard midlecard topcard graphcard">
                     <div class="card-header grapheader">
                         <h1 class="dept headtitle">VITALS</h1>
-
                     </div>
                     <div class="card-body topcardbody nopadding">
-                        <div style='padding-left:0%' class="carditem">
+                        <h1 *ngIf='!chartData.length' style='color:lightgrey; width:100%; text-align:center;top:43%;position:absolute;' class="dept headtitle">NO RECORD</h1>
+                        <div *ngIf='chartData.length' style='padding-left:0%' class="carditem">
                           <canvas id="bpChart"></canvas>
                         </div>
                     </div>
@@ -268,6 +234,7 @@
                         <h1 class="dept headtitle">BLOOD GLUCOSE</h1>
                     </div>
                     <div class="card-body topcardbody">
+                        <h1 style='color:lightgrey; width:100%; text-align:center;top:43%;position:absolute;' class="dept headtitle">NO RECORD</h1>
                         <div class="carditem"></div>
                     </div>
                 </div>
@@ -277,15 +244,13 @@
             <div class="card-colums rightcolumn">
                 <div class="card card-secondary historycard rightcard allegies">
                     <div class="card-header grapheader">
-                        <h1 class="dept headtitle">TESTS</h1>
+                        <h1 class="dept headtitle">ALLEGIES</h1>
                     </div>
                     <div class="card-body rightcardbody">
+                      <h1 *ngIf='!patient.record.famHist.length' style='color:lightgrey; width:100%; text-align:center;top:43%;position:absolute;' class="dept headtitle">NO RECORD</h1>
                         <div class="carditem">
                             <ul class="itemlist">
-                                <li>Shelfish</li>
-                                <li>Peanuts</li>
-                                <li>Sporse</li>
-                                <li>Palm Oil</li>
+                                <li *ngFor = 'let history of patient.record.famHist'>{{history.condition}}</li>
                             </ul>
                         </div>
                     </div>
@@ -295,11 +260,10 @@
                         <h1 class="dept headtitle">FAMILY HISTORY</h1>
                     </div>
                     <div class="card-body rightcardbody">
+                    <h1 *ngIf='!patient.record.allegies.length'   style='color:lightgrey; width:100%; text-align:center;top:43%;position:absolute;' class="dept headtitle">NO RECORD</h1>
                         <div class="carditem">
                             <ul class="itemlist">
-                                <li>Diabetes</li>
-                                <li>Asthma</li>
-                                <li>Tooth Ache</li>
+                                <li *ngFor = 'let allegy of patient.record.allegies'>{{allegy.allegy}}</li>
                             </ul>
                         </div>
                     </div>
@@ -308,41 +272,46 @@
                     <div class="card-header grapheader">
                         <h1 class="dept headtitle">COMPLAINS</h1>
                     </div>
-                    <div class="card-body rightcardbody">
-                          <div *ngFor ="let complain of patient.record.complains" class="carditem">
-                              <div class="carditem priscriptioncontainer order">
+                    <div style ="padding-left:5px;" class="card-body rightcardbody">
+                    <h1 *ngIf='!patient.record.complains.length'   style='color:lightgrey; width:100%; text-align:center;top:43%;position:absolute;' class="dept headtitle">NO RECORD</h1>
+                          <div *ngFor ='let complain of patient.record.complains' class="carditem">
+                              <div style='border-left:0px;padding-right:10px;' class="carditem priscriptioncontainer order">
                                   <div class="timeline condition drugtimeline">
-                                      <p class="timelinedate">10</p>
-                                      <p class="timelinedate month">FEB</p>
+                                      <p class="timelinedate">{{complain.dateCreated|date:'dd'}}</p>
+                                      <p class="timelinedate month">{{complain.dateCreated|date:'MMM'|uppercase}}</p>
                                   </div>
-                                  <div class="priscription drug side-item">
-                                      <h6 class="dept complain">{{complain.complain}}</h6>
-                                      <h6 class="dept priscriptiontime">&nbsp;08:55am</h6>
-                                  </div>
-
-
-                              </div>
-                              <div class="carditem priscriptioncontainer order">
-                                  <div class="timeline condition drugtimeline">
-                                      <p class="timelinedate">09</p>
-                                      <p class="timelinedate month">JAN</p>
-                                  </div>
-
-                                  <div class="priscription drug side-item">
-                                      <h6 class="dept">Pregnancy</h6>
-                                      <h6 class="dept priscriptiontime">&nbsp;05:37pm</h6>
+                                  <div style='border-bottom:1px solid whitesmoke;padding-bottom:4px;margin-bottom:0px' class="priscription drug side-item">
+                                      <p class="dept complain">{{complain.complain}}</p>
+                                      <!-- <h6 class="dept priscriptiontime">&nbsp;08:55am</h6> -->
                                   </div>
                               </div>
-                          </div>
+                            </div>
                       </div>
                 </div>
                 <div class="card card-secondary historycard rightcard conditions">
                     <div class="card-header grapheader">
                         <h1 class="dept headtitle">CONDITIONS</h1>
                     </div>
-                    <div class="card-body rightcardbody">
-                          <div class="carditem">
-                              <div class="carditem priscriptioncontainer order">
+                    <div style ="padding-left:5px;" class="card-body rightcardbody">
+                    <h1 *ngIf='!patient.record.conditions.length'   style='color:lightgrey; width:100%; text-align:center;top:43%;position:absolute;' class="dept headtitle">NO RECORD</h1>
+                          <div *ngFor ='let condition of patient.record.conditions' class="carditem">
+                              <div style='border-left:0px;padding-right:10px;' class="carditem priscriptioncontainer order">
+                                  <div class="timeline condition drugtimeline">
+                                      <p class="timelinedate">{{condition.dateCreated|date:'dd'}}</p>
+                                      <p class="timelinedate month">{{condition.dateCreated|date:'MMM'|uppercase}}</p>
+                                  </div >
+                                  <div style='border-bottom:1px solid whitesmoke;padding-bottom:4px;margin-bottom:0px' class="priscription drug side-item">
+                                      <p class="dept complain">{{condition.condition}}<span style='color:lightgrey;font-size:smaller;width:56%;position:absolute;text-align:right;'>05:20pm</span></p>
+                                       <div style='margin:0px;display:inline-block' class="timeline lastdoc priscriber headerdp seenby"></div>
+                                       <h1 style='position:absolute;left:22%;bottom:17px;' class="dept previnfo sec-info"> <span class="predata">Dr. Rita Benjamin</span></h1>
+                                  </div>
+                              </div>
+                            </div>
+                      </div>
+                    <!-- <div class="card-body rightcardbody">
+                        <h1 style='color:lightgrey; width:100%; text-align:center;top:43%;position:absolute;' class="dept headtitle">NO RECORD</h1>
+                          <div class="carditem"> -->
+                              <!-- <div class="carditem priscriptioncontainer order">
                                   <div class="timeline condition drugtimeline">
                                       <p class="timelinedate">10</p>
                                       <p class="timelinedate month">FEB</p>
@@ -385,77 +354,29 @@
                                       <h6 class="dept">Thyphoid Fever</h6>
                                       <h1 class="dept previnfo">Diagnosed By: <span class="predata">Dr. Sulaiman Isah</span></h1>
                                   </div>
-                              </div>
+                              </div> -->
 
 
-                          </div>
-                      </div>
+                          <!-- </div>
+                      </div> -->
                 </div>
                 <div class="card card-secondary historycard rightcard medication">
                     <div class="card-header grapheader">
                         <h1 class="dept headtitle">MEDICATIONS</h1>
                     </div>
-                    <div style ="padding-left:12px;" class="card-body rightcardbody">
-                      <div class="carditem priscriptioncontainer order">
-                          <div class="timeline condition drugtimeline">
-                              <p class="timelinedate">20</p>
-                              <p class="timelinedate month">FEB</p>
-                          </div>
-                          <div class="priscription drug">
-                              <h6 style='font-weight:normal' class="dept">Amoxiline&nbsp;<span class="predata prescriptionicon"></span><span class="predata">200mg</span></h6>
-
-                          </div>
-                          <div class="priscription drug">
-                              <h6  style='font-weight:normal' class="dept">Chloroquine &nbsp;<span class="predata prescriptionicon">
-                              </span><span class="predata">200ml</span></h6>
-
-                          </div>
-                          <div class="priscription drug">
-                              <h6 style='font-weight:normal' class="dept">Amathem<span class="predata prescriptionicon">
-                              </span><span class="predata">1000mg</span></h6>
-
-                          </div>
-                      </div>
-                      <div class="carditem priscriptioncontainer order">
-                          <div class="timeline condition drugtimeline">
-                              <p class="timelinedate">18</p>
-                              <p class="timelinedate month">DEC</p>
-                          </div>
-                          <div class="priscription drug">
-                              <h6 class="dept">Amoxiline&nbsp;<span class="predata prescriptionicon"></span><span class="predata">200mg</span></h6>
-
-                          </div>
-                          <div class="priscription drug">
-                              <h6 class="dept">Chloroquine &nbsp;<span class="predata prescriptionicon">
-                              </span><span class="predata">200ml</span></h6>
-
-                          </div>
-
-                      </div>
-                      <div class="carditem priscriptioncontainer order">
-                          <div class="timeline condition drugtimeline">
-                              <p class="timelinedate">05</p>
-                              <p class="timelinedate month">FEB</p>
-                          </div>
-                          <div class="priscription drug">
-                              <h6 class="dept">Senamen&nbsp;<span class="predata prescriptionicon"></span><span class="predata">200mg</span></h6>
-
-                          </div>
-                          <div class="priscription drug">
-                              <h6 class="dept">Chloroquine &nbsp;<span class="predata prescriptionicon">
-                              </span><span class="predata">200ml</span></h6>
-
-                          </div>
-                          <div class="priscription drug">
-                              <h6 class="dept">Paracetamol <span class="predata prescriptionicon">
-                              </span><span class="predata">1000mg</span></h6>
-
-                          </div>
-                          <div class="priscription drug">
-                              <h6 class="dept">Septrene<span class="predata prescriptionicon">
-                              </span><span class="predata">200ml</span></h6>
-
-                          </div>
+                    <div style ="padding-left:17px;" class="card-body rightcardbody">
+                      <div  *ngFor="let medic of patient.record.medications; let i = index"  class="carditem priscriptioncontainer order">
+                        <div style='left:-7.2%' class="timeline condition drugtimeline">
+                            <p class="timelinedate"> {{medic[0]?.dateCreated|date:'dd'}}</p>
+                            <p  class="timelinedate month"> {{medic[0]?.dateCreated|date:'MMM'|uppercase}}</p>
+                        </div>
+                        <div *ngFor ="let m of medic; let j= index" class="priscription drug">
+                            <p class="dept">{{m.product.item.name}}<span class="predata">
+                                {{m.product.item.mesure+m.product.item.unit}}</span>
+                                <!-- <span style='color:lightgrey;font-size:smaller;width:56%;position:absolute;text-align:right;'>05:20pm</span> -->
+                            </p>
+                            <!-- <h6 class="dept previnfo">By&nbsp;<span class="predata"> Hassan Ali </span></h6> -->
+                         </div>
                       </div>
                     </div>
                 </div>

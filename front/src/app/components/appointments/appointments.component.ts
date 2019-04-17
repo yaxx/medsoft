@@ -29,6 +29,7 @@ export class AppointmentsComponent implements OnInit {
    myDepartment = null;
    nowSorting = 'Date added';
    view = 'info';
+   message = null
    searchTerm = '';
    regMode =  'all';
    dpurl = 'http://localhost:5000/api/dp/';
@@ -38,7 +39,7 @@ export class AppointmentsComponent implements OnInit {
    uploader: FileUploader = new FileUploader({url: uri});
    constructor(
      private dataService: DataService,
-     private cookie: CookieService,
+     private cookies: CookieService,
      private route: ActivatedRoute,
      private socket: SocketService
  
@@ -63,9 +64,13 @@ export class AppointmentsComponent implements OnInit {
      };
 
    }
-   getDp(p: Person) {
-     return 'http://localhost:5000/api/dp/' + p.info.personal.avatar;
-   }
+   getDp(avatar: String) {
+    return 'http://localhost:5000/api/dp/' + avatar;
+  }
+  
+  getMyDp() {
+    return this.getDp(this.cookies.get('d'))
+  }
    showSortMenu() {
      this.sortMenu = true;
    }
@@ -85,7 +90,9 @@ export class AppointmentsComponent implements OnInit {
     })
   }
    getPatients() {
+    this.loading = true;
      this.dataService.getPatients().subscribe((patients: Person[]) => {
+       
        let myPatients;
        if(this.myDepartment) {
           myPatients = patients.filter(
@@ -93,12 +100,23 @@ export class AppointmentsComponent implements OnInit {
        } else {
         myPatients = patients.filter(p => p.record.visits[0].status === 'appointment');
        }
-       myPatients.forEach(p => {
-         p.card = {menu: false, view: 'front'};
-       });
-       this.patients = myPatients;
-       this.dataService.setCachedPatients(patients);
-     });
+       if(myPatients.length) {
+          myPatients.forEach(p => {
+            p.card = {menu: false, view: 'front'};
+          });
+          this.patients = myPatients;
+          this.dataService.setCachedPatients(patients);
+          this.loading = false;
+          this.message = null;
+       } else {
+          this.message = 'No Records So Far';
+          this.loading = false;
+    }
+      
+     },(e) => {
+      this.message = 'Something went wrong';
+      this.loading = false;
+    });
    }
    fileSelected(event) {
      if (event.target.files && event.target.files[0]) {
@@ -115,6 +133,9 @@ export class AppointmentsComponent implements OnInit {
    showMenu(i: number) {
     this.hideMenu();
     this.patients[i].card.menu = true;
+  }
+  refresh(){
+    this.getPatients();
   }
   hideMenu() {
     this.patients.forEach(p => {

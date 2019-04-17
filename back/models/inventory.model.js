@@ -23,5 +23,5 @@ const InventoryScheema = new Scheema({
     dateCreated: Date  
 
 })
-const Inventory = mongoose.model('Inventrory', InventoryScheema)
+const Inventory = mongoose.model('Inventrory', InventoryScheema, {strict: false})
 export default  Inventory;

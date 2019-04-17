@@ -17,15 +17,14 @@ export class RegistrationComponent implements OnInit {
   form: NgForm;
   // personal: Personal = new Personal();
  patients: Person[] = new Array<Person>();
- temPatients: Person[] = new Array<Person>();
  patient: Person = new Person();
   file: File = null;
   info: Info = new Info();
   visit:Visit = new Visit();
-  card:string = null;
+  card: string = null;
   url = '';
   curIndex = 0;
-
+  message = null;
   sortBy = 'added';
   sortMenu = false;
   loading = false;
@@ -39,7 +38,7 @@ export class RegistrationComponent implements OnInit {
   uploader: FileUploader = new FileUploader({url: uri});
   constructor(
     private dataService: DataService,
-    private cookie: CookieService,
+    private cookies: CookieService,
     private socket: SocketService,
     private route: ActivatedRoute,
     private router: Router
@@ -53,28 +52,45 @@ export class RegistrationComponent implements OnInit {
         this.patients.unshift(patient);
       }
   });
-
     this.socket.io.on('enroled', (patient: Person) => {
       this.patients.unshift(patient);
   });
 
 
   }
-  getDp(p: Person) {
-    return 'http://localhost:5000/api/dp/' + p.info.personal.avatar;
+  getDp(avatar: String) {
+    return 'http://localhost:5000/api/dp/' + avatar;
   }
   showSortMenu() {
     this.sortMenu = true;
   }
+  getMyDp() {
+    return this.getDp(this.cookies.get('d'))
+   
+  }
+  refresh() {
+     this.getPatients();
+  }
   getPatients() {
     let discharged;
     this.dataService.getPatients().subscribe((patients: Person[]) => {
+      this.loading = true;
       discharged = patients.filter(patient=>patient.record.visits[0].status === 'Discharge');
-      discharged.forEach(p => {
-        p.card = {menu: false, view: 'front'};
+      if(discharged.length) {
+         discharged.forEach(p => {
+         p.card = {menu: false, view: 'front'};
       });
       this.patients = discharged;
       this.dataService.setCachedPatients(discharged);
+      this.loading = false;
+      this.message = null;
+      } else {
+          this.message = 'No Records So Far';
+          this.loading = false;
+      }
+    },(e) => {
+      this.message = 'Something went wrong';
+      this.loading = false;
     });
   }
   enrolePatient()  {
@@ -129,13 +145,13 @@ export class RegistrationComponent implements OnInit {
       return patern.test(patient.info.personal.firstName);
       });
    } else {
-     this.patients = this.temPatients;
+     this.patients = this.dataService.getCachedPatients();
    }
 
   }
  
   getMe() {
-    return this.cookie.get('a');
+    return this.cookies.get('a');
   }
   sortPatients(sortOption: string) {
     this.sortMenu = false;

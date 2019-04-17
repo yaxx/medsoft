@@ -2,7 +2,7 @@
 
 
 
-<!-- 
+<!--
 <div class="sidenav">
 
   <a style="top:21%" href="#" [routerLink]="['/department/information']" routerLinkActive="router-link-active"  class="home patienmenu" title="Out Patients">
@@ -25,55 +25,54 @@
     <a class="navbar-brand" href="#">
         <em>MS</em>
     </a>
-    <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="navbar-toggler-icon"></span>
-    </button>
+
     <div class="collapse navbar-collapse" id="navcol-1">
-        <ul class="nav navbar-nav"></ul>
-        <form class="form-inline mr-auto searchform" target="_self">
+        <form class="top-searchform" target="_self">
             <div class="form-group">
-                <label style="left:500px;position:absolute;"  for="search-field">
-                    <i class="icon ion-ios-search searchicon" title="Search"></i>
-                </label>
-                <input [(ngModel)] = searchTerm #search (keyup)='searchPatient(searchTerm)' autocomplete = "off" style="border-radius:30px;
-                left: 270px;
-                width:220px;
+                <input [(ngModel)] = searchTerm #search (keyup)='searchPatient(searchTerm)' autocomplete = "off" style="border-radius:.999em;
+                width:80%;display:inline-block;
+                position:absolute;bottom:-2%;
                 background-color: rgb(243, 248, 247);
-                margin: auto;"
-                class="form-control search-field"
+                "
+                class="form-control"
                 type="search" name="search" id="search-field" placeholder="Search patient">
-            </div>
-        </form>
-        <h6 style='font-size:12px;
-                    left:780px;position:absolute;
+                <i style='font-size:20px; top:5px;left:85%;position:relative;display:inline' class="icon ion-ios-search " title="Search"></i>
+                <h6 style='font-size:12px;
+                    left:98%;position:relative;display:inline-block;
                     color:grey;
                     font-weight:normal;'>Sort by: <span stye='cursor:pointer'(click)='showSortMenu()'>
                       {{nowSorting}}</span></h6>
-        <div *ngIf=sortMenu style='position: absolute;
-                    left:824px;
+                 <div *ngIf=sortMenu style='position: absolute;
+                    left:120%;
                     width:100px;top:6px;
                     height:110px'  class="menu">
-          <ul class="actions primary">
-              <li (click)='sortPatients("name")' class="action">A-Z</li>
-              <li (click)='sortPatients("age")' class="action">Age</li>
-              <li (click)='sortPatients("status")' class="action">Status</li>
-              <li (click)='sortPatients("sex")' class="action">Gender</li>
-              <li (click)='sortPatients("date")' class="action">Date added</li>
-          </ul>
-      </div>
+                <ul class="actions primary">
+                    <li (click)='sortPatients("name")' class="action">A-Z</li>
+                    <li (click)='sortPatients("age")' class="action">Age</li>
+                    <li (click)='sortPatients("status")' class="action">Status</li>
+                    <li (click)='sortPatients("sex")' class="action">Gender</li>
+                    <li (click)='sortPatients("date")' class="action">Date added</li>
+                </ul>
+                </div>
+          </div>
+  </form>
+
     </div>
 </div>
 <i style="left:80%;" class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
-
-<i [routerLink]="['/messages']" data-target="#newModal" data-toggle="modal" style="left:83%;" class="icon ion-ios-person-outline arrow buble" id="add" title="My Account" ></i>
-<i  style="left:75%;" class="icon ion-ios-plus-empty arrow buble" id="add" title="New Patient" data-target="#newModal" data-toggle="modal"></i>
-<div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:90%;position:absolute;height:30px;width:30px;bottom:-8%"></div>
+<i [routerLink]="['../../me']" data-target="#newModal" data-toggle="modal" style="left:83%;" class="icon ion-ios-person-outline arrow buble" id="add" title="Me" ></i>
+  <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:90%;position:absolute;height:30px;width:30px;top:5px; margin-bottom:0px;"> <img style='height:100%; width:100%; object-fit:cover;' [src] = getMyDp()/></div>
 </nav>
 
 <div style="padding-top:60px" class="container">
       <div class="row">
-          <h6 *ngIf ='!patients.length' style='font-size:13px;position:relative;top:170px;text-align:center;display:inline-block; color:lightgrey; width:30%; margin:auto;' [routerLink]="['/signup']" routerLinkActive="" >No Record Found</h6>
+         <div *ngIf='!patients.length' class='issue'>
+              <div *ngIf='loading' class="lds-css ng-scope"><div style="width:100%;height:100%" class="lds-rolling"><div></div></div></div>
+              <div *ngIf='message' title='Refresh' class='refresh'><i class="icon ion-ios-reload "></i></div>
+              <h6 *ngIf='message' style='font-size:13px;position:absolute;top:65%; width:100%; color:lightgrey;text-align: center' >{{message}}</h6>
+          </div>
+
+
           <div  *ngFor="let patient of patients; let i=index"  class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
               <div *ngIf = "patient.card.view == 'front'"  class="card card-secondary maincard">
                 <div style="border-radius:12px" class="card-header profileheader"><i (click)='showMenu(i)' class="icon ion-android-more-vertical headericon moreicon actions-icon"></i>
@@ -82,7 +81,7 @@
                         <li (click)="selectPatient(i)" data-target="#medicModal" data-toggle="modal" class="action">Attend to</li>
                          <li (click) = switchToAp(i) class="action">Edit AP</li>
                          <li (click)="selectPatient(i)" data-target="#medicModal" data-toggle="modal" class="action">Cancel AP</li>
-                    
+
                      </ul>
                 </div>
                     <div class="timeline lastdoc priscriber headerdp">
@@ -129,7 +128,7 @@
                   </h6>
                   <p style='position: absolute;bottom:0.1%;font-size: 10px;color:lightgrey;left: 70%;'>02 DEC, 2019</p>
               </div>
-             
+
             </div>
 
             <div style="border-radius:12px"  *ngIf = "patient.card.view == 'ap'"   class="card card-secondary maincard">
@@ -161,7 +160,7 @@
                           <label for="time" class="labelss complain">TIME</label>
                           <input [(ngModel)]="appointment.time"   style='font-size:11px' type="time" name="time" class="patientdata inputs dataInfo">
                       </div>
- 
+
                   </form>
               </div>
               <div (click) = 'setAppointment()' style='left:78%; height:32px;width:32px'
@@ -172,7 +171,7 @@
                 </i>
              </div>
           </div>
-          
+
       </div>
   </div>
 </div>

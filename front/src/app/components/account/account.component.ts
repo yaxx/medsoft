@@ -3,13 +3,14 @@ import {Router} from '@angular/router';
 import {DataService} from '../../services/data.service';
 import {Client, Department, Bed} from '../../models/client.model';
 import {Connection, Connections, Info, Person} from '../../models/person.model';
+import {CookieService } from 'ngx-cookie-service';
 @Component({
   selector: 'app-account',
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.css']
 })
 export class AccountComponent implements OnInit {
-  department: Department = new Department();
+  
   info: Info = new Info();
   staff: Person = new Person();
   staffs: Person[] = new Array<Person>();
@@ -17,6 +18,7 @@ export class AccountComponent implements OnInit {
   connections: Connections =  new Connections();
   connection: Connection =  new Connection();
   hovers = new Array<boolean>(9);
+  department = new Department();
   checked = new Array<boolean>(9);
   selectedDept: Department = new Department();
   selectedDept2: Department = new Department();
@@ -24,14 +26,14 @@ export class AccountComponent implements OnInit {
   cachedClient: Client  = new Client();
   bed: Bed = new Bed();
   loading = false;
-  bedNumber = 0;
+  bedNumber = 1;
   infomode = 'view';
   deptsmode = 'view';
   staffmode = 'view';
   action = 'new';
   exist = false;
 
-  constructor(private dataService: DataService, private router: Router) { }
+  constructor(private dataService: DataService, private cookies: CookieService, private router: Router) { }
   ngOnInit() {
     this.dataService.getClient().subscribe((res: any) => {
       this.client = res.client;
@@ -90,7 +92,7 @@ export class AccountComponent implements OnInit {
    }
    checkStaff(name) {
     this.selectedDept2 = this.departments.filter((dept) => dept.name === name)[0];
-     this.staff.info.official.department = this.selectedDept2.name;
+    //  this.staff.info.official.department = this.selectedDept2.name;
    }
    generatePassword(): string {
     return Math.floor(Math.random() * (10000 - 1000 + 1) + 1000).toString();
@@ -118,35 +120,44 @@ export class AccountComponent implements OnInit {
     this.switchMode('staffmode', 'newstaff');
   }
 
-  selectDept(dept) {
-    this.selectedDept = dept;
+  selectDept(name) {
+    this.department = this.departments.find(department => department.name === name);
   }
   addDepartment() {
     this.loading = true;
-    if (this.selectedDept.hasWard) {
-      for(let i = 0; i < this.bedNumber; i++) {
-        this.selectedDept.beds.push(new Bed(i + 1));
+    if (this.department.hasWard) {
+      for(let i = 0; i < this.department.numOfBeds; i++) {
+        this.department.beds.push(new Bed(i + 1));
       }
-      this.selectedDept.numOfBeds = this.bedNumber;
-      this.client.departments.push(this.selectedDept);
-      this.dataService.updateClient(this.client).subscribe((client: Client) => {
-        this.selectedDept = new Department();
-        this.client.departments = this.client.departments;
-        this.loading = false;
-    });
-    } else {
-        this.client.departments.push(this.selectedDept);
-        this.dataService.updateClient(this.client).subscribe((client: Client) => {
-          this.selectedDept = new Department();
-          // this.cachedClient = client;
-          this.client.departments = this.client.departments;
-          this.loading = false;
-      });
+    } else {}
+    this.client.departments.push(this.department); 
+    this.dataService.updateClient(this.client).subscribe((client: Client) => {
+    this.department = new Department();
+    this.loading = false;
+  })
+
+}
+isAddminStaff(){
+  const dept = this.departments.find(department => department.name === this.staff.info.official.department);
+  if(dept) {
+    this.staff.info.official.department = dept.name;
+    return  dept.hasWard;
+  } else {return false;}
+  
+}
+deptHasWard() {
+ this.department = this.departments.find(department => department.name === this.department.name||null);
+ if(this.department) {
+  return  this.department.hasWard;
+} else {return false;}
+  
+}
+getDp(avatar: String) {
+    return 'http://localhost:5000/api/dp/' + avatar;
   }
-}
-getDp(p: Person) {
-  return 'http://localhost:5000/api/dp/' + p.info.personal.avatar;
-}
+  getMyDp() {
+    return this.getDp(this.cookies.get('d'))
+  }
 }
 
 

@@ -20,10 +20,23 @@ export class DataService {
   staff: Person = new Person();
   patients: Person[] = new Array<Person>();
   cachedPatients: Person[] = new Array<Person>();
+  cachedProducts: Product[] = new Array<Product>();
 
   constructor(private http: HttpClient) { }
   setCachedPatients(patients: Person[]) {
      this.cachedPatients = patients;
+  }
+  setCachedProducts(products: Product[]) {
+     this.cachedProducts = products;
+  }
+  getCachedPatients() {
+    return this.cachedPatients;
+  }
+  getCachedPatient(id) {
+    return this.cachedPatients.find(p => p._id === id);
+  }
+  getCachedProducts() {
+    return this.cachedProducts;
   }
   getHistory(id) {
     return this.http.get(
@@ -83,9 +96,9 @@ export class DataService {
       `${this.uri}/update-products`, product, {withCredentials: true}
       );
   }
-  runTransaction(patients:Person[], i:Product[]) {
+  runTransaction(patient: Person, i:Product[]) {
     return this.http.post(
-      `${this.uri}/transaction`, {patients:patients, inventory:i}, {withCredentials: true}
+      `${this.uri}/transaction`, {patient: patient, inventory: i}, {withCredentials: true}
       );
   }
   deleteProducts(product) {

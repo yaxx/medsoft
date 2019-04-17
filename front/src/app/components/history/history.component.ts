@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Person} from '../../models/person.model';
+import { Note} from '../../models/record.model';
 import {DataService} from '../../services/data.service';
+import {CookieService } from 'ngx-cookie-service';
 import {ActivatedRoute} from '@angular/router';
 import {Chart} from 'chart.js';
 import {saveAs} from 'file-saver';
@@ -15,30 +17,35 @@ export class HistoryComponent implements OnInit {
   patient: Person = new Person();
   bpChart = [];
   chartData = [];
+  notes: Note[] = [];
   chartLabels = new Array<String>(10);
-  constructor(private dataService: DataService, private route: ActivatedRoute) { }
+  constructor(private dataService: DataService, private cookies: CookieService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     let day = null;
-    let months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC']
-    this.dataService.getHistory(this.route.snapshot.params['id']).subscribe((patient:Person)=>{
+    const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
+    this.dataService.getHistory(this.route.snapshot.params['id']).subscribe((patient: Person) => {
+      this.notes = patient.record.notes;
       this.patient = patient;
+      this.patient.record.notes = patient.record.notes.map(note => ({
+        ...note,
+        note: note.note.length > 150 ? note.note.substr(0, 150) : note.note
+      }));
     });
-    this.patient.record.vitals.bp.forEach((bp,i) => {
-
-      this.chartData.push(bp.value)
-      this.chartLabels[i] = new Date(bp.dateCreated).getDate().toString()+months[new Date(bp.dateCreated).getMonth()];
-    });
+    this.patient.record.vitals.bp.forEach((bp, i) => {
+        this.chartData.push(bp.value);
+        this.chartLabels[i] = new Date(bp.dateCreated).getDate().toString() + months[new Date(bp.dateCreated).getMonth()];
+      });
     this.bpChart = new Chart('bpChart', {
       type: 'bar',
         options: {
             maintainAspectRatio: false,
-            layout:{
+            layout: {
                 padding: {
                     left: 5,
-                    right:20,
-                    top:0,
-                    bottom:0
+                    right: 20,
+                    top: 0,
+                    bottom: 0
                 }
             },
           legend: {
@@ -89,22 +96,34 @@ export class HistoryComponent implements OnInit {
       }
     });
   }
-  getDp(p: Person){
-    return 'http://localhost:5000/api/dp/' + p.info.personal.avatar;
+  getDp(avatar: String) {
+    return 'http://localhost:5000/api/dp/' + avatar;
+  }
+  
+  getMyDp() {
+    return this.getDp(this.cookies.get('d'))
   }
   getImage(fileName: String){
     return 'http://localhost:5000/api/dp/' + fileName;
+  }
+  compareNotes(i:number, note:Note){
+    return this.notes[i].note.length === note.note.length
   }
   downloadImage(file: string) {
     this.dataService.download(file).subscribe(
       res =>  saveAs(res, file)
     );
   }
-  
-  showDetails(e: Event, i: string) {
+
+  readMore(e: Event, i: number) {
   e.preventDefault();
-  this.patient.record.notes[i].full = true;
+  this.patient.record.notes[i].note = this.notes[i].note;
 }
+getDocDp(avatar: string) {
+    return 'http://localhost:5000/api/dp/' + avatar;
+}
+
+
 
 // getPatient(): Patient {
 //    return this.dataService.getCachedPatients(this.route.snapshot.params['id'])

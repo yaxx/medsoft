@@ -18,7 +18,7 @@ uploader: FileUploader = new FileUploader({url: uri});
 people = 'followings';
 leftcard = 'contacts';
 file: File = null;
-curMessages: any[] = new Array<any>(new Array<Message>(new Message()));
+curMessages: any[] = [];
 cardView = null;
 curPerson = new Connection();
 follows: Person[] = new Array<Person>();
@@ -35,16 +35,23 @@ editing = null;
 errLine = false;
 showMenu = false;
 oldPwd = null;
-  constructor(
-    private data: DataService,
-    private cookies: CookieService,
-    public socket: SocketService
+  constructor( private data: DataService,private cookies: CookieService,public socket: SocketService
+
+
+
   ) {}
   ngOnInit() {
       this.getMyAccount();
       this.me = this.cookies.get('i');
       this.socket.io.on('new message', (data) => {
-        this.curPerson.messages = data.msgs;
+        // this.curPerson.messages = data.msgs;
+        if(this.curPerson.person._id === data.sender){
+            this.curPerson.messages = data.msgs.map(m1 => m1.map(m2 => ({...m2, read: true})))
+            // this.curMessages = data.msg.map(m1 => m1.map(m2 => ({...m2, read: true})))
+        }
+        this.contacts.map(contact => {
+          return (contact.person._id === data.msg.sender) ? ({...contact, messages: data.msg}) : contact;
+        })
       });
       this.socket.io.on('online', (data) => {
         this.contacts.forEach(contact => {
@@ -67,15 +74,18 @@ oldPwd = null;
     if (event.target.files && event.target.files[0]) {
       this.file = <File>event.target.files[0];
       const reader = new FileReader();
-      reader.readAsDataURL(event.target.files[0]); // read file as data url
-      reader.onload = (e) => {
+       reader.readAsDataURL(event.target.files[0]); // read file as data url
+       reader.onload = (e) => {
         let ev = <any>e; // called once readAsDataURL is completed
         this.url = ev.target.result;
       };
     }
 
   }
-
+getLastMessage(msgs){
+ let lastMsg = msgs.length ? msgs[msgs.length-1].filter(m=>!m.read && m.sender!==this.person._id) : [];
+  return lastMsg.length? lastMsg.reverse()[0] : null;
+}
   getMe() {
     return this.cookies.get('i');
   }
@@ -92,7 +102,7 @@ oldPwd = null;
     }
   }
   sendMessage() {
-    if (this.curPerson.messages[0][0]) {
+    if (this.curPerson.messages.length) {
       if (this.curPerson.messages[this.curPerson.messages.length - 1][0].sender === this.cookies.get('i')) {
         this.curPerson.messages[this.curPerson.messages.length - 1].push(new Message(this.message, this.cookies.get('i'), this.curPerson.person._id));
        } else {
@@ -121,24 +131,22 @@ oldPwd = null;
   }
   getMyAccount() {
     this.data.getMyAccount().subscribe((me: Person) => {
-      console.log(me)
-      this.person = me
+      this.person = me;
       // this.contacts = res.c.people.filter(person => (person.follower && person.following));
      });
   }
   back(view) {
     this.rightCard = view;
-
   }
-  getDp(p:Person) {
-      return 'http://localhost:5000/api/dp/' + p.info.personal.avatar;
+   getDp(avatar: String) {
+    return 'http://localhost:5000/api/dp/' + avatar;
+  }
+  
+  getMyDp() {
+    return this.getDp(this.cookies.get('d'))
   }
   getMsgDp(id: string) {
-    if(id === this.curPerson.person._id){
-      return 'http://localhost:5000/api/dp/' + this.curPerson.person.info.personal.avatar;
-    } else {
-      return 'http://localhost:5000/api/dp/' + this.person.info.personal.avatar;
-    }
+      return (id === this.curPerson.person._id) ? 'http://localhost:5000/api/dp/' + this.curPerson.person.info.personal.avatar : 'http://localhost:5000/api/dp/' + this.person.info.personal.avatar;
 
   }
   explore() {
@@ -149,7 +157,7 @@ oldPwd = null;
   selectPerson(person) {
     this.curPerson = person;
       if (person.messages.length) {
-      this.curMessages = person.messages;
+      this.curMessages = person.messages.map(m1=>m1.map(m2=>({...m2, read: true})));
      } else {
 
      }
@@ -214,7 +222,7 @@ switchRightCard(view){
   }
   getContacts(){
     const contacts = this.person.connections.people.filter(contact=>contact.follower&&contact.following).sort((i, j) => new Date(i.lastChated).getTime() - new Date(j.lastChated).getTime())
-    
+
     return contacts;
   }
   follow(person, i) {

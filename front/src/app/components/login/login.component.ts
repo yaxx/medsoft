@@ -47,10 +47,10 @@ cred = {
       if( person.info.official.role !== 'admin') {
         this.cookie.set('i', person._id);
         this.cookie.set('h', person.info.official.hospital);
+        this.cookie.set('d', person.info.personal.avatar);
         this.socket.io.emit('login', {ui: person._id, lastLogin: person.info.lastLogin})
       let route = null;
       const role = person.info.official.role;
-
       switch (role) {
         case 'Doctor':
           route = `/${person.info.official.department.toLowerCase()}/consultation`;
@@ -66,14 +66,15 @@ cred = {
       } else {
           this.cookie.set('i', person._id);
           this.cookie.set('h', person.info.official.hospital);
+          this.cookie.set('d', person.info.personal.avatar);
           this.socket.io.emit('login', {ui: person._id, lastLogin: person.info.lastLogin})
           this.router.navigate(['/admin']);
       }
-    },
-     (err) => {
+    },(err) => {
       this.loading = false;
         this.loginError = true;
     });
+     
   }
   signup() {
     this.creating = true;
@@ -81,6 +82,7 @@ cred = {
       console.log(person)
       this.cookie.set('i', person._id);
       this.cookie.set('h', person.info.official.hospital);
+      this.cookie.set('d', person.info.personal.avatar);
       this.creating = false;
       this.loading = false;
       this.client = new Client();

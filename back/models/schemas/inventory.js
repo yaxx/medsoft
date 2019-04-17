@@ -16,7 +16,8 @@ const InventoryScheema = new Scheema({
             price: Number ,
             expired: Boolean ,
             status: Boolean,
-            quantity: Number
+            quantity: Number,
+            inStock: Number 
         },
         addedOn: date 
     }],

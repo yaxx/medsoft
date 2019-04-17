@@ -7,12 +7,27 @@ import {ActivatedRoute,Router} from '@angular/router';
 })
 export class MainComponent implements OnInit {
 dept = null;
+info = null;
+admin = null;
+seg2 = null;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router) { }
 
   ngOnInit() {
-    this.dept = this.route.snapshot.params['dept'];
+    // this.dept = this.route.snapshot.params['dept'];
+    this.info = this.route.snapshot.url[0].path;
+    this.admin = this.route.snapshot.url[0].path;
+    this.seg2 = this.route.snapshot.url[1].path;
+ 
   }
+  // adminInfo(){
+  // this.route.snapshot.url[0].path === 'admin'||'information';
+  // }
+  // admin(){
+  //   return this.route.snapshot.url[0].path === 'admin';
+  // }
 
+ 
 }

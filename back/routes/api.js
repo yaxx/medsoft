@@ -70,7 +70,7 @@ getDp: (req, res)=>{
   const filePath = path.join(__dirname, '../uploads') + '/'+req.params.id
   res.sendFile(filePath);
 },
-downloadFile: (req, res)=>{
+downloadFile: (req, res) => {
   const filename = path.join(__dirname, '../uploads') + '/'+req.body.fileName
   res.sendFile(filename);
 },
@@ -109,7 +109,7 @@ getPatients: async (req, res) => {
 },
 getHistory: async (req, res) => {
   try {
-    const patient = await Person.findById(req.params.id)
+    const patient = await Person.findById(req.params.id).populate({path:'record.notes.noter', select:'info'}).exec()
     res.send(patient) 
   }
   catch(e){
@@ -134,7 +134,7 @@ addClient: async (req, res) => {
                 personal:{
                   firstName: 'Admin',
                   lastName: '',
-                  username: req.body.cred.username,
+                  username: 'admin',
                   password: req.body.cred.password,
                   avatar:'avatar.jpg'
                 },
@@ -192,12 +192,12 @@ followPerson: async (req, res)=> {
     const me = await Person.findById(req.cookies.i)
     const person = await Person.findById(req.body.id)
     const mycon = await Connection.findByIdAndUpdate(
-      me.connections,{$push:{people: {
+      me.connections,{ $push: {people: {
           person: person._id,
           follower: false,
           following: true,
           blocked: false,
-          messages: [[]]
+          messages: []
       }},
      })
     await Connection.findByIdAndUpdate(
@@ -207,7 +207,7 @@ followPerson: async (req, res)=> {
           follower: true,
           following: false,
           blocked: false,
-          messages: [[]]
+          messages: []
       }, 
         notifications: {
           person: me._id,
@@ -227,13 +227,10 @@ followPerson: async (req, res)=> {
 
 followBack: async (req, res) => {
   try {
-    console.log(req.body)
     const me = await Person.findById(req.cookies.i)
     const person = await Person.findById(req.body.id)
-  
     const mycon = await Connection.findOneAndUpdate({
       _id: me.connections, "people.person": req.body.id}, {"people.$.following": true},{new: true})
-
      await Connection.findOneAndUpdate({
        _id: person.connections,"people.person": me._id}, {"people.$.follower": true,
        $push: {  
@@ -299,6 +296,17 @@ explore: async (req, res)=>{
   
   
 },
+runTransaction: async (req, res) => {
+  try {
+     const person = await Person.findByIdAndUpdate( req.body.patient._id, {'record.medications': req.body.patient.record.medications},{new:true})
+     const client = await Client.findByIdAndUpdate(req.cookies.h,{inventory:req.body.inventory},{new:true})     
+     res.send(client.inventory)
+  }
+  catch(e) {
+    throw e
+  }      
+ 
+},
 
 login: async (req, res) => {
   try {
@@ -324,14 +332,15 @@ getClient: async (req, res)=> {
     const client  = await Client.findById(req.cookies.h)
     .populate('staffs').exec()
     const depts = await Department.find()
-    res.send({client:client, departments: depts})
+    const items = await Item.find()
+    res.send({client:client, departments: depts,items:items})
   }
   catch(e) {
     throw e
   }
 },
 
- staff:(req, res)=>{
+ staff: (req, res)=>{
    if(req.body._id){
       Connection.findOneAndUpdate({
         _id:req.body.connections._id
@@ -490,35 +499,7 @@ updateRecord: (req, res)=>{
 
     })
 },
-runTransaction: (req, res) => {
-  req.body.patients.forEach(person => {
-           Person.findOneAndUpdate({
-            _id: person._id,
-         },
-         {'record.medications':person.record.medications},{new:true},(e,i) => {
-           if(!e) {
-             
-           }
-           else{
-             console.log(e)
-           }
-         })
-        
-     })
 
-     Client.findOneAndUpdate({
-      'info.email':'mail@cityhospital.com' },
-         {
-           inventory:req.body.inventory},{new:true},(e,i) => {
-           if(!e) {
-              res.send({inventory:i})
-           }
-           else {
-             console.log(e)
-           }
-        })
- 
-},
 
 updateNote: (req, res)=>{
   Person.findOne({ _id:req.body.id} ,(e, doc) => {
@@ -552,35 +533,37 @@ updateMedication: (req, res) => {
 
 },
 
-
-addProduct: (req, res)=>{
-    Client.findOneAndUpdate({
-    'info.email':'mail@cityhospital.com'},
-    {
-      $addToSet:{inventory:{$each:req.body}}},
-      {new:true},
-      (e, doc)=>{
-        if(!e){
-          res.send(doc.inventory)
-        }else{
-      console.log(e)
-    }
-  })
+// const mycon = await Connection.findByIdAndUpdate(
+//   me.connections,{ $push: {people: {
+//       person: person._id,
+//       follower: false,
+//       following: true,
+//       blocked: false,
+//       messages: []
+//   }},
+//  })
+addProduct: async (req, res) => {
+  try {
+    console.log(req.body)
+    const client = await Client.findByIdAndUpdate(req.cookies.h,{ $addToSet: {inventory:{ $each: req.body}}},  {new: true} 
+  )
+  res.send(client.inventory)
+}
+  catch(e)  {
+    throw e
+  }
 },
 
-getProducts: (req, res)=>{
-  Client.findOne({
-    'info.email':'mail@cityhospital.com'
-  },
-      (err, client)=>{
-      if(!err){
-        
-        res.send(client);
-      }
-      else{
-        console.log(err);
-      }
-  })
+getProducts: async (req, res) => {
+  try {
+    const client = await Client.findById(req.cookies.h,'inventory')
+    const items = await Item.find()
+    res.send({inventory: client.inventory, items: items})
+  }
+  catch(e)  {
+    throw e
+  }
+      
 },
 
 updateProducts: (req, res)=>{
@@ -616,18 +599,7 @@ deleteProducts: (req, res)=>{
 
 },
 
-getItems: (req, res)=>{
-  Item.find({}, (e,items)=>{
-    if(!e){
 
-      res.send(items);
-    }
-    else{
-      console.log(err);
-    }
-  })
-
-},
 
 
 

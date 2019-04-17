@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import {DataService} from '../../services/data.service';
 import {SocketService} from '../../services/socket.service';
 import { FileSelectDirective, FileUploader } from 'ng2-file-upload';
+import {CookieService } from 'ngx-cookie-service';
 import {ActivatedRoute} from '@angular/router';
 import {Person} from '../../models/person.model';
 import {states, lgas} from '../../models/data.model';
 import {Client, Department} from '../../models/client.model';
-import { Item, StockInfo,Product} from '../../models/inventory.model';
+import { Item, StockInfo, Product} from '../../models/inventory.model';
 import { Record, Session, Appointment,
          Priscription, Medication, Visit, Note} from '../../models/record.model';
 const uri = 'http://localhost:5000/api/upload';
@@ -45,10 +46,14 @@ export class ConsultationComponent implements OnInit {
   input = '';
   in = 'discharge';
   loading  = false;
+  processing  = false;
+  feedback = null;
+  reg = true;
   fowarded = false;
   fowardTo = null;
   sortBy = 'added';
   sortMenu = false;
+  message = null;
   nowSorting = 'Date added';
   myDepartment = null;
   url = '';
@@ -56,18 +61,14 @@ export class ConsultationComponent implements OnInit {
   uploader: FileUploader = new FileUploader({url: uri});
 
   constructor(private dataService: DataService,
-     private route: ActivatedRoute, private socket: SocketService ) {
-
+     private route: ActivatedRoute,  private cookies: CookieService, private socket: SocketService ) {
    }
 
   ngOnInit() {
-   
    this.getConsultees();
-   this.getItems();
    this.getClient();
    this.myDepartment = this.route.snapshot.params['dept'];
     this.socket.io.on('enroled', (patient: Person) => {
-  
       if(patient.record.visits[0].dept.toLowerCase() === this.myDepartment || this.route.snapshot.params['admin']) {
         patient.card = {view:'front',menu:false}
         this.patients.unshift(patient);
@@ -83,27 +84,23 @@ export class ConsultationComponent implements OnInit {
          } else {
            this.patients.splice(i, 1);
          }
-      } else if (patient.record.visits[0].status ==='queued') {
+      } else if (patient.record.visits[0].status === 'queued') {
         this.patients[i] = patient;
       } else {
         this.patients.splice(i, 1);
       }
-
   });
 
   this.socket.io.on('Discharge', (patient: Person) => {
-    
-    const i = this.patients.findIndex(p=>p._id === patient._id)
+    const i = this.patients.findIndex(p => p._id === patient._id)
       if(patient.record.visits[0].dept.toLowerCase() === this.myDepartment ) {
-         if(i<0){
-
+         if(i < 0) {
          } else {
            this.patients.splice(i, 1);
          }
       } else {
          this.patients.splice(i, 1);
       }
-
   });
 
 
@@ -117,24 +114,33 @@ export class ConsultationComponent implements OnInit {
        this.socket.io.emit('consulted', newpatient);
        this.patient = new Person();
        this.url = '';
-       this.loading = false;
+       this.processing = false;
+       this.feedback = 'Patient added successfully';
+    },(e) => {
+      this.feedback = 'Unbale to add patient';
+      this.processing = false;
     });
    };
 
   }
- 
+  refresh() {
+   this.getConsultees();
+   this.getClient();
+  }
   getLgas(){
     return this.lgas[this.states.indexOf(this.patient.info.contact.me.state)];
   }
-  
+
 addPatient() {
-    this.loading = true;
+    this.processing = true;
     this.uploader.uploadAll();
   }
-  getClient() {
-    this.dataService.getClient().subscribe((client: Client) => {
-      this.client = client;
-    });
+ getClient() {
+    this.dataService.getClient().subscribe((res: any) => {
+      this.client = res.client;
+      this.products = res.client.inventory;
+      this.items = res.items;
+  });
 
   }
   fileSelected(event) {
@@ -153,8 +159,12 @@ addPatient() {
   conclude(conclution: string) {
     this.fowarded = conclution === 'Foward' ? true : false;
   }
-  getDp(p: Person) {
-    return 'http://localhost:5000/api/dp/' + p.info.personal.avatar;
+  getDp(avatar: String) {
+    return 'http://localhost:5000/api/dp/' + avatar;
+  }
+
+  getMyDp() {
+    return this.getDp(this.cookies.get('d'))
   }
   fetchDept() {
     if (this.fowarded) {
@@ -227,13 +237,16 @@ addPatient() {
         break;
     }
   }
-
-   saveMedication(i) {
+  saveMedication(i) {
     this.composeMedication();
-    this.dataService.updateMedication(this.patients[i]._id, this.medications).subscribe((p: Person) => {
+    this.patients[i].record.medications = this.medications;
+    this.loading = true;
+    this.dataService.updateRecord(this.patients[i]).subscribe((p: Person) => {
       p.card = {menu: false, view: 'front'};
       this.patients[i] = p;
       this.medications = new Array<any>(new Array<Medication>());
+      this.tempMedications = [];
+      this.loading = false;
     });
   }
   searchPatient(name: string) {
@@ -244,7 +257,7 @@ addPatient() {
        return patern.test(patient.info.personal.firstName);
        });
     } else {
-      this.patients = this.temPatients;
+      this.patients = this.dataService.getCachedPatients();
     }
 
 
@@ -252,17 +265,13 @@ addPatient() {
   showSortMenu(){
     this.sortMenu = true;
   }
-  // getProducts() {
-  //   this.dataService.getProducts().subscribe((p: any) => {
-  //     this.products = p.inventory;
-
-  //   });
-  // }
-  getItems() {
-    this.dataService.getItems().subscribe((items: Item[]) => {
-      this.items = items;
-    });
+  getProducts() {
+    this.dataService.getProducts().subscribe((res: any) => {
+      this.products = res.inventory;
+      this.items = res.items;
+   });
   }
+
   selectItem(i: Item) {
   }
   searchItems(i: string) {
@@ -278,7 +287,7 @@ addPatient() {
   }
 saveNote() {
   this.loading = true;
-  this.patients[this.curIndex].record.notes.unshift(this.note)
+  this.patients[this.curIndex].record.notes.unshift({...this.note, noter: this.cookies.get('i')})
     this.dataService.updateRecord(this.patients[this.curIndex]).subscribe((p: Person) => {
           p.card = {menu: false, view: 'front'};
           this.loading = false;
@@ -293,6 +302,7 @@ switchBtn(option: string) {
 }
 
 getConsultees() {
+  this.loading = true;
   this.dataService.getPatients().subscribe((patients: Person[]) => {
     let myPatients;
     if(this.myDepartment){
@@ -300,64 +310,92 @@ getConsultees() {
     } else {
       myPatients = patients.filter(p => p.record.visits[0].status === 'queued')
     }
-    myPatients.forEach(p => {
+    if(myPatients.length){
+       myPatients.forEach(p => {
       p.card = {menu: false, view: 'front'};
     });
-
      this.patients = myPatients;
      this.temPatients = myPatients;
      this.dataService.setCachedPatients(patients);
+     this.loading = false;
+      this.message = null;
+    } else {
+        this.message = 'No Records So Far';
+        this.loading = false;
+    }
+
+    },(e) => {
+      this.message = 'Something went wrong';
+      this.loading = false;
     });
   }
-  addSelection(i: Item) {
-    this.input = i.name + ' ' + i.mesure + i.unit;
+  addSelection(item: Item) {
+    this.input = item.name + ' ' + item.mesure + item.unit;
     this.temItems = new Array<Item>();
-    const temp: Product[] = this.products.filter((p) => p.item._id === i._id);
-    if (temp.length) {
-      this.product = temp[0];
-    } else {
-      this.product = new Product(i);
-    }
+    this.product = new Product(item, new StockInfo());
+   }
+   getBMI(){
+     return  (this.session.vital.weight.value/Math.pow(this.session.vital.height.value, 2)).toFixed(2);
    }
   selectPatient(i: number) {
    this.curIndex = i;
    this.patient = this.patients[i];
-    this.medications = this.patient.record.medications[0]
+    this.medications = this.patient.record.medications;
    }
-  addMedication() {
-    this.tempMedications.push(new Medication(this.product, this.priscription));
+   pullMedications(i: number) {
+    this.curIndex = i;
+    this.medications = this.patients[i].record.medications;
+   }
+   addMore() {
+    let tempro = null;
+    if( this.product.item.name) {
+      } else {
+       this.product.item.name = this.input;
+     }
+    this.client.inventory.forEach(prod => {
+      if(prod.item._id === this.product.item._id) {
+        tempro = prod;
+      }
+    })
+    if (tempro) {
+      this.tempMedications.unshift(new Medication(tempro, this.priscription))
+    } else {
+       this.tempMedications.unshift(new Medication(this.product, this.priscription));
+    }
     this.product = new Product();
     this.priscription = new Priscription();
     this.input = null;
-  }
+   }
+
   removePriscription(i: number) {
    this.medications.splice(i);
   }
-  getTotal() {
-
+  getPriceTotal() {
+    let total = 0;
+     this.tempMedications.forEach((medic) => {
+       total = total +  medic.product.stockInfo.price;
+     });
+     return total;
   }
 
   composeMedication() {
     if (this.medications.length) {
-      this.medications.concat(this.tempMedications);
-      // if (new Date(this.medications[0][0].priscription.priscribedOn)
-      // .toLocaleDateString() === new Date()
-      // .toLocaleDateString()) {
-      //   for(let m of this.tempMedications) {
-      //     this.medications[0].push(m)
-      //   }
-      //  } else {
-      //   this.medications.push(this.tempMedications);
-      //  }
+      if (new Date(this.medications[0][0].dateCreated)
+      .toLocaleDateString() === new Date()
+      .toLocaleDateString()) {
+        for(let m of this.tempMedications) {
+          this.medications[0].unshift(m);
+        }
+       } else {
+        this.medications.unshift(this.tempMedications);
+       }
 
   } else {
-    console.log(this.tempMedications)
+
     this.medications = [this.tempMedications];
-    console.log(this.medications)
-  }
 
   }
-
+  }
 
   submitRecord() {
     this.composeMedication();

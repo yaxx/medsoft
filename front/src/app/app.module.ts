@@ -23,7 +23,11 @@ import { SingupComponent } from './components/singup/singup.component';
 import { DobPipe } from './pipes/dob.pipe';
 import { AppointmentsComponent } from './components/appointments/appointments.component';
 import { MainComponent } from './components/navs/main/main.component';
+import SimpleBar from 'SimpleBar';
 const routes: Routes = [
+  {path: 'login', component: LoginComponent},
+  {path: 'signup', component: LoginComponent},
+  {path: 'pharmacy', component: PharmacyComponent},
   {path: 'admin', component: MainComponent,
           children: [
             {path: 'appointments', component: AppointmentsComponent},
@@ -43,21 +47,23 @@ const routes: Routes = [
              {path: 'appointments', component: AppointmentsComponent},
              {path: 'addmisions', component: PatientComponent},
              { path: 'consultations', component: ConsultationComponent},
+             {path: 'pharmacy', component: PharmacyComponent},
              { path: 'me', component: MessagesComponent},
              { path: '', component: RegistrationComponent}
           ]
         },
-  {path: ':dept/consultation', component: MainComponent,pathMatch: 'full'
+  {path: ':dept/consultation', component: MainComponent,
           children: [
-            {path: 'appointments', component: AppointmentsComponent,pathMatch: 'full'},
-            { path: 'addmisions', component: PatientComponent,pathMatch: 'full'},
-            { path: 'history/:id', component: HistoryComponent,pathMatch: 'full'},
-            { path: 'me', component: MessagesComponent,pathMatch: 'full'},
-            { path: '', component: ConsultationComponent,pathMatch: 'full'}
+            {path: 'appointments', component: AppointmentsComponent},
+            { path: 'addmisions', component: PatientComponent},
+            { path: 'history/:id', component: HistoryComponent},
+            { path: 'me', component: MessagesComponent},
+            { path: '', component: ConsultationComponent}
           ]
         },
   {path: ':dept/ward', component: MainComponent,
         children: [
+          { path: 'discharged', component: RegistrationComponent},
           { path: 'me', component: MessagesComponent},
           { path: '', component: WardComponent}
         ]
@@ -69,14 +75,7 @@ const routes: Routes = [
             { path: '', component: PharmacyComponent}
           ]
         },
-
-  {path: 'login', component: LoginComponent},
-  {path: 'signup', component: LoginComponent},
-
-  
-  
-  {path: 'pharmacy', component: PharmacyComponent},
-  {path: 'history/:id', component: HistoryComponent},
+ 
   {path: '', redirectTo: 'login', pathMatch: 'full'},
   {path: '**', component: LoginComponent}
 
@@ -98,17 +97,14 @@ const routes: Routes = [
     SingupComponent,
     DobPipe,
     AppointmentsComponent,
-    MainComponent,
-
-
-
+    MainComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
     FileUploadModule,
-    RouterModule.forRoot(routes,{ enableTracing: true })
+    RouterModule.forRoot(routes)
   ],
   providers: [DataService, CookieService, SocketService],
   bootstrap: [AppComponent]

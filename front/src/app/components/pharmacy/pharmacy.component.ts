@@ -3,6 +3,7 @@ import {DataService} from '../../services/data.service';
 import {SocketService} from '../../services/socket.service';
 import update from 'react-addons-update';
 import {Person} from '../../models/person.model';
+import {CookieService } from 'ngx-cookie-service';
 import {Product, Item, StockInfo} from '../../models/inventory.model';
 import {Priscription, Medication} from '../../models/record.model';
 
@@ -27,7 +28,9 @@ export class PharmacyComponent implements OnInit {
   edited: Medication[] = new Array<Medication>();
   editables: Medication[] = new Array<Medication>();
   tempMedications: Medication[] = new Array<Medication>();
-  temPatients: Person[] = new Array<Person>();
+  inlinePatients = [];
+  inlineProducts = [];
+  transMsg = null;
   input = '';
   searchTerm = '';
   cardView = {
@@ -43,10 +46,13 @@ export class PharmacyComponent implements OnInit {
   id = '';
   selected = null;
   curIndex = 0;
-  reversedProduct = [];
+  loading = false;
+  processing = false;
+  message = null;
 
-
-  constructor(private dataService: DataService,
+  constructor(
+    private dataService: DataService,
+    private cookies: CookieService,
     private socket: SocketService ) { }
 
   ngOnInit() {
@@ -65,36 +71,52 @@ export class PharmacyComponent implements OnInit {
    showSortMenu() {
     this.sortMenu = true;
   }
+  refresh(){
+    this.getPatients();
+    this.getProducts();
+    this.getItems();
+  }
   getPatients() {
-
+    this.loading = true;
     this.dataService.getPatients().subscribe((patients: Person[]) => {
-    this.patients = patients.filter(patient=>patient.record.medications[0].length)
-    .map( patient => ({
-        ...patient,
-        card: {menu: false, view: 'front'}
-       
-      }));
-      
+      let mypatients = patients.filter(patient => patient.record.medications.length)
+      if(mypatients.length) {
+        this.patients = mypatients .map( patient => ({
+          ...patient,
+          card: {menu: false, view: 'front'}
+        }));
       this.dataService.setCachedPatients(this.patients);
+      this.loading = false;
+      this.message = null;
+      } else {
+        this.message = 'No Records So Far';
+        this.loading = false;
+      }
+    }, (e) => {
+      this.message = 'Something went wrong';
+      this.loading = false;
     });
   }
   selectPatient(i: number) {
     this.curIndex = i;
     this.patient = this.patients[i];
-     this.medications = this.patient.record.medications.map(medication=>medication.map(medic=>({...medic,selected:false})))
+     this.medications = this.patient.record.medications.map(medication => medication.map( medic => {
+       const product = this.products.find(pro => pro.item._id === medic.product.item._id)
+       return ( product) ? ({...medic, product: product, selected: false}) : medic;
+      }))
     }
   switchViews(view) {
-    switch(view){
+    switch(view) {
       case 'orders':
       this.cardView.orders = true;
       this.cardView.editing = false;
       this.cardView.reversing = false;
+      this.edited = this.editables = [];
       break;
       case 'editing':
       this.cardView.orders = false;
       this.cardView.editing = true;
       this.cardView.reversing = false;
-     
       break;
       case 'reversing':
       this.cardView.orders = false;
@@ -106,16 +128,15 @@ export class PharmacyComponent implements OnInit {
     }
 
   }
-  
+
   switchToEdit() {
     this.editables = this.getSelections(this.curIndex);
     this.medication = this.editables.shift();
     this.input = this.medication.product.item.name + ' ' + this.medication.product.item.mesure + this.medication.product.item.unit;
     this.switchViews('editing');
-   
   }
   getReversables(i: number, j: number) {
-    this.curIndex = i;
+    // this.curIndex = i;
     this.edited.push(this.patients[this.curIndex].record.medications[i][j]);
     this.switchViews('reversing');
   }
@@ -146,13 +167,11 @@ export class PharmacyComponent implements OnInit {
         break;
     }
   }
+
   selectItem(i: number, j: number) {
-   this.curIndex = i;
    this.medications[i][j].selected = !this.medications[i][j].selected;
-  
    if (this.patients[this.curIndex].record.medications[i][j].paid) {
     // $('.trigger').click();
-  } else {
   }
   }
   medidcationsSelected(i: number) {
@@ -178,115 +197,97 @@ export class PharmacyComponent implements OnInit {
     this.edited = [];
     this.editables = [];
   }
+   comfirmPayment() {
+    this.edited = this.edited.filter(medication => medication.product.stockInfo.price);
+    this.updateCurMedications();
+    this.runTransaction('purchase');
+   }
   reversePayment() {
-    let inlinePatients = [];
-    this.edited.forEach(medic => {
-    this.patients.forEach(pat => {
-      pat.record.medications.forEach(med => {
-        med.forEach(m => {
-          if(m.product.item._id === medic.product.item._id) {
-            m.product.stockInfo.quantity = m.product.stockInfo.quantity + medic.purchased;
-            inlinePatients.push(pat);
-          } else {
-
-          }
-        })
-      });
-    })
-  })
-
-  this.edited.forEach(medic => {
     this.products.forEach(prod => {
-      if(prod.item._id === medic.product.item._id) {
-          prod.stockInfo.quantity = prod.stockInfo.quantity + medic.purchased;
-          prod.stockInfo.sold = prod.stockInfo.sold - medic.purchased;
-          this.reversedProduct.push(medic);
-          } else {
-
+      if(prod.item._id === this.edited[0].product.item._id) {
+          prod.stockInfo.inStock = prod.stockInfo.inStock + this.edited[0].purchased;
+          prod.stockInfo.sold = prod.stockInfo.sold - this.edited[0].purchased;
           }
         });
-      });
-    this.edited.forEach(medication => {
-      this.medications.forEach(group => {
-        group.forEach(medic => {
-          if (medic._id === medication._id) {
-            medic.product.stockInfo.quantity = medic.product.stockInfo.quantity + medication.purchased;
-            medic.paid = false;
-            medic.purchased = 0;
-          } else {
-
-          }
-        });
-      });
-    });
-    inlinePatients.push(this.patients[this.curIndex]);
-    this.runTransaction(inlinePatients, 'refund');
-  }
-
-  runTransaction(patients: Person[], type: string) {
-    this.dataService.runTransaction(patients, this.products).subscribe((transaction: any) => {
-      this.products = transaction.inventory;
-      if(type === 'purchase') {
-         this.socket.io.emit('purchase', this.edited);
-      } else {
-         this.socket.io.emit('refund', this.reversedProduct);
-         this.reversedProduct = [];
-      }
-      this.reset();
-    });
-  }
-  comfirmPayment() {
-    let inlinePatients = [];
-    this.edited.forEach(medication => {
-     this.forEach(group => {
+    this.medications.forEach(group => {
       group.forEach(medic => {
-        if (medic._id === medication._id) {
-          medic.purchased = medication.purchased;
-          medic.product.stockInfo.quantity = medic.product.stockInfo.quantity - medication.purchased;
-          medic.paid = true;
+        if (medic._id === this.edited[0]._id) {
+          medic.paid = false;
           medic.selected = false;
-          // selected.push(medic);
-        } else {
-
+          medic.purchased = 0;
         }
       });
     });
-  });
-  inlinePatients.push(this.patients[this.curIndex]);
-  this.edited.forEach(medic => {
-    this.patients.forEach(pat => {
-      pat.record.medications.forEach(med => {
-        med.forEach(m => {
-          if(m.product.item._id === medic.product.item._id) {
-            m.product.stockInfo.quantity = m.product.stockInfo.quantity - medic.purchased;
-            inlinePatients.push(pat);
-          } else {
-
-          }
-        })
-      })
-    })
-  })
-
-  this.edited.forEach(medic => {
-    this.products.forEach(prod => {
-      if(prod.item._id === medic.product.item._id) {
-          prod.stockInfo.quantity = prod.stockInfo.quantity - medic.purchased;
-          prod.stockInfo.sold = prod.stockInfo.sold + medic.purchased;
-          } else {
-
-          }
-        });
-      });
-
-  this.runTransaction(inlinePatients,'purchase');
+    this.patients[this.curIndex].record.medications = this.medications;
+    this.runTransaction('refund');
   }
+
+  runTransaction(type: string) {
+    this.processing = true;
+    this.dataService.runTransaction(this.patient, this.products).subscribe((inventory: any) => {
+      this.processing = false;
+      this.products = inventory;
+      this.dataService.setCachedProducts(this.products);
+      this.dataService.setCachedPatients(this.patients);
+      if(type === 'purchase') {
+         this.socket.io.emit('purchase', this.edited);
+         this.transMsg = 'Transaction successfull';
+         setTimeout(() => {
+          this.switchViews('orders');
+          this.transMsg = null;
+      }, 4000);
+      } else {
+         this.socket.io.emit('refund', this.edited[0]);
+         this.transMsg = 'Transaction successfully reversed';
+         setTimeout(() => {
+          this.switchViews('orders');
+          this.transMsg = null;
+      }, 4000);
+      }
+      this.reset();
+    },(e) => {
+      this.transMsg = 'Transaction unsuccessfull';
+      this.processing = false;
+    });
+  }
+ 
+
+  updateInventory() {
+    this.edited.forEach(medication => {
+      this.products.forEach(prod => {
+        if(prod.item._id === medication.product.item._id) {
+            prod.stockInfo.inStock = prod.stockInfo.inStock - medication.purchased;
+            prod.stockInfo.sold = prod.stockInfo.sold + medication.purchased;
+            }
+          });
+        })
+      }
+
+   updateCurMedications() {
+    this.edited.forEach(medication => {
+      this.medications.forEach(group => {
+       group.forEach(medic => {
+         if (medic._id === medication._id) {
+           medic.purchased = medication.purchased;
+           medic.paid = true;
+           medic.selected = false;
+         }
+       });
+     });
+     this.patient.record.medications = this.medications;
+     this.updateInventory();
+   });
+
+  }
+
+ 
+
   somePaid(i) {
-    return this.medications[i].some(m => m.paid );
+    return this.medications[i].some(m => m.paid);
    }
   getTransTotal(i) {
     let total = 0;
-    this.medications[i].forEach((m) => {
+    this.patient.record.medications[i].forEach((m) => {
       total = total + m.purchased * m.product.stockInfo.price;
     });
     return total;
@@ -298,18 +299,17 @@ export class PharmacyComponent implements OnInit {
      });
      return total;
   }
-  // getOrders() {
-  //   this.dataService.getOrders().subscribe((patients: Person[]) => {
-  //     this.patients = patients.filter(p => p.record.medications[0].length);
-  //     console.log(patients);
-  //   });
-  // }
-  getDp(p: Person){
-    return 'http://localhost:5000/api/dp/' + p.info.personal.avatar;
+    getDp(avatar: String) {
+    return 'http://localhost:5000/api/dp/' + avatar;
+  }
+
+  getMyDp() {
+    return this.getDp(this.cookies.get('d'))
   }
   getProducts() {
     this.dataService.getProducts().subscribe((p: any) => {
       this.products = p.inventory;
+      this.dataService.setCachedProducts(this.products);
     });
   }
   selectMedication(m: Medication, selected: number) {
@@ -330,6 +330,11 @@ searchItems(i: string) {
     });
 }
 }
+cancel() {
+  this.patients[this.curIndex] = this.dataService.getCachedPatient(this.patients[this.curIndex]._id)
+  this.products = this.dataService.getCachedProducts();
+}
+
  searchPatient(name:string) {
    if(name!==''){
     this.patients = this.patients.filter((patient) => {
@@ -338,7 +343,7 @@ searchItems(i: string) {
       return patern.test(patient.info.personal.firstName);
       });
    } else {
-     this.patients = this.temPatients;
+     this.patients = this.dataService.getCachedPatients();
    }
  }
 addSelection(item: Item) {

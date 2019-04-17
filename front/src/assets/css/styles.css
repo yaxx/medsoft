@@ -353,6 +353,9 @@ body, html {
   left:90%;
   color:#1da1f2;
 }
+
+
+
 #moreBtn{
   display:inline-block;
   position:absolute;
@@ -566,14 +569,17 @@ body, html {
   padding: 0px;
 
 }
-.prisOption{
-
+.simplebar-wrapper{
+  position:absolute;
+  
+}
+.prisOption {
   border: 1px solid whitesmoke;
   border-radius:4px;
   position: absolute;
-  width: 80%;
-  left:10%;
-  z-index:1;
+  width: 100%;
+  /* min-height:20px; */
+  /* height:100px; */
   background: white;
   -webkit-border-radius:4px;
   -moz-border-radius:4px;
@@ -619,7 +625,28 @@ body, html {
   background:#1da1f2;
   color: white;
 }
+.top-search {
+  border-radius:.999em;
+  position:relative;
+  width:100%;
 
+
+}
+.top-searchform {
+  position:relative;
+  width:30%;
+  margin:auto;
+  display:inline-block;
+  font-size:11px;
+
+
+}
+.top-searchform .form-group{
+  position:relative;
+  height:100%;
+  width:100%;
+  vertical-align:middle;
+}
 #newnote:focus{
   border: none;
   border-color: white;
@@ -659,6 +686,38 @@ body, html {
   white-space: nowrap;
   overflow:hidden;
   text-overflow: ellipsis;
+}
+.description{
+  width: 220px;
+  white-space: nowrap;
+  overflow:hidden;
+  text-overflow: ellipsis;
+  position: relative;
+  padding: 0px;
+  margin:0px;
+  
+}
+.feedbackMsg {
+  font-size:11px;position:relative; 
+  font-weight:normal; width:70%;
+  text-align:center;  margin-bottom:0px; 
+  padding:0px; color: lightgreen;
+ 
+  vertical-align: middle;
+  margin: auto;
+}
+.okbtn {
+  font-size: 12px;
+  position: absolute;
+  border: none;
+  box-shadow:none;
+  padding:0px;
+  margin:0px;
+  cursor: pointer;
+  left:95%;
+  bottom: 4px;
+  color:#1da1f2;
+  background-color: inherit;
 }
 .card-header.profileheader.small-header {
   height:32px;

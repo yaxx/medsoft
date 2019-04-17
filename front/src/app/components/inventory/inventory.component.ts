@@ -2,8 +2,10 @@ import { Component, OnInit, OnDestroy} from '@angular/core';
 import {DataService} from '../../services/data.service';
 import {Product, Item, StockInfo} from '../../models/inventory.model';
 import {Person} from '../../models/person.model';
+import {CookieService } from 'ngx-cookie-service';
 import { sortBy } from 'sort-by-typescript';
 import {SocketService} from '../../services/socket.service';
+import SimpleBar from 'SimpleBar';
 @Component({
   selector: 'app-inventory',
   templateUrl: './inventory.component.html',
@@ -22,43 +24,43 @@ export class InventoryComponent implements OnInit {
   edited: Product[] = new Array<Product>();
   selections: number[] = new Array<number>();
   input = '';
+  loading = false;
+  processing = false;
+  message = null;
+  transMsg = null;
   sortBy = 'added';
   view = 'products';
+  searchTerm = '';
   mode = '';
   count = 0;
 
 
-     constructor(private dataService: DataService, private socket: SocketService) {
+     constructor(private dataService: DataService, private cookies: CookieService, private socket: SocketService) {
    }
 
   ngOnInit() {
-    this.getItems();
+    // new SimpleBar(document.getElementById('myElement'))
+    // this.getItems();
     this.getProducts();
     this.socket.io.on('purchase', items => {
       items.forEach(i => {
         this.products.forEach(prod => {
           if(prod.item._id === i.product.item._id) {
-              prod.stockInfo.quantity = prod.stockInfo.quantity - i.purchased;
+              prod.stockInfo.inStock = prod.stockInfo.inStock - i.purchased;
               prod.stockInfo.sold = prod.stockInfo.sold + i.purchased;
-              } else {
-
               }
             });
-          });
-
+        });
     })
-    this.socket.io.on('refund', items => {
-      items.forEach(i => {
+    this.socket.io.on('refund', refund => {
         this.products.forEach(prod => {
-          if(prod.item._id === i.product.item._id) {
-              prod.stockInfo.quantity = prod.stockInfo.quantity + i.purchased;
-              prod.stockInfo.sold = prod.stockInfo.sold - i.purchased;
-              } else {
-
+          console.log(refund)
+          if(prod.item._id === refund.product.item._id) {
+              prod.stockInfo.inStock = prod.stockInfo.inStock + refund.purchased;
+              prod.stockInfo.sold = prod.stockInfo.sold - refund.purchased;
               }
             });
-          });
-
+         
     })
   }
   switchMode(mode) {
@@ -68,21 +70,35 @@ export class InventoryComponent implements OnInit {
     this.product = this.products.filter((p) => p.selected)[0];
     this.input = this.product.item.name + ' ' + this.product.item.mesure + this.product.item.unit;
     this.mode = 'edit';
-
+  }
+getDp(avatar: String) {
+    return 'http://localhost:5000/api/dp/' + avatar;
   }
 
+  getMyDp() {
+    return this.getDp(this.cookies.get('d'));
+  }
   getProducts() {
-    this.dataService.getProducts().subscribe((p: any) => {
-      this.products = p.inventory.map(product => ({
-        ...product,
-        selected: false
-      }));
+    this.loading = true;
+    this.dataService.getProducts().subscribe((res: any) => {
+      this.items = res.items;
+      if(res.inventory.length) {
+        this.products = res.inventory;
+      this.dataService.setCachedProducts(res.inventory);
+      this.loading = false;
+      this.message = null;
+      } else {
+        this.message = 'No Products So Far';
+        this.loading = false;
+      }
+    },(e) => {
+      this.message = 'Something went wrong';
+      this.loading = false;
     });
   }
-  getItems() {
-    this.dataService.getItems().subscribe((item: Item[]) => {
-      this.items = item;
-    });
+
+  refresh() {
+    this.getProducts();
   }
   sortProducts(name: string) {
     switch (name) {
@@ -99,12 +115,16 @@ export class InventoryComponent implements OnInit {
         this.sortBy = 'description';
         break;
       case 'price':
-        this.products.sort((m, n) => n.stockInfo.price - m.stockInfo.price );
+        this.products.sort((m, n) => m.stockInfo.price - n.stockInfo.price );
         this.sortBy = 'price';
         break;
       case 'quantity':
-        this.products.sort((m, n) => n.stockInfo.quantity - m.stockInfo.quantity );
+        this.products.sort((m, n) => m.stockInfo.quantity - n.stockInfo.quantity );
         this.sortBy = 'quantity';
+        break;
+      case 'instock':
+        this.products.sort((m, n) => m.stockInfo.inStock - n.stockInfo.inStock );
+        this.sortBy = 'instock';
         break;
       case 'sold':
         this.products.sort((m, n) => n.stockInfo.sold - m.stockInfo.sold );
@@ -121,25 +141,33 @@ export class InventoryComponent implements OnInit {
     }
   }
   addMore() {
-   if( this.product.item.name){
+    this.product.stockInfo.inStock = this.product.stockInfo.quantity;
+   if( this.product.item.name) {
         this.temProducts.unshift(this.product);
-   }else{
+   } else {
       this.product.item.name = this.input;
         this.temProducts.unshift(this.product);
    }
-  
-    
     this.input = '';
     this.item = new Item();
     this.product = new Product();
   }
   addProducts() {
+    this.processing = true;
     this.dataService.addProduct(this.temProducts)
     .subscribe((products: Product[]) => {
+      this.processing = false;
+      this.transMsg = 'Product added successfully'
       this.products = products;
-      this.temProducts = new Array<Product>();
-
-   });
+      this.dataService.setCachedProducts(this.products);
+      this.temProducts = [];
+      setTimeout(() => {
+        this.transMsg = null;
+  }, 4000);
+   }, (e) => {
+    this.transMsg = 'Could not add products';
+    this.processing = false;
+  });
 
   }
   addSelection(i: Item) {
@@ -153,14 +181,6 @@ export class InventoryComponent implements OnInit {
     //   this.product = new Product(i);
     // }
    }
-
-
-
-  // selectItem(i: Item) {
-  //   this.product.item = i;
-  //   this.input = i.name + ' ' + i.mesure + i.unit;
-  //   this.temItems = new Array<Item>();
-  // }
 
   selectProduct(i) {
     this.products[i].selected = this.products[i].selected ? false : true;
@@ -178,10 +198,8 @@ export class InventoryComponent implements OnInit {
           this.product.item = this.item;
           this.edited.unshift(this.product);
           this.item = new Item();
-          // this.counter = this.counter + 1;
         } else {
           this.edited.unshift(this.product);
-          // this.counter = this.counter + 1;
         }
         if (this.editables.length) {
           this.product = this.editables.shift();
@@ -191,9 +209,7 @@ export class InventoryComponent implements OnInit {
           this.input = '';
         }
 
-    } else {
-
-    }
+    } 
 
   }
   previous() {
@@ -265,34 +281,19 @@ export class InventoryComponent implements OnInit {
   }
 
 
-// addMoreProduct() {
-// this.temProducts.push(this.product);
-// this.product = new Product();
-// }
-// removeProduct() {
-//   for (const p of this.temProducts) {
-//     this.products.splice(this.products.indexOf(p), 1);
-//   }
-//   this.temProducts = [];
-// }
+searchProducts(search: string) {
+  if (search === ''){
+    this.products = this.dataService.getCachedProducts();
+    console.log(this.dataService.getCachedProducts())
+  } else {
+     this.products = this.products.filter((product) => {
+     let patern =  new RegExp('\^' + search , 'i');
+     return patern.test(product.item.name);
+  });
+  }
 
 
-// }
-
-// populate() {}
-// updateProducts() {
-//   for (const p of this.temProducts) {
-//     this.products[this.selections.pop()] = p;
-//   }
-//   this.temProducts = new Array<Product>();
-// }
-// searchProducts() {
-//   this.products = this.image.filter((product) => {
-//   let patern =  new RegExp('\^' + this.input , 'i');
-//   return patern.test(product.name);
-//   });
-
-// }
+}
 
 
 }

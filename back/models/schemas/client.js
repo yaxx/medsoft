@@ -43,7 +43,9 @@ var ClientScheema = new Scheema({
                     sold: Number ,
                     expired: Boolean,
                     status: Boolean,
-                    quantity: Number
+                    quantity: Number,
+                    inStock: Number
+
                 },
                 dateCreated: Date  
             }],

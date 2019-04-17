@@ -1,15 +1,17 @@
-<div class="modal fade" role="dialog" tabindex="-1" id="noteModal" style="border-radius:0px;width:auto;">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content" style="width:480px;border-radius:0px;;padding-left:0px;padding-right: 0px;">
-            <div class="modal-body" style="border-radius:0px;padding: 0px">
-                <div class="card card-secondary historycard midlecard profilecard" style="margin:auto;min-height:200px">
-                    <div style='padding-left: 10px' class="card-header profileheader small-header">
+
+<div class="modal fade" role="dialog" tabindex="-1" id="noteModal" style="border-radius:12px;width:auto;">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content" style="width:480px;border-radius:0px;border-radius:12px;padding-left:0px;padding-right: 0px;">
+          <div class="modal-body" style="border-radius:0px;padding: 0px;">
+              <div class="card card-secondary historycard midlecard profilecard" style="margin:auto;min-height:200px;border-radius:12px;">
+                  <div style='padding-left: 30px;border-top-right-radius:12px;border-top-left-radius:12px;' class="card-header profileheader small-header">
                         <div style="left:10px" class="timeline lastdoc priscriber headerdp small-dp">
-                          <img [src] = getDp(patients[curIndex])/>
+                          <img [src] = getDp(patients[curIndex].info.personal.avatar)/>
                         </div>
-                        <a style='left: 7px;' href="#" class="patien-name small-name">
-                          {{patients[curIndex].info.personal.firstName + ' '+ patients[curIndex].info.personal.lastName}}<span class="small-headericon"></span>
+                        <a  class="patien-name small-name">
+                          {{patients[curIndex]?.info.personal.firstName + ' '+ patients[curIndex]?.info.personal.lastName}}<span class="small-headericon"></span>
                         </a>
+                        <h6 style='left:50%;position: relative;' class="dept headtitle">NOTES</h6>
                     </div>
                     <div style="width:90%;margin:auto" class="card-body orderbody">
                       <form novalidate  class="patientform" >
@@ -19,23 +21,21 @@
                                <textarea [(ngModel)]="note.note" id ='newnote' style="width:100%; min-height: 110px; font-size: 13px; padding: 5px; border: 0px; " name= "note" placeholder="Additional note"></textarea>
                              </div>
                            </div>
-                       </div>
-
-                 </form>
+                         </div>
+                        </form>
                  </div>
                  <div  (click) = saveNote() style='left:78%; height:32px;width:32px;'
                        title ='Update' class="floter">
-                        <i *ngIf='loading' class="fa fa-circle-o-notch fa-spin fa-10x slow-spin" style="position:absolute;bottom:5px;left:5px;font-size:20px;color: #1da1f2;">
-                        </i>
-                       <i style="color:#1da1f2;bottom:-10px;" class="icon ion-ios-checkmark-empty flotericon">
-                      </i>
+                        <i *ngIf='loading'  class="fa fa-circle-o-notch fa-spin fa-10x slow-spin" style="position:absolute;bottom:5px;left:5px;font-size:20px;color: #1da1f2;"></i>
+                        
+                       <i *ngIf='!loading' style="color:#1da1f2;bottom:-10px;" class="icon ion-ios-checkmark-empty flotericon"> </i>
+                    
                 </div>
-
-                 </div>
+              </div>
             </div>
         </div>
     </div>
-  </div>
+</div>
 
 
 <div class="modal fade" role="dialog" tabindex="-1" id="filesModal" style="border-radius:4px;width:auto;">
@@ -44,7 +44,7 @@
           <div class="card-header profileheader small-header">
               <i class="icon ion-android-more-vertical small-icon"></i>
                 <div class="timeline lastdoc priscriber headerdp small-dp">
-                 <img [src] = getDp(patient)/>
+                 <img [src] = getDp(patient.info.personal.avatar)/>
                 </div>
                 <a href="#" class="patien-name small-name">
                   {{patients[curIndex].info.personal.firstName + ' '+ patients[curIndex].info.personal.lastName}}<span class="small-headericon"></span>
@@ -99,13 +99,15 @@
                           class="icon ion-android-arrow-back ">
                       </i>
                         <div style="left:23px" class="timeline lastdoc priscriber headerdp small-dp">
-                          <img [src] = getDp(patients[curIndex])/>
+                          <img [src] = getDp(patients[curIndex].info.personal.avatar)/>
                         </div>
                         <a href="#" class="patien-name small-name">
                           {{patients[curIndex].info.personal.firstName + ' '+ patients[curIndex].info.personal.lastName}}<span class="small-headericon"></span>
                         </a>
+                        <h6 style='font-size:10px; font-weight:bold; position:absolute;color:dodgerblue;  top:4%;left:76%' class="patien-name small-name">MEDICATIONS</h6>
                     </div>
-                    <div *ngIf="!medicView" style="width:54%;margin:auto" class="card-body orderbody">
+                    <div *ngIf="!medicView" style="width:56%;margin:auto" class="card-body orderbody">
+                    <h1 *ngIf='!medications.length' style='color:lightgrey; width:100%; text-align:center;top:43%;position:absolute;' class="dept headtitle">NO RECORD</h1>
                         <div *ngFor="let medic of patients[curIndex]?.record.medications; let i = index" class="carditem priscriptioncontainer order">
                             <div  class="timeline condition drugtimeline">
                                 <p class="timelinedate">{{medic[0]?.dateCreated|date:'dd'}}</p>
@@ -130,7 +132,7 @@
                         <form style="top:15%; padding-left: 2%; padding-right: 2%;" class=" staffsform" (submit) = updateMedication()>
                             <div class="form-group vitals-section address">
                                 <label style='font-size:8px' for="drug" class="labelss">DRUG</label>
-                                <input autocomplete="off" (keyup)= "searchItems(input)" [(ngModel)] = input type="text" name="drug" placeholder= "E.g Paracetamol" class="patientdata dystolic inputs dataInfo" style="font-size:11px;" />
+                                <input autocomplete="off" (keyup)= "searchItems(input)" [(ngModel)] = input type="text" name="drug" placeholder= "E.g Paracetamol 500mg" class="patientdata dystolic inputs dataInfo" style="font-size:11px;" />
                                 <div *ngIf= temItems.length  class="options prisOption edit">
                                     <ul class="itemsList" >
                                       <li  *ngFor="let item of temItems"><p (click) = "addSelection(item)"  class="dept firstheader drugItem" style="font-size:11px;padding-left: 10px; padding-right: 10px;font-weight: normal;" >{{item.name+ ' '}}<span class="lastdept timetaken " >{{item.mesure + item.unit}}</span></p>
@@ -140,11 +142,11 @@
                             </div>
                             <div class="form-group vitals-section formGroup" style=" width:26%;">
                                 <label style='font-size:8px' for="dos" class="labelss complain">INTAE</label>
-                                <input [(ngModel)] = "priscription.intake" style="border-top-right-radius: 0px;border-bottom-right-radius: 0px;font-size:11px"  type="number" name="dos" class="patientdata inputs dataInfo"  >
+                                <input [min] = '1' [(ngModel)] = "priscription.intake" style="border-top-right-radius: 0px;border-bottom-right-radius: 0px;font-size:11px"  type="number" name="dos" class="patientdata inputs dataInfo"  >
                             </div>
                             <div class="form-group vitals-section formGroup" style=" width:37%; ">
                                 <label style='font-size:8px' for="intake" class="labelss complain">FREQ</label>
-                                <select [(ngModel)]="priscription.freq" style="border-radius: 0px;font-size:11px;                      border-top-right-radius: 0px;          border-bottom-right-radius:0px"
+                                <select  [(ngModel)]="priscription.freq" style="border-radius: 0px;font-size:11px;                      border-top-right-radius: 0px;          border-bottom-right-radius:0px"
                                   class=" patientdata status inputs dataInfo " name="intake">
                                     <option>dos</option>
                                     <option>qos</option>
@@ -154,24 +156,33 @@
                             </div>
                             <div class="form-group vitals-section formGroup" style=" width:26%;">
                                 <label style='font-size:8px' for="piriod" class="labelss complain">DAYS</label>
-                                <input [(ngModel)]="priscription.piriod" style="border-radius: 0px; font-size:11px;"
+                                <input [min]='1' [(ngModel)]="priscription.piriod" style="border-radius: 0px; font-size:11px;"
                                 type="number" name="piriod" class="patientdata inputs dataInfo" placeholder="">
-                                <div id='moreBtn' title="Add medication"><i (click)="addMedication()" class="icon ion-ios-plus-empty arrow " style="font-size:25px;position: absolute;left:27%;top:-17%; cursor:pointer"></i>
+                                <div id='moreBtn' title="Add medication"><i (click)="addMore()" class="icon ion-ios-plus-empty arrow " style="font-size:25px;position: absolute;left:27%;top:-17%; cursor:pointer"></i>
                                 </div>
                             </div>
 
                             <div *ngIf="tempMedications.length" style="top:1px; margin-bottom:25px;"  class="form-group vitals-section setGroup">
                               <table   cellspacing="0" class="data-table drugs-table" style="width:100%;left:0%;" summary="List of all items in store. " >
+                                  <thead class='productHead'>
+                                    <tr class="staff-th">
+                                        <th class="headlbl staff-th">PRODUCT NAME</th>
+                                        <th class="headlbl staff-th">DOSAGE</th>
+                                        <th class="headlbl staff-th">PRICE</th>
+                                        <th class="headlbl staff-th"></th>
+                                    </tr>
+                                  </thead>
                                    <tbody>
                                       <tr *ngFor="let med of tempMedications; let i = index; let odd = odd;"  style="border-bottom:2px solid white;" [class.even]=odd  class="ro staff-row">
                                           <td style="padding-left:4px;" class="data">
                                           {{med.product.item.name}}<span class="predata">{{med.product.item.mesure+med.product.item.unit}}</span></td>
                                           <td class="data">
-                                            {{med.priscription.intake +med.priscription.freq+ ' '+'|'+' '+ med.priscription.piriod}}</td>
+                                            {{med.priscription.intake +'-'+med.priscription.freq+'-'+med.priscription.piriod}}</td>
                                           <td class="data">
-                                            {{med.product.stockInfo.price}}</td>
+                                            {{med.product.stockInfo.price||'---'}}</td>
                                       </tr>
                                   </tbody>
+                                     <tfoot col-span='4' style='font-size:11px; text-align:right; position:absolute; font-weight:bold;padding-right: 10px; border-top: 1px solid whitesmoke;width:100%'>Total: <span>{{getPriceTotal()}}</span> </tfoot>
                                 </table>
                             </div>
 
@@ -206,33 +217,26 @@
         <a class="navbar-brand" href="#">
             <em>MS</em>
         </a>
-        <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="navbar-toggler-icon"></span>
-        </button>
+        
         <div class="collapse navbar-collapse" id="navcol-1">
-            <ul class="nav navbar-nav"></ul>
-            <form class="form-inline mr-auto searchform" target="_self">
+            
+            <form class="top-searchform" target="_self">
                 <div class="form-group">
-                    <label style="left:500px;position:absolute;"  for="search-field">
-                        <i class="icon ion-ios-search searchicon" title="Search"></i>
-                    </label>
-                    <input autocomplete = "off" style="border-radius:30px;
-                    left: 270px;
-                    width:220px;
+                    <input [(ngModel)] = searchTerm #search (keyup)='searchPatient(searchTerm)' autocomplete = "off" style="border-radius:.999em;
+                    width:80%;display:inline-block;
+                    position:absolute;bottom:-2%;
                     background-color: rgb(243, 248, 247);
-                    margin: auto;"
-                    class="form-control search-field"
+                    "
+                    class="form-control"
                     type="search" name="search" id="search-field" placeholder="Search patient">
-                </div>
-            </form>
-            <h6 style='font-size:12px;
-                        left:830px;position:absolute;
+                    <i style='font-size:20px; top:5px;left:85%;position:relative;display:inline' class="icon ion-ios-search " title="Search"></i>
+           <h6 style='font-size:12px;
+                        left:98%;position:relative;display:inline-block;
                         color:grey;
                         font-weight:normal;'>Sort by: <span stye='cursor:pointer'(click)='showSortMenu()'>
                           {{nowSorting}}</span></h6>
             <div *ngIf=sortMenu style='position: absolute;
-                        left:880px;
+                        left:120%;
                         width:100px;top:6px;
                         height:110px'  class="menu">
               <ul class="actions primary">
@@ -243,30 +247,36 @@
                   <li (click)='sortPatients("date")' class="action">Date added</li>
               </ul>
           </div>
+       </div>          
+      </form>
         </div>
     </div>
-
     <i style="left:80%;" class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
+    <i [routerLink]="['../../me']" data-target="#newModal" data-toggle="modal" style="left:83%;" class="icon ion-ios-person-outline arrow buble" id="add" title="Me" ></i>
 
-    <i [routerLink]="['/messages']" data-target="#newModal" data-toggle="modal" style="left:83%;" class="icon ion-ios-person-outline arrow buble" id="add" title="Me" ></i>
-
-    <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:90%;position:absolute;height:30px;width:30px;bottom:-8%"></div>
+    <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:90%;position:absolute;height:30px;width:30px;top:5px; margin-bottom:0px;"> <img style='height:100%; width:100%; object-fit:cover;' [src] = getMyDp()/></div>
     </nav>
 
 <div style="padding-top:60px" class="container">
         <div class="row">
-            <div *ngFor="let patient of patients; let i=index"  class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+        <div *ngIf='!patients.length' class='issue'>
+            <div *ngIf='loading' class="lds-css ng-scope">
+            <div style="width:100%;height:100%" class="lds-rolling"><div></div></div></div>
+            <div (click)=refresh()  *ngIf='message' title='Refresh' class='refresh'><i class="icon ion-ios-reload "></i></div>
+             <h6 *ngIf='message' style='font-size:13px;position:absolute;top:65%; width:100%; color:lightgrey;text-align: center' >{{message}}</h6>
+         </div>
+          <div *ngFor="let patient of patients; let i=index"  class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
                 <div style="border-radius:12px" *ngIf = "patient.card.view == 'front'"  class="card card-secondary maincard">
                   <div style="border-radius:12px" class="card-header profileheader">
                   <i (click)='showMenu(i)' class="icon ion-android-more-vertical headericon moreicon actions-icon"></i>
                   <div *ngIf = "patient.card.menu" class="menu">
                       <ul class="actions primary">
-                          <li (click)="pullNote(i)" data-target="#noteModal" data-toggle="modal" class="action">Add Note</li>              <li (click)="pullMedication(i)" data-target="#medicModal" data-toggle="modal" class="action">Medications</li>
+                          <li (click)="pullNote(i)" data-target="#noteModal" data-toggle="modal" class="action">Add Note</li>              <li (click)="pullMedications(i)" data-target="#medicModal" data-toggle="modal" class="action">Medications</li>
                           <li class="action">Discharge</li>
                       </ul>
                   </div>
                   <div class="timeline lastdoc priscriber headerdp">
-                      <img [src] = getDp(patient)/>
+                      <img [src] = getDp(patient.info.personal.avatar)/>
                   </div>
                   </div>
                   <a href="#" title="View history" [routerLink]="['../history/', patient._id]" routerLinkActive="router-link-active" class="patien-name">

@@ -14,11 +14,12 @@ export class Item {
 export class StockInfo {
   constructor(
     public _id?: string,
-    public price: number = null,
-    public sold: number = null,
+    public inStock: number = 0,
+    public price: number = 0,
+    public sold: number = 0,
     public expired: boolean = false,
     public status: boolean = false,
-    public quantity: number = null,
+    public quantity: number = 0,
     public expiry: Date = null
   ) {}
   }

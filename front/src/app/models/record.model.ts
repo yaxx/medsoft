@@ -12,7 +12,7 @@ export class Record {
     public devices: Device[] = [],
     public visits: Visit[] = [],
     public appointments: Appointment[] = [],
-    public medications: any[] = new Array<any>(new Array<Medication>()),
+    public medications: any[] = [],
     public test: Test[] = [],
     public scans: Scan[] = [],
     public sugery: any[] = [],
@@ -64,12 +64,12 @@ export class FamHist {
      ) {}
   }
 export class Note {
-  constructor(public note?: string,
-    public noter: string = '5befe0aa05ca551d50fd2bf8',
+  constructor(
+    public _id?:string,
     public noteType?: string,
-    public full: boolean = false,
-    
-    public dateCreated?: Date
+    public note: string = null,
+    public noter: string = null,
+    public dateCreated: Date = new Date()
 
      ) {}
   }

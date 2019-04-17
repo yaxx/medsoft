@@ -105,6 +105,8 @@
   padding-top:6px;
   padding-bottom:6px;
   border-bottom:1px solid rgb(251,245,245);
+  border-top-right-radius:12px;
+  border-top-left-radius:12px;
 }
 
 .card.card-secondary.historycard.midlecard.topcard.graphcard {
@@ -219,6 +221,8 @@
 
 .dept.headtitle {
   color:#1da1f2;
+  border-top-right-radius:12px;
+  border-top-left-radius:12px;
 }
 
 .dept.previnfo.weightval {
@@ -417,7 +421,7 @@ p {
 }
 
 .note-item {
-  margin-bottom:2px;
+  margin-bottom:10px;
 }
 
 .image-link {

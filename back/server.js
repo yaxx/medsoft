@@ -62,14 +62,15 @@ io.sockets.on('connection', (socket) => {
     socket.broadcast.emit('consulted', patient);  
   })
   socket.on('Discharge',(patient)=>{
-    console.log(patient)
     socket.broadcast.emit('Discharge', patient);  
   })
-  socket.on('purchase', items => {
-    socket.broadcast.emit('purchase', items);
+  
+  socket.on('transaction', cart => {
+    socket.broadcast.emit('transaction', cart);
   })
-  socket.on('refund', items => {
-    socket.broadcast.emit('refund', items);
+  
+  socket.on('store update', changes => {
+    socket.broadcast.emit('store update', changes);
   })
 
 
@@ -146,7 +147,6 @@ io.sockets.on('connection', (socket) => {
     console.log(logins)
     logins.forEach(function (user) {
       if (user.username === data.username) {
-        console.log(user.username)
         socket.to(user.id).emit('newnotification', {})
       } else {}
     })

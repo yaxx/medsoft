@@ -10,3 +10,8 @@
 .drugs-table td {
   font-size:11px;
 }
+ .expired{ 
+   text-decoration: line-through;
+   text-decoration-color: !important red;
+   -webkit-text-decoration-color: red;
+}

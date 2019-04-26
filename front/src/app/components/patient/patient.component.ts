@@ -62,6 +62,20 @@ export class PatientComponent implements OnInit {
     this.getPatients();
     this.getClient();
     this.getItems();
+    this.socket.io.on('store update', (data) => {
+      if(data.action === 'new') {
+        this.products.concat(data.changes);
+      } else if (data.action === 'update') {
+          for (const product of data.changes) {
+              this.products[this.products.findIndex(prod => prod._id === product._id)] = product;
+            }
+      } else {
+          for (const product of data.changes) {
+            this.products.splice(this.products.findIndex(prod => prod._id === product._id) , 1); 
+          }
+      }
+    });
+    
     this.uploader.onBuildItemForm = (fileItem: any, form: any) => {
       form.append('id', this.patients[this.curIndex]._id);
      };

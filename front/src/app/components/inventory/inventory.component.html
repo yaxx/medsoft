@@ -2,18 +2,18 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content" style="width:480px;border-radius:0px;border-radius:12px;padding-left:0px;padding-right: 0px;">
             <div class="modal-body" style="border-radius:0px;padding: 0px;">
-                <div  class="card card-secondary historycard midlecard profilecard" style="margin:auto;min-height:200px;border-radius:12px;">
+                <div  class="card card-secondary historycard midlecard profilecard" style="margin:auto;min-height:240px;border-radius:12px;">
                     <div style='padding-left: 30px;border-top-right-radius:12px;border-top-left-radius:12px;' class="card-header profileheader small-header">
                       <h6 style='font-size:11px;position:absolute; top:5%;left:2%' class="patien-name small-name">EDIT PRODUCT</h6>
                     </div>
-                    <div  class="card-body orderbody">
-                      <form style="top:15%; width:56%;margin:auto;" class=" staffsform" (submit) = addProducts()>
+                    <div style='margin-left:0px'  class="card-body orderbody">
+                      <form style="top:15%; width:56%;margin:auto;" class=" staffsform" >
                         <div class="form-group vitals-section address">
                             <label style='font-size:8px' for="drug" class="labelss">PRODUCT</label>
                             <input autocomplete="off" (keyup)= "searchItems(input)" [(ngModel)] = input type="text" name="drug" placeholder= "E.g Paracetamol" class="patientdata dystolic inputs dataInfo" style="font-size:11px;" />
-                            <div style="min-height: 100px;" *ngIf= temItems.length  class="options prisOption edit">
+                            <div style="min-height: 300px;" *ngIf= temItems.length  class="options prisOption edit">
                                 <ul class="itemsList" >
-                                  <li  *ngFor="let item of temItems"><p (click) = "addSelection(item)"  class="dept firstheader drugItem" style="font-size:11px;padding-left: 10px; padding-right: 10px;font-weight: normal;" >{{item.name+ ' '}}<span class="lastdept timetaken " >{{item.mesure + item.unit}}</span></p>
+                                  <li  *ngFor="let item of temItems"><p (click) = "addSelection(item)"  class="dept firstheader drugItem" style="font-size:11px;padding-left: 10px; padding-right: 10px;font-weight: normal;" >{{item.name}}<span class="lastdept timetaken " ></span></p>
                                   </li>
                                 </ul>
                             </div>
@@ -29,12 +29,12 @@
                         </div>
                         <div class="form-group vitals-section address">
                           <label style='font-size:8px' for="expiry" class="labelss complain">EXPIRY</label>
-                          <input [(ngModel)]="product.stockInfo.expiry" style="font-size:11px;border-top-right-radius: 0px;border-bottom-right-radius:0px"
+                          <input [(ngModel)]="product.stockInfo.expiry" style="font-size:11px;border-radius: 4px;"
                           type="date" name="expiry" class="patientdata inputs dataInfo" placeholder="">
                         </div>
                         <div style="margin-bottom:0px; width:100%;position:relative;height:25px;" class="form-group vitals-section formGroup">
                             <p style='position: absolute;left:47%;text-align:center; font-size:11px; top:10%;'>
-                              {{editables.length}}<span>/</span><span>{{count}}</span></p>
+                              {{edited.length}}<span>/</span><span>{{count}}</span></p>
                             <i (click)='previous()' title="Previous" class="icon ion-ios-arrow-left shift-icon"></i>
                             <i (click)='next()' title="Next" class="icon ion-ios-arrow-right shift-icon next-icon"></i>
                           </div>
@@ -53,7 +53,7 @@
                               <tr *ngFor="let product of edited; let i = index; let odd = odd;"  style="border-bottom:2px solid white;" [class.even] = odd  class="ro staff-row">
                                   <td style="padding-left:4px;" class="data">
                                   {{product.item.name}}<span class="predata">
-                                    {{product.item.mesure+product.item.unit}}</span></td>
+                                    </span></td>
                                   <td class="data">{{product.stockInfo.quantity}}</td>
                                   <td class="data">{{product.stockInfo.price}}</td>
                                   <td style='text-align: right;padding-right: 2px;' class="data">{{product.stockInfo.expiry}}</td>
@@ -61,10 +61,10 @@
                           </tbody>
                         </table>
                     </div>
-                    <div *ngIf=" temProducts.length" (click)="addProducts()" style='left:80%; height:32px;width:32px'
-                  title ='Done' class="floter">
-                      <i *ngIf='loading' class="fa fa-circle-o-notch fa-spin fa-10x slow-spin" style="position:absolute;bottom:5px;left:5px;font-size:20px;color: #1da1f2;"> </i>
-                      <i *ngIf='!loading' style="color:#1da1f2;bottom:-10px"
+                    <div *ngIf=" edited.length" (click)="updateProducts()" style='left:88%; height:32px;width:32px'
+                  title ='Update' class="floter">
+                      <i *ngIf='processing' class="fa fa-circle-o-notch fa-spin fa-10x slow-spin" style="position:absolute;bottom:5px;left:5px;font-size:20px;color: #1da1f2;"> </i>
+                      <i *ngIf='!processing' style="color:#1da1f2;bottom:-10px"
                     class="icon ion-ios-checkmark-empty flotericon"> </i>
                     </div>
                   </div>
@@ -80,16 +80,16 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content" style="width:480px;border-radius:0px;border-radius:12px;padding-left:0px;padding-right: 0px;">
             <div class="modal-body" style="border-radius:0px;padding: 0px;">
-                <div  class="card card-secondary historycard midlecard profilecard" style="margin:auto;min-height:200px;border-radius:12px;">
+                <div  class="card card-secondary historycard midlecard profilecard" style="margin:auto;min-height:240px;border-radius:12px;">
                     <div style='padding-left: 30px;border-top-right-radius:12px;border-top-left-radius:12px;' class="card-header profileheader small-header">
                         <h6 style='font-size:11px;position:absolute; top:5%;left:2%;color:#1da1f2;' class="patien-name small-name">NEW PRODUCT</h6>
                     </div>
-                    <div  class="card-body orderbody">
+                    <div style='margin-left:0px'  class="card-body orderbody">
                       <form style="top:15%; width:56%;margin:auto;" class=" staffsform" (submit) = addProducts()>
                         <div class="form-group vitals-section address">
                             <label style='font-size:8px' for="drug" class="labelss">PRODUCT NAME</label>
                             <input autocomplete="off" (keyup)= "searchItems(input)" [(ngModel)] = input type="text" name="drug" placeholder= "E.g Paracetamol" class="patientdata dystolic inputs dataInfo" style="font-size:11px;" />
-                            <div data-simplebar style="height:100px;position:absolute;z-index:2" *ngIf= temItems.length  class="options prisOption edit">
+                            <div data-simplebar style="min-height:100px;position:absolute;z-index:2" *ngIf= temItems.length  class="options prisOption edit">
                                 <ul class="itemsList" >
                                   <li  *ngFor="let item of temItems"><p (click) = "addSelection(item)"  class="dept firstheader drugItem" style="font-size:11px;padding-left: 10px; padding-right: 10px;font-weight: normal;" >{{item.name+ ' '}}<span class="lastdept timetaken " >{{item.mesure + item.unit}}</span></p>
                                   </li>
@@ -148,10 +148,56 @@
   </div>
 </div>
 
+
+
+<div class="modal fade" role="dialog" tabindex="-1" id="deleteModal" style="border-radius:12px;width:auto;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="width:480px;border-radius:0px;border-radius:12px;padding-left:0px;padding-right: 0px;">
+            <div class="modal-body" style="border-radius:0px;padding: 0px;">
+                <div  class="card card-secondary historycard midlecard profilecard" style="margin:auto;min-height:240px;border-radius:12px;">
+                    <div style='padding-left: 30px;border-top-right-radius:12px;border-top-left-radius:12px;' class="card-header profileheader small-header">
+                        <h6 style='font-size:10px;position:absolute; top:5%;left:2%;color:#1da1f2;' class="patien-name small-name">DELETE PRODUCT</h6>
+                    </div>
+                    <div *ngIf="selectionOccure()" style="top:1px; margin-bottom:25px;margin-top:10px;position:relative;width: 350px;left:70px;"  class="form-group vitals-section setGroup">
+                      <table   cellspacing="0" class="data-table drugs-table" style="width:100%;left:0%;" summary="List of all items in store. " >
+                          <thead class='productHead'>
+                              <tr class="staff-th">
+                                  <th style="padding-left:4px;" class="headlbl staff-th">PRODUCT</th>
+                                  <th class="headlbl staff-th">QTY</th>
+                                  <th class="headlbl staff-th">PRICE</th>
+                                  <th style='text-align:right' class="headlbl staff-th">EXPIRY</th>
+                              </tr>
+                            </thead>
+                           <tbody>
+                              <tr *ngFor="let product of pickDeletables(); let i = index; let odd = odd;"  style="border-bottom:2px solid white;" [class.even] = odd  class="ro staff-row">
+                                  <td style="padding-left:4px;" class="data">
+                                  {{product.item.name}}<span class="predata">
+                                    {{product.item.mesure||''+product.item.unit||''}}</span></td>
+                                  <td class="data">{{product.stockInfo.quantity}}</td>
+                                  <td class="data">{{product.stockInfo.price}}</td>
+                                  <td style='text-align: right;padding-right: 2px;' class="data">{{product.stockInfo.expiry|date:'dd-MM-y'}}</td>
+                              </tr>
+                          </tbody>
+                        </table>
+                    </div>
+                    <div *ngIf="selectionOccure()" (click)="deleteProducts()" style='left:90%; height:32px;width:32px'
+                    title ='Done' class="floter">
+                    <i *ngIf='processing' class="fa fa-circle-o-notch fa-spin fa-10x slow-spin" style="position:absolute;bottom:5px;left:5px;font-size:20px;color: #1da1f2;"> </i>
+                    <i title='Delete' *ngIf='!processing' style="color:#1da1f2;bottom:-10px"
+                      class="icon ion-ios-checkmark-empty flotericon"> </i>
+                  </div>
+                  </div>
+                 <!-- <div *ngIf = transMsg style="padding:5px;border-top: 1px solid rgb(248, 247, 247)" class="card-footer"> <h6  class="feedbackMsg">{{transMsg}}</h6><button class ='okbtn'>OK</button></div> -->
+              </div>
+          </div>
+      </div>
+  </div>
+
+
   <nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:0px">
     <div class="container">
         <a class="navbar-brand" href="#">
-            <em>MS</em>
+            <em>spinr</em>
         </a>
         <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
             <span class="sr-only">Toggle navigation</span>
@@ -163,12 +209,12 @@
               <div class="form-group">
                   <input [(ngModel)] = searchTerm #search (keyup)='searchProducts(searchTerm)' autocomplete = "off" style = "border-radius:.999em;
                   width:80%; display:inline-block;
-                  position: absolute;bottom:-2%;
+                  position: absolute;top:11%;
                   background-color: rgb(243, 248, 247);
                   "
                   class="form-control"
                   type="search" name="search" id="search-field" placeholder="Search product">
-                  <i style='font-size:20px; top:2px;left:85%;position:relative;display:inline' class="icon ion-ios-search " title="Search"></i>
+                  <i style='font-size:20px; top:3px;left:83%;position:relative;display:inline' class="icon ion-ios-search " title="Search"></i>
               </div>
             </form>
         </div>
@@ -258,15 +304,15 @@
                     <td>{{product.stockInfo.quantity}}</td>
                     <td>{{product.stockInfo.sold||0}}</td>
                     <td>{{product.stockInfo.inStock}}</td>
-                    <td>{{product.dateCreated|date:'dd/MM/y'}}</td>
-                    <td>{{product.stockInfo.expiry|date:'dd/MM/y'}}</td>
+                    <td>{{product.dateCreated|date:'dd-MM-y'}}</td>
+                    <td  [class.expired]= expired(product.stockInfo.expiry)>{{product.stockInfo.expiry|date:'dd-MM-y'}}</td>
                     <td style="text-align: center"><span class="moreIcon out"><i class="icon ion-ios-circle-filled" ></i></span></td>
                 </tr>
             </tbody>
     </table>
     <div *ngIf="selectionOccure()" class="options"   style="height:40px; bottom: 1%; background-color:#f8f8f8;border: none; " >
-      <i (click)="deleteProducts()" title="Delete" class="optionIcon icon ion-ios-trash-outline"></i>
-      <i (click)='pickSelection()' title="Edit" class="optionIcon editIcon icon ion-edit" data-target="#editModal" data-toggle="modal"></i>
+      <i data-target="#deleteModal" data-toggle="modal" title="Delete" class="optionIcon icon ion-ios-trash-outline"></i>
+      <i  (click)='pickSelection()' title="Edit" class="optionIcon editIcon icon ion-edit" data-target="#editModal" data-toggle="modal"></i>
       <i title="Select all" class="material-icons optionIcon cancelIcon">select_all</i>
 
     </div>

@@ -38,6 +38,11 @@ export class DataService {
   getCachedProducts() {
     return this.cachedProducts;
   }
+  getCachedProduct(id) {
+    const product = this.cachedProducts.find(product => product.item._id === id);
+    console.log(product.stockInfo.quantity)
+    return product;
+  }
   getHistory(id) {
     return this.http.get(
       `${this.uri}/history/${id}`, {withCredentials: true} );
@@ -86,19 +91,19 @@ export class DataService {
       `${this.uri}/new-patient`, patient, {withCredentials: true}
       );
   }
-  addProduct(product) {
+  addProducts(products) {
     return this.http.post(
-    `${this.uri}/new-product`,  product, {withCredentials: true}
+    `${this.uri}/new-product`,  products, {withCredentials: true}
     );
   }
-  updateProducts(product) {
+  updateProducts(products) {
     return this.http.post(
-      `${this.uri}/update-products`, product, {withCredentials: true}
+      `${this.uri}/update-products`, products, {withCredentials: true}
       );
   }
-  runTransaction(patient: Person, i:Product[]) {
+  runTransaction(patient: Person, cart:Product[]) {
     return this.http.post(
-      `${this.uri}/transaction`, {patient: patient, inventory: i}, {withCredentials: true}
+      `${this.uri}/transaction`, {patient: patient, cart: cart}, {withCredentials: true}
       );
   }
   deleteProducts(product) {

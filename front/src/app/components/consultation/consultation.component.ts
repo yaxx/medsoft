@@ -76,6 +76,19 @@ export class ConsultationComponent implements OnInit {
 
       }
   });
+  this.socket.io.on('store update', (data) => {
+    if(data.action === 'new') {
+      this.products.concat(data.changes);
+    } else if (data.action === 'update') {
+        for (const product of data.changes) {
+            this.products[this.products.findIndex(prod => prod._id === product._id)] = product;
+          }
+    } else {
+        for (const product of data.changes) {
+          this.products.splice(this.products.findIndex(prod => prod._id === product._id) , 1); 
+        }
+    }
+  });
   this.socket.io.on('consulted', (patient: Person) => {
     const i = this.patients.findIndex(p => p._id === patient._id);
       if(this.myDepartment) {
@@ -103,7 +116,7 @@ export class ConsultationComponent implements OnInit {
       }
   });
 
-
+ 
 
   this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any ) => {
     this.patient.info.personal.avatar = response;

@@ -51,15 +51,15 @@
           -webkit-transform: translate(-26.5px, -26.5px) scale(0.265) translate(26.5px, 26.5px);
           transform: translate(-26.5px, -26.5px) scale(0.265) translate(26.5px, 26.5px);
         }
-        .refresh:hover{
-        
+        .refresh:hover {
+
         /* border:1px solid rgb(255, 255, 255); */
           background-color: white;
-         
+
         }
       .refresh {
           color: lightgrey;
-          position: absolute;       
+          position: absolute;
           font-size: 30px;
           background: inherit;
           cursor: pointer;
@@ -83,4 +83,8 @@
           margin:auto;
           top: 200px;
 
+        }
+        .expired {
+          text-decoration: line-through red;
+          text-decoration-color: red;
         }

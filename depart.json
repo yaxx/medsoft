@@ -1,0 +1,5 @@
+{"_id":{"$oid":"5bb7c48b4a9a722b44b89620"},"name":"Anasthesia","type":"consult","description":"Drugs and other medical items","hasWard":true,"numOfBeds":{"$numberInt":"0"},"beds":[""],"dateCreated":{"$date":{"$numberLong":"999298800000"}}}
+{"_id":{"$oid":"5bb7c57e4756872b44fd6006"},"name":"Pharmacy","type":"pharmacy","hasWard":"false","description":"Post surgery treamtments","dateCreated":{"$date":{"$numberLong":"988671600000"}}}
+{"_id":{"$oid":"5bb7c5fd4756872b44fd6008"},"name":"Maternity","type":"consult","hasWard":"true","numOfBeds":{"$numberInt":"0"},"beds":[],"description":"Optoological cases","dateCreated":{"$date":{"$numberLong":"980982000000"}}}
+{"_id":{"$oid":"5bb7c64f4756872b44fd6009"},"name":"Information","type":"information","hasWard":"false","description":"Anti and post-natal cases","dateCreated":{"$date":{"$numberLong":"988671600000"}}}
+{"_id":{"$oid":"5bf398da6979512ae81dcdc5"},"name":"GOPD","type":"consult","hasWard":true,"numOfBeds":{"$numberInt":"0"},"beds":[],"description":"General cases","dateCreated":{"$date":{"$numberLong":"1525129200000"}}}

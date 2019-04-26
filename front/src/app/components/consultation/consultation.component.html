@@ -66,7 +66,7 @@
   <div class="modal-dialog" role="document">
       <div class="modal-content" style="width:480px;border-radius:0px;border-radius:12px;padding-left:0px;padding-right: 0px;">
           <div class="modal-body" style="border-radius:0px;padding: 0px;">
-              <div class="card card-secondary historycard midlecard profilecard" style="margin:auto;min-height:200px;border-radius:12px;">
+              <div class="card card-secondary historycard midlecard profilecard" style="margin:auto;min-height:240px;border-radius:12px;">
                   <div style='padding-left: 30px;border-top-right-radius:12px;border-top-left-radius:12px;' class="card-header profileheader small-header">
                         <div style="left:23px" class="timeline lastdoc priscriber headerdp small-dp">
                           <img [src] = getDp(patients[curIndex].info.personal.avatar)/>
@@ -76,7 +76,7 @@
                         </a>
                         <h6 style='font-size:10px; font-weight:bold; position:absolute;color:dodgerblue;  top:4%;left:59%;text-align:right' class="patien-name small-name">ADD MEDICATIONS</h6>
                     </div>
-                  <div style="width:54%;margin:auto" class="card-body orderbody">
+                  <div style="width:56%;margin:auto" class="card-body orderbody">
                         <form style="top:15%; padding-left: 2%; padding-right: 2%;" class=" staffsform" (submit) = saveMedication(curIndex)>
                             <div class="form-group vitals-section address">
                                 <label style='font-size:8px' for="drug" class="labelss">DRUG</label>
@@ -137,7 +137,7 @@
                             </div>
                         </form>
                   </div>
-                  <div *ngIf=" tempMedications.length" (click)="saveMedication(curIndex)" style='left:80%; height:32px;width:32px'
+                  <div *ngIf=" tempMedications.length" (click)="saveMedication(curIndex)" style='left:87%; height:32px;width:32px'
                   title ='Done' class="floter">
                   <i *ngIf='loading' class="fa fa-circle-o-notch fa-spin fa-10x slow-spin" style="position:absolute;bottom:5px;left:5px;font-size:20px;color: #1da1f2;"> </i>
                   <i *ngIf='!loading' style="color:#1da1f2;bottom:-10px"
@@ -418,9 +418,9 @@
                             <div *ngIf='session.vital.weight.value&&session.vital.height.value' style='position:absolute;top:100%;margin:0px; display:block' class="form-group vitals-section address">
                                 <p style="font-size:11px; width:100%; position:relative; text-align:right;padding-right:5px;left:0px;" for="bmi" class="labelss">BMI: <span style=color:black>{{getBMI()}}</span><span style='font-size:9px'>kg/m<span style='vertical-align:super;font-size:8px'>2</span></span> </p>
                             </div>
-    
+
                         </div>
-                     
+
                         <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block" >
                             <label style="font-size:10px;position: relative;left: 0px;color: #1da1f2"  class="labelss primary">
                               DIAGNOSIS</label>
@@ -526,11 +526,11 @@
                                <tfoot col-span='4' style='font-size:11px; text-align:right; position:absolute; font-weight:bold;padding-right: 10px; border-top: 1px solid whitesmoke;width:100%'>Total: <span>{{getPriceTotal()}}</span> </tfoot>
                             </table>
                           </div>
-  
+
                           <button (click) = "submitRecord()"  type ="submit"  style=" width: 95px; position:relative; outline: none; box-shadow: none;  font-size: 10px; left:195px; margin:25px 0px 25px 0px; border-radius: 0px; border-top-right-radius:4px;border-bottom-right-radius:4px;" class="btn btn-sm btn-outline-primary inputs mainbtn" >SAVE</button>
                           <button  data-dismiss="modal" style="width: 57px; font-size: 10px; border-right: 0px; margin:25px 0px 25px 0px; left: 45px; position:relative; border-radius: 4px 0px 0px 4px;" class="btn btn-sm btn-outline-primary inputs mainbtn" >CANCEL</button>
                       </form>
-                      
+
                   </div>
                   <div style="padding:7px" class="card-footer"> <h6 style='font-size:11px;position:relative; font-weight:normal; width:100%; text-align:center; top:-3px; margin-bottom:0px; padding:0px; color: lightgreen' class="patien-name small-name">Record updated successfully</h6></div>
               </div>
@@ -547,21 +547,22 @@
 <nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:0px">
   <div class="container">
       <a class="navbar-brand" href="#">
-          <em>MS</em>
+          <em>spinr</em>
       </a>
-      
       <div class="collapse navbar-collapse" id="navcol-1">
-         
           <form class="top-searchform" target="_self">
               <div class="form-group">
-                  <input [(ngModel)] = searchTerm #search (keyup)='searchPatient(searchTerm)' autocomplete = "off" style="border-radius:.999em;
-                  width:80%;display:inline-block;
-                  position:absolute;bottom:-2%;
-                  background-color: rgb(243, 248, 247);
-                  "
-                  class="form-control"
-                  type="search" name="search" id="search-field" placeholder="Search patient">
-                  <i style='font-size:20px; top:5px;left:85%;position:relative;display:inline' class="icon ion-ios-search " title="Search"></i>
+                <input [(ngModel)] = searchTerm #search (keyup)='searchPatient(searchTerm)' autocomplete = "off" style="border-radius:.999em;
+                width:80%;display:inline-block;
+                position: absolute;
+                text-align: left;
+                vertical-align: middle;
+                top:11%;
+                background-color: rgb(243, 248, 247);
+                "
+                class="form-control"
+                type="search" name="search" id="search-field" placeholder="Search patient">
+                <i style='font-size:20px; top:3px;left:83%;position:relative;display:inline' class="icon ion-ios-search " title="Search"></i>
                   <h6 style='font-size:12px;
                       left:98%;position:relative;display:inline-block;
                       color:grey;
@@ -579,7 +580,7 @@
                   <li (click)='sortPatients("date")' class="action">Date added</li>
             </ul>
         </div>
-     </div>          
+     </div>
     </form>
   </div>
 </div>

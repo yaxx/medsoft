@@ -62,44 +62,48 @@
   <nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:0px">
   <div class="container">
       <a class="navbar-brand" href="#">
-          <em>MS</em>
+          <em>spinr</em>
       </a>
     
       <div class="collapse navbar-collapse" id="navcol-1">
-          <ul class="nav navbar-nav"></ul>
+          
             <form class="top-searchform" target="_self">
               <div class="form-group">
                   <input [(ngModel)] = searchTerm #search (keyup)='searchPatient(searchTerm)' autocomplete = "off" style="border-radius:.999em;
                   width:80%;display:inline-block;
-                  position:absolute;bottom:-2%;
+                  position: absolute;
+                  text-align: left;
+                  vertical-align: middle;
+                  top:11%;
                   background-color: rgb(243, 248, 247);
                   "
                   class="form-control"
                   type="search" name="search" id="search-field" placeholder="Search patient">
-                  <i style='font-size:20px; top:5px;left:85%;position:relative;display:inline' class="icon ion-ios-search " title="Search"></i>
-         <h6 style='font-size:12px;
-                      left:98%;position:relative;display:inline-block;
-                      color:grey;
-                      font-weight:normal;'>Sort by: <span stye='cursor:pointer'(click)='showSortMenu()'>
-                        {{nowSorting}}</span></h6>
-          <div *ngIf=sortMenu style='position: absolute;
-                      left:120%;
-                      width:100px;top:6px;
-                      height:110px'  class="menu">
-            <ul class="actions primary">
-                <li (click)='sortPatients("name")' class="action">A-Z</li>
-                <li (click)='sortPatients("age")' class="action">Age</li>
-                <li (click)='sortPatients("status")' class="action">Status</li>
-                <li (click)='sortPatients("sex")' class="action">Gender</li>
-                <li (click)='sortPatients("date")' class="action">Date added</li>
-            </ul>
+                  <i style='font-size:20px; top:3px;left:83%;position:relative;display:inline' class="icon ion-ios-search " title="Search"></i>
+              <h6 style='font-size:12px;
+                            left:98%;position:relative;display:inline-block;
+                            color:grey;
+                            font-weight:normal;'>Sort by: <span stye='cursor:pointer'(click)='showSortMenu()'>
+                              {{nowSorting}}</span></h6>
+                <div *ngIf=sortMenu style='position: absolute;
+                            left:120%;
+                            width:100px;top:6px;
+                            height:110px'  class="menu">
+                <ul class="actions primary">
+                    <li (click)='sortPatients("name")' class="action">A-Z</li>
+                    <li (click)='sortPatients("age")' class="action">Age</li>
+                    <li (click)='sortPatients("status")' class="action">Status</li>
+                    <li (click)='sortPatients("sex")' class="action">Gender</li>
+                    <li (click)='sortPatients("date")' class="action">Date added</li>
+                </ul>
         </div>
      </div>          
     </form>
   </div>
-</div>
   <i style="left:80%;" class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
     <i [routerLink]="['./me']" data-target="#newModal" data-toggle="modal" style="left:83%;" class="icon ion-ios-person-outline arrow buble" id="add" title="Me" ></i>
+</div>
+  
     <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:90%;position:absolute;height:30px;width:30px;top:5px; margin-bottom:0px;"> <img style='height:100%; width:100%; object-fit:cover;' [src] = getMyDp()/></div>
 </nav>
 

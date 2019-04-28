@@ -110,7 +110,10 @@ getPatients: async (req, res) => {
 },
 getHistory: async (req, res) => {
   try {
-    const patient = await Person.findById(req.params.id).populate({path:'record.notes.noter', select:'info'}).exec()
+    const patient = await Person.findById(req.params.id)
+    .populate({path:'record.notes.by', select:'info'})
+    .populate({path:'record.conditions.by', select:'info'})
+    .exec()
     res.send(patient) 
   }
   catch(e){

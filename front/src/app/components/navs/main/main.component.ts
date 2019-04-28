@@ -16,18 +16,10 @@ seg2 = null;
     private router: Router) { }
 
   ngOnInit() {
-    // this.dept = this.route.snapshot.params['dept'];
-    this.info = this.route.snapshot.url[0].path ? this.route.snapshot.url[0].path : null;
-    this.admin = this.route.snapshot.url[0].path ? this.route.snapshot.url[0].path : null;
-    this.seg2 = this.route.snapshot.url[1].path ? this.route.snapshot.url[1].path : null;
+    this.info = this.route.snapshot.url[0].path || null;
+    this.admin = this.route.snapshot.url[0].path || null;
+    this.seg2 = this.route.snapshot.url[1].path  || null;
  
   }
-  // adminInfo(){
-  // this.route.snapshot.url[0].path === 'admin'||'information';
-  // }
-  // admin(){
-  //   return this.route.snapshot.url[0].path === 'admin';
-  // }
-
  
 }

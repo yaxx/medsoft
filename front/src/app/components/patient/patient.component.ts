@@ -42,10 +42,12 @@ export class PatientComponent implements OnInit {
   sortBy = 'added';
   sortMenu = false;
   nowSorting = 'Date added';
-   message = null;
+  message = null;
+  feedback = null;
   searchTerm = '';
   selected = null;
   bedNum = null;
+  processing = false;
   loading = false;
   curIndex = 0;
   url = '';
@@ -334,11 +336,12 @@ export class PatientComponent implements OnInit {
 
 
    saveNote() {
-    this.loading = true;
-    this.patients[this.curIndex].record.notes.unshift({...this.note, noter: this.cookies.get('i')})
+    this.processing = true;
+    this.patients[this.curIndex].record.notes.unshift({...this.note, by: this.cookies.get('i')})
       this.dataService.updateRecord(this.patients[this.curIndex]).subscribe((p: Person) => {
             p.card = {menu: false, view: 'front'};
-            this.loading = false;
+            this.feedback = 'Note added successfully';
+            this.processing = false;
             this.note = new Note();
       });
 

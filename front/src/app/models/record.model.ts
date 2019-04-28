@@ -3,7 +3,7 @@ import {Product} from './inventory.model';
 
 export class Record {
   constructor(
-    public complains: Complain[] = [],
+    public complains: any[] = [[]],
     public famHist: FamHist[] = [],
     public notes: Note[] = new Array<Note>(),
     public vitals: Vitals = new Vitals(),
@@ -55,20 +55,23 @@ export class Medication {
 export class Complain {
   constructor(
     public complain: string = null,
+    public duration: number = null,
+    public by: any = null,
     public dateCreated: Date = new Date()
      ) {}
   }
 export class FamHist {
-  constructor(public condition: string = null,
-           public dateCreated?: Date
+  constructor(
+    public condition: string = null,
+    public dateCreated?: Date
      ) {}
   }
 export class Note {
   constructor(
-    public _id?:string,
+    public _id?: string,
     public noteType?: string,
     public note: string = null,
-    public noter: string = null,
+    public by: string = null,
     public dateCreated: Date = new Date()
 
      ) {}
@@ -168,7 +171,7 @@ export class Sugery {
 
 export class Session {
   constructor(
-    public complains: Complain = new Complain(),
+    public complains: Complain[] = new Array<Complain>(),
     public famHist: FamHist = new FamHist(),
     public notes: Note = new Note(),
     public vital: Vital = new Vital(),

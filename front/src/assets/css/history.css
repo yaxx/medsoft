@@ -118,7 +118,7 @@
 }
 
 .card.card-secondary.historycard.rightcard.medication {
-  min-height:400px;
+  min-height:372px;
   max-height:400px;
 }
 
@@ -473,11 +473,11 @@ p {
 .timeline.lastdoc.priscriber.headerdp.seenby {
   height:22px;
   width:22px;
-  top:5px;
-  left:1%;
-  /* margin-bottom:10px; */
+  top: -1px;
+  left: 1%;
+  margin-bottom:0px;
   position:relative;
-  display:inline-block;
+ 
 }
 
 

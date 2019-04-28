@@ -154,7 +154,7 @@
                              <img style='height:100%; width:100%; object-fit:cover; border-radius:4px;' [src] = getDp(patient.info.personal.avatar)/>
                             </div>
                              <h1 class="dept previnfo noterinfo patientname">
-                               {{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}} &nbsp;<span class="predata notetime">{{patient.createdAt|date:'longDate'}}</span></h1>
+                               {{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}} &nbsp;<span style ='left:73%' class="predata notetime">{{patient.createdAt|date:'longDate'}}</span><span class="predata notetime" style='left:90%' >{{patient.createdAt|date:'hh:mma'|lowercase}}</span></h1>
                           <h1 class="dept previnfo patientname">Gender:&nbsp;<span class="predata">{{patient.info.personal.gender}}</span></h1>
                             <h1 class="dept previnfo patientname">Age:&nbsp;<span class="predata">{{patient.info.personal.dob|dob}}</span></h1>
                             <h1 class="dept previnfo patientname">Blood Group:&nbsp;<span class="predata">O+</span></h1>
@@ -177,11 +177,11 @@
                         <h1 *ngIf='!patient.record.notes.length' style='color:lightgrey; width:100%; text-align:center;top:43%;position:absolute;' class="dept headtitle">NO NOTES</h1>
                         <div *ngFor = "let note of patient.record.notes;let i=index" class="carditem noteitem writeup">
                           <div style="position:absolute;left:-3%;" class="timeline lastdoc priscriber headerdp small-dp">
-                            <img [src] = getDp(note.noter.info.personal.avatar)/>
+                            <img [src] = getDp(note.by.info.personal.avatar)/>
                           </div>
-                            <h1 class="dept previnfo noterinfo">{{note.noter.info.personal.firstName+' '+note.noter.info.personal.lastName}}
+                            <h1 class="dept previnfo noterinfo">{{note.by.info.personal.firstName+' '+note.by.info.personal.lastName}}
                               <span style='color: lightgray;font-weight: normal' >
-                                {{'|'+' '+ note.noter.info.official.department}}</span>
+                                {{'|'+' '+ note.by.info.official.department}}</span>
                               <span class="predata notetime">
                                 {{note.dateCreated|date:'dd/MM/y hh:mma'|lowercase}}</span></h1>
                             <p class="note-item">{{note.note}}<br>
@@ -242,19 +242,7 @@
         </div>
         <div class="col col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
             <div class="card-colums rightcolumn">
-                <div class="card card-secondary historycard rightcard allegies">
-                    <div class="card-header grapheader">
-                        <h1 class="dept headtitle">ALLEGIES</h1>
-                    </div>
-                    <div class="card-body rightcardbody">
-                      <h1 *ngIf='!patient.record.famHist.length' style='color:lightgrey; width:100%; text-align:center;top:43%;position:absolute;' class="dept headtitle">NO RECORD</h1>
-                        <div class="carditem">
-                            <ul class="itemlist">
-                                <li *ngFor = 'let history of patient.record.famHist'>{{history.condition}}</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+                
                 <div class="card card-secondary historycard rightcard allegies">
                     <div class="card-header grapheader">
                         <h1 class="dept headtitle">FAMILY HISTORY</h1>
@@ -274,15 +262,17 @@
                     </div>
                     <div style ="padding-left:5px;" class="card-body rightcardbody">
                     <h1 *ngIf='!patient.record.complains.length'   style='color:lightgrey; width:100%; text-align:center;top:43%;position:absolute;' class="dept headtitle">NO RECORD</h1>
-                          <div *ngFor ='let complain of patient.record.complains' class="carditem">
+                          <div *ngFor ='let complain of patient.record.complains; let i = index' class="carditem">
                               <div style='border-left:0px;padding-right:10px;' class="carditem priscriptioncontainer order">
                                   <div class="timeline condition drugtimeline">
-                                      <p class="timelinedate">{{complain.dateCreated|date:'dd'}}</p>
-                                      <p class="timelinedate month">{{complain.dateCreated|date:'MMM'|uppercase}}</p>
+                                      <p class="timelinedate">{{complain[i].dateCreated|date:'dd'}}</p>
+                                      <p class="timelinedate month">{{complain[i].dateCreated|date:'MMM'|uppercase}}</p>
                                   </div>
                                   <div style='border-bottom:1px solid whitesmoke;padding-bottom:4px;margin-bottom:0px' class="priscription drug side-item">
-                                      <p class="dept complain">{{complain.complain}}</p>
-                                      <!-- <h6 class="dept priscriptiontime">&nbsp;08:55am</h6> -->
+                                    <div *ngFor ='let issue of complain'>
+                                      <p  class="dept complain">  {{issue.complain}}</p>
+                                      <h6 style='margin-bottom:0px; bottom:3px;positio:relative;width:auto' class="dept priscriptiontime">{{issue.duration}}d</h6>
+                                    </div>
                                   </div>
                               </div>
                             </div>
@@ -302,63 +292,24 @@
                                   </div >
                                   <div style='border-bottom:1px solid whitesmoke;padding-bottom:4px;margin-bottom:0px' class="priscription drug side-item">
                                       <p class="dept complain">{{condition.condition}}<span style='color:lightgrey;font-size:smaller;width:56%;position:absolute;text-align:right;'>05:20pm</span></p>
-                                       <div style='margin:0px;display:inline-block' class="timeline lastdoc priscriber headerdp seenby"></div>
-                                       <h1 style='position:absolute;left:22%;bottom:17px;' class="dept previnfo sec-info"> <span class="predata">Dr. Rita Benjamin</span></h1>
+                                       <!-- <div style='margin:0px;display:inline-block' class="timeline lastdoc priscriber headerdp seenby">
+                                          <img [src] = getDp(condition.by.info.personal.avatar)/>
+                                      </div> -->
+                                      <div class="timeline lastdoc priscriber headerdp  seenby">
+                                          <img style='vertical-align:top' [src] = getDp(condition.by.info.personal.avatar)/>
+                                      </div>
+                                       <h1 style='position:absolute;left:22%;bottom:19px;' class="dept previnfo sec-info">
+                                         <span class="predata">Dr.&nbsp; 
+                                           {{condition.by.info.personal.firstName+' '
+                                        +condition.by.info.personal.lastName}}
+                                        </span>
+                                      </h1>
+                                       <h1 style='position:absolute;left:22%;bottom:7px;color:lightgrey;' class="dept previnfo sec-info">
+                                        {{condition.by.info.official.department}}</h1>
                                   </div>
                               </div>
                             </div>
                       </div>
-                    <!-- <div class="card-body rightcardbody">
-                        <h1 style='color:lightgrey; width:100%; text-align:center;top:43%;position:absolute;' class="dept headtitle">NO RECORD</h1>
-                          <div class="carditem"> -->
-                              <!-- <div class="carditem priscriptioncontainer order">
-                                  <div class="timeline condition drugtimeline">
-                                      <p class="timelinedate">10</p>
-                                      <p class="timelinedate month">FEB</p>
-                                  </div>
-                                  <div class="priscription drug side-item">
-                                      <h6 class="dept">Peptic Ulcer</h6>
-                                      <h1 class="dept previnfo sec-info">Diagnosed By: <span class="predata">Dr.Rita Benjamin</span></h1>
-                                  </div>
-
-                              </div>
-                              <div class="carditem priscriptioncontainer order">
-                                  <div class="timeline condition drugtimeline">
-                                      <p class="timelinedate">29</p>
-                                      <p class="timelinedate month">FEB</p>
-                                  </div>
-
-                                  <div class="priscription drug side-item">
-                                      <h6 class="dept">Malaria Fever</h6>
-                                      <h1 class="dept previnfo">Diagnosed By: <span class="predata">Dr.Olumide Bola</span></h1>
-                                  </div>
-                              </div>
-                              <div class="carditem priscriptioncontainer order">
-                                  <div class="timeline condition drugtimeline">
-                                      <p class="timelinedate">12</p>
-                                      <p class="timelinedate month">MAY</p>
-                                  </div>
-
-                                  <div class="priscription drug side-item">
-                                      <h6 class="dept">Pregnancy</h6>
-                                      <h1 class="dept previnfo sec-info">Diagnosed By: <span class="predata">Dr.Rita Benjamin</span></h1>
-                                  </div>
-                              </div>
-                              <div class="carditem priscriptioncontainer order">
-                                  <div class="timeline condition drugtimeline">
-                                      <p class="timelinedate">09</p>
-                                      <p class="timelinedate month">JAN</p>
-                                  </div>
-
-                                  <div class="priscription drug side-item">
-                                      <h6 class="dept">Thyphoid Fever</h6>
-                                      <h1 class="dept previnfo">Diagnosed By: <span class="predata">Dr. Sulaiman Isah</span></h1>
-                                  </div>
-                              </div> -->
-
-
-                          <!-- </div>
-                      </div> -->
                 </div>
                 <div class="card card-secondary historycard rightcard medication">
                     <div class="card-header grapheader">
@@ -378,6 +329,19 @@
                             <!-- <h6 class="dept previnfo">By&nbsp;<span class="predata"> Hassan Ali </span></h6> -->
                          </div>
                       </div>
+                    </div>
+                </div>
+                <div class="card card-secondary historycard rightcard allegies">
+                    <div class="card-header grapheader">
+                        <h1 class="dept headtitle">ALLEGIES</h1>
+                    </div>
+                    <div class="card-body rightcardbody">
+                      <h1 *ngIf='!patient.record.famHist.length' style='color:lightgrey; width:100%; text-align:center;top:43%;position:absolute;' class="dept headtitle">NO RECORD</h1>
+                        <div class="carditem">
+                            <ul class="itemlist">
+                                <li *ngFor = 'let history of patient.record.famHist'>{{history.condition}}</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>

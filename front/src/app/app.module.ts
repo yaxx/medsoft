@@ -8,6 +8,7 @@ import {DataService} from './services/data.service';
 import {SocketService} from './services/socket.service';
 import {NotePipe} from './pipes/note.pipe';
 import {FileUploadModule} from 'ng2-file-upload';
+import {AutosizeModule} from 'ngx-autosize';
 import {RouterModule, Routes} from '@angular/router';
 import { RegistrationComponent } from './components/registration/registration.component';
 import { ConsultationComponent } from './components/consultation/consultation.component';
@@ -23,7 +24,7 @@ import { SingupComponent } from './components/singup/singup.component';
 import { DobPipe } from './pipes/dob.pipe';
 import { AppointmentsComponent } from './components/appointments/appointments.component';
 import { MainComponent } from './components/navs/main/main.component';
-import SimpleBar from 'SimpleBar';
+// import SimpleBar from 'SimpleBar';
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'signup', component: LoginComponent},
@@ -71,11 +72,11 @@ const routes: Routes = [
   {path: 'pharmacy', component: MainComponent,
           children: [
             { path: 'me', component: MessagesComponent},
-          
+
             { path: '', component: PharmacyComponent}
           ]
         },
- 
+
   {path: '', redirectTo: 'login', pathMatch: 'full'},
   {path: '**', component: LoginComponent}
 
@@ -102,6 +103,7 @@ const routes: Routes = [
   imports: [
     BrowserModule,
     FormsModule,
+    AutosizeModule,
     HttpClientModule,
     FileUploadModule,
     RouterModule.forRoot(routes)

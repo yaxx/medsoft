@@ -22,7 +22,7 @@ a:active, a:hover {
 .sidenav {
   position:absolute;
   height:100%;
-  width:3%;
+  width:38px;
   background:#f9fafb;
   z-index:5;
   position:fixed;
@@ -51,14 +51,16 @@ a:active, a:hover {
 
 
 .home:hover {
-  border-right:2px solid #0798f1;
+  /* border-right:2px solid #0798f1; */
+  background: whitesmoke;
+
 }
 
 .home.dashboard {
   top:38%;
 }
-.router-link-active{
-  border-right:2px solid #0798f1;
+.router-link-active {
+  background: whitesmoke;
 }
 
 

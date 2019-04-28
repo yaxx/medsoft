@@ -8,7 +8,8 @@ import {Person} from '../../models/person.model';
 import {states, lgas} from '../../models/data.model';
 import {Client, Department} from '../../models/client.model';
 import { Item, StockInfo, Product} from '../../models/inventory.model';
-import { Record, Session, Appointment,
+
+import { Record, Session, Complain, Appointment,
          Priscription, Medication, Visit, Note} from '../../models/record.model';
 const uri = 'http://localhost:5000/api/upload';
 
@@ -27,6 +28,8 @@ export class ConsultationComponent implements OnInit {
   record: Record = new Record();
   client: Client = new Client();
   department: Department = new Department();
+  complain: Complain = new Complain();
+  complains: Complain[] = [];
   session: Session = new Session();
   curIndex = 0;
   searchTerm = '';
@@ -67,10 +70,11 @@ export class ConsultationComponent implements OnInit {
   ngOnInit() {
    this.getConsultees();
    this.getClient();
+  //  document.getElementById('complain').autogrow();
    this.myDepartment = this.route.snapshot.params['dept'];
     this.socket.io.on('enroled', (patient: Person) => {
       if(patient.record.visits[0].dept.toLowerCase() === this.myDepartment || this.route.snapshot.params['admin']) {
-        patient.card = {view:'front',menu:false}
+        patient.card = {view: 'front', menu: false};
         this.patients.unshift(patient);
       } else {
 
@@ -85,7 +89,7 @@ export class ConsultationComponent implements OnInit {
           }
     } else {
         for (const product of data.changes) {
-          this.products.splice(this.products.findIndex(prod => prod._id === product._id) , 1); 
+          this.products.splice(this.products.findIndex(prod => prod._id === product._id) , 1);
         }
     }
   });
@@ -116,7 +120,7 @@ export class ConsultationComponent implements OnInit {
       }
   });
 
- 
+
 
   this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any ) => {
     this.patient.info.personal.avatar = response;
@@ -162,7 +166,7 @@ addPatient() {
       const reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]); // read file as data url
       reader.onload = (e) => {
-        let evnt = <any>e;
+        const evnt = <any>e;
         this.url = evnt.target.result;
       };
     }
@@ -177,7 +181,7 @@ addPatient() {
   }
 
   getMyDp() {
-    return this.getDp(this.cookies.get('d'))
+    return this.getDp(this.cookies.get('d'));
   }
   fetchDept() {
     if (this.fowarded) {
@@ -300,7 +304,7 @@ addPatient() {
   }
 saveNote() {
   this.loading = true;
-  this.patients[this.curIndex].record.notes.unshift({...this.note, noter: this.cookies.get('i')})
+  this.patients[this.curIndex].record.notes.unshift({...this.note, by: this.cookies.get('i')})
     this.dataService.updateRecord(this.patients[this.curIndex]).subscribe((p: Person) => {
           p.card = {menu: false, view: 'front'};
           this.loading = false;
@@ -319,9 +323,9 @@ getConsultees() {
   this.dataService.getPatients().subscribe((patients: Person[]) => {
     let myPatients;
     if(this.myDepartment){
-    myPatients = patients.filter(p => p.record.visits[0].dept.toLowerCase() === this.myDepartment && p.record.visits[0].status === 'queued')
+    myPatients = patients.filter(p => p.record.visits[0].dept.toLowerCase() === this.myDepartment && p.record.visits[0].status === 'queued');
     } else {
-      myPatients = patients.filter(p => p.record.visits[0].status === 'queued')
+      myPatients = patients.filter(p => p.record.visits[0].status === 'queued');
     }
     if(myPatients.length){
        myPatients.forEach(p => {
@@ -371,7 +375,7 @@ getConsultees() {
       }
     })
     if (tempro) {
-      this.tempMedications.unshift(new Medication(tempro, this.priscription))
+      this.tempMedications.unshift(new Medication(tempro, this.priscription));
     } else {
        this.tempMedications.unshift(new Medication(this.product, this.priscription));
     }
@@ -379,9 +383,18 @@ getConsultees() {
     this.priscription = new Priscription();
     this.input = null;
    }
-
+   addMoreComplain() {
+     this.complains.push({...this.complain, by: this.cookies.get('i')});
+     this.complain = new Complain();
+   }
+   removeComplain(i: number) {
+     this.complains.splice(i, 1);
+   }
+   removeDp(){
+     this.url = '';
+   }
   removePriscription(i: number) {
-   this.medications.splice(i);
+   this.tempMedications.splice(i, 1);
   }
   getPriceTotal() {
     let total = 0;
@@ -411,6 +424,7 @@ getConsultees() {
   }
 
   submitRecord() {
+    this.processing = true;
     this.composeMedication();
       this.patient.record.medications = this.medications;
     if (this.session.vital.bp.value) {
@@ -443,26 +457,34 @@ getConsultees() {
     } else {
       this.patient.record.visits[0].status  = this.session.visits.status;
     }
-     if (this.session.complains.complain) {
-      this.patient.record.complains.push(this.session.complains);
+     if (this.complain.complain) {
+      this.complains.push({...this.complain, by: this.cookies.get('i')});
+    } else if (this.complains.length) {
+      this.patient.record.complains.unshift(this.complains);
     } else {}
      if (this.session.famHist.condition) {
       this.patient.record.famHist.push(this.session.famHist);
     } else {}
      if (this.session.notes.note) {
-      this.patient.record.notes.push(this.session.notes);
+      this.patient.record.notes.push({...this.session.notes, by: this.cookies.get('i')});
     } else {}
      if (this.session.allegies.allegy) {
       this.patient.record.allegies.push(this.session.allegies);
     } else {}
 
     this.dataService.updateRecord(this.patients[this.curIndex]).subscribe((patient: Person) => {
-      this.socket.io.emit('consulted', this.patients[this.curIndex])
+      this.socket.io.emit('consulted', this.patients[this.curIndex]);
       this.patients.splice(this.curIndex, 1);
       this.fowardTo = null;
       this.session = new Session();
       this.tempMedications = [];
+      this.feedback = 'Record successfully updated';
+      this.processing = false;
+      this.complains = [];
 
+    }, (e)=> {
+      this.feedback = 'Unable to update record';
+      this.processing = false;
     });
   }
 }

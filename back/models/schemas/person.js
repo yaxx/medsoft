@@ -64,18 +64,26 @@ const personScheema = new Scheema({
         },
     
     record:{
-        complains:[{
-            complain:String,
-            dateCreated:Date
-        }],
+        complains:[[{
+            complain: String,
+            duration: Number,
+            by:{
+                type: Scheema.Types.ObjectId,
+                 ref: 'Person'
+            },
+            dateCreated: Date
+        }]],
         famHist:[{
-             condition:String,
-             dateCreated:Date
+             condition: String,
+             dateCreated: Date
             }],
         notes: [{
             note:String,
             noteType:String,
-            noter:{type: Scheema.Types.ObjectId, ref: 'Person'},
+            by:{
+                type: Scheema.Types.ObjectId,
+                ref: 'Person'
+            },
             dateCreated:Date
         }],
         vitals: {
@@ -109,11 +117,14 @@ const personScheema = new Scheema({
             }]
         },
         conditions:[{
-            condition:String,
-            oreder:String,
+            condition: String,
+            oreder: String,
             certainty: String,
             dateCreated: Date,
-            by: {type: Scheema.Types.ObjectId, ref: 'Person'}
+            by: {
+                type: Scheema.Types.ObjectId,
+                 ref: 'Person'
+            }
         }],
         allegies:[{
             allegy:String,
@@ -135,7 +146,10 @@ const personScheema = new Scheema({
             setOn: Date,
             time: String,
             attended: Boolean,
-            setBy: {type: Scheema.Types.ObjectId, ref: 'Person'}
+            by: {
+                type: Scheema.Types.ObjectId,
+                ref: 'Person'
+            }
             
         }],
         medications:[
@@ -166,7 +180,6 @@ const personScheema = new Scheema({
                         freq: String,
                         piriod: Number,
                         extend: String,
-                     
                     },
                     paid: Boolean,
                     lastTaken: Date,
@@ -174,10 +187,10 @@ const personScheema = new Scheema({
                     pausedOn :Date,
                     dateCreated: Date,
                     purchased: Number,
-                    by: {
-                            type: Scheema.Types.ObjectId,
-                            ref: 'Person'
-                        }
+                    by:{
+                        type: Scheema.Types.ObjectId,
+                        ref: 'Person'
+                    }
                   
                 }
             ]
@@ -186,7 +199,11 @@ const personScheema = new Scheema({
         scans:[{
             name: String,
             description: String,
-            dateCreated: Date 
+            by: { type: Scheema.Types.ObjectId,
+                ref: 'Person'
+           }
+           
+        
         }],
         Test:[],
         surgeries:[]

@@ -31,13 +31,13 @@
   margin-bottom: 10px;
   border-bottom:1px solid whitesmoke;
 }
-.dp-wrapper{
+/* .dp-wrapper{
   background-color: rgb(240, 163, 163);
   width:80px;
   height:80px;
   margin-bottom: 10px;
   z-index: 10;
-  background: url(../../../assets/img/user.jpg);
+  background: url(../../../assets/img/avartar.jpg);
   background-size: cover;
   background-repeat: no-repeat;
   border-radius: 4px;
@@ -45,7 +45,7 @@
   -moz-border-radius: 4px;
   -ms-border-radius: 4px;
   -o-border-radius: 4px;
-}
+} */
 .dp-wrapper div{
   width:100%;
   height:100%;

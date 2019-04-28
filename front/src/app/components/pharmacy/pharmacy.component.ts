@@ -14,7 +14,7 @@ import * as cloneDeep from 'lodash/cloneDeep';
   styleUrls: ['./pharmacy.component.css']
 })
 export class PharmacyComponent implements OnInit {
-  patients: Person[] = []
+  patients: Person[] = [];
   patient: Person = new Person();
   products: Product[] = []
   clonedStore: Product[] = []
@@ -208,7 +208,7 @@ export class PharmacyComponent implements OnInit {
       this.editables = [];
       this.clonedStore = [];
     }, 4000);
-    
+
   }
    comfirmPayment() {
     this.edited = this.edited.filter(medication => medication.product.stockInfo.price);
@@ -258,9 +258,9 @@ export class PharmacyComponent implements OnInit {
           } else {
             product.stockInfo.inStock = product.stockInfo.inStock + medication.purchased;
             product.stockInfo.sold = product.stockInfo.sold - medication.purchased;
-          }  
+          }
              this.cart.push(product);
-             
+
             }
           });
         });

@@ -42,9 +42,9 @@
   background-color: rgb(240, 163, 163);
   width:80px;
   height:80px;
-  margin-bottom: 10px;
+  margin-bottom: 0px;
   z-index: 10;
-  background: url(../../../assets/img/user.jpg);
+  background-image: url(C:/medsoft/front/src/assets/img/avatar.jpg);
   background-size: cover;
   background-repeat: no-repeat;
   border-radius: 4px;

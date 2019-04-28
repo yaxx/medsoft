@@ -4,11 +4,23 @@ var Scheema = mongoose.Schema
 var RecordScheema = new Scheema({
      complains:[{complain:String, dateCreated:{type:Date, default:Date.now()}}], famHist:[{condition:String, dateCreated:{type:Date, default:Date.now()}}],
 
-    notes: [{note:String, noteType:String, noter:{type: Scheema.Types.ObjectId, ref: 'Staff'}, dateCreated:{type:Date,default:Date.now()}}],
+    notes: [{
+        note:String,
+        noteType:String,
+        noter:{type: Scheema.Types.ObjectId, ref: 'Staff'},
+        dateCreated:Date
+    }],
+    
 
     vitals: {
-        bp: [{value: Number, dateCreated: {type:Date, default:Date.now()}}],
-        resp: [{value: Number, dateCreated: {type:Date, default:Date.now()}}],
+        bp: [{
+            value: Number, 
+            dateCreated:Date
+        }],
+        resp: [{
+            value: Number,
+            dateCreated: Date
+        }],
         pulse: [{value: Number, dateCreated: {type:Date, default:Date.now()}}],
         height: [{value: Number, dateCreated: {type:Date, default:Date.now()}}],
         weight: [{value: Number, dateCreated: {type:Date, default:Date.now()}}],
@@ -17,13 +29,17 @@ var RecordScheema = new Scheema({
 
     },
 
-    conditions:[{condition:String, oreder:String,
+    conditions:[{
+        condition:String, oreder:String,
         certainty: String,
-        dateCreated: {type:Date, default:Date.now()},
+        dateCreated: Date,
         by: {type: Scheema.Types.ObjectId, ref: 'Staff'}}],
 
   
-    allegies:[{allegy:String, dateCreated:{type: Date,default:Date.now}}],
+    allegies:[{
+        allegy:String, 
+        dateCreated:{type: Date,default:Date.now}
+    }],
 
     visits: [{
         dept:String,

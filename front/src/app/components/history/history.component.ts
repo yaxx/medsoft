@@ -23,15 +23,18 @@ export class HistoryComponent implements OnInit {
 
   ngOnInit() {
     let day = null;
-    const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
+    const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
     this.dataService.getHistory(this.route.snapshot.params['id']).subscribe((patient: Person) => {
+      console.log(patient);
       this.notes = patient.record.notes;
       this.patient = patient;
+      console.log(this.patient);
       this.patient.record.notes = patient.record.notes.map(note => ({
         ...note,
         note: note.note.length > 150 ? note.note.substr(0, 150) : note.note
       }));
     });
+    console.log(this.patient);
     this.patient.record.vitals.bp.forEach((bp, i) => {
         this.chartData.push(bp.value);
         this.chartLabels[i] = new Date(bp.dateCreated).getDate().toString() + months[new Date(bp.dateCreated).getMonth()];

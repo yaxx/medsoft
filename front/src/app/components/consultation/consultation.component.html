@@ -75,7 +75,7 @@
                           {{patients[curIndex]?.info.personal.firstName + ' '+ patients[curIndex]?.info.personal.lastName}}<span class="small-headericon"></span>
                         </a>
                         <h6 style='font-size:10px; font-weight:bold; position:absolute;color:dodgerblue;  top:4%;left:59%;text-align:right' class="patien-name small-name">ADD MEDICATIONS</h6>
-                    </div>
+                      </div>
                   <div style="width:56%;margin:auto" class="card-body orderbody">
                         <form style="top:15%; padding-left: 2%; padding-right: 2%;" class=" staffsform" (submit) = saveMedication(curIndex)>
                             <div class="form-group vitals-section address">
@@ -182,7 +182,9 @@
                           <input style="position:absolute;display:none" (change) = fileSelected($event) #picker type ="file"  name="file"  class="patientdata dystolic inputs dataInfo" name="file" multipe ng2FileSelect [uploader] = uploader />
                           <div *ngIf='url' class="card scan-thumnail defaul-dp">
                             <a href="IMG-20180927-WA0000.jpg" target="_blank" class="image-link" data-lightbox="scan">
-                              <img [src]= url class="img-fluid" /></a>
+                              <img [src]= url class="img-fluid" />
+                            </a>
+                           <span> <i (click) = removeDp() title='Remove' class="icon ion-ios-close-outline homeicon removeDp"></i></span>
                           </div>
                         </div>
 
@@ -333,7 +335,7 @@
                         <button  data-dismiss="modal" style="width: 57px; font-size: 10px; border-right: 0px; margin:25px 0px 25px 0px; left: 45px; position:relative; border-radius: 4px 0px 0px 4px;" class="btn btn-sm btn-outline-primary inputs mainbtn" >CANCEL</button>
                       </form>
                   </div>
-                  <div *ngIf='feeback' style="padding:7px" class="card-footer"> <h6 style='font-size:11px;position:relative; font-weight:normal; width:100%; text-align:center; top:-3px; margin-bottom:0px; padding:0px; color: lightgreen' class="patien-name small-name">{{feeback}}</h6></div>
+                  <div *ngIf='feedback' style="padding:7px" class="card-footer"> <h6 style='font-size:11px;position:relative; font-weight:normal; width:100%; text-align:center; top:-3px; margin-bottom:0px; padding:0px; color: lightgreen' class="patien-name small-name">{{feedback}}</h6></div>
 
               </div>
           </div>
@@ -371,23 +373,43 @@
                             HISTORY</label>
 
                         </div>
-                        <div class="form-group vitals-section address">
-                          <label style="font-size:8px" for="complain" class="labelss">CHIEF COMPLAIN</label>
-                          <input [(ngModel)]="session.complains.complain" placeholder="E.g Night sweat, Headache" style='font-size:11px' autocomplete="off"  type="text" name="complain"  class="patientdata dystolic inputs dataInfo" />
+                        <div class="form-group vitals-section address"style='font-size:11px;resize:none;min-height: 26px'>
+                          <!-- <label style="font-size:8px" for="complain" class="labelss">CHIEF COMPLAIN</label> -->
+                          <textarea [minRows]='2' [maxRows]='20' autosize [(ngModel)]="complain.complain" placeholder="E.g Night sweat, Headache" style='font-size:11px; resize: none; height: 26px'   name="complain"  class="patientdata dystolic inputs dataInfo" >
+                          </textarea>
+                        </div>
+                        <div class="form-group vitals-section formGroup" style='width:92%;margin-bottom:2px'>
+                          <label style="font-size:8px" for="piriod" class="labelss complain">DURATION</label>
+                          <input name='numofDays'  [(ngModel)]="complain.duration" style=" font-size:11px;border-top-right-radius: 0px;border-bottom-right-radius: 0px;"
+                          type="number" name="piriod" class="patientdata inputs dataInfo" placeholder='Number of days'>
+                          <div  id='moreBtn' title="Add complain"><i (click)="addMoreComplain()" class="icon ion-ios-plus-empty arrow "></i>
+                          </div>
+                        </div>
+                        <div class="form-group vitals-section formGroup" >
+                          <ul class="itemsList" style='margin-bottom:8px;' >
+                              <li *ngFor = 'let complain of complains; let i = index; let even = even' class = 'complainItem '[class.even] = even >
+                                <p class="dept" style="font-size:11px;font-weight: normal;" >
+                                  {{complain.complain}} 
+                                </p>
+                                <h6 class="dept previnfo"style="color:lightgrey">For:&nbsp;
+                                  {{complain.duration}}<span> Days</span><span class="lastdept timetaken " ><i (click)=removeComplain(i)  class="icon ion-ios-trash-outline tableicon" title="Remove" style="font-size:16px; cursor: pointer;position:relative;bottom:8px"></i></span></h6>
+                              </li>
+                              
+                          </ul>
                         </div>
                         <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block" >
                             <label style="font-size:8px" for="famhistory" class="labelss">FAMILY HISTORY </label>
-                            <input [(ngModel)]="session.famHist.condition" placeholder="E.g Asthma, Diabetes" style='font-size:11px;text-align: left' autocomplete="off"  type="text" name="famhistory" class="patientdata dystolic inputs dataInfo" />
-                        </div>
-                        <div style="width:49%; display:inline-block"  class="form-group vitals-section">
-                            <label style="font-size:8px" for="allegy" class="labelss">ALLEGIES<span style='font-size:11px; color:red;'>*</span> </label>
-                            <input [(ngModel)]="session.allegies.allegy" placeholder="E.g Peanuts" style='font-size:11px' autocomplete="off"  type="text" name="allegy"  class="patientdata dystolic inputs dataInfo" />
-                        </div>
+                            <input [(ngModel)]="session.famHist.condition" placeholder="E.g Asthma, Diabetes"    type="text" name="famhistory" class="patientdata dystolic inputs dataInfo" />
+                       </div>
+                       <div style="width:49%; display:inline-block"  class="form-group vitals-section">
+                          <label style="font-size:8px" for="allegy" class="labelss">ALLEGIES<span style='font-size:11px; color:red;'>*</span> </label>
+                          <input [(ngModel)]="session.allegies.allegy" placeholder="E.g Peanuts"     name="allegy"  class="patientdata dystolic inputs dataInfo" />
+                      </div>
 
-                        <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block" >
-                            <label style="font-size:10px;position: relative;left: 0px;color: #1da1f2"  class="labelss primary">
-                              VITAL SIGNS</label>
-                        </div>
+                      <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block" >
+                          <label style="font-size:10px;position: relative;left: 0px;color: #1da1f2"  class="labelss primary">
+                            VITAL SIGNS</label>
+                      </div>
 
                         <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block" >
                             <label style="font-size:8px" for="resp" class="labelss">RESP. RATE</label>
@@ -405,7 +427,7 @@
                         </div>
                         <div class="form-group vitals-section" style="width:49%; display:inline-block" >
                             <label style="font-size:8px" for="temp" class="labelss">TEMP</label>
-                            <input [min]='0' name='temp' [(ngModel)]="session.vital.tempreture.value" type="number" placeholder="in mmHg" style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo" />
+                            <input [min]='0' name='temp' [(ngModel)]="session.vital.tempreture.value" type="number" placeholder="in degree celcius" style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo" />
                         </div>
                         <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block" >
                             <label style="font-size:8px" for="height" class="labelss">WEIGHT</label>
@@ -458,10 +480,9 @@
                         </div>
 
                         <div class="form-group vitals-section address">
-                            <label style="font-size:8px; position: absolute; bottom:92%" for="note" class="labelss">ADDITONAL NOTE</label>
-                            <textarea name='note'[(ngModel)]="session.notes.note" placeholder="Additional note"
-                             style='font-size:11px;min-height: 110px; text-align: left' autocomplete="off"   class="patientdata dystolic inputs dataInfo" >
-                           </textarea>
+                            <!-- <label style="font-size:8px; position: relative; bottom:86%" for="note" class="labelss">ADDITONAL NOTE</label> -->
+                            <textarea [minRows]='2' [maxRows]='20' autosize [(ngModel)]="session.notes.note" placeholder="Additional note" style='font-size:11px; resize: none; height: 26px'   name="complain"  class="patientdata dystolic inputs dataInfo" >
+                            </textarea>
                         </div>
 
                         <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block" >
@@ -488,15 +509,17 @@
                             <label style="font-size:8px" for="intake" class="labelss complain">FREQ</label>
                             <select [(ngModel)]="priscription.freq" style="border-radius: 0px;font-size:11px;                      border-top-right-radius: 0px;          border-bottom-right-radius:0px"
                               class=" patientdata status inputs dataInfo " name="intake">
+                                <option>dd</option>
                                 <option>dos</option>
+                                <option>qds</option>
                                 <option>qos</option>
-                                <option>am</option>
-                                <option>ar</option>
+                                <option>tds</option>
+                                <!-- <option>ar</option> -->
                             </select>
                         </div>
                         <div class="form-group vitals-section formGroup" style=" width:26%;">
                             <label style="font-size:8px" for="piriod" class="labelss complain">DAYS</label>
-                            <input name='days'  [(ngModel)]="priscription.piriod" style="border-radius: 0px; font-size:11px;"
+                            <input name='days'  [(ngModel)]="priscription.piriod" style="border-radius: 0px;"
                             type="number" name="piriod" class="patientdata inputs dataInfo" placeholder="">
                             <div id='moreBtn' title="Add medication"><i (click)="addMore()" class="icon ion-ios-plus-empty arrow " style="font-size:25px;position: absolute;left:27%;top:-17%; cursor:pointer"></i>
                             </div>
@@ -527,12 +550,12 @@
                             </table>
                           </div>
 
-                          <button (click) = "submitRecord()"  type ="submit"  style=" width: 95px; position:relative; outline: none; box-shadow: none;  font-size: 10px; left:195px; margin:25px 0px 25px 0px; border-radius: 0px; border-top-right-radius:4px;border-bottom-right-radius:4px;" class="btn btn-sm btn-outline-primary inputs mainbtn" >SAVE</button>
-                          <button  data-dismiss="modal" style="width: 57px; font-size: 10px; border-right: 0px; margin:25px 0px 25px 0px; left: 45px; position:relative; border-radius: 4px 0px 0px 4px;" class="btn btn-sm btn-outline-primary inputs mainbtn" >CANCEL</button>
+                          <button (click) = "submitRecord()"  type ="submit"  style=" width: 95px; position:relative; outline: none; box-shadow: none;  font-size: 10px; left:207px; margin:25px 0px 25px 0px; border-radius: 0px; border-top-right-radius:4px;border-bottom-right-radius:4px;" class="btn btn-sm btn-outline-primary inputs mainbtn" >SAVE</button>
+                          <button  data-dismiss="modal" style="width: 57px; font-size: 10px; border-right: 0px; margin:25px 0px 25px 0px; left: 55px; position:relative; border-radius: 4px 0px 0px 4px;" class="btn btn-sm btn-outline-primary inputs mainbtn" >CANCEL</button>
                       </form>
 
                   </div>
-                  <div style="padding:7px" class="card-footer"> <h6 style='font-size:11px;position:relative; font-weight:normal; width:100%; text-align:center; top:-3px; margin-bottom:0px; padding:0px; color: lightgreen' class="patien-name small-name">Record updated successfully</h6></div>
+                  <div *ngIf='feedback' style="padding:7px" class="card-footer"> <h6 style='font-size:11px;position:relative; font-weight:normal; width:100%; text-align:center; top:-3px; margin-bottom:0px; padding:0px; color: lightgreen' class="patien-name small-name">{{feedback}}</h6></div>
               </div>
           </div>
       </div>
@@ -578,7 +601,7 @@
                   <li (click)='sortPatients("status")' class="action">Status</li>
                   <li (click)='sortPatients("sex")' class="action">Gender</li>
                   <li (click)='sortPatients("date")' class="action">Date added</li>
-            </ul>
+                </ul>
         </div>
      </div>
     </form>

@@ -3,7 +3,7 @@ import {DataService} from '../../services/data.service';
 import {SocketService} from '../../services/socket.service';
 import update from 'react-addons-update';
 import {Person} from '../../models/person.model';
-import {CookieService } from 'ngx-cookie-service';
+import {CookieService} from 'ngx-cookie-service';
 import {Product, Item, StockInfo} from '../../models/inventory.model';
 import {Priscription, Medication} from '../../models/record.model';
 import * as cloneDeep from 'lodash/cloneDeep';
@@ -15,21 +15,22 @@ import * as cloneDeep from 'lodash/cloneDeep';
 })
 export class PharmacyComponent implements OnInit {
   patients: Person[] = [];
+  clonedPatients: Person[] = [];
   patient: Person = new Person();
-  products: Product[] = []
-  clonedStore: Product[] = []
-  cart: Product[] = []
+  products: Product[] = [];
+  clonedStore: Product[] = [];
+  cart: Product[] = [];
   product: Product = new Product();
   priscription: Priscription = new Priscription();
   medication: Medication = new Medication();
-  temProducts: Product[] = new Array<Product>();
+  temProducts: Product[] = [];
   item: Item = new Item();
   items: Item[] = [];
   temItems: Item[] = [];
   searchedProducts: Product[] = [];
   medications: any[] = new Array<any>(new Array<Medication>());
-  edited: Medication[] = []
-  editables: Medication[] = []
+  edited: Medication[] = [];
+  editables: Medication[] = [];
   tempMedications: Medication[] = [];
   inlinePatients = [];
   inlineProducts = [];
@@ -95,6 +96,7 @@ export class PharmacyComponent implements OnInit {
           ...patient,
           card: {menu: false, view: 'front'}
         }));
+      this.clonedPatients = this.patients;
       this.loading = false;
       this.message = null;
       } else {
@@ -328,8 +330,8 @@ export class PharmacyComponent implements OnInit {
 }
 }
 cancel() {
-  this.patients[this.curIndex] = this.dataService.getCachedPatient(this.patients[this.curIndex]._id)
-  this.products = this.dataService.getCachedProducts();
+  // this.patients[this.curIndex] = this.dataService.getCachedPatient(this.patients[this.curIndex]._id)
+  // this.products = this.dataService.getCachedProducts();
 }
 
  searchPatient(name:string) {
@@ -340,7 +342,7 @@ cancel() {
       return patern.test(patient.info.personal.firstName);
       });
    } else {
-     this.patients = this.dataService.getCachedPatients();
+     this.patients = this.clonedPatients;
    }
  }
 addSelection(product: Product) {

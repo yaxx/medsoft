@@ -349,7 +349,6 @@ getClient: async (req, res)=> {
   }
 },
 
-
 deleteStaff: (req, res)=>{
   //     Client.findOneAndUpdate({
   //       _id:req.body.hosId
@@ -363,23 +362,22 @@ deleteStaff: (req, res)=>{
   // })
 
 },
-updateClient: (req, res)=>{
+updateClient: async (req, res) => {
+  try {
+      const client = await Client.findByIdAndUpdate(req.cookies.h, {
+      info: req.body.info,
+      departments: req.body.departments,
+      inventory: req.body.inventory
+    },{new: true})
+    res.send(client);
+  }
+
   
-    Client.findOneAndUpdate({
-      _id:req.cookies.h}, {
-        info:req.body.info,
-        departments:req.body.departments,
-        inventory:req.body.inventory
-      },{new:true},(err, docs)=>{
-      if(err){
-        console.log(err)
-      }
-        res.status(200).send(docs)
-      
-    })
+ catch(e) {
+    throw e
+  } 
 },
-
-
+ 
 
 getInPatients: (req, res)=>{
     Person.find({'record.visits.status':'admitted'},(e, patients)=>{

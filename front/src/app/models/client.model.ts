@@ -7,19 +7,23 @@ export class Bed {
     public allocated: boolean = false,
     public dateCreated: Date = new Date() ) {}
 }
-
-
-export class Department {
+export class Room {
   constructor(public _id?: string,
     public name: string = null,
-    public type: string = null,
-    public hasWard: boolean = false,
-    public numOfBeds: number = null,
-    public beds?: Bed[],
-    public description: string = null,
+    public number: Number = null,
+    public beds: Bed[] = [],
     public dateCreated: Date = new Date() ) {}
 }
 
+export class Department {
+  constructor(
+    public name: string = null,
+    public type: string = null,
+    public hasWard: boolean = false,
+    public rooms: Room[] = [],
+    public description: string = null,
+    public dateCreated: Date = new Date() ) {}
+}
 export class Info {
   constructor(public name: string = null,
       public mobile: string = null,

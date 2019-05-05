@@ -16,14 +16,17 @@ var ClientScheema = new Scheema({
         },
         departments: [{
                 name: String,
+                descriptions: String,
                 hasWard: Boolean, 
-                numOfBeds:Number,
-                beds: [{
+                rooms: [{
+                    name: String,
+                    number: Number,
+                    beds: [{
                         number:Number,
                         allocated: Boolean,
-                        dateCreated:Date
-                 }],
-                descriptions: String,
+                        dateCreated: Date
+                 }]
+                }],
                 dateCreated: Date
         }],   
         inventory: [{

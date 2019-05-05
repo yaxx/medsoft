@@ -19,30 +19,7 @@ export class DataService {
   socket: Socket;
   staff: Person = new Person();
   patients: Person[] = new Array<Person>();
-  cachedPatients: Person[] = new Array<Person>();
-  cachedProducts: Product[] = new Array<Product>();
-
   constructor(private http: HttpClient) { }
-  setCachedPatients(patients: Person[]) {
-     this.cachedPatients = patients;
-  }
-  setCachedProducts(products: Product[]) {
-     this.cachedProducts = products;
-  }
-  getCachedPatients() {
-    return this.cachedPatients;
-  }
-  getCachedPatient(id) {
-    return this.cachedPatients.find(p => p._id === id);
-  }
-  getCachedProducts() {
-    return this.cachedProducts;
-  }
-  getCachedProduct(id) {
-    const product = this.cachedProducts.find(product => product.item._id === id);
-    console.log(product.stockInfo.quantity)
-    return product;
-  }
   getHistory(id) {
     return this.http.get(
       `${this.uri}/history/${id}`, {withCredentials: true} );
@@ -159,7 +136,7 @@ export class DataService {
   }
   updateBed(patient, client) {
     return this.http.post(
-      `${this.uri}/updatebed`, {patient, client}, {withCredentials: true});
+      `${this.uri}/updatebed`, {patient:patient, client:client}, {withCredentials: true});
   }
   updateNote(i, n) {
     return this.http.post(

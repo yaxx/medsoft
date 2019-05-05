@@ -48,8 +48,6 @@
                     <div style='left:105%; height:32px;width:32px'title ='Process tranasaction' class="floter">
                         <i (click)='switchToEdit()' style='font-size: 23px;left:3px; top:4px;' class="material-icons flotericon">swap_horiz</i>
                     </div>
-                      <!-- <button (click)='switchToEdit()' type ="submit"  style="top:100px; width: 95px; position:relative;  font-size: 10px; left:152px;  border-radius: 0px; border-top-right-radius:4px;border-bottom-right-radius:4px;" class="btn btn-sm btn-outline-primary inputs mainbtn" >EDIT</button>
-                      <button (click)='reset()' id ='cancel' data-dismiss="modal" style="width: 57px; font-size: 10px;border-right: 0px; top: 100px;  position:relative; border-radius: 4px 0px 0px 4px;" class="btn btn-sm btn-outline-primary inputs mainbtn" >CANCEL</button> -->
                     </div>
                     <div *ngIf='cardView.editing' class="card-body orderbody"style="width:56%;margin:auto;">
                       <form  style="top:15%;" class=" staffsform">
@@ -251,8 +249,10 @@
                                   {{patient.record.visits[0].dept}}</h6>
                             </div>
                             <div class="sub-container">
-                                <h6 class="dept basic-secondary basic-value">
-                                  {{patient.record.visits[0].visitedOn|date:'dd MMM hh:mma'|uppercase}}</h6>
+                              <h6 style="width:100%;text-align:center" class="dept basic-secondary basic-value">
+                                {{patient.record.visits[0].visitedOn|date:'dd MMM'}}&nbsp;<span>
+                                {{patient.record.visits[0].visitedOn|date:'hh:mma'|lowercase}}</span>
+                              </h6>
                             </div>
                           </div>
                     </div>

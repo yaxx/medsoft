@@ -135,7 +135,7 @@
   margin-bottom:12px;
 }
 
-.form-control:focus {
+.form-control:focus, .inputs:focus {
   color:#495057;
 }
 

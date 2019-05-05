@@ -205,7 +205,7 @@
 
 .timeline.noter {
   left:-3.5%;
-  background:url(../../assets/img/model.jpg);
+  /* background:url(../../assets/img/avatar.jpg); */
   background-size:cover;
   background-position:center;
   height:28px;

@@ -6,6 +6,7 @@ import {CookieService } from 'ngx-cookie-service';
 import {ActivatedRoute} from '@angular/router';
 import {Chart} from 'chart.js';
 import {saveAs} from 'file-saver';
+import { truncateSync } from 'fs';
 
 
 @Component({
@@ -15,6 +16,8 @@ import {saveAs} from 'file-saver';
 })
 export class HistoryComponent implements OnInit {
   patient: Person = new Person();
+  loading = false;
+  message = null;
   bpChart = [];
   chartData = [];
   notes: Note[] = [];
@@ -24,17 +27,20 @@ export class HistoryComponent implements OnInit {
   ngOnInit() {
     let day = null;
     const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+    this.loading = true;
     this.dataService.getHistory(this.route.snapshot.params['id']).subscribe((patient: Person) => {
-      console.log(patient);
+      this.loading = false;
       this.notes = patient.record.notes;
       this.patient = patient;
-      console.log(this.patient);
       this.patient.record.notes = patient.record.notes.map(note => ({
         ...note,
         note: note.note.length > 150 ? note.note.substr(0, 150) : note.note
       }));
+    }, (e) => {
+      this.message = 'Something went wrong';
+      this.loading = false;
     });
-    console.log(this.patient);
+
     this.patient.record.vitals.bp.forEach((bp, i) => {
         this.chartData.push(bp.value);
         this.chartLabels[i] = new Date(bp.dateCreated).getDate().toString() + months[new Date(bp.dateCreated).getMonth()];
@@ -110,14 +116,13 @@ export class HistoryComponent implements OnInit {
     return 'http://localhost:5000/api/dp/' + fileName;
   }
   compareNotes(i:number, note:Note){
-    return this.notes[i].note.length === note.note.length
+    return this.notes[i].note.length === note.note.length;
   }
   downloadImage(file: string) {
     this.dataService.download(file).subscribe(
       res =>  saveAs(res, file)
     );
   }
-
   readMore(e: Event, i: number) {
   e.preventDefault();
   this.patient.record.notes[i].note = this.notes[i].note;

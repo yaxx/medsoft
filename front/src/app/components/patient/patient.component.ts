@@ -16,21 +16,22 @@ const uri = 'http://localhost:5000/api/upload';
   styleUrls: ['./patient.component.css']
 })
 export class PatientComponent implements OnInit {
-  patients: Person[] = new Array<Person>();
+  patients: Person[] = [];
+  clonedPatients: Person[] =[];
   patient: Person = new Person();
-  products: Product[] = new Array<Product>();
-  medications: any[] = new Array<any>(new Array<Medication>());
+  products: Product[] = [];
+  medications: any[] = [];
   client: Client = new Client();
   product: Product = new Product();
   priscription: Priscription = new Priscription();
   medication: Medication = new Medication();
-  temProducts: Product[] = new Array<Product>();
+  temProducts: Product[] = [];
   item: Item = new Item();
-  items: Item[] = new Array<Item>();
-  temItems: Item[] = new Array<Item>();
-  searchedItems: Item[] = new Array<Item>();
-  edited: Medication[] = new Array<Medication>();
-  tempMedications: Medication[] = new Array<Medication>();
+  items: Item[] = [];
+  temItems: Item[] = [];
+  searchedItems: Item[] = [];
+  edited: Medication[] = [];
+  tempMedications: Medication[] = [];
   uploader: FileUploader = new FileUploader({url: uri});
   temPatients: Person[] = new Array<Person>();
   file: File = null;
@@ -109,12 +110,12 @@ export class PatientComponent implements OnInit {
       this.client = client.client;
   });
   }
-   getPriceTotal() {
+  getPriceTotal() {
     let total = 0;
-     this.tempMedications.forEach((medic) => {
-       total = total +  medic.product.stockInfo.price;
-     });
-     return total;
+    this.tempMedications.forEach((medic) => {
+      total = total +  medic.product.stockInfo.price;
+    });
+    return total;
   }
   fileSelected(event) {
     if (event.target.files && event.target.files[0]) {
@@ -160,17 +161,16 @@ export class PatientComponent implements OnInit {
       }
       if(myPatients.length) {
         myPatients.forEach(p => {
-        p.card = {menu: false, view: 'front'}
+        p.card = {menu: false, view: 'front'};
       });
       this.patients = myPatients;
-      this.dataService.setCachedPatients(myPatients);
+      this.clonedPatients = myPatients;
       this.loading = false;
       this.message = null;
       } else {
         this.message = 'No Records So Far';
         this.loading = false;
       }
-
     },(e) => {
       this.message = 'Something went wrong';
       this.loading = false;
@@ -194,9 +194,6 @@ export class PatientComponent implements OnInit {
   }
 
   }
-  // getLink(dept: string): String {
-  //   return `/department/${this.myDepartment}/consultation`;
-  // }
   swichtToBack(i) {
     this.tempMedications = new Array<Medication>();
     this.medications = this.patients[i].record.medications ;
@@ -221,15 +218,15 @@ export class PatientComponent implements OnInit {
     this.medications = [this.tempMedications];
   }
   }
-    searchPatient(name:string) {
-   if(name!==''){
+  searchPatient(name:string) {
+   if (name !== '') {
     this.patients = this.patients.filter((patient) => {
       const patern =  new RegExp('\^' + name
       , 'i');
       return patern.test(patient.info.personal.firstName);
       });
    } else {
-     this.patients = this.dataService.getCachedPatients();
+     this.patients = this.clonedPatients;
    }
 
 

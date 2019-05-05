@@ -17,7 +17,7 @@ const uri = 'http://localhost:5000/api/upload';
 })
 export class AppointmentsComponent implements OnInit {
   patients: Person[] = new Array<Person>();
-  temPatients: Person[] = new Array<Person>();
+  clonedPatients: Person[] = new Array<Person>();
   patient: Person = new Person();
    file: File = null;
    info: Info = new Info();
@@ -105,7 +105,7 @@ export class AppointmentsComponent implements OnInit {
             p.card = {menu: false, view: 'front'};
           });
           this.patients = myPatients;
-          this.dataService.setCachedPatients(patients);
+         this.clonedPatients = myPatients;
           this.loading = false;
           this.message = null;
        } else {
@@ -178,7 +178,7 @@ export class AppointmentsComponent implements OnInit {
        return patern.test(patient.info.personal.firstName);
        });
     } else {
-      this.patients = this.temPatients;
+      this.patients = this.clonedPatients;
     }
 
 

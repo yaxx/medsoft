@@ -112,7 +112,7 @@
                       <div class="card-header profileheader">
                       <i (click)=toggleMenu() class="icon ion-android-more-vertical headericon moreicon actions-icon">
                       </i>
-                      <div *ngIf=showMenu class="menu">
+                      <div (mouseleave)= toggleMenu() *ngIf=showMenu class="menu">
                           <ul class="actions primary">
                               <li (click)="switchToEdit('edit')" class="action">Edit profile</li>
                               <li class="action">Settings</li>

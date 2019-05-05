@@ -24,10 +24,12 @@ import { SingupComponent } from './components/singup/singup.component';
 import { DobPipe } from './pipes/dob.pipe';
 import { AppointmentsComponent } from './components/appointments/appointments.component';
 import { MainComponent } from './components/navs/main/main.component';
+import { SettingsComponent } from './components/settings/settings.component';
 // import SimpleBar from 'SimpleBar';
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'signup', component: LoginComponent},
+  {path: 'settings', component: SettingsComponent},
   {path: 'pharmacy', component: PharmacyComponent},
   {path: 'admin', component: MainComponent,
           children: [
@@ -39,7 +41,7 @@ const routes: Routes = [
             {path: 'inventory', component: InventoryComponent},
             {path: 'dashbord', component: InventoryComponent},
             { path: 'me', component: MessagesComponent},
-            {path: 'settings', component: AccountComponent},
+            {path: 'settings', component: SettingsComponent},
             { path: '', component: RegistrationComponent}
           ]
         },
@@ -47,10 +49,10 @@ const routes: Routes = [
           children: [
              {path: 'appointments', component: AppointmentsComponent},
              {path: 'addmisions', component: PatientComponent},
-             { path: 'consultations', component: ConsultationComponent},
+             {path: 'consultations', component: ConsultationComponent},
              {path: 'pharmacy', component: PharmacyComponent},
-             { path: 'me', component: MessagesComponent},
-             { path: '', component: RegistrationComponent}
+             {path: 'me', component: MessagesComponent},
+             {path: '', component: RegistrationComponent}
           ]
         },
   {path: ':dept/consultation', component: MainComponent,
@@ -98,7 +100,8 @@ const routes: Routes = [
     SingupComponent,
     DobPipe,
     AppointmentsComponent,
-    MainComponent
+    MainComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,

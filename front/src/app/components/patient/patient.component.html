@@ -271,10 +271,11 @@
           <div *ngFor="let patient of patients; let i=index"  class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
                 <div style="border-radius:12px" *ngIf = "patient.card.view == 'front'"  class="card card-secondary maincard">
                   <div style="border-radius:12px" class="card-header profileheader">
-                  <i (click)='showMenu(i)' class="icon ion-android-more-vertical headericon moreicon actions-icon"></i>
-                  <div *ngIf = "patient.card.menu" class="menu">
+                  <i *ngIf='myDepartment' (click)='showMenu(i)' class="icon ion-android-more-vertical headericon moreicon actions-icon"></i>
+                  <div (mouseleave)= hideMenu(i) *ngIf = "patient.card.menu" class="menu">
                       <ul class="actions primary">
-                          <li (click)="pullNote(i)" data-target="#noteModal" data-toggle="modal" class="action">Add Note</li>              <li (click)="pullMedications(i)" data-target="#medicModal" data-toggle="modal" class="action">Medications</li>
+                          <li (click)="pullNote(i)" data-target="#noteModal" data-toggle="modal" class="action">Add Note</li>
+                          <li (click)="pullMedications(i)" data-target="#medicModal" data-toggle="modal" class="action">Medications</li>
                           <li class="action">Discharge</li>
                       </ul>
                   </div>
@@ -282,9 +283,10 @@
                       <img [src] = getDp(patient.info.personal.avatar)/>
                   </div>
                   </div>
-                  <a href="#" title="View history" [routerLink]="['../history/', patient._id]" routerLinkActive="router-link-active" class="patien-name">
+                  <p *ngIf='!myDepartment' class="patien-name">{{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}</p>
+                  <a *ngIf='myDepartment' href="#" title="View history" [routerLink]="['../history/', patient._id]" routerLinkActive="router-link-active" class="patien-name">
                   {{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}<span class="predata editicon"></span>
-                </a>
+                  </a>
                   <div class="card-body mainbody">
                       <div class="carditem basic-item">
                           <h6 class="dept basic-info">Sex</h6>
@@ -294,12 +296,12 @@
                       </div>
                       <div class="carditem basic-item">
                           <h6 class="dept basic-info">Age</h6>
-                          <h6 class="dept basic-info sex-info">
-                            {{patient.info.personal.dob|dob}}</h6>
+                          <h6 class="dept basic-info sex-info">{{patient.info.personal.dob|dob}}</h6>
                       </div>
                       <div class="carditem basic-item">
-                          <h6 class="dept basic-info">Bed</h6>
-                          <h6 class="dept basic-info sex-info">{{ patient.record.visits[patient.record.visits.length-1].bedNo ||'---'}}</h6>
+                        <h6 class="dept basic-info">Room</h6>
+                        <h6 class="dept basic-info sex-info"> {{patient.record.visits[0].wardNo ||'?'}}<span style='vertical-align:super;font-size:12px;font-weight: normal'>
+                          {{patient.record.visits[0].bedNo ||'?'}}</span></h6>
                       </div>
                       <div class="priscription basic-subinfo">
                           <div class="sub-container">
@@ -308,9 +310,10 @@
                               </h6>
                           </div>
                           <div class="sub-container">
-                              <h6 class="dept basic-secondary basic-value">
-                                {{patient.record.visits[patient.record.visits.length-1].visitedOn|date:'dd MMM hh:mma'|uppercase}}
-                              </h6>
+                                <h6 style="width:100%;text-align:center" class="dept basic-secondary basic-value">
+                                  {{patient.record.visits[0].visitedOn|date:'dd MMM'}}&nbsp;<span>
+                                  {{patient.record.visits[0].visitedOn|date:'hh:mma'|lowercase}}</span>
+                                </h6>
                           </div>
                         </div>
                     </div>

@@ -537,7 +537,11 @@ body, html {
   box-shadow:none;
   /* text-align: center; */
 }
-.mainbtn{
+ .inputs:focus {
+  color:#495057;
+}
+
+.mainbtn {
   font-size:13px; text-align: center;
   border-radius: 999em;
   font-weight:bold;
@@ -731,6 +735,10 @@ body, html {
   left:105%;
   bottom:72%;
   cursor:pointer;
+}
+.staffname{
+  width: 125px;
+  left: 52px;
 }
 .card-header.profileheader.small-header {
   height:32px;

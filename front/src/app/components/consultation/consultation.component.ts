@@ -8,7 +8,6 @@ import {Person} from '../../models/person.model';
 import {states, lgas} from '../../models/data.model';
 import {Client, Department} from '../../models/client.model';
 import { Item, StockInfo, Product} from '../../models/inventory.model';
-
 import { Record, Session, Complain, Appointment,
          Priscription, Medication, Visit, Note} from '../../models/record.model';
 const uri = 'http://localhost:5000/api/upload';
@@ -24,7 +23,7 @@ export class ConsultationComponent implements OnInit {
   lgas = lgas;
   patient: Person = new Person();
   patients: Person[] = new Array<Person>();
-  temPatients: Person[] = new Array<Person>();
+  clonedPatients: Person[] = new Array<Person>();
   record: Record = new Record();
   client: Client = new Client();
   department: Department = new Department();
@@ -70,15 +69,12 @@ export class ConsultationComponent implements OnInit {
   ngOnInit() {
    this.getConsultees();
    this.getClient();
-  //  document.getElementById('complain').autogrow();
    this.myDepartment = this.route.snapshot.params['dept'];
     this.socket.io.on('enroled', (patient: Person) => {
       if(patient.record.visits[0].dept.toLowerCase() === this.myDepartment || this.route.snapshot.params['admin']) {
         patient.card = {view: 'front', menu: false};
         this.patients.unshift(patient);
-      } else {
-
-      }
+      } 
   });
   this.socket.io.on('store update', (data) => {
     if(data.action === 'new') {
@@ -144,7 +140,7 @@ export class ConsultationComponent implements OnInit {
    this.getConsultees();
    this.getClient();
   }
-  getLgas(){
+  getLgas() {
     return this.lgas[this.states.indexOf(this.patient.info.contact.me.state)];
   }
 
@@ -274,7 +270,7 @@ addPatient() {
        return patern.test(patient.info.personal.firstName);
        });
     } else {
-      this.patients = this.dataService.getCachedPatients();
+      this.patients = this.clonedPatients;
     }
 
 
@@ -332,8 +328,8 @@ getConsultees() {
       p.card = {menu: false, view: 'front'};
     });
      this.patients = myPatients;
-     this.temPatients = myPatients;
-     this.dataService.setCachedPatients(patients);
+     this.clonedPatients = myPatients;
+     
      this.loading = false;
       this.message = null;
     } else {

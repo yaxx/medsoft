@@ -2,24 +2,6 @@
 
 
 
-<!--
-<div class="sidenav">
-
-  <a style="top:21%" href="#" [routerLink]="['/department/information']" routerLinkActive="router-link-active"  class="home patienmenu" title="Out Patients">
-      <span class="homespan">
-          <i class="icon ion-ios-people-outline homeicon"></i>
-      </span>
-  </a>
-
-  <a style="top:28%" href="#" [routerLink]="['/department/information/inpatients']" routerLinkActive="router-link-active"   class="home wardmenu" title="Inpatients"><span class="homespan"><i class="material-icons homeicon wardicon">airline_seat_individual_suite</i></span></a>
-
-  <a style="top:34%" href="#" [routerLink]="['/department/information/appointments']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Appointments">
-    <span class="homespan">
-        <i class="icon ion-ios-calendar-outline homeicon"></i>
-    </span>
-</a>
-
-</div> -->
 <nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:0px">
 <div class="container">
     <a class="navbar-brand" href="#">
@@ -79,7 +61,7 @@
           <div  *ngFor="let patient of patients; let i=index"  class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
               <div *ngIf = "patient.card.view == 'front'"  class="card card-secondary maincard">
                 <div style="border-radius:12px" class="card-header profileheader"><i (click)='showMenu(i)' class="icon ion-android-more-vertical headericon moreicon actions-icon"></i>
-                  <div *ngIf = "patient.card.menu" class="menu">
+                  <div (mouseleave)= hideMenu(i) *ngIf = "patient.card.menu" class="menu">
                     <ul class="actions primary">
                         <li (click)="selectPatient(i)" data-target="#medicModal" data-toggle="modal" class="action">Attend to</li>
                          <li (click) = switchToAp(i) class="action">Edit AP</li>

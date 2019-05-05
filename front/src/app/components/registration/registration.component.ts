@@ -15,9 +15,9 @@ const uri = 'http://localhost:5000/api/upload';
 })
 export class RegistrationComponent implements OnInit {
   form: NgForm;
-  // personal: Personal = new Personal();
- patients: Person[] = new Array<Person>();
- patient: Person = new Person();
+  patients: Person[] = [];
+  clonedPatients: Person[] = [];
+  patient: Person = new Person();
   file: File = null;
   info: Info = new Info();
   visit:Visit = new Visit();
@@ -48,12 +48,14 @@ export class RegistrationComponent implements OnInit {
     this.getPatients();
     this.socket.io.on('consulted', (patient: Person) => {
       const i = this.patients.findIndex(p => p._id === patient._id);
-      if(patient.record.visits[0].status === 'Discharged'){
+      if(patient.record.visits[0].status === 'Discharged') {
         this.patients.unshift(patient);
+        this.clonedPatients.unshift(patient);
       }
   });
     this.socket.io.on('enroled', (patient: Person) => {
       this.patients.unshift(patient);
+      this.clonedPatients.unshift(patient);
   });
 
 
@@ -81,7 +83,7 @@ export class RegistrationComponent implements OnInit {
          p.card = {menu: false, view: 'front'};
       });
       this.patients = discharged;
-      this.dataService.setCachedPatients(discharged);
+      this.clonedPatients = discharged;
       this.loading = false;
       this.message = null;
       } else {
@@ -145,7 +147,7 @@ export class RegistrationComponent implements OnInit {
       return patern.test(patient.info.personal.firstName);
       });
    } else {
-     this.patients = this.dataService.getCachedPatients();
+     this.patients = this.clonedPatients;
    }
 
   }

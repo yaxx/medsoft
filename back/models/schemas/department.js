@@ -1,12 +1,12 @@
 const mongoose = require('../db') ;
-var Scheema = mongoose.Schema
+var Scheema = mongoose.Schema;
 var DepartmentScheema = new Scheema({
         name: String,
-        hasWard:{type: Boolean, Default:false},
-        numOfBeds:Number,
-        beds:[],
+        type: String,
+        hasWard: {type:Boolean, default: false},
+        rooms: [],
         descriptions: String,
-        dateCreated: {type: Date, Default: Date.now()},   
-})
-var Department = mongoose.model('Department', DepartmentScheema)
-module.exports = Department
+        dateCreated:  Date  
+});
+var Department = mongoose.model('Department', DepartmentScheema);
+module.exports = Department;

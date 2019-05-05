@@ -124,17 +124,17 @@ export class AccountComponent implements OnInit {
     this.department = this.departments.find(department => department.name === name);
   }
   addDepartment() {
-    this.loading = true;
-    if (this.department.hasWard) {
-      for(let i = 0; i < this.department.numOfBeds; i++) {
-        this.department.beds.push(new Bed(i + 1));
-      }
-    } else {}
-    this.client.departments.push(this.department); 
-    this.dataService.updateClient(this.client).subscribe((client: Client) => {
-    this.department = new Department();
-    this.loading = false;
-  })
+  //   this.loading = true;
+  //   if (this.department.hasWard) {
+  //     for(let i = 0; i < this.department.numOfBeds; i++) {
+  //       this.department.beds.push(new Bed(i + 1));
+  //     }
+  //   } else {}
+  //   this.client.departments.push(this.department); 
+  //   this.dataService.updateClient(this.client).subscribe((client: Client) => {
+  //   this.department = new Department();
+  //   this.loading = false;
+  // })
 
 }
 isAddminStaff(){

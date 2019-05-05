@@ -13,7 +13,13 @@
   </nav>
 <div style="padding-top:40px" class="container history-container">
     <div class="row history-row">
-        <div class="col col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+        <div *ngIf='!patient._id' class='issue'>
+            <div *ngIf='loading' class="lds-css ng-scope">
+            <div style="width:100%;height:100%" class="lds-rolling"><div></div></div></div>
+            <div (click) = refresh()  *ngIf='message' title='Refresh' class='refresh'><i class="icon ion-ios-reload "></i></div>
+             <h6 *ngIf='message' style='font-size:13px;position:absolute;top:65%; width:100%; color:lightgrey;text-align: center' >{{message}}</h6>
+         </div>
+        <div *ngIf='patient._id' class="col col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
             <div class="card-colums leftcolumn">
                 <div class="card card-secondary historycard leftcard">
                     <div class="card-body infobody">
@@ -145,7 +151,7 @@
                 </div>
             </div>
         </div>
-        <div class="col col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+        <div *ngIf='patient._id' class="col col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
             <div class="card-colums">
                 <div class="card card-secondary historycard midlecard graphcard">
                     <div class="card-body notecardbody">
@@ -240,7 +246,7 @@
                 </div>
             </div>
         </div>
-        <div class="col col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+        <div *ngIf='patient._id' class="col col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
             <div class="card-colums rightcolumn">
                 
                 <div class="card card-secondary historycard rightcard allegies">
@@ -300,8 +306,7 @@
                                       </div>
                                        <h1 style='position:absolute;left:22%;bottom:19px;' class="dept previnfo sec-info">
                                          <span class="predata">Dr.&nbsp; 
-                                           {{condition.by.info.personal.firstName+' '
-                                        +condition.by.info.personal.lastName}}
+                                           {{condition.by.info.personal.firstName+' ' +condition.by.info.personal.lastName}}
                                         </span>
                                       </h1>
                                        <h1 style='position:absolute;left:22%;bottom:7px;color:lightgrey;' class="dept previnfo sec-info">

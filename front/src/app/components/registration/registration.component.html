@@ -89,7 +89,7 @@
                             left:120%;
                             width:100px;top:6px;
                             height:110px'  class="menu">
-                <ul class="actions primary">
+                <ul  class="actions primary">
                     <li (click)='sortPatients("name")' class="action">A-Z</li>
                     <li (click)='sortPatients("age")' class="action">Age</li>
                     <li (click)='sortPatients("status")' class="action">Status</li>
@@ -144,8 +144,10 @@
                                 {{patient.record.visits[0].dept}}</h6>
                           </div>
                           <div class="sub-container">
-                              <h6 class="dept basic-secondary basic-value">
-                                {{patient.record.visits[0].visitedOn|date:'dd MMM hh:mma'|uppercase}}</h6>
+                            <h6 style="width:100%;text-align:center" class="dept basic-secondary basic-value">
+                              {{patient.record.visits[0].visitedOn|date:'dd MMM'}}&nbsp;<span>
+                              {{patient.record.visits[0].visitedOn|date:'hh:mma'|lowercase}}</span>
+                            </h6>
                           </div>
                         </div>
                   </div>

@@ -34,7 +34,9 @@ export class InventoryComponent implements OnInit {
   count = 0;
 
   constructor(
-    private dataService: DataService, private cookies: CookieService, private socket: SocketService) {
+    private dataService: DataService,
+    private cookies: CookieService,
+    private socket: SocketService) {
    }
 
   ngOnInit() {

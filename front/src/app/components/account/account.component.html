@@ -164,7 +164,7 @@
                     <label style='font-size:8px'  for="departments" class="labelss">DEPARTMENT</label>
                     <select [(ngModel)]="staff.info.official.department"  style='font-size:11px'   class="patientdata inputs dataInfo newpatient" name="department">
                        <option *ngFor="let d of client.departments">{{d.name}}</option>
-                </select>
+                    </select>
             </div>
             <div *ngIf="isAddminStaff()"  class="formGroup newdept">
                     <label style='font-size:8px'  for="role" class="labelss">DESIGNATION</label>
@@ -174,14 +174,12 @@
                     </select>
             </div>
           </form>
-          <div (click)="addStaff()"  style='left:78%; height:32px;width:32px;position:absolute;'
+          <div (click)="addStaff()"  style='left:65%; height:32px;width:32px;position:absolute;'
           title ='Save changes' class="floter">
-                <i *ngIf='loading'  class="fa fa-circle-o-notch fa-spin fa-10x slow-spin" style="position:absolute;bottom:5px;left:5px;font-size:20px;color: #1da1f2;"> </i>
-               <i *ngIf='!loading' style="color:#1da1f2;bottom:-10px;" class="icon ion-ios-checkmark-empty flotericon"></i>
+                <i *ngIf='processing'  class="fa fa-circle-o-notch fa-spin fa-10x slow-spin" style="position:absolute;bottom:5px;left:5px;font-size:20px;color: #1da1f2;"> </i>
+               <i *ngIf='!processing' style="color:#1da1f2;bottom:-10px;" class="icon ion-ios-checkmark-empty flotericon"></i>
           </div>
-
           </div>
-
           </div>
         </div>
 

@@ -25,15 +25,20 @@
 
 
 .department {
-  height:100px;
-  width:100px;
-  border-radius:4px;
+  height:88px;
+  width:88px;
+  border-radius:6px;
   border:1px solid whitesmoke;
   position:relative;
   display:inline-block;
-  margin-right:5px;
+  margin-right:6px;
+  margin-top:6px;
   align-items:center;
   align-content:center;
+  -webkit-border-radius:6px;
+  -moz-border-radius:6px;
+  -ms-border-radius:6px;
+  -o-border-radius:6px;
 }
 
 .addicon {
@@ -47,7 +52,7 @@
 
 .addicon.infoicon {
   font-weight:normal;
-  font-size:40px;
+  font-size:35px;
   /*text-align:center;*/
   left:42%;
 }
@@ -69,7 +74,7 @@
 }
 
 .icon.ion-ios-people.addicon.infoicon.consicon {
-  font-size:38px;
+  font-size:31px;
   top:7px;
   left:31%;
 }

@@ -125,27 +125,27 @@ getHistory: async (req, res) => {
 addClient: async (req, res) => {
   try {
     const exist = await Person.findOne({ $or: [{
-      'info.contact.me.email': req.body.client.info.email},{
-        'info.contact.me.mobile': req.body.client.info.mobile
+      'info.contact.me.email': req.body.info.email}, {
+        'info.contact.me.mobile': req.body.info.mobile
       }]
     })
     if(exist) {
         res.status(400).send(exist)
       } else {
-        const client = await new Client(req.body.client).save()
+        const client = await new Client(req.body).save()
             let data = {
               info: {
-                personal:{
+                personal: {
                   firstName: 'Admin',
                   lastName: '',
                   username: 'admin',
-                  password: req.body.cred.password,
+                  password: req.body.info.password,
                   avatar:'avatar.jpg'
                 },
                 contact: {
                   me: {
-                    email: req.body.client.info.email,
-                    mobile: req.body.client.info.mobile
+                    email: req.body.info.email,
+                    mobile: req.body.info.mobile
                   }
                 },
                 official: {

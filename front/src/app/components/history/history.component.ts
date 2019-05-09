@@ -6,7 +6,7 @@ import {CookieService } from 'ngx-cookie-service';
 import {ActivatedRoute} from '@angular/router';
 import {Chart} from 'chart.js';
 import {saveAs} from 'file-saver';
-import { truncateSync } from 'fs';
+// import { truncateSync } from 'fs';
 
 
 @Component({

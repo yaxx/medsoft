@@ -59,9 +59,10 @@ export class PatientComponent implements OnInit {
      private socket: SocketService,
      private route: ActivatedRoute,
      private cookies: CookieService
-      ) { }
+  ) { }
   ngOnInit() {
     this.myDepartment = this.route.snapshot.params['dept'];
+    console.log(this.myDepartment);
     this.getPatients();
     this.getClient();
     this.getItems();
@@ -74,11 +75,10 @@ export class PatientComponent implements OnInit {
             }
       } else {
           for (const product of data.changes) {
-            this.products.splice(this.products.findIndex(prod => prod._id === product._id) , 1); 
+            this.products.splice(this.products.findIndex(prod => prod._id === product._id) , 1);
           }
       }
     });
-    
     this.uploader.onBuildItemForm = (fileItem: any, form: any) => {
       form.append('id', this.patients[this.curIndex]._id);
      };
@@ -90,7 +90,6 @@ export class PatientComponent implements OnInit {
   getItems() {
     this.dataService.getItems().subscribe((items: Item[]) => {
       this.items = items;
-      console.log(items);
     });
   }
   getDp(avatar: String) {

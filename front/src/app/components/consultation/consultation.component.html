@@ -1,5 +1,5 @@
 
-<div *ngIf ='patients.length' class="modal fade" role="dialog" tabindex="-1" id="noteModal" style="border-radius:12px;width:auto;">
+<!-- <div *ngIf ='patients.length' class="modal fade" role="dialog" tabindex="-1" id="noteModal" style="border-radius:12px;width:auto;">
   <div class="modal-dialog" role="document">
       <div class="modal-content" style="width:480px;border-radius:0px;border-radius:12px;padding-left:0px;padding-right: 0px;">
           <div class="modal-body" style="border-radius:0px;padding: 0px;">
@@ -35,7 +35,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
 
 
@@ -75,8 +75,8 @@
                           {{patients[curIndex]?.info.personal.firstName + ' '+ patients[curIndex]?.info.personal.lastName}}<span class="small-headericon"></span>
                         </a>
                         <h6 style='font-size:10px; font-weight:bold; position:absolute;color:dodgerblue;  top:4%;left:59%;text-align:right' class="patien-name small-name">ADD MEDICATIONS</h6>
-                      </div>
-                  <div style="width:56%;margin:auto" class="card-body orderbody">
+                    </div>
+                    <div style="width:56%;margin:auto" class="card-body orderbody">
                         <form style="top:15%; padding-left: 2%; padding-right: 2%;" class=" staffsform" (submit) = saveMedication(curIndex)>
                             <div class="form-group vitals-section address">
                                 <label style='font-size:8px' for="drug" class="labelss">DRUG</label>
@@ -181,7 +181,7 @@
                           </div>
                           <input style="position:absolute;display:none" (change) = fileSelected($event) #picker type ="file"  name="file"  class="patientdata dystolic inputs dataInfo" name="file" multipe ng2FileSelect [uploader] = uploader />
                           <div *ngIf='url' class="card scan-thumnail defaul-dp">
-                            <a href="IMG-20180927-WA0000.jpg" target="_blank" class="image-link" data-lightbox="scan">
+                            <a href="" target="_blank" class="image-link" data-lightbox="scan">
                               <img [src]= url class="img-fluid" />
                             </a>
                            <span> <i (click) = removeDp() title='Remove' class="icon ion-ios-close-outline homeicon removeDp"></i></span>
@@ -192,8 +192,6 @@
                         <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block" >
                           <label style="font-size:10px;position: relative;left: 0px;color: #1da1f2"  class="labelss primary">
                             PERSONAL INFO</label>
-
-
                         </div>
                         <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block" >
                             <label style="font-size:8px" for="firstname" class="labelss">FIRST NAME<span style='font-size:11px; color:red;'>*</span> </label>
@@ -350,7 +348,7 @@
 
 
 
-  <div  *ngIf ='patients.length' class="modal fade" role="dialog" tabindex="-1" id="consModal" style="border-radius:12px;width:auto;">
+<div  *ngIf ='patients.length' class="modal fade" role="dialog" tabindex="-1" id="consModal" style="border-radius:12px;width:auto;">
     <div class="modal-dialog" role="document">
         <div class="modal-content" style="width:480px;border-radius:0px;border-radius:12px;padding-left:0px;padding-right: 0px;">
             <div class="modal-body" style="border-radius:0px;padding: 0px;">
@@ -367,11 +365,9 @@
 
                     <div  class="card-body orderbody"style="width:65%;margin:auto;">
                       <form  style="top:15%;" class=" staffsform">
-
                         <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block" >
                           <label style="font-size:10px;position: relative;left: 0px;color: #1da1f2"  class="labelss primary">
                             HISTORY</label>
-
                         </div>
                         <div class="form-group vitals-section address"style='font-size:11px;resize:none;min-height: 26px'>
                           <!-- <label style="font-size:8px" for="complain" class="labelss">CHIEF COMPLAIN</label> -->
@@ -389,12 +385,11 @@
                           <ul class="itemsList" style='margin-bottom:8px;' >
                               <li *ngFor = 'let complain of complains; let i = index; let even = even' class = 'complainItem '[class.even] = even >
                                 <p class="dept" style="font-size:11px;font-weight: normal;" >
-                                  {{complain.complain}} 
+                                  {{complain.complain}}
                                 </p>
                                 <h6 class="dept previnfo"style="color:lightgrey">For:&nbsp;
                                   {{complain.duration}}<span> Days</span><span class="lastdept timetaken " ><i (click)=removeComplain(i)  class="icon ion-ios-trash-outline tableicon" title="Remove" style="font-size:16px; cursor: pointer;position:relative;bottom:8px"></i></span></h6>
                               </li>
-                              
                           </ul>
                         </div>
                         <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block" >
@@ -629,12 +624,13 @@
 
         <div *ngFor="let patient of patients; let i = index"  class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
         <div *ngIf = "patient.card.view == 'front'"   style="border-radius:12px"  class="card card-secondary maincard">
-            <div style="border-radius:12px"  class="card-header profileheader"><i *ngIf='myDepartment'  (click)='showMenu(i)' class="icon ion-android-more-vertical headericon moreicon actions-icon"></i>
-            <div  (mouseleave)= hideMenu(i) *ngIf = "patient.card.menu" class="menu">
+            <div style="border-radius:12px"  class="card-header profileheader"><i  (click)='showMenu(i)' class="icon ion-android-more-vertical headericon moreicon actions-icon"></i>
+            <div  (mouseleave) = hideMenu(i) *ngIf = "patient.card.menu" class="menu">
                   <ul class="actions primary">
                       <li (click)="selectPatient(i)" data-target="#noteModal" data-toggle="modal" class="action">Add Note</li>
                       <li (click)="pullMedications(i)"  data-target="#medicModal" data-toggle="modal" class="action">Medications</li>
                       <li class="action">Update Vitals</li>
+                      <li (click) = selectPatient(i) data-target="#addModal" data-toggle="modal"  class="action">Edit Info</li>
                       <li (click) = switchToAp(i) class="action">Set Appointment</li>
                    </ul>
               </div>

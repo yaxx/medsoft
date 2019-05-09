@@ -88,7 +88,7 @@ export class SettingsComponent implements OnInit {
   refresh() {
     this.getSettings();
  }
-  selectDept() {
+  selectDept(name) {
     const dps = cloneDeep(this.departments);
     this.department = dps.find(department => department.name === name);
     this.rooms = [];

@@ -10,14 +10,14 @@
                     <form style="top:15%; width:56%;margin:auto; padding-top:30px" class=" staffsform" >
                           <div class="form-group  vitals-section address">
                               <label style='font-size:8px'  for="email" class="labelss">DEPARTMENT</label>
-                              <select (change)=selectDept($event.target.value) [(ngModel)]="deptName" style='font-size:11px'   class=" patientdata inputs dataInfo newpatient" name="department">
+                              <select (change)= selectDept($event.target.value) [(ngModel)]="deptName" style='font-size:11px'   class=" patientdata inputs dataInfo newpatient" name="department">
                                   <option *ngFor="let dept of departments">{{dept.name}}</option>
                               </select>
                           </div>
                           <div *ngIf = '(deptName!== "Pharmacy" ) && (deptName !== "Information") '>
                           <div class="form-group vitals-section formGroup" style=" width:46%;">
                               <label style="font-size:8px" for="dos" class="labelss complain">ROOM</label>
-                              <input [disabled] ='disabled' [(ngModel)] = roomNumb  style="border-top-right-radius: 0px;border-bottom-right-radius: 0px;"  name="dos" class=" form-control patientdata inputs dataInfo"  >
+                              <input  [(ngModel)] = roomNumb  style="border-top-right-radius: 0px;border-bottom-right-radius: 0px;"  name="dos" class=" form-control patientdata inputs dataInfo"  >
                           </div>
                           <div class="form-group vitals-section formGroup" style=" width:45%;">
                               <label style="font-size:8px" for="piriod" class="labelss complain">#BEDS</label>

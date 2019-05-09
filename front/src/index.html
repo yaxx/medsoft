@@ -35,12 +35,14 @@
         var global = window;
       }
   </script>
+  <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
   <script src="assets/js/jquery.min.js"></script>
   <script src="assets/js/auto-grow.min.js"></script>
   <script src="assets/bootstrap/js/bootstrap.min.js"></script>
    <script src="assets/bootstrap/js/bs-animation.js"></script>
    <script src="../node_modules/simplebar/dist/simplebar.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.1.1/aos.js"></script>
+  <script>if (window.module) module = window.module;</script>
 </body>
 
 </html>

@@ -35,7 +35,10 @@ export class Info {
       public ownership: string = null,
       public specialization: string= null,
       public category: string = null,
-      public address: string = null,
+      public password: string = null,
+      public comfirm: string = null,
+      public address: string = null
+      
    ) {}
 }
 export class Client {

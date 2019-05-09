@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {DataService} from '../../services/data.service';
 import {SocketService} from '../../services/socket.service';
 import { FileSelectDirective, FileUploader } from 'ng2-file-upload';
+import * as cloneDeep from 'lodash/cloneDeep';
 import {CookieService } from 'ngx-cookie-service';
 import {ActivatedRoute} from '@angular/router';
 import {Person} from '../../models/person.model';
@@ -58,7 +59,7 @@ export class ConsultationComponent implements OnInit {
   message = null;
   nowSorting = 'Date added';
   myDepartment = null;
-  url = '';
+  url = null;
   file: File = null;
   uploader: FileUploader = new FileUploader({url: uri});
 
@@ -120,19 +121,6 @@ export class ConsultationComponent implements OnInit {
 
   this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any ) => {
     this.patient.info.personal.avatar = response;
-    this.patient.record.visits.unshift(new Visit());
-     this.dataService.addPerson(this.patient).subscribe((newpatient: Person) => {
-       newpatient.card = {menu: false, view: 'front'};
-       this.patients.unshift(newpatient);
-       this.socket.io.emit('consulted', newpatient);
-       this.patient = new Person();
-       this.url = '';
-       this.processing = false;
-       this.feedback = 'Patient added successfully';
-    },(e) => {
-      this.feedback = 'Unbale to add patient';
-      this.processing = false;
-    });
    };
 
   }
@@ -143,10 +131,29 @@ export class ConsultationComponent implements OnInit {
   getLgas() {
     return this.lgas[this.states.indexOf(this.patient.info.contact.me.state)];
   }
+addRecord(){
+  this.patient.record.visits.unshift(new Visit());
+  this.dataService.addPerson(this.patient).subscribe((newpatient: Person) => {
+    newpatient.card = {menu: false, view: 'front'};
+    this.patients.unshift(newpatient);
+    this.socket.io.emit('consulted', newpatient);
+    this.patient = new Person();
+    this.url = null;
+    this.processing = false;
+    this.feedback = 'Patient added successfully';
+ },(e) => {
+   this.feedback = 'Unbale to add patient';
+   this.processing = false;
+ });
+}
 
 addPatient() {
     this.processing = true;
-    this.uploader.uploadAll();
+    if(this.url) {
+      this.uploader.uploadAll();
+      this.addRecord();
+    }
+    this.addRecord();
   }
  getClient() {
     this.dataService.getClient().subscribe((res: any) => {
@@ -188,12 +195,12 @@ addPatient() {
     }
 
   }
-  setAppointment(){
-    this.patients[this.curIndex].record.appointments.push(this.appointment);
-    this.patients[this.curIndex].record.visits[this.patients[this.curIndex].record.visits.length-1].status = 'appointment'
-    this.loading = true;
-    this.dataService.updateRecord(this.patients[this.curIndex]).subscribe(patient=>{
-      this.loading = false;
+  setAppointment() {
+    this.patients[this.curIndex].record.appointments.unshift(this.appointment);
+    this.patients[this.curIndex].record.visits[0].status = 'appointment';
+    this.processing = true;
+    this.dataService.updateRecord(this.patients[this.curIndex]).subscribe(patient => {
+      this.processing = false;
       setTimeout(() => {
             this.patients[this.curIndex].card = {menu: false, view: 'front'};
       }, 3000);
@@ -337,7 +344,7 @@ getConsultees() {
         this.loading = false;
     }
 
-    },(e) => {
+    }, (e) => {
       this.message = 'Something went wrong';
       this.loading = false;
     });
@@ -347,13 +354,14 @@ getConsultees() {
     this.temItems = new Array<Item>();
     this.product = new Product(item, new StockInfo());
    }
-   getBMI(){
+   getBMI() {
      return  (this.session.vital.weight.value/Math.pow(this.session.vital.height.value, 2)).toFixed(2);
    }
   selectPatient(i: number) {
    this.curIndex = i;
-   this.patient = this.patients[i];
+   this.patient = cloneDeep(this.patients[i]);
     this.medications = this.patient.record.medications;
+    this.url = this.getDp(this.patient.info.personal.avatar);
    }
    pullMedications(i: number) {
     this.curIndex = i;
@@ -387,7 +395,7 @@ getConsultees() {
      this.complains.splice(i, 1);
    }
    removeDp(){
-     this.url = '';
+     this.url = null;
    }
   removePriscription(i: number) {
    this.tempMedications.splice(i, 1);

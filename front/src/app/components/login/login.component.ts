@@ -5,6 +5,7 @@ import {DataService} from '../../services/data.service';
 import {SocketService} from '../../services/socket.service';
 import {CookieService } from 'ngx-cookie-service';
 import {Router} from '@angular/router';
+// const { session } = require('electron')
 
 @Component({
   selector: 'app-login',
@@ -34,6 +35,9 @@ cred = {
     ) { }
 
   ngOnInit() {
+    // ElectronCookies.enable({
+    //   origin: 'http://localhost/4200',
+    // });
   }
   switch() {
     this.signin = false;

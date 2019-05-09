@@ -99,7 +99,6 @@ export class DataService {
   }
 
   createClient(client) {
-    console.log(client)
     return this.http.post(
       `${this.uri}/new-client`, client, {withCredentials: true});
   }

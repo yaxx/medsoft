@@ -135,8 +135,6 @@ export class SettingsComponent implements OnInit {
   }
   selectStaff(staff) {
     this.staff = staff;
-    console.log(this.staff);
-
   }
 
   addDepartment() {
@@ -145,7 +143,7 @@ export class SettingsComponent implements OnInit {
     this.department = {...this.department , name: this.deptName, rooms: this.rooms};
     copy.departments.unshift(this.department);
     this.dataService.updateClient(copy).subscribe((client: Client) => {
-      this.client = client;
+      this.client.departments = client.departments;
       this.processing = false;
       this.transMsg = 'Department added successfully';
       this.department = new Department();

@@ -111,9 +111,9 @@ export class DataService {
     return this.http.post(
       `${this.uri}/update-record`, patient , {withCredentials: true});
  }
-  updateInfo(person) {
+  updateInfo(info,id) {
     return this.http.post(
-      `${this.uri}/update-info`, person , {withCredentials: true});
+      `${this.uri}/update-info`, {info:info, id:id}, {withCredentials: true});
  }
 
   upload(image, pid) {

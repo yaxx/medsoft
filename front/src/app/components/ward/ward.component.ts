@@ -30,7 +30,6 @@ export class WardComponent implements OnInit {
   priscription: Priscription = new Priscription();
   medication: Medication = new Medication();
   medications: any[] = [];
- 
   temProducts: Product[] = [];
   item: Item = new Item();
   items: Item[] = new Array<Item>();
@@ -75,7 +74,7 @@ export class WardComponent implements OnInit {
 
     this.socket.io.on('Discharge', (patient: Person) => {
       const i = this.patients.findIndex(p => p._id === patient._id);
-      if(patient.record.visits[0].dept.toLowerCase() === this.myDepartment ) {
+      if(patient.record.visits[0][0].dept.toLowerCase() === this.myDepartment ) {
          if(i < 0) {
          } else {
            this.patients.splice(i, 1);
@@ -87,10 +86,10 @@ export class WardComponent implements OnInit {
 
   this.socket.io.on('consulted', (patient: Person) => {
     const i = this.patients.findIndex(p => p._id === patient._id)
-      if(patient.record.visits[0].dept.toLowerCase() === this.myDepartment && patient.record.visits[0].status ==='Admit') {
+      if(patient.record.visits[0][0].dept.toLowerCase() === this.myDepartment && patient.record.visits[0][0].status ==='Admit') {
         this.patients.unshift(patient);
         this.clonedPatients.unshift(patient);
-      } else if (patient.record.visits[0].dept.toLowerCase() === this.myDepartment &&         patient.record.visits[0].status === 'Discharged') {
+      } else if (patient.record.visits[0][0].dept.toLowerCase() === this.myDepartment &&         patient.record.visits[0][0].status === 'Discharged') {
          this.patients.splice(i, 1);
       }
 
@@ -200,9 +199,9 @@ export class WardComponent implements OnInit {
       let myPatients;
       if(this.myDepartment) {
          myPatients = patients.filter(
-         p => p.record.visits[0].dept.toLowerCase() === this.myDepartment && p.record.visits[0].status === 'Admit');
+         p => p.record.visits[0][0].dept.toLowerCase() === this.myDepartment && p.record.visits[0][0].status === 'Admit');
       } else {
-       myPatients = patients.filter(p => p.record.visits[0].status === 'Admit');
+       myPatients = patients.filter(p => p.record.visits[0][0].status === 'Admit');
       }
       if(myPatients.length) {
         myPatients.forEach(p => {
@@ -221,29 +220,26 @@ export class WardComponent implements OnInit {
     });
   }
   getRooms() {
-    return this.client.departments.find( dept => dept.name === this.patient.record.visits[0].dept).rooms;
+    return this.client.departments.find( dept => dept.name === this.patient.record.visits[0][0].dept).rooms;
   }
   getBeds() {
 // tslint:disable-next-line: max-line-length
-    return (this.patient.record.visits[0].wardNo) ? this.client.departments.find( dep => dep.name === this.patient.record.visits[0].dept).rooms[this.patient.record.visits[0].wardNo - 1].beds.filter(bed => !bed.allocated) : [];
+    return (this.patient.record.visits[0][0].wardNo) ? this.client.departments.find( dep => dep.name === this.patient.record.visits[0][0].dept).rooms[this.patient.record.visits[0][0].wardNo - 1].beds.filter(bed => !bed.allocated) : [];
   }
   changeBed(i: number) {
     this.patients[i].card.view = 'bed';
-    // this.clonePatient = cloneDeep(this.patients[i]);
     this.patient = this.patients[i];
     this.clonePatient = cloneDeep(this.patient);
     this.hideMenu();
   }
   assignBed(i: number) {
     this.cloneClient = cloneDeep(this.client);
-    const index = this.client.departments.findIndex(d => d.name === this.patient.record.visits[0].dept);
-    if (this.clonePatient.record.visits[0].wardNo) {
-      this.client.departments[index].rooms[this.clonePatient.record.visits[0].wardNo - 1].beds[this.clonePatient.record.visits[0].bedNo - 1].allocated = false;
-
-      this.client.departments[index].rooms[this.patient.record.visits[0].wardNo - 1].beds[this.patient.record.visits[0].bedNo - 1].allocated = true;
-
+    const index = this.client.departments.findIndex(d => d.name === this.patient.record.visits[0][0].dept);
+    if (this.clonePatient.record.visits[0][0].wardNo) {
+      this.client.departments[index].rooms[this.clonePatient.record.visits[0][0].wardNo - 1].beds[this.clonePatient.record.visits[0][0].bedNo - 1].allocated = false;
+      this.client.departments[index].rooms[this.patient.record.visits[0][0].wardNo - 1].beds[this.patient.record.visits[0][0].bedNo - 1].allocated = true;
     } else {
-      this.client.departments[index].rooms[this.patient.record.visits[0].wardNo - 1].beds[this.patient.record.visits[0].bedNo - 1].allocated = true;
+      this.client.departments[index].rooms[this.patient.record.visits[0][0].wardNo - 1].beds[this.patient.record.visits[0][0].bedNo - 1].allocated = true;
     }
    
     this.dataService.updateBed(this.patient, this.client).subscribe((p: Person) => {
@@ -297,7 +293,7 @@ export class WardComponent implements OnInit {
     if(this.vitals.height.value) {
       this.patients[i].record.vitals.height =
       this.patients[i].record.vitals.height.filter(h => new Date(h.dateCreated).toLocaleDateString() !== new Date()
-      .toLocaleDateString())
+      .toLocaleDateString());
       this.patients[i].record.vitals.height.unshift(this.vitals.height);
     } else {
 
@@ -332,11 +328,11 @@ export class WardComponent implements OnInit {
 
    }
 
-  selectDrug(p: number, m: number) {
-    if (this.patients[p].record.medications[m].selected) {
-      this.patients[p].record.medications[m].selected = false;
+  selectDrug(i: number, j: number) {
+    if (this.patients[i].record.medications[j].selected) {
+      this.patients[i].record.medications[j].selected = false;
     } else {
-      this.patients[p].record.medications[m].selected = true;
+      this.patients[i].record.medications[j].selected = true;
     }
   }
  updateTimeTaken(i: number) {
@@ -345,8 +341,6 @@ export class WardComponent implements OnInit {
         if (medic.selected) {
           medic.lastTaken = new Date();
           medic.selected = false;
-        } else {
-
         }
       });
     });
@@ -354,12 +348,12 @@ export class WardComponent implements OnInit {
 
     });
   }
-  selectMedication(p: number, m: number) {
-  if (this.patients[p].record.medications[m].paused) {
-    this.patients[p].record.medications[m].paused = false;
+  selectMedication(i: number, j: number) {
+  if (this.patients[i].record.medications[j].paused) {
+    this.patients[i].record.medications[j].paused = false;
 
   } else {
-    this.patients[p].record.medications[m].paused = true;
+    this.patients[i].record.medications[j].paused = true;
   }
 }
 discharge(i) {

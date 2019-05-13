@@ -56,8 +56,6 @@
               <div *ngIf='message' title='Refresh' class='refresh'><i class="icon ion-ios-reload "></i></div>
               <h6 *ngIf='message' style='font-size:13px;position:absolute;top:65%; width:100%; color:lightgrey;text-align: center' >{{message}}</h6>
           </div>
-
-
           <div  *ngFor="let patient of patients; let i=index"  class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
               <div *ngIf = "patient.card.view == 'front'"  class="card card-secondary maincard">
                 <div style="border-radius:12px" class="card-header profileheader"><i (click)='showMenu(i)' class="icon ion-android-more-vertical headericon moreicon actions-icon"></i>
@@ -66,11 +64,10 @@
                         <li (click)="selectPatient(i)" data-target="#medicModal" data-toggle="modal" class="action">Attend to</li>
                          <li (click) = switchToAp(i) class="action">Edit AP</li>
                          <li (click)="selectPatient(i)" data-target="#medicModal" data-toggle="modal" class="action">Cancel AP</li>
-
                      </ul>
                 </div>
                     <div class="timeline lastdoc priscriber headerdp">
-                        <img [src] = getDp(patient)/>
+                        <img [src] = getDp(patient.info.personal.avatar)/>
                     </div>
                 </div>
                 <p (click)= 'switchToBack(i)' class="dept displayname">
@@ -99,14 +96,17 @@
                               Anti Natal Routine</h6>
                         </div>
                         <div class="sub-container">
-                          <h6 style="width:100%;text-align:center" class="dept basic-secondary basic-value"> {{patient.record.visits[0].visitedOn|date:'dd MMM hh:mma'|uppercase}}</h6>
+                          <h6 style="width:100%;text-align:center" class="dept basic-secondary basic-value">
+                            {{patient.record.visits[0][0].visitedOn|date:'dd MMM'}}&nbsp;<span>
+                            {{patient.record.visits[0][0].visitedOn|date:'hh:mma'|lowercase}}</span>
+                          </h6>
                         </div>
                       </div>
                 </div>
                 <button *ngIf='!myDepartment' (click) = "submitRecord()"  style=" width: 90px;font-size: 10px; height:27px;left:52%; bottom:7%;" class="btn btn-sm btn-outline-primary inputs mainbtn" >ENROLE</button>
                 <div *ngIf='myDepartment' style='padding: 4px 4px 4px 27px;border-top:none;border-bottom:none;border-bottom-right-radius:12px;border-bottom-left-radius:12px' class="card-footer profileheader small-header">
                   <div style="left:10%; top:84%" class="timeline lastdoc priscriber headerdp small-dp">
-                    <img [src] = getDp(patient)/>
+                    <img [src] = getDp(patient.info.personal.avatar)/>
                   </div>
                   <h6 style="font-weight:normal;width:125px; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;margin: 2px;" href="#" class="patien-name small-name">
                     {{'Dr.'+' '+patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}
@@ -145,7 +145,6 @@
                           <label for="time" class="labelss complain">TIME</label>
                           <input [(ngModel)]="appointment.time"   style='font-size:11px' type="time" name="time" class="patientdata inputs dataInfo">
                       </div>
-
                   </form>
               </div>
               <div (click) = 'setAppointment()' style='left:78%; height:32px;width:32px'

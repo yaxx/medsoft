@@ -100,6 +100,7 @@ export class PatientComponent implements OnInit {
     return this.getDp(this.cookies.get('d'))
   }
   refresh(){
+    this.message = null;
     this.getPatients();
     this.getClient();
     this.getItems();
@@ -154,9 +155,9 @@ export class PatientComponent implements OnInit {
       let myPatients;
       if(this.myDepartment) {
          myPatients = patients.filter(
-         p => p.record.visits[0].dept === this.myDepartment && p.record.visits[0].status === 'Admit');
+         p => p.record.visits[0][0].dept === this.myDepartment && p.record.visits[0][0].status === 'Admit');
       } else {
-       myPatients = patients.filter(p => p.record.visits[0].status === 'Admit');
+       myPatients = patients.filter(p => p.record.visits[0][0].status === 'Admit');
       }
       if(myPatients.length) {
         myPatients.forEach(p => {
@@ -175,7 +176,14 @@ export class PatientComponent implements OnInit {
       this.loading = false;
     });
   }
-
+  dischargePtient(patient, i) {
+  const j = this.client.departments.findIndex(d => d.name === patient.record.visits[0][0].dept);
+    this.client.departments[j].rooms[patient.record.visits[0][0].wardNo - 1].beds[patient.record.visits[0][0].bedNo - 1].allocated = false;
+    this.patients[i].record.visits[0][0].status = 'Discharge';
+    this.dataService.updateBed(patient, this.client).subscribe((p: Person) => {
+      this.patients.splice(i, 1);
+ });
+}
   switchToNewMedic() {
     this.medicView = !this.medicView;
   }

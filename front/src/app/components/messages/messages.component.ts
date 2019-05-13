@@ -4,7 +4,7 @@ import {SocketService} from '../../services/socket.service';
 import {CookieService } from 'ngx-cookie-service';
 import { FileSelectDirective, FileUploader } from 'ng2-file-upload';
 
-import { Connection, Person, Notification } from '../../models/person.model';
+import { Connection, Person, Info, Notification } from '../../models/person.model';
 import { Message } from '../../models/message.model';
 const uri = 'http://localhost:5000/api/upload';
 @Component({
@@ -57,15 +57,13 @@ oldPwd = null;
         this.contacts.forEach(contact => {
           if (contact.person._id === data.sender) {
               contact.person.info.online = true;
-          } else {
-
           }
         });
       });
       this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any ) => {
         this.person.info.personal.avatar = response;
-         this.data.updateInfo(this.person).subscribe((person: Person) => {
-           this.person = person;
+         this.data.updateInfo(this.person.info, this.person._id).subscribe((info: Info) => {
+           this.person.info = info;
         });
        };
    }
@@ -141,7 +139,7 @@ getLastMessage(msgs){
    getDp(avatar: String) {
     return 'http://localhost:5000/api/dp/' + avatar;
   }
-  
+
   getMyDp() {
     return this.getDp(this.cookies.get('d'))
   }

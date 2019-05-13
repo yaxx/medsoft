@@ -32,7 +32,7 @@
   position:relative;
   display:inline-block;
   margin-right:6px;
-  margin-top:6px;
+  /* margin-top:6px; */
   align-items:center;
   align-content:center;
   -webkit-border-radius:6px;
@@ -69,9 +69,18 @@
 }
 
 .icon.ion-ios-medkit.addicon.pharmicon {
-  font-size:37px;
+  font-size:32px;
   top:7px;
 }
+.icon.ion-waterdrop.addicon.pharmicon {
+  font-size:28px;
+  top:9px;
+  
+}
+.icon.ion-ios-pulse.addicon.pharmicon {
+  font-size:25px;
+  top:13px;
+ 
 
 .icon.ion-ios-people.addicon.infoicon.consicon {
   font-size:31px;

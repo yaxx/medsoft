@@ -39,7 +39,7 @@
   <div class="modal-dialog" role="document">
       <div class="modal-content" style="width:480px;border-radius:12px;padding-left:0px;padding-right: 0px;">
           <div class="modal-body" style="border-radius:0px;padding: 0px;">
-              <div class="card card-secondary historycard midlecard profilecard" style="margin:auto;min-height:200px;border-radius:12px;">
+              <div class="card card-secondary historycard midlecard profilecard" style="margin:auto;min-height:200px; max-height:240px; border-radius:12px;">
                   <div style='padding-left: 30px;border-top-right-radius:12px;border-top-left-radius:12px;' class="card-header profileheader small-header">
                       <div style="left:23px" class="timeline lastdoc priscriber headerdp small-dp">
                         <img [src] = getDp(patients[curIndex].info.personal.avatar)/>
@@ -311,13 +311,13 @@
               <form style="top:15%; padding-left: 10%; padding-right: 10%;" class=" staffsform">
                     <div class="form-group vitals-section address">
                       <label style="font-size:8px" for="bedno" class="labelss">ROOM</label>
-                      <select [(ngModel)]="patient.record.visits[0].wardNo" class=" patientdata status inputs dataInfo " name="bedno">
+                      <select [(ngModel)]="patient.record.visits[0][0].wardNo" class=" patientdata status inputs dataInfo " name="bedno">
                           <option *ngFor = "let room of getRooms()">{{room.number}}</option>
                       </select>
                   </div>
                   <div class="form-group vitals-section address">
                       <label style="font-size:8px" for="bedno" class="labelss">BED</label>
-                      <select [(ngModel)]="patient.record.visits[0].bedNo" class=" patientdata status inputs dataInfo " name="bedno">
+                      <select [(ngModel)]="patient.record.visits[0][0].bedNo" class=" patientdata status inputs dataInfo " name="bedno">
                           <option *ngFor = "let bed of getBeds()">{{bed.number}}</option>
                       </select>
                   </div>

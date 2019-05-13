@@ -32,6 +32,7 @@ export class HistoryComponent implements OnInit {
       this.loading = false;
       this.notes = patient.record.notes;
       this.patient = patient;
+      console.log(patient)
       this.patient.record.notes = patient.record.notes.map(note => ({
         ...note,
         note: note.note.length > 150 ? note.note.substr(0, 150) : note.note

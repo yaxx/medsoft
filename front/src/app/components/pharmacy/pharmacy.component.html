@@ -16,9 +16,7 @@
                         </a>
                         <h6 style='font-size:10px; font-weight:bold; position:absolute;color:dodgerblue;  top:4%;left:76%' class="patien-name small-name">MEDICATIONS</h6>
                     </div>
-
                   <div *ngIf='cardView.orders' class="card-body orderbody"style=" width:65%; margin:auto;">
-
                       <div data-simplebar style="border-left:2px solid #1da1f2;height:200px; width:100%;">
                       <div style='border:none'   *ngFor="let medic of medications; let i = index"  class="carditem priscriptioncontainer order">
                           <div style='left:-4%' class="timeline condition drugtimeline">

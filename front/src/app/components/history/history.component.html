@@ -78,67 +78,21 @@
                     <div class="card-header grapheader">
                         <h1 class="dept headtitle">VISITS</h1>
                     </div>
-                    <div class="card-body rightcardbody">
-                        <h1 style='color:lightgrey; width:100%; text-align:center;top:43%;position:absolute;' class="dept headtitle">NO RECORD</h1>
-                          <div class="carditem">
-                             
-                              <!-- <div class="carditem priscriptioncontainer order">
-                                  <div class="timeline condition drugtimeline">
-                                      <p class="timelinedate">10</p>
-                                      <p class="timelinedate month">FEB</p>
-                                  </div>
-                                  <div class="priscription drug side-item">
-                                      <h6 class="dept">GOPD&nbsp;<span class="timetaken dischargedon">05/10/2018 02:30pm</span></h6>
-                                      <div class="timeline lastdoc priscriber headerdp seenby"> </div>
-
-                                     
-                                  </div>
-
-                              </div> -->
-                              <!-- <div class="carditem priscriptioncontainer order">
-                                  <div class="timeline condition drugtimeline">
-                                      <p class="timelinedate">25</p>
-                                      <p class="timelinedate month">DEC</p>
-                                  </div>
-
-                                  <div class="priscription drug side-item">
-                                      <h6 class="dept">Family Medicine&nbsp;<span class="timetaken dischargedon">05/10/2018 02:30pm</span></h6>
-                                      <div class="timeline lastdoc priscriber headerdp seenby"></div>
-
-                                      
-                                      <div class="timeline lastdoc priscriber headerdp seenby"></div>
-
-                                      
-                                  </div>
-                              </div> -->
-                              <!-- <div class="carditem priscriptioncontainer order">
-                                  <div class="timeline condition drugtimeline">
-                                      <p class="timelinedate">09</p>
-                                      <p class="timelinedate month">JAN</p>
-                                  </div>
-
-                                  <div class="priscription drug">
-                                      <h6 class="dept">Maternity&nbsp;<span class="timetaken dischargedon">05/10/2018 02:30pm</span></h6>
-                                    <div class="timeline lastdoc priscriber headerdp seenby">
-
-                                      </div>
-                                  </div>
-                              </div> -->
-                              <!-- <div class="carditem priscriptioncontainer order">
-                                  <div class="timeline condition drugtimeline">
-                                      <p class="timelinedate">09</p>
-                                      <p class="timelinedate month">JAN</p>
-                                  </div>
-
-                                  <div class="priscription drug">
-                                      <h6 class="dept">Padiatrics&nbsp;<span class="timetaken dischargedon">05/10/2018 09:50am</span></h6>
-                                      <div class="timeline lastdoc priscriber headerdp seenby">
-
-                                      </div>
-                                  </div>
-                              </div> -->
-                          </div>
-                      </div>
+                    <div style ="padding-left:17px;" class="card-body rightcardbody">
+                        <div  *ngFor="let visit of patient.record.visits; let i = index"  class="carditem priscriptioncontainer order">
+                            <div style='left:-7.2%' class="timeline condition drugtimeline">
+                                <p class="timelinedate"> {{visit[0]?.visitedOn|date:'dd'}}</p>
+                                <p  class="timelinedate month"> {{visit[0]?.visitedOn|date:'MMM'|uppercase}}</p>
+                            </div>
+                            <div *ngFor ="let v of visit; let j= index" class="priscription drug">
+                                <p class="dept">{{v.dept}}<span class="predata">
+                                    </span>
+                                    <!-- <span style='color:lightgrey;font-size:smaller;width:56%;position:absolute;text-align:right;'>{{medic[0].dateCreated|date:'hh:mma'|lowercase}}</span> -->
+                                
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="card card-secondary historycard leftcard deathinfo">
                     <div class="card-header grapheader">
@@ -297,7 +251,7 @@
                                       <p class="timelinedate month">{{condition.dateCreated|date:'MMM'|uppercase}}</p>
                                   </div >
                                   <div style='border-bottom:1px solid whitesmoke;padding-bottom:4px;margin-bottom:0px' class="priscription drug side-item">
-                                      <p class="dept complain">{{condition.condition}}<span style='color:lightgrey;font-size:smaller;width:56%;position:absolute;text-align:right;'>05:20pm</span></p>
+                                      <p class="dept complain">{{condition.condition}}<span style='color:lightgrey;font-size:smaller;width:56%;position:absolute;text-align:right;'>{{condition.dateCreated|date:'hh:mma'|lowercase}}</span></p>
                                        <!-- <div style='margin:0px;display:inline-block' class="timeline lastdoc priscriber headerdp seenby">
                                           <img [src] = getDp(condition.by.info.personal.avatar)/>
                                       </div> -->
@@ -329,9 +283,10 @@
                         <div *ngFor ="let m of medic; let j= index" class="priscription drug">
                             <p class="dept">{{m.product.item.name}}<span class="predata">
                                 {{m.product.item.mesure+m.product.item.unit}}</span>
-                                <!-- <span style='color:lightgrey;font-size:smaller;width:56%;position:absolute;text-align:right;'>05:20pm</span> -->
+                                <!-- <span style='color:lightgrey;font-size:smaller;width:56%;position:absolute;text-align:right;'>{{medic[0].dateCreated|date:'hh:mma'|lowercase}}</span> -->
+                              
                             </p>
-                            <!-- <h6 class="dept previnfo">By&nbsp;<span class="predata"> Hassan Ali </span></h6> -->
+                        
                          </div>
                       </div>
                     </div>

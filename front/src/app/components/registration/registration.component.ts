@@ -4,8 +4,10 @@ import { FileSelectDirective, FileUploader } from 'ng2-file-upload';
 import {DataService} from '../../services/data.service';
 import {SocketService} from '../../services/socket.service';
 import {ActivatedRoute,Router} from '@angular/router';
+import * as cloneDeep from 'lodash/cloneDeep';
 import {Person, Info} from '../../models/person.model';
 import {Visit} from '../../models/record.model';
+import {Client, Department} from '../../models/client.model';
 import {CookieService } from 'ngx-cookie-service';
 const uri = 'http://localhost:5000/api/upload';
  @Component({
@@ -17,7 +19,9 @@ export class RegistrationComponent implements OnInit {
   form: NgForm;
   patients: Person[] = [];
   clonedPatients: Person[] = [];
+  clonedPatient: Person = new Person();
   patient: Person = new Person();
+  client: Client = new Client();
   file: File = null;
   info: Info = new Info();
   visit:Visit = new Visit();
@@ -25,6 +29,8 @@ export class RegistrationComponent implements OnInit {
   url = '';
   curIndex = 0;
   message = null;
+  feedback = null;
+  processing = false;
   sortBy = 'added';
   sortMenu = false;
   loading = false;
@@ -46,9 +52,10 @@ export class RegistrationComponent implements OnInit {
 
   ngOnInit() {
     this.getPatients();
+    this.getClient();
     this.socket.io.on('consulted', (patient: Person) => {
       const i = this.patients.findIndex(p => p._id === patient._id);
-      if(patient.record.visits[0].status === 'Discharged') {
+      if(patient.record.visits[0][0].status === 'Discharge') {
         this.patients.unshift(patient);
         this.clonedPatients.unshift(patient);
       }
@@ -57,8 +64,6 @@ export class RegistrationComponent implements OnInit {
       this.patients.unshift(patient);
       this.clonedPatients.unshift(patient);
   });
-
-
   }
   getDp(avatar: String) {
     return 'http://localhost:5000/api/dp/' + avatar;
@@ -68,16 +73,21 @@ export class RegistrationComponent implements OnInit {
   }
   getMyDp() {
     return this.getDp(this.cookies.get('d'))
-   
   }
   refresh() {
-     this.getPatients();
+    this.message = null;
+    this.getPatients();
   }
+  getClient() {
+    this.dataService.getClient().subscribe((res: any) => {
+      this.client = res.client;
+  })
+}
   getPatients() {
     let discharged;
     this.dataService.getPatients().subscribe((patients: Person[]) => {
       this.loading = true;
-      discharged = patients.filter(patient=>patient.record.visits[0].status === 'Discharge');
+      discharged = patients.filter(patient=>patient.record.visits[0][0].status === 'Discharge');
       if(discharged.length) {
          discharged.forEach(p => {
          p.card = {menu: false, view: 'front'};
@@ -96,13 +106,22 @@ export class RegistrationComponent implements OnInit {
     });
   }
   enrolePatient()  {
-    this.loading = true;
-    this.patients[this.curIndex].record.visits.unshift(this.visit);
-    this.dataService.updateRecord(this.patients[this.curIndex]).subscribe(patient=>{
-      this.socket.io.emit('enroled',patient)
-      this.patients.splice(this.curIndex,1)
-      this.loading = false;
-    })
+    this.processing = true;
+    this.visit.status = 'queued';
+    this.patient.record.visits.unshift([this.visit]);
+    this.dataService.updateRecord(this.patient).subscribe(patient=>{
+      this.socket.io.emit('enroled', patient);
+      this.visit = new Visit();
+      this.processing = false;
+      this.patients.splice(this.curIndex,1);
+      this.feedback = 'Patient enrole  successfully';
+      setTimeout(() => {
+        this.feedback = null;
+      }, 4000);
+    }, (e) => {
+    this.feedback = 'Unbale to enrole patient';
+    this.processing = false;
+  });
   }
   // fileSelected(event) {
   //   if (event.target.files && event.target.files[0]) {
@@ -124,14 +143,9 @@ export class RegistrationComponent implements OnInit {
   }
   selectPatient(i: number) {
     this.curIndex = i;
+    this.clonedPatient = cloneDeep(this.patients[i]);
+    this.patient = this.patients[i];
   }
-
-
-  // submitRecord() {
-  //   this.loading = true;
-  //   this.patient.info = this.info;
-  //     this.uploader.uploadAll();
-  // }
   switchViews() {
     if (this.view === 'details') {
        this.view = '';

@@ -100,7 +100,17 @@ catch (e){
 },
 getPatients: async (req, res) => {
   try {
-    const patients = await Person.find({$where: 'this.record.visits.length'})
+    let patients = await Person.find({$where: 'this.record.visits.length'})
+    // patients = patients.map(p => {
+    //   if(p.record.visits[0][0]) {
+    //     return p;
+    //   } else {
+    //       p.record.visits = [...p.record.visits]
+    //       return p;
+    //   }
+    
+    // }) 
+    // console.log(patients)
     res.send(patients) 
   }
   catch(e){
@@ -342,7 +352,15 @@ getClient: async (req, res)=> {
     .populate('staffs').exec()
     const depts = await Department.find()
     const items = await Item.find()
-    res.send({client:client, departments: depts,items:items})
+    // client.departments = client.departments.map(dept => {
+    //   if (dept.name === 'GOPD') {
+    //     dept.hasWard = true;
+    //   } else {
+    //     dept.hasWard = false;
+    //   }
+    //   return dept;
+    // })
+    res.send({client: client, departments: depts, items: items})
   }
   catch(e) {
     throw e
@@ -421,26 +439,24 @@ updateBed: (req, res)=>{
  })
 
 },
-updateInfo: (req, res)=>{
-   Person.findByIdAndUpdate(req.body._id,{info:req.body.info},{new:true},(e, doc)=>{
-      if(!e){
-         res.send(doc);
-      } else{
-        console.log(e);
-      }
-
-    })
+updateInfo: async (req, res) => {
+  try {
+    console.log(req.body);
+    const person = await Person.findByIdAndUpdate(req.body.id,{info: req.body.info}, {new:true})
+    res.send(person.info);
+  }
+  catch(e) {
+    throw e
+  } 
 },
-updateRecord: (req, res)=>{
-   Person.findByIdAndUpdate(req.body._id,{record:req.body.record},{new:true},(e, doc)=>{
-      if(!e){
-        console.log(doc)
-          res.send(doc);
-      } else{
-        console.log(e);
-      }
-
-    })
+updateRecord: async (req, res) => {
+  try {
+    const person = await Person.findByIdAndUpdate(req.body._id,{record:req.body.record},{new:true})
+    res.send(person);
+  }
+  catch(e) {
+    throw e
+  } 
 },
 
 

@@ -130,17 +130,24 @@ const personScheema = new Scheema({
             allegy:String,
             dateCreated: Date,
         }],
-        visits: [{
-            hospital: {type: Scheema.Types.ObjectId, ref: 'Client'},
-            dept: String,
-            status:String,
-            visitedOn: Date,
-            addmittedOn: Date,
-            dischargedOn:Date,
-            diedOn: Date,
-            wardNo: Number,
-            bedNo: Number
-        }],
+        visits:[
+            [
+                {
+                    hospital: {
+                        type: Scheema.Types.ObjectId, ref: 'Client'
+                    },
+                    dept: String,
+                    status:String,
+                    visitedOn: Date,
+                    addmittedOn: Date,
+                    dischargedOn:Date,
+                    diedOn: Date,
+                    wardNo: Number,
+                    bedNo: Number
+                }
+            ]
+            
+        ],
         appointments: [{
             title: String,
             setOn: Date,

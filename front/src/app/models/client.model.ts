@@ -26,18 +26,18 @@ export class Department {
 }
 export class Info {
   constructor(public name: string = null,
-      public mobile: string = null,
-      public email: string = null,
-      public state: string= null,
-      public city: string= null,
-      public zipcode: string = null,
-      public expiry: Date = null,
-      public ownership: string = null,
-      public specialization: string= null,
-      public category: string = null,
-      public password: string = null,
-      public comfirm: string = null,
-      public address: string = null
+    public mobile: string = null,
+    public email: string = null,
+    public state: string = null,
+    public city: string= null,
+    public zipcode: string = null,
+    public expiry: Date = null,
+    public ownership: string = null,
+    public specialization: string = null,
+    public category: string = null,
+    public password: string = null,
+    public comfirm: string = null,
+    public address: string = null
       
    ) {}
 }

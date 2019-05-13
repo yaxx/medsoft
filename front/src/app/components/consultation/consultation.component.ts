@@ -5,7 +5,7 @@ import { FileSelectDirective, FileUploader } from 'ng2-file-upload';
 import * as cloneDeep from 'lodash/cloneDeep';
 import {CookieService } from 'ngx-cookie-service';
 import {ActivatedRoute} from '@angular/router';
-import {Person} from '../../models/person.model';
+import {Person, Info} from '../../models/person.model';
 import {states, lgas} from '../../models/data.model';
 import {Client, Department} from '../../models/client.model';
 import { Item, StockInfo, Product} from '../../models/inventory.model';
@@ -23,8 +23,9 @@ export class ConsultationComponent implements OnInit {
   states = states;
   lgas = lgas;
   patient: Person = new Person();
-  patients: Person[] = new Array<Person>();
-  clonedPatients: Person[] = new Array<Person>();
+  patients: Person[] = [];
+  clonedPatient: Person = new Person();
+  clonedPatients: Person[] = [];
   record: Record = new Record();
   client: Client = new Client();
   department: Department = new Department();
@@ -37,13 +38,13 @@ export class ConsultationComponent implements OnInit {
   priscription: Priscription = new Priscription();
   medication: Medication =  new Medication();
   medications: any[] = [];
-  tempMedications: Medication[] = new Array<Medication>();
+  tempMedications: Medication[] = [];
   item: Item = new Item();
-  items: Item[] = new Array<Item>();
-  temItems: Item[] = new Array<Item>();
+  items: Item[] = [];
+  temItems: Item[] = [];
   product: Product = new Product(new Item(), new StockInfo());
-  products: Product[] = new Array<Product>();
-  selectedProducts: Product[] = new Array<Product>();
+  products: Product[] = [];
+  selectedProducts: Product[] = [];
   appointment: Appointment = new Appointment();
   note = new Note();
   input = '';
@@ -52,8 +53,6 @@ export class ConsultationComponent implements OnInit {
   processing  = false;
   feedback = null;
   reg = true;
-  fowarded = false;
-  fowardTo = null;
   sortBy = 'added';
   sortMenu = false;
   message = null;
@@ -72,10 +71,10 @@ export class ConsultationComponent implements OnInit {
    this.getClient();
    this.myDepartment = this.route.snapshot.params['dept'];
     this.socket.io.on('enroled', (patient: Person) => {
-      if(patient.record.visits[0].dept.toLowerCase() === this.myDepartment || this.route.snapshot.params['admin']) {
+      if(patient.record.visits[0][0].dept.toLowerCase() === this.myDepartment || this.route.snapshot.params['admin']) {
         patient.card = {view: 'front', menu: false};
         this.patients.unshift(patient);
-      } 
+      }
   });
   this.socket.io.on('store update', (data) => {
     if(data.action === 'new') {
@@ -98,7 +97,7 @@ export class ConsultationComponent implements OnInit {
          } else {
            this.patients.splice(i, 1);
          }
-      } else if (patient.record.visits[0].status === 'queued') {
+      } else if (patient.record.visits[0][0].status === 'queued') {
         this.patients[i] = patient;
       } else {
         this.patients.splice(i, 1);
@@ -107,7 +106,7 @@ export class ConsultationComponent implements OnInit {
 
   this.socket.io.on('Discharge', (patient: Person) => {
     const i = this.patients.findIndex(p => p._id === patient._id)
-      if(patient.record.visits[0].dept.toLowerCase() === this.myDepartment ) {
+      if(patient.record.visits[0][0].dept.toLowerCase() === this.myDepartment ) {
          if(i < 0) {
          } else {
            this.patients.splice(i, 1);
@@ -116,23 +115,22 @@ export class ConsultationComponent implements OnInit {
          this.patients.splice(i, 1);
       }
   });
-
-
-
   this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any ) => {
     this.patient.info.personal.avatar = response;
+    console.log(this.patient.info.personal.avatar);
    };
 
   }
   refresh() {
+   this.message = null;
    this.getConsultees();
    this.getClient();
   }
   getLgas() {
     return this.lgas[this.states.indexOf(this.patient.info.contact.me.state)];
   }
-addRecord(){
-  this.patient.record.visits.unshift(new Visit());
+addRecord() {
+  this.patient.record.visits.unshift([new Visit()]);
   this.dataService.addPerson(this.patient).subscribe((newpatient: Person) => {
     newpatient.card = {menu: false, view: 'front'};
     this.patients.unshift(newpatient);
@@ -141,19 +139,53 @@ addRecord(){
     this.url = null;
     this.processing = false;
     this.feedback = 'Patient added successfully';
- },(e) => {
+    setTimeout(() => {
+      this.feedback = null;
+    }, 4000);
+ }, (e) => {
    this.feedback = 'Unbale to add patient';
    this.processing = false;
  });
 }
+update() {
+  this.dataService.updateInfo(this.patient.info, this.patient._id).subscribe((info: Info) => {
+    this.processing = false;
+    this.patients[this.curIndex].info = info;
+    this.feedback = 'Update successfull';
+    this.patient = new Person();
+    this.url = null;
+    setTimeout(() => {
+      this.feedback = null;
+    }, 4000);
+  },(e) => {
+    this.feedback = 'Unbale to update info';
+    this.processing = false;
+  })
+}
+updateInfo() {
+  if(this.url) {
+    if(this.patient.info.personal.avatar === this.url ) {
+      this.update();
+    } else {
+      this.uploader.uploadAll();
+      this.update();
+    }
+  } else {
+      this.patient.info.personal.avatar = 'avatar.jpg' ;
+      this.update();
+    }
+}
 
 addPatient() {
     this.processing = true;
-    if(this.url) {
-      this.uploader.uploadAll();
-      this.addRecord();
+    if(this.reg) {
+      if(this.url) {
+        this.uploader.uploadAll();
+        this.addRecord();
     }
     this.addRecord();
+  }
+  this.updateInfo();
   }
  getClient() {
     this.dataService.getClient().subscribe((res: any) => {
@@ -176,9 +208,7 @@ addPatient() {
 
   }
 
-  conclude(conclution: string) {
-    this.fowarded = conclution === 'Foward' ? true : false;
-  }
+
   getDp(avatar: String) {
     return 'http://localhost:5000/api/dp/' + avatar;
   }
@@ -187,17 +217,12 @@ addPatient() {
     return this.getDp(this.cookies.get('d'));
   }
   fetchDept() {
-    if (this.fowarded) {
       return this.client.departments
-      .filter((dept) => (dept.hasWard) && (dept.name.toLowerCase() !== this.patients[this.curIndex].record.visits[0].dept));
-    } else {
-      return [];
-    }
-
+      .filter(dept => (dept.hasWard) && (dept.name !== this.patient.record.visits[0][0].dept));
   }
   setAppointment() {
     this.patients[this.curIndex].record.appointments.unshift(this.appointment);
-    this.patients[this.curIndex].record.visits[0].status = 'appointment';
+    this.patients[this.curIndex].record.visits[0][0].status = 'appointment';
     this.processing = true;
     this.dataService.updateRecord(this.patients[this.curIndex]).subscribe(patient => {
       this.processing = false;
@@ -222,9 +247,9 @@ addPatient() {
   switchToNewMedic(){
     this.medicView = !this.medicView;
   }
-  switchToAp(i: number){
+  switchToAp(i: number) {
     this.patients[i].card.view = 'ap';
-    this.curIndex = i
+    this.curIndex = i;
   }
   switchToFront(i: number) {
     this.patients[i].card.view = 'front';
@@ -260,17 +285,24 @@ addPatient() {
   saveMedication(i) {
     this.composeMedication();
     this.patients[i].record.medications = this.medications;
-    this.loading = true;
+    this.processing = true;
     this.dataService.updateRecord(this.patients[i]).subscribe((p: Person) => {
       p.card = {menu: false, view: 'front'};
       this.patients[i] = p;
-      this.medications = new Array<any>(new Array<Medication>());
+      this.medications = [];
       this.tempMedications = [];
-      this.loading = false;
+      this.processing = false;
+      this.feedback = 'Medication added successfully';
+      setTimeout(() => {
+        this.feedback = null;
+      }, 4000);
+    },(e) => {
+      this.feedback = 'Unable to add medication ';
+      this.processing = false;
     });
   }
   searchPatient(name: string) {
-    if(name!==''){
+    if(name !== '') {
      this.patients = this.patients.filter((patient) => {
        const patern =  new RegExp('\^' + name
        , 'i');
@@ -279,8 +311,6 @@ addPatient() {
     } else {
       this.patients = this.clonedPatients;
     }
-
-
    }
   showSortMenu(){
     this.sortMenu = true;
@@ -305,40 +335,45 @@ addPatient() {
   }
 
   }
-saveNote() {
-  this.loading = true;
-  this.patients[this.curIndex].record.notes.unshift({...this.note, by: this.cookies.get('i')})
-    this.dataService.updateRecord(this.patients[this.curIndex]).subscribe((p: Person) => {
-          p.card = {menu: false, view: 'front'};
-          this.loading = false;
-          this.note = new Note();
-    });
-
+  saveNote() {
+    this.processing = true;
+    this.patients[this.curIndex].record.notes.unshift({...this.note, by: this.cookies.get('i')});
+      this.dataService.updateRecord(this.patients[this.curIndex]).subscribe((p: Person) => {
+        p.card = {menu: false, view: 'front'};
+        this.processing = false;
+        this.note = new Note();
+        this.feedback = 'Note added successfully';
+        setTimeout(() => {
+          this.feedback = null;
+        }, 4000);
+     }, (e) => {
+       this.feedback = 'Unbale to add note';
+       this.processing = false;
+     });
   }
 
 switchBtn(option: string) {
    this.in = option;
-
 }
 
 getConsultees() {
   this.loading = true;
   this.dataService.getPatients().subscribe((patients: Person[]) => {
+    console.log(patients);
     let myPatients;
-    if(this.myDepartment){
-    myPatients = patients.filter(p => p.record.visits[0].dept.toLowerCase() === this.myDepartment && p.record.visits[0].status === 'queued');
+    if(this.myDepartment) {
+      myPatients = patients.filter(p => p.record.visits[0][0].dept.toLowerCase() === this.myDepartment && p.record.visits[0][0].status === 'queued');
     } else {
-      myPatients = patients.filter(p => p.record.visits[0].status === 'queued');
+        myPatients = patients.filter(p => p.record.visits[0][0].status === 'queued');
     }
-    if(myPatients.length){
+    if(myPatients.length) {
        myPatients.forEach(p => {
       p.card = {menu: false, view: 'front'};
     });
      this.patients = myPatients;
      this.clonedPatients = myPatients;
-     
      this.loading = false;
-      this.message = null;
+     this.message = null;
     } else {
         this.message = 'No Records So Far';
         this.loading = false;
@@ -351,7 +386,7 @@ getConsultees() {
   }
   addSelection(item: Item) {
     this.input = item.name + ' ' + item.mesure + item.unit;
-    this.temItems = new Array<Item>();
+    this.temItems = [];
     this.product = new Product(item, new StockInfo());
    }
    getBMI() {
@@ -359,7 +394,9 @@ getConsultees() {
    }
   selectPatient(i: number) {
    this.curIndex = i;
-   this.patient = cloneDeep(this.patients[i]);
+   this.reg = false;
+   this.clonedPatient = cloneDeep(this.patients[i]);
+   this.patient = this.patients[i];
     this.medications = this.patient.record.medications;
     this.url = this.getDp(this.patient.info.personal.avatar);
    }
@@ -394,7 +431,7 @@ getConsultees() {
    removeComplain(i: number) {
      this.complains.splice(i, 1);
    }
-   removeDp(){
+   removeDp() {
      this.url = null;
    }
   removePriscription(i: number) {
@@ -432,61 +469,63 @@ getConsultees() {
     this.composeMedication();
       this.patient.record.medications = this.medications;
     if (this.session.vital.bp.value) {
-      this.patient.record.vitals.bp.push(this.session.vital.bp);
+      this.patient.record.vitals.bp.unshift(this.session.vital.bp);
     } else {}
     if (this.session.vital.pulse.value) {
-      this.patient.record.vitals.pulse.push(this.session.vital.pulse);
+      this.patient.record.vitals.pulse.unshift(this.session.vital.pulse);
     } else {}
      if (this.session.vital.resp.value) {
-      this.patient.record.vitals.resp.push(this.session.vital.resp);
+      this.patient.record.vitals.resp.unshift(this.session.vital.resp);
     } else {}
      if (this.session.vital.height.value) {
-      this.patient.record.vitals.height.push(this.session.vital.height);
+      this.patient.record.vitals.height.unshift(this.session.vital.height);
     } else {}
      if (this.session.vital.weight.value) {
-      this.patient.record.vitals.weight.push(this.session.vital.weight);
+      this.patient.record.vitals.weight.unshift(this.session.vital.weight);
     } else {}
      if (this.session.vital.tempreture.value) {
-      this.patient.record.vitals.tempreture.push(this.session.vital.tempreture);
+      this.patient.record.vitals.tempreture.unshift(this.session.vital.tempreture);
     } else {}
      if (this.session.vital.bloodGl.value) {
-      this.patient.record.vitals.bloodGl.push(this.session.vital.bloodGl);
+      this.patient.record.vitals.bloodGl.unshift(this.session.vital.bloodGl);
     } else {}
      if (this.session.conditions.condition) {
-      this.patient.record.conditions.push(this.session.conditions);
+      this.patient.record.conditions.unshift({...this.session.conditions, by: this.cookies.get('i')});
     } else {}
-     if (this.fowardTo) {
-      this.patient.record.visits[0].dept = this.fowardTo;
-      this.patient.record.visits[0].status  = 'queued';
+     if (this.session.visits.status === 'Foward') {
+      this.patient.record.visits[0].unshift({...this.session.visits, status: 'queued'}) ;
+      // this.patient.record.visits[0][0].status  = this.session.visits.status;
     } else {
-      this.patient.record.visits[0].status  = this.session.visits.status;
+      this.patient.record.visits[0][0] = this.session.visits;
     }
      if (this.complain.complain) {
-      this.complains.push({...this.complain, by: this.cookies.get('i')});
+      this.complains.unshift({...this.complain, by: this.cookies.get('i')});
     } else if (this.complains.length) {
       this.patient.record.complains.unshift(this.complains);
     } else {}
      if (this.session.famHist.condition) {
-      this.patient.record.famHist.push(this.session.famHist);
+      this.patient.record.famHist.unshift(this.session.famHist);
     } else {}
      if (this.session.notes.note) {
-      this.patient.record.notes.push({...this.session.notes, by: this.cookies.get('i')});
+      this.patient.record.notes.unshift({...this.session.notes, by: this.cookies.get('i')});
     } else {}
      if (this.session.allegies.allegy) {
-      this.patient.record.allegies.push(this.session.allegies);
+      this.patient.record.allegies.unshift(this.session.allegies);
     } else {}
 
-    this.dataService.updateRecord(this.patients[this.curIndex]).subscribe((patient: Person) => {
-      this.socket.io.emit('consulted', this.patients[this.curIndex]);
+    this.dataService.updateRecord(this.patient).subscribe((patient: Person) => {
+      this.socket.io.emit('consulted', patient);
       this.patients.splice(this.curIndex, 1);
-      this.fowardTo = null;
       this.session = new Session();
       this.tempMedications = [];
       this.feedback = 'Record successfully updated';
       this.processing = false;
       this.complains = [];
+      setTimeout(() => {
+        this.feedback = null;
+      }, 4000);
 
-    }, (e)=> {
+    }, (e) => {
       this.feedback = 'Unable to update record';
       this.processing = false;
     });

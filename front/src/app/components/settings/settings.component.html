@@ -45,12 +45,7 @@
                           </div>
                         </div>
                     </form>
-                    <!-- <div style="position:relative;width:70%;margin: auto">
-                      <button  id ='cancel' data-dismiss="modal" style="width: 90px; font-size: 10px;border-right: 0px;  right:96px;display: inline-block;  position:relative; border-radius: 4px 0px 0px 4px;" class="btn btn-sm btn-outline-primary inputs mainbtn" >CANCEL</button>
-                      <button  type ="submit"  style=" width: 98px; position:relative;  font-size: 10px; left:100px;  border-radius: 0px; border-top-right-radius:4px;border-bottom-right-radius:4px;" class="btn btn-sm btn-outline-primary inputs mainbtn" >UPDATE</button>
-
-                    </div> -->
-
+               
                     <div (click) = addDepartment() style='left:86%; height:32px;width:32px'
                     title ='Done' class="floter">
                     <i *ngIf='processing' class="fa fa-circle-o-notch fa-spin fa-10x slow-spin" style="position:absolute;bottom:5px;left:5px;font-size:20px;color: #1da1f2;"> </i>
@@ -338,6 +333,10 @@
                           <div *ngFor="let department of client.departments let i = index;"  data-toggle ='modal' data-target ='#productModal'  class="department">
                               <i *ngIf="department.name === 'Information'"  class="icon ion-information addicon infoicon" ></i>
                               <i *ngIf="department.name === 'GOPD'" class="icon ion-ios-people addicon infoicon consicon" ></i>
+                              <i *ngIf="department.name === 'Maternity'" class="material-icons addicon infoicon maticon" title="Add Department">pregnant_woman</i>
+                              <i *ngIf="department.name === 'Pharmacy'" class="icon ion-ios-medkit addicon pharmicon"></i>
+                              <i *ngIf="department.name === 'Emergency'"  class="icon ion-ios-pulse addicon pharmicon"></i>
+                              <i *ngIf="department.name === 'Hematology'"  class="icon ion-waterdrop addicon pharmicon"></i>
                               <h6 class="deptname">{{department.name}}</h6>
                           </div>
 

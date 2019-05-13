@@ -10,7 +10,7 @@ export class Record {
     public conditions: Condition[] = [],
     public allegies: Allegy[] = [],
     public devices: Device[] = [],
-    public visits: Visit[] = [],
+    public visits: any[] = [],
     public appointments: Appointment[] = [],
     public medications: any[] = [],
     public test: Test[] = [],
@@ -121,7 +121,7 @@ export class Condition {
     public order: string  = null,
     public certainty: string = null,
     public by: any = null,
-    public dateCreated?: Date
+    public dateCreated: Date = new Date()
      ) {}
   }
 export class Allegy {
@@ -169,32 +169,16 @@ export class Sugery {
   }
 
 
-export class Session {
-  constructor(
-    public complains: Complain[] = new Array<Complain>(),
-    public famHist: FamHist = new FamHist(),
-    public notes: Note = new Note(),
-    public vital: Vital = new Vital(),
-    public conditions: Condition = new Condition(),
-    public allegies: Allegy = new Allegy(),
-    public devices: Device = new Device(),
-    public visits: Visit = new Visit(),
-    public medications: Medication[] = new Array<Medication>(),
-    public test: Test = new Test(),
-    public scan: Scan = new Scan(),
-    public deathNote: DeathNote = new DeathNote()
 
-     ) {}
-  }
 export class Vitals {
   constructor(
-    public bp: Bp[] = new Array<Bp>(),
-    public resp: Resp[] = new Array<Resp>(),
-    public pulse: Pulse[] = new Array<Pulse>(),
-    public bloodGl: Bg[] = new Array<Bg>(),
-    public tempreture: Temp[] = new Array<Temp>(),
-    public height: Height[] = new Array<Height>(),
-    public weight: Weight[] = new Array<Weight>()
+    public bp: Bp[] = [],
+    public resp: Resp[] = [],
+    public pulse: Pulse[] = [],
+    public bloodGl: Bg[] = [],
+    public tempreture: Temp[] = [],
+    public height: Height[] = [],
+    public weight: Weight[] = []
 
   ) {}
 }
@@ -228,3 +212,20 @@ export class Appointment {
  ) {}
 
 }
+export class Session {
+  constructor(
+    public complains: Complain[] = [],
+    public famHist: FamHist = new FamHist(),
+    public notes: Note = new Note(),
+    public vital: Vital = new Vital(),
+    public conditions: Condition = new Condition(),
+    public allegies: Allegy = new Allegy(),
+    public devices: Device = new Device(),
+    public visits: Visit = new Visit(),
+    public medications: Medication[] = [],
+    public test: Test = new Test(),
+    public scan: Scan = new Scan(),
+    public deathNote: DeathNote = new DeathNote()
+
+     ) {}
+  }

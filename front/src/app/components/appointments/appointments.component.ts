@@ -92,13 +92,12 @@ export class AppointmentsComponent implements OnInit {
    getPatients() {
     this.loading = true;
      this.dataService.getPatients().subscribe((patients: Person[]) => {
-       
-       let myPatients;
+       let myPatients = [];
        if(this.myDepartment) {
           myPatients = patients.filter(
-          p => p.record.visits[0].dept === this.myDepartment && p.record.visits[0].status === 'appointment');
+          p => p.record.visits[0][0].dept.toLowerCase()  === this.myDepartment && p.record.visits[0][0].status === 'appointment');
        } else {
-        myPatients = patients.filter(p => p.record.visits[0].status === 'appointment');
+        myPatients = patients.filter(p => p.record.visits[0][0].status === 'appointment');
        }
        if(myPatients.length) {
           myPatients.forEach(p => {

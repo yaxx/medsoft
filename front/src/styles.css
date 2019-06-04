@@ -46,8 +46,8 @@
           transform: rotate(90deg);
         }
         .lds-rolling {
-          width: 53px !important;
-          height: 53px !important;
+          width: 47px !important;
+          height: 47px !important;
           -webkit-transform: translate(-26.5px, -26.5px) scale(0.265) translate(26.5px, 26.5px);
           transform: translate(-26.5px, -26.5px) scale(0.265) translate(26.5px, 26.5px);
         }
@@ -85,6 +85,8 @@
 
         }
         .expired {
-          text-decoration: line-through red;
-          text-decoration-color: red;
+          text-decoration:none;
+          /* text-decoration: line-through red;
+          text-decoration-color: red; */
+          color: red;
         }

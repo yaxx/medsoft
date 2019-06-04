@@ -10,7 +10,7 @@
                       <form style="top:15%; width:56%;margin:auto;" class=" staffsform" >
                         <div class="form-group vitals-section address">
                             <label style='font-size:8px' for="drug" class="labelss">PRODUCT</label>
-                            <input autocomplete="off" (keyup)= "searchItems(input)" [(ngModel)] = input type="text" name="drug" placeholder= "E.g Paracetamol" class="patientdata dystolic inputs dataInfo" style="font-size:11px;" />
+                            <input autocomplete="off" (keyup)= "searchItems(input)" [(ngModel)] = input type="text" name="drug" placeholder= "E.g Paracetamol 500mg" class="patientdata dystolic inputs dataInfo" style="font-size:11px;" />
                             <div style="min-height: 300px;" *ngIf= temItems.length  class="options prisOption edit">
                                 <ul class="itemsList" >
                                   <li  *ngFor="let item of temItems"><p (click) = "addSelection(item)"  class="dept firstheader drugItem" style="font-size:11px;padding-left: 10px; padding-right: 10px;font-weight: normal;" >{{item.name}}<span class="lastdept timetaken " ></span></p>
@@ -88,7 +88,7 @@
                       <form style="top:15%; width:56%;margin:auto;" class=" staffsform" (submit) = addProducts()>
                         <div class="form-group vitals-section address">
                             <label style='font-size:8px' for="drug" class="labelss">PRODUCT NAME</label>
-                            <input autocomplete="off" (keyup)= "searchItems(input)" [(ngModel)] = input type="text" name="drug" placeholder= "E.g Paracetamol" class="patientdata dystolic inputs dataInfo" style="font-size:11px;" />
+                            <input autocomplete="off" (keyup)= "searchItems(input)" [(ngModel)] = input type="text" name="drug" placeholder= "E.g Paracetamol 500mg" class="form-control patientdata dystolic inputs dataInfo" />
                             <div data-simplebar style="min-height:100px;position:absolute;z-index:2" *ngIf= temItems.length  class="options prisOption edit">
                                 <ul class="itemsList" >
                                   <li  *ngFor="let item of temItems"><p (click) = "addSelection(item)"  class="dept firstheader drugItem" style="font-size:11px;padding-left: 10px; padding-right: 10px;font-weight: normal;" >{{item.name+ ' '}}<span class="lastdept timetaken " >{{item.mesure + item.unit}}</span></p>
@@ -98,17 +98,17 @@
                         </div>
                         <div  class="form-group vitals-section formGroup" style=" width:49%; margin-right: 3px">
                             <label style='font-size:8px' for="dos" class="labelss complain">QTY</label>
-                            <input [min]='0' [(ngModel)] = "product.stockInfo.quantity" style="border-top-right-radius: 4px;border-bottom-right-radius: 4px;font-size:11px"  type="number" name="dos" class="patientdata inputs dataInfo"  >
+                            <input form-control [min]='1' [(ngModel)] = "product.stockInfo.quantity" style="border-top-right-radius: 4px;border-bottom-right-radius: 4px;font-size:11px"  type="number" name="dos" class="form-control patientdata inputs dataInfo"  >
                         </div>
                         <div class="form-group vitals-section formGroup" style=" width:49%; ">
                             <label style='font-size:8px' for="price" class="labelss complain">PRICE</label>
-                            <input [min]='0' type="number" [(ngModel)]="product.stockInfo.price" style="border-radius: 4px;font-size:11px;border-top-right-radius: 4px;border-bottom-right-radius:4px"
-                              class=" patientdata status inputs dataInfo " name="price">
+                            <input  [min]='1' type="number" [(ngModel)]="product.stockInfo.price" style="border-radius: 4px;font-size:11px;border-top-right-radius: 4px;border-bottom-right-radius:4px"
+                              class="form-control patientdata status inputs dataInfo " name="price">
                         </div>
                         <div class="form-group vitals-section address"style=" width:90%; " >
                           <label style='font-size:8px' for="expiry" class="labelss complain">EXPIRY</label>
                           <input [(ngModel)]="product.stockInfo.expiry" style="font-size:11px;border-top-right-radius: 0px;border-bottom-right-radius:0px"
-                          type="date" name="expiry" class="patientdata inputs dataInfo" placeholder="">
+                          type="date" name="expiry" class="form-control patientdata inputs dataInfo" placeholder="">
                             <div id='moreBtn' title="Add medication"><i (click)='addMore()' class="icon ion-ios-plus-empty arrow " style="font-size:25px;position: absolute;left:27%;top:-17%; cursor:pointer"></i></div>
                         </div>
                     </form>
@@ -141,7 +141,7 @@
                       class="icon ion-ios-checkmark-empty flotericon"> </i>
                   </div>
                   </div>
-                 <div *ngIf = transMsg style="padding:5px;border-top: 1px solid rgb(248, 247, 247)" class="card-footer"> <h6  class="feedbackMsg">{{transMsg}}</h6><button class ='okbtn'>OK</button></div>
+                 <div *ngIf = feedback style="padding:5px;border-top: 1px solid rgb(248, 247, 247)" class="card-footer"> <h6  class="feedbackMsg">{{feedback}}</h6></div>
               </div>
           </div>
       </div>
@@ -251,7 +251,7 @@
                           <i *ngIf="sortBy ==='category'" style="color:lightgreen" class="icon ion-android-arrow-dropdown"></i>
                      </span>
                    </th> -->
-                   <th title = "Sort by description" (click)="sortProducts('description')">DESCRIPTION
+                   <th title = "Sort by description" (click)="sortProducts('description')">CATEGORY
                       <span class="sorter">
                           <i *ngIf="sortBy ==='description'" style="color:lightgreen" class="icon ion-android-arrow-dropdown"></i>
                      </span>
@@ -305,7 +305,7 @@
                     <td>{{product.stockInfo.sold||0}}</td>
                     <td>{{product.stockInfo.inStock}}</td>
                     <td>{{product.dateCreated|date:'dd-MM-y'}}</td>
-                    <td  [class.expired]= expired(product.stockInfo.expiry)>{{product.stockInfo.expiry|date:'dd-MM-y'}}</td>
+                    <td style='text-decoration:none'  [class.expired]= expired(product.stockInfo.expiry)>{{product.stockInfo.expiry|date:'dd-MM-y'}}</td>
                     <td style="text-align: center"><span class="moreIcon out"><i class="icon ion-ios-circle-filled" ></i></span></td>
                 </tr>
             </tbody>

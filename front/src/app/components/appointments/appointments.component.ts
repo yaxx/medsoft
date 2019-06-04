@@ -1,6 +1,6 @@
 
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute,Router} from '@angular/router';
 import {NgForm} from '@angular/forms';
 import { FileSelectDirective, FileUploader } from 'ng2-file-upload';
 import {DataService} from '../../services/data.service';
@@ -8,7 +8,7 @@ import {SocketService} from '../../services/socket.service';
 import {Person, Info} from '../../models/person.model';
 import {Visit , Appointment} from '../../models/record.model';
 import {CookieService } from 'ngx-cookie-service';
-
+import * as cloneDeep from 'lodash/cloneDeep';
 const uri = 'http://localhost:5000/api/upload';
 @Component({
   selector: 'app-appointments',
@@ -16,8 +16,9 @@ const uri = 'http://localhost:5000/api/upload';
   styleUrls: ['./appointments.component.css']
 })
 export class AppointmentsComponent implements OnInit {
-  patients: Person[] = new Array<Person>();
-  clonedPatients: Person[] = new Array<Person>();
+  patients: Person[] = [];
+  clonedPatients: Person[] = [];
+  clonedPatient: Person = new Person();
   patient: Person = new Person();
    file: File = null;
    info: Info = new Info();
@@ -27,31 +28,28 @@ export class AppointmentsComponent implements OnInit {
    sortMenu = false;
    loading = false;
    myDepartment = null;
+   processing = false;
    nowSorting = 'Date added';
    view = 'info';
-   message = null
+   message = null;
+   feedback = null;
    searchTerm = '';
    regMode =  'all';
    dpurl = 'http://localhost:5000/api/dp/';
    appointment: Appointment = new Appointment();
-  
-
    uploader: FileUploader = new FileUploader({url: uri});
    constructor(
      private dataService: DataService,
      private cookies: CookieService,
      private route: ActivatedRoute,
+     private router: Router,
      private socket: SocketService
  
      ) { }
 
    ngOnInit() {
-     this.route.parent.paramMap.subscribe(params=>{
-      this.myDepartment = params.get('dept');
-      console.log(this.myDepartment);
-    });
-  
-     this.getPatients();
+      this.myDepartment = this.route.snapshot.url[0].path 
+      this.getPatients('Appointment');
       this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any ) => {
       this.patient.info.personal.avatar = response;
       this.patient.record.visits.unshift(new Visit());
@@ -67,54 +65,52 @@ export class AppointmentsComponent implements OnInit {
    getDp(avatar: String) {
     return 'http://localhost:5000/api/dp/' + avatar;
   }
-  
   getMyDp() {
-    return this.getDp(this.cookies.get('d'))
+    return this.getDp(this.cookies.get('d'));
   }
    showSortMenu() {
      this.sortMenu = true;
    }
-   setAppointment(){
-    this.patients[this.curIndex].record.appointments.push(this.appointment);
-    this.patients[this.curIndex].record.visits[this.patients[this.curIndex].record.visits.length-1].status = 'appointment'
-    this.loading = true;
-    this.dataService.updateRecord(this.patients[this.curIndex]).subscribe(patient=>{
-      this.loading = false;
+   setAppointment() {
+    this.processing = true;
+    this.patients[this.curIndex].record.appointments[0] = this.appointment;
+     this.dataService.updateRecord(this.patients[this.curIndex]).subscribe(patient => {
+      this.processing = false;
+      this.feedback = 'Appointment updated';
       setTimeout(() => {
-            this.patients[this.curIndex].card = {menu: false, view: 'front'};
+        this.feedback = null;
+        this.patients[this.curIndex].card = {menu: false, view: 'front'};
       }, 3000);
-      setTimeout(() => {
-          this.patients.splice(this.curIndex , 1);
-      }, 3000);
-  
-    })
+    });
   }
-   getPatients() {
+  routeHas(path) {
+    return this.router.url.includes(path);
+  }
+  queue(i) {
+    this.patients[this.curIndex].record.visits[0][0].status = 'queued';
+    this.dataService.updateRecord(this.patients[this.curIndex]).subscribe(patient => {
+      this.patients[this.curIndex].card = {menu: false, view: 'front'};
+      this.patients.splice(this.curIndex , 1);
+    });
+  }
+   getPatients(type) {
     this.loading = true;
-     this.dataService.getPatients().subscribe((patients: Person[]) => {
-       let myPatients = [];
-       if(this.myDepartment) {
-          myPatients = patients.filter(
-          p => p.record.visits[0][0].dept.toLowerCase()  === this.myDepartment && p.record.visits[0][0].status === 'appointment');
-       } else {
-        myPatients = patients.filter(p => p.record.visits[0][0].status === 'appointment');
-       }
-       if(myPatients.length) {
-          myPatients.forEach(p => {
-            p.card = {menu: false, view: 'front'};
-          });
-          this.patients = myPatients;
-         this.clonedPatients = myPatients;
-          this.loading = false;
-          this.message = null;
-       } else {
-          this.message = 'No Records So Far';
-          this.loading = false;
+     this.dataService.getPatients(type).subscribe((patients: Person[]) => {
+      if(patients.length) {
+        patients.forEach(p => {
+          p.card = {menu: false, view: 'front'};
+        });
+        this.clonedPatients = patients;
+        this.patients = patients;
+        this.loading = false;
+        this.message = null;
+    } else {
+        this.message = 'No Records So Far';
+        this.loading = false;
     }
-      
-     },(e) => {
-      this.message = 'Something went wrong';
-      this.loading = false;
+    },(e) => {
+        this.message = 'Something went wrong';
+        this.loading = false;
     });
    }
    fileSelected(event) {
@@ -134,7 +130,8 @@ export class AppointmentsComponent implements OnInit {
     this.patients[i].card.menu = true;
   }
   refresh(){
-    this.getPatients();
+    this.message = null;
+    this.getPatients('Appointment');
   }
   hideMenu() {
     this.patients.forEach(p => {
@@ -144,7 +141,9 @@ export class AppointmentsComponent implements OnInit {
   
   switchToAp(i: number){
     this.patients[i].card.view = 'ap';
-    this.curIndex = i
+    this.clonedPatient = cloneDeep(this.patients[i]);
+    this.appointment = this.clonedPatient.record.appointments[0];
+    this.curIndex = i;
   }
   switchToFront(i: number) {
     this.patients[i].card.view = 'front';

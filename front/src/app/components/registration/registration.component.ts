@@ -37,9 +37,7 @@ export class RegistrationComponent implements OnInit {
   nowSorting = 'Date added';
   view = 'info';
   searchTerm = '';
-  regMode =  'all';
   dpurl = 'http://localhost:5000/api/dp/';
-
 
   uploader: FileUploader = new FileUploader({url: uri});
   constructor(
@@ -51,7 +49,8 @@ export class RegistrationComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.getPatients();
+  
+    this.getPatients('Discharge');
     this.getClient();
     this.socket.io.on('consulted', (patient: Person) => {
       const i = this.patients.findIndex(p => p._id === patient._id);
@@ -65,6 +64,9 @@ export class RegistrationComponent implements OnInit {
       this.clonedPatients.unshift(patient);
   });
   }
+  routeHas(path){
+    return this.router.url.includes(path);
+  }
   getDp(avatar: String) {
     return 'http://localhost:5000/api/dp/' + avatar;
   }
@@ -76,26 +78,24 @@ export class RegistrationComponent implements OnInit {
   }
   refresh() {
     this.message = null;
-    this.getPatients();
+    this.getPatients('Discharge');
   }
   getClient() {
     this.dataService.getClient().subscribe((res: any) => {
       this.client = res.client;
   })
 }
-  getPatients() {
-    let discharged;
-    this.dataService.getPatients().subscribe((patients: Person[]) => {
-      this.loading = true;
-      discharged = patients.filter(patient=>patient.record.visits[0][0].status === 'Discharge');
-      if(discharged.length) {
-         discharged.forEach(p => {
-         p.card = {menu: false, view: 'front'};
-      });
-      this.patients = discharged;
-      this.clonedPatients = discharged;
-      this.loading = false;
-      this.message = null;
+  getPatients(type) {
+    this.loading = true;
+    this.dataService.getPatients(type).subscribe((patients: Person[]) => {
+      if(patients.length) {
+        patients.forEach(p => {
+          p.card = {menu: false, view: 'front'};
+        });
+        this.patients   = patients;
+        this.clonedPatients  = patients;
+        this.loading = false;
+        this.message = null;
       } else {
           this.message = 'No Records So Far';
           this.loading = false;

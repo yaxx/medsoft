@@ -35,7 +35,7 @@
 
 
 
-<div class="modal fade" role="dialog" tabindex="-1" id="medicModal" style="border-radius:12px;width:auto;">
+<div *ngIf='patients.length' class="modal fade" role="dialog" tabindex="-1" id="medicModal" style="border-radius:12px;width:auto;">
   <div class="modal-dialog" role="document">
       <div class="modal-content" style="width:480px;border-radius:12px;padding-left:0px;padding-right: 0px;">
           <div class="modal-body" style="border-radius:0px;padding: 0px;">
@@ -69,7 +69,6 @@
                                   {{m.priscription.intake+'-'+m.priscription.freq+'-'+m.priscription.piriod}} </span></h6>
                                 <h6 class="dept previnfo"style="color:lightgrey">
                                   {{m.dateCreated|date:'hh:mma'|lowercase}}<span class="predata lastadministered" style="left:49%;width:97px; text-align:right">{{m.lastTaken|date:'dd MMM hh:mma'|lowercase}}</span></h6>
-
                             </div>
                        </div>
                  </div>
@@ -78,14 +77,12 @@
                        <i style="color:#1da1f2;;bottom:-10px" class="icon ion-ios-checkmark-empty flotericon">
                         </i>
                   </div>
-
                  </div>
             </div>
         </div>
     </div>
   </div>
-
-  <div class="modal fade" role="dialog" tabindex="-1" id="uploadModal" style="border-radius:12px;width:auto;">
+  <div *ngIf='patients.length' class="modal fade" role="dialog" tabindex="-1" id="uploadModal" style="border-radius:12px;width:auto;">
     <div class="modal-dialog" role="document">
         <div class="modal-content" style="width:480px;border-radius:12px;padding-left:0px;padding-right: 0px;">
             <div class="modal-body" style="border-radius:0px;padding: 0px;">
@@ -129,7 +126,6 @@
                   <i *ngIf='loading'  class="fa fa-circle-o-notch fa-spin fa-10x slow-spin" style="position:absolute;bottom:5px;left:5px;font-size:20px;color: #1da1f2;">
                 </i>
                <i *ngIf='!loading' style="color:#1da1f2;bottom:-10px;" class="icon ion-ios-checkmark-empty flotericon"> </i>
-             
              </div>
           </form>
         </div>
@@ -213,7 +209,7 @@
               <img [src] = getDp(patient.info.personal.avatar)/>
           </div>
         </div>
-        <p  class="patien-name">{{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}</p>
+        <p style='margin-bottom:2px;'   class="patien-name">{{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}</p>
         <div class="card-body mainbody">
             <div class="carditem basic-item">
                 <h6 class="dept basic-info">Sex</h6>
@@ -227,14 +223,14 @@
             </div>
             <div class="carditem basic-item">
                 <h6 class="dept basic-info">Room</h6>
-                <h6 class="dept basic-info sex-info"> {{patient.record.visits[0].wardNo ||'?'}}<span style='vertical-align:super;font-size:12px;font-weight: normal'>
-                  {{patient.record.visits[0].bedNo ||'?'}}</span></h6>
+                <h6 class="dept basic-info sex-info"> {{patient.record.visits[0][0].wardNo ||'?'}}<span style='vertical-align:super;font-size:12px;font-weight: normal'>
+                  {{patient.record.visits[0][0].bedNo ||'?'}}</span></h6>
             </div>
             <div class="priscription basic-subinfo">
                 <div class="sub-container">
                   <h6 style="width:100%;text-align:center" class="dept basic-secondary basic-value">
-                    {{patient.record.visits[0].visitedOn|date:'dd MMM'}}&nbsp;<span>
-                    {{patient.record.visits[0].visitedOn|date:'hh:mma'|lowercase}}</span>
+                    {{patient.record.visits[0][0].visitedOn|date:'dd MMM, yy'}}&nbsp;<span>
+                    {{patient.record.visits[0][0].visitedOn|date:'hh:mma'|lowercase}}</span>
                   </h6>
                 </div>
             </div>
@@ -299,7 +295,6 @@
                 display: inline-block;
                 color:#1da1f2;' title="Back"
                 class="icon ion-android-arrow-back "></i>
-           
               <div style="left:23px" class="timeline lastdoc priscriber headerdp small-dp">
                 <img [src] = getDp(patient.info.personal.avatar)/>
               </div>
@@ -321,7 +316,6 @@
                           <option *ngFor = "let bed of getBeds()">{{bed.number}}</option>
                       </select>
                   </div>
-                
               </form>
           </div>
           <div (click)="assignBed(i)" style='left:78%; height:32px;width:32px'

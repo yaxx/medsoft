@@ -61,17 +61,16 @@
                 <div style="border-radius:12px" class="card-header profileheader"><i (click)='showMenu(i)' class="icon ion-android-more-vertical headericon moreicon actions-icon"></i>
                   <div (mouseleave)= hideMenu(i) *ngIf = "patient.card.menu" class="menu">
                     <ul class="actions primary">
-                        <li (click)="selectPatient(i)" data-target="#medicModal" data-toggle="modal" class="action">Attend to</li>
+                         <li (click) = queue(i) class="action">Queue</li>
                          <li (click) = switchToAp(i) class="action">Edit AP</li>
                          <li (click)="selectPatient(i)" data-target="#medicModal" data-toggle="modal" class="action">Cancel AP</li>
                      </ul>
+                  </div>
+                  <div class="timeline lastdoc priscriber headerdp">
+                      <img [src] = getDp(patient.info.personal.avatar)/>
+                  </div>
                 </div>
-                    <div class="timeline lastdoc priscriber headerdp">
-                        <img [src] = getDp(patient.info.personal.avatar)/>
-                    </div>
-                </div>
-                <p (click)= 'switchToBack(i)' class="dept displayname">
-                {{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}<span class="predata editicon"></span></p>
+                <p style='margin-bottom:2px;' class="patien-name">{{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}</p>
                 <div class="card-body mainbody">
                     <div class="carditem basic-item">
                         <h6 class="dept basic-info">Sex</h6>
@@ -92,27 +91,26 @@
                               {{patient.record.visits[0].dept.toUpperCase()}}</h6>
                         </div> -->
                         <div class="sub-container">
-                            <h6 class="dept basic-secondary basic-value">
-                              Anti Natal Routine</h6>
+                            <h6 class="dept basic-secondary basic-value">{{patient.record.appointments[0].title}}</h6>
                         </div>
                         <div class="sub-container">
                           <h6 style="width:100%;text-align:center" class="dept basic-secondary basic-value">
-                            {{patient.record.visits[0][0].visitedOn|date:'dd MMM'}}&nbsp;<span>
-                            {{patient.record.visits[0][0].visitedOn|date:'hh:mma'|lowercase}}</span>
+                            {{patient.record.appointments[0].date|date:'dd MMM, yy'}}&nbsp;<span>
+                            {{patient.record.appointments[0].time}}</span>
                           </h6>
                         </div>
                       </div>
                 </div>
-                <button *ngIf='!myDepartment' (click) = "submitRecord()"  style=" width: 90px;font-size: 10px; height:27px;left:52%; bottom:7%;" class="btn btn-sm btn-outline-primary inputs mainbtn" >ENROLE</button>
-                <div *ngIf='myDepartment' style='padding: 4px 4px 4px 27px;border-top:none;border-bottom:none;border-bottom-right-radius:12px;border-bottom-left-radius:12px' class="card-footer profileheader small-header">
+                <button *ngIf='routeHas("information")' (click) = "submitRecord()"  style=" width: 90px;font-size: 10px; height:27px;left:52%; bottom:7%;" class="btn btn-sm btn-outline-primary inputs mainbtn" >ENROLE</button>
+                <div  *ngIf='!routeHas("information")'style='padding: 4px 4px 4px 27px;border-top:none;border-bottom:none;border-bottom-right-radius:12px;border-bottom-left-radius:12px' class="card-footer profileheader small-header">
                   <div style="left:10%; top:84%" class="timeline lastdoc priscriber headerdp small-dp">
                     <img [src] = getDp(patient.info.personal.avatar)/>
                   </div>
                   <h6 style="font-weight:normal;width:125px; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;margin: 2px;" href="#" class="patien-name small-name">
                     {{'Dr.'+' '+patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}
                   </h6>
-                  <p style='position: absolute;bottom:0.1%;font-size: 10px;color:lightgrey;left: 70%;'>02 DEC, 2019</p>
-              </div>
+                  <p style='position: absolute;bottom:0.1%;font-size: 10px;color:lightgrey;left: 70%;'> {{patient.record.appointments[0].setOn|date:'dd MMM, yy'}}</p>
+                </div>
 
             </div>
 
@@ -125,7 +123,7 @@
                     class="icon ion-android-arrow-back ">
                 </i>
                   <div style="left:23px" class="timeline lastdoc priscriber headerdp small-dp">
-                    <img [src] = getDp(patient)/>
+                    <img [src] = getDp(patient.info.personal.avatar)/>
                   </div>
                   <a href="#" class="patien-name small-name">
                     {{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}<span class="small-headericon"></span>
@@ -134,28 +132,28 @@
               <div  class="card-body mainbody" style="padding-top:20px">
                   <form style="top:15%; padding-left: 2%; padding-right: 2%;" class=" staffsform" >
                       <div style=" margin-top:3px;   " class="form-group vitals-section formGroup" >
-                          <label for="title" class="labelss complain">TITLE</label>
-                          <input [(ngModel)]="appointment.title"  style='font-size:11px'  type="text" name="pulse" class="patientdata inputs dataInfo"   placeholder="e.g Anti natal routine">
+                          <label style = 'font-size: 8px' for="title" class="labelss complain">TITLE</label>
+                          <input  [(ngModel)]="appointment.title"  style='font-size:11px'  type="text" name="pulse" class=" form-control patientdata inputs dataInfo"   placeholder="e.g Anti natal routine">
                       </div>
                        <div style="width:49.3%;margin-right:3px; margin-top:3px; display:inline-block"  class="form-group vitals-section formGroup" >
-                          <label for="date" class="labelss complain">DATE</label>
-                          <input [(ngModel)]="appointment.setOn"   style='font-size:11px'  type="date" name="date" class="patientdata inputs dataInfo">
+                          <label style = 'font-size: 8px' for="date" class="labelss complain">DATE</label>
+                          <input [(ngModel)]="appointment.setOn"   style='font-size:11px'  type="date" name="date" class="form-control patientdata inputs dataInfo">
                       </div>
                       <div style="width:49.3%; display:inline-block;margin-top:3px;" class="form-group vitals-section formGroup">
-                          <label for="time" class="labelss complain">TIME</label>
-                          <input [(ngModel)]="appointment.time"   style='font-size:11px' type="time" name="time" class="patientdata inputs dataInfo">
+                          <label style = 'font-size: 8px' for="time" class="labelss complain">TIME</label>
+                          <input [(ngModel)]="appointment.time"   style='font-size:11px' type="time" name="time" class="form-control patientdata inputs dataInfo">
                       </div>
                   </form>
               </div>
               <div (click) = 'setAppointment()' style='left:78%; height:32px;width:32px'
-                   title ='Set appointment' class="floter">
-                   <i *ngIf='loading'  class="fa fa-circle-o-notch fa-spin fa-10x slow-spin" style="position:absolute;bottom:5px;left:5px;font-size:20px;color: #1da1f2;">
+                   title ='Done' class = "floter">
+                   <i *ngIf='processing'  class="fa fa-circle-o-notch fa-spin fa-10x slow-spin" style="position:absolute;bottom:5px;left:5px;font-size:20px;color: #1da1f2;">
                   </i>
-                 <i *ngIf='!loading' style="color:#1da1f2;bottom:-10px;" class="icon ion-ios-checkmark-empty flotericon">
+                 <i *ngIf='!processing' style="color:#1da1f2;bottom:-10px;" class="icon ion-ios-checkmark-empty flotericon">
                 </i>
              </div>
+             <div *ngIf = feedback style="padding:5px;border-bottom-left-radius:12px;border-bottom-right-radius:12px;border-top: 1px solid rgb(248, 247, 247)" class="card-footer"> <h6  class="feedbackMsg">{{feedback}}</h6></div>
           </div>
-
       </div>
   </div>
 </div>

@@ -84,21 +84,21 @@ export class PharmacyComponent implements OnInit {
     this.sortMenu = true;
   }
   refresh() {
+    this.message = null;
     this.getPatients();
     this.getProducts();
   }
   getPatients() {
     this.loading = true;
     this.dataService.getPatients().subscribe((patients: Person[]) => {
-      let mypatients = patients.filter(patient => patient.record.medications.length);
-      if(mypatients.length) {
-        this.patients = mypatients.map( patient => ({
-          ...patient,
-          card: {menu: false, view: 'front'}
-        }));
-      this.clonedPatients = this.patients;
-      this.loading = false;
-      this.message = null;
+      if(patients.length) {
+        patients.forEach(p => {
+          p.card = {menu: false, view: 'front'};
+        });
+        this.patients =  patients
+         this.clonedPatients  = patients
+        this.loading = false;
+        this.message = null;
       } else {
         this.message = 'No Records So Far';
         this.loading = false;
@@ -308,7 +308,6 @@ export class PharmacyComponent implements OnInit {
   getProducts() {
     this.dataService.getProducts().subscribe((res: any) => {
       this.products = res.inventory;
-      console.log(this.products);
       this.items = res.items;
     });
   }

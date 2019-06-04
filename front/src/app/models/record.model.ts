@@ -207,8 +207,9 @@ export class Appointment {
     public title: string = null,
     public setOn: Date = new Date(),
     public time: string = null,
+    public date: string = null,
     public attended: boolean = false,
-    public setBy: any = '5c31bb814384b736f4144979'
+    public by: String = null
  ) {}
 
 }

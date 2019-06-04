@@ -34,13 +34,13 @@ export class DataService {
       `${this.uri}/explore`, {withCredentials: true}
       );
   }
-  getConnections(id){
+  getConnections(id) {
      return this.http.get(
       `${this.uri}/connections/${id}`, {withCredentials: true} );
   }
-  getPatients() {
+  getPatients(type?:String) {
     return this.http.get(
-      `${this.uri}/patients`, {withCredentials: true}
+      `${this.uri}/patients/${type}`, {withCredentials: true}
       );
   }
   getConsultees(dept) {

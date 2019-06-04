@@ -165,7 +165,7 @@ app.get('/', (req, res) => {
 )
 app.get('/api/client', api.getClient)
 
-app.get('/api/patients', api.getPatients)
+app.get('/api/patients/:type', api.getPatients)
 app.get('/api/myaccount', api.getMyAccount)
 app.get('/api/explore', api.explore)
 // app.get('/api/departments', api.getDepartments)

@@ -3,7 +3,7 @@ import { FileSelectDirective, FileUploader } from 'ng2-file-upload';
 import {DataService} from '../../services/data.service';
 import {SocketService} from '../../services/socket.service';
 import {CookieService } from 'ngx-cookie-service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Item, StockInfo, Product} from '../../models/inventory.model';
 import {Client} from '../../models/client.model';
 import { Person} from '../../models/person.model';
@@ -58,12 +58,12 @@ export class PatientComponent implements OnInit {
   constructor(private dataService: DataService,
      private socket: SocketService,
      private route: ActivatedRoute,
+     private router: Router,
      private cookies: CookieService
   ) { }
   ngOnInit() {
     this.myDepartment = this.route.snapshot.params['dept'];
-    console.log(this.myDepartment);
-    this.getPatients();
+    this.getPatients('Admit');
     this.getClient();
     this.getItems();
     this.socket.io.on('store update', (data) => {
@@ -101,7 +101,7 @@ export class PatientComponent implements OnInit {
   }
   refresh(){
     this.message = null;
-    this.getPatients();
+    this.getPatients('Admit');
     this.getClient();
     this.getItems();
   }
@@ -149,22 +149,15 @@ export class PatientComponent implements OnInit {
   pullNote(i: number) {
     this.curIndex = i;
    }
-   getPatients() {
+   getPatients(type) {
     this.loading = true;
-    this.dataService.getPatients().subscribe((patients: Person[]) => {
-      let myPatients;
-      if(this.myDepartment) {
-         myPatients = patients.filter(
-         p => p.record.visits[0][0].dept === this.myDepartment && p.record.visits[0][0].status === 'Admit');
-      } else {
-       myPatients = patients.filter(p => p.record.visits[0][0].status === 'Admit');
-      }
-      if(myPatients.length) {
-        myPatients.forEach(p => {
+    this.dataService.getPatients(type).subscribe((patients: Person[]) => {
+      if(patients.length) {
+        patients.forEach(p => {
         p.card = {menu: false, view: 'front'};
       });
-      this.patients = myPatients;
-      this.clonedPatients = myPatients;
+      this.patients   = patients;
+      this.clonedPatients  = patients;
       this.loading = false;
       this.message = null;
       } else {
@@ -177,12 +170,20 @@ export class PatientComponent implements OnInit {
     });
   }
   dischargePtient(patient, i) {
-  const j = this.client.departments.findIndex(d => d.name === patient.record.visits[0][0].dept);
-    this.client.departments[j].rooms[patient.record.visits[0][0].wardNo - 1].beds[patient.record.visits[0][0].bedNo - 1].allocated = false;
-    this.patients[i].record.visits[0][0].status = 'Discharge';
+    let visit = patient.record.visits[0][0];
+    patient.record.visits[0][0] = {...visit, status: 'Discharge', dischargedOn: new Date()};
+    const j = this.client.departments.findIndex(d => d.name === visit.dept);
+    this.client.departments[j].rooms[visit.wardNo - 1].beds.forEach(bed => {
+      if(bed.number === visit.bedNo) {
+        bed.allocated = false;
+      }
+    });
     this.dataService.updateBed(patient, this.client).subscribe((p: Person) => {
       this.patients.splice(i, 1);
  });
+}
+routeHas(path){
+  return this.router.url.includes(path);
 }
   switchToNewMedic() {
     this.medicView = !this.medicView;

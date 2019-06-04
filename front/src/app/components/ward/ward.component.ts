@@ -62,7 +62,7 @@ export class WardComponent implements OnInit {
   ngOnInit() {
     this.myDepartment = this.route.snapshot.params['dept'];
     this.getClient();
-    this.getPatients();
+    this.getPatients('Admit');
     this.uploader.onCompleteItem = (item: any, fileName: any, status: any, headers: any ) => {
       this.patients[this.curIndex].record.scans.unshift(new Scan(fileName, this.filesDesc))
       this.loading = !this.loading;
@@ -112,8 +112,9 @@ export class WardComponent implements OnInit {
   });
   }
   refresh() {
+    this.message = null;
      this.getClient();
-     this.getPatients();
+     this.getPatients('Admit');
   }
   fileSelected(event) {
     if (event.target.files && event.target.files[0]) {
@@ -123,7 +124,6 @@ export class WardComponent implements OnInit {
       reader.onload = (e) => { // called once readAsDataURL is completed
         let ev = <any>e;
         this.url = ev.target.result;
-
       };
     }
 
@@ -151,6 +151,7 @@ export class WardComponent implements OnInit {
   }
   selectPatient(i: number) {
     this.curIndex = i;
+ 
    }
    showMenu(i: number) {
      this.hideMenu();
@@ -181,7 +182,6 @@ export class WardComponent implements OnInit {
       //   break;
         case 'age':
         this.patients.sort((m, n) => new Date(m.info.personal.dob).getFullYear() - new Date(n.info.personal.dob).getFullYear());
-
         this.nowSorting = 'Age';
         break;
       case 'date':
@@ -193,23 +193,16 @@ export class WardComponent implements OnInit {
     }
   }
 
-  getPatients() {
+  getPatients(type) {
     this.loading = true;
-    this.dataService.getPatients().subscribe((patients: Person[]) => {
-      let myPatients;
-      if(this.myDepartment) {
-         myPatients = patients.filter(
-         p => p.record.visits[0][0].dept.toLowerCase() === this.myDepartment && p.record.visits[0][0].status === 'Admit');
-      } else {
-       myPatients = patients.filter(p => p.record.visits[0][0].status === 'Admit');
-      }
-      if(myPatients.length) {
-        myPatients.forEach(p => {
-        p.card = {menu: false, view: 'front'};
-      });
-      this.patients = myPatients;
-      this.clonedPatients = myPatients;
-      this.loading = false;
+    this.dataService.getPatients(type).subscribe((patients: Person[]) => {
+      if(patients.length) {
+        patients.forEach(p => {
+          p.card = {menu: false, view: 'front'};
+        });
+        this.patients   = patients;
+        this.clonedPatients  = patients;
+        this.loading = false;
       } else {
         this.message = 'No Records So Far';
         this.loading = false;
@@ -241,7 +234,7 @@ export class WardComponent implements OnInit {
     } else {
       this.client.departments[index].rooms[this.patient.record.visits[0][0].wardNo - 1].beds[this.patient.record.visits[0][0].bedNo - 1].allocated = true;
     }
-   
+
     this.dataService.updateBed(this.patient, this.client).subscribe((p: Person) => {
         this.switchToFront(i);
    });
@@ -325,7 +318,6 @@ export class WardComponent implements OnInit {
   selectItem(i: number, j: number) {
     this.patients[this.curIndex].record.medications[i][j].selected =
     this.patients[this.curIndex].record.medications[i][j].selected ? false : true;
-
    }
 
   selectDrug(i: number, j: number) {
@@ -373,7 +365,6 @@ switchViews() {
 getProducts() {
   this.dataService.getProducts().subscribe((p: any) => {
     this.products = p.inventory;
-
   });
 }
 
@@ -381,17 +372,15 @@ searchItem (input) {
   if (input === '') {
     this.temProducts = new Array<Product>();
   } else {
-  this.temProducts = this.products.filter((product) => {
-  const patern =  new RegExp('\^' + input , 'i');
-  return patern.test(product.item.name);
+      this.temProducts = this.products.filter((product) => {
+      const patern =  new RegExp('\^' + input , 'i');
+      return patern.test(product.item.name);
   });
 }
 }
 selectProduct(product: Product) {
-this.input = product.item.name + ' ' + product.item.mesure + product.item.unit;
-this.temProducts = new Array<Product>();
-this.medication.product = product;
-
+  this.input = product.item.name + ' ' + product.item.mesure + product.item.unit;
+  this.temProducts = new Array<Product>();
 
 }
 

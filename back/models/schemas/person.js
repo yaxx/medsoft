@@ -151,6 +151,7 @@ const personScheema = new Scheema({
         appointments: [{
             title: String,
             setOn: Date,
+            date: Date,
             time: String,
             attended: Boolean,
             by: {

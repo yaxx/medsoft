@@ -25,15 +25,13 @@
     </span>
   </a>
 
-  <a *ngIf='seg2==="ward"'  style="top:21%" href="#" [routerLink]="['./']" routerLinkActive="router-link-active"  [routerLinkActiveOptions] ={exact:true}  class="home wardmenu" title="Addmisions"><span class="homespan"><i style ='font-size: 25px; color: rgb(158, 158, 158); position: relative; top:5px;right: 3px;' class="material-icons homeicon wardicon">airline_seat_individual_suite</i></span>
-  </a>
-  <a *ngIf='seg2 === "ward"' style="top:28%" href="#" [routerLink]="['./discharged']"  routerLinkActive="router-link-active"  class="home reviewmenu" title="Discharged">
+ <a *ngIf='seg2 === "ward"' style="top:21%" href="#" [routerLink]="['./']"  routerLinkActive="router-link-active"[routerLinkActiveOptions] = {exact:true}   class="home reviewmenu" title="Discharged">
     <span class="homespan">
         <i  style ='font-size: 26px;position:relative; ' class="icon ion-ios-checkmark-outline homeicon"></i>
     </span>
 </a>
-
-
+  <a *ngIf='seg2==="ward"'  style="top:28%" href="#" [routerLink]="['./addmisions']" routerLinkActive="router-link-active"   class="home wardmenu" title="Addmisions"><span class="homespan"><i style ='font-size: 25px; color: rgb(158, 158, 158); position: relative; top:5px;right: 3px;' class="material-icons homeicon wardicon">airline_seat_individual_suite</i></span>
+  </a>
   <a *ngIf='admin==="admin"||info==="information"||seg2 === "consultation"'  style="top:42%" href="#" [routerLink]="['./addmisions']" routerLinkActive="router-link-active"   class="home wardmenu" title="Addmisions"><span class="homespan"><i style ='font-size: 25px; color: rgb(158, 158, 158); position: relative; top:5px;right: 3px;' class="material-icons homeicon wardicon">airline_seat_individual_suite</i></span>
   </a>
 

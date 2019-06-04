@@ -78,7 +78,7 @@ downloadFile: (req, res) => {
 
 
 addPerson: async (req, res) => {
-  try{
+  try {
   const exist = await Person.findOne({
     'info.contact.me.mobile': req.body.info.contact.me.mobile
   })
@@ -93,24 +93,34 @@ addPerson: async (req, res) => {
     }
   }
 
-catch (e){
+catch (e) {
   throw e
 }
   
 },
 getPatients: async (req, res) => {
   try {
+    const {info: {official}} = await Person.findById(req.cookies.i).select('info');
     let patients = await Person.find({$where: 'this.record.visits.length'})
-    // patients = patients.map(p => {
-    //   if(p.record.visits[0][0]) {
-    //     return p;
-    //   } else {
-    //       p.record.visits = [...p.record.visits]
-    //       return p;
-    //   }
-    
-    // }) 
-    // console.log(patients)
+    switch(official.role) {
+      case 'Doctor':
+      patients = patients.filter(patient => patient.record.visits[0][0].status === req.params.type && patient.record.visits[0][0].dept === official.department);
+      break;
+      case 'Nurse':
+      patients = patients.filter(patient => patient.record.visits[0][0].status === req.params.type && patient.record.visits[0][0].dept === official.department);
+      break;
+      case 'Pharmacy':
+      patients = patients.filter(patient => patient.record.medications.length>0);
+      break;
+      case 'Admin':
+      patients = (req.params.type) ? patients.filter(patient => patient.record.visits[0][0].status === req.params.type) : patients.filter(patient => patient.record.medications.length) ;
+      break;
+      default:
+      patients = patients.filter(patient => patient.record.visits[0][0].status === req.params.type);
+      break
+    }
+   
+    console.log(patients)
     res.send(patients) 
   }
   catch(e){
@@ -166,7 +176,6 @@ addClient: async (req, res) => {
               }
             }
             const person  = await createPerson(data)
-            console.log(person)
             res.send(person)
           }
          

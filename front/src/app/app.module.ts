@@ -25,16 +25,16 @@ import { DobPipe } from './pipes/dob.pipe';
 import { AppointmentsComponent } from './components/appointments/appointments.component';
 import { MainComponent } from './components/navs/main/main.component';
 import { SettingsComponent } from './components/settings/settings.component';
-// import ElectronCookies from '@exponent/electron-cookies';
-// ElectronCookies.enable({
-//   origin: 'https://example.com',
-// });
-// import SimpleBar from 'SimpleBar';
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'signup', component: LoginComponent},
   {path: 'settings', component: SettingsComponent},
-  {path: 'pharmacy', component: PharmacyComponent},
+  {path: 'pharmacy', component: MainComponent,
+          children: [
+            { path: 'me', component: MessagesComponent},
+            { path: '', component: PharmacyComponent}
+        ]
+  },
   {path: 'admin', component: MainComponent,
           children: [
             {path: 'appointments', component: AppointmentsComponent},
@@ -70,18 +70,12 @@ const routes: Routes = [
         },
   {path: ':dept/ward', component: MainComponent,
         children: [
-          { path: 'discharged', component: RegistrationComponent},
+          { path: 'addmisions', component: WardComponent},
           { path: 'me', component: MessagesComponent},
-          { path: '', component: WardComponent}
+          { path: '', component: RegistrationComponent}
         ]
       },
-  {path: 'pharmacy', component: MainComponent,
-          children: [
-            { path: 'me', component: MessagesComponent},
-
-            { path: '', component: PharmacyComponent}
-          ]
-        },
+ 
 
   {path: '', redirectTo: 'login', pathMatch: 'full'},
   {path: '**', component: LoginComponent}

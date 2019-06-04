@@ -16,19 +16,19 @@ export class InventoryComponent implements OnInit {
   clonedInventory: Product[] = [];
   item: Item = new Item();
   stockInfo: StockInfo = new StockInfo();
-  temItems: Item[] = new Array<Item>();
-  items: Item[] = new Array<Item>();
-  products: Product[] = new Array<Product>();
+  temItems: Item[] = [];
+  items: Item[] = [];
+  products: Product[] = [];
   cloned: Product;
-  temProducts: Product[] = new Array<Product>();
-  editables: Product[] = new Array<Product>();
-  edited: Product[] = new Array<Product>();
-  selections: number[] = new Array<number>();
+  temProducts: Product[] = [];
+  editables: Product[] = [];
+  edited: Product[] = [];
+  selections: number[] = [];
   input = '';
   loading = false;
   processing = false;
   message = null;
-  transMsg = null;
+  feedback = null;
   sortBy = 'added';
   searchTerm = '';
   count = 0;
@@ -126,21 +126,25 @@ getDp(avatar: String) {
         break;
         default:
         break;
-
-
     }
   }
   addMore() {
     this.product.stockInfo.inStock = this.product.stockInfo.quantity;
-   if( this.product.item.name) {
-        this.temProducts.unshift(this.product);
+    if(this.product.item.name) {
+
    } else {
       this.product.item.name = this.input;
-      this.temProducts.unshift(this.product);
    }
-    this.input = '';
-    this.item = new Item();
-    this.product = new Product();
+   if(this.products.some(product => product.item.name === this.product.item.name) || this.temProducts.some(product => product.item.name === this.product.item.name)) {
+    this.feedback = 'Product already exist';
+  
+    } else {
+      this.temProducts.unshift(this.product);
+      this.input = '';
+      this.item = new Item();
+      this.product = new Product();
+ }
+   
   }
 
   addSelection(i: Item) {
@@ -235,15 +239,15 @@ getDp(avatar: String) {
     this.dataService.addProducts(this.temProducts)
     .subscribe((products: Product[]) => {
       this.processing = false;
-      this.transMsg = 'Product added successfully';
+      this.feedback = 'Product added successfully';
       this.products = [...products, ...this.products];
       this.socket.io.emit('store update', {action: 'new', changes: products});
       this.temProducts = [];
       setTimeout(() => {
-        this.transMsg = null;
+        this.feedback = null;
   }, 4000);
    }, (e) => {
-        this.transMsg = 'Could not add products';
+        this.feedback = 'Could not add products';
         this.processing = false;
   });
 
@@ -259,13 +263,13 @@ getDp(avatar: String) {
     this.input = '';
     this.processing = false;
     this.edited = this.editables = [];
-    this.transMsg = 'Inventory succesffully updated';
+    this.feedback = 'Inventory succesffully updated';
     setTimeout(() => {
-      this.transMsg = null;
+      this.feedback = null;
     }, 4000);
    }, (e) => {
       this.processing = false;
-      this.transMsg = 'Unable to update store';
+      this.feedback = 'Unable to update store';
     });
 }
 deleteProducts() {
@@ -273,12 +277,12 @@ deleteProducts() {
   const selections = this.products.filter(p => p.selected);
   this.dataService.deleteProducts(selections).subscribe(() => {
       this.processing = false;
-      this.transMsg = 'Inventory succesffully updated';
+      this.feedback = 'Inventory succesffully updated';
       this.socket.io.emit('store update', {action: 'delete', changes: selections});
       this.products = this.products.filter(product => !product.selected);
    },(e) => {
       this.processing = false;
-      this.transMsg = 'Unable to update inventory';
+      this.feedback = 'Unable to update inventory';
     });
   }
 expired(expiry) {

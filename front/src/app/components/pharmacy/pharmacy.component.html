@@ -1,5 +1,5 @@
 
-  <div class="modal fade" role="dialog" tabindex="-1" id="medicModal" style="border-radius:12px;width:auto;">
+  <div *ngIf = 'patients.length' class="modal fade" role="dialog" tabindex="-1" id="medicModal" style="border-radius:12px;width:auto;">
     <div class="modal-dialog" role="document">
         <div class="modal-content" style="width:480px;border-radius:0px;border-radius:12px;padding-left:0px;padding-right: 0px;">
             <div class="modal-body" style="border-radius:0px;padding: 0px;">
@@ -225,7 +225,7 @@
                             <img [src] = getDp(patient.info.personal.avatar)/>
                         </div>
                     </div>
-                    <p class="dept displayname">
+                    <p style='margin-bottom:2px;'  class="dept displayname">
                     {{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}<span class="predata editicon"></span></p>
                     <div class="card-body mainbody">
                         <div class="carditem basic-item">
@@ -248,7 +248,7 @@
                             </div>
                             <div class="sub-container">
                               <h6 style="width:100%;text-align:center" class="dept basic-secondary basic-value">
-                                {{patient.record.visits[0].visitedOn|date:'dd MMM'}}&nbsp;<span>
+                                {{patient.record.visits[0].visitedOn|date:'dd MMM, yy'}}&nbsp;<span>
                                 {{patient.record.visits[0].visitedOn|date:'hh:mma'|lowercase}}</span>
                               </h6>
                             </div>

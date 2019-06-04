@@ -4,7 +4,7 @@ import {SocketService} from '../../services/socket.service';
 import { FileSelectDirective, FileUploader } from 'ng2-file-upload';
 import * as cloneDeep from 'lodash/cloneDeep';
 import {CookieService } from 'ngx-cookie-service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Person, Info} from '../../models/person.model';
 import {states, lgas} from '../../models/data.model';
 import {Client, Department} from '../../models/client.model';
@@ -62,12 +62,16 @@ export class ConsultationComponent implements OnInit {
   file: File = null;
   uploader: FileUploader = new FileUploader({url: uri});
 
-  constructor(private dataService: DataService,
-     private route: ActivatedRoute,  private cookies: CookieService, private socket: SocketService ) {
+  constructor(
+     private dataService: DataService,
+     private route: ActivatedRoute,
+     private router: Router,
+     private cookies: CookieService, 
+     private socket: SocketService ) {
    }
 
   ngOnInit() {
-   this.getConsultees();
+   this.getPatients('queued');
    this.getClient();
    this.myDepartment = this.route.snapshot.params['dept'];
     this.socket.io.on('enroled', (patient: Person) => {
@@ -117,13 +121,15 @@ export class ConsultationComponent implements OnInit {
   });
   this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any ) => {
     this.patient.info.personal.avatar = response;
-    console.log(this.patient.info.personal.avatar);
    };
 
   }
+  isConsult(){
+    return this.router.url.includes('consultation') && !(this.router.url.includes('information')||this.router.url.includes('admin'));
+  }
   refresh() {
    this.message = null;
-   this.getConsultees();
+   this.getPatients('queued');
    this.getClient();
   }
   getLgas() {
@@ -222,15 +228,14 @@ addPatient() {
   }
   setAppointment() {
     this.patients[this.curIndex].record.appointments.unshift(this.appointment);
-    this.patients[this.curIndex].record.visits[0][0].status = 'appointment';
+    this.patients[this.curIndex].record.visits[0][0].status = 'Appointment';
     this.processing = true;
     this.dataService.updateRecord(this.patients[this.curIndex]).subscribe(patient => {
       this.processing = false;
+      this.feedback = 'Appointment updated';
       setTimeout(() => {
-            this.patients[this.curIndex].card = {menu: false, view: 'front'};
-      }, 3000);
-      setTimeout(() => {
-          this.patients.splice(this.curIndex , 1);
+        this.feedback = null;
+        this.patients.splice(this.curIndex , 1);
       }, 3000);
 
     })
@@ -356,22 +361,15 @@ switchBtn(option: string) {
    this.in = option;
 }
 
-getConsultees() {
+getPatients(type) {
   this.loading = true;
-  this.dataService.getPatients().subscribe((patients: Person[]) => {
-    console.log(patients);
-    let myPatients;
-    if(this.myDepartment) {
-      myPatients = patients.filter(p => p.record.visits[0][0].dept.toLowerCase() === this.myDepartment && p.record.visits[0][0].status === 'queued');
-    } else {
-        myPatients = patients.filter(p => p.record.visits[0][0].status === 'queued');
-    }
-    if(myPatients.length) {
-       myPatients.forEach(p => {
+  this.dataService.getPatients(type).subscribe((patients: Person[]) => {
+     if(patients.length) {
+      patients.forEach(p => {
       p.card = {menu: false, view: 'front'};
     });
-     this.patients = myPatients;
-     this.clonedPatients = myPatients;
+      this.clonedPatients = patients;
+      this.patients = patients
      this.loading = false;
      this.message = null;
     } else {

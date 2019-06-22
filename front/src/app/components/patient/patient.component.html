@@ -115,7 +115,7 @@
                             </div>
                             <div *ngFor ="let m of medic; let j = index" class="priscription drug">
                                 <h6 class="dept">{{m.product.item.name}}&nbsp;<span class="predata">
-                                  {{m.product.item.mesure+m.product.item.unit}}
+                                 
                                   <i title="Continue" (click)=playMedication(i,j) *ngIf = m.paused class="icon ion-ios-play-outline editicon continue"></i>
                                   <i title="Discontinue" (click)= pauseMedication(i,j) *ngIf = !m.paused class="icon ion-ios-pause-outline editicon continue"></i></span><span class="predata priceval">
                                   </span></h6>
@@ -131,11 +131,11 @@
                   <div *ngIf="medicView" style="width:54%;margin:auto" class="card-body orderbody">
                         <form style="top:15%; padding-left: 2%; padding-right: 2%;" class=" staffsform" (submit) = updateMedication()>
                             <div class="form-group vitals-section address">
-                                <label style='font-size:8px' for="drug" class="labelss">DRUG</label>
-                                <input autocomplete="off" (keyup)= "searchItems(input)" [(ngModel)] = input type="text" name="drug" placeholder= "E.g Paracetamol 500mg" class="patientdata dystolic inputs dataInfo" style="font-size:11px;" />
+                                <label style='font-size:8px' for="drug" class="labelss">PRODUCT</label>
+                                <input (focus)=clearFeedBack() autocomplete="off" (keyup)= "searchItems(item.name, 'drug')" [(ngModel)] = item.name type="text" name="drug" placeholder= "E.g Paracetamol 500mg" class="form-control patientdata dystolic inputs dataInfo" style="font-size:11px;" />
                                 <div *ngIf= temItems.length  class="options prisOption edit">
                                     <ul class="itemsList" >
-                                      <li  *ngFor="let item of temItems"><p (click) = "addSelection(item)"  class="dept firstheader drugItem" style="font-size:11px;padding-left: 10px; padding-right: 10px;font-weight: normal;" >{{item.name+ ' '}}<span class="lastdept timetaken " >{{item.mesure + item.unit}}</span></p>
+                                      <li  *ngFor="let item of temItems"><p (click) = "addSelection(item)"  class="dept firstheader drugItem" style="font-size:11px;padding-left: 10px; padding-right: 10px;font-weight: normal;" >{{item.name}}<span class="lastdept timetaken " ></span></p>
                                       </li>
                                     </ul>
                                 </div>
@@ -229,6 +229,8 @@
                   vertical-align: middle;
                   top:11%;
                   background-color: rgb(243, 248, 247);
+                  box-shadow:none;
+                  outline:none;
                   "
                   class="form-control"
                   type="search" name="search" id="search-field" placeholder="Search patient">

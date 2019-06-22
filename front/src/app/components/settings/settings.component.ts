@@ -4,6 +4,7 @@ import {DataService} from '../../services/data.service';
 import {Client, Department, Bed, Room} from '../../models/client.model';
 import {Connection, Connections, Info, Person} from '../../models/person.model';
 import {CookieService } from 'ngx-cookie-service';
+import {states, lgas} from '../../models/data.model';
 import * as cloneDeep from 'lodash/cloneDeep';
 @Component({
   selector: 'app-settings',
@@ -25,9 +26,11 @@ export class SettingsComponent implements OnInit {
   loading = false;
   processing = false;
   numbOfBeds = null;
-  staffmode = 'view';
+  staffMode = 'view';
+  clientMode = 'view';
   roomNumb = 1;
   deptName = null;
+  states = states;
   message = null;
   menu = false;
   transMsg = null;
@@ -81,8 +84,11 @@ export class SettingsComponent implements OnInit {
     });
     this.deptName = this.departments[0].name;
   }
+  switchClient(view: string) {
+    this.clientMode = view;
+  }
   openStafftModal(){
-
+    this.staffMode = 'add';
   }
 
   refresh() {
@@ -135,8 +141,11 @@ export class SettingsComponent implements OnInit {
   }
   selectStaff(staff) {
     this.staff = staff;
+    this.switchView('view') ;
   }
-
+  switchView(view: string) {
+    this.staffMode = view;
+  }
   addDepartment() {
     this.processing = true;
     const copy = cloneDeep(this.client);

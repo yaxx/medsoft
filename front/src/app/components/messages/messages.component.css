@@ -1,5 +1,5 @@
 .timeline.lastdoc.priscriber.headerdp.profile-dp {
-  left:63px;
+  left:79px;
 }
 
 .patien-name.profile-name {
@@ -12,8 +12,8 @@
 .timeline.lastdoc.priscriber.headerdp {
   top:36px;
   left:18px;
-  height:49px;
-  width:49px;
+  height:60px;
+  width:60px;
   position:absolute;
 }
 .contacts-card, .profile-card{
@@ -44,7 +44,7 @@
   color:lightgrey;
   font-weight:normal;
   text-align:center;
-  top:20px;
+  top:37px;
   position:relative;
   margin:0px;
 }
@@ -117,6 +117,14 @@
   position:relative;
 }
 
+.textContainer {
+  position:relative;
+  height:50px;
+  width: 100%;
+  border-top: 1px solid whitesmoke;
+  padding-left:60px;
+  padding-right:60px;
+}
 
 
 

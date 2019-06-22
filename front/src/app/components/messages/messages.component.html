@@ -1,9 +1,9 @@
-<nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:0px">
+<!-- <nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:0px">
   <div class="container">
       <a class="navbar-brand" href="#">
           <em>spinr</em>
       </a>
-     
+
   </div>
   <i style="left:80%;" class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
     <i [routerLink]="['./me']" data-target="#newModal" data-toggle="modal" style="left:83%;" class="icon ion-ios-person-outline arrow buble" id="add" title="Me" ></i>
@@ -42,7 +42,7 @@
 
                     <div *ngIf = "leftcard==='explore'" class="card card-secondary historycard leftcard contacts-card">
                         <div class="card-header grapheader explore-header">
-                            <!-- <i title="Back" class="icon ion-android-arrow-back "></i> -->
+
                           <input (focus)="explore()" type="search" id="explore-search" class="explore-search" placeholder="Search" />
                         </div>
                         <div class="card-body onlinesbody">
@@ -94,10 +94,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-
+                                  </div>
+                              </div>
+                          </div>
                         </div>
                         <form class="chat-form">
                           <div class="message-group"><textarea name="chat" [(ngModel)] ="message"  (keypress)="check($event)"class="form-control inputs patientdata newpatient chat-message" placeholder="Type a message" rows="1"></textarea><i class="icon ion-image attachment" title="Attach file"></i>
@@ -112,16 +111,16 @@
                       <div class="card-header profileheader">
                       <i (click)=toggleMenu() class="icon ion-android-more-vertical headericon moreicon actions-icon">
                       </i>
-                      <div (mouseleave)= toggleMenu() *ngIf=showMenu class="menu">
+                      <div (mouseleave)= toggleMenu() *ngIf = showMenu class="menu">
                           <ul class="actions primary">
                               <li (click)="switchToEdit('edit')" class="action">Edit profile</li>
                               <li class="action">Settings</li>
                           </ul>
                       </div>
-                        <div class="timeline lastdoc priscriber headerdp profile-dp">
-                            <img [src] = getDp(person.info.personal.avatar)/>
-                        </div>
-                        </div>
+                      <div class="timeline lastdoc priscriber headerdp profile-dp">
+                          <img [src] = getDp(person.info.personal.avatar)/>
+                      </div>
+                      </div>
                         <a href="#" class="patien-name profile-name">
                             {{person.info.personal.firstName+' '+person.info.personal.lastName}}</a>
                         <h6 class="bio">{{person.info.official.department}}</h6>
@@ -150,7 +149,7 @@
                         </li>
                        </ul>
                     </div>
-                    </div>
+                  </div>
                   <div *ngIf = "rightCard === 'edit'" class="card card-secondary historycard rightcard medication profile-card" style='min-height:440px;max-height:440px; border-radius:0px'>
                       <div style='padding: 5px 0px 10px 0px;' class="card-header profileheader">
                           <div style="padding-left:14px; border-bottom:0px" class="card-header grapheader">
@@ -195,13 +194,13 @@
                             <input [(ngModel)]="editing.contact.mobile" style="padding-top:2px;font-size:11px;color: darkgray" autocomplete="off" type="text" name="drug" placeholder= "08068282257" class="patientdata dystolic inputs dataInfo"/>
                          </div>
                         </li>
-                         <li *ngIf='!input[1]' (mouseenter) = 'hovers[1] = 1'(mouseleave)='hovers[1] = 0' class="profile-item">
+                        <li *ngIf='!input[1]' (mouseenter) = 'hovers[1] = 1'(mouseleave)='hovers[1] = 0' class="profile-item">
                            <span style='font-size:18px; top:3px;position:relative;  color: rgb(114, 114, 114);'><i class='icon ion-ios-email-outline'></i>
                           </span>
                            <span *ngIf='hovers[1]' class='predata' style='font-size:12px; top:5px;position:absolute; left:93%; color: rgb(114, 114, 114);'>
                             <i (click)='showInput(1)' class='icon ion-edit'></i>
-                          </span>
-                         {{person.info.contact.me.email}}
+                          </span> {{person.info.contact.me.email}}
+
                         </li>
                         <li *ngIf='input[1]' class="profile-item">
                             <div class="form-group vitals-section address">
@@ -221,7 +220,7 @@
                               <input [(ngModel)]="editing.personal.username" style="padding-top:2px;font-size:11px; color: darkgray" autocomplete="off" type="text" name="username" placeholder= "User name" class="patientdata dystolic inputs dataInfo"/>
                            </div>
                         </li>
-                         <li  *ngIf='!input[3]' (mouseenter) = 'hovers[3] = 1'(mouseleave)='hovers[3] = 0'  class="profile-item">
+                        <li  *ngIf='!input[3]' (mouseenter) = 'hovers[3] = 1'(mouseleave)='hovers[3] = 0'  class="profile-item">
                            <span style='font-size:18px; top:3px;position:relative;  color: rgb(114, 114, 114);'><i class='icon ion-ios-locked-outline'></i>
                           </span>
                           <span *ngIf='hovers[3]' class='predata' style='font-size:12px; top:5px;position:absolute; left:93%; color: rgb(114, 114, 114);'>
@@ -242,10 +241,9 @@
                         </li>
                        </ul>
                     </div>
-
                     <button (click)='updateProfile()' style=" width: 90px; left:81px; bottom:2%; padding-top:3px;padding-bottom: 3px; "  type="submit" class="btn btn-sm btn-outline-primary inputs mainbtn" >
                         <i class="fa fa-circle-o-notch editicon continue blocked-icon fa-spin" style="font-size:15px;"></i>
-                    Save
+                      Save
                     </button>
                     </div>
                     <div style="width:200px" *ngIf = "rightCard ==='followers'" class="card card-secondary historycard rightcard medication profile-card">
@@ -256,7 +254,6 @@
                       </div>
                       <div  class="card-body onlinesbody">
                           <h1 *ngIf="!getFollowers().length" style='color:lightgrey; width:100%; text-align:center;top:43%;position:absolute;' class="dept headtitle">NO FOLLOWERS</h1>
-                          <!-- <p *ngIf="!getFollowers()" class="placeholder">No followers yet</p> -->
                           <div *ngFor="let p of getFollowers(); let i=index" class="carditem people">
                              <div class="card-header profileheader person">
                                   <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:5%;position:absolute;height:30px;width:30px;top:25%;">
@@ -266,7 +263,7 @@
                                     {{p.person.info.personal.firstName+' '+p.person.info.personal.lastName}}<span class="timetaken chattime">
                                       </span></p>
                                       <i *ngIf = 'p.follower'  (click)="followBack(p.person.info.personal.avatar)"  title='Unfollow' class="icon ion-ios-plus-empty follow" style="font-size:22px;position: absolute;left:88%; bottom:4px; cursor:pointer"></i>
-                                      <i *ngIf = 'p.following'  (click)="unfollow(person)"  title='Unfollow' class="icon ion-ios-minus-empty follow" style="font-size:22px;position: absolute;left:88%; bottom:4px; cursor:pointer"></i>
+                                      <i *ngIf = 'p.following'   title='Unfollow' class="icon ion-ios-minus-empty follow" style="font-size:22px;position: absolute;left:88%; bottom:4px; cursor:pointer"></i>
                                       <h1 class="dept latestmsg">{{p.person.info.official.department}}</h1>
                               </div>
                           </div>
@@ -286,11 +283,10 @@
                                   <img [src] = getDp(p.person.info.personal.avatar)/>
                                 </div>
                                 <p class="dept personname">
-                                    {{p.person.info.personal.firstName+' '+p.person.info.personal.lastName}}&nbsp;<span class="timetaken chattime">
-                                      </span></p>
-                                      <i  title='Unfollow' class="icon ion-ios-minus-empty follow" style="font-size:22px;position: absolute;left:88%; bottom:4px; cursor:pointer"></i>
-                                      <h1 class="dept latestmsg">{{p.person.info.official.department}}</h1>
-                                <!-- <h1 *ngIf="person.follower" style="color:lightgrey" class="dept latestmsg">Follows you</h1> -->
+                                    {{p.person.info.personal.firstName+' '+p.person.info.personal.lastName}}&nbsp;<span class="timetaken chattime"></span>
+                                </p>
+                              <i  title='Unfollow' class="icon ion-ios-minus-empty follow" style="font-size:22px;position: absolute;left:88%; bottom:4px; cursor:pointer"></i>
+                              <h1 class="dept latestmsg">{{p.person.info.official.department}}</h1>
                             </div>
                         </div>
                     </div>
@@ -299,3 +295,321 @@
             </div>
         </div>
       </div>
+
+ -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:0px">
+      <div class="container">
+          <a class="navbar-brand" href="#">
+              <em>spinr</em>
+          </a>
+      </div>
+    <i style="left:80%;" class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
+        <i [routerLink]="['../../me']" data-target="#newModal" data-toggle="modal" style="left:83%;" class="icon ion-ios-person-outline arrow buble" id="add" title="Me" ></i>
+    <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:90%;position:absolute;height:30px;width:30px;top:5px; margin-bottom:0px;">
+    </div>
+    </nav>
+    <div style="padding-top:40px" class="container history-container">
+      <div class="row history-row" style = 'height:100%'>
+          <div  class="col col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+              <div class="card-colums leftcolumn">
+                  <div *ngIf = "leftcard==='contacts'" class="card card-secondary historycard leftcard" style = 'height:400px;width:214px;left:28px;margin-top:4px; '>
+                      <div  class='card-header grapheader' style='border-bottom:0px;margin-top:5px'>
+                          <h1  class="dept headtitle">CHATS<span (click)="back()" class="backIcon">
+                              </span>
+                            </h1>
+                            <i (click)="switchLeftCard('explore')" style="left:87%; top:1%; position:absolute" class="icon ion-ios-search searchicon" title="Search"></i>
+                      </div>
+                    <div class="card-body onlinesbody">
+                      <h1 *ngIf="!getContacts().length" style='color:lightgrey; width:100%; text-align:center;top:43%;position:absolute;' class="dept headtitle">NO CONTACTS</h1>
+                        <div (click) = selectPerson(contact) *ngFor="let contact of getContacts(); let i=index" class="carditem people">
+                            <div class="card-header profileheader person">
+                                <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:5%;position:absolute;height:30px;width:30px;top:25%;">
+                                    <img [src] = getDp(contact.person.info.personal.avatar)/>
+                                <div *ngIf = 'contact.person.info.online' class="indicator indicator-online"></div>
+                                </div>
+                                <p class="dept personname">
+                                  {{contact.person.info.personal.firstName+' '+contact.person.info.personal.lastName}}&nbsp;<span style='left:75%' class="timetaken chattime">&nbsp;25min&nbsp;</span></p>
+                                <h1 class="dept latestmsg">{{getLastMessage(contact.messages)}}</h1>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+              </div>
+              <div *ngIf = "leftcard === 'explore'" class="card card-secondary historycard leftcard" style = 'height:400px;width:214px;left:28px;margin-top:4px;'>
+                  <div style='border-bottom:0px;height:40px;margin-bottom:10px' class="card-header grapheader explore-header">
+                      <span style='top:5px;right:90%'  (click)=' backToConact()' class="backIcon">
+                          <i title="Back" class="icon ion-android-arrow-back"></i>
+                      </span>
+                      <input style='position:relative;outline:none;width:125px;left:32px;border:none; border-radius: 12px;background: rgba(245, 245, 245, 0.3);padding-top: 0px;padding-bottom:0px;height:25px;top:5px;'   type="search" id="explore-search" class="explore-search" placeholder="Search" />
+                  </div>
+                <div class="card-body " style='padding-right:0px;padding-top:0px;border-left: 0px;margin-left:0px'>
+                    <div *ngFor="let person of sugestions; let i=index" class="carditem people">
+                        <div class="card-header profileheader person">
+                            <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:5%;position:absolute;height:30px;width:30px;top:25%;">
+                                <img [src] = getDp(person.info.personal.avatar)/>
+                            </div>
+                            <p style='margin-left:2px;' class="dept personname">
+                                {{person.info.personal.firstName+' '+person.info.personal.lastName}}&nbsp;<span class="timetaken chattime"></span></p>
+                                <i (click)='follow(person, i)' title='Follow' class="icon ion-ios-plus-empty follow" style="font-size:23px;position: absolute;left:90%; bottom:-3px; cursor:pointer"></i>
+                            <h1 class="dept latestmsg">{{person.info.official.department}}</h1>
+                        </div>
+                    </div>
+                </div>
+              </div>
+          </div>
+          <div class="col col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+              <div class="card-colums">
+                  <div class="card card-secondary historycard midlecard graphcard" style="position:absolute;height:100%; width:442px;margin:auto;left:18px;margin-top:4px">
+                    <div style='padding: 0px 5px 0px 10px; marging-top:11px; height:26px; border-bottom:0px;' class="card-header grapheader">
+                      <div *ngIf = curPerson.person>
+                          <div style="left:10px;height:22px;  width:22px;position:relative; display:inline-block; margin-bottom:0px; top:11px; background:white" class="timeline lastdoc priscriber headerdp small-dp">
+                            <img [src] = getDp(curPerson.person.info.personal.avatar)/>
+                          </div>
+                          <p style='margin:px 0px 0px 3px;position:absolute;padding-left:13px;top:14px;display:inline-block;' class="patien-name small-name">
+                            {{curPerson.person.info.personal.firstName +' '+curPerson.person.info.personal.lastName}}<span class="small-headericon"></span>
+                          </p>
+                           <h1 style='font-size:11px;  position:absolute;color:dodgerblue;  top:3%;left:70%' class="patien-name small-name">CONVERSATIONS</h1>
+                      </div>
+                      </div>
+                      <div style=' margin-left: 0px; border-left: 0px' class="card-body notecardbody chat-body">
+                        <div *ngIf='curPerson.messages.length' class="conversation-container">
+                            <div *ngFor="let chats of curPerson.messages; let i=index" class="message" [ngClass]="curPerson.messages[i][0]?.sender === me?'message-send':'message-recieved'" >
+                                <div *ngFor="let msg of chats; let first = first; let last = last" class="message-container">
+                                    <div class="message-avatar">
+                                        <a href="#" class="profile-link"></a>
+                                        <div class="msg-avatar">
+                                            <span class="avatar-container"><img [src] = getMsgDp(msg.sender) [ngClass]="{'invisible':!last}" class=" msg-image"/>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="message-msg" >
+                                        <div class="msg-contentContainer">
+                                            <div class="msg-text">
+                                                <div class="msg-container">
+                                                    <p class="msg-msg msg-size">{{msg.message}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                              </div>
+                           </div>
+                        </div>
+                    </div>
+                    <div class='textContainer'>
+                      <textarea  [(ngModel)] ="message"  (keypress)="check($event)" placeholder ='Type a message'  style='font-size:12px; resize: none; height: 26px; width: 100%; left:20px; margin:auto; top:6px; border:none; outline: none; overflow:hidden; margin-top:3px; text-align: left; border-radius:0px; border-bottom:1px solid whitesmoke; position:ralative'   name="chat"  class="patientdata dystolic inputs dataInfo" >
+                      </textarea>
+                    </div>
+                 </div>
+              </div>
+          </div>
+          <div  class="col col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+              <div class="card-colums rightcolumn">
+                  <div *ngIf = "rightCard === 'profile'" style="width:214px;left:2px;height:400px;margin-top:4px;" class="card card-secondary historycard rightcard allegies">
+                    <div class="card-header profileheader" style='border-top-right-radius: 12px; border-top-left-radius:12px;'>
+                      <i (click)=toggleMenu() class="icon ion-android-more-vertical headericon moreicon actions-icon">
+                      </i>
+                      <div (mouseleave)= toggleMenu() *ngIf=showMenu class="menu">
+                          <ul class="actions primary">
+                              <li (click)="switchToEdit('edit')" class="action">Edit profile</li>
+                              <li class="action">Settings</li>
+                          </ul>
+                      </div>
+                      <div class="timeline lastdoc priscriber headerdp profile-dp">
+                          <img [src] = getDp(person.info.personal.avatar)/>
+                      </div>
+                      </div>
+                      <a href="#" class="patien-name profile-name">
+                        {{person.info.personal.firstName+' '+person.info.personal.lastName}}</a>
+                      <h6 class="bio">{{person.info.official.department}}</h6>
+                      <div class="card-body rightcardbody">
+                        <div class="carditem basic-item connections">
+                          <h6 (click)="switchRightCard('followers')" class="dept basic-info">Followers</h6>
+                          <h6 (click)="switchRightCard('followers')" class="dept basic-info sex-info">
+                              {{getFollowers().length}}
+                          </h6>
+                      </div>
+                      <div class="carditem basic-item connections">
+                          <h6 (click)="switchRightCard('followings')" class="dept basic-info">Following</h6>
+                          <h6 (click)="switchRightCard('followings')"  class="dept basic-info sex-info">
+                              {{getFollowings().length}}</h6>
+                      </div>
+                      <ul class="profile-info">
+                          <li class="profile-item">
+                              <span style='font-size:17px; top:2px;position:relative;  color: rgb(114, 114, 114);'><i class='icon ion-ios-home'></i></span>
+                            {{person.info.official.department}}
+                            </li>
+                        <li class="profile-item"><span style='font-size:18px; top:3px;position:relative;  color: rgb(114, 114, 114);'><i class='icon ion-ios-person-outline'></i></span>
+                          Born 11 Febuary, 1989
+                        </li>
+                        <li class="profile-item"><span style='font-size:18px; top:3px;position:relative;  color: rgb(114, 114, 114);'><i class='icon ion-android-calendar'></i></span>
+                          Signed 22 Dec.
+                        </li>
+                      </ul>
+                      </div>
+                  </div>
+
+
+
+                  <div *ngIf = "rightCard === 'edit'"  style="width:214px;left:2px;height:400px;margin-top:4px;" class="card card-secondary historycard rightcard allegies">
+                    <div style='padding: 5px 0px 10px 0px;border-bottom:0px; border-top-right-radius:12px; border-top-left-radius:12px;' class="card-header profileheader">
+                      <div style="padding-left:14px; border-bottom:0px; border-top-right-radius:12px; border-top-left-radius:12px;" class="card-header grapheader">
+                          <h1 style="padding-left:20px;" class="dept headtitle">EDIT PROFILE<span  (click)='switchMenu("profile")' class="backIcon">
+                            <i title="Back" class="icon ion-android-arrow-back"></i></span>
+                          </h1>
+                      </div>
+                    </div>
+                    <div class="timeline lastdoc priscriber headerdp profile-dp ">
+                      <div  (click)="picker.click()"  class="dp-wrapper"></div>
+                      <img  *ngIf="!url"  [src] = getDp(person.info.personal.avatar)/>
+                      <img  *ngIf="url" [src] = url/>
+                    </div>
+                    <input style="position:absolute;display:none" (change) = fileSelected($event) #picker type ="file"  name="file"  class="patientdata dystolic inputs dataInfo" name="file" multipe ng2FileSelect [uploader] = uploader />
+                        <a href="#" class="patien-name profile-name">
+                            {{person.info.personal.firstName+' '+person.info.personal.lastName}}</a>
+                        <h6 class="bio">
+                          {{person.info.official.department}}
+                        </h6>
+                        <div class="card-body rightcardbody">
+                          <ul class="profile-info">
+                            <li class="profile-item">
+                                <span style='font-size:17px; top:2px;position:relative;  color: rgb(114, 114, 114);'><i class='icon ion-ios-home-outline'></i></span>
+                                {{person.info.official.department}}
+                              </li>
+                           <li class="profile-item"><span style='font-size:18px; top:3px;position:relative;  color: rgb(114, 114, 114);'><i class='icon ion-ios-person-outline'></i></span>
+                            Born 11 Febuary, 1989
+                          </li>
+                           <li class="profile-item"><span style='font-size:18px; top:3px;position:relative;  color: rgb(114, 114, 114);'><i class='icon ion-android-calendar'></i></span>
+                            Signed 22 Dec.
+                          </li>
+                         </ul>
+                         <ul class="profile-info">
+                           <li  *ngIf='!input[0]' (mouseenter) = 'hovers[0] = 1'(mouseleave)='hovers[0] = 0'  class="profile-item"><span style='font-size:18px; top:3px;position:relative;  color: rgb(114, 114, 114);'><i class='icon ion-iphone'></i></span>
+                            <span *ngIf='hovers[0]' class='predata' style='font-size:12px; top:5px;position:absolute; left:93%; color: rgb(114, 114, 114);'>
+                              <i (click)='showInput(0)' class='icon ion-edit'></i>
+                            </span>
+                            {{person.info.contact.me.mobile}}
+                          </li>
+                           <li *ngIf='input[0]' class="profile-item">
+                            <div class="form-group vitals-section address">
+                              <input [(ngModel)]="editing.contact.mobile" style="padding-top:2px;font-size:11px;color: darkgray" autocomplete="off" type="text" name="drug" placeholder= "08068282257" class="patientdata dystolic inputs dataInfo"/>
+                           </div>
+                          </li>
+                          <li *ngIf='!input[1]' (mouseenter) = 'hovers[1] = 1'(mouseleave)='hovers[1] = 0' class="profile-item">
+                             <span style='font-size:18px; top:3px;position:relative;  color: rgb(114, 114, 114);'><i class='icon ion-ios-email-outline'></i>
+                            </span>
+                             <span *ngIf='hovers[1]' class='predata' style='font-size:12px; top:5px;position:absolute; left:93%; color: rgb(114, 114, 114);'>
+                              <i (click)='showInput(1)' class='icon ion-edit'></i>
+                            </span> {{person.info.contact.me.email}}
+                          </li>
+                          <li *ngIf='input[1]' class="profile-item">
+                              <div class="form-group vitals-section address">
+                                <input [(ngModel)]="editing.contact.email" style="padding-top:2px;font-size:11px;color: darkgray" autocomplete="off" type="text" name="email" placeholder= "me@example.com" class="patientdata dystolic inputs dataInfo"/>
+                             </div>
+                          </li>
+                           <li *ngIf='!input[2]' (mouseenter) = 'hovers[2] = 1'(mouseleave)='hovers[2] = 0' class="profile-item">
+                             <span style='font-size:18px; top:3px;position:relative;  color: rgb(114, 114, 114);'><i class='icon ion-ios-information-outline'></i>
+                            </span>
+                             <span *ngIf='hovers[2]' class='predata' style='font-size:12px; top:5px;position:absolute; left:93%; color: rgb(114, 114, 114);'>
+                              <i (click)='showInput(2)' class='icon ion-edit'></i>
+                            </span>
+                            {{person.info.personal.username}}
+                          </li>
+                          <li *ngIf='input[2]' class="profile-item">
+                              <div class="form-group vitals-section address">
+                                <input [(ngModel)]="editing.personal.username" style="padding-top:2px;font-size:11px; color: darkgray" autocomplete="off" type="text" name="username" placeholder= "User name" class="patientdata dystolic inputs dataInfo"/>
+                             </div>
+                          </li>
+                          <li  *ngIf='!input[3]' (mouseenter) = 'hovers[3] = 1'(mouseleave)='hovers[3] = 0'  class="profile-item">
+                             <span style='font-size:18px; top:3px;position:relative;  color: rgb(114, 114, 114);'><i class='icon ion-ios-locked-outline'></i>
+                            </span>
+                            <span *ngIf='hovers[3]' class='predata' style='font-size:12px; top:5px;position:absolute; left:93%; color: rgb(114, 114, 114);'>
+                              <i (click)='showInput(3)' class='icon ion-edit'></i>
+                            </span>
+                            ******
+                          </li>
+                           <li *ngIf='input[3]' class="profile-item">
+                            <div class="form-group vitals-section address">
+                              <input [(ngModel)] = oldPwd style="padding-top:2px;font-size:11px;color: darkgray" autocomplete="off" type="text" name="password" placeholder= "Enter old password" class="patientdata dystolic inputs dataInfo"/>
+                           </div>
+                            <div class="form-group vitals-section address">
+                              <input style="padding-top:2px;font-size:11px;color: darkgray" autocomplete="off" type="text" name="password" placeholder= "New password" class="patientdata dystolic inputs dataInfo"/>
+                           </div>
+                            <div *ngIf=errLine class="form-group vitals-section address">
+                              <p style='color:red; font-size:11px; text-align:center'>Invalid old password</p>
+                           </div>
+                          </li>
+                         </ul>
+                      </div>
+                      <button (click)='updateProfile()' style=" width: 90px; left:81px; bottom:2%; padding-top:3px;padding-bottom: 3px; "  type="submit" class="btn btn-sm btn-outline-primary inputs mainbtn" >
+                          <i class="fa fa-circle-o-notch editicon continue blocked-icon fa-spin" style="font-size:15px;"></i>
+                        Save
+                      </button>
+                  </div>
+
+                  <div  *ngIf = "rightCard ==='followings'" style="width:214px;left:2px;height:400px;margin-top:4px;" class="card card-secondary historycard rightcard allegies">
+                    <div style="border-bottom:0px; border-top-right-radius:12px; border-top-left-radius:12px;" class="card-header grapheader">
+                        <h1 style="padding-left:20px;" class="dept headtitle">FOLLOWING<span (click)="back('profile')" class="backIcon">
+                          <i title="Back" class="icon ion-android-arrow-back "></i></span>
+                        </h1>
+                    </div>
+                   <div  class="card-body onlinesbody">
+                      <h1 *ngIf="!getFollowings().length" style='color:lightgrey; width:100%; text-align:center;top:43%;position:absolute;' class="dept headtitle">FOLLOWING NO ONE</h1>
+                        <div *ngFor="let p of getFollowings(); let i=index" class="carditem people">
+                           <div class="card-header profileheader person">
+                                <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:5%;position:absolute;height:30px;width:30px;top:25%;">
+                                  <img [src] = getDp(p.person.info.personal.avatar)/>
+                                </div>
+                                <p class="dept personname">
+                                    {{p.person.info.personal.firstName+' '+p.person.info.personal.lastName}}&nbsp;<span class="timetaken chattime"></span>
+                                </p>
+                              <i  title='Unfollow' class="icon ion-ios-minus-empty follow" style="font-size:22px;position: absolute;left:88%; bottom:4px; cursor:pointer"></i>
+                              <h1 style='color:lightgrey' *ngIf = p.follower class="dept latestmsg">Follows you</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf = "rightCard ==='followers'" style="width:214px;left:2px;height:400px;margin-top:4px" class="card card-secondary historycard rightcard allegies">
+                  <div class="card-header grapheader" style="border-bottom:0px; border-top-right-radius:12px; border-top-left-radius:12px;">
+                      <h1 style="padding-left:20px;" class="dept headtitle">FOLLOWERS<span (click)="back('profile')" class="backIcon">
+                        <i title="Back" class="icon ion-android-arrow-back "></i></span>
+                      </h1>
+                  </div>
+                  <div  class="card-body onlinesbody">
+                      <h1 *ngIf="!getFollowers().length" style='color:lightgrey; width:100%; text-align:center;top:43%;position:absolute;' class="dept headtitle"> NO FOLLOWERS</h1>
+                        <div *ngFor="let p of getFollowers(); let i=index" class="carditem people">
+                          <div class="card-header profileheader person">
+                                <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:5%;position:absolute;height:30px;width:30px;top:25%;">
+                                  <img [src] = getDp(p.person.info.personal.avatar)/>
+                                </div>
+                                <p class="dept personname">
+                                    {{p.person.info.personal.firstName+' '+p.person.info.personal.lastName}}&nbsp;<span class="timetaken chattime"></span>
+                                </p>
+                                <i *ngIf = '!p.following'  (click)="followBack(p.person, i)"  title='Follow back' class="icon ion-ios-plus-empty follow" style="font-size:22px;position: absolute;left:88%; bottom:4px; cursor:pointer"></i>
+                                <i *ngIf = 'p.following && p.follower'   title='Unfollow' class="icon ion-ios-minus-empty follow" style="font-size:22px;position: absolute;left:88%; bottom:4px; cursor:pointer"></i>
+                              <h1 style='color:lightgrey' *ngIf = p.following class="dept latestmsg">Following</h1>
+                            </div>
+                        </div>
+                    </div>
+              </div>
+              </div>
+          </div>
+      </div>
+
+    </div>

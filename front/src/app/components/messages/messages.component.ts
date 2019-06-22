@@ -3,7 +3,7 @@ import {DataService} from '../../services/data.service';
 import {SocketService} from '../../services/socket.service';
 import {CookieService } from 'ngx-cookie-service';
 import { FileSelectDirective, FileUploader } from 'ng2-file-upload';
-
+// import { AutosizeDirective } from 'angular-autosize';
 import { Connection, Person, Info, Notification } from '../../models/person.model';
 import { Message } from '../../models/message.model';
 const uri = 'http://localhost:5000/api/upload';
@@ -21,12 +21,12 @@ file: File = null;
 curMessages: any[] = [];
 cardView = null;
 curPerson = new Connection();
-follows: Person[] = new Array<Person>();
+follows: Person[] = [];
 contacts: any[] = [];
 message = null;
 me = null;
 person: Person = new Person();
-colegues: Person[] = new Array<Person>();
+sugestions: Person[] = [];
 hovers = [0, 0, 0, 0];
 input = [0, 0, 0, 0];
 rightCard = 'profile';
@@ -35,7 +35,7 @@ editing = null;
 errLine = false;
 showMenu = false;
 oldPwd = null;
-  constructor( private data: DataService,private cookies: CookieService,public socket: SocketService
+  constructor( private data: DataService, private cookies: CookieService, public socket: SocketService
 
 
 
@@ -81,7 +81,7 @@ oldPwd = null;
 
   }
 getLastMessage(msgs){
- let lastMsg = msgs.length ? msgs[msgs.length-1].filter(m=>!m.read && m.sender!==this.person._id) : [];
+ let lastMsg = msgs.length ? msgs[msgs.length-1].filter(m => !m.read && m.sender !== this.person._id) : [];
   return lastMsg.length? lastMsg.reverse()[0] : null;
 }
   getMe() {
@@ -123,9 +123,13 @@ getLastMessage(msgs){
   }
   switchLeftCard(view: string) {
     this.leftcard = view;
-    this.data.getConnections(this.person.connections._id).subscribe((con: any) => {
-     this.contacts = con.people.filter(person => person.follower && person.following);
-    });
+    this.explore();
+    // this.data.getConnections(this.person.connections._id).subscribe((con: any) => {
+    //  this.contacts = con.people.filter(person => person.follower && person.following);
+    // });
+  }
+  backToConact(){
+    this.leftcard = 'contacts';
   }
   getMyAccount() {
     this.data.getMyAccount().subscribe((me: Person) => {
@@ -149,13 +153,13 @@ getLastMessage(msgs){
   }
   explore() {
     this.data.explore().subscribe((suggestions: Person[]) => {
-         this.colegues = suggestions.filter(p => p._id !== this.cookies.get('i'));
+         this.sugestions = suggestions.filter(p => p._id !== this.cookies.get('i'));
     });
   }
   selectPerson(person) {
     this.curPerson = person;
       if (person.messages.length) {
-      this.curMessages = person.messages.map(m1=>m1.map(m2=>({...m2, read: true})));
+      this.curMessages = person.messages.map(m1 => m1.map(m2 => ({...m2, read: true})));
      } else {
 
      }
@@ -208,31 +212,30 @@ getLastMessage(msgs){
   this.rightCard = view;
   this.toggleMenu();
 }
-switchRightCard(view){
-  this.rightCard = view;
-}
-
+  switchRightCard(view) {
+    this.rightCard = view;
+  }
   getFollowers() {
-      return this.person.connections.people.filter(p => p.follower);
+    return this.person.connections.people.filter(person => person.follower);
   }
   getFollowings() {
-        return this.person.connections.people.filter(p => p.following);
+    return this.person.connections.people.filter(person => person.following);
   }
-  getContacts(){
-    const contacts = this.person.connections.people.filter(contact=>contact.follower&&contact.following).sort((i, j) => new Date(i.lastChated).getTime() - new Date(j.lastChated).getTime())
 
-    return contacts;
+  getContacts() {
+    return this.person.connections.people.filter(contact => contact.follower && contact.following);
   }
   follow(person, i) {
+    console.log(person);
      this.data.follow(person._id).subscribe((res: any) => {
-      this.person.connections.people.push(new Connection(person, true ))
-      this.colegues.splice(i, 1);
+      this.person.connections.people.push(new Connection(person, true ));
+      this.sugestions.splice(i, 1);
     });
   }
   followBack(person: Person, i) {
     this.data.followBack(person._id).subscribe((res: any) => {
-      console.log(res)
       this.person.connections.people[i].follower = true;
+     
   });
 }
   unFollow(you: Person) {

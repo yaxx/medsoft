@@ -54,7 +54,6 @@ io.sockets.on('connection', (socket) => {
   })
   })
   socket.on('enroled',(patient)=>{
-    console.log(patient)
     socket.broadcast.emit('enroled', patient);  
   })
   socket.on('consulted',(patient)=>{

@@ -42,6 +42,7 @@ export class ConsultationComponent implements OnInit {
   item: Item = new Item();
   items: Item[] = [];
   temItems: Item[] = [];
+  newItems: Item[] = [];
   product: Product = new Product(new Item(), new StockInfo());
   products: Product[] = [];
   selectedProducts: Product[] = [];
@@ -66,7 +67,7 @@ export class ConsultationComponent implements OnInit {
      private dataService: DataService,
      private route: ActivatedRoute,
      private router: Router,
-     private cookies: CookieService, 
+     private cookies: CookieService,
      private socket: SocketService ) {
    }
 
@@ -230,15 +231,14 @@ addPatient() {
     this.patients[this.curIndex].record.appointments.unshift(this.appointment);
     this.patients[this.curIndex].record.visits[0][0].status = 'Appointment';
     this.processing = true;
-    this.dataService.updateRecord(this.patients[this.curIndex]).subscribe(patient => {
+    this.dataService.updateRecord(this.patients[this.curIndex], this.newItems).subscribe(patient => {
       this.processing = false;
       this.feedback = 'Appointment updated';
       setTimeout(() => {
         this.feedback = null;
         this.patients.splice(this.curIndex , 1);
       }, 3000);
-
-    })
+    });
   }
   showMenu(i: number) {
     this.hideMenu();
@@ -291,7 +291,7 @@ addPatient() {
     this.composeMedication();
     this.patients[i].record.medications = this.medications;
     this.processing = true;
-    this.dataService.updateRecord(this.patients[i]).subscribe((p: Person) => {
+    this.dataService.updateRecord(this.patients[i], this.newItems).subscribe((p: Person) => {
       p.card = {menu: false, view: 'front'};
       this.patients[i] = p;
       this.medications = [];
@@ -317,7 +317,7 @@ addPatient() {
       this.patients = this.clonedPatients;
     }
    }
-  showSortMenu(){
+  showSortMenu() {
     this.sortMenu = true;
   }
   getProducts() {
@@ -326,24 +326,25 @@ addPatient() {
       this.items = res.items;
    });
   }
-
+  checkItems(type:string){
+    return this.temItems.some(item => item.type === type)
+  }
   selectItem(i: Item) {
   }
-  searchItems(i: string) {
+  searchItems(i: string, type: string) {
     if (i === '') {
-      this.temItems = new Array<Item>();
+      this.temItems = [];
     } else {
-        this.temItems = this.items.filter((item) => {
+        this.temItems = this.items.filter(it => it.type === type).filter((item) => {
         const patern =  new RegExp('\^' + i , 'i');
         return patern.test(item.name);
       });
   }
-
   }
   saveNote() {
     this.processing = true;
     this.patients[this.curIndex].record.notes.unshift({...this.note, by: this.cookies.get('i')});
-      this.dataService.updateRecord(this.patients[this.curIndex]).subscribe((p: Person) => {
+      this.dataService.updateRecord(this.patients[this.curIndex], this.newItems).subscribe((p: Person) => {
         p.card = {menu: false, view: 'front'};
         this.processing = false;
         this.note = new Note();
@@ -369,32 +370,30 @@ getPatients(type) {
       p.card = {menu: false, view: 'front'};
     });
       this.clonedPatients = patients;
-      this.patients = patients
+      this.patients = patients;
      this.loading = false;
      this.message = null;
     } else {
         this.message = 'No Records So Far';
         this.loading = false;
     }
-
     }, (e) => {
       this.message = 'Something went wrong';
       this.loading = false;
     });
   }
   addSelection(item: Item) {
-    this.input = item.name + ' ' + item.mesure + item.unit;
-    this.temItems = [];
-    this.product = new Product(item, new StockInfo());
+    this.item = item;
+      this.temItems = [];
    }
    getBMI() {
-     return  (this.session.vital.weight.value/Math.pow(this.session.vital.height.value, 2)).toFixed(2);
+     return  (this.session.vital.weight.value / Math.pow(this.session.vital.height.value, 2)).toFixed(2);
    }
   selectPatient(i: number) {
-   this.curIndex = i;
-   this.reg = false;
-   this.clonedPatient = cloneDeep(this.patients[i]);
-   this.patient = this.patients[i];
+    this.curIndex = i;
+    this.reg = false;
+    this.clonedPatient = cloneDeep(this.patients[i]);
+    this.patient = this.patients[i];
     this.medications = this.patient.record.medications;
     this.url = this.getDp(this.patient.info.personal.avatar);
    }
@@ -404,30 +403,44 @@ getPatients(type) {
    }
    addMore() {
     let tempro = null;
-    if( this.product.item.name) {
-      } else {
-       this.product.item.name = this.input;
-     }
-    this.client.inventory.forEach(prod => {
-      if(prod.item._id === this.product.item._id) {
-        tempro = prod;
-      }
-    })
-    if (tempro) {
-      this.tempMedications.unshift(new Medication(tempro, this.priscription));
+    this.product.item = this.item;
+    if(this.items.some(item => item.name === this.item.name)) {
     } else {
-       this.tempMedications.unshift(new Medication(this.product, this.priscription));
+      this.item.type = 'drug';
+      this.newItems.unshift(this.item);
+      this.items.unshift(this.item);
     }
-    this.product = new Product();
-    this.priscription = new Priscription();
-    this.input = null;
+    if(this.tempMedications.some(medic => medic.product.item.name === this.item.name)) {
+      this.feedback ='Medication already added';
+    } else {
+      this.client.inventory.forEach(prod => {
+        if(prod.item.name === this.product.item.name) {
+          tempro = prod;
+        }
+      })
+      if (tempro) {
+        this.tempMedications.unshift(new Medication(tempro, this.priscription));
+      } else {
+         this.tempMedications.unshift(new Medication(this.product, this.priscription));
+      }
+      this.product = new Product();
+      this.priscription = new Priscription();
+      this.item = new Item();
+    }
+
    }
    addMoreComplain() {
+    if(this.items.some(item => item.name === this.complain.complain)) {
+    } else {
+      this.newItems.unshift({...this.item,name:this.complain.complain, type: 'complain'});
+      this.items.unshift({...this.item, name: this.complain.complain, type: 'complain'});
+    }
      this.complains.push({...this.complain, by: this.cookies.get('i')});
      this.complain = new Complain();
    }
    removeComplain(i: number) {
      this.complains.splice(i, 1);
+     this.newItems.splice(i, 1);
    }
    removeDp() {
      this.url = null;
@@ -461,7 +474,9 @@ getPatients(type) {
 
   }
   }
-
+  clearFeedback() {
+    this.feedback = null;
+  }
   submitRecord() {
     this.processing = true;
     this.composeMedication();
@@ -488,7 +503,14 @@ getPatients(type) {
       this.patient.record.vitals.bloodGl.unshift(this.session.vital.bloodGl);
     } else {}
      if (this.session.conditions.condition) {
-      this.patient.record.conditions.unshift({...this.session.conditions, by: this.cookies.get('i')});
+      if(this.items.some(item => item.name === this.session.conditions.condition)) {
+        this.patient.record.conditions.unshift({...this.session.conditions, by: this.cookies.get('i')});
+      } else {
+        this.newItems.unshift({...this.item, name: this.session.conditions.condition, type:'condition'});
+        this.items.unshift({...this.item, name:this.session.conditions.condition, type:'condition'});
+        this.patient.record.conditions.unshift({...this.session.conditions, by: this.cookies.get('i')});
+      }
+      
     } else {}
      if (this.session.visits.status === 'Foward') {
       this.patient.record.visits[0].unshift({...this.session.visits, status: 'queued'}) ;
@@ -511,7 +533,7 @@ getPatients(type) {
       this.patient.record.allegies.unshift(this.session.allegies);
     } else {}
 
-    this.dataService.updateRecord(this.patient).subscribe((patient: Person) => {
+    this.dataService.updateRecord(this.patient, this.newItems).subscribe((patient: Person) => {
       this.socket.io.emit('consulted', patient);
       this.patients.splice(this.curIndex, 1);
       this.session = new Session();

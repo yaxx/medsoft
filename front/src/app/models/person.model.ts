@@ -1,7 +1,5 @@
 import {Record} from './record.model';
 import {Message} from './message.model';
-
-
  
   export class Notification {
     constructor(

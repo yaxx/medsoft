@@ -84,11 +84,8 @@
                                 <p class="timelinedate"> {{visit[0]?.visitedOn|date:'dd'}}</p>
                                 <p  class="timelinedate month"> {{visit[0]?.visitedOn|date:'MMM'|uppercase}}</p>
                             </div>
-                            <div *ngFor ="let v of visit; let j= index" class="priscription drug">
-                                <p class="dept">{{v.dept}}<span class="predata">
-                                    </span>
-                                    <!-- <span style='color:lightgrey;font-size:smaller;width:56%;position:absolute;text-align:right;'>{{medic[0].dateCreated|date:'hh:mma'|lowercase}}</span> -->
-                                
+                            <div *ngFor ="let vst of visit; let j= index" class="priscription drug">
+                                <p class="dept">{{vst.dept}}<span class="predata"> </span><span class="predata notetime" style='left:50%;width:72px;text-align:center'  >{{visit[0].dischargedOn|date:'longDate'}}</span>
                                 </p>
                             </div>
                         </div>
@@ -229,9 +226,9 @@
                                       <p class="timelinedate month">{{complain[i].dateCreated|date:'MMM'|uppercase}}</p>
                                   </div>
                                   <div style='border-bottom:1px solid whitesmoke;padding-bottom:4px;margin-bottom:0px' class="priscription drug side-item">
-                                    <div *ngFor ='let issue of complain'>
-                                      <p  class="dept complain">  {{issue.complain}}</p>
-                                      <h6 style='margin-bottom:0px; bottom:3px;positio:relative;width:auto' class="dept priscriptiontime">{{issue.duration}}d</h6>
+                                    <div style='padding:0px;min-height:16px;' *ngFor ='let issue of complain'>
+                                       <p class="dept complain">{{issue.complain}}</p>
+                                         <div style="display:inline-block;position: absolute;width: 5px; "><h6  class="dept priscriptiontime" style="margin-bottom:0px; right: -145px; bottom:100%;width: 35px;position:absolute; text-align:right">{{issue.duration}}d</h6></div>
                                     </div>
                                   </div>
                               </div>
@@ -281,10 +278,8 @@
                             <p  class="timelinedate month"> {{medic[0]?.dateCreated|date:'MMM'|uppercase}}</p>
                         </div>
                         <div *ngFor ="let m of medic; let j= index" class="priscription drug">
-                            <p class="dept">{{m.product.item.name}}<span class="predata">
-                                {{m.product.item.mesure+m.product.item.unit}}</span>
-                                <!-- <span style='color:lightgrey;font-size:smaller;width:56%;position:absolute;text-align:right;'>{{medic[0].dateCreated|date:'hh:mma'|lowercase}}</span> -->
-                              
+                            <p class="dept">{{m.product.item.name}}<span class="predata"></span>
+                                <span style='color:lightgrey;font-size:smaller;left:105px;width:27%;position:absolute;text-align:right;'>{{medic[0].dateCreated|date:'hh:mma'|lowercase}}</span>
                             </p>
                         
                          </div>

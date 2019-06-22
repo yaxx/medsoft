@@ -2,6 +2,7 @@ const mongoose = require('../db') ;
 const Scheema = mongoose.Schema
 const ItemScheema = new Scheema({
         name: String,
+        type: String,
         brand: String,
         description: String,
         mesure: Number,

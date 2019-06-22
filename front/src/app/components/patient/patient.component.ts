@@ -191,17 +191,7 @@ routeHas(path){
   showSortMenu() {
     this.sortMenu = true;
   }
-  searchItems(i: string) {
-    if (i === '') {
-      this.temItems = new Array<Item>();
-    } else {
-        this.temItems = this.items.filter((item) => {
-        const patern =  new RegExp('\^' + i , 'i');
-        return patern.test(item.name);
-      });
-  }
-
-  }
+  
   swichtToBack(i) {
     this.tempMedications = new Array<Medication>();
     this.medications = this.patients[i].record.medications ;
@@ -404,13 +394,13 @@ switchViews() {
 //   });
 // }
 
-searchItem (i) {
+searchItems(i: string, type: string) {
   if (i === '') {
-    this.temItems = new Array<Item>();
+    this.temItems = [];
   } else {
-    this.temItems = this.items.filter((item) => {
-    const patern =  new RegExp('\^' + i , 'i');
-    return patern.test(item.name);
+      this.temItems = this.items.filter(it => it.type === type).filter((item) => {
+      const patern =  new RegExp('\^' + i , 'i');
+      return patern.test(item.name);
     });
 }
 }

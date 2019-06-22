@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import { Product} from '../models/inventory.model';
+import {Product, Item} from '../models/inventory.model';
 import {Client, Department} from '../models/client.model';
-import { Person} from '../models/person.model';
+import {Person} from '../models/person.model';
 import * as socketIo from 'socket.io-client';
 import { Socket } from '../models/socket';
 
@@ -55,22 +55,22 @@ export class DataService {
   }
   followBack(id) {
     return this.http.post(
-      `${this.uri}/followback`, {id:id}, {withCredentials: true}
+      `${this.uri}/followback`, {id: id}, {withCredentials: true}
       );
   }
   unFollow(me, you) {
     return this.http.post(
-      `${this.uri}/unfollow`, {id:me, yourid:you.person._id, yourcon:you.person.connections}, {withCredentials: true}
+      `${this.uri}/unfollow`, {id:me, yourid: you.person._id, yourcon: you.person.connections}, {withCredentials: true}
       );
   }
-  addPatient(patient) {
+  addPatient(patient: Person) {
     return this.http.post(
       `${this.uri}/new-patient`, patient, {withCredentials: true}
       );
   }
-  addProducts(products) {
+  addProducts(products:Product[], newItems:Item[]) {
     return this.http.post(
-    `${this.uri}/new-product`,  products, {withCredentials: true}
+    `${this.uri}/new-product`,  {products: products, items: newItems}, {withCredentials: true}
     );
   }
   updateProducts(products) {
@@ -107,11 +107,11 @@ export class DataService {
       `${this.uri}/new-record`, record, {withCredentials: true});
   }
 
-  updateRecord(patient) {
+  updateRecord(patient, newItems?:Item[]) {
     return this.http.post(
-      `${this.uri}/update-record`, patient , {withCredentials: true});
+      `${this.uri}/update-record`, {patient: patient, items: newItems} , {withCredentials: true});
  }
-  updateInfo(info,id) {
+  updateInfo(info, id) {
     return this.http.post(
       `${this.uri}/update-info`, {info:info, id:id}, {withCredentials: true});
  }

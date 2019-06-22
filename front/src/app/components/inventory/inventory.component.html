@@ -10,7 +10,7 @@
                       <form style="top:15%; width:56%;margin:auto;" class=" staffsform" >
                         <div class="form-group vitals-section address">
                             <label style='font-size:8px' for="drug" class="labelss">PRODUCT</label>
-                            <input autocomplete="off" (keyup)= "searchItems(input)" [(ngModel)] = input type="text" name="drug" placeholder= "E.g Paracetamol 500mg" class="patientdata dystolic inputs dataInfo" style="font-size:11px;" />
+                            <input autocomplete="off" (keyup)= "searchItems(item.name, 'drug')" [(ngModel)] = item.name type="text" name="drug" placeholder= "E.g Paracetamol 500mg" class="patientdata dystolic inputs dataInfo" style="font-size:11px;" />
                             <div style="min-height: 300px;" *ngIf= temItems.length  class="options prisOption edit">
                                 <ul class="itemsList" >
                                   <li  *ngFor="let item of temItems"><p (click) = "addSelection(item)"  class="dept firstheader drugItem" style="font-size:11px;padding-left: 10px; padding-right: 10px;font-weight: normal;" >{{item.name}}<span class="lastdept timetaken " ></span></p>
@@ -88,26 +88,26 @@
                       <form style="top:15%; width:56%;margin:auto;" class=" staffsform" (submit) = addProducts()>
                         <div class="form-group vitals-section address">
                             <label style='font-size:8px' for="drug" class="labelss">PRODUCT NAME</label>
-                            <input autocomplete="off" (keyup)= "searchItems(input)" [(ngModel)] = input type="text" name="drug" placeholder= "E.g Paracetamol 500mg" class="form-control patientdata dystolic inputs dataInfo" />
+                            <input autocomplete="off" (focus)=clearFeedback() (keyup)= "searchItems(item.name,'drug')" [(ngModel)] = item.name type="text" name="drug" placeholder= "E.g Paracetamol 500mg" class="form-control patientdata dystolic inputs dataInfo" />
                             <div data-simplebar style="min-height:100px;position:absolute;z-index:2" *ngIf= temItems.length  class="options prisOption edit">
                                 <ul class="itemsList" >
-                                  <li  *ngFor="let item of temItems"><p (click) = "addSelection(item)"  class="dept firstheader drugItem" style="font-size:11px;padding-left: 10px; padding-right: 10px;font-weight: normal;" >{{item.name+ ' '}}<span class="lastdept timetaken " >{{item.mesure + item.unit}}</span></p>
+                                  <li  *ngFor="let item of temItems"><p (click) = "addSelection(item)"  class="dept firstheader drugItem" style="font-size:11px;padding-left: 10px; padding-right: 10px;font-weight: normal;" >{{item.name}}<span class="lastdept timetaken " ></span></p>
                                   </li>
                                 </ul>
                             </div>
                         </div>
                         <div  class="form-group vitals-section formGroup" style=" width:49%; margin-right: 3px">
                             <label style='font-size:8px' for="dos" class="labelss complain">QTY</label>
-                            <input form-control [min]='1' [(ngModel)] = "product.stockInfo.quantity" style="border-top-right-radius: 4px;border-bottom-right-radius: 4px;font-size:11px"  type="number" name="dos" class="form-control patientdata inputs dataInfo"  >
+                            <input (focus)=clearFeedback()  form-control [min]='1' [(ngModel)] = "product.stockInfo.quantity" style="border-top-right-radius: 4px;border-bottom-right-radius: 4px;font-size:11px"  type="number" name="dos" class="form-control patientdata inputs dataInfo"  >
                         </div>
                         <div class="form-group vitals-section formGroup" style=" width:49%; ">
                             <label style='font-size:8px' for="price" class="labelss complain">PRICE</label>
-                            <input  [min]='1' type="number" [(ngModel)]="product.stockInfo.price" style="border-radius: 4px;font-size:11px;border-top-right-radius: 4px;border-bottom-right-radius:4px"
+                            <input (focus)=clearFeedback()  [min]='1' type="number" [(ngModel)]="product.stockInfo.price" style="border-radius: 4px;font-size:11px;border-top-right-radius: 4px;border-bottom-right-radius:4px"
                               class="form-control patientdata status inputs dataInfo " name="price">
                         </div>
                         <div class="form-group vitals-section address"style=" width:90%; " >
                           <label style='font-size:8px' for="expiry" class="labelss complain">EXPIRY</label>
-                          <input [(ngModel)]="product.stockInfo.expiry" style="font-size:11px;border-top-right-radius: 0px;border-bottom-right-radius:0px"
+                          <input (focus)=clearFeedback()  [(ngModel)]="product.stockInfo.expiry" style="font-size:11px;border-top-right-radius: 0px;border-bottom-right-radius:0px"
                           type="date" name="expiry" class="form-control patientdata inputs dataInfo" placeholder="">
                             <div id='moreBtn' title="Add medication"><i (click)='addMore()' class="icon ion-ios-plus-empty arrow " style="font-size:25px;position: absolute;left:27%;top:-17%; cursor:pointer"></i></div>
                         </div>
@@ -211,6 +211,8 @@
                   width:80%; display:inline-block;
                   position: absolute;top:11%;
                   background-color: rgb(243, 248, 247);
+                  box-shadow:none;
+                  outline:none;
                   "
                   class="form-control"
                   type="search" name="search" id="search-field" placeholder="Search product">
@@ -297,7 +299,7 @@
                <tr (click)=selectProduct(i) *ngFor="let product of products; let i = index" class="odd" [class.selection]= product.selected  >
                     <td class="check-box">
                     </td>
-                    <td>{{product.item.name}}&nbsp;<span class="predata">{{product.item.mesure+product.item.unit}}</span></td>
+                    <td>{{product.item.name}}&nbsp;<span class="predata"></span></td>
                     <!-- <td>{{product.item.category}}</td> -->
                     <td><p [title]='product.item.description' class="description">{{product.item.description||'---' }}</p></td>
                     <td>{{product.stockInfo.price}}</td>

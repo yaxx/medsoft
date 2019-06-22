@@ -25,6 +25,7 @@ import { DobPipe } from './pipes/dob.pipe';
 import { AppointmentsComponent } from './components/appointments/appointments.component';
 import { MainComponent } from './components/navs/main/main.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { DeceasedComponent } from './components/deceased/deceased.component';
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'signup', component: LoginComponent},
@@ -43,7 +44,7 @@ const routes: Routes = [
             { path: 'discharged', component: RegistrationComponent},
             {path: 'pharmacy', component: PharmacyComponent},
             {path: 'inventory', component: InventoryComponent},
-            {path: 'dashbord', component: InventoryComponent},
+            {path: 'deceased', component:  DeceasedComponent},
             { path: 'me', component: MessagesComponent},
             {path: 'settings', component: SettingsComponent},
             { path: '', component: RegistrationComponent}
@@ -54,6 +55,7 @@ const routes: Routes = [
              {path: 'appointments', component: AppointmentsComponent},
              {path: 'addmisions', component: PatientComponent},
              {path: 'consultations', component: ConsultationComponent},
+             {path: 'deceased', component:  DeceasedComponent},
              {path: 'pharmacy', component: PharmacyComponent},
              {path: 'me', component: MessagesComponent},
              {path: '', component: RegistrationComponent}
@@ -99,7 +101,9 @@ const routes: Routes = [
     DobPipe,
     AppointmentsComponent,
     MainComponent,
-    SettingsComponent
+    SettingsComponent,
+    DeceasedComponent
+  
   ],
   imports: [
     BrowserModule,
@@ -109,6 +113,9 @@ const routes: Routes = [
     FileUploadModule,
     RouterModule.forRoot(routes)
   ],
+  // declarations: [
+  //   AutosizeDirective
+  // ],
   providers: [DataService, CookieService, SocketService],
   bootstrap: [AppComponent]
 })

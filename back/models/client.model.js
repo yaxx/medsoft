@@ -35,6 +35,7 @@ var ClientScheema = new Scheema({
                 item: {
                     _id: String,   
                     name: String,
+                    type: String
                     brand: String,
                     category: String,
                     description: String,

@@ -2,7 +2,7 @@
 export class Item {
   constructor(
     public name: string = null,
-    public brand: string = null,
+    public type: string = null,
     public category: string = null,
     public description: string = null,
     public mesure: number = null,
@@ -22,7 +22,7 @@ export class StockInfo {
     public expiry: Date = null,
     public _id?: string
   ) {}
-  }
+}
 export class Product {
   constructor(
     public item: Item = new Item(),

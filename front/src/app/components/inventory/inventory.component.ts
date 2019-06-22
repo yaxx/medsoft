@@ -18,6 +18,7 @@ export class InventoryComponent implements OnInit {
   stockInfo: StockInfo = new StockInfo();
   temItems: Item[] = [];
   items: Item[] = [];
+  newItems: Item[] = [];
   products: Product[] = [];
   cloned: Product;
   temProducts: Product[] = [];
@@ -59,18 +60,17 @@ export class InventoryComponent implements OnInit {
   switchToEdit() {
     this.product = this.products.filter((p) => p.selected)[0];
     this.input = this.product.item.name + ' ' + this.product.item.mesure + this.product.item.unit;
-
   }
 getDp(avatar: String) {
     return 'http://localhost:5000/api/dp/' + avatar;
   }
-
   getMyDp() {
     return this.getDp(this.cookies.get('d'));
   }
   getProducts() {
     this.loading = true;
     this.dataService.getProducts().subscribe((res: any) => {
+      console.log(res)
       this.items = res.items;
       if(res.inventory.length) {
         this.products = res.inventory;
@@ -130,27 +130,26 @@ getDp(avatar: String) {
   }
   addMore() {
     this.product.stockInfo.inStock = this.product.stockInfo.quantity;
-    if(this.product.item.name) {
-
-   } else {
-      this.product.item.name = this.input;
-   }
-   if(this.products.some(product => product.item.name === this.product.item.name) || this.temProducts.some(product => product.item.name === this.product.item.name)) {
+    if(this.items.some(item => item.name === this.item.name)) {
+      } else {
+        this.newItems.unshift({...this.item, type:'drue'});
+        this.items.unshift({...this.item, type:'drue'});
+      }
+    if(this.products.some(product => product.item.name === this.item.name) || this.temProducts.some(product => product.item.name === this.item.name)) {
     this.feedback = 'Product already exist';
-  
     } else {
+      this.product.item = this.item;
       this.temProducts.unshift(this.product);
-      this.input = '';
       this.item = new Item();
       this.product = new Product();
- }
-   
+    }
   }
-
+  clearFeedback() {
+    this.feedback = null;
+  }
   addSelection(i: Item) {
-    this.input = i.name ;
-    this.product.item = i;
     this.item = i;
+    this.product.item = i;
     this.temItems = [];
   }
 
@@ -223,20 +222,19 @@ getDp(avatar: String) {
     this.temProducts = this.temProducts.splice(i, 1);
   }
 
-  searchItems (i) {
-    this.item = new Item();
+  searchItems(i: string, type: string) {
     if (i === '') {
       this.temItems = [];
     } else {
-        this.temItems = this.items.filter((item) => {
+        this.temItems = this.items.filter(it => it.type === type).filter((item) => {
         const patern =  new RegExp('\^' + i , 'i');
         return patern.test(item.name);
-        });
-    }
+      });
   }
+}
   addProducts() {
     this.processing = true;
-    this.dataService.addProducts(this.temProducts)
+    this.dataService.addProducts(this.temProducts, this.newItems)
     .subscribe((products: Product[]) => {
       this.processing = false;
       this.feedback = 'Product added successfully';

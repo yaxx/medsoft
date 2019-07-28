@@ -18,7 +18,7 @@
                         <form (submit) = enrolePatient() style="top:15%; padding-left: 2%;margin-top:10px; padding-right: 2%;" class=" staffsform" >
                             <div class="form-group vitals-section address">
                                 <label style='font-size:8px' for="department" class="labelss">DEPARTMENT</label>
-                               <select style='font-size:11px' [(ngModel)] = visit.dept 
+                               <select style='font-size:11px' [(ngModel)] = visit.dept
                                   class="patientdata status inputs dataInfo " name="department">     <option *ngFor ='let department of client.departments'>
                                     {{department.name}}
                                   </option>
@@ -54,9 +54,9 @@
       <a class="navbar-brand" href="#">
           <em>spinr</em>
       </a>
-    
+
       <div class="collapse navbar-collapse" id="navcol-1">
-          
+
             <form class="top-searchform" target="_self">
               <div class="form-group">
                   <input [(ngModel)] = searchTerm #search (keyup)='searchPatient(searchTerm)' autocomplete = "off" style="border-radius:.999em;
@@ -75,13 +75,13 @@
               <h6 style='font-size:12px;
                             left:98%;position:relative;display:inline-block;
                             color:grey;
-                            font-weight:normal;'>Sort by: <span stye='cursor:pointer'(click)='showSortMenu()'>
+                            font-weight:normal;'>Sort by: <span stye='cursor:pointer'(click)='toggleSortMenu()'>
                               {{nowSorting}}</span></h6>
                 <div *ngIf=sortMenu style='position: absolute;
                             left:120%;
                             width:100px;top:6px;
                             height:110px'  class="menu">
-                <ul  class="actions primary">
+                <ul (mouseleave) ='toggleSortMenu()' class="actions primary">
                     <li (click)='sortPatients("name")' class="action">A-Z</li>
                     <li (click)='sortPatients("age")' class="action">Age</li>
                     <li (click)='sortPatients("status")' class="action">Status</li>
@@ -89,7 +89,7 @@
                     <li (click)='sortPatients("date")' class="action">Date added</li>
                 </ul>
         </div>
-     </div>          
+     </div>
     </form>
   </div>
   <i style="left:80%;" class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
@@ -141,7 +141,7 @@
                           </div>
                         </div>
                   </div>
-                  <button *ngIf= "routeHas('information')" data-toggle ='modal' data-target ='#enroleModal' (click) = "selectPatient(i)"  style=" width: 90px;font-size: 10px; height:27px;left:52%; bottom:7%;" class="btn btn-sm btn-outline-primary inputs mainbtn" >ENROLE</button>
+                  <!-- <button *ngIf= "routeHas('information')" data-toggle ='modal' data-target ='#enroleModal' (click) = "selectPatient(i)"  style=" width: 90px;font-size: 10px; height:27px;left:52%; bottom:7%;" class="btn btn-sm btn-outline-primary inputs mainbtn" >ENROLE</button> -->
               </div>
 
               <div  *ngIf = "patient.card.view == 'back'" class="card card-secondary maincard">

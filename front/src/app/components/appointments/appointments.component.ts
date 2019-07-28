@@ -68,9 +68,9 @@ export class AppointmentsComponent implements OnInit {
   getMyDp() {
     return this.getDp(this.cookies.get('d'));
   }
-   showSortMenu() {
-     this.sortMenu = true;
-   }
+  toggleSortMenu() {
+    this.sortMenu = !this.sortMenu;
+  }
    setAppointment() {
     this.processing = true;
     this.patients[this.curIndex].record.appointments[0] = this.appointment;

@@ -188,8 +188,8 @@ routeHas(path){
   switchToNewMedic() {
     this.medicView = !this.medicView;
   }
-  showSortMenu() {
-    this.sortMenu = true;
+  toggleSortMenu() {
+    this.sortMenu = !this.sortMenu;
   }
   
   swichtToBack(i) {

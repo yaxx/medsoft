@@ -192,10 +192,10 @@ const personScheema = new Scheema({
                     paid: Boolean,
                     lastTaken: Date,
                     paused: Boolean,
-                    pausedOn :Date,
+                    pausedOn: Date,
                     dateCreated: Date,
                     purchased: Number,
-                    by:{
+                    by: {
                         type: Scheema.Types.ObjectId,
                         ref: 'Person'
                     }
@@ -207,13 +207,29 @@ const personScheema = new Scheema({
         scans:[{
             name: String,
             description: String,
-            by: { type: Scheema.Types.ObjectId,
+            by: { 
+                type: Scheema.Types.ObjectId,
                 ref: 'Person'
            }
-           
-        
         }],
-        Test:[],
+        tests: [
+            [{
+                lab: String,
+                 type: String,
+                 status: String,
+                 result: String,
+                 reqBy: {
+                    type: Scheema.Types.ObjectId,
+                    ref: 'Person'
+                }, 
+                 verifiedBy: {
+                    type: Scheema.Types.ObjectId,
+                    ref: 'Person'
+                },
+                 dateCreated: Date,
+                 dateVerified: Date
+            }]
+        ],
         surgeries:[]
  
     }

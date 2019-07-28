@@ -9,6 +9,7 @@ import {SocketService} from './services/socket.service';
 import {NotePipe} from './pipes/note.pipe';
 import {FileUploadModule} from 'ng2-file-upload';
 import {AutosizeModule} from 'ngx-autosize';
+import {WebcamModule} from 'ngx-webcam';
 import {RouterModule, Routes} from '@angular/router';
 import { RegistrationComponent } from './components/registration/registration.component';
 import { ConsultationComponent } from './components/consultation/consultation.component';
@@ -111,6 +112,7 @@ const routes: Routes = [
     AutosizeModule,
     HttpClientModule,
     FileUploadModule,
+    WebcamModule,
     RouterModule.forRoot(routes)
   ],
   // declarations: [

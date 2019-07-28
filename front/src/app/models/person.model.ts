@@ -1,6 +1,5 @@
 import {Record} from './record.model';
 import {Message} from './message.model';
- 
   export class Notification {
     constructor(
       public person: string = null,
@@ -20,8 +19,6 @@ import {Message} from './message.model';
       public dateCreated = new Date()
     ) {}
   }
-  
-
   export class Connection {
     constructor(
       public person: any = null,
@@ -44,7 +41,6 @@ import {Message} from './message.model';
     ) {}
 
   }
-  
 export class Personal {
   constructor(
     public firstName: string = null,
@@ -61,10 +57,8 @@ export class Personal {
     public cardType: string = null,
     public cardNum: number = null,
     public avatar: string = 'avatar.jpg'
-   
      ) {}
 }
-
 export class Me {
   constructor (
     public mobile: number = null,

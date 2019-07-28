@@ -795,3 +795,52 @@ export const lgas = [
 'Zumi']
 
 ]
+export const labs = ["CHEMICAL PATHOLOGY", "HEAMATOLOGY","IMMUNOLOGY","MICROBIOLOGY","RADIOLOGY"];
+export const investigations = [
+  ["IgG (normal range)   iu/m",
+  "IgA (normal range)   iu/m",
+  "IgM (normal range)   iu/m",
+  "C3 (normal range)    iu/m",
+  "C4 (normal range)    iu/m",
+  "Total (ok T3* Lymphocytes)",
+  "Th (ok T3* Lymphocytes)",
+  "Ts (ok T8*T lymphocytes)",
+  "B. Lymphocytes",
+  "Immunoe lectrophoresis",
+  "Alpha-feto Protein",
+  "Amoebic Pricipitin",
+  "Meningococoal Antigen",
+  "Heamophilus Antigen",
+  "Widal",
+  "Aso titre",
+  "Brucella agglutinin",
+  "Rheumatiod factor",
+  "HIV Antibody",
+  "VDRL",
+  "KHAN",
+  "Hepatitis B",
+  "Hepatitis C",
+  "ARC",
+  "Mantoux",
+  "H. Pylori",
+  "Others"
+  ],
+  ["Activated Partial Thromboplastin Test",
+    "BF for Microfilariae",
+    "Bleeding Time",
+    "Blood Film Comment",
+    "Blood Group (ABO)",
+    "Bone Marrow Aspirate",
+    "Clotting Time",
+    "Complete Malaria (RDT & Blood film)",
+    "Direct Coombs",
+    "Erythrocyte Sedimentation Rate",
+    "Full Blood Count",
+    "Glucose - 6- Phosphate Deficiency",
+    "HB Electrophoresis",
+    "Indirect Coombs Test",
+    "Prothrombin Time(International Normalised Ratio)",
+    "Sickling",
+    "Others"
+  ]
+]

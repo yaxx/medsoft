@@ -276,10 +276,8 @@ followPerson: async (req, res) => {
 
 followBack: async (req, res) => {
   try {
-
     const me = await Person.findById(req.cookies.i);
     const person = await Person.findById(req.body.id)
-    console.log(req.body.id)
     const mycon = await Connection.findOneAndUpdate({
       _id: me.connections, "people.person": req.body.id}, {"people.$.following": true}, {new: true})
      await Connection.findOneAndUpdate({

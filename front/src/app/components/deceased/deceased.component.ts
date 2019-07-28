@@ -52,11 +52,11 @@ export class DeceasedComponent implements OnInit {
   getDp(avatar: String) {
     return 'http://localhost:5000/api/dp/' + avatar;
   }
-  showSortMenu() {
-    this.sortMenu = true;
+  toggleSortMenu() {
+    this.sortMenu = !this.sortMenu;
   }
   getMyDp() {
-    return this.getDp(this.cookies.get('d'))
+    return this.getDp(this.cookies.get('d'));
   }
   refresh() {
     this.message = null;
@@ -65,7 +65,7 @@ export class DeceasedComponent implements OnInit {
   getClient() {
     this.dataService.getClient().subscribe((res: any) => {
       this.client = res.client;
-  })
+  });
 }
   getPatients(type) {
     this.loading = true;

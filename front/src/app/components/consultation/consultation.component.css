@@ -40,11 +40,11 @@
 }
 .dp-wrapper{
   background-color: rgb(240, 163, 163);
-  width:80px;
-  height:80px;
+  width:100px;
+  height:100px;
   margin-bottom: 0px;
   z-index: 10;
-  background-image: url(C:/medsoft/front/src/assets/img/avatar.jpg);
+  background-image: url(../../../assets/img/avatar.jpg);
   background-size: cover;
   background-repeat: no-repeat;
   border-radius: 4px;

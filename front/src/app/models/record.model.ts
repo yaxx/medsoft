@@ -13,7 +13,7 @@ export class Record {
     public visits: any[] = [],
     public appointments: Appointment[] = [],
     public medications: any[] = [],
-    public test: Test[] = [],
+    public tests: any[] = [],
     public scans: Scan[] = [],
     public sugery: any[] = [],
     public deathNote: DeathNote = new DeathNote()
@@ -149,12 +149,14 @@ export class Visit {
   }
 export class Test {
   constructor(
+    public lab: string = null,
     public type: string = null,
     public status: string = null,
-    public result?: Object,
-    public by?: any,
-    public dateCreated?: Date
-
+    public result: string = null,
+    public reqBy: string = null,
+    public verifiedBy: string = null,
+    public dateCreated: Date = new Date(),
+    public dateVerified: Date = null
      ) {}
   }
 export class Sugery {
@@ -164,12 +166,8 @@ export class Sugery {
     public result?: Object,
     public by?: any,
     public dateCreated?: Date
-
      ) {}
   }
-
-
-
 export class Vitals {
   constructor(
     public bp: Bp[] = [],
@@ -209,7 +207,7 @@ export class Appointment {
     public time: string = null,
     public date: string = null,
     public attended: boolean = false,
-    public by: String = null
+    public by: string = null
  ) {}
 
 }
@@ -224,7 +222,7 @@ export class Session {
     public devices: Device = new Device(),
     public visits: Visit = new Visit(),
     public medications: Medication[] = [],
-    public test: Test = new Test(),
+    public tests: Test = new Test(),
     public scan: Scan = new Scan(),
     public deathNote: DeathNote = new DeathNote()
 

@@ -98,10 +98,10 @@
               <form (submit) = uploader.uploadAll() novalidate  class="patientform" >
                 <div class="card card-secondary historycard midlecard profilecard" style="border-bottom:none;margin:0px;margin-right: 0px;width:100%; min-height: 140px;">
                       <div style="padding-top:0px;padding-left: 10px; padding-right: 10px;"  class="card-body topcardbody clientinfobody nopading">
-                        <div *ngIf = url class="form-group vitals-section" style="width:50%;
+                        <div *ngIf = attachments.length class="form-group vitals-section" style="width:50%;
                         margin: auto; top: 10%;position:absolute;left:25%;">
-                          <div class="card scan-thumnail">
-                            <a  target="_blank" class="image-link" data-lightbox="scan"><img [src]= url class="img-fluid" /></a>
+                          <div *ngFor = 'let path of attachments' class="card scan-thumnail">
+                            <a  target="_blank" class="image-link" data-lightbox="scan"><img [src]= path class="img-fluid" /></a>
                           </div>
                         </div>
                         <div class="form-group vitals-section" style="width:50%;
@@ -113,11 +113,11 @@
                         <div class="form-group vitals-section" style="width:50%;
                         margin: auto; top: 60%;position:absolute;left:25%;">
                           <label for="Description" class="labelss" style="font-size:9px">File Description</label>
-                          <input  [(ngModel)]="filesDesc" autocomplete="off"  name="description" placeholder= "e.g Mammograph" class="patientdata dystolic inputs dataInfo" />
+                          <input  [(ngModel)]="filesDesc" autocomplete="off"  name="description" placeholder= "e.g Mammograph" class="form-control patientdata dystolic inputs dataInfo" />
                         </div>
                         <div class="form-group vitals-section" style="width:50%;
                         margin: auto; top: 60%;position:absolute;left:25%; display:none">
-                          <input (change) = fileSelected($event) #picker type ="file"  name="file" multipe ng2FileSelect [uploader] = uploader  class="patientdata dystolic inputs dataInfo" />
+                          <input (change) = fileSelected($event) #picker type ="file"  name="file" multiple ng2FileSelect [uploader] = uploader  class="patientdata dystolic inputs dataInfo" />
                         </div>
                       </div>
                   </div>
@@ -180,7 +180,7 @@
                 <li (click)='sortPatients("date")' class="action">Date added</li>
             </ul>
         </div>
-     </div>          
+     </div>
     </form>
       </div>
   </div>

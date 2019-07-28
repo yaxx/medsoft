@@ -1,6 +1,6 @@
 {
-  "name": "front",
-  "version": "1.0.0",
+  "name": "spinr",
+  "version": "0.0.1",
   "productName": "spinr",
   "main": "main.js",
   "scripts": {
@@ -9,12 +9,13 @@
     "build": "ng build",
     "pack": "build --dir",
     "dist": "build",
-    "build-app": "electron-packager . --platform=win32",
+    "build-app": "electron-packager . --platform=win32 --arch x64 --out dist/",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "electron": "electron .",
-    "electron-build": "ng build --prod && electron ."
+    "electron-build": "ng build --prod && electron .",
+    "setup": "electron-installer-windows --src ./ --dest dist/"
   },
   "win": {
     "target": [
@@ -46,6 +47,7 @@
     "chart.js": "^2.7.3",
     "clone-deep": "^4.0.1",
     "core-js": "^2.5.4",
+
     "electron-serve": "^0.2.0",
     "file-saver": "^2.0.1",
     "immutability-helper": "^3.0.0",
@@ -55,6 +57,7 @@
     "ngx-autosize": "^1.6.3",
     "ngx-cookie-service": "^1.0.10",
     "ngx-textarea-autosize": "^2.0.0",
+    "ngx-webcam": "^0.2.5",
     "react-addons-update": "^15.6.2",
     "rxjs": "^6.0.0",
     "simplebar": "^4.0.0-alpha.1",
@@ -76,7 +79,9 @@
     "codelyzer": "~4.2.1",
     "electron": "^2.0.7",
     "electron-builder": "^20.40.2",
+    "electron-installer-windows": "^2.0.0",
     "electron-packager": "^13.1.1",
+    "electron-prebuilt": "*",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~1.7.1",

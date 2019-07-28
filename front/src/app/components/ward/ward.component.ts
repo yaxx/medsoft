@@ -44,9 +44,9 @@ export class WardComponent implements OnInit {
   searchTerm = '';
   processing = false;
   curIndex = 0;
-  url = '';
   sortBy = 'added';
   message = null;
+  url = '';
   sortMenu = false;
   nowSorting = 'Date added';
   uploader: FileUploader = new FileUploader({url: uri});
@@ -64,14 +64,13 @@ export class WardComponent implements OnInit {
     this.getClient();
     this.getPatients('Admit');
     this.uploader.onCompleteItem = (item: any, fileName: any, status: any, headers: any ) => {
-      this.patients[this.curIndex].record.scans.unshift(new Scan(fileName, this.filesDesc))
+      this.patients[this.curIndex].record.scans.unshift(new Scan(fileName, this.filesDesc));
       this.loading = !this.loading;
        this.dataService.updateRecord(this.patients[this.curIndex]).subscribe((newpatient: Person) => {
         this.loading = !this.loading;
-        this.url = '';
+        this.attachments = [];
       });
      };
-
     this.socket.io.on('Discharge', (patient: Person) => {
       const i = this.patients.findIndex(p => p._id === patient._id);
       if(patient.record.visits[0][0].dept.toLowerCase() === this.myDepartment ) {
@@ -85,26 +84,21 @@ export class WardComponent implements OnInit {
   });
 
   this.socket.io.on('consulted', (patient: Person) => {
-    const i = this.patients.findIndex(p => p._id === patient._id)
-      if(patient.record.visits[0][0].dept.toLowerCase() === this.myDepartment && patient.record.visits[0][0].status ==='Admit') {
+    const i = this.patients.findIndex(p => p._id === patient._id);
+      if(patient.record.visits[0][0].dept.toLowerCase() === this.myDepartment && patient.record.visits[0][0].status === 'Admit') {
         this.patients.unshift(patient);
         this.clonedPatients.unshift(patient);
-      } else if (patient.record.visits[0][0].dept.toLowerCase() === this.myDepartment &&         patient.record.visits[0][0].status === 'Discharged') {
+      } else if (patient.record.visits[0][0].dept.toLowerCase() === this.myDepartment && patient.record.visits[0][0].status === 'Discharged') {
          this.patients.splice(i, 1);
       }
-
   });
 
   }
-
-
   getDp(avatar: String) {
     return 'http://localhost:5000/api/dp/' + avatar;
   }
-
   getMyDp() {
-    return this.getDp(this.cookies.get('d'))
-
+    return this.getDp(this.cookies.get('d'));
   }
   getClient() {
     this.dataService.getClient().subscribe((res: any) => {
@@ -128,16 +122,15 @@ export class WardComponent implements OnInit {
     }
 
   }
-   searchPatient(name:string) {
-   if(name!==''){
+   searchPatient(name: string) {
+   if(name! == '') {
     this.patients = this.patients.filter((patient) => {
-      const patern =  new RegExp('\^' + name
-      , 'i');
+      const patern =  new RegExp('\^' + name, 'i');
       return patern.test(patient.info.personal.firstName);
       });
    } else {
      this.patients = this.clonedPatients;
-   }
+    }
    }
   medicationSelected() {
     return this.patients[this.curIndex].record.medications.some(med => med.some(m => m.selected));
@@ -151,7 +144,7 @@ export class WardComponent implements OnInit {
   }
   selectPatient(i: number) {
     this.curIndex = i;
- 
+
    }
    showMenu(i: number) {
      this.hideMenu();
@@ -213,7 +206,7 @@ export class WardComponent implements OnInit {
     });
   }
   getRooms() {
-    return this.client.departments.find( dept => dept.name === this.patient.record.visits[0][0].dept).rooms;
+    return this.client.departments.find(dept => dept.name === this.patient.record.visits[0][0].dept).rooms;
   }
   getBeds() {
 // tslint:disable-next-line: max-line-length
@@ -228,13 +221,12 @@ export class WardComponent implements OnInit {
   assignBed(i: number) {
     this.cloneClient = cloneDeep(this.client);
     const index = this.client.departments.findIndex(d => d.name === this.patient.record.visits[0][0].dept);
-    if (this.clonePatient.record.visits[0][0].wardNo) {
-      this.client.departments[index].rooms[this.clonePatient.record.visits[0][0].wardNo - 1].beds[this.clonePatient.record.visits[0][0].bedNo - 1].allocated = false;
+    if (this.patient.record.visits[0][0].bedNo) {
+      this.client.departments[index].rooms[this.patient.record.visits[0][0].wardNo - 1].beds[this.patient.record.visits[0][0].bedNo - 1].allocated = false;
       this.client.departments[index].rooms[this.patient.record.visits[0][0].wardNo - 1].beds[this.patient.record.visits[0][0].bedNo - 1].allocated = true;
     } else {
       this.client.departments[index].rooms[this.patient.record.visits[0][0].wardNo - 1].beds[this.patient.record.visits[0][0].bedNo - 1].allocated = true;
     }
-
     this.dataService.updateBed(this.patient, this.client).subscribe((p: Person) => {
         this.switchToFront(i);
    });
@@ -341,12 +333,11 @@ export class WardComponent implements OnInit {
     });
   }
   selectMedication(i: number, j: number) {
-  if (this.patients[i].record.medications[j].paused) {
-    this.patients[i].record.medications[j].paused = false;
-
-  } else {
-    this.patients[i].record.medications[j].paused = true;
-  }
+    if (this.patients[i].record.medications[j].paused) {
+      this.patients[i].record.medications[j].paused = false;
+    } else {
+      this.patients[i].record.medications[j].paused = true;
+    }
 }
 discharge(i) {
   // this.patients[i].status = 'discharged';

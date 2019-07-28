@@ -13,13 +13,11 @@ const graphQlHttp = require('express-graphql')
 const {buildSchema} = require('graphql')
 const graphQlSchema = require('./graphql/schemas/index')
 const graphQlResolvers = require('./graphql/resolvers/index')
-
 app.use('/graphql', graphQlHttp({
   schema: graphQlSchema,
   rootValue: graphQlResolvers,
   graphiql: true
 }))
-
 app.use(cors({origin:["http://localhost:4200"], credentials: true}))
 // app.use((req,res, next)=>{
 //   res.setHeader('Access-Control-Allow-Origin','*')
@@ -29,10 +27,8 @@ app.use(cors({origin:["http://localhost:4200"], credentials: true}))
 app.use(require('morgan')('dev'))
 app.use(bodyParser.json())
 app.use(require('cookie-parser')('blackfly'))
-
 var connections = []
 var logins = []
-  
 io.sockets.on('connection', (socket) => {
   connections.push(socket)
   console.log('%s socket(s) connected', connections.length)

@@ -80,8 +80,8 @@ export class PharmacyComponent implements OnInit {
     });
   }
 
-   showSortMenu() {
-    this.sortMenu = true;
+  toggleSortMenu() {
+    this.sortMenu = !this.sortMenu;
   }
   refresh() {
     this.message = null;
@@ -95,8 +95,8 @@ export class PharmacyComponent implements OnInit {
         patients.forEach(p => {
           p.card = {menu: false, view: 'front'};
         });
-        this.patients =  patients
-         this.clonedPatients  = patients
+        this.patients =  patients;
+         this.clonedPatients  = patients;
         this.loading = false;
         this.message = null;
       } else {

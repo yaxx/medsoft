@@ -186,16 +186,11 @@
                 class="form-control"
                 type="search" name="search" id="search-field" placeholder="Search patient">
                 <i style='font-size:20px; top:3px;left:83%;position:relative;display:inline' class="icon ion-ios-search " title="Search"></i>
-         <h6 style='font-size:12px;
-                      left:98%;position:relative;display:inline-block;
-                      color:grey;
-                      font-weight:normal;'>Sort by: <span stye='cursor:pointer'(click)='showSortMenu()'>
+         <h6 style=' cursor:pointer; font-size:12px;left:98%;position:relative;display:inline-block;color:grey;font-weight:normal;
+                      '>Sort by: <span (click)='toggleSortMenu()'>
                         {{nowSorting}}</span></h6>
-          <div *ngIf=sortMenu style='position: absolute;
-                      left:120%;
-                      width:100px;top:6px;
-                      height:110px'  class="menu">
-            <ul class="actions primary">
+          <div *ngIf=sortMenu style='position: absolute; left:120%; width:100px;top:6px;height:110px'  class="menu">
+            <ul (mouseleave) = 'toggleSortMenu()' class="actions primary">
                 <li (click)='sortPatients("name")' class="action">A-Z</li>
                 <li (click)='sortPatients("age")' class="action">Age</li>
                 <li (click)='sortPatients("status")' class="action">Status</li>

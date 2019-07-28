@@ -30,7 +30,7 @@ app.on('windows-all-closed', () => {
 })
 app.on('activate',function() {
   if(win==null){
-    createWindow()
+    createWindow();
 
   }
 })

@@ -1,0 +1,205 @@
+.download {
+  position:absolute;
+  right:80%;
+  font-size:18px;
+  bottom:3.5%;
+  color:#F0A921;
+}
+
+.dp.chatdp.mydp {
+  background-image:url(../../assets/img/mode.jpg);
+}
+
+.icon.ion-android-calendar.schedule {
+  right:20;
+  position:absolute;
+  right:73%;
+  font-size:medium;
+  bottom:3.5%;
+  color:#2884FE;
+}
+
+.icon.ion-ios-clock-outline.checkmark.infocheck.infomark {
+  top:-31%;
+  left:35%;
+}
+
+.check {
+  font-size:12px;
+  width:80%;
+  left:22%;
+  position:absolute;
+  margin:0px;
+}
+
+.checkmark.close {
+  color:rgb(249,40,40);
+}
+
+.checkmark.infocheck {
+  color:#ffd700;
+}
+
+.details {
+  height:50px;
+  width:100%;
+  /*background:rgb(211,211,211);*/
+  position:relative;
+  margin:auto;
+  border-left:1px solid #D6DBDF;
+  /*bottom:4px;*/
+  margin-right:0px;
+  margin-left:8%;
+}
+
+.info {
+  position:relative;
+  right:-33px;
+  color:#2884fe;
+}
+
+.time.checkup {
+  left:37px;
+  font-size:9px;
+  margin:0px;
+  display:inline-block;
+}
+
+.time {
+  display:inline-block;
+  left:30px;
+  position:absolute;
+  font-size:x-small;
+  color:#928f8f;
+  margin:0px;
+}
+
+.timecheck {
+  top:15px;
+  font-size:x-small;
+  color:lightgrey;
+}
+
+.icon.ion-ios-circle-outline.circle.circle2 {
+  color:#F0A921;
+}
+
+.icon.ion-ios-circle-outline.circle.circle2.circle3 {
+  color:#02D1B8;
+}
+
+.circle {
+  position:relative;
+  right:-11px;
+  color:#2884fe;
+  height:x;
+  display:inline-block;
+}
+
+.username {
+  color:#606693;
+  font-weight:normal;
+  font-size:14px;
+}
+
+.icon.ion-ios-loop-strong {
+  color:#2884FE;
+  padding:0px;
+  font-weight:bolder;
+}
+
+.btn.btn-primary.maker.amount {
+  left:20%;
+}
+
+.material-icons.history {
+  font-size:large;
+  color:#2884FE;
+  position:absolute;
+  right:65%;
+  top:4px;
+}
+
+.number {
+  color:#d6dbdf;
+  position:absolute;
+  font-size:14px;
+  top:3px;
+  right:20%;
+}
+
+.maker {
+  width:37%;
+  position:relative;
+  top:-5px;
+  /*height:25px;*/
+  border-radius:15px;
+  display:inline-block;
+  padding:0px;
+  background:white;
+  border:1px solid #D6DBDF;
+  left:5%;
+}
+
+.btn.btn-primary.maker:hover {
+  background:white;
+  border-color:#D6DBDF;
+  cursor:auto;
+}
+
+.midiaheader {
+  /*margin-top:20px;*/
+  background:#F9FAFB;
+  height:34%;
+  padding-top:25px;
+}
+
+.media {
+  display:-ms-flexbox;
+  display:flex;
+  -ms-flex-align:start;
+  align-items:flex-start;
+}
+
+.dp {
+  height:28px;
+  width:28px;
+  position:relative;
+  border-radius:50%;
+  background:url(../../assets/img/model.jpg);
+  background-size:cover;
+  background-repeat:no-repeat;
+  margin-right:5px;
+  background-position:center;
+}
+
+.ourdp {
+  background-image:url(../../assets/img/mode.jpg);
+}
+
+.userfb {
+  /*border-bottom:1px solid #edecec;*/
+  padding-bottom:2px;
+  font-size:11px;
+  bottom:7px;
+  position:relative;
+}
+
+.commenttime {
+  font-size:12px;
+  left:80%;
+  color:lightgrey;
+  position:absolute;
+  margin-top:1%;
+}
+
+.userfb.contacts {
+  color:lightgrey;
+}
+
+.mr-3 {
+  /*height:36px;*/
+  /*width:36px;*/
+  /*border-radius:50%;*/
+}
+

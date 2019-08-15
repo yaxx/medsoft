@@ -1,0 +1,35 @@
+.card.card-primary.patient-card {
+  /*height:290px;*/
+}
+
+.card-body.card-bodi.cardbody {
+  height:297px;
+}
+
+.appointment-form {
+  position:relative;
+  height:220px;
+  padding:8px;
+}
+
+.material-icons.schedule {
+  font-size:20px;
+  left:14%;
+  position:absolute;
+  color:#45adf2;
+}
+
+.imtimesection.cons-piriod {
+  position:relative;
+  height:223px;
+  top:0%;
+}
+
+.icon.ion-android-clipboard.schedule {
+  font-size:medium;
+  position:absolute;
+  left:9%;
+  text-align:center;
+  bottom:2%;
+}
+

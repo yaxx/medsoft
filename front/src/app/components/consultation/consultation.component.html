@@ -451,6 +451,7 @@
                             <label style="font-size:8px" for="foward" class="labelss">DEPARTMENT</label>
                             <select  name="foward" [(ngModel)] = session.visits.dept  autocomplete="off"   class="patientdata dystolic inputs dataInfo" >
                               <option *ngFor = 'let d of fetchDept()'> {{d.name}} </option>
+
                             </select>
                         </div>
                         <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block" >

@@ -17,7 +17,6 @@
     "electron-build": "ng build --prod && electron .",
     "setup": "electron-installer-windows --src ./ --dest dist/"
   },
-  "proxy":"http://localhost:5000",
   "win": {
     "target": [
       "nsis"

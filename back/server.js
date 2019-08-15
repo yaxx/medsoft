@@ -27,34 +27,36 @@ app.use(cors({origin:["http://localhost:4200"], credentials: true}))
 app.use(require('morgan')('dev'))
 app.use(bodyParser.json())
 app.use(require('cookie-parser')('blackfly'))
-app.use(express.static(path.join(__dirname,'dist','front')))
 var connections = []
 var logins = []
 io.sockets.on('connection', (socket) => {
   connections.push(socket)
   console.log('%s socket(s) connected', connections.length)
+
   socket.on('login', (data) => {
     data.si = socket.id;
     logins.push({ui:data.ui,si:socket.id})
     console.log(logins);
     socket.broadcast.emit('online', data.ui)
   })
+
   socket.on('new message', (data) => {
-    // console.log(data.msgs)
+    console.log(data.msgs)
   //  api.updateMessages(data)
    logins.forEach(function (user) {
     if (user.ui === data.reciever) {
-        socket.to(user.si).emit('new message', data)
-      } else {}
-    })
+      socket.to(user.si).emit('new message', data)
+    } else {}
   })
-  socket.on('enroled', (patient) => {
+  })
+  socket.on('enroled',(patient)=>{
     socket.broadcast.emit('enroled', patient);  
   })
-  socket.on('consulted', (patient) => {
+  socket.on('consulted',(patient)=>{
+    
     socket.broadcast.emit('consulted', patient);  
   })
-  socket.on('Discharge', (patient) => {
+  socket.on('Discharge',(patient)=>{
     socket.broadcast.emit('Discharge', patient);  
   })
   
@@ -65,6 +67,7 @@ io.sockets.on('connection', (socket) => {
   socket.on('store update', changes => {
     socket.broadcast.emit('store update', changes);
   })
+
 
   socket.on('follow', (data) => {
     let d = data
@@ -78,6 +81,7 @@ io.sockets.on('connection', (socket) => {
     let me = {userid: socket.request.cookies.q, thisPerson: 'Following'}
     Contact.updateOne({ 'username': data.username }, {$push: {contacts: me}}, {upsert: true}, (err, obj) => {
       if (!err) {
+
       } else { console.log(err) }
     })
 
@@ -143,10 +147,19 @@ io.sockets.on('connection', (socket) => {
     })
   })
 })
+
 app.get('/', (req, res) => {
-  res.sendFile(path.resolve(__dirname,'dist','front','index.html'))
-})
+  // if (req.cookies.name) {
+  //   res.render('index')
+  // } else {
+  res.render('index')
+    // res.status(304).redirect('/login')
+  // }
+}
+
+)
 app.get('/api/client', api.getClient)
+
 app.get('/api/patients/:type', api.getPatients)
 app.get('/api/myaccount', api.getMyAccount)
 app.get('/api/explore', api.explore)

@@ -18,12 +18,13 @@ app.use('/graphql', graphQlHttp({
   rootValue: graphQlResolvers,
   graphiql: true
 }))
-app.use(cors({origin:["http://localhost:4200"], credentials: true}))
-// app.use((req,res, next)=>{
-//   res.setHeader('Access-Control-Allow-Origin','*')
-//   res.setHeader('Access-Control-Allow-Headers','Origin, X-Requested-with, Content-Type, Accept')
-//   res.setHeader('Access-Control-Allow-Method','POST, GET, DELETE, OPTIONs')
-// })
+// app.options('localhost:5000', cors())
+// app.use(cors({origin:["localhost:4200"], credentials: true}))
+// app.use(cors({origin:["localhost:5000"], credentials: true}))
+app.use(cors({origin:["http://192.168.1.100:5000"], credentials: true}))
+app.use(express.static(path.join(__dirname,'dist','front')))
+
+// app.options('*', cors())
 app.use(require('morgan')('dev'))
 app.use(bodyParser.json())
 app.use(require('cookie-parser')('blackfly'))
@@ -49,10 +50,10 @@ io.sockets.on('connection', (socket) => {
     } else {}
   })
   })
-  socket.on('enroled',(patient)=>{
+  socket.on('enroled',(patient) => {
     socket.broadcast.emit('enroled', patient);  
   })
-  socket.on('consulted',(patient)=>{
+  socket.on('consulted', (patient) => {
     
     socket.broadcast.emit('consulted', patient);  
   })
@@ -107,10 +108,8 @@ io.sockets.on('connection', (socket) => {
 
           } else { console.log(err) }
         })
-
         Contact.updateOne({'username': data.username, 'contacts.userid': socket.request.cookies.q}, {$set: {'contacts.$.thisPerson': 'Following', 'contacts.$.connected': true}, 'contacts.$.messages': messages._id}, {upsert: true}, (err, obj) => {
           if (!err) {
-
           } else { console.log(err) }
         })
       } else { console.log(err) }
@@ -149,17 +148,11 @@ io.sockets.on('connection', (socket) => {
 })
 
 app.get('/', (req, res) => {
-  // if (req.cookies.name) {
-  //   res.render('index')
-  // } else {
-  res.render('index')
-    // res.status(304).redirect('/login')
-  // }
-}
+    // res.render('index')
+  res.sendFile(path.resolve(__dirname,'dist','front','index.html'))
+})
 
-)
 app.get('/api/client', api.getClient)
-
 app.get('/api/patients/:type', api.getPatients)
 app.get('/api/myaccount', api.getMyAccount)
 app.get('/api/explore', api.explore)

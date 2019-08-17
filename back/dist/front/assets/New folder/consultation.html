@@ -1,0 +1,1694 @@
+<div class="modal fade" role="dialog" tabindex="-1" id="mymodal" style="border-radius:0px;width:auto;">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="width:700px">
+            <div class="modal-header">
+                <h6 class="modal-title">CONSULATATION</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <form novalidate class="patientform" (ngSubmit)="saveRecord(record)">
+
+                    <fieldset class="topfilset">
+                        <legend>MEDICAL HISTORY</legend>
+                    </fieldset>
+
+                    <div class="form-group vitals-section">
+                        <label for="complain" class="labelss complain">COMPLAIN</label>
+                        <input [(ngModel)] ="record.complain" class="form-control dataInfo address formdata" type="text" name='complain' placeholder="Chief Complain"/>
+
+                    </div>
+                    <div class="form-group vitals-section formGroup">
+                        <label for="piriod" class="labelss">PIRIOD</label>
+                        <input [(ngModel)] = "record.piriod" type="number" name="piriod" class=" inputs dataInfo"/>
+
+                    </div>
+                    <div class="form-group vitals-section formGroup">
+                        <label for="taken" class="labelss duration">DURATION</label>
+                        <select [(ngModel)] = "record.complainDuration"  class=" status inputs dataInfo formdata" name="taken" id="">
+                            <option>Hours</option>
+                            <option>Days</option>
+                            <option>Weeks</option>
+                            <option>Months</option>
+                            <option>Years</option>
+                        </select>
+                    </div>
+                    <i title="More history" class="icon ion-ios-plus-outline addmore"></i>
+
+
+
+                    <fieldset class="topfilset">
+                        <legend>BASIC EXAMINATION</legend>
+                    </fieldset>
+                    <div class="form-group vitals-section formGroup">
+                        <label for="systolic" class="labelss">SYSTOLIC BP</label>
+                        <input [(ngModel)] = "record.systolic" type="number" name="systolic" class=" inputs dataInfo" />
+
+                    </div>
+                    <div class="form-group vitals-section formGroup">
+                        <label for="dystolic" class="labelss">DYSTOLIC BP</label>
+                        <input [(ngModel)] = "record.dystolic"  type="number" name="dystolic" class=" dystolic inputs dataInfo" id="" />
+
+                    </div>
+
+                    <div class="form-group vitals-section formGroup">
+                        <label for="prate" class="labelss">RESP. RATE</label>
+                        <input [(ngModel)] = "record.resp"  type="number" name="prate" class=" inputs dataInfo" id="">
+
+                    </div>
+                    <div class="form-group vitals-section formGroup">
+                        <label for="rrate" class="labelss">PULSE RATE</label>
+                        <input [(ngModel)] = "record.pulse"  type="number" name="rrate" class=" dystolic inputs dataInfo" id=""/>
+
+                    </div>
+                    <div class="form-group vitals-section formGroup">
+                        <label for="height" class="labelss">HEIGHT</label>
+                        <input [(ngModel)] = "record.height"  type="number" name="height" class=" inputs dataInfo" id="">
+
+                    </div>
+                    <div class="form-group vitals-section formGroup">
+                        <label for="weight" class="labelss duration">WEIGHT</label>
+                        <input [(ngModel)] = "record.weight" name="weight"  type="number" class=" dystolic inputs dataInfo" id=""/>
+
+                    </div>
+
+
+
+                    <fieldset class="topfilset">
+                        <legend>DIAGNOSIS</legend>
+                    </fieldset>
+                    <div class="form-group vitals-section">
+                        <input [(ngModel)] = "record.condition"  class="form-control dataInfo address patientdata" type="text" placeholder="Enter Codition"/>
+                        <span class="labelss ">CONDITION</span>
+
+                    </div>
+
+
+                    <div class="form-group vitals-section formGroup">
+                        <label  for="order" class="labelss">ORDER</label>
+                        <select [(ngModel)] = "record.order"  class=" status inputs dataInfo" name="order" id="">
+                            <option>Primary</option>
+                            <option>Secondary</option>
+                        </select>
+
+                    </div>
+                    <div class="form-group vitals-section formGroup">
+                        <label  for="certainty" class="labelss">CERTAINTY</label>
+                        <select [(ngModel)] = "record.certainty"  class=" status inputs dataInfo " name="certainty" id="">
+                            <option>Comfirmed</option>
+                            <option>Presumed</option>
+                        </select>
+
+                    </div>
+                    <div class="form-group vitals-section">
+                      <label for="" class="labelss">ADDTIONAL NOTE</label>
+                      <textarea [(ngModel)] = "record.note"  class=" disposeNote" placeholder="Add Note">
+                      </textarea>
+              </div>
+                    <fieldset class="topfilset">
+                            <legend>MEDICATION</legend>
+                    </fieldset>
+
+
+                        <div class="form-group vitals-section">
+                            <label for="long" class="labelss">DRUG</label>
+                            <input [(ngModel)] = "priscription.drug"  class="form-control dataInfo address patientdata" name="drug" type="text" placeholder="Enter drug name">
+
+
+                        </div>
+
+
+                      <div class="form-group vitals-section formGroup dos">
+                        <label for="long" class="labelss">DOSE</label>
+                        <input [(ngModel)] = "priscription.measure"  type="number" name="long" class="patientdata dystolic inputs boda"/>
+
+                      </div>
+
+                      <div class="form-group vitals-section formGroup dos">
+                        <label for="long" class="labelss"></label>
+                        <select [(ngModel)] = "priscription.unit"  class="patientdata status inputs " name="long" id="">
+                                <option>ml</option>
+                                <option>mg</option>
+
+                        </select>
+                      </div>
+
+                      <div class="form-group vitals-section formGroup dos intake">
+                        <label for="long" class="labelss"></label>
+                        <select [(ngModel)] = "priscription.dailyIntake"  class="patientdata status inputs daily " name="long" id="">
+                                <option>dos</option>
+                                <option>bos</option>
+                                <option>tds</option>
+                                <option>qds</option>
+                        </select>
+                      </div>
+
+                        <div class="form-group vitals-section formGroup dosGroup">
+                                <label for="long" class="labelss">FREQ</label>
+                                <input [(ngModel)] = "priscription.piriod"  type="number" name="long" class="patientdata dystolic inputs boda " id=""/>
+
+                        </div>
+                        <div class="form-group vitals-section formGroup dosGroup">
+                                <label for="long" class="labelss">DURATION</label>
+                                <select [(ngModel)] = "priscription.dosDuration"  class="patientdata status inputs daily" name="long" id="">
+                                        <option>Days</option>
+                                        <option>Weeks</option>
+                                        <option>Months</option>
+                                        <option>Years</option>
+                                </select>
+
+                                <button (click)="addPriscription()" type="button" class="btn btn-primary " id="submitmsg">
+                                  <i title="More Priscription" class="icon ion-ios-plus-empty addPris" ></i>
+                                  </button>
+                        </div>
+
+
+
+                        <div *ngIf="record.medication.length" class="form-group vitals-section">
+                            <table cellspacing="0" class="data-table drugs-table" summary="List of all items in store. " >
+
+
+
+                            <thead class='productHead'>
+                                <tr>
+
+                                    <th class="headlbl prdName">PRODUCT NAME </th>
+                                    <th class="headlbl">MEASURE</th>
+                                    <th class="headlbl">DOSE</th>
+                                    <th class="headlbl">DURATION</th>
+                                    <th class="headlbl" colspan="2" style="text-align: center">PRICE</th>
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let priscription of record.medication; let i = index;" class="even ro" >
+
+                                    <td class="data">{{priscription.drug}}</td>
+                                    <td class="data">{{priscription.measure}}</td>
+                                    <td class="data">{{priscription.dailyIntake}}</td>
+                                    <td class="data">{{priscription.piriod}}</td>
+                                    <td class="data" style="text-align:right">{{priscription.price}}</td>
+                                    <td style="text-align: left; padding-left:3px" class="data" title="Remove">
+                                    <i (click)="removePriscription(i)"  class="icon ion-ios-close-empty close" ></i>
+                                    </td>
+
+
+                                </tr>
+                                <tr class="even ro">
+                                  <td class="data" colspan="4" style="text-align: right;" >Total:</td>
+                                  <td class="data" colspan="2" style="text-align: center;">{{getTotal()}}</td>
+                                </tr>
+
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <fieldset class="topfilset">
+                            <legend>TESTS/SURGERY</legend>
+                    </fieldset>
+                    <div class="form-group vitals-section">
+                            <label for="department" class="labelss">TO:</label>
+                            <select [(ngModel)] = "record.department"  class="dataInfo status inputs" name="department" id="">
+                                <option>Anesthesia</option>
+                                <option>Chemical Pathology</option>
+                                <option>Radiology</option>
+                                <option>Haemathology</option>
+                                <option>Micro-Biology</option>
+                            </select>
+                    </div>
+                    <div class="form-group vitals-section formGroup">
+                            <label for="complain" class="labelss complain">INVESTIGATION</label>
+                            <input [(ngModel)] = "record.investigation"  type="text" name="systolic" class="patientdata inputs dataInfo" id="" placeholder="Enter Required Investigation">
+                    </div>
+                    <div class="form-group vitals-section formGroup">
+                            <label for="complain" class="labelss complain">SPECIMENT</label>
+                            <input [(ngModel)] = "record.speciment"  type="text" name="investigation" class="patientdata inputs dataInfo" id=""  placeholder="Enter Speciment">
+                    </div>
+
+                    <div class="form-group vitals-section">
+                            <label for="summary" class="labelss">CLINICAL SUMMARY</label>
+                            <textarea [(ngModel)] = "record.clinicalSumary"  class="disposeNote" placeholder="Add Note">
+                            </textarea>
+                    </div>
+
+
+                 <div class="modal-footer">
+                    <button class="btn btn-light" type="button" id="fbtn" data-dismiss="modal footerbtn">Clear</button>
+                    <button class="btn btn-primary footerbtn" type="submit">Finish</button>
+                </div>
+            </form>
+        </div>
+
+        </div>
+    </div>
+  </div>
+
+
+
+
+
+   <div id="phmodal" class="modal bd-example-modal-lg fade" tab-index="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="justify-content-center align-content-center align-self-center modal-header">
+                <h6 class="text-center">Patient History</h6>
+            </div>
+            <div class="mainwrap">
+                <div class="card pprofile">
+                    <div class="media midia patientmidia">
+                        <div class="dp pzero top-dp"></div>
+                        <img class="img-fluid d-none mr-3" src="assets/img/mode.jpg">
+                        <div class="media-body">
+                            <h6 class="username">Salisu Lukman
+                                <i class="icon ion-android-more-vertical checkmark"></i>
+                            </h6>
+                            <p class="userfb contacts contachhistory">ID:
+                                <strong>292340</strong>
+                            </p>
+                            <p class="userfb contacts contachhistory">Age:
+                                <strong>29</strong>
+                            </p>
+                            <p class="userfb contacts">Lives in:
+                                <strong>Kaduna, Nigeria</strong>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="card-body historycard">
+                        <div class="ptimeline">
+                            <div class="timelineperiod">
+                                <div class="activitytime">
+                                    <div class="halftime"></div>
+                                    <h6 class="justify-content-center align-self-center activedaytime">MON</h6>
+                                    <h6 class="justify-content-center align-self-center activedaytime actdate">12/04/18</h6>
+                                </div>
+                                <div class="activitytime">
+                                    <div class="halftime"></div>
+                                    <h6 class="justify-content-center align-self-center activedaytime">TUE</h6>
+                                    <h6 class="justify-content-center align-self-center activedaytime actdate">08/04/18</h6>
+                                </div>
+                                <div class="activitytime">
+                                    <div class="halftime"></div>
+                                    <h6 class="justify-content-center align-self-center activedaytime">WED</h6>
+                                    <h6 class="justify-content-center align-self-center activedaytime actdate">09/04/18</h6>
+                                </div>
+                                <div class="activitytime">
+                                    <div class="halftime"></div>
+                                    <h6 class="justify-content-center align-self-center activedaytime">THU</h6>
+                                    <h6 class="justify-content-center align-self-center activedaytime actdate">10/04/18</h6>
+                                </div>
+                                <div class="activitytime">
+                                    <div class="halftime"></div>
+                                    <h6 class="justify-content-center align-self-center activedaytime">FRI</h6>
+                                    <h6 class="justify-content-center align-self-center activedaytime actdate">11/04/18</h6>
+                                </div>
+                                <div class="activitytime">
+                                    <div class="halftime"></div>
+                                    <h6 class="justify-content-center align-self-center activedaytime">SAT</h6>
+                                    <h6 class="justify-content-center align-self-center activedaytime actdate">12/04/18</h6>
+                                </div>
+                                <div class="activitytime">
+                                    <div class="halftime"></div>
+                                    <h6 class="justify-content-center align-self-center activedaytime">SUN</h6>
+                                    <h6 class="justify-content-center align-self-center activedaytime actdate">13/04/18</h6>
+                                </div>
+                                <button class="btn btn-primary nexttimebtn prevtimebtn" type="button" style="width:5px;">
+                                    <i class="icon ion-ios-arrow-right schedule nexticon"></i>
+                                </button>
+                                <button class="btn btn-primary prevtimebtn nexticon" type="button" style="width:5px;">
+                                    <i class="icon ion-ios-arrow-left schedule nexticon"></i>
+                                </button>
+                            </div>
+                            <h6 class="justify-content-center align-self-center activedaytime activetitle">Timeline of Activity&nbsp;</h6>
+                            <h6 class="justify-content-center align-self-center activedaytime activetitle activerange" style="font-size:9px; bottom:85%;">07/04/18 - 13/04/18</h6>
+                            <div class="btn-group footerbuttons activetab activetitle" role="group">
+                                <button class="btn btn-primary footerbuttons first" type="button" data-target=".bd-example-modal-lg"
+                                    data-toggle="modal">Day</button>
+                                <button class="btn btn-primary footerbuttons" type="button">Week</button>
+                                <button class="btn btn-primary footerbuttons" type="button">Month</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card pprofile vitalscard">
+                    <div class="card-body historycard vitalsbody">
+                        <div class="ptimeline vitals">
+                            <div class="activitytime vitalshead">
+                                <div class="halftime vitalshalf">
+                                    <h6 class="justify-content-center align-self-center activedaytime actdate agelabel">Age</h6>
+                                    <h6 class="justify-content-center align-self-center activedaytime vitalsage">29</h6>
+                                </div>
+                                <h6 class="justify-content-center align-self-center activedaytime actdate agelabel weightlabel">Weight</h6>
+                                <h6 class="justify-content-center align-self-center activedaytime vitalsage weight">72.46
+                                    <span class="unit">kg</span>
+                                </h6>
+                                <div class="progress systolicbar">
+
+                                    <div class="progress-bar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;"></div>
+                                </div>
+                                <div class="progress">
+
+                                    <div class="progress-bar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;"></div>
+                                </div>
+                            </div>
+                            <div class="activitytime vitalshead bphead">
+                                <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel navg dystolicavg diastoliclbl">Diastolic</h6>
+                                <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel navg dystolicavg">National AVG</h6>
+                                <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel navg systoliclbl">Systolic</h6>
+                                <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel navg">National AVG</h6>
+                                <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel">Blood Pressue</h6>
+                                <h6 class="justify-content-center align-self-center activedaytime actdate bpvalue">93/69</h6>
+                                <div class="ruler systolicruler"></div>
+                                <div class="ruler"></div>
+                            </div>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise">Exercise:</h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime">5hrs 44 mins</h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel navg dystolicavg exerciselbl">National AVG</h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel navg dystolicavg exerciselbl exercisepiriod">In the previous 7 days</h6>
+                        </div>
+                        <div class="ruler exerciseruler"></div>
+                        <div class="progress systolicbar exercisebar">
+
+                            <div class="progress-bar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="exdiv">
+                    <div class="card pprofile vitalscard exercisecard">
+                        <div class="activitytime vitalshead exercisehead">
+                            <button class="btn btn-primary submitmsg exsetting" type="button">
+                                <i class="icon ion-android-settings settingsicon"></i>
+                            </button>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval mainexheader">Excercise</h6>
+                        </div>
+                        <div class="card-body historycard vitalsbody">
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval">5hrs 44 mins in &nbsp;last 7 days</h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval mainnavg">National AVG</h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise mainexlbl mainexval">Exercise:</h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval">5hrs 44 mins</h6>
+                            <div class="ruler exerciseruler mainexruler"></div>
+                            <div class="progress systolicbar exercisebar mainexbar">
+
+                                <div class="progress-bar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;"></div>
+                            </div>
+                        </div>
+                        <div class="activitytime vitalshead exercisehead exercisefooter"></div>
+                    </div>
+                    <div class="card pprofile vitalscard exercisecard pbcard">
+                        <div class="activitytime vitalshead exercisehead">
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval mainexheader">Blood Pressure</h6>
+                            <button class="btn btn-primary submitmsg exsetting" type="button">
+                                <i class="icon ion-android-settings settingsicon"></i>
+                            </button>
+                        </div>
+                        <div class="card-body historycard vitalsbody">
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp">AVG blood pressure in last 7 days</h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue">93/69 mmHg</h6>
+                        </div>
+                        <div class="activitytime vitalshead exercisehead exercisefooter"></div>
+                    </div>
+                </div>
+                <div class="exdiv">
+                    <div class="card pprofile vitalscard exercisecard">
+                        <div class="activitytime vitalshead exercisehead">
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval mainexheader">Family History</h6>
+                            <button class="btn btn-primary submitmsg exsetting" type="button">
+                                <i class="icon ion-android-settings settingsicon"></i>
+                            </button>
+                        </div>
+                        <div class="card-body historycard vitalsbody">
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise mainexlbl mainexval famhistory">No &nbsp;Family History added yet</h6>
+                            <button class="btn btn-primary submitmsg exsetting familyhisbtn"
+                                type="button">Add family history resulst</button>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise mainexlbl mainexval famhistory what">What is this?</h6>
+                            <div class="activitytime vitalshead exercisehead exercisefooter"></div>
+                        </div>
+                    </div>
+                    <div class="card pprofile vitalscard exercisecard pbcard">
+                        <div class="activitytime vitalshead exercisehead">
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval mainexheader">Immunization</h6>
+                            <button class="btn btn-primary submitmsg exsetting" type="button">
+                                <i class="icon ion-android-settings settingsicon"></i>
+                            </button>
+                        </div>
+                        <div class="card-body historycard vitalsbody">
+                            <div class="imtimesection">
+                                <div class="imtypsection">
+                                    <div class="imtime">
+                                        <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval">8</h6>
+                                        <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval imdate">JAN</h6>
+                                    </div>
+                                    <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtype">Hepatitis B</h6>
+                                    <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum">Date of immunization&nbsp;
+                                        <span>08/01/15</span>
+                                    </h6>
+                                    <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum numseq">Number in sequence&nbsp;
+                                        <span>01</span>
+                                    </h6>
+                                    <button class="btn btn-primary submitmsg exsetting imuncomnt" type="button">
+                                        <i class="icon ion-ios-chatboxes-outline settingsicon comicon"></i>
+                                    </button>
+                                    <button class="btn btn-primary submitmsg exsetting imuncomnt imunlink" type="button">
+                                        <i class="icon ion-link settingsicon comicon linkicon"></i>
+                                    </button>
+                                </div>
+                                <div class="imtypsection">
+                                    <div class="imtime">
+                                        <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval doubledigit">25</h6>
+                                        <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval imdate">JAN</h6>
+                                    </div>
+                                    <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtype">Hepatitis B</h6>
+                                    <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum">Date of immunization&nbsp;
+                                        <span>25/01/15</span>
+                                    </h6>
+                                    <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum numseq">Number in sequence&nbsp;
+                                        <span>02</span>
+                                    </h6>
+                                    <button class="btn btn-primary submitmsg exsetting imuncomnt" type="button">
+                                        <i class="icon ion-ios-chatboxes-outline settingsicon comicon"></i>
+                                    </button>
+                                    <button class="btn btn-primary submitmsg exsetting imuncomnt imunlink" type="button">
+                                        <i class="icon ion-link settingsicon comicon linkicon"></i>
+                                    </button>
+                                </div>
+                                <div class="imtypsection">
+                                    <div class="imtime">
+                                        <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval doubledigit">10</h6>
+                                        <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval imdate">SEP</h6>
+                                    </div>
+                                    <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtype">Typhus</h6>
+                                    <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum">Date of immunization&nbsp;
+                                        <span>10/09/15</span>
+                                    </h6>
+                                    <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum numseq">Number in sequence&nbsp;
+                                        <span>01</span>
+                                    </h6>
+                                    <button class="btn btn-primary submitmsg exsetting imuncomnt" type="button">
+                                        <i class="icon ion-ios-chatboxes-outline settingsicon comicon"></i>
+                                    </button>
+                                    <button class="btn btn-primary submitmsg exsetting imuncomnt imunlink" type="button">
+                                        <i class="icon ion-link settingsicon comicon linkicon"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="activitytime vitalshead exercisehead exercisefooter"></div>
+                    </div>
+                </div>
+                <div class="exdiv">
+                    <div class="card pprofile vitalscard exercisecard pbcard">
+                        <div class="activitytime vitalshead exercisehead">
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval mainexheader">Procedure</h6>
+                            <button class="btn btn-primary submitmsg exsetting" type="button">
+                                <i class="icon ion-android-settings settingsicon"></i>
+                            </button>
+                        </div>
+                        <div class="card-body historycard vitalsbody">
+                            <div class="imtimesection">
+                                <div class="imtypsection">
+                                    <div class="imtime">
+                                        <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval">20</h6>
+                                        <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval imdate">MAY</h6>
+                                    </div>
+                                    <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtype">Electrocardiography</h6>
+                                    <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum">Date of &nbsp;procedure&nbsp;
+                                        <span>20/08/16</span>
+                                    </h6>
+                                    <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum numseq">Location on body: &nbsp;
+                                        <span>Chest</span>
+                                    </h6>
+                                    <button class="btn btn-primary submitmsg exsetting imuncomnt" type="button">
+                                        <i class="icon ion-ios-chatboxes-outline settingsicon comicon"></i>
+                                    </button>
+                                    <button class="btn btn-primary submitmsg exsetting imuncomnt imunlink" type="button">
+                                        <i class="icon ion-link settingsicon comicon linkicon"></i>
+                                    </button>
+                                </div>
+                                <div class="imtypsection">
+                                    <div class="imtime">
+                                        <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval doubledigit">07</h6>
+                                        <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval imdate">OCT</h6>
+                                    </div>
+                                    <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtype">Blood Transfusion</h6>
+                                    <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum">Date of procedure:&nbsp;
+                                        <span>07/10/16</span>
+                                    </h6>
+                                    <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum numseq">Location on body:&nbsp;
+                                        <span>Full body</span>
+                                    </h6>
+                                    <button class="btn btn-primary submitmsg exsetting imuncomnt" type="button">
+                                        <i class="icon ion-ios-chatboxes-outline settingsicon comicon"></i>
+                                    </button>
+                                </div>
+                                <div class="imtypsection">
+                                    <div class="imtime">
+                                        <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval doubledigit">15</h6>
+                                        <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval imdate">FEB</h6>
+                                    </div>
+                                    <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtype">Radiosurgery</h6>
+                                    <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum">Date of &nbsp;procedure:&nbsp;
+                                        <span>15/02/15</span>
+                                    </h6>
+                                    <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum numseq">Location on body:&nbsp;
+                                        <span>Chest</span>
+                                    </h6>
+                                    <button class="btn btn-primary submitmsg exsetting imuncomnt imunlink" type="button">
+                                        <i class="icon ion-link settingsicon comicon linkicon"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="activitytime vitalshead exercisehead exercisefooter"></div>
+                        </div>
+                    </div>
+                    <div class="card pprofile vitalscard exercisecard pbcard weightcard">
+                        <div class="activitytime vitalshead exercisehead">
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval mainexheader">Weight</h6>
+                            <button class="btn btn-primary submitmsg exsetting" type="button">
+                                <i class="icon ion-android-settings settingsicon"></i>
+                            </button>
+                        </div>
+                        <div class="card-body historycard vitalsbody">
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage weight weightval">72.46
+                                <span class="unit weightunit">kg</span>
+                            </h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue prevweight">Previous mesurement</h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage weight weightval preweightval">71.58
+                                <span class="unit weightunit">kg
+                                    <i class="icon ion-android-arrow-dropup info weighticon"></i>
+                                </span>
+                            </h6>
+                            <div class="activitytime vitalshead exercisehead exercisefooter"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="exdiv">
+                    <div class="card pprofile vitalscard exercisecard pbcard weightcard">
+                        <div class="activitytime vitalshead exercisehead">
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval mainexheader">Blood Glucose</h6>
+                            <button class="btn btn-primary submitmsg exsetting" type="button">
+                                <i class="icon ion-android-settings settingsicon"></i>
+                            </button>
+                        </div>
+                        <div class="card-body historycard vitalsbody">
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage weight weightval">5.3 mmol/L</h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue prevweight">AVG blood glucose last 7 days</h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage weight weightval preweightval">5.3 mmol/L
+                                <span class="unit weightunit">
+                                    <i class="icon ion-android-arrow-dropup info weighticon"></i>
+                                </span>
+                            </h6>
+                            <div class="activitytime vitalshead exercisehead exercisefooter"></div>
+                        </div>
+                    </div>
+                    <div class="card pprofile vitalscard exercisecard pbcard">
+                        <div class="activitytime vitalshead exercisehead">
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval mainexheader">Lab Test Result</h6>
+                            <button class="btn btn-primary submitmsg exsetting" type="button">
+                                <i class="icon ion-android-settings settingsicon"></i>
+                            </button>
+                        </div>
+                        <div class="card-body historycard vitalsbody">
+                            <div class="imtimesection">
+                                <div class="imtypsection">
+                                    <div class="imtime">
+                                        <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval doubledigit">01</h6>
+                                        <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval imdate">MAR</h6>
+                                    </div>
+                                    <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtype">Penecillin Allergy Test</h6>
+                                    <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum">Date of test: &nbsp;
+                                        <span>01/03/17</span>
+                                    </h6>
+                                    <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum numseq">Test result:&nbsp;
+                                        <span>Positive allergy to penecillin</span>
+                                    </h6>
+                                    <button class="btn btn-primary submitmsg exsetting imuncomnt" type="button">
+                                        <i class="icon ion-ios-chatboxes-outline settingsicon comicon"></i>
+                                    </button>
+                                </div>
+                                <div class="imtypsection">
+                                    <div class="imtime">
+                                        <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval doubledigit">15</h6>
+                                        <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval imdate">FEB</h6>
+                                    </div>
+                                    <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtype">RAST Test</h6>
+                                    <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum">Date of &nbsp;test:&nbsp;
+                                        <span>15/02/15</span>
+                                    </h6>
+                                    <button class="btn btn-primary submitmsg exsetting imuncomnt imunlink" type="button">
+                                        <i class="icon ion-link settingsicon comicon linkicon"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="activitytime vitalshead exercisehead exercisefooter"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="exdiv">
+                    <div class="card pprofile vitalscard exercisecard pbcard weightcard">
+                        <div class="activitytime vitalshead exercisehead">
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval mainexheader">Height</h6>
+                            <button class="btn btn-primary submitmsg exsetting" type="button">
+                                <i class="icon ion-android-settings settingsicon"></i>
+                            </button>
+                        </div>
+                        <div class="card-body historycard vitalsbody"></div>
+                        <div class="activitytime vitalshead exercisehead exercisefooter"></div>
+                    </div>
+                    <div class="card pprofile vitalscard exercisecard pbcard weightcard">
+                        <div class="activitytime vitalshead exercisehead">
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval mainexheader">Dietary Intake</h6>
+                            <button class="btn btn-primary submitmsg exsetting" type="button">
+                                <i class="icon ion-android-settings settingsicon"></i>
+                            </button>
+                        </div>
+                        <div class="card-body historycard vitalsbody">
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage weight weightval">2.077
+                                <span class="unit weightunit">kcal</span>
+                            </h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue prevweight">Previous mesurement</h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage weight weightval preweightval">2.834
+                                <span class="unit weightunit">kcal
+                                    <i class="icon ion-android-arrow-dropdown info weighticon arrowdown"></i>
+                                </span>
+                            </h6>
+                        </div>
+                        <div class="activitytime vitalshead exercisehead exercisefooter"></div>
+                    </div>
+                </div>
+                <div class="exdiv">
+                    <div class="card pprofile vitalscard exercisecard pbcard weightcard filescard">
+                        <div class="activitytime vitalshead exercisehead">
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval mainexheader">Files</h6>
+                            <button class="btn btn-primary submitmsg exsetting" type="button">
+                                <i class="icon ion-android-settings settingsicon"></i>
+                            </button>
+                        </div>
+                        <div class="card-body historycard vitalsbody">
+                            <div class="filesdiv">
+                                <i class="icon ion-document fileicon2"></i>
+                                <h6 class="filenm">blood-test-result</h6>
+                                <i class="icon ion-ios-chatboxes-outline noteicon"></i>
+                                <i class="icon ion-ios-download-outline noteicon downloadicon"></i>
+                            </div>
+                            <div class="filesdiv">
+                                <i class="icon ion-image fileicon2 imageicon"></i>
+                                <h6 class="filenm imagename">broken-arm-xray</h6>
+                                <i class="icon ion-ios-chatboxes-outline noteicon" title="Additional note"></i>
+                                <i class="icon ion-ios-download-outline noteicon downloadicon" tittle="Download"></i>
+                            </div>
+                            <div class="filesdiv">
+                                <i class="icon ion-images fileicon2 imageicon imagesicon"></i>
+                                <h6 class="filenm">chest-xray</h6>
+                                <i class="icon ion-ios-chatboxes-outline noteicon"></i>
+                                <i class="icon ion-ios-download-outline noteicon downloadicon"></i>
+                            </div>
+                            <div class="filesdiv">
+                                <i class="icon ion-images fileicon2 imageicon imagesicon"></i>
+                                <h6 class="filenm">chest-xray</h6>
+                                <i class="icon ion-ios-chatboxes-outline noteicon"></i>
+                                <i class="icon ion-ios-download-outline noteicon downloadicon"></i>
+                            </div>
+                            <div id="maindropzone" class="imtimesection filesection dropzone">
+                                <div class="imtypsection filelist dropzone">
+                                    <i class="icon ion-filing settingsicon comicon fileicon filingicon"></i>
+                                    <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum filename dropzonename">Drag and drop files to upload them to your records&nbsp;
+                                        <span id="dropzonespan">&nbsp; Browse for files</span>
+                                    </h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="activitytime vitalshead exercisehead exercisefooter"></div>
+                    </div>
+                    <div class="card pprofile vitalscard exercisecard pbcard weightcard filescard pfcard">
+                        <div class="activitytime vitalshead exercisehead">
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval mainexheader">Peak Flow</h6>
+                            <button class="btn btn-primary submitmsg exsetting" type="button">
+                                <i class="icon ion-android-settings settingsicon"></i>
+                            </button>
+                        </div>
+                        <div class="card-body historycard vitalsbody">
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage weight weightval">2.077
+                                <span class="unit weightunit">kcal</span>
+                            </h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue prevweight">Previous mesurement</h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage weight weightval preweightval">2.834
+                                <span class="unit weightunit">kcal
+                                    <i class="icon ion-android-arrow-dropdown info weighticon arrowdown"></i>
+                                </span>
+                            </h6>
+                            <div class="activitytime vitalshead exercisehead exercisefooter"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="sidewrap">
+                <div class="card pprofile vitalscard exercisecard pbcard sidecard">
+                    <div class="activitytime vitalshead exercisehead sidecardhead">
+                        <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval mainexheader sidecarheadlbl">ALLEGIES</h6>
+                    </div>
+                    <div class="card-body historycard vitalsbody">
+                        <ul class="sidecardlist">
+                            <li>Penecilin</li>
+                            <li>Nuts</li>
+                            <li>Shelfish</li>
+                            <li>Spores</li>
+                        </ul>
+                    </div>
+                    <div class="activitytime vitalshead exercisehead exercisefooter sidecardfooter">
+                        <span class="footerAdd">Add&nbsp;
+                            <i class="icon ion-android-add sm-10"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="card pprofile vitalscard exercisecard pbcard sidecard">
+                    <div class="activitytime vitalshead exercisehead sidecardhead">
+                        <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval mainexheader sidecarheadlbl">CONDITIONS</h6>
+                    </div>
+                    <div class="card-body historycard vitalsbody">
+                        <ul class="sidecardlist">
+                            <li>Athritis</li>
+                            <li>Glaucoma</li>
+                            <li>Shingles</li>
+                        </ul>
+                    </div>
+                    <div class="activitytime vitalshead exercisehead exercisefooter sidecardfooter">
+                        <span class="footerAdd">Add&nbsp;
+                            <i class="icon ion-android-add sm-10"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="card pprofile vitalscard exercisecard pbcard sidecard">
+                    <div class="activitytime vitalshead exercisehead sidecardhead">
+                        <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval mainexheader sidecarheadlbl">MEDICATIONS</h6>
+                    </div>
+                    <div class="card-body historycard vitalsbody">
+                        <ul class="sidecardlist">
+                            <li>Abacavir (Zlagen)</li>
+                            <li>Leflunomide (Arava)</li>
+                            <li>Nystatin, Clohrhexidin&nbsp;</li>
+                        </ul>
+                    </div>
+                    <div class="activitytime vitalshead exercisehead exercisefooter sidecardfooter">
+                        <span class="footerAdd">Add&nbsp;
+                            <i class="icon ion-android-add sm-10"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="card pprofile vitalscard exercisecard pbcard sidecard">
+                    <div class="activitytime vitalshead exercisehead sidecardhead">
+                        <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval mainexheader sidecarheadlbl">MEDICAL DEVICES</h6>
+                    </div>
+                    <div class="card-body historycard vitalsbody">
+                        <ul class="sidecardlist">
+                            <li>Peacemaker</li>
+                            <li>Asthma Inhaler</li>
+                        </ul>
+                    </div>
+                    <div class="activitytime vitalshead exercisehead exercisefooter sidecardfooter">
+                        <span class="footerAdd">Add&nbsp;
+                            <i class="icon ion-android-add sm-10"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="card pprofile vitalscard exercisecard pbcard sidecard">
+                    <div class="activitytime vitalshead exercisehead sidecardhead">
+                        <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval mainexheader sidecarheadlbl">FITNESS</h6>
+                    </div>
+                    <div class="card-body historycard vitalsbody">
+                        <ul class="fitnesslist">
+                            <li class="fitnessitem">Exercise&nbsp;
+                                <span class="fitnesspan">
+                                    <i class="material-icons sm-10">donut_large</i>
+                                </span>
+                            </li>
+                            <li class="fitnessitem">Diatery Intake&nbsp;
+                                <span class="fitnesspan">
+                                    <i class="material-icons sm-10">donut_large</i>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card pprofile vitalscard exercisecard pbcard sidecard">
+                    <div class="activitytime vitalshead exercisehead sidecardhead">
+                        <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval mainexheader sidecarheadlbl">HEALTH HISTORY</h6>
+                    </div>
+                    <div class="card-body historycard vitalsbody">
+                        <ul class="fitnesslist">
+                            <li class="fitnessitem">Family History
+                                <span class="fitnesspan">
+                                    <i class="material-icons sm-10">donut_large</i>
+                                </span>
+                            </li>
+                            <li class="fitnessitem additem">Immunization
+                                <span id="addspan2" class="fitnesspan addspan">Add&nbsp;
+                                    <i class="icon ion-android-add sm-10"></i>
+                                </span>
+                            </li>
+                            <li class="fitnessitem additem">Procedure
+                                <span id="addspan" class="fitnesspan addspan">Add&nbsp;
+                                    <i class="icon ion-android-add sm-10"></i>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card pprofile vitalscard exercisecard pbcard sidecard">
+                    <div class="activitytime vitalshead exercisehead sidecardhead">
+                        <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval mainexheader sidecarheadlbl">MESUREMENTS</h6>
+                    </div>
+                    <div class="card-body historycard vitalsbody">
+                        <ul class="fitnesslist">
+                            <li class="fitnessitem">Blood Pressure
+                                <span class="fitnesspan">
+                                    <i class="material-icons sm-10">donut_large</i>
+                                </span>
+                            </li>
+                            <li class="fitnessitem">Blood &nbsp;Glucose
+                                <span class="fitnesspan">
+                                    <i class="material-icons sm-10">donut_large</i>
+                                </span>
+                            </li>
+                            <li class="fitnessitem additem">Lab Test Result
+                                <span id="addspan2" class="fitnesspan addspan">Add&nbsp;
+                                    <i class="icon ion-android-add sm-10"></i>
+                                </span>
+                            </li>
+                            <li class="fitnessitem additem">Peak Flow
+                                <span id="addspan" class="fitnesspan addspan">Add&nbsp;
+                                    <i class="icon ion-android-add sm-10"></i>
+                                </span>
+                            </li>
+                            <li class="fitnessitem">Height
+                                <span class="fitnesspan">
+                                    <i class="material-icons sm-10">donut_large</i>
+                                </span>
+                            </li>
+                            <li class="fitnessitem">Weight
+                                <span class="fitnesspan">
+                                    <i class="material-icons sm-10">donut_large</i>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card pprofile vitalscard exercisecard pbcard sidecard resourcecard">
+                    <div class="activitytime vitalshead exercisehead sidecardhead">
+                        <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval mainexheader sidecarheadlbl">RESOURCES</h6>
+                    </div>
+                    <div class="card-body historycard vitalsbody">
+                        <h6 class="resourcesubhd">File Uploads</h6>
+                        <div id="dropzone" class="imtimesection filesection">
+                            <div class="imtypsection filelist dropzone">
+                                <i class="icon ion-filing settingsicon comicon fileicon filingicon"></i>
+                                <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum filename dropzonename">Drag and drop files to upload them to your records&nbsp;
+                                    <span id="dropzonespan">&nbsp; Browse for files</span>
+                                </h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card pprofile vitalscard exercisecard pbcard sidecard">
+                    <div class="activitytime vitalshead exercisehead sidecardhead">
+                        <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval mainexheader sidecarheadlbl">CONTACTS</h6>
+                    </div>
+                    <div class="card-body historycard vitalsbody sidecontatcs">
+                        <div class="contcontainer">
+                            <ul class="fitnesslist contactlist">
+                                <li class="fitnessitem contactsitems additem">Ibrahim Sani
+                                    <span class="fitnesspan"></span>
+                                </li>
+                                <li class="fitnessitem">Emergency Contact:
+                                    <span class="fitnesspan"></span>
+                                </li>
+                                <li class="fitnessitem additem contactsitems">T:
+                                    <span class="fitnesspan contactspan">07034533325</span>
+                                </li>
+                                <li class="fitnessitem additem contactsitems">T:
+                                    <span class="fitnesspan contactspan">080345394022</span>
+                                </li>
+                                <li class="fitnessitem additem contactsitems">E:
+                                    <span class="fitnesspan contactspan emailspan">kabirusani@gmail.com</span>
+                                </li>
+                            </ul>
+                            <ul class="fitnesslist contactlist">
+                                <li class="fitnessitem contactsitems additem">Amina Sani
+                                    <span class="fitnesspan"></span>
+                                </li>
+                                <li class="fitnessitem">Career:
+                                    <span class="fitnesspan"></span>
+                                </li>
+                                <li class="fitnessitem additem contactsitems">T:
+                                    <span class="fitnesspan contactspan">09034533325</span>
+                                </li>
+                                <li class="fitnessitem additem contactsitems">T:
+                                    <span class="fitnesspan contactspan">080345394022</span>
+                                </li>
+                                <li class="fitnessitem additem contactsitems">E:
+                                    <span class="fitnesspan contactspan emailspan">aminasani@gmail.com</span>
+                                </li>
+                            </ul>
+                            <ul class="fitnesslist contactlist">
+                                <li class="fitnessitem contactsitems additem">Ahmed Ismail
+                                    <span class="fitnesspan"></span>
+                                </li>
+                                <li class="fitnessitem">Freind
+                                    <span class="fitnesspan"></span>
+                                </li>
+                                <li class="fitnessitem additem contactsitems">T:
+                                    <span class="fitnesspan contactspan">08034533325</span>
+                                </li>
+                                <li class="fitnessitem additem contactsitems">T:
+                                    <span class="fitnesspan contactspan">080345394022</span>
+                                </li>
+                                <li class="fitnessitem additem contactsitems">E:
+                                    <span class="fitnesspan contactspan emailspan">ahmedismail@gmail.com</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="btn-group footerbutton fbtn" role="group" style="border:none">
+                        <button class="btn btn-primary footerbuttons first conbtn" type="button" data-target="#phmodal" data-toggle="modal"
+                            style="border:none; border-top:1px solid lightgrey; border-right:0px;">Add
+                            <i class="material-icons schedule addcontacicon">add</i>
+                        </button>
+                        <button class="btn btn-primary footerbuttons conbtn fbtn" type="button" style="border:none; border-top:1px solid lightgrey">Edit &nbsp;&nbsp;
+                            <i class="icon ion-ios-compose-outline download editconicon"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+  <div class="sidenav">
+      <a href="#" class="home homemenu" title="Menu">
+          <span class="homespan">
+              <i class="material-icons homeicon">sort</i>
+          </span>
+      </a>
+      <a href="#" [routerLink]="['/orders']" routerLinkActive="router-link-active"  class="home" title="Home">
+          <span class="homespan">
+              <i class="icon ion-ios-home-outline homeicon"></i>
+          </span>
+      </a>
+      <a href="#" [routerLink]="['/categories']"  class="home dashboard" title="Dashboard">
+          <span class="homespan">
+              <i class="icon ion-android-apps homeicon"></i>
+          </span>
+      </a>
+      <a href="#" [routerLink]="['/registration']" routerLinkActive="router-link-active"  class="home patienmenu" title="Patients">
+          <span class="homespan">
+              <i class="icon ion-ios-people-outline homeicon"></i>
+          </span>
+      </a>
+      <a href="#" [routerLink]="['/consultation']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Appointments">
+          <span class="homespan">
+              <i class="icon ion-ios-calendar-outline homeicon"></i>
+          </span>
+      </a>
+      <a href="#" [routerLink]="['/inventory']" routerLinkActive="router-link-active"  class="home cartmenu" title="Products">
+          <span class="homespan">
+              <i class="icon ion-ios-cart-outline homeicon"></i>
+          </span>
+      </a>
+      <a href="#" [routerLink]="['/orders']"  class="home settings" title="Settings">
+          <span class="homespan">
+              <i class="icon ion-ios-gear-outline homeicon"></i>
+          </span>
+      </a>
+
+
+    </div>
+   <nav class="navbar navbar-light navbar-expand-md navigation-clean-search" style="padding:0px">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <em>MS</em>
+        </a>
+        <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navcol-1">
+            <ul class="nav navbar-nav"></ul>
+            <form class="form-inline mr-auto searchform" target="_self">
+                <div class="form-group">
+                    <label for="search-field">
+                        <i class="icon ion-ios-search searchicon" title="Search"></i>
+                    </label>
+                    <input class="form-control search-field" type="search" name="search" id="search-field" placeholder="Search Patient">
+                </div>
+                <p class="filter">Sort by: Recently added</p>
+                <i class="icon ion-ios-arrow-down arrow"></i>
+                <i class="icon ion-ios-personadd-outline arrow buble" id="add" title="Add Patient" data-target="#prodModal" data-toggle="modal"></i>
+                <i class="icon ion-ios-person-outline arrow arrow bubble"></i>
+                <i class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
+                <div class="media midia profile">
+                    <div id="dp1" class="dp"></div>
+                    <img class="img-fluid d-none mr-3" src="assets/img/model.jpg">
+                    <div class="media-body">
+                        <h6 class="username profilename">Dr. Aisha Bello</h6>
+                        <p class="userfb contacts profiletitle">Cadiologist</p>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+  </nav>
+
+
+
+
+
+
+
+
+
+  <div class="wrap col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+    <div class="row roww" data-aos="slide-up" data-aos-duration="900" data-aos-delay="50" data-aos-once="true">
+        <div class="col card-column">
+            <div class="card card-primary patient-card">
+                <i class="icon ion-ios-checkmark checkmark"></i>
+                <div class="midiaheader">
+                    <div class="media midia patientmidia">
+                        <div class="dp pzero"></div>
+                        <div class="media-body">
+                            <h6 class="username">Benjamin Linus</h6>
+                            <p class="userfb contacts">Last visit: Jan 20, 2018</p>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary maker" type="button">But
+                        <span class="number">5 Times</span>ton
+                        <i class="icon ion-ios-loop-strong history"></i>
+                    </button>
+                    <button class="btn btn-primary maker amount" type="button">Button</button>
+                </div>
+                <div class="card-body card-bodi">
+                    <div class="imtimesection cons-piriod">
+                        <div class="imtypsection">
+                            <div class="imtime cons-time">
+                                <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval">8</h6>
+                                <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval imdate">JAN</h6>
+                            </div>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtype cons-imtype">Blood Cancer</h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum cons-datimum">Date of transfusion&nbsp;
+                                <span>08/01/15</span>
+                            </h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum numseq cons-numseq">Number in sequence&nbsp;
+                                <span>01</span>
+                            </h6>
+                            <button class="btn btn-primary submitmsg exsetting imuncomnt cons-coment" type="button">
+                                <i class="icon ion-ios-chatboxes-outline settingsicon comicon"></i>
+                            </button>
+                            <button class="btn btn-primary submitmsg exsetting imuncomnt imunlink" type="button"></button>
+                        </div>
+                        <div class="imtypsection">
+                            <div class="imtime cons-time">
+                                <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval">8</h6>
+                                <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval imdate">JAN</h6>
+                            </div>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtype cons-imtype">Sickle Cell</h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum cons-datimum">Date of transfusion&nbsp;
+                                <span>08/01/15</span>
+                            </h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum numseq cons-numseq">Number in sequence&nbsp;
+                                <span>01</span>
+                            </h6>
+                            <button class="btn btn-primary submitmsg exsetting imuncomnt cons-coment" type="button">
+                                <i class="icon ion-ios-chatboxes-outline settingsicon comicon"></i>
+                            </button>
+                            <button class="btn btn-primary submitmsg exsetting imuncomnt imunlink" type="button"></button>
+                        </div>
+                        <div class="imtypsection">
+                            <div class="imtime cons-time">
+                                <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval">29</h6>
+                                <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval imdate">OCT</h6>
+                            </div>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtype cons-imtype">Malaria Fever</h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum cons-datimum">Date of immunization&nbsp;
+                                <span>08/01/15</span>
+                            </h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum numseq cons-numseq">Number in sequence&nbsp;
+                                <span>01</span>
+                            </h6>
+                            <button class="btn btn-primary submitmsg exsetting imuncomnt cons-coment" type="button">
+                                <i class="icon ion-ios-chatboxes-outline settingsicon comicon"></i>
+                            </button>
+                            <button class="btn btn-primary submitmsg exsetting imuncomnt imunlink" type="button"></button>
+                        </div>
+                    </div>
+                    <div class="btn-group footerbutton" role="group">
+                        <button class="btn btn-primary footerbuttons first" type="button" data-target="#phmodal" data-toggle="modal">History
+                            <i class="material-icons schedule">details</i>
+                        </button>
+                        <button class="btn btn-primary footerbuttons" type="button" data-target="#mymodal" data-toggle="modal">Attend to
+                            <i class="icon ion-android-clipboard download"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col card-column">
+            <div class="card card-primary patient-card">
+                <i class="icon ion-ios-checkmark checkmark"></i>
+                <div class="midiaheader">
+                    <div class="media midia patientmidia">
+                        <div class="dp pone"></div>
+                        <div class="media-body">
+                            <h6 class="username">Kabiru Ahmed</h6>
+                            <p class="userfb contacts">Last visit: Jan 20, 2018</p>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary maker" type="button">But
+                        <span class="number">5 Times</span>ton
+                        <i class="icon ion-ios-loop-strong history"></i>
+                    </button>
+                    <button class="btn btn-primary maker amount" type="button">Button</button>
+                </div>
+                <div class="card-body card-bodi">
+                    <div class="imtimesection cons-piriod">
+                        <div class="imtypsection">
+                            <div class="imtime cons-time">
+                                <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval">8</h6>
+                                <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval imdate">JAN</h6>
+                            </div>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtype cons-imtype">Hepatitis B</h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum cons-datimum">Date of immunization&nbsp;
+                                <span>08/01/15</span>
+                            </h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum numseq cons-numseq">Number in sequence&nbsp;
+                                <span>01</span>
+                            </h6>
+                            <button class="btn btn-primary submitmsg exsetting imuncomnt cons-coment" type="button">
+                                <i class="icon ion-ios-chatboxes-outline settingsicon comicon"></i>
+                            </button>
+                            <button class="btn btn-primary submitmsg exsetting imuncomnt imunlink" type="button"></button>
+                        </div>
+                        <div class="imtypsection">
+                            <div class="imtime cons-time">
+                                <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval">8</h6>
+                                <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval imdate">JAN</h6>
+                            </div>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtype cons-imtype">Hepatitis B</h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum cons-datimum">Date of immunization&nbsp;
+                                <span>08/01/15</span>
+                            </h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum numseq cons-numseq">Number in sequence&nbsp;
+                                <span>01</span>
+                            </h6>
+                            <button class="btn btn-primary submitmsg exsetting imuncomnt cons-coment" type="button">
+                                <i class="icon ion-ios-chatboxes-outline settingsicon comicon"></i>
+                            </button>
+                            <button class="btn btn-primary submitmsg exsetting imuncomnt imunlink" type="button"></button>
+                        </div>
+                        <div class="imtypsection">
+                            <div class="imtime cons-time">
+                                <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval">29</h6>
+                                <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval imdate">OCT</h6>
+                            </div>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtype cons-imtype">Malaria Fever</h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum cons-datimum">Date of immunization&nbsp;
+                                <span>08/01/15</span>
+                            </h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum numseq cons-numseq">Number in sequence&nbsp;
+                                <span>01</span>
+                            </h6>
+                            <button class="btn btn-primary submitmsg exsetting imuncomnt cons-coment" type="button">
+                                <i class="icon ion-ios-chatboxes-outline settingsicon comicon"></i>
+                            </button>
+                            <button class="btn btn-primary submitmsg exsetting imuncomnt imunlink" type="button"></button>
+                        </div>
+                    </div>
+                    <div class="btn-group footerbutton" role="group">
+                        <button class="btn btn-primary footerbuttons first" type="button" data-target="#phmodal" data-toggle="modal">History
+                            <i class="material-icons schedule">details</i>
+                        </button>
+                        <button class="btn btn-primary footerbuttons" type="button">Attend to
+                            <i class="icon ion-android-clipboard download"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card card-primary patient-card">
+                <div class="midiaheader">
+                    <div class="media midia patientmidia">
+                        <div class="dp three"></div>
+                        <div class="media-body">
+                            <h6 class="username">Salma Hamid
+                                <i class="icon ion-ios-help checkmark infocheck"></i>
+                            </h6>
+                            <p class="userfb contacts">Last visit: Jan 20, 2018</p>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary maker" type="button">But
+                        <span class="number">5 Times</span>ton
+                        <i class="icon ion-ios-loop-strong history"></i>
+                    </button>
+                    <button class="btn btn-primary maker amount" type="button">Button</button>
+                </div>
+                <div class="card-body card-bodi">
+                    <div class="imtimesection cons-piriod">
+                        <div class="imtypsection">
+                            <div class="imtime cons-time">
+                                <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval">8</h6>
+                                <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval imdate">JAN</h6>
+                            </div>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtype cons-imtype">Blood Cancer</h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum cons-datimum">Date of transfusion&nbsp;
+                                <span>08/01/15</span>
+                            </h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum numseq cons-numseq">Number in sequence&nbsp;
+                                <span>01</span>
+                            </h6>
+                            <button class="btn btn-primary submitmsg exsetting imuncomnt cons-coment" type="button">
+                                <i class="icon ion-ios-chatboxes-outline settingsicon comicon"></i>
+                            </button>
+                            <button class="btn btn-primary submitmsg exsetting imuncomnt imunlink" type="button"></button>
+                        </div>
+                        <div class="imtypsection">
+                            <div class="imtime cons-time">
+                                <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval">8</h6>
+                                <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval imdate">JAN</h6>
+                            </div>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtype cons-imtype">Blood Cancer</h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum cons-datimum">Date of transfusion&nbsp;
+                                <span>08/01/15</span>
+                            </h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum numseq cons-numseq">Number in sequence&nbsp;
+                                <span>01</span>
+                            </h6>
+                            <button class="btn btn-primary submitmsg exsetting imuncomnt cons-coment" type="button">
+                                <i class="icon ion-ios-chatboxes-outline settingsicon comicon"></i>
+                            </button>
+                            <button class="btn btn-primary submitmsg exsetting imuncomnt imunlink" type="button"></button>
+                        </div>
+                        <div class="imtypsection">
+                            <div class="imtime cons-time">
+                                <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval">29</h6>
+                                <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval imdate">OCT</h6>
+                            </div>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtype cons-imtype">Sickle Cell</h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum cons-datimum">Date of immunization&nbsp;
+                                <span>08/01/15</span>
+                            </h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum numseq cons-numseq">Number in sequence&nbsp;
+                                <span>01</span>
+                            </h6>
+                            <button class="btn btn-primary submitmsg exsetting imuncomnt cons-coment" type="button">
+                                <i class="icon ion-ios-chatboxes-outline settingsicon comicon"></i>
+                            </button>
+                            <button class="btn btn-primary submitmsg exsetting imuncomnt imunlink" type="button"></button>
+                        </div>
+                    </div>
+                    <div class="btn-group footerbutton" role="group">
+                        <button class="btn btn-primary footerbuttons first" type="button" data-target="#phmodal" data-toggle="modal">History
+                            <i class="material-icons schedule">details</i>
+                        </button>
+                        <button class="btn btn-primary footerbuttons" type="button">Attend to
+                            <i class="icon ion-android-clipboard download"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card card-primary patient-card">
+                <div class="midiaheader">
+                    <div class="media midia patientmidia">
+                        <div class="dp ptwo"></div>
+                        <div class="media-body">
+                            <h6 class="username">Shantel James
+                                <i class="icon ion-ios-help checkmark infocheck"></i>
+                            </h6>
+                            <p class="userfb contacts">Last visit: Jan 20, 2018</p>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary maker" type="button">But
+                        <span class="number">5 Times</span>ton
+                        <i class="icon ion-ios-loop-strong history"></i>
+                    </button>
+                    <button class="btn btn-primary maker amount" type="button">Button</button>
+                </div>
+                <div class="card-body card-bodi">
+                    <div class="imtimesection cons-piriod">
+                        <div class="imtypsection">
+                            <div class="imtime cons-time">
+                                <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval">8</h6>
+                                <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval imdate">JAN</h6>
+                            </div>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtype cons-imtype">Hepatitis B</h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum cons-datimum">Date of immunization&nbsp;
+                                <span>08/01/15</span>
+                            </h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum numseq cons-numseq">Number in sequence&nbsp;
+                                <span>01</span>
+                            </h6>
+                            <button class="btn btn-primary submitmsg exsetting imuncomnt cons-coment" type="button">
+                                <i class="icon ion-ios-chatboxes-outline settingsicon comicon"></i>
+                            </button>
+                            <button class="btn btn-primary submitmsg exsetting imuncomnt imunlink" type="button"></button>
+                        </div>
+                        <div class="imtypsection">
+                            <div class="imtime cons-time">
+                                <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval">8</h6>
+                                <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval imdate">JAN</h6>
+                            </div>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtype cons-imtype">Hepatitis B</h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum cons-datimum">Date of immunization&nbsp;
+                                <span>08/01/15</span>
+                            </h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum numseq cons-numseq">Number in sequence&nbsp;
+                                <span>01</span>
+                            </h6>
+                            <button class="btn btn-primary submitmsg exsetting imuncomnt cons-coment" type="button">
+                                <i class="icon ion-ios-chatboxes-outline settingsicon comicon"></i>
+                            </button>
+                            <button class="btn btn-primary submitmsg exsetting imuncomnt imunlink" type="button"></button>
+                        </div>
+                        <div class="imtypsection">
+                            <div class="imtime cons-time">
+                                <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval">29</h6>
+                                <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval imdate">OCT</h6>
+                            </div>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtype cons-imtype">Malaria Fever</h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum cons-datimum">Date of immunization&nbsp;
+                                <span>08/01/15</span>
+                            </h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum numseq cons-numseq">Number in sequence&nbsp;
+                                <span>01</span>
+                            </h6>
+                            <button class="btn btn-primary submitmsg exsetting imuncomnt cons-coment" type="button">
+                                <i class="icon ion-ios-chatboxes-outline settingsicon comicon"></i>
+                            </button>
+                            <button class="btn btn-primary submitmsg exsetting imuncomnt imunlink" type="button"></button>
+                        </div>
+                    </div>
+                    <div class="btn-group footerbutton" role="group">
+                        <button class="btn btn-primary footerbuttons first" type="button" data-target="#phmodal" data-toggle="modal">History
+                            <i class="material-icons schedule">details</i>
+                        </button>
+                        <button class="btn btn-primary footerbuttons" type="button">Attend to
+                            <i class="icon ion-android-clipboard download"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row roww" data-aos="slide-up" data-aos-duration="900" data-aos-delay="50" data-aos-once="true">
+        <div class="col card-column">
+            <div class="card card-primary patient-card">
+                <i class="icon ion-ios-checkmark checkmark"></i>
+                <div class="midiaheader">
+                    <div class="media midia patientmidia">
+                        <div class="dp pzero"></div>
+                        <div class="media-body">
+                            <h6 class="username">Benjamin Linus</h6>
+                            <p class="userfb contacts">Last visit: Jan 20, 2018</p>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary maker" type="button">But
+                        <span class="number">5 Times</span>ton
+                        <i class="icon ion-ios-loop-strong history"></i>
+                    </button>
+                    <button class="btn btn-primary maker amount" type="button">Button</button>
+                </div>
+                <div class="card-body card-bodi">
+                    <div class="imtimesection cons-piriod">
+                        <div class="imtypsection">
+                            <div class="imtime cons-time">
+                                <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval">8</h6>
+                                <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval imdate">JAN</h6>
+                            </div>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtype cons-imtype">Hepatitis B</h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum cons-datimum">Date of immunization&nbsp;
+                                <span>08/01/15</span>
+                            </h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum numseq cons-numseq">Number in sequence&nbsp;
+                                <span>01</span>
+                            </h6>
+                            <button class="btn btn-primary submitmsg exsetting imuncomnt cons-coment" type="button">
+                                <i class="icon ion-ios-chatboxes-outline settingsicon comicon"></i>
+                            </button>
+                            <button class="btn btn-primary submitmsg exsetting imuncomnt imunlink" type="button"></button>
+                        </div>
+                        <div class="imtypsection">
+                            <div class="imtime cons-time">
+                                <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval">8</h6>
+                                <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval imdate">JAN</h6>
+                            </div>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtype cons-imtype">Hepatitis B</h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum cons-datimum">Date of immunization&nbsp;
+                                <span>08/01/15</span>
+                            </h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum numseq cons-numseq">Number in sequence&nbsp;
+                                <span>01</span>
+                            </h6>
+                            <button class="btn btn-primary submitmsg exsetting imuncomnt cons-coment" type="button">
+                                <i class="icon ion-ios-chatboxes-outline settingsicon comicon"></i>
+                            </button>
+                            <button class="btn btn-primary submitmsg exsetting imuncomnt imunlink" type="button"></button>
+                        </div>
+                        <div class="imtypsection">
+                            <div class="imtime cons-time">
+                                <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval">29</h6>
+                                <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval imdate">OCT</h6>
+                            </div>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtype cons-imtype">Malaria Fever</h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum cons-datimum">Date of immunization&nbsp;
+                                <span>08/01/15</span>
+                            </h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum numseq cons-numseq">Number in sequence&nbsp;
+                                <span>01</span>
+                            </h6>
+                            <button class="btn btn-primary submitmsg exsetting imuncomnt cons-coment" type="button">
+                                <i class="icon ion-ios-chatboxes-outline settingsicon comicon"></i>
+                            </button>
+                            <button class="btn btn-primary submitmsg exsetting imuncomnt imunlink" type="button"></button>
+                        </div>
+                    </div>
+                    <div class="btn-group footerbutton" role="group">
+                        <button class="btn btn-primary footerbuttons first" type="button" data-target="#phmodal" data-toggle="modal">History
+                            <i class="material-icons schedule">details</i>
+                        </button>
+                        <button class="btn btn-primary footerbuttons" type="button">Attend to
+                            <i class="icon ion-android-clipboard download"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col card-column">
+            <div class="card card-primary patient-card">
+                <i class="icon ion-ios-checkmark checkmark"></i>
+                <div class="midiaheader">
+                    <div class="media midia patientmidia">
+                        <div class="dp pone"></div>
+                        <div class="media-body">
+                            <h6 class="username">Kabiru Ahmed</h6>
+                            <p class="userfb contacts">Last visit: Jan 20, 2018</p>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary maker" type="button">But
+                        <span class="number">5 Times</span>ton
+                        <i class="icon ion-ios-loop-strong history"></i>
+                    </button>
+                    <button class="btn btn-primary maker amount" type="button">Button</button>
+                </div>
+                <div class="card-body card-bodi">
+                    <div class="imtimesection cons-piriod">
+                        <div class="imtypsection">
+                            <div class="imtime cons-time">
+                                <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval">8</h6>
+                                <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval imdate">JAN</h6>
+                            </div>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtype cons-imtype">Hepatitis B</h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum cons-datimum">Date of immunization&nbsp;
+                                <span>08/01/15</span>
+                            </h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum numseq cons-numseq">Number in sequence&nbsp;
+                                <span>01</span>
+                            </h6>
+                            <button class="btn btn-primary submitmsg exsetting imuncomnt cons-coment" type="button">
+                                <i class="icon ion-ios-chatboxes-outline settingsicon comicon"></i>
+                            </button>
+                            <button class="btn btn-primary submitmsg exsetting imuncomnt imunlink" type="button"></button>
+                        </div>
+                        <div class="imtypsection">
+                            <div class="imtime cons-time">
+                                <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval">8</h6>
+                                <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval imdate">JAN</h6>
+                            </div>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtype cons-imtype">Hepatitis B</h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum cons-datimum">Date of immunization&nbsp;
+                                <span>08/01/15</span>
+                            </h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum numseq cons-numseq">Number in sequence&nbsp;
+                                <span>01</span>
+                            </h6>
+                            <button class="btn btn-primary submitmsg exsetting imuncomnt cons-coment" type="button">
+                                <i class="icon ion-ios-chatboxes-outline settingsicon comicon"></i>
+                            </button>
+                            <button class="btn btn-primary submitmsg exsetting imuncomnt imunlink" type="button"></button>
+                        </div>
+                        <div class="imtypsection">
+                            <div class="imtime cons-time">
+                                <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval">29</h6>
+                                <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval imdate">OCT</h6>
+                            </div>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtype cons-imtype">Malaria Fever</h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum cons-datimum">Date of immunization&nbsp;
+                                <span>08/01/15</span>
+                            </h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum numseq cons-numseq">Number in sequence&nbsp;
+                                <span>01</span>
+                            </h6>
+                            <button class="btn btn-primary submitmsg exsetting imuncomnt cons-coment" type="button">
+                                <i class="icon ion-ios-chatboxes-outline settingsicon comicon"></i>
+                            </button>
+                            <button class="btn btn-primary submitmsg exsetting imuncomnt imunlink" type="button"></button>
+                        </div>
+                    </div>
+                    <div class="btn-group footerbutton" role="group">
+                        <button class="btn btn-primary footerbuttons first" type="button" data-target="#phmodal" data-toggle="modal">History
+                            <i class="material-icons schedule">details</i>
+                        </button>
+                        <button class="btn btn-primary footerbuttons" type="button" >Attend to
+                            <i class="icon ion-android-clipboard download"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card card-primary patient-card">
+                <div class="midiaheader">
+                    <div class="media midia patientmidia">
+                        <div class="dp three"></div>
+                        <div class="media-body">
+                            <h6 class="username">Salma Hamid
+                                <i class="icon ion-ios-help checkmark infocheck"></i>
+                            </h6>
+                            <p class="userfb contacts">Last visit: Jan 20, 2018</p>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary maker" type="button">But
+                        <span class="number">5 Times</span>ton
+                        <i class="icon ion-ios-loop-strong history"></i>
+                    </button>
+                    <button class="btn btn-primary maker amount" type="button">Button</button>
+                </div>
+                <div class="card-body card-bodi">
+                    <div class="imtimesection cons-piriod">
+                        <div class="imtypsection">
+                            <div class="imtime cons-time">
+                                <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval">8</h6>
+                                <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval imdate">JAN</h6>
+                            </div>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtype cons-imtype">Hepatitis B</h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum cons-datimum">Date of immunization&nbsp;
+                                <span>08/01/15</span>
+                            </h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum numseq cons-numseq">Number in sequence&nbsp;
+                                <span>01</span>
+                            </h6>
+                            <button class="btn btn-primary submitmsg exsetting imuncomnt cons-coment" type="button">
+                                <i class="icon ion-ios-chatboxes-outline settingsicon comicon"></i>
+                            </button>
+                            <button class="btn btn-primary submitmsg exsetting imuncomnt imunlink" type="button"></button>
+                        </div>
+                        <div class="imtypsection">
+                            <div class="imtime cons-time">
+                                <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval">8</h6>
+                                <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval imdate">JAN</h6>
+                            </div>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtype cons-imtype">Hepatitis B</h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum cons-datimum">Date of immunization&nbsp;
+                                <span>08/01/15</span>
+                            </h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum numseq cons-numseq">Number in sequence&nbsp;
+                                <span>01</span>
+                            </h6>
+                            <button class="btn btn-primary submitmsg exsetting imuncomnt cons-coment" type="button">
+                                <i class="icon ion-ios-chatboxes-outline settingsicon comicon"></i>
+                            </button>
+                            <button class="btn btn-primary submitmsg exsetting imuncomnt imunlink" type="button"></button>
+                        </div>
+                        <div class="imtypsection">
+                            <div class="imtime cons-time">
+                                <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval">29</h6>
+                                <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtimeval imdate">OCT</h6>
+                            </div>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue imtype cons-imtype">Malaria Fever</h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum cons-datimum">Date of immunization&nbsp;
+                                <span>08/01/15</span>
+                            </h6>
+                            <h6 class="justify-content-center align-self-center activedaytime vitalsage bplabel exercise exercisetime mainexval exercisetopval bpvalue avgbp dateimum numseq cons-numseq">Number in sequence&nbsp;
+                                <span>01</span>
+                            </h6>
+                            <button class="btn btn-primary submitmsg exsetting imuncomnt cons-coment" type="button">
+                                <i class="icon ion-ios-chatboxes-outline settingsicon comicon"></i>
+                            </button>
+                            <button class="btn btn-primary submitmsg exsetting imuncomnt imunlink" type="button"></button>
+                        </div>
+                    </div>
+                    <div class="btn-group footerbutton" role="group">
+                        <button class="btn btn-primary footerbuttons first" type="button" >History
+                            <i class="material-icons schedule">details</i>
+                        </button>
+                        <button class="btn btn-primary footerbuttons" type="button" data-target="#phodal" data-toggle="modal">Attend to
+                            <i class="icon ion-android-clipboard download"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card card-primary">
+                <div class="midiaheader">
+                    <div class="media midia patientmidia">
+                        <div class="dp pthree"></div>
+                        <img class="img-fluid d-none mr-3" src="assets/img/model.jpg">
+                        <div class="media-body">
+                            <h6 class="username">Patrick Amos
+                                <i class="icon ion-ios-close checkmark close"></i>
+                            </h6>
+                            <p class="userfb contacts">Last visit: Jan 20, 2018</p>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary maker" type="button">But
+                        <span class="number">2 Times</span>ton
+                        <i class="icon ion-ios-loop-strong history"></i>
+                    </button>
+                    <button class="btn btn-primary maker amount" type="button">Button</button>
+                </div>
+                <div class="card-body card-bodi cardbody">
+                    <form class="appointment-form">
+                        <input class="form-control patientdata address" type="text" placeholder="Appointment title">
+                    </form>
+                    <div class="btn-group footerbutton" role="group">
+                        <button class="btn btn-primary footerbuttons first" type="button">Schedule
+                            <i class="icon ion-android-calendar schedule"></i>
+                        </button>
+                        <button class="btn btn-primary footerbuttons" type="button" >Download Report
+                            <i class="icon ion-ios-download-outline download"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>

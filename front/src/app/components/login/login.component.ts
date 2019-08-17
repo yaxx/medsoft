@@ -42,7 +42,7 @@ cred = {
   switch() {
     this.signin = false;
   }
-  routeHas(path){
+  routeHas(path) {
     return this.router.url.includes(path);
   }
   hideError() {

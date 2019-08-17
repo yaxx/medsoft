@@ -41,8 +41,7 @@ const createPerson = async data => {
         record: data.record,                                                                                   
       }).save() 
     }
-    
-  
+
     if(con) {
         await Client.findOneAndUpdate({
         _id: person.info.official.hospital
@@ -110,7 +109,7 @@ getPatients: async (req, res) => {
       patients = patients.filter(patient => patient.record.visits[0][0].status === req.params.type && patient.record.visits[0][0].dept === official.department);
       break;
       case 'Pharmacy':
-      patients = patients.filter(patient => patient.record.medications.length>0);
+      patients = patients.filter(patient => patient.record.medications.length > 0);
       break;
       case 'Admin':
       patients = (req.params.type) ? patients.filter(patient => patient.record.visits[0][0].status === req.params.type) : patients.filter(patient => patient.record.medications.length) ;

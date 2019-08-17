@@ -1,0 +1,80 @@
+.home.homemenu {
+  top:-38%;
+}
+
+.home.homemenu {
+  top:1.5%;
+}
+
+/* .home:focus {
+  border-right:1px solid rgb(2,209,184);
+  background:rgb(249,250,251);
+} */
+
+a {
+  background-color:transparent;
+}
+
+a:active, a:hover {
+  outline:0;
+}
+
+.sidenav {
+  position:absolute;
+  height:100%;
+  width:38px;
+  background:#f9fafb;
+  z-index:5;
+  position:fixed;
+  top:0%;
+}
+
+.home {
+  width:100%;
+  position:absolute;
+  height:6%;
+  top:31%;
+}
+
+.homespan {
+  margin:auto;
+  left:25%;
+  position:relative;
+}
+
+.homeicon {
+  font-size:x-large;
+  color:#b1adad;
+  text-align:center;
+  margin:auto;
+}
+
+
+.home:hover {
+  /* border-right:2px solid #0798f1; */
+  background: whitesmoke;
+
+}
+
+.home.dashboard {
+  top:38%;
+}
+.router-link-active {
+  background: whitesmoke;
+}
+
+
+
+.home.reviewmenu {
+  top:52%;
+}
+
+.home.patienmenu {
+  top:45%;
+}
+
+.home.settings {
+  top:94%;
+  border-radius:50%;
+}
+

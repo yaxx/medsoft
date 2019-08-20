@@ -1,0 +1,14 @@
+am trying to enable cors in express server but does not seem to be working
+
+ have MEAN stack application with the client (live server on port 4200) and express server listening on port 5000. now i install cors and enable it but each time the client is making a (POST or GET) request it ends up with the following error:
+
+
+ Access to XMLHttpRequest at 'http://localhost:5000/api/login' from origin 'http://localhost:4200' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+
+ uri = 'http://localhost:5000/api';
+login (user) {
+  return this.http.post(`${this.uri}/login`, user,{withCredentials: true});               
+}
+
+const cors = require('cors');
+app.use(cors({origin:["localhost:4200"], credentials: true}))

@@ -44,14 +44,12 @@
                           </div>
                         </div>
                     </form>
-
                     <div (click) = addDepartment() style='left:86%; height:32px;width:32px'
                     title ='Done' class="floter">
                     <i *ngIf='processing' class="fa fa-circle-o-notch fa-spin fa-10x slow-spin" style="position:absolute;bottom:5px;left:5px;font-size:20px;color: #1da1f2;"> </i>
                     <i *ngIf='!processing' style="color:#1da1f2;bottom:-10px"
                       class="icon ion-ios-checkmark-empty flotericon"> </i>
                   </div>
-                  
                   </div>
                  <div *ngIf = transMsg style="padding:5px;border-top: 1px solid rgb(248, 247, 247)" class="card-footer"> <h6  class="feedbackMsg">{{transMsg}}</h6></div>
               </div>
@@ -121,7 +119,6 @@
             <div *ngIf = transMsg style="padding:5px;border-top: 1px solid rgb(248, 247, 247)" class="card-footer"> <h6  class="feedbackMsg">{{transMsg}}</h6></div>
         </div>
 
-
         <div *ngIf ='staffMode === "view"'   class="card card-secondary historycard midlecard profilecard" style="margin:auto;min-height:240px;border-radius:12px;">
               <div style='padding-left: 30px;border-top-right-radius:12px;border-top-left-radius:12px; border-bottom:0px' class="card-header profileheader small-header">
                 <h6 style='font-size:11px;position:absolute; top:5%;left:2%;color:#1da1f2;' class="patien-name small-name">STAFF DETAILS</h6>
@@ -180,8 +177,6 @@
     </div>
   </div>
 </div>
-
-
 
 <nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:0px">
   <div class="container">
@@ -323,9 +318,9 @@
                             <h1 class="dept previnfo "style='text-align:center;color:lightgrey'>
                               {{staff.info.official.department}}<span class="predata">
                               </span></h1>
-                              <h1 class="dept previnfo" style='text-align:center;color:lightgrey'>
+                              <!-- <h1 class="dept previnfo" style='text-align:center;color:lightgrey'>
                                 {{staff.info.contact.me.mobile}}<span class="predata">  </span>
-                            </h1>
+                            </h1> -->
                           </div>
                       </div>
                   </div>

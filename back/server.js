@@ -18,13 +18,9 @@ app.use('/graphql', graphQlHttp({
   rootValue: graphQlResolvers,
   graphiql: true
 }))
-// app.options('localhost:5000', cors())
-// app.use(cors({origin:["localhost:4200"], credentials: true}))
-// app.use(cors({origin:["localhost:5000"], credentials: true}))
-app.use(cors({origin:["http://192.168.1.100:5000"], credentials: true}))
+// app.use(cors({origin:"http://localhost:4200", credentials: true}))
+app.use(cors({origin:"http://192.168.1.100:5000", credentials: true}))
 app.use(express.static(path.join(__dirname,'dist','front')))
-
-// app.options('*', cors())
 app.use(require('morgan')('dev'))
 app.use(bodyParser.json())
 app.use(require('cookie-parser')('blackfly'))
@@ -33,14 +29,12 @@ var logins = []
 io.sockets.on('connection', (socket) => {
   connections.push(socket)
   console.log('%s socket(s) connected', connections.length)
-
   socket.on('login', (data) => {
     data.si = socket.id;
     logins.push({ui:data.ui,si:socket.id})
     console.log(logins);
     socket.broadcast.emit('online', data.ui)
   })
-
   socket.on('new message', (data) => {
     console.log(data.msgs)
   //  api.updateMessages(data)
@@ -54,13 +48,11 @@ io.sockets.on('connection', (socket) => {
     socket.broadcast.emit('enroled', patient);  
   })
   socket.on('consulted', (patient) => {
-    
     socket.broadcast.emit('consulted', patient);  
   })
   socket.on('Discharge',(patient)=>{
     socket.broadcast.emit('Discharge', patient);  
   })
-  
   socket.on('transaction', cart => {
     socket.broadcast.emit('transaction', cart);
   })
@@ -90,7 +82,6 @@ io.sockets.on('connection', (socket) => {
       if (err) {
         console.log(err)
       } else {
-
       }
     })
     logins.forEach(function (user) {
@@ -114,7 +105,6 @@ io.sockets.on('connection', (socket) => {
         })
       } else { console.log(err) }
     })
-
     Notification({from: socket.request.cookies.q, to: data.username, button: 'Following'}).save((err, note) => {
       if (err) {
         console.log(err)
@@ -122,7 +112,6 @@ io.sockets.on('connection', (socket) => {
 
       }
     })
-
     Notification.findOne({_id: data.i}, (err, mynote) => {
       if (!err) {
         mynote.button = 'Following'
@@ -136,7 +125,6 @@ io.sockets.on('connection', (socket) => {
       }
     })
   })
-
   socket.on('check', (data) => {
     console.log(logins)
     logins.forEach(function (user) {
@@ -146,12 +134,10 @@ io.sockets.on('connection', (socket) => {
     })
   })
 })
-
 app.get('/', (req, res) => {
     // res.render('index')
   res.sendFile(path.resolve(__dirname,'dist','front','index.html'))
 })
-
 app.get('/api/client', api.getClient)
 app.get('/api/patients/:type', api.getPatients)
 app.get('/api/myaccount', api.getMyAccount)
@@ -184,8 +170,6 @@ app.post('/api/update-medication', api.updateMedication)
 app.post('/api/updateclient', api.updateClient)
 app.post('/api/login', api.login)
 app.post('/api/transaction', api.runTransaction)
-
-
 server.listen(5000, (err) => {
   if (err) {
     console.log(err.stack)

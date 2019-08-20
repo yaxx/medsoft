@@ -14,13 +14,11 @@ import {Observable} from 'rxjs';
 import {WebcamImage, WebcamInitError, WebcamUtil} from 'ngx-webcam';
 import { Record, Session, Complain, Appointment, Priscription, Test, Medication, Visit, Note} from '../../models/record.model';
 const uri = 'http://localhost:5000/api/upload';
-
 @Component({
   selector: 'app-consultation',
   templateUrl: './consultation.component.html',
   styleUrls: ['./consultation.component.css']
 })
-
 export class ConsultationComponent implements OnInit {
   states = states;
   lgas = lgas;
@@ -121,7 +119,6 @@ export class ConsultationComponent implements OnInit {
         this.patients.splice(i, 1);
       }
   });
-
   this.socket.io.on('Discharge', (patient: Person) => {
     const i = this.patients.findIndex(p => p._id === patient._id);
       if(patient.record.visits[0][0].dept.toLowerCase() === this.myDepartment ) {

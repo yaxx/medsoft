@@ -145,12 +145,10 @@ export class DataService {
   getNew() {
     return this.staff;
   }
-
   getClient() {
     return this.http.get(
       `${this.uri}/client`, {withCredentials: true}
       );
-
   }
   getProducts() {
     return this.http.get(
@@ -182,15 +180,9 @@ export class DataService {
         `${this.uri}/person`, staff, {withCredentials: true}
       );
     }
-
-
   updateClient(client) {
     return this.http.post(
       `${this.uri}/updateclient`, client, {withCredentials: true});
-
   }
-
-
-
 }
 

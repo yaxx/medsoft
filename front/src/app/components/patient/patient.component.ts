@@ -10,7 +10,7 @@ import { Person} from '../../models/person.model';
 import { Priscription, Medication, Visit, Note} from '../../models/record.model';
 
 // const uri = 'http://localhost:5000/api/upload';
-// const uri = 'http://192.168.1.100:5000/api/upload';
+const uri = 'http://18.221.76.96:5000/api/upload';
 @Component({
   selector: 'app-patient',
   templateUrl: './patient.component.html',
@@ -193,7 +193,7 @@ routeHas(path){
   toggleSortMenu() {
     this.sortMenu = !this.sortMenu;
   }
-  
+
   swichtToBack(i) {
     this.tempMedications = new Array<Medication>();
     this.medications = this.patients[i].record.medications ;

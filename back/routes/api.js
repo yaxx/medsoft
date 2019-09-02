@@ -74,8 +74,6 @@ downloadFile: (req, res) => {
   const filename = path.join(__dirname, '../uploads') + '/'+req.body.fileName
   res.sendFile(filename);
 },
-
-
 addPerson: async (req, res) => {
   try {
   const exist = await Person.findOne({
@@ -484,7 +482,7 @@ updateBed: (req, res)=>{
 },
 updateInfo: async (req, res) => {
   try {
-    const person = await Person.findByIdAndUpdate(req.body.id,{info: req.body.info}, {new:true})
+    const person = await Person.findByIdAndUpdate(req.body.id,{info: req.body.info}, {new: true})
     res.send(person.info);
   }
   catch(e) {
@@ -560,10 +558,10 @@ addProduct: async (req, res) => {
 },
 getProducts: async (req, res) => {
   try {
-    const {inventory} = await Client.findById(req.cookies.h)
+    let {inventory} = await Client.findById(req.cookies.h)
+    inventory = Array.from(inventory).map(o => o.toJSON()).map(product => ({...product, type:'Product'}))
     const items = await Item.find()
-    console.log(items)
-    res.send({inventory: inventory, items: items})
+      res.send({inventory: inventory, items: items})
   }
   catch(e)  {
     throw e

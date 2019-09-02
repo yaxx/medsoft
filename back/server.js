@@ -19,7 +19,7 @@ app.use('/graphql', graphQlHttp({
   graphiql: true
 }))
 // app.use(cors({origin:"http://localhost:4200", credentials: true}))
-app.use(cors({origin:"http://192.168.1.100:5000", credentials: true}))
+app.use(cors({origin:"*", credentials: true}))
 app.use(express.static(path.join(__dirname,'dist','front')))
 app.use(require('morgan')('dev'))
 app.use(bodyParser.json())

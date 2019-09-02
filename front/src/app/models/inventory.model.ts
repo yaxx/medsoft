@@ -28,6 +28,7 @@ export class Product {
     public item: Item = new Item(),
     public stockInfo: StockInfo = new StockInfo(),
     public selected?: boolean,
+    public type?: String,
     public dateCreated: Date = new Date(),
     public _id?: string
     ) {}

@@ -195,16 +195,15 @@
 
 
   <nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:0px">
-    <div class="container">
+    <div  class="container">
         <a class="navbar-brand" href="#">
             <em>spinr</em>
         </a>
-        <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navcol-1">
-            <ul class="nav navbar-nav"></ul>
+        <!-- <ul class='nav-items'>
+          <li (click)=toggleView()><h6>Products</h6></li>
+          <li (click)=toggleView()><h6>Services</h6></li>
+         
+        </ul> -->
               <form class="top-searchform" target="_self">
               <div class="form-group">
                   <input [(ngModel)] = searchTerm #search (keyup)='searchProducts(searchTerm)' autocomplete = "off" style = "border-radius:.999em;
@@ -217,14 +216,27 @@
                   class="form-control"
                   type="search" name="search" id="search-field" placeholder="Search product">
                   <i style='font-size:20px; top:3px;left:83%;position:relative;display:inline' class="icon ion-ios-search " title="Search"></i>
+                  <h6 style='font-size:12px;
+                  left:98%;position:relative;display:inline-block;
+                  color:grey;
+                  font-weight:normal;'>View: <span stye='cursor:pointer'(click)='toggleMenu()'>
+                    {{tableView}}</span></h6>
+             <div *ngIf = menuView style='position: absolute;
+                  left:120%;
+                  width:100px;top:6px;
+                  height:110px'  class="menu">
+              <ul (mouseleave)= toggleMenu() class="actions primary">
+                <li (click)='toggleView("Products")' class="action">Products</li>
+                <li (click)='toggleView("Services")' class="action">Services</li>
+              </ul>
+            </div>
               </div>
             </form>
-        </div>
+        
     </div>
-    <i style="left:80%;" class="icon ion-android-notifications-none arrow buble note" title="Notifications">
-</i>
-<i style="left:75%;" class="icon ion-ios-plus-empty arrow buble" id="add" title="Add Product" data-target="#productModal" data-toggle="modal"></i>
-      <i  style="left:83%;" class="icon ion-ios-person-outline arrow buble" id="add" title="Me" ></i>
+    <i style="left:80%;" class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
+    <i style="left:75%;" class="icon ion-ios-plus-empty arrow buble" id="add" title="Add Product" data-target="#productModal" data-toggle="modal"></i>
+    <i  style="left:83%;" class="icon ion-ios-person-outline arrow buble" id="add" title="Me" ></i>
        <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:90%;position:absolute;height:30px;width:30px;top:5px; margin-bottom:0px;"> <img style='height:100%; width:100%; object-fit:cover;' [src] = getMyDp()/></div>
   </nav>
 
@@ -234,11 +246,71 @@
 
 <div style="padding-top:43px;height:100%" class=" col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" >
     <div *ngIf='!products.length' class='issue'>
-        <div *ngIf='loading' class="lds-css ng-scope"><div style="width:100%;height:100%" class="lds-rolling"><div></div></div></div>
+        <div *ngIf='loading' class="lds-css ng-scope">
+        <!-- <div style="width:100%;height:100%" class="lds-rolling"></div> -->
+        <!-- <div>
+        </div> -->
+
+        </div>
         <div (click)='refresh()' *ngIf='message' title='Refresh' class='refresh'><i class="icon ion-ios-reload "></i></div>
         <h6 *ngIf='message' style='font-size:13px;position:absolute;top:65%; width:100%; color:lightgrey;text-align: center' >{{message}}</h6>
     </div>
-    <table *ngIf ='products.length' cellspacing="0" class="data-table" summary="List of all items in store. "  >
+    <table *ngIf ='products.length && tableView === "Services"' cellspacing="0" class="data-table" summary="List of all items in store. "  >
+            <thead>
+                <tr>
+                   <th  class="checkhead"></th>
+                   <th title = "Sort by name" (click)="sortProducts('name')" title="Sort by name">SERVICE
+                      <span class="sorter">
+                          <i *ngIf="sortBy ==='name'" style="color:lightgreen" class="icon ion-android-arrow-dropdown"></i>
+                     </span>
+                   </th>
+                   <th title = "Sort by description" (click)="sortProducts('description')">CATEGORY
+                      <span class="sorter">
+                          <i *ngIf="sortBy ==='description'" style="color:lightgreen" class="icon ion-android-arrow-dropdown"></i>
+                     </span>
+                   </th>
+                   <th title = "Sort by price" (click)="sortProducts('price')">PRICE
+                      <span class="sorter">
+                          <i *ngIf="sortBy==='price'" style="color:lightgreen" class="icon ion-android-arrow-dropdown"></i>
+                     </span>
+                   </th>
+                   <th title = "Sort by price" (click)="sortProducts('quantity')">ENGAGEMENTS
+                      <span class="sorter">
+                          <i *ngIf="sortBy==='quantity'" style="color:lightgreen" class="icon ion-android-arrow-dropdown"></i>
+                     </span>
+                   </th>
+                   <!-- <th title = "Sort by sold"   (click)="sortProducts('sold')">SOLD
+                    <span class="sorter">
+                        <i *ngIf="sortBy==='sold'" style="color:lightgreen" class="icon ion-android-arrow-dropdown"></i>
+                  </span>
+                  </th> -->
+                 
+                    <th title = "Sort by recently added" (click)="sortProducts('added')" title="Sort by date added">DATE ADDED
+                        <span class="sorter">
+                            <i *ngIf="sortBy==='added'" style="color:lightgreen" class="icon ion-android-arrow-dropdown"></i>
+                      </span>
+                    </th>
+              
+                </tr>
+            </thead>
+            <tbody>
+               <!-- <tr (click)=selectProduct(i) *ngFor="let product of products; let i = index" class="odd" [class.selection]= product.selected  >
+                    <td class="check-box">
+                    </td>
+                    <td>{{product.item.name}}&nbsp;<span class="predata"></span></td>
+                    <td>{{product.item.category}}</td> 
+                    <td><p [title]='product.item.description' class="description">{{product.item.description||'---' }}</p></td>
+                    <td>{{product.stockInfo.price}}</td>
+                    <td>{{product.stockInfo.quantity}}</td>
+                    <td>{{product.stockInfo.sold||0}}</td>
+                    <td>{{product.stockInfo.inStock}}</td> 
+                    <td>{{product.dateCreated|date:'dd-MM-y'}}</td>
+                    <td style='text-decoration:none'  [class.expired]= expired(product.stockInfo.expiry)>{{product.stockInfo.expiry|date:'dd-MM-y'}}</td>
+                  
+                </tr> -->
+            </tbody>
+    </table>
+    <table *ngIf ='products.length && tableView ==="Products"' cellspacing="0" class="data-table" summary="List of all items in store. "  >
             <thead>
                 <tr>
                    <th  class="checkhead"></th>
@@ -273,11 +345,11 @@
                         <i *ngIf="sortBy==='sold'" style="color:lightgreen" class="icon ion-android-arrow-dropdown"></i>
                   </span>
                   </th>
-                   <th title = "Sort by in-stock" (click)="sortProducts('instock')" title="sort by instock">IN STOCK
+                   <!-- <th title = "Sort by in-stock" (click)="sortProducts('instock')" title="sort by instock">IN STOCK
                       <span class="sorter">
                           <i *ngIf="sortBy==='instock'" style="color:lightgreen" class="icon ion-android-arrow-dropdown"></i>
                      </span>
-                    </th>
+                    </th> -->
                     <th title = "Sort by recently added" (click)="sortProducts('added')" title="Sort by date added">DATE ADDED
                         <span class="sorter">
                             <i *ngIf="sortBy==='added'" style="color:lightgreen" class="icon ion-android-arrow-dropdown"></i>
@@ -288,11 +360,11 @@
                             <i *ngIf="sortBy==='expiry'" style="color:lightgreen" class="icon ion-android-arrow-dropdown"></i>
                       </span>
                     </th>
-                    <th title="sort by status" (click)="sortProducts('status')" style="text-align: center" title="sort by status">STATUS
+                    <!-- <th title="sort by status" (click)="sortProducts('status')" style="text-align: center" title="sort by status">STATUS
                         <span class="sorter">
                             <i *ngIf="sortBy==='status'" style="color:lightgreen" class="icon ion-android-arrow-dropdown"></i>
                       </span>
-                    </th>
+                    </th> -->
                 </tr>
             </thead>
             <tbody>
@@ -301,17 +373,18 @@
                     </td>
                     <td>{{product.item.name}}&nbsp;<span class="predata"></span></td>
                     <!-- <td>{{product.item.category}}</td> -->
-                    <td><p [title]='product.item.description' class="description">{{product.item.description||'---' }}</p></td>
+                    <td><p [title]='product.item.description' class="description">{{product.type||'---' }}</p></td>
                     <td>{{product.stockInfo.price}}</td>
                     <td>{{product.stockInfo.quantity}}</td>
                     <td>{{product.stockInfo.sold||0}}</td>
-                    <td>{{product.stockInfo.inStock}}</td>
+                    <!-- <td>{{product.stockInfo.inStock}}</td> -->
                     <td>{{product.dateCreated|date:'dd-MM-y'}}</td>
                     <td style='text-decoration:none'  [class.expired]= expired(product.stockInfo.expiry)>{{product.stockInfo.expiry|date:'dd-MM-y'}}</td>
-                    <td style="text-align: center"><span class="moreIcon out"><i class="icon ion-ios-circle-filled" ></i></span></td>
+                    <!-- <td style="text-align: center"><span class="moreIcon out"><i class="icon ion-ios-circle-filled" ></i></span></td> -->
                 </tr>
             </tbody>
     </table>
+    <!-- <div style='color:blue'  class="loading"></div> -->
     <div *ngIf="selectionOccure()" class="options"   style="height:40px; bottom: 1%; background-color:#f8f8f8;border: none; " >
       <i data-target="#deleteModal" data-toggle="modal" title="Delete" class="optionIcon icon ion-ios-trash-outline"></i>
       <i  (click)='pickSelection()' title="Edit" class="optionIcon editIcon icon ion-edit" data-target="#editModal" data-toggle="modal"></i>

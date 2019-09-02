@@ -32,7 +32,7 @@ export class SettingsComponent implements OnInit {
   deptName = null;
   states = states;
   message = null;
-  menu = false;
+  menu = null;
   transMsg = null;
   constructor(private dataService: DataService, private cookies: CookieService, private router: Router) { }
 
@@ -57,14 +57,18 @@ export class SettingsComponent implements OnInit {
     });
   }
   getDp(avatar: String) {
-    return 'http://localhost:5000/api/dp/' + avatar;
+    // return 'http://localhost:5000/api/dp/' + avatar;
+    return 'http://18.221.76.96:5000/api/dp/' + avatar;
   }
 
   getMyDp() {
     return this.getDp(this.cookies.get('d'))
   }
-  showMenu(){
-    this.menu =  true;
+  showMenu(menu:string){
+    this.menu =  menu;
+  }
+  hideMenu(menu:string){
+    this.menu = null;
   }
   getRoomNumbs() {
    return this.department.rooms.length + 1;
@@ -88,7 +92,8 @@ export class SettingsComponent implements OnInit {
     this.clientMode = view;
   }
   openStafftModal(){
-    this.staffMode = 'add';
+    this.staffMode = 'new';
+    this.staff = new Person()
   }
 
   refresh() {

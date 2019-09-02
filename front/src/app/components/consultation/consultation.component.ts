@@ -14,6 +14,7 @@ import {Observable} from 'rxjs';
 import {WebcamImage, WebcamInitError, WebcamUtil} from 'ngx-webcam';
 import { Record, Session, Complain, Appointment, Priscription, Test, Medication, Visit, Note} from '../../models/record.model';
 const uri = 'http://localhost:5000/api/upload';
+// const uri = 'http://192.168.1.100:5000/api/upload';
 @Component({
   selector: 'app-consultation',
   templateUrl: './consultation.component.html',
@@ -130,13 +131,28 @@ export class ConsultationComponent implements OnInit {
          this.patients.splice(i, 1);
       }
   });
+  // this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any ) => {
+  //   this.patient.info.personal.avatar = response;
+  //  };
   this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any ) => {
-    this.patient.info.personal.avatar = response;
-   };
+        this.patient.info.personal.avatar = response;
+        this.update()
+        //  this.data.updateInfo(this.person.info, this.person._id).subscribe((info: Info) => {
+        //    this.person.info = info;
+        // });
+       };
 
   }
   isConsult(){
     return this.router.url.includes('consultation') && !(this.router.url.includes('information') || this.router.url.includes('admin'));
+  }
+ isInfo(){
+    return this.router.url.includes('information');
+  }
+  showDetails(i:number){
+    this.patient = cloneDeep(this.patients[i]);
+    this.reg = false;
+    this.curIndex = i;
   }
   refresh() {
    this.message = null;
@@ -213,27 +229,22 @@ update() {
   })
 }
 updateInfo() {
-  if(this.url) {
-    if(this.patient.info.personal.avatar === this.url ) {
-      this.update();
-    } else {
-      this.uploader.uploadAll();
-      this.update();
-    }
+  if(!this.url) {
+     this.update();
   } else {
-      this.patient.info.personal.avatar = 'avatar.jpg' ;
-      this.update();
+      this.uploader.uploadAll();
+      // this.update();
     }
 }
-
-addPatient() {
-    this.processing = true;
+submitInfo() {
+  this.processing = true;
     if(this.reg) {
       if(this.url) {
         this.uploader.uploadAll();
         this.addRecord();
-    }
+    } else {
     this.addRecord();
+    }
   }
   this.updateInfo();
   }
@@ -257,10 +268,20 @@ addPatient() {
     }
 
   }
+editInfo(i: number) {
+  this.patient = cloneDeep(this.patients[i]);
+  this.reg = false;
+  this.curIndex = i;
+  // this.url = this.patient.info.personal.avatar
+}
+clearPatient() {
+  this.reg = true;
+  this.patient = new Person();
+}
 
-
-  getDp(avatar: String) {
-    return 'http://localhost:5000/api/dp/' + avatar;
+getDp(avatar: String) {
+  return 'http://localhost:5000/api/dp/' + avatar || "../assets/img/avatar.jpg";
+    // return 'http://192.168.1.100:5000/api/dp/' + avatar;
   }
 
   getMyDp() {
@@ -364,7 +385,7 @@ addPatient() {
     this.sortMenu = !this.sortMenu;
   }
   addMoreTest() {
-    this.tests.unshift({...this.test,reqBy: this.cookies.get('i')});
+    this.tests.unshift({...this.test, reqBy: this.cookies.get('i')});
     this.test = new Test();
   }
   getProducts() {

@@ -9,7 +9,8 @@ import {Client} from '../../models/client.model';
 import { Person} from '../../models/person.model';
 import { Priscription, Medication, Visit, Note} from '../../models/record.model';
 
-const uri = 'http://localhost:5000/api/upload';
+// const uri = 'http://localhost:5000/api/upload';
+// const uri = 'http://192.168.1.100:5000/api/upload';
 @Component({
   selector: 'app-patient',
   templateUrl: './patient.component.html',
@@ -93,7 +94,8 @@ export class PatientComponent implements OnInit {
     });
   }
   getDp(avatar: String) {
-    return 'http://localhost:5000/api/dp/' + avatar;
+    // return 'http://localhost:5000/api/dp/' + avatar;
+    return 'http://18.221.76.96:5000/api/dp/' + avatar;
   }
 
   getMyDp() {

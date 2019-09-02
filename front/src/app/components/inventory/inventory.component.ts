@@ -29,7 +29,9 @@ export class InventoryComponent implements OnInit {
   loading = false;
   processing = false;
   message = null;
+  tableView = 'Products';
   feedback = null;
+  menuView = false;
   sortBy = 'added';
   searchTerm = '';
   count = 0;
@@ -62,7 +64,8 @@ export class InventoryComponent implements OnInit {
     this.input = this.product.item.name + ' ' + this.product.item.mesure + this.product.item.unit;
   }
 getDp(avatar: String) {
-    return 'http://localhost:5000/api/dp/' + avatar;
+    // return 'http://localhost:5000/api/dp/' + avatar;
+    return 'http://18.221.76.96:5000/api/dp/' + avatar;
   }
   getMyDp() {
     return this.getDp(this.cookies.get('d'));
@@ -70,7 +73,6 @@ getDp(avatar: String) {
   getProducts() {
     this.loading = true;
     this.dataService.getProducts().subscribe((res: any) => {
-      console.log(res)
       this.items = res.items;
       if(res.inventory.length) {
         this.products = res.inventory;
@@ -132,8 +134,8 @@ getDp(avatar: String) {
     this.product.stockInfo.inStock = this.product.stockInfo.quantity;
     if(this.items.some(item => item.name === this.item.name)) {
       } else {
-        this.newItems.unshift({...this.item, type:'drue'});
-        this.items.unshift({...this.item, type:'drue'});
+        this.newItems.unshift({...this.item, type:'drug'});
+        this.items.unshift({...this.item, type:'drug'});
       }
     if(this.products.some(product => product.item.name === this.item.name) || this.temProducts.some(product => product.item.name === this.item.name)) {
     this.feedback = 'Product already exist';
@@ -146,6 +148,12 @@ getDp(avatar: String) {
   }
   clearFeedback() {
     this.feedback = null;
+  }
+  toggleView(view: string){
+    this.tableView = view;
+  }
+  toggleMenu() {
+    this.menuView = !this.menuView
   }
   addSelection(i: Item) {
     this.item = i;

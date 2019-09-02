@@ -5,17 +5,15 @@ import {Client, Department} from '../models/client.model';
 import {Person} from '../models/person.model';
 import * as socketIo from 'socket.io-client';
 import { Socket } from '../models/socket';
-
 declare var io: {
   connect(url: string): Socket;
 };
-
-
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
-  uri = 'http://localhost:5000/api';
+  // uri = 'http://localhost:5000/api';
+  uri = 'http://18.221.76.96:5000/api';
   socket: Socket;
   staff: Person = new Person();
   patients: Person[] = new Array<Person>();
@@ -29,7 +27,7 @@ export class DataService {
       `${this.uri}/myaccount`, {withCredentials: true}
       );
   }
-  explore(){
+  explore() {
     return this.http.get(
       `${this.uri}/explore`, {withCredentials: true}
       );

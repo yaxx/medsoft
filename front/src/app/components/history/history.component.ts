@@ -107,14 +107,16 @@ export class HistoryComponent implements OnInit {
     });
   }
   getDp(avatar: String) {
-    return 'http://localhost:5000/api/dp/' + avatar;
+    // return 'http://localhost:5000/api/dp/' + avatar;
+    return 'http://18.221.76.96:5000/api/dp/' + avatar;
   }
 
   getMyDp() {
     return this.getDp(this.cookies.get('d'))
   }
   getImage(fileName: String){
-    return 'http://localhost:5000/api/dp/' + fileName;
+    // return 'http://localhost:5000/api/dp/' + fileName;
+    return 'http://18.221.76.96:5000/api/dp/' + fileName;
   }
   compareNotes(i:number, note:Note){
     return this.notes[i].note.length === note.note.length;
@@ -129,7 +131,8 @@ export class HistoryComponent implements OnInit {
   this.patient.record.notes[i].note = this.notes[i].note;
 }
 getDocDp(avatar: string) {
-    return 'http://localhost:5000/api/dp/' + avatar;
+    // return 'http://localhost:5000/api/dp/' + avatar;
+    return 'http://http://192.168.1.100:5000/api/dp/' + avatar;
 }
 
 

@@ -1,3 +1,129 @@
+<div class="modal fade" role="dialog" tabindex="-1" id="detailsModal" style="border-radius:12px;width:auto;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="width:480px;border-radius:0px;border-radius:12px;padding-left:0px;padding-right: 0px;">
+          <div class="modal-body" style="border-radius:0px;padding: 0px;">
+        <div  class="card card-secondary historycard midlecard profilecard" style="margin:auto;min-height:280px;border-radius:12px;">
+              <div style='padding-left: 30px;border-top-right-radius:12px;border-top-left-radius:12px; border-bottom:0px' class="card-header profileheader small-header">
+                <h6 style='font-size:11px;position:absolute; top:5%;left:2%;color:#1da1f2;' class="patien-name small-name">PATIENT DETAILS</h6>
+                <!-- <i (click)=showMenu() class="icon ion-android-more-vertical headericon moreicon actions-icon"></i> -->
+                <!-- <div *ngIf=menu style="width:25%;height:65px" class="menu">
+                  <ul class="actions primary">
+                      <li class="action">Suspend account</li>
+                      <li class="action">Edit account</li>
+                      <li class="action">Delete account</li>
+                  </ul>
+                </div> -->
+            </div>
+             <div style = 'margin-left:0px'  class="card-body orderbody">
+              <form style="top:15%; width:80%;margin:auto;" class=" staffsform" >
+                <div class="carditem noteitem writeup" style="display:inline-block;">
+                  <div  title='Details' data-toggle = modal data-target='#detailsModal' class="timeline noter patientdp staffdp"style="border-radius:4px;width:210px; height:210px; position:absolute;left:-5px;">
+                    <img style='height:100%; width:100%; object-fit:cover; border-radius:4px;border:none' [src] = getDp(patient.info.personal.avatar)/>
+                  </div>
+                    <div data-simplebar  style=' position: relative;
+                                              left: 56%;
+                                              width: 206px;
+                                              height: 200px;
+                                              margin: 0px;'>
+                     <div style='padding-left:11%' class="carditem">
+                            <div style='left:0px; top:1px' class="timeline detailstimeline"><i class="icon ion-ios-person-outline deticon"></i></div>
+                            <h6 class="dept detailshead">PERSONAL INFO</h6>
+                            <p class="dept previnfo">Birth:&nbsp;<span class="predata">{{patient.info.personal.dob|date:'longDate'}}</span></p>
+                            <p class="dept previnfo">Gender:&nbsp;<span class="predata">{{patient.info.personal.gender}}</span></p>
+                            <p class="dept previnfo">Blood Group:&nbsp;<span class="predata">O+</span></p>
+                            <p class="dept previnfo">Marital Status:&nbsp;<span class="predata">{{patient.info.personal.mstatus}}</span></p>
+                            <p class="dept previnfo">Occupation:&nbsp;<span class="predata">{{patient.info.personal.occupation}}</span></p>
+                            <p class="dept previnfo">Religion:&nbsp;<span class="predata">{{patient.info.personal.religion}}</span></p>
+                            <p class="dept previnfo">Tribe:&nbsp;<span class="predata">{{patient.info.personal.tribe}}</span></p>
+                            <p class="dept previnfo">Card Type:&nbsp;<span class="predata">{{patient.info.personal.cardType}}</span></p>
+                            <p class="dept previnfo">Card No:&nbsp;<span class="predata">{{patient.info.personal.cardNum}}</span></p>
+                        </div>
+                        <div style='padding-left:11%'  class="carditem">
+                            <div style='left:0px; '  class="timeline detailstimeline"><i class="icon ion-ios-location-outline deticon"></i></div>
+                            <h6 class="dept detailshead">CONTACT</h6>
+                            <p class="dept previnfo">Mobile:&nbsp;<span class="predata">
+                              {{patient.info.contact.me.mobile}}</span></p>
+                            <p class="dept previnfo">Email:&nbsp;<span class="predata">
+                              {{patient.info.contact.me.email}}</span></p>
+                            <p class="dept previnfo">Address:&nbsp;<span class="predata">
+                              {{patient.info.contact.me.address}}</span></p>
+                            <p class="dept previnfo">State:&nbsp;<span class="predata">
+                              {{patient.info.contact.me.state}}</span></p>
+                            <p class="dept previnfo">City:&nbsp;<span class="predata">
+                              {{patient.info.contact.me.lga}}</span></p>
+                        </div>
+                        <div style='padding-left:11%'  class="carditem">
+                            <div style='left:0px;'  class="timeline detailstimeline"><i class="icon ion-ios-pulse deticon"></i></div>
+                            <h6  class="dept detailshead">EMERGENCY</h6>
+                            <p class="dept previnfo">Name&nbsp;<span class="predata">
+                              {{patient.info.contact.emergency.name}}</span></p>
+                            <p class="dept previnfo">Mobile:&nbsp;<span class="predata">
+                              {{patient.info.contact.emergency.mobile}}</span></p>
+                            <p class="dept previnfo">Email:&nbsp;<span class="predata">amina@gmail.com</span></p>
+                            <p class="dept previnfo">Relashionship:&nbsp;<span class="predata">
+                              {{patient.info.contact.emergency.rel}}</span></p>
+                            <p class="dept previnfo">Address:&nbsp;<span class="predata">
+                              {{patient.info.contact.emergency.address}}</span></p>
+                        </div>
+                      <!-- <h1 class="dept previnfo noterinfo">
+                      {{patient.info.personal.firstName + ' ' + patient.info.personal.lastName}}
+                      </h1>
+                      <h1 class="dept previnfo ">Gender:
+                        <span class="predata">{{patient.info.personal.gender}}
+                        </span></h1>
+                        <h1 class="dept previnfo">Birth:
+                          <span class="predata">{{patient.info.personal.dob|date:'longDate'||'---'}}</span>
+                        </h1>
+                        <h1 class="dept previnfo">Marital Status:
+                          <span class="predata">{{patient.info.personal.mstatus||'---'}}</span>
+                        </h1>
+                        <h1 class="dept previnfo">Religion:
+                          <span class="predata">{{patient.info.personal.religion||'---'}}</span>
+                        </h1>
+                        <h1 class="dept previnfo">Tribe:
+                          <span class="predata">{{patient.info.personal.tribe||'---'}}</span>
+                        </h1>
+                        <h1 class="dept previnfo">Occupation:
+                          <span class="predata">{{patient.info.personal.occupation||'---'}}</span>
+                        </h1>
+                        <h1 class="dept previnfo">Card Type:
+                          <span class="predata">{{patient.info.personal.cardType||'---'}}</span>
+                        </h1>
+                        <h1 class="dept previnfo">Mobile:
+                          <span class="predata">{{patient.info.contact.me.mobile||'---'}}</span>
+                        </h1>
+                        <h1 class="dept previnfo">Email:
+                          <span class="predata">{{patient.info.contact.me.email||'---'}}</span>
+                        </h1>
+                        <h1 class="dept previnfo">Address:
+                          <span class="predata">{{patient.info.contact.me.address}}</span>
+                        </h1>
+                        <h1 class="dept previnfo">State:
+                          <span class="predata">{{patient.info.contact.state||'---'}}</span>
+                        </h1>
+                        <h1 class="dept previnfo">City:
+                          <span class="predata">{{patient.info.contact.lga||'---'}}</span>
+                        </h1>
+                        <h1 class="dept previnfo">Last Seen:
+                          <span class="predata">{{patient.info.lastLogin|date:'longDate'}}&nbsp;</span>
+                          <span class="predata">{{patient.info.lastLogin|date:'hh:mma'|lowercase}} </span>
+                        </h1>
+                        <h1 class="dept previnfo">Date Created:
+                          <span class="predata">{{patient.createdAt|date:'longDate'}}&nbsp;</span>
+                          <span class="predata">{{patient.createdAt|date:'hh:mma'|lowercase}} </span>
+                        </h1> -->
+                    </div>
+                </div>
+              </form>
+            </div> 
+        
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 
 <div *ngIf ='patients.length' class="modal fade" role="dialog" tabindex="-1" id="noteModal" style="border-radius:12px;width:auto;">
   <div class="modal-dialog" role="document">
@@ -90,15 +216,15 @@
                             <div *ngIf="tempMedications.length" style="top:1px; margin-bottom:25px;"  class="form-group vitals-section setGroup">
                               <table   cellspacing="0" class="data-table drugs-table" style="width:100%;left:0%;" summary="List of all items in store. " >
                                 <thead class='productHead'>
-                                  <tr class="staff-th">
-                                      <th class="headlbl staff-th">PRODUCT</th>
-                                      <th class="headlbl staff-th">DOSAGE</th>
-                                      <th class="headlbl staff-th">PRICE</th>
-                                      <th class="headlbl staff-th"></th>
+                                  <tr class="patient-th">
+                                      <th class="headlbl patient-th">PRODUCT</th>
+                                      <th class="headlbl patient-th">DOSAGE</th>
+                                      <th class="headlbl patient-th">PRICE</th>
+                                      <th class="headlbl patient-th"></th>
                                   </tr>
                                 </thead>
                                 <tbody>
-                                      <tr *ngFor="let med of tempMedications; let i = index; let odd = odd;"  style="border-bottom:2px solid white;" [class.even]=odd  class="ro staff-row">
+                                      <tr *ngFor="let med of tempMedications; let i = index; let odd = odd;"  style="border-bottom:2px solid white;" [class.even]=odd  class="ro patient-row">
                                           <td style="padding-left:4px;" class="data">
                                           {{med.product.item.name}}<span class="predata">
                                             {{med.product.item.mesure+med.product.item.unit}}</span></td>
@@ -145,10 +271,15 @@
                     <i (click) = triggerSnapshot()  title='Snap' style ='z-index:5;left: 43%;top: 16%; font-size:21px;color: white;'
                         class="icon ion-ios-camera-outline homeicon removeDp"></i>
                     <div  class="card-body orderbody"style="width:62%;margin:auto;">
-                      <form (submit)='addPatient()' style="top:25%;" class=" staffsform">
+                      <form (submit)='submitInfo()' style="top:25%;" class=" staffsform">
                         <div (click) = togglePhotoMenu()  *ngIf="!showWebcam" style="width:49%; margin-top:7px;  margin-right: 5px; display:inline-block" class="form-group vitals-section formGroup" >
                           <div  *ngIf="!url"  class="dp-wrapper">
-                            <div  class="cover">
+                            <div class="cover">
+                            <img style='position: relative;
+                                        height: 100%;
+                                        width: 100%;
+                                        object-fit: cover;
+                                        border-radius: 4px' [src] = getDp(patient.info.personal.avatar)/>
                               <p>Add Photo</p>
                             </div>
                           </div>
@@ -428,13 +559,13 @@
                       <div *ngIf="tests.length" class="form-group vitals-section setGroup">
                         <table   cellspacing="0" class="data-table drugs-table" style="width:100%;left:0%;" summary="List of all items in store. " >
                           <thead class='productHead'>
-                              <tr class="staff-th">
-                                  <th class="headlbl staff-th">INVESTIGATION</th>
-                                  <th style='text-align:right' class="headlbl staff-th">LAB</th>
+                              <tr class="patient-th">
+                                  <th class="headlbl patient-th">INVESTIGATION</th>
+                                  <th style='text-align:right' class="headlbl patient-th">LAB</th>
                               </tr>
                           </thead>
                           <tbody>
-                              <tr *ngFor="let test of tests; let i = index; let odd = odd;"   class="ro staff-row">
+                              <tr *ngFor="let test of tests; let i = index; let odd = odd;"   class="ro patient-row">
                                   <td style="padding-left:4px;" class="data">{{test.type}}</td>
                                   <td class="data" style="text-align:right;font-size:9px;color:lightgrey;">
                                     {{test.lab}}</td>
@@ -528,15 +659,15 @@
                         <div *ngIf="tempMedications.length" class="form-group vitals-section setGroup">
                             <table   cellspacing="0" class="data-table drugs-table" style="width:100%;left:0%;" summary="List of all items in store. " >
                               <thead class='productHead'>
-                                  <tr class="staff-th">
-                                      <th class="headlbl staff-th">PRODUCT NAME</th>
-                                      <th class="headlbl staff-th">DOSAGE</th>
-                                      <th class="headlbl staff-th">PRICE</th>
-                                      <th class="headlbl staff-th"></th>
+                                  <tr class="patient-th">
+                                      <th class="headlbl patient-th">PRODUCT NAME</th>
+                                      <th class="headlbl patient-th">DOSAGE</th>
+                                      <th class="headlbl patient-th">PRICE</th>
+                                      <th class="headlbl patient-th"></th>
                                   </tr>
                               </thead>
                               <tbody>
-                                  <tr *ngFor="let med of tempMedications; let i = index; let odd = odd;"   class="ro staff-row">
+                                  <tr *ngFor="let med of tempMedications; let i = index; let odd = odd;"   class="ro patient-row">
                                       <td style="padding-left:4px;" class="data">{{med.product.item.name}}</td>
                                       <td class="data">{{med.priscription.intake+'-'+med.priscription.freq+'-'+med.priscription.piriod}}</td>
                                       <td class="data" style="text-align:center">
@@ -562,8 +693,6 @@
       </div>
   </div>
 </div>
-
-
 
 
 
@@ -594,24 +723,24 @@
                       color:grey;
                       font-weight:normal;'>Sort by: <span stye='cursor:pointer'(click)='toggleSortMenu()'>
                         {{nowSorting}}</span></h6>
-                 <div *ngIf=sortMenu style='position: absolute;
+                 <div *ngIf = sortMenu style='position: absolute;
                       left:120%;
                       width:100px;top:6px;
                       height:110px'  class="menu">
-                <ul (mouseleave)= toggleSortMenu() class="actions primary">
-                  <li (click)='sortPatients("name")' class="action">A-Z</li>
-                  <li (click)='sortPatients("age")' class="action">Age</li>
-                  <li (click)='sortPatients("status")' class="action">Status</li>
-                  <li (click)='sortPatients("sex")' class="action">Gender</li>
-                  <li (click)='sortPatients("date")' class="action">Date added</li>
-                </ul>
-        </div>
+                  <ul (mouseleave)= toggleSortMenu() class="actions primary">
+                    <li (click)='sortPatients("name")' class="action">A-Z</li>
+                    <li (click)='sortPatients("age")' class="action">Age</li>
+                    <li (click)='sortPatients("status")' class="action">Status</li>
+                    <li (click)='sortPatients("sex")' class="action">Gender</li>
+                    <li (click)='sortPatients("date")' class="action">Date added</li>
+                  </ul>
+                </div>
      </div>
     </form>
   </div>
 </div>
   <i style="left:80%;" class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
-  <i *ngIf='routeHas("information")' style="left:75%;" class="icon ion-ios-plus-empty arrow buble" id="add" title="Add Patient" data-target="#addModal" data-toggle="modal"></i>
+  <i *ngIf='routeHas("information")' (click)='clearPatient()' style="left:75%;" class="icon ion-ios-plus-empty arrow buble" id="add" title="Add Patient" data-target="#addModal" data-toggle="modal"></i>
     <i [routerLink]="['./me']" data-target="#newModal" data-toggle="modal" style="left:83%;" class="icon ion-ios-person-outline arrow buble" id="add" title="Me" ></i>
   <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:90%;position:absolute;height:30px;width:30px;top:5px; margin-bottom:0px;"> <img style='height:100%; width:100%; object-fit:cover;' [src] = getMyDp()/></div>
 </nav>
@@ -631,7 +760,7 @@
         <div *ngIf = "patient.card.view == 'front'"   style="border-radius:12px"  class="card card-secondary maincard">
             <div style="border-radius:12px"  class="card-header profileheader"><i  (click)='showMenu(i)' class="icon ion-android-more-vertical headericon moreicon actions-icon"></i>
             <div  (mouseleave) = hideMenu(i) *ngIf = "patient.card.menu" class="menu">
-                  <ul  class="actions primary">
+                  <ul *ngIf="isConsult()"  class="actions primary">
                       <li (click)="selectPatient(i)" data-target="#noteModal" data-toggle="modal" class="action">Add Note</li>
                       <li (click)="pullMedications(i)"  data-target="#medicModal" data-toggle="modal" class="action">Medications</li>
                       <li class="action">Update Vitals</li>
@@ -639,14 +768,18 @@
                       <li class="action">Add Test</li>
                       <li (click) = switchToAp(i) class="action">Set Appointment</li>
                   </ul>
+                  <ul *ngIf='isInfo()'  class="actions primary">
+                      <li (click)='editInfo(i)' data-target="#addModal" data-toggle="modal"   class="action">Edit Info</li>
+                      <li (click)='showDetails(i)' data-toggle = modal data-target='#detailsModal'  class="action">View Details</li>
+                  </ul>
               </div>
-              <div class="timeline lastdoc priscriber headerdp">
-                  <img [src] = getDp(patient.info.personal.avatar)/>
+              <div   class="timeline lastdoc priscriber headerdp">
+                  <img (click)='showDetails(i)' [src] = getDp(patient.info.personal.avatar)/>
               </div>
             </div>
-            <p style='margin-bottom:2px;'  *ngIf='!isConsult()' class="patien-name">{{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}</p>
+            <p (click)='showDetails(i)' data-toggle = modal data-target='#detailsModal'  style='margin-bottom:2px;'  *ngIf='!isConsult()' class="patien-name"> {{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}</p>
             <a *ngIf= isConsult() href="#" title="View history" [routerLink]="['./history', patient._id]" routerLinkActive="router-link-active" class="patien-name">
-            {{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}<span class="predata editicon"></span></a>
+            {{patient.info.personal.firstName + ' ' + patient.info.personal.lastName}}<span class="predata editicon"></span></a>
             <div class="card-body mainbody">
                 <div class="carditem basic-item">
                     <h6 class="dept basic-info">Sex</h6>
@@ -660,7 +793,7 @@
                 </div>
                 <div class="carditem basic-item">
                     <h6 class="dept basic-info">Seen</h6>
-                    <h6 class="dept basic-info sex-info">{{patient.record.visits.length}}</h6>
+                    <h6 class="dept basic-info sex-info">{{patient.record.visits.length||'---'}}</h6>
                 </div>
                 <div class="priscription basic-subinfo">
                     <div class="sub-container">
@@ -670,7 +803,7 @@
                     <div class="sub-container">
                        <h6 style="width:100%;text-align:center" class="dept basic-secondary basic-value">
                           {{patient.record.visits[0][0].visitedOn|date:'dd MMM, yy'}}&nbsp;<span>
-                          {{patient.record.visits[0][0].visitedOn|date:'hh:mma'|lowercase}}</span>
+                          {{patient.record.visits[0][0].visitedOn | date:'hh:mma'|lowercase}}</span>
                       </h6>
                     </div>
                 </div>

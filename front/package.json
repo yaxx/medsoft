@@ -9,13 +9,11 @@
     "build": "ng build",
     "pack": "build --dir",
     "dist": "build",
-    "build-app": "electron-packager . --platform=win32 --arch x64 --out dist/",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "electron": "electron .",
-    "electron-build": "ng build --prod && electron .",
-    "setup": "electron-installer-windows --src ./ --dest dist/"
+    "electron-build": "ng build --prod && electron ."
   },
   "win": {
     "target": [

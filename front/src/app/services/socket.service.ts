@@ -6,5 +6,6 @@ import { Socket } from '../models/socket';
 })
 export class SocketService {
 io: Socket = socketIo('http://localhost:5000');
+// io: Socket = socketIo('http://192.168.1.100:5000');
   constructor() { }
 }

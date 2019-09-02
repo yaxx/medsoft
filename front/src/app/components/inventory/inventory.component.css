@@ -10,8 +10,32 @@
 .drugs-table td {
   font-size:11px;
 }
- .expired{ 
+ .expired {
    text-decoration: line-through;
    text-decoration-color: !important red;
    -webkit-text-decoration-color: red;
+}
+.container .nav-items {
+  width:100%;
+  display:flex;
+  list-style:none;
+  align-items: center;
+  justify-content:center;
+  height:100%;
+  margin:0px;
+  position:relative;
+}
+.nav-items li  {
+ color: #1da1f2;
+ height:39px;
+ display:flex;
+ align-items: center;
+ margin-right:15px;
+}
+.nav-items li:hover  {
+ border-bottom: 1px solid #1da1f2;
+}
+.nav-items li h6 {
+  padding: 0 1rem;
+  cursor:pointer;
 }

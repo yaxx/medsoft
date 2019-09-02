@@ -44,7 +44,7 @@
   height:100px;
   margin-bottom: 0px;
   z-index: 10;
-  background-image: url(../../../assets/img/avatar.jpg);
+  /* background-image: url(../../../assets/img/avatar.jpg); */
   background-size: cover;
   background-repeat: no-repeat;
   border-radius: 4px;
@@ -73,7 +73,7 @@ position:absolute;
 left: 15%;
 top:12%;
 }
-.cover p{
+.cover p {
   color:white;
   font-size: 11px;
   width: 100%;

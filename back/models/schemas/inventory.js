@@ -2,7 +2,8 @@ const mongoose = require('../db') ;
 const Scheema = mongoose.Schema
 const InventoryScheema = new Scheema({
     products:[{
-        item:{
+        type: String,
+        item: {
             name: String,
             brand: String,
             category: String,
@@ -11,7 +12,7 @@ const InventoryScheema = new Scheema({
             unit: String,
             dateCreated: date 
         },
-        stockInfo:{
+        stockInfo: {
             expiry: Date,
             price: Number ,
             expired: Boolean ,

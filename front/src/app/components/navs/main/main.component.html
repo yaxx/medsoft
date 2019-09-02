@@ -12,14 +12,13 @@
         <i class="icon ion-ios-calendar-outline homeicon"></i>
     </span>
   </a>
- 
+
   <a *ngIf='seg2 === "consultation"' style="top:28%" href="#" [routerLink]="['./']" [routerLinkActiveOptions] ={exact:true} routerLinkActive="router-link-active"  class="home patienmenu" title="Consultation">
     <span class="homespan">
-
         <i class="icon ion-ios-people-outline homeicon"></i>
     </span>
   </a>
-  
+
   <a *ngIf='admin === "admin"||info === "information"' style="top:28%" href="#" [routerLink]="['./consultations']" routerLinkActive="router-link-active"  class="home patienmenu" title="Consultation">
     <span class="homespan">
         <i class="icon ion-ios-people-outline homeicon"></i>
@@ -51,13 +50,13 @@
         <i style ='font-size: 24px; color: rgb(158, 158, 158); position: relative; top:5px;right: 3px;' class="material-icons editicon continue blocked-icon">block</i>
     </span>
 </a>
-<a *ngIf='admin==="admin"'  style="top:65%" href="#"   [routerLink]="['./inventory']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Products">
+<a *ngIf='admin==="admin"'  style="top:65%" href="#"   [routerLink]="['./inventory']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Inventory">
     <span class="homespan">
         <i  style ='font-size: 26px;position:relative;' class="icon ion-android-apps homeicon"></i>
     </span>
 </a>
 
-  
-  
+
+
 <a href="#" *ngIf='admin==="admin"'  [routerLink]="['./settings']" routerLinkActive="router-link-active" class="home settings" title="Settings"><span class="homespan"><i class="icon ion-ios-gear-outline homeicon"></i></span></a>
 </div>

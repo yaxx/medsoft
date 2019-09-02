@@ -28,60 +28,162 @@ import { MainComponent } from './components/navs/main/main.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { DeceasedComponent } from './components/deceased/deceased.component';
 const routes: Routes = [
-  {path: 'login', component: LoginComponent},
-  {path: 'signup', component: LoginComponent},
-  {path: 'settings', component: SettingsComponent},
-  {path: 'pharmacy', component: MainComponent,
-          children: [
-            { path: 'me', component: MessagesComponent},
-            { path: '', component: PharmacyComponent}
-        ]
+  {
+    path: '', 
+    redirectTo: 'login', 
+    pathMatch: 'full'
   },
-  {path: 'admin', component: MainComponent,
-          children: [
-            {path: 'appointments', component: AppointmentsComponent},
-            { path: 'consultations', component: ConsultationComponent},
-            {path: 'addmisions', component: PatientComponent},
-            { path: 'discharged', component: RegistrationComponent},
-            {path: 'pharmacy', component: PharmacyComponent},
-            {path: 'inventory', component: InventoryComponent},
-            {path: 'deceased', component:  DeceasedComponent},
-            { path: 'me', component: MessagesComponent},
-            {path: 'settings', component: SettingsComponent},
-            { path: '', component: RegistrationComponent}
-          ]
-        },
-  {path: 'information', component: MainComponent,
-          children: [
-             {path: 'appointments', component: AppointmentsComponent},
-             {path: 'addmisions', component: PatientComponent},
-             {path: 'consultations', component: ConsultationComponent},
-             {path: 'deceased', component:  DeceasedComponent},
-             {path: 'pharmacy', component: PharmacyComponent},
-             {path: 'me', component: MessagesComponent},
-             {path: '', component: RegistrationComponent}
-          ]
-        },
-  {path: ':dept/consultation', component: MainComponent,
-          children: [
-            {path: 'appointments', component: AppointmentsComponent},
-            { path: 'addmisions', component: PatientComponent},
-            { path: 'history/:id', component: HistoryComponent},
-            { path: 'me', component: MessagesComponent},
-            { path: '', component: ConsultationComponent}
-          ]
-        },
-  {path: ':dept/ward', component: MainComponent,
-        children: [
-          { path: 'addmisions', component: WardComponent},
-          { path: 'me', component: MessagesComponent},
-          { path: '', component: RegistrationComponent}
-        ]
+  {
+    path: 'login', 
+    component: LoginComponent
+  },
+  {
+    path: 'signup', 
+    component: LoginComponent
+  },
+  {
+    path: 'settings', 
+    component: SettingsComponent
+  },
+  {
+    path: 'pharmacy', 
+    component: MainComponent,
+    children: [
+      { 
+        path: 'me', 
+        component: MessagesComponent
       },
- 
-
-  {path: '', redirectTo: 'login', pathMatch: 'full'},
-  {path: '**', component: LoginComponent}
+      {
+        path: '', 
+        component: PharmacyComponent
+      }
+    ]
+  },
+  {
+    path: 'admin', 
+    component: MainComponent,
+    children: [
+      {
+        path: 'appointments', 
+        component: AppointmentsComponent
+      },
+      {
+        path: 'consultations', 
+        component: ConsultationComponent
+      },
+      {
+        path: 'addmisions', 
+        component: PatientComponent
+      },
+      {
+        path: 'discharged', 
+        component: RegistrationComponent
+      },
+      {
+        path: 'pharmacy', 
+        component: PharmacyComponent
+      },
+      {
+        path: 'inventory', 
+        component: InventoryComponent
+      },
+      {
+        path: 'deceased', 
+        component:  DeceasedComponent
+      },
+      {
+        path: 'me', 
+        component: MessagesComponent
+      },
+      {
+        path: 'settings', 
+        component: SettingsComponent
+      },
+      {
+        path: '',
+        component: RegistrationComponent
+      }
+    ]
+  },
+  {
+    path: 'information', 
+    component: MainComponent,
+    children: [
+        {
+          path: 'appointments', 
+          component: AppointmentsComponent
+        },
+        {
+          path: 'addmisions', 
+          component: PatientComponent
+        },
+        {
+          path: 'consultations', 
+          component: ConsultationComponent
+        },
+        {
+          path: 'deceased', 
+          component:  DeceasedComponent
+        },
+        {
+          path: 'pharmacy', 
+          component: PharmacyComponent
+        },
+        {
+          path: 'me', 
+          component: MessagesComponent
+        },
+        {
+          path: '', component: RegistrationComponent
+        }
+      ]
+  },
+  {
+    path: ':dept/consultation', 
+    component: MainComponent,
+    children: [
+      {
+        path: 'appointments', 
+        component: AppointmentsComponent
+      },
+      {
+        path: 'addmisions', 
+        component: PatientComponent
+      },
+      {
+        path: 'history/:id', 
+        component: HistoryComponent
+      },
+      { 
+        path: 'me', 
+        component: MessagesComponent
+      },
+      { 
+        path: '', 
+        component: ConsultationComponent
+      }
+    ]
+  },
+  {
+    path: ':dept/ward', 
+    component: MainComponent,
+      children: [
+        { 
+          path: 'addmisions', 
+          component: WardComponent
+        },
+        {
+          path: 'me', 
+          component: MessagesComponent},
+        {
+          path: '', 
+          component: RegistrationComponent}
+      ]
+    },
+    {
+      path: '**', 
+      component: LoginComponent
+    }
 
  ];
 @NgModule({

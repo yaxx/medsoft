@@ -6,7 +6,8 @@ import { FileSelectDirective, FileUploader } from 'ng2-file-upload';
 // import { AutosizeDirective } from 'angular-autosize';
 import { Connection, Person, Info, Notification } from '../../models/person.model';
 import { Message } from '../../models/message.model';
-const uri = 'http://localhost:5000/api/upload';
+// const uri = 'http://localhost:5000/api/upload';
+const uri = 'http://192.168.1.100:5000/api/upload';
 @Component({
   selector: 'app-messages',
   templateUrl: './messages.component.html',
@@ -36,9 +37,6 @@ errLine = false;
 showMenu = false;
 oldPwd = null;
   constructor( private data: DataService, private cookies: CookieService, public socket: SocketService
-
-
-
   ) {}
   ngOnInit() {
       this.getMyAccount();
@@ -141,14 +139,16 @@ getLastMessage(msgs){
     this.rightCard = view;
   }
    getDp(avatar: String) {
-    return 'http://localhost:5000/api/dp/' + avatar;
+    // return 'http://localhost:5000/api/dp/' + avatar;
+    return 'http://192.168.1.100:5000/api/dp/' + avatar;
   }
 
   getMyDp() {
     return this.getDp(this.cookies.get('d'))
   }
   getMsgDp(id: string) {
-      return (id === this.curPerson.person._id) ? 'http://localhost:5000/api/dp/' + this.curPerson.person.info.personal.avatar : 'http://localhost:5000/api/dp/' + this.person.info.personal.avatar;
+      // return (id === this.curPerson.person._id) ? 'http://localhost:5000/api/dp/' + this.curPerson.person.info.personal.avatar : 'http://localhost:5000/api/dp/' + this.person.info.personal.avatar;
+      return (id === this.curPerson.person._id) ? 'http://192.168.1.100:5000/api/dp/' + this.curPerson.person.info.personal.avatar : 'http://192.168.1.100:5000/api/dp/' + this.person.info.personal.avatar;
 
   }
   explore() {

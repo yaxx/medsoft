@@ -60,7 +60,7 @@ export class PharmacyComponent implements OnInit {
     private socket: SocketService ) { }
 
   ngOnInit() {
-    this.getPatients();
+    this.getPatients('Pharmacy');
     this.getProducts();
     this.socket.io.on('new order', (patient: Person) => {
       this.patients.push(patient);
@@ -85,12 +85,12 @@ export class PharmacyComponent implements OnInit {
   }
   refresh() {
     this.message = null;
-    this.getPatients();
+    this.getPatients('Pharmacy');
     this.getProducts();
   }
-  getPatients() {
+  getPatients(type:string) {
     this.loading = true;
-    this.dataService.getPatients().subscribe((patients: Person[]) => {
+    this.dataService.getPatients(type).subscribe((patients: Person[]) => {
       if(patients.length) {
         patients.forEach(p => {
           p.card = {menu: false, view: 'front'};
@@ -299,7 +299,8 @@ export class PharmacyComponent implements OnInit {
      return total;
   }
     getDp(avatar: String) {
-    return 'http://localhost:5000/api/dp/' + avatar;
+    // return 'http://localhost:5000/api/dp/' + avatar;
+    return 'http://18.221.76.96:5000/api/dp/' + avatar;
   }
 
   getMyDp() {

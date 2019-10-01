@@ -52,8 +52,8 @@ export class DeceasedComponent implements OnInit {
     return this.router.url.includes(path);
   }
   getDp(avatar: String) {
-    // return 'http://localhost:5000/api/dp/' + avatar;
-    return 'http://18.221.76.96:5000/api/dp/' + avatar;
+    return 'http://localhost:5000/api/dp/' + avatar;
+    // return 'http://18.221.76.96:5000/api/dp/' + avatar;
   }
   toggleSortMenu() {
     this.sortMenu = !this.sortMenu;

@@ -110,11 +110,11 @@
                     <h1 *ngIf='!medications.length' style='color:lightgrey; width:100%; text-align:center;top:43%;position:absolute;' class="dept headtitle">NO RECORD</h1>
                         <div *ngFor="let medic of patients[curIndex]?.record.medications; let i = index" class="carditem priscriptioncontainer order">
                             <div  class="timeline condition drugtimeline">
-                                <p class="timelinedate">{{medic[0]?.dateCreated|date:'dd'}}</p>
-                                <p class="timelinedate month">{{medic[0]?.dateCreated|date:'MMM'|uppercase}}</p>
+                                <p class="timelinedate">{{medic[0]?.meta.dateAdded|date:'dd'}}</p>
+                                <p class="timelinedate month">{{medic[0]?.meta.dateAdded|date:'MMM'|uppercase}}</p>
                             </div>
                             <div *ngFor ="let m of medic; let j = index" class="priscription drug">
-                                <h6 class="dept">{{m.product.item.name}}&nbsp;<span class="predata">
+                                <h6 class="dept">{{m.name}}&nbsp;<span class="predata">
                                  
                                   <i title="Continue" (click)=playMedication(i,j) *ngIf = m.paused class="icon ion-ios-play-outline editicon continue"></i>
                                   <i title="Discontinue" (click)= pauseMedication(i,j) *ngIf = !m.paused class="icon ion-ios-pause-outline editicon continue"></i></span><span class="predata priceval">
@@ -122,7 +122,7 @@
                                 <h6 class="dept previnfo">Dosage&nbsp;<span class="predata">{{m.priscription.piriod+' '+ '|'+' '+m.priscription.freq}} </span>
                                 </h6>
                                 <h6 class="dept previnfo"style="color:lightgrey">
-                                  {{m.dateAdded|date:'hh:mma'|lowercase}}<span class="predata lastadministered" style="left:49%;width:97px; position:absolute; text-align:right">
+                                  {{m.meta.dateAdded|date:'hh:mma'|lowercase}}<span class="predata lastadministered" style="left:49%;width:97px; position:absolute; text-align:right">
                                     {{m.lastTaken|date:'dd MMM hh:mma'|lowercase}}</span>
                                 </h6>
                             </div>
@@ -166,7 +166,7 @@
                               <table   cellspacing="0" class="data-table drugs-table" style="width:100%;left:0%;" summary="List of all items in store. " >
                                   <thead class='productHead'>
                                     <tr class="staff-th">
-                                        <th class="headlbl staff-th">PRODUCT NAME</th>
+                                        <th class="headlbl staff-th">PRODUCT</th>
                                         <th class="headlbl staff-th">DOSAGE</th>
                                         <th class="headlbl staff-th">PRICE</th>
                                         <th class="headlbl staff-th"></th>
@@ -175,11 +175,11 @@
                                    <tbody>
                                       <tr *ngFor="let med of tempMedications; let i = index; let odd = odd;"  style="border-bottom:2px solid white;" [class.even]=odd  class="ro staff-row">
                                           <td style="padding-left:4px;" class="data">
-                                          {{med.product.item.name}}<span class="predata">{{med.product.item.mesure+med.product.item.unit}}</span></td>
+                                          {{med.name}}<span class="predata"></span></td>
                                           <td class="data">
                                             {{med.priscription.intake +'-'+med.priscription.freq+'-'+med.priscription.piriod}}</td>
                                           <td class="data">
-                                            {{med.product.stockInfo.price||'---'}}</td>
+                                            {{med.stockInfo.price||'---'}}</td>
                                       </tr>
                                   </tbody>
                                      <tfoot col-span='4' style='font-size:11px; text-align:right; position:absolute; font-weight:bold;padding-right: 10px; border-top: 1px solid whitesmoke;width:100%'>Total: <span>{{getPriceTotal()}}</span> </tfoot>

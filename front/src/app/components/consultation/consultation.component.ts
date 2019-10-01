@@ -3,16 +3,18 @@ import {DataService} from '../../services/data.service';
 import {SocketService} from '../../services/socket.service';
 import { FileSelectDirective, FileUploader } from 'ng2-file-upload';
 import * as cloneDeep from 'lodash/cloneDeep';
-import {CookieService } from 'ngx-cookie-service';
+import {CookieService} from 'ngx-cookie-service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Person, Info} from '../../models/person.model';
-import {states, lgas, labs, investigations} from '../../models/data.model';
+import {states, lgas } from '../../data/states';
+import {Tests, Scannings, Surgeries} from '../../data/request';
 import {Client, Department} from '../../models/client.model';
-import { Item, StockInfo, Product} from '../../models/inventory.model';
+import {Conditions} from '../../data/conditions';
+import { Item, StockInfo, Product, Card, Invoice} from '../../models/inventory.model';
 import {Subject} from 'rxjs';
 import {Observable} from 'rxjs';
 import {WebcamImage, WebcamInitError, WebcamUtil} from 'ngx-webcam';
-import { Record, Session, Complain, Appointment, Priscription, Test, Medication, Visit, Note} from '../../models/record.model';
+import { Record, Medication, Condition, Note, Visit, Session, Test, Surgery, Scan, Complain, Meta} from '../../models/record.model';
 const uri = 'http://localhost:5000/api/upload';
 // const uri = 'http://192.168.1.100:5000/api/upload';
 @Component({
@@ -23,36 +25,25 @@ const uri = 'http://localhost:5000/api/upload';
 export class ConsultationComponent implements OnInit {
   states = states;
   lgas = lgas;
-  labs = labs;
-  investigations = investigations;
-  test:Test = new Test();
-  tests: Test[] = [];
+  tests = Tests;
+  scannings = Scannings;
+  surgeries = Surgeries;
+  conditions = Conditions;
   patient: Person = new Person();
   patients: Person[] = [];
+  products: Product[] = [];
   clonedPatient: Person = new Person();
   clonedPatients: Person[] = [];
   record: Record = new Record();
+  card: Card = new Card();
+  cardTypes = [];
   client: Client = new Client();
   department: Department = new Department();
-  complain: Complain = new Complain();
-  complains: Complain[] = [];
   session: Session = new Session();
   curIndex = 0;
   searchTerm = '';
   medicView = false;
-  priscription: Priscription = new Priscription();
-  medication: Medication =  new Medication();
-  medications: any[] = [];
-  tempMedications: Medication[] = [];
-  item: Item = new Item();
-  items: Item[] = [];
-  temItems: Item[] = [];
-  newItems: Item[] = [];
-  product: Product = new Product(new Item(), new StockInfo());
-  products: Product[] = [];
   selectedProducts: Product[] = [];
-  appointment: Appointment = new Appointment();
-  note = new Note();
   input = '';
   in = 'discharge';
   loading  = false;
@@ -65,9 +56,11 @@ export class ConsultationComponent implements OnInit {
   showPhotoMenu = false;
   nowSorting = 'Date added';
   myDepartment = null;
+  errLine = null;
   showWebcam = false;
-  public errors: WebcamInitError[] = [];
-  public webcamImage: WebcamImage = null;
+  errors: WebcamInitError[] = [];
+  webcamImage: WebcamImage = null;
+  count = -1;
   // webcam snapshot trigger
   private trigger: Subject<void> = new Subject<void>();
   // switch to next / previous / specific webcam; true/false: forward/backwards, string: deviceId
@@ -80,21 +73,21 @@ export class ConsultationComponent implements OnInit {
      private route: ActivatedRoute,
      private router: Router,
      private cookies: CookieService,
-     private socket: SocketService ) {
-   }
+     private socket: SocketService ) {}
+
 
   ngOnInit() {
    this.getPatients('queued');
    this.getClient();
    this.myDepartment = this.route.snapshot.params['dept'];
     this.socket.io.on('enroled', (patient: Person) => {
-      if(patient.record.visits[0][0].dept.toLowerCase() === this.myDepartment || this.route.snapshot.params['admin']) {
+      if (patient.record.visits[0][0].dept.toLowerCase() === this.myDepartment || this.route.snapshot.params['admin']) {
         patient.card = {view: 'front', menu: false};
         this.patients.unshift(patient);
       }
   });
   this.socket.io.on('store update', (data) => {
-    if(data.action === 'new') {
+    if (data.action === 'new') {
       this.products.concat(data.changes);
     } else if (data.action === 'update') {
         for (const product of data.changes) {
@@ -108,8 +101,8 @@ export class ConsultationComponent implements OnInit {
   });
   this.socket.io.on('consulted', (patient: Person) => {
     const i = this.patients.findIndex(p => p._id === patient._id);
-      if(this.myDepartment) {
-         if(i < 0) {
+      if (this.myDepartment) {
+         if (i < 0) {
            this.patients.unshift(patient);
          } else {
            this.patients.splice(i, 1);
@@ -122,8 +115,8 @@ export class ConsultationComponent implements OnInit {
   });
   this.socket.io.on('Discharge', (patient: Person) => {
     const i = this.patients.findIndex(p => p._id === patient._id);
-      if(patient.record.visits[0][0].dept.toLowerCase() === this.myDepartment ) {
-         if(i < 0) {
+      if (patient.record.visits[0][0].dept.toLowerCase() === this.myDepartment ) {
+         if (i < 0) {
          } else {
            this.patients.splice(i, 1);
          }
@@ -136,20 +129,21 @@ export class ConsultationComponent implements OnInit {
   //  };
   this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any ) => {
         this.patient.info.personal.avatar = response;
-        this.update()
+        this.update();
         //  this.data.updateInfo(this.person.info, this.person._id).subscribe((info: Info) => {
         //    this.person.info = info;
         // });
        };
 
   }
-  isConsult(){
+  isConsult() {
     return this.router.url.includes('consultation') && !(this.router.url.includes('information') || this.router.url.includes('admin'));
   }
- isInfo(){
+ isInfo() {
     return this.router.url.includes('information');
   }
-  showDetails(i:number){
+  // tslint:disable-next-line:one-line
+  showDetails(i: number){
     this.patient = cloneDeep(this.patients[i]);
     this.reg = false;
     this.curIndex = i;
@@ -162,9 +156,7 @@ export class ConsultationComponent implements OnInit {
   getLgas() {
     return this.lgas[this.states.indexOf(this.patient.info.contact.me.state)];
   }
-  getTests() {
-    return this.investigations[this.labs.indexOf(this.test.lab)];
-  }
+
   routeHas(path) {
     return this.router.url.includes(path);
   }
@@ -185,23 +177,33 @@ export class ConsultationComponent implements OnInit {
     this.showPhotoMenu = !this.showPhotoMenu;
   }
   public handleImage(webcamImage: WebcamImage): void {
-    console.log('received webcam image', webcamImage);
-    this.webcamImage = webcamImage;
-
+     this.webcamImage = webcamImage;
   }
    public triggerSnapshot(): void {
     this.trigger.next();
     this.toggleWebcam();
   }
-
-
-  addRecord() {
+  addInitials() {
+     this.patient.record.cards.unshift({
+      ...this.card,
+      meta: new Meta(this.cookies.get('i'))
+    });
+    this.patient.record.invoices.unshift({
+      ...new Invoice(),
+      name: 'Card',
+      desc: this.card.category,
+      meta: new Meta(this.cookies.get('i'))
+    });
     this.patient.record.visits.unshift([new Visit()]);
+  }
+  addRecord() {
+    this.addInitials();
     this.dataService.addPerson(this.patient).subscribe((newpatient: Person) => {
       newpatient.card = {menu: false, view: 'front'};
       this.patients.unshift(newpatient);
       this.socket.io.emit('consulted', newpatient);
       this.patient = new Person();
+      this.card = new Card();
       this.url = null;
       this.processing = false;
       this.feedback = 'Patient added successfully';
@@ -223,13 +225,13 @@ update() {
     setTimeout(() => {
       this.feedback = null;
     }, 4000);
-  },(e) => {
+  }, (e) => {
     this.feedback = 'Unbale to update info';
     this.processing = false;
-  })
+  });
 }
 updateInfo() {
-  if(!this.url) {
+  if (!this.url) {
      this.update();
   } else {
       this.uploader.uploadAll();
@@ -238,23 +240,25 @@ updateInfo() {
 }
 submitInfo() {
   this.processing = true;
-    if(this.reg) {
-      if(this.url) {
+    if (this.reg) {
+      if (this.url) {
         this.uploader.uploadAll();
         this.addRecord();
     } else {
     this.addRecord();
     }
+  } else {
+    this.updateInfo();
   }
-  this.updateInfo();
-  }
+
+}
  getClient() {
     this.dataService.getClient().subscribe((res: any) => {
       this.client = res.client;
       this.products = res.client.inventory;
-      this.items = res.items;
+      this.cardTypes = res.client.inventory.filter(p => p.type === 'Cards');
+      this.session.items = res.items;
   });
-
   }
   fileSelected(event) {
     if (event.target.files && event.target.files[0]) {
@@ -279,11 +283,33 @@ clearPatient() {
   this.patient = new Person();
 }
 
+
 getDp(avatar: String) {
-  return 'http://localhost:5000/api/dp/' + avatar || "../assets/img/avatar.jpg";
+  return 'http://localhost:5000/api/dp/' + avatar || '../assets/img/avatar.jpg';
     // return 'http://192.168.1.100:5000/api/dp/' + avatar;
   }
 
+  getDescriptions() {
+    switch (this.session.reqItem.category) {
+      case 'Surgery':
+      this.session.desc = this.surgeries;
+      break;
+    case 'Scanning':
+      this.session.desc  = this.scannings;
+      break;
+    case 'Test':
+      this.session.desc  = this.tests;
+      break;
+      default:
+      break;
+    }
+}
+next(){
+  this.count = this.count+1;
+}
+prev(){
+  this.count = this.count-1;
+}
   getMyDp() {
     return this.getDp(this.cookies.get('d'));
   }
@@ -292,10 +318,10 @@ getDp(avatar: String) {
       .filter(dept => (dept.hasWard) && (dept.name !== this.patient.record.visits[0][0].dept));
   }
   setAppointment() {
-    this.patients[this.curIndex].record.appointments.unshift(this.appointment);
+    this.patients[this.curIndex].record.appointments.unshift(this.session.appointment);
     this.patients[this.curIndex].record.visits[0][0].status = 'Appointment';
     this.processing = true;
-    this.dataService.updateRecord(this.patients[this.curIndex], this.newItems).subscribe(patient => {
+    this.dataService.updateRecord(this.patients[this.curIndex], this.session.newItems).subscribe(patient => {
       this.processing = false;
       this.feedback = 'Appointment updated';
       setTimeout(() => {
@@ -313,7 +339,7 @@ getDp(avatar: String) {
       p.card.menu =  false;
     });
   }
-  switchToNewMedic(){
+  switchToNewMedic() {
     this.medicView = !this.medicView;
   }
   switchToAp(i: number) {
@@ -334,13 +360,9 @@ getDp(avatar: String) {
         this.patients.sort((m: Person, n: Person) => n.info.personal.gender.localeCompare(m.info.personal.gender));
         this.nowSorting = 'Gender';
         break;
-      // case 'status':
-      //   this.patients.sort((m, n) => m.record.visits[m.record.visits.length-1].status.localeCompare(m.record.visits[n.record.visits.length-1].status.localeCompare));
-      //   this.nowSorting = 'Status';
-      //   break;
         case 'age':
-        this.patients.sort((m, n) => new Date(m.info.personal.dob).getFullYear() - new Date(n.info.personal.dob).getFullYear());
-
+        this.patients.sort((m, n) => new Date(m.info.personal.dob).getFullYear() -
+        new Date(n.info.personal.dob).getFullYear());
         this.nowSorting = 'Age';
         break;
       case 'date':
@@ -352,26 +374,27 @@ getDp(avatar: String) {
     }
   }
   saveMedication(i) {
-    this.composeMedication();
-    this.patients[i].record.medications = this.medications;
-    this.processing = true;
-    this.dataService.updateRecord(this.patients[i], this.newItems).subscribe((p: Person) => {
-      p.card = {menu: false, view: 'front'};
-      this.patients[i] = p;
-      this.medications = [];
-      this.tempMedications = [];
-      this.processing = false;
-      this.feedback = 'Medication added successfully';
-      setTimeout(() => {
-        this.feedback = null;
-      }, 4000);
-    },(e) => {
-      this.feedback = 'Unable to add medication ';
-      this.processing = false;
-    });
+    this.composeMedications();
+    this.composeComplains();
+    // this.patients[i].record.medications = this.medications;
+    // this.processing = true;
+    // this.dataService.updateRecord(this.patients[i], this.newItems).subscribe((p: Person) => {
+    //   p.card = {menu: false, view: 'front'};
+    //   this.patients[i] = p;
+    //   this.medications = [];
+    //   this.tempMedications = [];
+    //   this.processing = false;
+    //   this.feedback = 'Medication added successfully';
+    //   setTimeout(() => {
+    //     this.feedback = null;
+    //   }, 4000);
+    // },(e) => {
+    //   this.feedback = 'Unable to add medication ';
+    //   this.processing = false;
+    // });
   }
   searchPatient(name: string) {
-    if(name !== '') {
+    if (name !== '') {
      this.patients = this.patients.filter((patient) => {
        const patern =  new RegExp('\^' + name
        , 'i');
@@ -384,38 +407,164 @@ getDp(avatar: String) {
    toggleSortMenu() {
     this.sortMenu = !this.sortMenu;
   }
-  addMoreTest() {
-    this.tests.unshift({...this.test, reqBy: this.cookies.get('i')});
-    this.test = new Test();
+  addInvoice(name: string, itemType: string) {
+    const p = this.products.find(prod => prod.item.name === name);
+    if (p) {
+      if (itemType === 'Medication') {
+        this.session.medInvoices.unshift({
+          ...new Invoice(),
+          name: name,
+          price: p.stockInfo.price,
+          desc: `Medication | ${this.session.medication.priscription.intake}-${this.session.medication.priscription.freq}-${this.session.medication.priscription.piriod}`,
+          processed: false,
+          meta: new Meta(this.cookies.get('i'))
+        });
+      } else {
+        this.session.invoices.unshift({
+          ...new Invoice(),
+          name: name,
+          price: p.stockInfo.price,
+          desc: itemType,
+          meta: new Meta(this.cookies.get('i'))
+        });
+      }
+    } else {
+      if (itemType === 'Medication') {
+        this.session.medInvoices.unshift({
+          ...new Invoice(),
+          name: name,
+          desc: `Medication | ${this.session.medication.priscription.intake}-${this.session.medication.priscription.freq}-${this.session.medication.priscription.piriod}`,
+          processed: false,
+          meta: new Meta(this.cookies.get('i'))
+        });
+      } else {
+        this.session.invoices.unshift({
+          ...new Invoice(),
+          name: name,
+          desc: itemType,
+          meta: new Meta(this.cookies.get('i'))
+        });
+      }
+    }
+    console.log(this.session.invoices);
+  }
+  addMedication() {
+    if (this.session.items.some(i => i.name === this.session.medication.name)) {
+    } else {
+      this.session.newItems.unshift(new Item('drug', this.session.medication.name));
+      this.session.items.unshift(new Item('drug', this.session.medication.name));
+    }
+    if (this.session.medications.some(medic => medic.name === this.session.medication.name)) {
+      this.feedback = 'Medication already added';
+    } else {
+    this.session.medications.unshift({
+      ...this.session.medication,
+      meta: new Meta(this.cookies.get('i'))
+    });
+  }
+  this.addInvoice(this.session.medication.name, 'Medication');
+  this.session.medication = new Medication();
+  }
+  addTest() {
+    this.session.tests.unshift(new Test(
+      this.session.reqItem.name,
+      new Meta(this.cookies.get('i'))
+      ));
+      this.addInvoice(this.session.reqItem.name, 'Test');
+  }
+  addSurgery() {
+    this.session.surgeries.unshift({
+      ...new Surgery(),
+      name: this.session.reqItem.name,
+      meta: new Meta(this.cookies.get('i'))
+    });
+    this.addInvoice(this.session.reqItem.name, 'Surgery');
+   }
+  addScanning() {
+    this.session.scans.unshift({
+      ...new Scan(),
+      name: this.session.reqItem.name,
+      meta: new Meta(this.cookies.get('i'))
+    });
+    this.addInvoice(this.session.reqItem.name, 'Scan');
+  }
+  addComplain() {
+     this.session.complains.unshift({
+       ...this.session.complain,
+       meta: new Meta(this.cookies.get('i'))
+     });
+     this.session.complain = new Complain();
+   }
+   addCondition() {
+     this.session.conditions.unshift(new Condition(
+       this.session.condition.condition,
+       new Meta(this.cookies.get('i'))
+       ));
+     this.session.condition = new Condition();
+   }
+
+   getPriscription(med) {
+     return med.desc.split('|')[1];
+   }
+  addRequest() {
+    switch (this.session.reqItem.category) {
+      case 'Surgery':
+      this.addSurgery();
+      this.session.reqItem = new Item();
+      this.session.desc = [];
+      break;
+    case 'Scanning':
+      this.addScanning();
+      this.session.reqItem = new Item();
+      this.session.desc = [];
+      break;
+    case 'Test':
+      this.addTest();
+      this.session.reqItem = new Item();
+      this.session.desc = [];
+      default:
+      break;
+    }
+
+  }
+
+  removeRequest(i: number) {
+    this.session.reqItems.splice(i, 1);
+    this.session.invoices.splice(i, 1);
+  }
+  removeCondition(i: number) {
+    this.session.conditions.splice(i, 1);
   }
   getProducts() {
     this.dataService.getProducts().subscribe((res: any) => {
       this.products = res.inventory;
-      this.items = res.items;
+      this.session.items = res.items;
    });
   }
   checkItems(type: string) {
-    return this.temItems.some(item => item.type === type);
+    // return this.temItems.some(item => item.type === type);
   }
   selectItem(i: Item) {
   }
   searchItems(i: string, type: string) {
-    if (i === '') {
-      this.temItems = [];
-    } else {
-        this.temItems = this.items.filter(it => it.type === type).filter((item) => {
-        const patern =  new RegExp('\^' + i , 'i');
-        return patern.test(item.name);
-      });
-    }
+    // if (i === '') {
+    //   this.temItems = [];
+    // } else {
+    //     this.temItems = this.items.filter(it => it.type === type).filter((item) => {
+    //     const patern =  new RegExp('\^' + i , 'i');
+    //     return patern.test(item.name);
+    //   });
+    // }
   }
   saveNote() {
     this.processing = true;
-    this.patients[this.curIndex].record.notes.unshift({...this.note, by: this.cookies.get('i')});
-      this.dataService.updateRecord(this.patients[this.curIndex], this.newItems).subscribe((p: Person) => {
+    this.patients[this.curIndex].record.notes.unshift({
+      ...this.session.note, meta: new Meta(this.cookies.get('i'))
+    });
+      this.dataService.updateRecord(this.patients[this.curIndex], this.session.newItems).subscribe((p: Person) => {
         p.card = {menu: false, view: 'front'};
         this.processing = false;
-        this.note = new Note();
+        this.session.note = new Note();
         this.feedback = 'Note added successfully';
         setTimeout(() => {
           this.feedback = null;
@@ -429,18 +578,21 @@ getDp(avatar: String) {
 switchBtn(option: string) {
    this.in = option;
 }
-
+removeMedication(i: number) {
+  this.session.medications.splice(i, 1);
+  this.session.invoices.splice(i, 1);
+}
 getPatients(type) {
   this.loading = true;
   this.dataService.getPatients(type).subscribe((patients: Person[]) => {
-     if(patients.length) {
+     if (patients.length) {
       patients.forEach(p => {
       p.card = {menu: false, view: 'front'};
     });
-      this.clonedPatients = patients;
-      this.patients = patients;
-     this.loading = false;
-     this.message = null;
+    this.clonedPatients = patients;
+    this.patients = patients;
+    this.loading = false;
+    this.message = null;
     } else {
         this.message = 'No Records So Far';
         this.loading = false;
@@ -451,12 +603,12 @@ getPatients(type) {
     });
   }
   selectDrug(item: Item) {
-    this.product.item = item;
-      this.temItems = [];
+    // this.product.item = item;
+    // this.temItems = [];
    }
   selectCondition(item: Item) {
-    this.session.conditions.condition = item.name;
-      this.temItems = [];
+    // this.session.conditions.name = item.name;
+    // this.temItems = [];
    }
    getBMI() {
      return  (this.session.vital.weight.value / Math.pow(this.session.vital.height.value, 2)).toFixed(2);
@@ -464,173 +616,192 @@ getPatients(type) {
   selectPatient(i: number) {
     this.curIndex = i;
     this.reg = false;
-    console.log(this.patients[i])
+    this.session = new Session();
     this.clonedPatient = cloneDeep(this.patients[i]);
     this.patient = this.patients[i];
-    this.medications = this.patient.record.medications;
-    this.url = this.getDp(this.patient.info.personal.avatar);
+     this.url = this.getDp(this.patient.info.personal.avatar);
    }
-   pullMedications(i: number) {
-    this.curIndex = i;
-    this.medications = this.patients[i].record.medications;
-   }
-   addMoreDrug() {
-    let tempro = null;
-    if(this.items.some(item => item.name === this.product.item.name)) {
-    } else {
-      this.newItems.unshift({...this.item, type: 'drug', name: this.product.item.name});
-      this.items.unshift({...this.item, type: 'drug', name: this.product.item.name});
-    }
-    if(this.tempMedications.some(medic => medic.product.item.name === this.item.name)) {
-      this.feedback = 'Medication already added';
-    } else {
-      this.client.inventory.forEach(prod => {
-        if(prod.item.name === this.product.item.name) {
-          tempro = prod;
-        }
-    })
-    if (tempro) {
-      this.tempMedications.unshift(new Medication(tempro, this.priscription));
-    } else {
-        this.tempMedications.unshift(new Medication(this.product, this.priscription));
-    }
-      this.product = new Product();
-      this.priscription = new Priscription();
-      this.item = new Item();
-    }
 
-  }
-   addMoreComplain() {
-    if(this.items.some(item => item.name === this.complain.complain)) {
-    } else {
-      this.newItems.unshift({...this.item, name: this.complain.complain, type: 'complain'});
-      this.items.unshift({...this.item, name: this.complain.complain, type: 'complain'});
-    }
-     this.complains.push({...this.complain, by: this.cookies.get('i')});
-     this.complain = new Complain();
-   }
+
+
    removeComplain(i: number) {
-     this.complains.splice(i, 1);
-     this.newItems.splice(i, 1);
+     this.session.complains.splice(i, 1);
+     this.session.newItems.splice(i, 1);
    }
    removeDp() {
      this.url = null;
    }
   removePriscription(i: number) {
-   this.tempMedications.splice(i, 1);
+   this.session.medications.splice(i, 1);
+   this.session.invoices.splice(i, 1);
   }
-  removeTest(i){
+  removeTest(i) {
     this.tests.splice(i, 1);
-  }
-  getPriceTotal() {
-    let total = 0;
-     this.tempMedications.forEach((medic) => {
-       total = total +  medic.product.stockInfo.price;
-     });
-     return total;
-  }
-
-  composeMedication() {
-    if (this.patient.record.medications.length) {
-      if (new Date(this.patient.record.medications[0][0].dateCreated)
-      .toLocaleDateString() === new Date()
-      .toLocaleDateString()) {
-        for(let m of this.tempMedications) {
-          this.patient.record.medications[0].unshift(m);
-        }
-       }
-        this.patient.record.medications.unshift(this.tempMedications);
-      }
-      this.patient.record.medications = [this.tempMedications];
-  }
-  composeTest() {
-    if (this.patient.record.tests.length) {
-      if (new Date(this.patient.record.tests[0][0].dateCreated)
-      .toLocaleDateString() === new Date().toLocaleDateString())
-       {
-        for(let t of this.tests) {
-          this.patient.record.tests[0].unshift(t);
-        }
-       }
-        this.patient.record.tests.unshift(this.tests);
-      }
-    this.patient.record.tests = [this.tests];
+    this.session.invoices.splice(i, 1);
   }
   clearFeedback() {
     this.feedback = null;
   }
-  submitRecord() {
-    this.processing = true;
-    this.composeMedication();
-    this.composeTest();
-    if (this.session.vital.bp.value) {
-      this.patient.record.vitals.bp.unshift(this.session.vital.bp);
-    } else {}
-    if (this.session.vital.pulse.value) {
-      this.patient.record.vitals.pulse.unshift(this.session.vital.pulse);
-    } else {}
-     if (this.session.vital.resp.value) {
-      this.patient.record.vitals.resp.unshift(this.session.vital.resp);
-    } else {}
-     if (this.session.vital.height.value) {
-      this.patient.record.vitals.height.unshift(this.session.vital.height);
-    } else {}
-     if (this.session.vital.weight.value) {
-      this.patient.record.vitals.weight.unshift(this.session.vital.weight);
-    } else {}
-     if (this.session.vital.tempreture.value) {
-      this.patient.record.vitals.tempreture.unshift(this.session.vital.tempreture);
-    } else {}
-     if (this.session.vital.bloodGl.value) {
-      this.patient.record.vitals.bloodGl.unshift(this.session.vital.bloodGl);
-    } else {}
-     if (this.session.conditions.condition) {
-      if(this.items.some(item => item.name === this.session.conditions.condition)) {
-        this.patient.record.conditions.unshift({...this.session.conditions, by: this.cookies.get('i')});
-      } else {
-        this.newItems.unshift({...this.item, name: this.session.conditions.condition, type:'condition'});
-        this.items.unshift({...this.item, name: this.session.conditions.condition, type:'condition'});
-        this.patient.record.conditions.unshift({...this.session.conditions, by: this.cookies.get('i')});
-      }
+  getPriceTotal() {
+    // let total = 0;
+    //  this.session.medications.forEach((medic) => {
+    //    total = total +  medic.stockInfo.price;
+    //  });
+    //  return total;
+  }
 
-    } else {}
-     if (this.session.visits.status === 'Foward') {
-      this.patient.record.visits[0].unshift({...this.session.visits, status: 'queued'}) ;
-      // this.patient.record.visits[0][0].status  = this.session.visits.status;
-    } else {
-      this.patient.record.visits[0][0] = this.session.visits;
+
+  composeInvoices() {
+    let invoices = cloneDeep([...this.session.invoices, ...this.session.medInvoices]);
+    if (invoices.length) {
+    if (this.patient.record.invoices.length) {
+      if (new Date(this.patient.record.invoices[0][0].meta.dateAdded)
+      .toLocaleDateString() === new Date()
+      .toLocaleDateString()) {
+        for (const i of invoices) {
+          this.patient.record.invoices[0].unshift(i);
+        }
+       } else {
+          this.patient.record.invoices.unshift(invoices);
+       }
+      } else {
+        this.patient.record.invoices = [invoices];
+      }
     }
-     if (this.complain.complain) {
-      this.complains.unshift({...this.complain, by: this.cookies.get('i')});
-    } else if (this.complains.length) {
-      this.patient.record.complains.unshift(this.complains);
+  }
+  composeMedications() {
+    if (this.session.medications.length) {
+    if (this.patient.record.medications.length) {
+      if (new Date(this.patient.record.medications[0][0].meta.dateAdded)
+      .toLocaleDateString() === new Date()
+      .toLocaleDateString()) {
+        for (const m of this.session.medications) {
+          this.patient.record.medications[0].unshift(m);
+        }
+       } else {
+          this.patient.record.medications.unshift(this.session.medications);
+       }
+      } else {
+        this.patient.record.medications = [this.session.medications];
+      }
+    }
+  }
+  composeTests() {
+    if (this.session.tests.length) {
+      if (this.patient.record.tests.length) {
+      if (new Date(this.patient.record.tests[0][0].meta.dateAdded)
+      .toLocaleDateString() === new Date().toLocaleDateString()) {
+        for (const t of this.tests) {
+          this.patient.record.tests[0].unshift(t);
+        }
+       } else {
+          this.patient.record.tests.unshift(this.session.tests);
+       }
+      } else {
+         this.patient.record.tests = [this.session.tests];
+      }
+    }
+  }
+  composeScans() {
+    if (this.session.scans.length) {
+      if (this.patient.record.scans.length) {
+      if (new Date(this.patient.record.scans[0][0].meta.dateAdded)
+      .toLocaleDateString() === new Date().toLocaleDateString()) {
+        for (const t of this.session.scans) {
+          this.patient.record.scans[0].unshift(t);
+        }
+       } else {
+          this.patient.record.scans.unshift(this.session.scans);
+       }
+      } else {
+        this.patient.record.scans = [this.session.scans];
+      }
+    }
+  }
+  composeComplains() {
+    if (this.session.complains.length) {
+    if (this.patient.record.complains.length) {
+      if (new Date(this.patient.record.complains[0][0].meta.dateAdded)
+      .toLocaleDateString() === new Date().toLocaleDateString()) {
+        for (const c of this.session.complains) {
+          this.patient.record.complains[0].unshift(c);
+        }
+       } else {
+          this.patient.record.complains.unshift(this.session.complains);
+       }
+      } else {
+         this.patient.record.complains = [this.session.complains];
+      }
+    }
+  }
+  composeConditions() {
+    if (this.session.conditions.length) {
+    if (this.patient.record.conditions.length) {
+      if (new Date(this.patient.record.conditions[0][0].meta.dateAdded)
+      .toLocaleDateString() === new Date().toLocaleDateString()) {
+        for (const c of this.session.conditions) {
+          this.patient.record.conditions[0].unshift(c);
+        }
+       } else {
+        this.patient.record.conditions.unshift(this.session.conditions);
+       }
+      } else {
+        this.patient.record.conditions = [this.session.conditions];
+      }
+    }
+  }
+  checkScalars() {
+    if (this.session.famHist.condition) {
+      this.patient.record.famHist.unshift({
+        ...this.session.famHist,
+        meta: new Meta(this.cookies.get('i'))
+    });
     } else {}
-     if (this.session.famHist.condition) {
-      this.patient.record.famHist.unshift(this.session.famHist);
-    } else {}
-     if (this.session.notes.note) {
-      this.patient.record.notes.unshift({...this.session.notes, by: this.cookies.get('i')});
+     if (this.session.note.note) {
+      this.patient.record.notes.unshift({
+        ...this.session.note,
+        meta: new Meta(this.cookies.get('i'))
+      });
     } else {}
      if (this.session.allegies.allegy) {
-      this.patient.record.allegies.unshift(this.session.allegies);
+      this.patient.record.allegies.unshift({...this.session.allegies,
+        meta: new Meta(this.cookies.get('i'))
+      });
     } else {}
-    console.log(this.patient)
-    this.dataService.updateRecord(this.patient, this.newItems).subscribe((patient: Person) => {
-      this.socket.io.emit('consulted', patient);
-      // this.patients.splice(this.curIndex, 1);
-      this.session = new Session();
-      this.tempMedications = [];
-      this.tests = [];
-      this.feedback = 'Record successfully updated';
-      this.processing = false;
-      this.complains = [];
-      setTimeout(() => {
-        this.feedback = null;
-      }, 4000);
+     if (this.session.famHist.condition) {
+      this.patient.record.famHist.unshift({...this.session.famHist,
+        meta: new Meta(this.cookies.get('i'))
+      });
+    } else {}
+  }
 
-    }, (e) => {
-      this.feedback = 'Unable to update record';
-      this.processing = false;
-    });
+sendRecord() {
+  this.processing = true;
+  this.dataService.updateRecord(this.patient).subscribe((patient: Person) => {
+    this.socket.io.emit('consulted', patient);
+    this.session = new Session();
+    this.feedback = 'Record successfully updated';
+    this.processing = false;
+    setTimeout(() => {
+      this.feedback = null;
+    }, 4000);
+  }, (e) => {
+    this.errLine = 'Unable to update record';
+    this.processing = false;
+  });
+}
+
+submitRecord() {
+    this.processing = true;
+    this.composeTests();
+    this.composeScans();
+    this.composeComplains();
+    this.composeConditions();
+    this.composeMedications();
+    this.composeInvoices();
+    this.checkScalars() ;
+    // console.log(this.patient.record)
+    this.sendRecord();
+
   }
 }

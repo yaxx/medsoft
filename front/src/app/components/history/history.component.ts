@@ -32,7 +32,6 @@ export class HistoryComponent implements OnInit {
       this.loading = false;
       this.notes = patient.record.notes;
       this.patient = patient;
-
       this.patient.record.notes = patient.record.notes.map(note => ({
         ...note,
         note: note.note.length > 150 ? note.note.substr(0, 150) : note.note
@@ -44,7 +43,7 @@ export class HistoryComponent implements OnInit {
 
     this.patient.record.vitals.bp.forEach((bp, i) => {
         this.chartData.push(bp.value);
-        this.chartLabels[i] = new Date(bp.dateCreated).getDate().toString() + months[new Date(bp.dateCreated).getMonth()];
+        this.chartLabels[i] = new Date(bp.meta.dateAdded).getDate().toString() + months[new Date(bp.meta.dateAdded).getMonth()];
       });
     this.bpChart = new Chart('bpChart', {
       type: 'bar',
@@ -107,18 +106,19 @@ export class HistoryComponent implements OnInit {
     });
   }
   getDp(avatar: String) {
-    // return 'http://localhost:5000/api/dp/' + avatar;
-    return 'http://18.221.76.96:5000/api/dp/' + avatar;
+    return 'http://localhost:5000/api/dp/' + avatar;
+    // return 'http://18.221.76.96:5000/api/dp/' + avatar;
   }
 
   getMyDp() {
     return this.getDp(this.cookies.get('d'))
   }
   getImage(fileName: String){
-    // return 'http://localhost:5000/api/dp/' + fileName;
-    return 'http://18.221.76.96:5000/api/dp/' + fileName;
+    // return 'http://192.168.0.100:5000/api/dp/' + fileName;
+    return 'http://localhost:5000/api/dp/' + fileName;
+    // return 'http://18.221.76.96:5000/api/dp/' + fileName;
   }
-  compareNotes(i:number, note:Note){
+  compareNotes(i:number, note: Note) {
     return this.notes[i].note.length === note.note.length;
   }
   downloadImage(file: string) {
@@ -131,8 +131,8 @@ export class HistoryComponent implements OnInit {
   this.patient.record.notes[i].note = this.notes[i].note;
 }
 getDocDp(avatar: string) {
-    // return 'http://localhost:5000/api/dp/' + avatar;
-    return 'http://http://192.168.1.100:5000/api/dp/' + avatar;
+    return 'http://localhost:5000/api/dp/' + avatar;
+    // return 'http://http://192.168.1.100:5000/api/dp/' + avatar;
 }
 
 

@@ -11,8 +11,8 @@ import { Client} from '../../models/client.model';
 import * as cloneDeep from 'lodash/cloneDeep';
 
 
-// const uri = 'http://localhost:5000/api/upload';
-const uri = 'http://18.221.76.96:5000/api/upload';
+const uri = 'http://localhost:5000/api/upload';
+// const uri = 'http://18.221.76.96:5000/api/upload';
 @Component({
   selector: 'app-ward',
   templateUrl: './ward.component.html',
@@ -96,8 +96,8 @@ export class WardComponent implements OnInit {
 
   }
   getDp(avatar: String) {
-    // return 'http://localhost:5000/api/dp/' + avatar;
-    return 'http://18.221.76.96:5000/api/dp/' + avatar;
+    return 'http://localhost:5000/api/dp/' + avatar;
+    // return 'http://18.221.76.96:5000/api/dp/' + avatar;
   }
   getMyDp() {
     return this.getDp(this.cookies.get('d'));
@@ -245,7 +245,7 @@ export class WardComponent implements OnInit {
     if(this.vitals.tempreture) {
       this.patients[i].record.vitals.bp =
       this.patients[i].record.vitals.tempreture
-      .filter(t => new Date(t.dateCreated).toLocaleDateString() !== new Date().toLocaleDateString());
+      .filter(t => new Date(t.meta.dateAdded).toLocaleDateString() !== new Date().toLocaleDateString());
       this.patients[i].record.vitals.tempreture.unshift(this.vitals.tempreture);
     } else {
 
@@ -253,7 +253,7 @@ export class WardComponent implements OnInit {
     if(this.vitals.bp) {
       this.patients[i].record.vitals.bp =
       this.patients[i].record.vitals.bp
-      .filter(b => new Date(b.dateCreated).toLocaleDateString() !== new Date()
+      .filter(b => new Date(b.meta.dateAdded).toLocaleDateString() !== new Date()
       .toLocaleDateString())
       this.patients[i].record.vitals.bp.unshift(this.vitals.bp);
     } else {
@@ -262,7 +262,7 @@ export class WardComponent implements OnInit {
     if(this.vitals.pulse.value) {
       this.patients[i].record.vitals.pulse =
       this.patients[i].record.vitals.pulse
-      .filter(p => new Date(p.dateCreated).toLocaleDateString() !== new Date()
+      .filter(p => new Date(p.meta.dateAdded).toLocaleDateString() !== new Date()
       .toLocaleDateString())
       this.patients[i].record.vitals.pulse.unshift(this.vitals.pulse);
     } else {
@@ -271,7 +271,7 @@ export class WardComponent implements OnInit {
     if(this.vitals.resp.value) {
       this.patients[i].record.vitals.resp =
       this.patients[i].record.vitals.resp
-      .filter(r => new Date(r.dateCreated).toLocaleDateString() !== new Date()
+      .filter(r => new Date(r.meta.dateAdded).toLocaleDateString() !== new Date()
       .toLocaleDateString())
       this.patients[i].record.vitals.resp.unshift(this.vitals.resp);
     } else {
@@ -279,7 +279,7 @@ export class WardComponent implements OnInit {
     }
     if(this.vitals.height.value) {
       this.patients[i].record.vitals.height =
-      this.patients[i].record.vitals.height.filter(h => new Date(h.dateCreated).toLocaleDateString() !== new Date()
+      this.patients[i].record.vitals.height.filter(h => new Date(h.meta.dateAdded).toLocaleDateString() !== new Date()
       .toLocaleDateString());
       this.patients[i].record.vitals.height.unshift(this.vitals.height);
     } else {
@@ -287,7 +287,7 @@ export class WardComponent implements OnInit {
     }
     if(this.vitals.weight.value) {
       this.patients[i].record.vitals.weight =
-      this.patients[i].record.vitals.weight.filter(w => new Date(w.dateCreated).toLocaleDateString() !== new Date()
+      this.patients[i].record.vitals.weight.filter(w => new Date(w.meta.dateAdded).toLocaleDateString() !== new Date()
       .toLocaleDateString());
       this.patients[i].record.vitals.weight.unshift(this.vitals.weight);
     } else {
@@ -372,8 +372,8 @@ searchItem (input) {
 }
 }
 selectProduct(product: Product) {
-  this.input = product.item.name + ' ' + product.item.mesure + product.item.unit;
-  this.temProducts = new Array<Product>();
+  // this.input = product.item.name + ' ' + product.item.mesure + product.item.unit;
+  // this.temProducts = new Array<Product>();
 
 }
 

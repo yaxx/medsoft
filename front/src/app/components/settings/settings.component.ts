@@ -1,15 +1,31 @@
 import { Component, OnInit } from '@angular/core';
+import { trigger, transition, style, animation, animate } from '@angular/animations';
 import {Router} from '@angular/router';
 import {DataService} from '../../services/data.service';
 import {Client, Department, Bed, Room} from '../../models/client.model';
 import {Connection, Connections, Info, Person} from '../../models/person.model';
 import {CookieService } from 'ngx-cookie-service';
-import {states, lgas} from '../../models/data.model';
+import {states, lgas} from '../../data/states';
 import * as cloneDeep from 'lodash/cloneDeep';
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.css']
+  styleUrls: ['./settings.component.css'],
+  animations: [trigger('slide', [
+    transition(':enter', [
+    // style({ left: '100%'}),
+    animate(500, style({ left: '0%'}))
+  ]),
+    transition(':leave', [
+      animate(500, style({ left: '100%'}))
+  ])
+])]
+  // animations: [trigger: ('fade', [
+  //   transition('void=>*',[style({
+  //     backgroundColor:'yellow', opacity:0 }),
+  //   animate(2000)
+  //     )]
+  // ])]
 })
 export class SettingsComponent implements OnInit {
   info: Info = new Info();
@@ -27,14 +43,19 @@ export class SettingsComponent implements OnInit {
   processing = false;
   numbOfBeds = null;
   staffMode = 'view';
-  clientMode = 'view';
+  clientMode = null;
   roomNumb = 1;
+  staffIndex = null;
   deptName = null;
   states = states;
   message = null;
   menu = null;
   transMsg = null;
-  constructor(private dataService: DataService, private cookies: CookieService, private router: Router) { }
+  errLine = null;
+  constructor(
+    private dataService: DataService,
+    private cookies: CookieService,
+    private router: Router) { }
 
   ngOnInit() {
     this.getSettings();
@@ -51,23 +72,23 @@ export class SettingsComponent implements OnInit {
         this.deptName = res.departments[0].name;
       }
 
-    },(e) => {
+    }, (e) => {
       this.message = 'Something went wrong';
       this.loading = false;
     });
   }
   getDp(avatar: String) {
-    // return 'http://localhost:5000/api/dp/' + avatar;
-    return 'http://18.221.76.96:5000/api/dp/' + avatar;
+    return 'http://localhost:5000/api/dp/' + avatar;
+    // return 'http://18.221.76.96:5000/api/dp/' + avatar;
   }
 
   getMyDp() {
-    return this.getDp(this.cookies.get('d'))
+    return this.getDp(this.cookies.get('d'));
   }
-  showMenu(menu:string){
+  showMenu(menu: string) {
     this.menu =  menu;
   }
-  hideMenu(menu:string){
+  hideMenu(menu: string) {
     this.menu = null;
   }
   getRoomNumbs() {
@@ -75,7 +96,7 @@ export class SettingsComponent implements OnInit {
   }
   addRoom() {
     const beds = [];
-    for(let i = 0; i < this.numbOfBeds; i++) {
+    for (let i = 0; i < this.numbOfBeds; i++) {
         beds.push(new Bed(i + 1));
     }
     this.rooms.push({...new Room(), number: this.rooms.length + 1, beds: beds});
@@ -91,9 +112,9 @@ export class SettingsComponent implements OnInit {
   switchClient(view: string) {
     this.clientMode = view;
   }
-  openStafftModal(){
-    this.staffMode = 'new';
-    this.staff = new Person()
+  openStafftModal(i: number) {
+   this.staffMode = 'new';
+    this.staff = new Person();
   }
 
   refresh() {
@@ -107,25 +128,25 @@ export class SettingsComponent implements OnInit {
     this.roomNumb = 1;
     // console.log(this.department);
   }
-  isAddminStaff(){
+  isAddminStaff() {
     const dept = this.departments.find(department => department.name === this.staff.info.official.department);
-    if(dept) {
+    if (dept) {
       this.staff.info.official.department = dept.name;
       return  dept.hasWard;
-    } else {return false;}
+    } else {return false; }
 
   }
   deptHasWard() {
-   this.department = this.departments.find(department => department.name === this.department.name ||null);
-   if(this.department) {
+   this.department = this.departments.find(department => department.name === this.department.name || null);
+   if (this.department) {
     return  this.department.hasWard;
-  } else {return false;}
+  } else {return false; }
 
   }
   generatePassword(): string {
     return Math.floor(Math.random() * (10000 - 1000 + 1) + 1000).toString();
   }
-  addStaff() {
+  createAccount() {
     this.processing = true;
     this.staff.info.personal.password = this.generatePassword();
      this.staff.info.personal.username = this.staff.info.personal.firstName.toLowerCase();
@@ -138,15 +159,32 @@ export class SettingsComponent implements OnInit {
       this.transMsg = null;
   }, 4000);
      this.staff = new Person();
-
    }, (e) => {
-    this.transMsg = 'Could not add staff';
+    this.errLine = 'Could not add staff';
     this.processing = false;
   });
   }
-  selectStaff(staff) {
-    this.staff = staff;
+  updateAccount() {
+    this.processing = true;
+    this.staff.info.personal.username  = (
+      this.staffs[this.staffIndex].info.personal.firstName ===
+      this.staff.info.personal.firstName) ? this.staff.info.personal.username :
+      this.staff.info.personal.firstName.toLowerCase();
+      this.dataService.updateInfo(this.staff.info, this.staff._id).subscribe((edited: Person ) => {
+      this.staffs[this.staffIndex] = edited;
+      this.staff = edited;
+      this.transMsg = 'Account updated successfully';
+      this.processing = false;
+    }, (e) => {
+      this.errLine = 'Could not updated account';
+      this.processing = false;
+    });
+  }
+  selectStaff(staff, i) {
+    this.staffIndex = i;
+    this.staff = cloneDeep(staff);
     this.switchView('view') ;
+
   }
   switchView(view: string) {
     this.staffMode = view;

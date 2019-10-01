@@ -1,6 +1,6 @@
 
 <router-outlet></router-outlet>
-<div class="sidenav">
+<div style="background: white;z-index:1035" class="sidenav">
 
   <a *ngIf='admin === "admin"||info === "information"' style="top:21%" href="#" [routerLink]="['./']" [routerLinkActiveOptions]={exact:true}  routerLinkActive="router-link-active"  class="home reviewmenu" title="Discharged">
       <span class="homespan">

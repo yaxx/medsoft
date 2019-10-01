@@ -1,25 +1,35 @@
-import {Product} from './inventory.model';
+import {Product, StockInfo, Item, Invoice, Card} from './inventory.model';
+
+
 
 
 export class Record {
   constructor(
-    public complains: any[] = [[]],
+    public complains: any[] = [],
     public famHist: FamHist[] = [],
-    public notes: Note[] = new Array<Note>(),
+    public notes: Note[] = [],
     public vitals: Vitals = new Vitals(),
-    public conditions: Condition[] = [],
+    public conditions: any[] = [],
     public allegies: Allegy[] = [],
     public devices: Device[] = [],
     public visits: any[] = [],
+    public invoices: Invoice[] = [],
+    public cards: Card[] = [],
     public appointments: Appointment[] = [],
     public medications: any[] = [],
     public tests: any[] = [],
-    public scans: Scan[] = [],
+    public scans: any = [],
     public sugery: any[] = [],
     public deathNote: DeathNote = new DeathNote()
      ) {}
   }
-
+  export class Meta {
+    constructor(
+    public addedBy: string = null,
+    public selected: boolean = false,
+    public dateAdded: Date = new Date()
+    ){}
+  }
   export class Priscription {
   constructor(
     public intake = null,
@@ -38,71 +48,76 @@ export class Record {
 }
 export class Medication {
   constructor(
-     public product: Product = new Product(),
+     public name: string = null,
+     public meta: Meta = new Meta(),
      public priscription: Priscription = new Priscription(),
-     public paid: boolean = false,
      public paused: boolean = false,
      public pausedOn: Date = null,
      public lastTaken: Date = null,
-     public selected: boolean = false,
-     public dateCreated: Date = new Date(),
-     public purchased: number = 0,
-     public by: any =  null,
      public _id?: string
-    
      ) {}
 }
 export class Complain {
   constructor(
     public complain: string = null,
-    public duration: number = null,
-    public by: any = null,
-    public dateCreated: Date = new Date()
+    public meta: Meta = new Meta(),
+    public duration: number = null
      ) {}
   }
 export class FamHist {
   constructor(
     public condition: string = null,
-    public dateCreated?: Date
+    public meta: Meta = new Meta()
      ) {}
   }
 export class Note {
   constructor(
     public _id?: string,
-    public noteType?: string,
+    public type?: string,
     public note: string = null,
-    public by: string = null,
-    public dateCreated: Date = new Date()
-
+    public meta: Meta = new Meta()
      ) {}
   }
 export class Bp {
-  constructor(public value: number = null,
-    public dateCreated: Date = new Date()) {}
+  constructor(
+    public value: number = null,
+    public meta: Meta = new Meta()
+    ) {}
 }
 export class Resp {
-  constructor(public value: number = null,
-    public dateCreated: Date = new Date()) {}
+  constructor(
+    public value: number = null,
+    public meta: Meta = new Meta()
+    ) {}
 }
 export class Pulse {
-  constructor(public value: number = null,
-    public dateCreated: Date = new Date()) {}
+  constructor(
+    public value: number = null,
+    public meta: Meta = new Meta()
+    ) {}
 }
 export class Temp {
-  constructor(public value: number = null,
-    public dateCreated: Date = new Date()) {}
+  constructor(
+    public value: number = null,
+    public meta: Meta = new Meta()) {}
 }
 export class Bg {
-  constructor(public value: number = null,
-    public dateCreated: Date = new Date()) {}
+  constructor(
+    public value: number = null,
+    public meta: Meta = new Meta()
+    ) {}
 }
 export class Height {
-  constructor(public value: number = null,
-    public dateCreated: Date = new Date()) {}
+  constructor(
+    public value: number = null,
+    public meta: Meta = new Meta()
+    ) {}
 }
 export class Weight {
-  constructor(public value: number = null,
-    public dateCreated: Date = new Date()) {}
+  constructor(
+    public value: number = null,
+    public meta: Meta = new Meta()
+   ) {}
 }
 
 export class Vital {
@@ -113,32 +128,31 @@ export class Vital {
     public tempreture: Temp = new Temp(),
     public height: Height = new Height(),
     public weight: Weight = new Weight()
-
-     ) {}
-  }
+  ) {}
+}
 export class Condition {
-  constructor( public condition: string = null,
-    public order: string  = null,
-    public certainty: string = null,
-    public by: any = null,
-    public dateCreated: Date = new Date()
+  constructor(
+    public condition: string = null,
+    public meta: Meta = new Meta()
      ) {}
   }
 export class Allegy {
-  constructor( public allegy: string = null,
-    public dateCreated?: Date
+  constructor(
+    public allegy: string = null,
+    public meta: Meta = new Meta()
      ) {}
   }
 export class Device {
-  constructor( public device: string = null,
-    public dateCreated?: Date
+  constructor(
+    public device: string = null,
+    public meta: Meta = new Meta()
      ) {}
   }
 export class Visit {
   constructor(
     public hospital?: any,
     public dept: string = 'GOPD',
-    public status: string = 'queued',
+    public status: string = null,
     public visitedOn: Date = new Date(),
     public addmittedOn: Date = null,
     public dischargedOn: Date = null,
@@ -147,25 +161,24 @@ export class Visit {
     public bedNo:  number = null
      ) {}
   }
+
 export class Test {
   constructor(
-    public lab: string = null,
-    public type: string = null,
+    public name: string = null,
+    public meta: Meta = new Meta(),
     public status: string = null,
-    public result: string = null,
-    public reqBy: string = null,
+    public verified: boolean = false,
     public verifiedBy: string = null,
-    public dateCreated: Date = new Date(),
     public dateVerified: Date = null
      ) {}
   }
-export class Sugery {
+
+export class Surgery {
   constructor(
-    public sugery: string = null,
+    public name: string = null,
+    public meta: Meta = new Meta(),
     public status: string = null,
     public result?: Object,
-    public by?: any,
-    public dateCreated?: Date
      ) {}
   }
 export class Vitals {
@@ -177,17 +190,16 @@ export class Vitals {
     public tempreture: Temp[] = [],
     public height: Height[] = [],
     public weight: Weight[] = []
-
   ) {}
 }
 
-  export class Scan {
-    constructor(
-      public name?: string,
-      public description?: string,
-      public dateCreated: Date = new Date()
-    ){}
-  }
+export class Scan {
+constructor(
+  public name: string = null,
+  public bodyPart: string = null,
+  public meta: Meta = new Meta(),
+){}
+}
   export class DeathNote {
   constructor(public diagnosis: string = null,
   public cause: string = null,
@@ -207,23 +219,35 @@ export class Appointment {
     public time: string = null,
     public date: string = null,
     public attended: boolean = false,
-    public by: string = null
+    public meta: Meta = new Meta()
  ) {}
 
 }
 export class Session {
   constructor(
-    public complains: Complain[] = [],
     public famHist: FamHist = new FamHist(),
-    public notes: Note = new Note(),
+    public note: Note = new Note(),
+    public appointment: Appointment = new Appointment(),
+    public complain: Complain = new Complain(),
+    public condition: Condition = new Condition(),
+    public medication: Medication = new Medication(),
     public vital: Vital = new Vital(),
-    public conditions: Condition = new Condition(),
     public allegies: Allegy = new Allegy(),
     public devices: Device = new Device(),
     public visits: Visit = new Visit(),
+    public reqItem: Item = new Item(),
+    public reqItems: any = [],
+    public newItems: any = [],
+    public conditions: Condition[] = [],
+    public complains: Complain[] = [],
+    public items: Item[] = [],
     public medications: Medication[] = [],
-    public tests: Test = new Test(),
-    public scan: Scan = new Scan(),
+    public tests: Test[] = [],
+    public desc: string[] = [],
+    public surgeries: Surgery[] = [],
+    public scans: Scan[] = [],
+    public invoices: Invoice[] = [],
+    public medInvoices: Invoice[] = [],
     public deathNote: DeathNote = new DeathNote()
 
      ) {}

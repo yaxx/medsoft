@@ -45,7 +45,6 @@
     "chart.js": "^2.7.3",
     "clone-deep": "^4.0.1",
     "core-js": "^2.5.4",
-
     "electron-serve": "^0.2.0",
     "file-saver": "^2.0.1",
     "immutability-helper": "^3.0.0",
@@ -62,6 +61,7 @@
     "socket.io-client": "^2.1.1",
     "sort-array-objects": "^2.0.0",
     "sort-by-typescript": "^1.0.2",
+    "web-animations-js": "^2.3.2",
     "zone.js": "~0.8.26"
   },
   "devDependencies": {

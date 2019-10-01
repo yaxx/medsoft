@@ -3,14 +3,15 @@ import {NgForm} from '@angular/forms';
 import { FileSelectDirective, FileUploader } from 'ng2-file-upload';
 import {DataService} from '../../services/data.service';
 import {SocketService} from '../../services/socket.service';
-import {ActivatedRoute,Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import * as cloneDeep from 'lodash/cloneDeep';
 import {Person, Info} from '../../models/person.model';
 import {Visit} from '../../models/record.model';
 import {Client, Department} from '../../models/client.model';
 import {CookieService } from 'ngx-cookie-service';
-// const uri = 'http://localhost:5000/api/upload';
-const uri = 'http://18.221.76.96:5000/api/upload';
+// const uri = 'http://192.168.1.100:5000/api/upload';
+const uri = 'http://localhost:5000/api/upload';
+// const uri = 'http://18.221.76.96:5000/api/upload';
  @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
@@ -38,6 +39,7 @@ export class RegistrationComponent implements OnInit {
   nowSorting = 'Date added';
   view = 'info';
   searchTerm = '';
+  // dpurl = 'http://192.168.1.100:5000/api/dp/';
   dpurl = 'http://localhost:5000/api/dp/';
   // dpurl = 'http://192.168.1.100:5000/api/dp/';
 
@@ -51,12 +53,11 @@ export class RegistrationComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-  
-    this.getPatients('Discharge');
+    this.getPatients('out');
     this.getClient();
     this.socket.io.on('consulted', (patient: Person) => {
       const i = this.patients.findIndex(p => p._id === patient._id);
-      if(patient.record.visits[0][0].status === 'Discharge') {
+      if(patient.record.visits[0][0].status === 'out') {
         this.patients.unshift(patient);
         this.clonedPatients.unshift(patient);
       }
@@ -66,12 +67,13 @@ export class RegistrationComponent implements OnInit {
       this.clonedPatients.unshift(patient);
   });
   }
-  routeHas(path){
+  routeHas(path) {
     return this.router.url.includes(path);
   }
   getDp(avatar: String) {
-    // return 'http://localhost:5000/api/dp/' + avatar;
-    return 'http://18.221.76.96:5000/api/dp/' + avatar;
+    // return 'http://192.168.1.100:5000/api/dp/' + avatar;
+    return 'http://localhost:5000/api/dp/' + avatar;
+    // return 'http://18.221.76.96:5000/api/dp/' + avatar;
   }
   toggleSortMenu() {
     this.sortMenu = !this.sortMenu;
@@ -81,7 +83,7 @@ export class RegistrationComponent implements OnInit {
   }
   refresh() {
     this.message = null;
-    this.getPatients('Discharge');
+    this.getPatients('out');
   }
   getClient() {
     this.dataService.getClient().subscribe((res: any) => {
@@ -91,6 +93,7 @@ export class RegistrationComponent implements OnInit {
   getPatients(type) {
     this.loading = true;
     this.dataService.getPatients(type).subscribe((patients: Person[]) => {
+      console.log(patients)
       if(patients.length) {
         patients.forEach(p => {
           p.card = {menu: false, view: 'front'};
@@ -168,6 +171,15 @@ export class RegistrationComponent implements OnInit {
    }
 
   }
+  countVisits(i) {
+    let count = []
+    this.patients[i].record.visits.map(vs => vs.map(v => {
+    if (v.status === 'out') {
+      count.push(v)
+    }
+  }))
+  return count;
+}
  
   getMe() {
     return this.cookies.get('a');

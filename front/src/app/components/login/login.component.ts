@@ -69,7 +69,7 @@ cred = {
             route = `/${person.info.official.department.toLowerCase()}`;
           break;
         }
-        this.router.navigate([route]);
+        this.router.navigate([route]);      
       } else {
         this.cookie.set('i', person._id);
         this.cookie.set('h', person.info.official.hospital);

@@ -2,60 +2,59 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content" style="width:480px;border-radius:0px;border-radius:12px;padding-left:0px;padding-right: 0px;">
             <div class="modal-body" style="border-radius:0px;padding: 0px;">
-                <div  class="card card-secondary historycard midlecard profilecard" style="margin:auto;min-height:220px;border-radius:12px;">
-                  <div style='padding-left: 30px;border-top-right-radius:12px;border-top-left-radius:12px; border-bottom:0px' class="card-header profileheader small-header">
-                <h6 style='font-size:11px;position:absolute; top:5%;left:2%;color:#1da1f2;' class="patien-name small-name">NEW DEPARTMENT</h6>
-              </div>
-                    <div style='margin-left:0px'  class="card-body orderbody">
-                    <form style="top:15%; width:56%;margin:auto; padding-top:30px" class=" staffsform" >
-                          <div class="form-group  vitals-section address">
-                              <label style='font-size:8px'  for="email" class="labelss">DEPARTMENT</label>
-                              <select (change)= selectDept($event.target.value) [(ngModel)]="deptName" style='font-size:11px'   class=" patientdata inputs dataInfo newpatient" name="department">
+                <div class="card card-secondary historycard midlecard profilecard" style="margin:auto;min-height:220px;border-radius:12px;">
+                    <div style='padding-left: 30px;border-top-right-radius:12px;border-top-left-radius:12px; border-bottom:0px' class="card-header profileheader small-header">
+                        <h6 style='font-size:11px;position:absolute; top:5%;left:2%;color:#1da1f2;' class="patien-name small-name">NEW DEPARTMENT</h6>
+                    </div>
+                    <div style='margin-left:0px' class="card-body orderbody">
+                        <form style="top:15%; width:56%;margin:auto; padding-top:30px" class=" staffsform">
+                            <div class="form-group  vitals-section address">
+                                <label style='font-size:8px' for="email" class="labelss">DEPARTMENT</label>
+                                <select (change)=selectDept($event.target.value) [(ngModel)]="deptName" style='font-size:11px' class=" patientdata inputs dataInfo newpatient" name="department">
                                   <option *ngFor="let dept of departments">{{dept.name}}</option>
                               </select>
-                          </div>
-                          <div *ngIf = '(deptName!== "Pharmacy" ) && (deptName !== "Information") '>
-                          <div class="form-group vitals-section formGroup" style=" width:46%;">
-                              <label style="font-size:8px" for="dos" class="labelss complain">ROOM</label>
-                              <input  [(ngModel)] = roomNumb  style="border-top-right-radius: 0px;border-bottom-right-radius: 0px;"  name="dos" class=" form-control patientdata inputs dataInfo"  >
-                          </div>
-                          <div class="form-group vitals-section formGroup" style=" width:45%;">
-                              <label style="font-size:8px" for="piriod" class="labelss complain">#BEDS</label>
-                              <input [min]='1' [(ngModel)] = numbOfBeds   style="border-radius: 0px;"
-                              type="number" name="beds" class="form-control patientdata inputs dataInfo" placeholder="">
-                              <div (click) = addRoom() id='moreBtn' title="Add medication"><i class="icon ion-ios-plus-empty arrow " style="font-size:25px;position: absolute;left:27%;top:-17%; cursor:pointer"></i>
-                              </div>
-                          </div>
-                          <div style="top:1px; margin-bottom:25px;"  class="form-group vitals-section setGroup">
-                              <table *ngIf='rooms.length '  cellspacing="0" class="data-table drugs-table" style="width:100%;left:0%;" >
-                                <thead class='productHead'>
-                                  <tr  class="staff-th">
-                                      <th style='padding:5px;font-size: 9px;' class="headlbl staff-th">ROOM #</th>
-                                      <th style='padding:5px;font-size: 9px; text-align: right' class="headlbl staff-th">NUM OF BEDS</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr *ngFor='let room of rooms; let i = index' class="ro staff-row">
-                                      <td style="padding:2px 5px 2px 5px;font-size: 11px;" class="data">{{i+1}}</td>
-                                      <td style="text-align:right;padding:2px 5px 2px 5px;font-size: 11px;" class="data">{{room.beds.length}}</td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                          </div>
+                            </div>
+                            <div *ngIf='(deptName !== "Pharmacy" ) && (deptName !== "Information") && (deptName !== "Billing") '>
+                                <div class="form-group vitals-section formGroup" style=" width:46%;">
+                                    <label style="font-size:8px" for="dos" class="labelss complain">ROOM</label>
+                                    <input [(ngModel)]=roomNumb style="border-top-right-radius: 0px;border-bottom-right-radius: 0px;" name="dos" class=" form-control patientdata inputs dataInfo">
+                                </div>
+                                <div class="form-group vitals-section formGroup" style=" width:45%;">
+                                    <label style="font-size:8px" for="piriod" class="labelss complain">#BEDS</label>
+                                    <input [min]='1' [(ngModel)]=numbOfBeds style="border-radius: 0px;" type="number" name="beds" class="form-control patientdata inputs dataInfo" placeholder="">
+                                    <div (click)=addRoom() id='moreBtn' title="Add medication"><i class="icon ion-ios-plus-empty arrow " style="font-size:25px;position: absolute;left:27%;top:-17%; cursor:pointer"></i>
+                                    </div>
+                                </div>
+                                <div style="top:1px; margin-bottom:25px;" class="form-group vitals-section setGroup">
+                                    <table *ngIf='rooms.length ' cellspacing="0" class="data-table drugs-table" style="width:100%;left:0%;">
+                                        <thead class='productHead'>
+                                            <tr class="staff-th">
+                                                <th style='padding:5px;font-size: 9px;' class="headlbl staff-th">ROOM #</th>
+                                                <th style='padding:5px;font-size: 9px; text-align: right' class="headlbl staff-th">NUM OF BEDS</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor='let room of rooms; let i = index' class="ro staff-row">
+                                                <td style="padding:2px 5px 2px 5px;font-size: 11px;" class="data">{{i+1}}</td>
+                                                <td style="text-align:right;padding:2px 5px 2px 5px;font-size: 11px;" class="data">{{room.beds.length}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </form>
+                        <div (click)=addDepartment() style='left:86%; height:32px;width:32px' title='Done' class="floter">
+                            <i *ngIf='processing' class="fa fa-circle-o-notch fa-spin fa-10x slow-spin" style="position:absolute;bottom:5px;left:5px;font-size:20px;color: #1da1f2;"> </i>
+                            <i *ngIf='!processing' style="color:#1da1f2;bottom:-10px" class="icon ion-ios-checkmark-empty flotericon"> </i>
                         </div>
-                    </form>
-                    <div (click) = addDepartment() style='left:86%; height:32px;width:32px'
-                    title ='Done' class="floter">
-                    <i *ngIf='processing' class="fa fa-circle-o-notch fa-spin fa-10x slow-spin" style="position:absolute;bottom:5px;left:5px;font-size:20px;color: #1da1f2;"> </i>
-                    <i *ngIf='!processing' style="color:#1da1f2;bottom:-10px"
-                      class="icon ion-ios-checkmark-empty flotericon"> </i>
-                  </div>
-                  </div>
-                 <div *ngIf = transMsg style="padding:5px;border-top: 1px solid rgb(248, 247, 247)" class="card-footer"> <h6  class="feedbackMsg">{{transMsg}}</h6></div>
-              </div>
-          </div>
-      </div>
-  </div>
+                    </div>
+                    <div *ngIf=transMsg style="padding:5px;border-top: 1px solid rgb(248, 247, 247)" class="card-footer">
+                        <h6 class="feedbackMsg">{{transMsg}}</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 
@@ -66,309 +65,351 @@
 <div class="modal fade" role="dialog" tabindex="-1" id="staffModal" style="border-radius:12px;width:auto;">
     <div class="modal-dialog" role="document">
         <div class="modal-content" style="width:480px;border-radius:0px;border-radius:12px;padding-left:0px;padding-right: 0px;">
-          <div class="modal-body" style="border-radius:0px;padding: 0px;">
-          <div *ngIf='staffMode === "edit"||staffMode === "new"'  class="card card-secondary historycard midlecard profilecard" style="margin:auto;min-height:240px;border-radius:12px;">
-              <div style='padding-left: 30px;border-top-right-radius:12px;border-top-left-radius:12px; border-bottom:0px' class="card-header profileheader small-header">
-                <h6 *ngIf='staffMode === "new"'  style='font-size:11px;position:absolute; top:5%;left:2%;color:#1da1f2;' class="patien-name small-name">NEW STAFF</h6>
-                <h6 *ngIf='staffMode === "edit"'  style='font-size:11px;position:absolute; top:5%;left:2%;color:#1da1f2;' class="patien-name small-name">EDIT DETAILS<span>
+            <div class="modal-body" style="border-radius:0px;padding: 0px;">
+                <div *ngIf='staffMode === "edit"||staffMode === "new"' class="card card-secondary historycard midlecard profilecard" style="margin:auto;min-height:240px;border-radius:12px;">
+                    <div style='padding-left: 30px;border-top-right-radius:12px;border-top-left-radius:12px; border-bottom:0px' class="card-header profileheader small-header">
+                        <h6 *ngIf='staffMode === "new"' style='font-size:11px;position:absolute; top:5%;left:2%;color:#1da1f2;' class="patien-name small-name">ADD STAFF</h6>
+                        <h6 *ngIf='staffMode === "edit"' style='font-size:11px;position:absolute; top:5%;left:2%;color:#1da1f2;' class="patien-name small-name">EDIT ACCOUNT<span>
                 <i  *ngIf='staffMode === "edit"' (click)="switchView('view')" style='position:relative;right:58%;top:2px; cursor:pointer; display: inline-block; color:#1da1f2;' title="Back" class="icon ion-android-arrow-back "> </i></span></h6>
-              </div>
-              
-              <div style='margin-left:0px '  class="card-body orderbody">
-                <form style="top:15%; width:56%;margin:auto;" class=" staffsform" >
-                  <div  class="form-group vitals-section formGroup" style=" width:49%; margin-right: 4px">
-                      <label style='font-size:8px' for="firstName" class="labelss complain">FIRST NAME</label>
-                      <input [(ngModel)]="staff.info.personal.firstName"  name="firstName" class="form-control patientdata inputs dataInfo"  >
-                  </div>
-                  <div class="form-group vitals-section formGroup" style=" width:49%; ">
-                      <label style='font-size:8px' for="lastName" class="labelss complain">LAST NAME</label>
-                      <input [(ngModel)]="staff.info.personal.lastName"   class="form-control patientdata status inputs dataInfo " name="lastName">
-                  </div>
-                  <div  class="form-group vitals-section formGroup" style=" width:49%; margin-right: 4px">
-                      <label style='font-size:8px' for="gender" class="labelss complain">GENDER</label>
-                      <select [(ngModel)]="staff.info.personal.gender" class="patientdata inputs dataInfo newpatient" name="gender">
+                    </div>
+
+                    <div style='margin-left:0px;padding-top:22px ' class="card-body orderbody">
+                        <form style="top:15%; width:62%;margin:auto;" class=" staffsform">
+                            <div class="form-group vitals-section formGroup" style=" width:49%; margin-right: 4px">
+                                <label style='font-size:8px' for="firstName" class="labelss complain">FIRST NAME</label>
+                                <input [(ngModel)]="staff.info.personal.firstName" name="firstName" class="form-control patientdata inputs dataInfo">
+                            </div>
+                            <div class="form-group vitals-section formGroup" style=" width:49%; ">
+                                <label style='font-size:8px' for="lastName" class="labelss complain">LAST NAME</label>
+                                <input [(ngModel)]="staff.info.personal.lastName" class="form-control patientdata status inputs dataInfo " name="lastName">
+                            </div>
+                            <div class="form-group vitals-section formGroup" style=" width:49%; margin-right: 4px">
+                                <label style='font-size:8px' for="gender" class="labelss complain">GENDER</label>
+                                <select [(ngModel)]="staff.info.personal.gender" class="patientdata inputs dataInfo newpatient" name="gender">
                           <option>Male</option>
                           <option>Female</option>
                       </select>
-                  </div>
-                  <div class="form-group vitals-section formGroup" style=" width:49%; ">
-                      <label style='font-size:8px' for="mobile" class="labelss complain">MOBILE</label>
-                      <input [(ngModel)]="staff.info.contact.me.mobile"   class=" form-control patientdata status inputs dataInfo " name="mobile">
-                  </div>
-                  <div class="form-group vitals-section address">
-                      <label style='font-size:8px' for="drug" class="labelss">DEPARTMENT</label>
-                      <select [(ngModel)]="staff.info.official.department"  style='font-size:11px' class="patientdata inputs dataInfo newpatient" name="department">
+                            </div>
+                            <div class="form-group vitals-section formGroup" style=" width:49%; ">
+                                <label style='font-size:8px' for="mobile" class="labelss complain">MOBILE</label>
+                                <input [(ngModel)]="staff.info.contact.me.mobile" class=" form-control patientdata status inputs dataInfo " name="mobile">
+                            </div>
+                            <div class="form-group vitals-section formGroup" style=" width:49%; margin-right: 4px">
+                                <label style='font-size:8px' for="drug" class="labelss">DEPARTMENT</label>
+                                <select [(ngModel)]="staff.info.official.department" style='font-size:11px' class="patientdata inputs dataInfo newpatient" name="department">
                           <option *ngFor="let d of client.departments">{{d.name}}</option>
                       </select>
-                  </div>
-                  <div *ngIf="isAddminStaff()" class="form-group vitals-section address">
-                      <label style='font-size:8px' for="role" class="labelss">ROLE</label>
-                      <select [(ngModel)]="staff.info.official.role" class="patientdata inputs dataInfo newpatient" name="role">
-                          <option>Doctor</option>
-                          <option>Nurse</option>
-                          <option>Pharmacist</option>
-                          <option>Lab Scientist</option>
-                      </select>
-                  </div>
-              </form>
-              <div (click)="addStaff()"  style='left:90%; height:32px;width:32px'
-              title ='Done' class="floter">
-              <i *ngIf='processing' class="fa fa-circle-o-notch fa-spin fa-10x slow-spin" style="position:absolute;bottom:5px;left:5px;font-size:20px;color: #1da1f2;"> </i>
-              <i *ngIf='!processing' style="color:#1da1f2;bottom:-10px"
-                class="icon ion-ios-checkmark-empty flotericon"> </i>
-              </div>
-            </div>
-            <div *ngIf = transMsg style="padding:5px;border-top: 1px solid rgb(248, 247, 247)" class="card-footer"> <h6  class="feedbackMsg">{{transMsg}}</h6></div>
-        </div>
-        <div *ngIf ='staffMode === "view"'   class="card card-secondary historycard midlecard profilecard" style="margin:auto;min-height:240px;border-radius:12px;">
-              <div style='padding-left: 30px;border-top-right-radius:12px;border-top-left-radius:12px; border-bottom:0px' class="card-header profileheader small-header">
-                <h6 style='font-size:11px;position:absolute; top:5%;left:2%;color:#1da1f2;' class="patien-name small-name">STAFF DETAILS</h6>
-                <i (click)=showMenu() class="icon ion-android-more-vertical headericon moreicon actions-icon"></i>
-                <div *ngIf=menu style="width:25%;height:65px" class="menu">
-                  <ul class="actions primary">
-                      <li class="action">Suspend account</li>
-                      <li (click)= "switchView('edit')" class="action">Edit account</li>
-                      <li class="action">Delete account</li>
-                  </ul>
-                </div>
-            </div>
-            <div  style='margin-left:0px;padding-top: 22px;'  class="card-body orderbody">
-              <form style="top:15%; width:56%;margin:auto;" class=" staffsform" >
-                <div class="carditem noteitem writeup" style="display:inline-block;">
-                  <div title='Details' data-toggle = modal data-target='#editModal' class="timeline noter patientdp staffdp"style="border-radius:4px;width:130px; height:130px; position:absolute">
-                    <img style='height:100%; width:100%; object-fit:cover; border-radius:4px;border:none' [src] = getDp(staff.info.personal.avatar)/>
-                  </div>
-                    <div style='position:absolute;left:50%;width:80%'>
-                      <h1 class="dept previnfo noterinfo">
-                      {{staff.info.personal.firstName + ' ' + staff.info.personal.lastName}}
-                      </h1>
-                      <h1 class="dept previnfo ">Department:
-                        <span class="predata">{{staff.info.official.department}}</span>
-                        </h1>
-                        
-                        <h1 class="dept previnfo">Role:
-                          <span class="predata">{{staff.info.official.role}}</span>
-                        </h1>
-                        <h1 class="dept previnfo">Mobile:
-                          <span class="predata">{{staff.info.contact.me.mobile}}</span>
-                        </h1>
-                        <h1 class="dept previnfo">Email:
-                          <span class="predata">{{staff.info.contact.me.email||'---'}}</span>
-                        </h1>
-                        <h1 class="dept previnfo">Username:
-                          <span class="predata">{{staff.info.personal.username}}</span>
-                        </h1>
-                        <h1 class="dept previnfo">Password:
-                          <span class="predata">{{staff.info.personal.password}}</span>
-                        </h1>
-                        <h1 class="dept previnfo">Last Login:
-                          <span class="predata">{{staff.info.lastLogin|date:'longDate'}}&nbsp;</span>
-                          <span class="predata">{{staff.info.lastLogin|date:'hh:mma'|lowercase}} </span>
-                        </h1>
-                        <h1 class="dept previnfo">Date Created:
-                          <span class="predata">{{staff.createdAt|date:'longDate'}}&nbsp;</span>
-                          <span class="predata">{{staff.createdAt|date:'hh:mma'|lowercase}} </span>
-                        </h1>
+                            </div>
+                            <div class="form-group vitals-section formGroup" style=" width:49%; ">
+                                <label style='font-size:8px' for="role" class="labelss">ROLE</label>
+                                <select [(ngModel)]="staff.info.official.role" class="patientdata inputs dataInfo newpatient" name="role">
+                                  <option>Cashier</option>
+                                  <option>Doctor</option>
+                                  <option>Nurse</option>
+                                  <option>Pharmacist</option>
+                                  <option>Lab Scientist</option>
+                           </select>
+                            </div>
+                        </form>
+                        <button (click)=updateAccount() *ngIf='staffMode ==="edit"' style=" width: 62%; margin-top:10px; left:18.5%;color: #1da1f2; border-radius:4px; font-size:11px; color:white; " type="button" class="btn btn-sm btn-primary inputs mainbtn">
+                         <i *ngIf = processing   class="fa fa-circle-o-notch fa-spin fa-10x slow-spin" style="position:absolute;bottom:4px;left:78%;font-size:17px;color: white;"></i>
+                        Update Account
+                       </button>
+                        <button (click)=createAccount() *ngIf='staffMode ==="new"' style=" width: 62%; margin-top:10px; left:18.5%;color: #1da1f2; border-radius:4px; font-size:11px; color:white; " type="button" class="btn btn-sm btn-primary inputs mainbtn">
+                        <i *ngIf = processing   class="fa fa-circle-o-notch fa-spin fa-10x slow-spin" style="position:absolute;bottom:4px;left:78%;font-size:17px;color: white;"></i>
+                        Create Account
+                     </button>
+
+                    </div>
+                    <div *ngIf=transMsg style="padding:5px;border-top: 1px solid rgb(248, 247, 247)" class="card-footer">
+                        <h6 class="feedbackMsg">{{transMsg}}</h6>
+                    </div>
+                    <div *ngIf=errLine style="padding:5px;color:red;border-top: 1px solid rgb(248, 247, 247)" class="card-footer">
+                        <h6 class="feedbackMsg">{{errLine}}</h6>
                     </div>
                 </div>
-              </form>
+                <div *ngIf='staffMode === "view"' class="card card-secondary historycard midlecard profilecard" style="margin:auto;min-height:240px;border-radius:12px;">
+                    <div style='padding-left: 30px;border-top-right-radius:12px;border-top-left-radius:12px; border-bottom:0px' class="card-header profileheader small-header">
+                        <h6 style='font-size:11px;position:absolute; top:5%;left:2%;color:#1da1f2;' class="patien-name small-name">STAFF DETAILS</h6>
+                        <i (click)='showMenu("menu")' class="icon ion-android-more-vertical headericon moreicon actions-icon"></i>
+                        <div *ngIf="menu === 'menu'" style="width:25%;height:65px" class="menu">
+                            <ul class="actions primary">
+                                <li class="action">Suspend account</li>
+                                <li (click)="switchView('edit')" class="action">Edit account</li>
+                                <li class="action">Delete account</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div style='margin-left:0px;padding-top: 22px;' class="card-body orderbody">
+                        <form style="top:15%; width:56%;margin:auto;" class=" staffsform">
+                            <div class="carditem noteitem writeup" style="display:inline-block;">
+                                <div title='Details' data-toggle=modal data-target='#editModal' class="timeline noter patientdp staffdp" style="border-radius:4px;width:130px; height:130px; position:absolute">
+                                    <img style='height:100%; width:100%; object-fit:cover; border-radius:4px;border:none' [src]=getDp(staff.info.personal.avatar)/>
+                                </div>
+                                <div style='position:absolute;left:50%;width:80%'>
+                                    <h1 class="dept previnfo noterinfo">
+                                        {{staff.info.personal.firstName + ' ' + staff.info.personal.lastName}}
+                                    </h1>
+                                    <h1 class="dept previnfo ">Department:
+                                        <span class="predata">{{staff.info.official.department}}</span>
+                                    </h1>
+                                    <h1 class="dept previnfo">Role:
+                                        <span class="predata">{{staff.info.official.role}}</span>
+                                    </h1>
+                                    <h1 class="dept previnfo">Mobile:
+                                        <span class="predata">{{staff.info.contact.me.mobile}}</span>
+                                    </h1>
+                                    <h1 class="dept previnfo">Email:
+                                        <span class="predata">{{staff.info.contact.me.email||'---'}}</span>
+                                    </h1>
+                                    <h1 class="dept previnfo">Username:
+                                        <span class="predata">{{staff.info.personal.username}}</span>
+                                    </h1>
+                                    <h1 class="dept previnfo">Password:
+                                        <span class="predata">{{staff.info.personal.password}}</span>
+                                    </h1>
+                                    <h1 class="dept previnfo">Last Login:
+                                        <span class="predata">{{staff.info.lastLogin|date:'dd-MM-y'}}&nbsp;</span>
+                                        <span class="predata">{{staff.info.lastLogin|date:'hh:mma'|lowercase}} </span>
+                                    </h1>
+                                    <h1 class="dept previnfo">Date Created:
+                                        <span class="predata">{{staff.createdAt|date:'dd-MM-y'}}&nbsp;</span>
+                                        <span class="predata">{{staff.createdAt|date:'hh:mma'|lowercase}} </span>
+                                    </h1>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div *ngIf=transMsg style="padding:5px;border-top: 1px solid rgb(248, 247, 247)" class="card-footer">
+                        <h6 class="feedbackMsg">{{transMsg}}</h6>
+                    </div>
+                </div>
             </div>
-            <div *ngIf = transMsg style="padding:5px;border-top: 1px solid rgb(248, 247, 247)" class="card-footer"> <h6  class="feedbackMsg">{{transMsg}}</h6></div>
         </div>
-      </div>
     </div>
-  </div>
 </div>
 
-<nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:0px">
-  <div class="container">
-      <a class="navbar-brand" href="#">
-          <em>spinr</em>
-      </a>
-  </div>
-<i style="left:80%;" class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
-    <i [routerLink]="['../../me']" data-target="#newModal" data-toggle="modal" style="left:83%;" class="icon ion-ios-person-outline arrow buble" id="add" title="Me" ></i>
-<div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:90%;position:absolute;height:30px;width:30px;top:5px; margin-bottom:0px;">
-  <!-- <img style='height:100%; width:100%; object-fit:cover;' [src] = getMyDp()/> -->
-</div>
+<nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:0px;background:#f3f8f7">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <em>foldr</em>
+        </a>
+    </div>
+    <i style="left:80%;" class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
+    <i [routerLink]="['../../me']" data-target="#newModal" data-toggle="modal" style="left:83%;" class="icon ion-ios-person-outline arrow buble" id="add" title="Me"></i>
+    <div class="timeline lastdoc priscriber headerdp small-dp user-dp" style="left:90%;position:absolute;height:30px;width:30px;top:5px; margin-bottom:0px;">
+        <!-- <img style='height:100%; width:100%; object-fit:cover;' [src] = getMyDp()/> -->
+    </div>
 </nav>
 <div style="padding-top:40px" class="container history-container">
-  <div class="row history-row" style = 'height:100%'>
-    <div style='position:absolute; top:40%;left:42%' *ngIf='!client._id' class='issue'>
-      <div *ngIf='loading' class="lds-css ng-scope"><div style="width:100%;height:100%" class="lds-rolling"><div></div></div></div>
-      <div (click) = refresh()  *ngIf='message' title='Refresh' class='refresh'><i class="icon ion-ios-reload "></i></div>
-      <h6 *ngIf= 'message' style='font-size:13px;position:absolute;top:65%; width:100%; color:lightgrey;text-align: center' >{{message}}</h6>
-    </div>
-      <div *ngIf = client._id class="col col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
-          <div style='height:100%'  class="card-colums leftcolumn">
-              <div  class="card card-secondary historycard leftcard" style = 'height:100%;width:214px;left:30px;'>
-               <div *ngIf='clientMode==="view"' style='border-bottom:none' class="card-header grapheader">
-                      <h1  class="dept headtitle"><span style="position:absolute;left:102%;">
-                      <div (click)="showMenu('profile')" id ='menu-hilighter' class="timeline detailstimeline " style='height:22px;width:22px;cursor:pointer'><i title='More' class="icon ion-android-more-vertical deticon"
-                      style='left: 10px; position: absolute; align-self: center;  top: -5%;font-size: 18px;'></i></div></span>PROFILE</h1>
-                      <div style='position:absolute;top:5px;height:38px;left:66%' (mouseleave)= hideMenu() *ngIf='menu === "profile"' class="menu">
-                          <ul class="actions primary">
-                              <li (click)="switchClient('edit')" class="action">Edit profile</li>
-                          </ul>
-                      </div>
+    <div class="row history-row" style='height:100%'>
+        <div style='position:absolute; top:40%;left:42%' *ngIf='!client._id' class='issue'>
+            <div *ngIf='loading' class="lds-css ng-scope">
+                <div style="width:100%;height:100%" class="lds-rolling">
+                    <div></div>
                 </div>
-               <div *ngIf='clientMode==="edit"'  style='border-bottom:none' class="card-header grapheader">
-                      <h1  class="dept headtitle"><span><i  (click)="switchClient('view')" style='position:relative;right:5%;top:2px; font-size:large; cursor:pointer; display: inline-block;color:#1da1f2;' title="Back" class="icon ion-android-arrow-back "> </i></span>EDIT PROFILE </h1>
-                </div>
-                <div *ngIf='clientMode==="view"'   class="card-body infobody" style='padding-right:10px;border-left:0px;height:100%'>
-                  <div style='margin-bottom:28px;' class="carditem">
-                   <div class="timeline detailstimeline"><i class="icon ion-ios-location-outline deticon"></i></div>
-                      <div class="timeline detailstimeline"><i style='left: 41%;color: #1da1f2;position: relative;' 
-                       class="icon ion-information  deticon"></i></div>
-                      <h6 class="dept detailshead">INFO</h6>
-                      <p class="dept previnfo">Hospital:&nbsp;<span class="predata">
-                        {{client.info.name}}</span></p>
-                      <p class="dept previnfo">Ownership:&nbsp;<span class="predata">
-                        {{client.info.ownership||'---'}}</span></p>
-                      <!-- <p class="dept previnfo">Account Type:&nbsp;<span class="predata">
-                        {{cleint.info.accountType||'---'}}</span></p> -->
-                      <p class="dept previnfo">Specialization:&nbsp;<span class="predata">{{client.info.specialization||'---'}}</span></p>
-                  </div>
-                  <div style='margin-bottom:28px;' class="carditem">
-                      <div class="timeline detailstimeline"><i class="icon ion-ios-location-outline deticon"></i></div>
-                      <h6 class="dept detailshead">CONTACT</h6>
-                      <p class="dept previnfo">Mobile:&nbsp;<span class="predata">
-                        {{client.info.mobile}}</span></p>
-                      <p class="dept previnfo">Email:&nbsp;<span class="predata">
-                        {{client.info.email}}</span></p>
-                      <p class="dept previnfo">Address:&nbsp;<span class="predata">
-                        {{client.info.address}}</span></p>
-                      <p class="dept previnfo">City:&nbsp;<span class="predata">
-                        {{client.info.city||'---'}}</span></p>
-                      <p class="dept previnfo">ZIP:&nbsp;<span class="predata">
-                        {{client.info.zip||'---'}}</span></p>
-                  </div>
-                  <div style='margin-bottom:28px;' class="carditem">
-                    <div class="timeline detailstimeline"><i class="icon ion-ios-person-outline deticon"></i></div>
-                      <h6 class="dept detailshead">ACCOUNT</h6>
-                      <p class="dept previnfo">Category:&nbsp;<span class="predata">
-                        {{client.info.category||'---'}}</span></p>
-                      <p class="dept previnfo">Expire&nbsp;<span class="predata">
-                            {{client.info.expire||'---'}}</span></p>
-                      <p class="dept previnfo">Date Created:&nbsp;<span class="predata">
-                          {{client.createdAt|date:'longDate'}}</span></p>
-                  </div>
-                </div>
-
-                <div  *ngIf='clientMode ==="edit"' class="card-body " style='padding-right:0px;border-left: 0px;margin-left:0px; height:100%'>
-                 <form style="top:15%; width:90%;margin:auto; padding-top:0px" class=" staffsform" >
-                  <div style='margin-bottom:20px; padding-bottom:15px; border-bottom:1px solid whitesmoke;' class='form-group'>
-                  <div class="form-group  vitals-section address">
-                    <label style='font-size:8px' for="firstName" class="labelss complain">HOSPITAL NAME</label>
-                    <input [(ngModel)]='client.info.name'  name="firstName" class="form-control patientdata inputs dataInfo"  >
-                  </div>
-                  <div  class="form-group vitals-section" style="width:49%;margin-right:2px;display:inline-block">
-                    <label style='font-size:8px' for="role" class="labelss">OWNERSHIP</label>
-                    <select [(ngModel)]="client.info.ownership" class="patientdata inputs dataInfo newpatient" name="role">
-                        <option>Public</option>
-                        <option>Private</option>
-                    </select>
-                  </div>
-                  <div  class="form-group vitals-section address"style="width:49%;">
-                    <label style='font-size:8px' for="role" class="labelss">SPECIALIZATION</label>
-                    <select [(ngModel)]="client.info.specialization" class="patientdata inputs dataInfo newpatient" name="role">
-                        <option>General</option>
-                        <option>Othopedics</option>
-                        <option>Dental</option>
-                    </select>
-                  </div>
-                  </div>
-
-                   <div style='margin-bottom:20px; padding-bottom:15px; border-bottom:1px solid whitesmoke;' class='form-group'>
-                    <div class="form-group  vitals-section address">
-                    <label style='font-size:8px' for="email" class="labelss complain">EMAIL</label>
-                    <input type="email" [(ngModel)]="client.info.email"  name="email" class="form-control patientdata inputs dataInfo">
-                    </div>
-                    <div class="form-group  vitals-section address">
-                      <label style='font-size:8px' for="mobile" class="labelss complain">MOBILE</label>
-                      <input type="tel" [(ngModel)]="client.info.mobile"  name="mobile" class="form-control patientdata inputs dataInfo"  >
-                    </div>
-                    <div  class="form-group vitals-section" style="width:49%;margin-right:2px;display:inline-block">
-                      <label style='font-size:8px' for="city" class="labelss">CITY</label>
-                      <select [(ngModel)]="client.info.city" class="patientdata inputs dataInfo newpatient" name="role">
-                        <option  *ngFor='let state of states'>{{state}}</option>
-                      </select>
-                    </div>
-                    <div  class="form-group vitals-section address"style="width:49%;">
-                      <label style='font-size:8px' for="zip" class="labelss">ZIP CODE</label>
-                      <input [(ngModel)]="client.info.zipcode"  name="zip" class="form-control patientdata inputs dataInfo">
-                    </div>
-                    <div class="form-group  vitals-section address">
-                      <label style='font-size:8px' for="address" class="labelss complain">ADDRESS</label>
-                      <input [(ngModel)]="client.info.address"  name="address" class="form-control patientdata inputs dataInfo"  >
-                    </div>
-                  </div>
-                </form>
             </div>
-                <div  style='left:74%; height:32px;width:32px'
-                  title ='Done' class="floter">
-                  <i *ngIf='processing' class="fa fa-circle-o-notch fa-spin fa-10x slow-spin" style="position:absolute;bottom:5px;left:5px;font-size:20px;color: #1da1f2;"> </i>
-                  <i *ngIf='!processing' style="color:#1da1f2;bottom:-10px"
-                  class="icon ion-ios-checkmark-empty flotericon"> </i>
-              </div>
-              </div>
-          </div>
-      </div>
-      <div *ngIf='client._id' class="col col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-          <div class="card-colums">
-              <div class="card card-secondary historycard midlecard graphcard" style="position:absolute;height:100%; width:442px;margin:auto;left:18px;">
-                  <div class="card-header grapheader">
-                      <h1 class="dept headtitle">STAFFS<i (click) = 'openStafftModal()' data-toggle = modal data-target ='#staffModal' style="left:98%" class="icon ion-ios-plus-empty editicon editclient addinfo" title="Add staff"></i></h1>
-                  </div>
-                  <div style=' margin-left: 0px; border-left: 0px' class="card-body notecardbody">
-                    <div *ngFor="let staff of client.staffs; let i = index" class="carditem noteitem writeup" style="display:inline-block;width: 33%;">
-                          <div (click) = selectStaff(staff) title='Details' data-toggle = modal data-target='#staffModal' class="timeline noter patientdp staffdp"style="border-radius:50%;width:60px;margin:auto;position:relative">
-                           <img style='height:100%; width:100%; object-fit:cover; border-radius:50%;border:none' [src] = getDp(staff.info.personal.avatar)/>
-                          </div>
-                          <div style='position:relative;'>
-                            <h1 class="dept previnfo noterinfo" style='text-align:center;'>
-                            {{staff.info.personal.firstName + ' ' + staff.info.personal.lastName}}
-                            </h1>
-                            <h1 class="dept previnfo "style='text-align:center;color:lightgrey'>
-                              {{staff.info.official.department}}<span class="predata">
-                              </span></h1>
-                              <!-- <h1 class="dept previnfo" style='text-align:center;color:lightgrey'>
+            <div (click)=refresh() *ngIf='message' title='Refresh' class='refresh'><i class="icon ion-ios-reload "></i></div>
+            <h6 *ngIf='message' style='font-size:13px;position:absolute;top:65%; width:100%; color:lightgrey;text-align: center'>{{message}}</h6>
+        </div>
+        <div *ngIf=client._id class="col col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+            <div style='height:100%' class="card-colums leftcolumn">
+                <div class="card card-secondary historycard leftcard" style='height:100%;width:214px;left:30px;overflow:hidden'>
+                    <div *ngIf='clientMode!=="edit"' style='border-bottom:none' class="card-header grapheader">
+                        <h1 class="dept headtitle"><span style="position:absolute;left:102%;">
+                      </span>PROFILE <span (click)="switchClient('edit')" style='position:absolute;left:93%;top:-2px; cursor:pointer;'>Edit</span ></h1>
+                    </div>
+                    <div *ngIf='clientMode==="edit"' style='border-bottom:none' class="card-header grapheader">
+                        <h1 class="dept headtitle" style='padding-left: 15px;'><span><i  (click)="switchClient('view')" style='position:absolute;right:97%;top:-3px; font-size:large; cursor:pointer; display: inline-block;color:#1da1f2;' title="Back" class="icon ion-android-arrow-back "> </i></span>EDIT
+                            PROFILE
+                        </h1>
+                    </div>
+                    <div [class.back]='clientMode==="edit"' [class.front]='clientMode==="view"' class="card-body " style=' padding-right:10px;top:7%; position:absolute;border-left:0px;height:100% '>
+                        <div style='margin-bottom:28px; ' class="carditem">
+                            <div class="timeline detailstimeline"><i class="icon ion-ios-location-outline deticon"></i></div>
+                            <div class="timeline detailstimeline"><i style='left: 41%;color: #1da1f2;position: relative; ' class="icon ion-information  deticon"></i></div>
+                            <h6 class="dept detailshead">INFO</h6>
+                            <p class="dept previnfo">Hospital:&nbsp;<span class="predata">
+                              {{client.info.name}}</span></p>
+                            <p class="dept previnfo">Ownership:&nbsp;<span class="predata">
+                              {{client.info.ownership||'--- '}}</span></p>
+                            <p class="dept previnfo">Specialization:&nbsp;<span class="predata">
+                              {{client.info.specialization||'--- '}}</span></p>
+                        </div>
+                        <div style='margin-bottom:28px; ' class="carditem">
+                            <div class="timeline detailstimeline"><i class="icon ion-ios-location-outline deticon"></i></div>
+                            <h6 class="dept detailshead">CONTACT</h6>
+                            <p class="dept previnfo">Mobile:&nbsp;<span class="predata">
+                              {{client.info.mobile}}</span></p>
+                            <p class="dept previnfo">Email:&nbsp;<span class="predata">
+                              {{client.info.email}}</span></p>
+                            <p class="dept previnfo">Address:&nbsp;<span class="predata">
+                              {{client.info.address}}</span></p>
+                            <p class="dept previnfo">City:&nbsp;<span class="predata">
+                              {{client.info.city||'--- '}}</span></p>
+                            <p class="dept previnfo">ZIP:&nbsp;<span class="predata">
+                        </span></p>
+                        </div>
+                        <div style='margin-bottom:28px; ' class="carditem">
+                            <div class="timeline detailstimeline"><i class="icon ion-ios-person-outline deticon"></i></div>
+                            <h6 class="dept detailshead">ACCOUNT</h6>
+                            <p class="dept previnfo">Category:&nbsp;<span class="predata">
+                               {{client.info.category||'--- '}}</span></p>
+                            <!-- <p class="dept previnfo">Date Created:&nbsp;<span class="predata">
+                                {{client.createdAt|date:'longDate '}}</span></p> -->
+                        </div>
+                    </div>
+                    <div [class.back]='clientMode==="edit"' [class.front]='clientMode==="view"' class="card-body " style=' padding-right:10px;top:7%; position:absolute;border-left:0px;height:100% '>
+                        <div style='margin-bottom:28px; ' class="carditem">
+                            <div class="timeline detailstimeline"><i class="icon ion-ios-location-outline deticon"></i></div>
+                            <div class="timeline detailstimeline"><i style='left: 41%;color: #1da1f2;position: relative; ' class="icon ion-information  deticon"></i></div>
+                            <h6 class="dept detailshead">INFO</h6>
+                            <p class="dept previnfo">Hospital:&nbsp;<span class="predata">
+                        {{client.info.name}}</span></p>
+                            <p class="dept previnfo">Ownership:&nbsp;<span class="predata">
+                        {{client.info.ownership||'--- '}}</span></p>
+                            <!-- <p class="dept previnfo">Account Type:&nbsp;<span class="predata">
+                        {{cleint.info.accountType||'--- '}}</span></p> -->
+                            <p class="dept previnfo">Specialization:&nbsp;<span class="predata">
+                            {{client.info.specialization||'--- '}}</span></p>
+                        </div>
+                        <div style='margin-bottom:28px; ' class="carditem">
+                            <div class="timeline detailstimeline"><i class="icon ion-ios-location-outline deticon"></i></div>
+                            <h6 class="dept detailshead">CONTACT</h6>
+                            <p class="dept previnfo">Mobile:&nbsp;<span class="predata">
+                        {{client.info.mobile}}</span></p>
+                            <p class="dept previnfo">Email:&nbsp;<span class="predata">
+                        {{client.info.email}}</span></p>
+                            <p class="dept previnfo">Address:&nbsp;<span class="predata">
+                        {{client.info.address}}</span></p>
+                            <p class="dept previnfo">City:&nbsp;<span class="predata">
+                        {{client.info.city||'--- '}}</span></p>
+                            <p class="dept previnfo">ZIP:&nbsp;<span class="predata">
+                        </span></p>
+                        </div>
+                        <div style='margin-bottom:28px; ' class="carditem">
+                            <div class="timeline detailstimeline"><i class="icon ion-ios-person-outline deticon"></i></div>
+                            <h6 class="dept detailshead">ACCOUNT</h6>
+                            <p class="dept previnfo">Category:&nbsp;<span class="predata">
+                               {{client.info.category||'--- '}}</span></p>
+                            <!-- <p class="dept previnfo">Date Created:&nbsp;<span class="predata">
+                                {{client.createdAt|date:'longDate '}}</span></p> -->
+                        </div>
+                    </div>
+
+                    <div [class.in]='clientMode==="edit"' [class.out]='clientMode==="view"' class="card-body standby " style='padding-right:0px;border-left: 0px;margin-left:0px;  position:absolute;height:100%;  top:7% '>
+                        <form style="top:15%; width:90%;margin:auto; padding-top:0px" class=" staffsform">
+                            <div style='margin-bottom:20px; padding-bottom:15px; border-bottom:1px solid whitesmoke; ' class='form-group '>
+                                <div class="form-group  vitals-section address">
+                                    <label style='font-size:8px ' for="firstName" class="labelss complain">HOSPITAL NAME</label>
+                                    <input [(ngModel)]='client.info.name ' name="firstName" class="form-control patientdata inputs dataInfo">
+                                </div>
+                                <div class="form-group vitals-section" style="width:49%;margin-right:2px;display:inline-block">
+                                    <label style='font-size:8px ' for="role" class="labelss">OWNERSHIP</label>
+                                    <select [(ngModel)]="client.info.ownership" class="patientdata inputs dataInfo newpatient" name="role">
+                                    <option>Public</option>
+                                    <option>Private</option>
+                                  </select>
+                                </div>
+                                <div class="form-group vitals-section address" style="width:49%;">
+                                    <label style='font-size:8px ' for="role" class="labelss">SPECIALIZATION</label>
+                                    <select [(ngModel)]="client.info.specialization" class="patientdata inputs dataInfo newpatient" name="role">
+                                      <option>General</option>
+                                      <option>Othopedics</option>
+                                      <option>Dental</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div style='margin-bottom:20px; padding-bottom:15px; border-bottom:1px solid whitesmoke; ' class='form-group '>
+                                <div class="form-group  vitals-section address">
+                                    <label style='font-size:8px ' for="email" class="labelss complain">EMAIL</label>
+                                    <input type="email" [(ngModel)]="client.info.email" name="email" class="form-control patientdata inputs dataInfo">
+                                </div>
+                                <div class="form-group  vitals-section address">
+                                    <label style='font-size:8px ' for="mobile" class="labelss complain">MOBILE</label>
+                                    <input type="tel" [(ngModel)]="client.info.mobile" name="mobile" class="form-control patientdata inputs dataInfo">
+                                </div>
+                                <div class="form-group vitals-section" style="width:49%;margin-right:2px;display:inline-block">
+                                    <label style='font-size:8px ' for="city" class="labelss">CITY</label>
+                                    <select [(ngModel)]="client.info.city" class="patientdata inputs dataInfo newpatient" name="role">
+                                    <option  *ngFor='let state of states '>{{state}}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group vitals-section address" style="width:49%;">
+                                    <label style='font-size:8px ' for="zip" class="labelss">ZIP CODE</label>
+                                    <input [(ngModel)]="client.info.zipcode" name="zip" class="form-control patientdata inputs dataInfo">
+                                </div>
+                                <div class="form-group  vitals-section address">
+                                    <label style='font-size:8px ' for="address" class="labelss complain">ADDRESS</label>
+                                    <input [(ngModel)]="client.info.address" name="address" class="form-control patientdata inputs dataInfo">
+                                </div>
+                            </div>
+                            <button style=" width: 90px; left:81px; bottom:2%; width: 90%; left: 11px;top:50%;font-size: 12px;height: 27px;
+                            box-shadow: none; " type="submit" class="btn btn-sm btn-outline-primary inputs mainbtn">Save Changes <span></span> </button>
+                            <!-- <i class="fa fa-circle-o-notch editicon continue blocked-icon fa-spin" style="font-size:18px;position: absolute;;left:77%"></i> -->
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf='client._id ' class="col col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+            <div class="card-colums">
+                <div class="card card-secondary historycard midlecard graphcard" style="position:absolute;height:100%; width:442px;margin:auto;left:18px;">
+                    <div class="card-header grapheader">
+                        <h1 data-toggle=modal data-target='#staffModal ' class="dept headtitle">STAFFS
+                            <i (click)='openStafftModal() ' data-toggle=modal data-target='#staffModal ' style="left:98%" class="icon ion-ios-plus-empty editicon editclient addinfo" title="Add staff">
+                            </i>
+                        </h1>
+                    </div>
+                    <div style=' margin-left: 0px; border-left: 0px ' class="card-body notecardbody">
+                        <div *ngFor="let staff of client.staffs; let i = index" class="carditem noteitem writeup" style="display:inline-block;width: 33%;">
+                            <div (click)='selectStaff(staff, i) ' title='Details ' data-toggle=modal data-target='#staffModal ' class="timeline noter patientdp staffdp" style="border-radius:50%;width:60px;margin:auto;position:relative">
+                                <img style='height:100%; width:100%; object-fit:cover; border-radius:50%;border:none ' [src]=getDp(staff.info.personal.avatar)/>
+                            </div>
+                            <div style='position:relative; '>
+                                <h1 class="dept previnfo noterinfo" style='text-align:center;white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width:106px '>
+                                    {{staff.info.personal.firstName + ' ' + staff.info.personal.lastName}}
+                                </h1>
+                                <h1 class="dept previnfo " style='text-align:center;color:lightgrey '>
+                                    {{staff.info.official.department}}<span class="predata">
+                              </span>
+                                </h1>
+                                <!-- <h1 class="dept previnfo" style='text-align:center;color:lightgrey '>
                                 {{staff.info.contact.me.mobile}}<span class="predata">  </span>
                             </h1> -->
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
-      <div *ngIf='client._id' class="col col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
-          <div style='height:100%' class="card-colums rightcolumn">
-              <div style="width:214px;left:2px;height:100%;position:relative" class="card card-secondary historycard rightcard allegies">
-              <div style='border-bottom:none' class="card-header grapheader">
-                      <h1  class="dept headtitle"><span style="position:absolute;left:102%;">
-                      <div  title="Add department" (click) = 'openDeptModal()'data-toggle ='modal' data-target ='#deptModal'  id ='menu-hilighter' class="timeline detailstimeline " style='height:22px;width:22px;cursor:pointer'><i class="icon ion-ios-plus-empty deticon"
-                      style='left: 5px; position: absolute; align-self: center;  top: -5%;font-size: 18px;'></i></div></span>PROFILE</h1>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                  <!-- <div style='border-bottom:none' class="card-header grapheader">
-                      <h1  class="dept headtitle">DEPARTMENTS  <i (click) = 'openDeptModal()' data-toggle ='modal' data-target ='#deptModal' style="left:98%" class="icon ion-ios-plus-empty editicon editclient addinfo" title="Add department"></i></h1>
+            </div>
+        </div>
+        <div *ngIf='client._id ' class="col col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+            <div style='height:100% ' class="card-colums rightcolumn">
+                <div style="width:214px;left:2px;height:100%;position:relative" class="card card-secondary historycard rightcard allegies">
+                    <div style='border-bottom:none ' class="card-header grapheader">
+                        <h1 class="dept headtitle"><span style="position:absolute;left:102%;">
+                      <div  title="Add department" (click) = 'openDeptModal() 'data-toggle ='modal ' data-target ='#deptModal '  id ='menu-hilighter ' class="timeline detailstimeline " style='height:22px;width:22px;cursor:pointer '><i class="icon ion-ios-plus-empty deticon"
+                      style='left: 5px; position: absolute; align-self: center; top: -5%;font-size: 18px; '></i></div></span>PROFILE</h1>
+                    </div>
+                    <!-- <div style='border-bottom:none ' class="card-header grapheader">
+                      <h1  class="dept headtitle">DEPARTMENTS  <i (click) = 'openDeptModal() ' data-toggle ='modal ' data-target ='#deptModal ' style="left:98%" class="icon ion-ios-plus-empty editicon editclient addinfo" title="Add department"></i></h1>
                   </div> -->
-                  <div style='padding-top:10px' class="card-body rightcardbody">
-                  <h1 *ngIf='!client.departments.length'   style='color:lightgrey; width:100%; text-align:center;top:43%;position:absolute;' class="dept headtitle">NO DEPARTMENTS</h1>
-                        <div *ngIf='client.departments.length' class="carditem deptitem">
-                          <div *ngFor="let department of client.departments let i = index;"  data-toggle ='modal' data-target ='#productModal'  class="department">
-                              <i *ngIf="department.name === 'Information'"  class="icon ion-information addicon infoicon" ></i>
-                              <i *ngIf="department.name === 'GOPD'" class="icon ion-ios-people addicon infoicon consicon" ></i>
-                              <i *ngIf="department.name === 'Maternity'" class="material-icons addicon infoicon maticon" title="Add Department">pregnant_woman</i>
-                              <i *ngIf="department.name === 'Pharmacy'" class="icon ion-ios-medkit addicon pharmicon"></i>
-                              <i *ngIf="department.name === 'Emergency'"  class="icon ion-ios-pulse addicon pharmicon"></i>
-                              <i *ngIf="department.name === 'Hematology'"  class="icon ion-waterdrop addicon pharmicon"></i>
-                              <h6 class="deptname">{{department.name}}</h6>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
-  </div>
-
+                    <div style='padding-top:10px ' class="card-body rightcardbody">
+                        <h1 *ngIf='!client.departments.length ' style='color:lightgrey; width:100%; text-align:center;top:43%;position:absolute; ' class="dept headtitle">NO DEPARTMENTS</h1>
+                        <div *ngIf='client.departments.length ' class="carditem deptitem">
+                            <div *ngFor="let department of client.departments let i = index;" data-toggle='modal ' data-target='#productModal ' class="department">
+                                <i *ngIf="department.name === 'Information '" class="icon ion-information addicon infoicon"></i>
+                                <i *ngIf="department.name === 'GOPD '" class="icon ion-ios-people addicon infoicon consicon"></i>
+                                <i *ngIf="department.name === 'Maternity '" class="material-icons addicon infoicon maticon" title="Add Department">pregnant_woman</i>
+                                <i *ngIf="department.name === 'Pharmacy '" class="icon ion-ios-medkit addicon pharmicon"></i>
+                                <i *ngIf="department.name === 'Emergency '" class="icon ion-ios-pulse addicon pharmicon"></i>
+                                <i *ngIf="department.name === 'Hematology '" class="icon ion-waterdrop addicon pharmicon"></i>
+                                <h6 class="deptname">{{department.name}}</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

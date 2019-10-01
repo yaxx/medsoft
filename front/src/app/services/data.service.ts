@@ -12,8 +12,9 @@ declare var io: {
   providedIn: 'root'
 })
 export class DataService {
-  // uri = 'http://localhost:5000/api';
-  uri = 'http://18.221.76.96:5000/api';
+  // uri = 'http://192.168.1.100:5000/api';
+  uri = 'http://localhost:5000/api';
+  // uri = 'http://18.221.76.96:5000/api';
   socket: Socket;
   staff: Person = new Person();
   patients: Person[] = new Array<Person>();
@@ -22,7 +23,7 @@ export class DataService {
     return this.http.get(
       `${this.uri}/history/${id}`, {withCredentials: true} );
   }
-  getMyAccount(){
+  getMyAccount() {
     return this.http.get(
       `${this.uri}/myaccount`, {withCredentials: true}
       );
@@ -36,7 +37,7 @@ export class DataService {
      return this.http.get(
       `${this.uri}/connections/${id}`, {withCredentials: true} );
   }
-  getPatients(type?:String) {
+  getPatients(type?: String) {
     return this.http.get(
       `${this.uri}/patients/${type}`, {withCredentials: true}
       );
@@ -76,9 +77,9 @@ export class DataService {
       `${this.uri}/update-products`, products, {withCredentials: true}
       );
   }
-  runTransaction(patient: Person, cart:Product[]) {
+  runTransaction(pid, record, cart) {
     return this.http.post(
-      `${this.uri}/transaction`, {patient: patient, cart: cart}, {withCredentials: true}
+      `${this.uri}/transaction`, {id: pid,record: record, cart: cart}, {withCredentials: true}
       );
   }
   deleteProducts(product) {
@@ -127,9 +128,9 @@ export class DataService {
 
       });
   }
-  updateMedication(i, m) {
+  updateMedication(m) {
      return this.http.post(
-      `${this.uri}/update-medication`, {id: i, medication: m}, {withCredentials: true});
+      `${this.uri}/update-medication`, {medications: m}, {withCredentials: true});
   }
   updateBed(patient, client) {
     return this.http.post(

@@ -18,14 +18,14 @@ app.use('/graphql', graphQlHttp({
   rootValue: graphQlResolvers,
   graphiql: true
 }))
-// app.use(cors({origin:"http://localhost:4200", credentials: true}))
-app.use(cors({origin:"*", credentials: true}))
-app.use(express.static(path.join(__dirname,'dist','front')))
+app.use(cors({origin:"http://localhost:4200", credentials: true}))
+// app.use(cors({origin:"*", credentials: true}))
+// app.use(express.static(path.join(__dirname,'dist','front')))
 app.use(require('morgan')('dev'))
 app.use(bodyParser.json())
 app.use(require('cookie-parser')('blackfly'))
-var connections = []
-var logins = []
+var connections = [];
+var logins = [];
 io.sockets.on('connection', (socket) => {
   connections.push(socket)
   console.log('%s socket(s) connected', connections.length)
@@ -135,10 +135,10 @@ io.sockets.on('connection', (socket) => {
   })
 })
 app.get('/', (req, res) => {
-    // res.render('index')
-  res.sendFile(path.resolve(__dirname,'dist','front','index.html'))
+  // res.render('index')
+  res.sendFile(path.resolve(__dirname,'dist','front','index.html'));
 })
-app.get('/api/client', api.getClient)
+app.get('/api/client', api.getClient)  
 app.get('/api/patients/:type', api.getPatients)
 app.get('/api/myaccount', api.getMyAccount)
 app.get('/api/explore', api.explore)

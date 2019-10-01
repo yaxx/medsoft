@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy} from '@angular/core';
 import {DataService} from '../../services/data.service';
 import {Product, Item, StockInfo} from '../../models/inventory.model';
 import {Person} from '../../models/person.model';
+import {Tests, Scannings, Surgeries} from '../../data/request';
 import {CookieService } from 'ngx-cookie-service';
 import { sortBy } from 'sort-by-typescript';
 import {SocketService} from '../../services/socket.service';
@@ -18,9 +19,15 @@ export class InventoryComponent implements OnInit {
   stockInfo: StockInfo = new StockInfo();
   temItems: Item[] = [];
   items: Item[] = [];
+  testItems = Tests;
+  scanItems = Scannings;
+  surgeryItems = Surgeries;
+  inventoryItems = [];
   newItems: Item[] = [];
   products: Product[] = [];
+  services: Product[] = [];
   cloned: Product;
+  desc = [];
   temProducts: Product[] = [];
   editables: Product[] = [];
   edited: Product[] = [];
@@ -31,7 +38,12 @@ export class InventoryComponent implements OnInit {
   message = null;
   tableView = 'Products';
   feedback = null;
+  categories = [];
   menuView = false;
+  cat = 'Products'
+  errLine = null;
+  cardType = 'Standard'
+  curentItems = [];
   sortBy = 'added';
   searchTerm = '';
   count = 0;
@@ -48,7 +60,7 @@ export class InventoryComponent implements OnInit {
       cart.forEach(product => {
         this.products[this.products.findIndex(pro => pro._id === product._id)] = product;
       });
-    })
+    });
     // this.socket.io.on('refund', refund => {
     //     this.products.forEach(prod => {
     //       if(prod._id === refund.product._id) {
@@ -60,12 +72,13 @@ export class InventoryComponent implements OnInit {
   }
 
   switchToEdit() {
-    this.product = this.products.filter((p) => p.selected)[0];
-    this.input = this.product.item.name + ' ' + this.product.item.mesure + this.product.item.unit;
+    // this.product = this.products.filter((p) => p.selected)[0];
+    // this.input = this.product.item.name + ' ' + this.product.item.mesure + this.product.item.unit;
   }
-getDp(avatar: String) {
-    // return 'http://localhost:5000/api/dp/' + avatar;
-    return 'http://18.221.76.96:5000/api/dp/' + avatar;
+  getDp(avatar: String) {
+    // return 'http://192.168.1.100:5000/api/dp/' + avatar;
+    return 'http://localhost:5000/api/dp/' + avatar;
+    // return 'http://18.221.76.96:5000/api/dp/' + avatar;
   }
   getMyDp() {
     return this.getDp(this.cookies.get('d'));
@@ -74,16 +87,17 @@ getDp(avatar: String) {
     this.loading = true;
     this.dataService.getProducts().subscribe((res: any) => {
       this.items = res.items;
-      if(res.inventory.length) {
-        this.products = res.inventory;
+      if (res.inventory.length) {
         this.clonedInventory = res.inventory;
+        this.products = res.inventory;
+        this.curentItems  =  res.inventory.filter(product => product.type === 'Products');
         this.loading = false;
         this.message = null;
       } else {
         this.message = 'No Products So Far';
         this.loading = false;
       }
-    },(e) => {
+    }, (e) => {
       this.message = 'Something went wrong';
       this.loading = false;
     });
@@ -92,38 +106,39 @@ getDp(avatar: String) {
   refresh() {
     this.getProducts();
   }
+
   sortProducts(name: string) {
     switch (name) {
       case 'name':
-        this.products.sort((m, n) => m.item.name.localeCompare(n.item.name));
+        this.curentItems.sort((m, n) => m.item.name.localeCompare(n.item.name));
         this.sortBy = 'name';
         break;
       case 'category':
-        this.products.sort((m, n) => m.item.name.localeCompare(n.item.category));
+        this.curentItems.sort((m, n) => m.item.name.localeCompare(n.item.category));
         this.sortBy = 'category';
         break;
-      case 'description':
-        this.products.sort((m, n) => m.item.name.localeCompare(n.item.description));
-        this.sortBy = 'description';
-        break;
+      // case 'description':
+      //   this.curentItems.sort((m, n) => m.item.name.localeCompare(n.item.description));
+      //   this.sortBy = 'description';
+      //   break;
       case 'price':
-        this.products.sort((m, n) => m.stockInfo.price - n.stockInfo.price );
+        this.curentItems.sort((m, n) => m.stockInfo.price - n.stockInfo.price );
         this.sortBy = 'price';
         break;
       case 'quantity':
-        this.products.sort((m, n) => m.stockInfo.quantity - n.stockInfo.quantity );
+        this.curentItems.sort((m, n) => m.stockInfo.quantity - n.stockInfo.quantity );
         this.sortBy = 'quantity';
         break;
       case 'instock':
-        this.products.sort((m, n) => m.stockInfo.inStock - n.stockInfo.inStock );
+        this.curentItems.sort((m, n) => m.stockInfo.inStock - n.stockInfo.inStock );
         this.sortBy = 'instock';
         break;
       case 'sold':
-        this.products.sort((m, n) => n.stockInfo.sold - m.stockInfo.sold );
+        this.curentItems.sort((m, n) => n.stockInfo.sold - m.stockInfo.sold );
         this.sortBy = 'sold';
         break;
       case 'added':
-        this.products.sort((m, n) => new Date(n.dateCreated).getTime() - new Date(m.dateCreated).getTime());
+        this.curentItems.sort((m, n) => new Date(n.dateCreated).getTime() - new Date(m.dateCreated).getTime());
         this.sortBy = 'added';
         break;
         default:
@@ -131,17 +146,28 @@ getDp(avatar: String) {
     }
   }
   addMore() {
-    this.product.stockInfo.inStock = this.product.stockInfo.quantity;
-    if(this.items.some(item => item.name === this.item.name)) {
+     if (this.items.some(item => item.name === this.item.name)) {
       } else {
-        this.newItems.unshift({...this.item, type:'drug'});
-        this.items.unshift({...this.item, type:'drug'});
+        this.newItems.unshift({...this.item, type: this.tableView});
+        this.items.unshift({...this.item, type: this.tableView});
       }
-    if(this.products.some(product => product.item.name === this.item.name) || this.temProducts.some(product => product.item.name === this.item.name)) {
-    this.feedback = 'Product already exist';
+    if (this.products.some(product => product.item.name === this.item.name) || this.temProducts.some(product => product.item.name === this.item.name)) {
+    this.errLine = 'Product already exist';
     } else {
       this.product.item = this.item;
-      this.temProducts.unshift(this.product);
+      this.temProducts.unshift({...this.product, type: this.tableView});
+      this.item = new Item();
+      this.product = new Product();
+    }
+  }
+  addMoreService() {
+     if (this.products.some(product => product.item.name === this.item.name) || this.temProducts.some(product => product.item.name === this.item.name)) {
+    this.errLine = 'Product already exist';
+    } else {
+      this.product.item = this.item;
+      this.temProducts.unshift({
+        ...this.product, type: this.tableView
+      });
       this.item = new Item();
       this.product = new Product();
     }
@@ -149,29 +175,42 @@ getDp(avatar: String) {
   clearFeedback() {
     this.feedback = null;
   }
-  toggleView(view: string){
+  toggleView(view: string) {
     this.tableView = view;
+    const p = this.clonedInventory;
+    this.curentItems =  p.filter(product => product.type === this.tableView);
+    this.temProducts = [];
+    this.item = new Item();
+    this.product = new Product();
   }
   toggleMenu() {
-    this.menuView = !this.menuView
+    this.menuView = !this.menuView;
+  }
+  removeProduct(i: number) {
+    this.temProducts.splice(i, 1);
+  }
+  selectCategory(i: Item) {
+    this.item.category = i.name;
+    this.categories = [];
   }
   addSelection(i: Item) {
-    this.item = i;
+    this.item.name = i.name;
     this.product.item = i;
     this.temItems = [];
   }
 
   selectProduct(i) {
-    this.products[i].selected = this.products[i].selected ? false : true;
+    this.curentItems[i].selected = !this.curentItems[i].selected ;
   }
   pickSelection() {
     this.editables = cloneDeep(this.products.filter(p => p.selected));
     this.count = this.editables.length;
     this.product = this.editables.shift();
     this.input = this.product.item.name;
+    this.item = this.product.item;
   }
   pickDeletables() {
-    return this.products.filter(p => p.selected);
+    return this.curentItems.filter(p => p.selected);
   }
   updateStock() {
     const oldProduct = this.products.find(product => product._id === this.product._id);
@@ -229,8 +268,42 @@ getDp(avatar: String) {
   dropSelection(i) {
     this.temProducts = this.temProducts.splice(i, 1);
   }
+  hideCategories() {
+    this.categories = [];
+    this.clearFeedback();
+  }
+  showItems(type: string) {
+    this.categories = this.items.filter(item => item.type === type);
+}
+getDescriptions() {
+  switch (this.item.category) {
+    case 'Card':
+    this.inventoryItems = ['Standard', 'Premium', 'Exclusive'];
+    break;
+    case 'Surgery':
+    this.inventoryItems = this.surgeryItems;
+    break;
+  case 'Scanning':
+    this.inventoryItems = this.scanItems;
+    break;
+  case 'Test':
+    this.inventoryItems = this.testItems;
+    break;
+    default:
+    break;
+  }
 
-  searchItems(i: string, type: string) {
+}
+getItems() {
+  const prods = this.products;
+  this.curentItems = prods.filter(product => product.type === this.tableView);
+  return this.curentItems;
+}
+selectDesc(name) {
+  this.item.name = name;
+  this.inventoryItems = [];
+}
+searchItems(i: string, type: string) {
     if (i === '') {
       this.temItems = [];
     } else {
@@ -246,21 +319,22 @@ getDp(avatar: String) {
     .subscribe((products: Product[]) => {
       this.processing = false;
       this.feedback = 'Product added successfully';
-      this.products = [...products, ...this.products];
+      this.curentItems = [...products, ...this.curentItems];
+      this.clonedInventory = [...products, ...this.clonedInventory];
       this.socket.io.emit('store update', {action: 'new', changes: products});
       this.temProducts = [];
       setTimeout(() => {
         this.feedback = null;
   }, 4000);
    }, (e) => {
-        this.feedback = 'Could not add products';
+        this.errLine = 'Could not add products';
         this.processing = false;
   });
 
   }
   updateProducts() {
     this.processing = true;
-    this.dataService.updateProducts(this.edited) .subscribe(() => {
+    this.dataService.updateProducts(this.edited).subscribe(() => {
         this.edited.forEach(product => {
         this.products[this.products.findIndex(pro => pro._id === product._id)] = product;
     });
@@ -280,13 +354,16 @@ getDp(avatar: String) {
 }
 deleteProducts() {
   this.processing = true;
-  const selections = this.products.filter(p => p.selected);
+  const selections = this.curentItems.filter(p => p.selected);
   this.dataService.deleteProducts(selections).subscribe(() => {
       this.processing = false;
       this.feedback = 'Inventory succesffully updated';
       this.socket.io.emit('store update', {action: 'delete', changes: selections});
-      this.products = this.products.filter(product => !product.selected);
-   },(e) => {
+      this.curentItems = this.curentItems.filter(product => !product.selected);
+      this.selections.forEach(product => {
+      // this.clonedInventory = this.clonedInventory.filter(item => item._id !== product._id)
+      });
+   }, (e) => {
       this.processing = false;
       this.feedback = 'Unable to update inventory';
     });
@@ -297,9 +374,10 @@ expired(expiry) {
 
 searchProducts(search: string) {
   if (search === '') {
-    this.products = this.clonedInventory;
+    const i = this.clonedInventory;
+    this.curentItems = i.filter(product => product.type === this.tableView);
   } else {
-     this.products = this.products.filter((product) => {
+     this.curentItems = this.curentItems.filter((product) => {
      const patern =  new RegExp('\^' + search , 'i');
      return patern.test(product.item.name);
   });

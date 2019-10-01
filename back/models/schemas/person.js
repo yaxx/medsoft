@@ -1,9 +1,8 @@
-
-const mongoose = require('../db') ;
+const mongoose = require('../db');
 const Scheema = mongoose.Schema
 const personScheema = new Scheema({
     info: {
-        status:String,
+        status: String,
         online: Boolean,
         lastLogin: Date,
         personal: {
@@ -11,7 +10,7 @@ const personScheema = new Scheema({
             lastName: String,
             gender: String,
             dob: Date,
-            avatar: String, 
+            avatar: String,
             cardType: String,
             cardNum: Number,
             bio: String,
@@ -22,7 +21,7 @@ const personScheema = new Scheema({
             username: String,
             password: String,
             status: String
-          
+
         },
         contact: {
             me: {
@@ -41,203 +40,307 @@ const personScheema = new Scheema({
                 address: String
             }
         },
-        insurance:{
+        insurance: {
             name: String,
-            rel:String,
-            employer:String,
+            rel: String,
+            employer: String,
             ssn: String
         },
-        official:{
+        official: {
             hospital: {
                 type: Scheema.Types.ObjectId,
                 ref: 'Client'
-            }, 
+            },
             id: String,
             department: String,
             role: String
         }
-      
+
     },
-    connections:{
+    connections: {
         type: Scheema.Types.ObjectId,
-         ref: 'Connection'
-        },
-    
-    record:{
-        complains:[[{
-            complain: String,
-            duration: Number,
-            by:{
-                type: Scheema.Types.ObjectId,
-                 ref: 'Person'
-            },
-            dateCreated: Date
-        }]],
-        famHist:[{
-             condition: String,
-             dateCreated: Date
-            }],
+        ref: 'Connection'
+    },
+
+    record: {
+        complains: [
+            [{
+                complain: String,
+                duration: Number,
+                meta: {
+                    addedBy: {
+                        type: Scheema.Types.ObjectId,
+                        ref: 'Person'
+                    },
+                    selected: Boolean,
+                    dateAdded: Date
+                }
+            }]
+        ],
+        famHist: [{
+            condition: String,
+            meta: {
+                addedBy: {
+                    type: Scheema.Types.ObjectId,
+                    ref: 'Person'
+                },
+                selected: Boolean,
+                dateAdded: Date
+            }
+        }],
         notes: [{
-            note:String,
-            noteType:String,
-            by:{
-                type: Scheema.Types.ObjectId,
-                ref: 'Person'
-            },
-            dateCreated:Date
+            note: String,
+            noteType: String,
+            meta: {
+                addedBy: {
+                    type: Scheema.Types.ObjectId,
+                    ref: 'Person'
+                },
+                selected: Boolean,
+                dateAdded: Date
+            }
         }],
         vitals: {
             bp: [{
                 value: Number,
-                dateCreated: Date
+                meta: {
+                    addedBy: {
+                        type: Scheema.Types.ObjectId,
+                        ref: 'Person'
+                    },
+                    selected: Boolean,
+                    dateAdded: Date
+                }
             }],
             resp: [{
                 value: Number,
-                dateCreated: Date
+                meta: {
+                    addedBy: {
+                        type: Scheema.Types.ObjectId,
+                        ref: 'Person'
+                    },
+                    selected: Boolean,
+                    dateAdded: Date
+                }
             }],
             pulse: [{
                 value: Number,
-                dateCreated: Date
+                meta: {
+                    addedBy: {
+                        type: Scheema.Types.ObjectId,
+                        ref: 'Person'
+                    },
+                    selected: Boolean,
+                    dateAdded: Date
+                }
             }],
             height: [{
                 value: Number,
-                dateCreated: Date
+                dateAdded: Date
             }],
             weight: [{
                 value: Number,
-                dateCreated: Date
+                meta: {
+                    addedBy: {
+                        type: Scheema.Types.ObjectId,
+                        ref: 'Person'
+                    },
+                    selected: Boolean,
+                    dateAdded: Date
+                }
             }],
             tempreture: [{
                 value: Number,
-                dateCreated: Date
+                meta: {
+                    addedBy: {
+                        type: Scheema.Types.ObjectId,
+                        ref: 'Person'
+                    },
+                    selected: Boolean,
+                    dateAdded: Date
+                }
             }],
             bloodGl: [{
                 value: Number,
-                dateCreated: Date
+                meta: {
+                    addedBy: {
+                        type: Scheema.Types.ObjectId,
+                        ref: 'Person'
+                    },
+                    selected: Boolean,
+                    dateAdded: Date
+                }
             }]
         },
-        conditions:[{
-            condition: String,
-            oreder: String,
-            certainty: String,
-            dateCreated: Date,
-            by: {
-                type: Scheema.Types.ObjectId,
-                 ref: 'Person'
+        conditions: [
+            [{
+                name: String,
+                meta: {
+                    addedBy: {
+                        type: Scheema.Types.ObjectId,
+                        ref: 'Person'
+                    },
+                    selected: Boolean,
+                    dateAdded: Date
+                }
+            }]
+        ],
+        allegies: [{
+            allegy: String,
+            meta: {
+                addedBy: {
+                    type: Scheema.Types.ObjectId,
+                    ref: 'Person'
+                },
+                selected: Boolean,
+                dateAdded: Date
             }
         }],
-        allegies:[{
-            allegy:String,
-            dateCreated: Date,
-        }],
-        visits:[
-            [
-                {
-                    hospital: {
-                        type: Scheema.Types.ObjectId, ref: 'Client'
-                    },
-                    dept: String,
-                    status:String,
-                    visitedOn: Date,
-                    addmittedOn: Date,
-                    dischargedOn:Date,
-                    diedOn: Date,
-                    wardNo: Number,
-                    bedNo: Number
-                }
-            ]
-            
+        visits: [
+            [{
+                hospital: {
+                    type: Scheema.Types.ObjectId,
+                    ref: 'Client'
+                },
+                dept: String,
+                status: String,
+                visitedOn: Date,
+                addmittedOn: Date,
+                dischargedOn: Date,
+                diedOn: Date,
+                wardNo: Number,
+                bedNo: Number
+            }]
+
         ],
+
+        cards: [{
+            category: String,
+            pin: String,
+            meta: {
+                addedBy: {
+                    type: Scheema.Types.ObjectId,
+                    ref: 'Person'
+                },
+                selected: Boolean,
+                dateAdded: Date
+            }
+        }],
         appointments: [{
             title: String,
             setOn: Date,
             date: Date,
             time: String,
             attended: Boolean,
-            by: {
-                type: Scheema.Types.ObjectId,
-                ref: 'Person'
-            }
-            
-        }],
-        medications:[
-            [
-                {
-                    product:{
-                        item: {
-                            _id: String,
-                            name: String,
-                            brand: String,
-                            description: String,
-                            mesure: Number,
-                            unit: String,
-                            dateCreated: Date
-                        },
-                        stockInfo: {
-                            expiry: Date,
-                            price: Number,
-                            sold: Number,
-                            expired: Boolean,
-                            status: Boolean,
-                            quantity: Number
-                        },
-                        dateCreated: Date
-                    },
-                    priscription:{
-                        intake: Number,
-                        freq: String,
-                        piriod: Number,
-                        extend: String,
-                    },
-                    paid: Boolean,
-                    lastTaken: Date,
-                    paused: Boolean,
-                    pausedOn: Date,
-                    dateCreated: Date,
-                    purchased: Number,
-                    by: {
-                        type: Scheema.Types.ObjectId,
-                        ref: 'Person'
-                    }
-                  
-                }
-            ]
-        ],
-   
-        scans:[{
-            name: String,
-            description: String,
-            by: { 
-                type: Scheema.Types.ObjectId,
-                ref: 'Person'
-           }
-        }],
-        tests: [
-            [{
-                lab: String,
-                 type: String,
-                 status: String,
-                 result: String,
-                 reqBy: {
-                    type: Scheema.Types.ObjectId,
-                    ref: 'Person'
-                }, 
-                 verifiedBy: {
+            meta: {
+                addedBy: {
                     type: Scheema.Types.ObjectId,
                     ref: 'Person'
                 },
-                 dateCreated: Date,
-                 dateVerified: Date
+                selected: Boolean,
+                dateAdded: Date
+            }
+        }],
+        medications: [
+            [{
+                name: String,
+                priscription: {
+                    intake: Number,
+                    freq: String,
+                    piriod: Number,
+                    extend: String
+                },
+                meta: {
+                    addedBy: {
+                        type: Scheema.Types.ObjectId,
+                        ref: 'Person'
+                    },
+                    selected: Boolean,
+                    dateAdded: Date
+                },
+
+                lastTaken: Date,
+                paused: Boolean,
+                pausedOn: Date
+
             }]
         ],
-        surgeries:[]
- 
+
+        scans: [
+            [{
+                name: String,
+                bodyPart: String,
+                meta: {
+                    addedBy: {
+                        type: Scheema.Types.ObjectId,
+                        ref: 'Person'
+                    },
+                    selected: Boolean,
+                    dateAdded: Date
+                }
+            }]
+        ],
+        tests: [
+            [{
+                name: String,
+                meta: {
+                    addedBy: {
+                        type: Scheema.Types.ObjectId,
+                        ref: 'Person'
+                    },
+                    selected: Boolean,
+                    dateAdded: Date
+                },
+                // type: String,
+                status: String,
+                verified: Boolean,
+                verifiedBy: {
+                    type: Scheema.Types.ObjectId,
+                    ref: 'Person'
+                },
+                // result: String,
+                dateVerified: Date
+            }]
+
+        ],
+        surgeries: [
+            [{
+                name: String,
+                meta: {
+                    addedBy: {
+                        type: Scheema.Types.ObjectId,
+                        ref: 'Person'
+                    },
+                    selected: Boolean,
+                    dateAdded: Date
+                }
+            }]
+        ],
+        invoices: [
+            [{
+                name: String,
+                desc: String,
+                price: Number,
+                quantity: Number,
+                paid: Boolean,
+                processed: Boolean,
+                datePaid: Date,
+                comfirmedBy: {
+                    type: Scheema.Types.ObjectId,
+                    ref: 'Person'
+                },
+                meta: {
+                    addedBy: {
+                        type: Scheema.Types.ObjectId,
+                        ref: 'Person'
+                    },
+                    selected: Boolean,
+                    dateAdded: Date
+                }
+            }]
+        ]
     }
-},
-{timestamps: true}
-)
+}, { timestamps: true, strict: false })
 
 const Person = mongoose.model('Person', personScheema)
 module.exports = Person;
-
-

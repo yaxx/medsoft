@@ -66,7 +66,7 @@ uploadFile: (req, res)=>{
   })
 
 },
-getDp: (req, res)=>{
+getDp: (req, res) => {
   const filePath = path.join(__dirname, '../uploads') + '/'+req.params.id
   res.sendFile(filePath);
 },
@@ -79,6 +79,7 @@ addPerson: async (req, res) => {
   const exist = await Person.findOne({
     'info.contact.me.mobile': req.body.info.contact.me.mobile
   })
+  console.log(exist)
   if(exist) {
       res.status(400).send(exist)
     } else {
@@ -96,9 +97,61 @@ catch (e) {
   
 },
 getPatients: async (req, res) => {
+  
   try {
     const {info: {official}} = await Person.findById(req.cookies.i).select('info');
     let patients = await Person.find({$where: 'this.record.visits.length'})
+
+
+
+
+//     patients = Array.from(patients).map(p => p.toJSON()).filter(p => p.record.cards.length === 0).map(patient => {
+//       let {record} = patient
+//       return ({
+//         ...patient, record: {...record, cards: [{
+//                 category: 'Standard',
+//                 pin: null,
+//                 stockInfo: {
+//                     inStock: 0,
+//                     price: 0,
+//                     sold: 0,
+//                     expired: false,
+//                     status: false,
+//                     quantity: 0,
+//                     expiry: new Date()
+//                 },
+//                 invoice: {
+//                     comfirmedBy: null,
+//                     price: 1000,
+//                     quantity: 1,
+//                     paid: false,
+//                     datePaid: null 
+//                 },
+//                 meta: {
+//                     addedBy: "5cb5db184dded22b6cec06af",
+//                     selected: false,
+//                     dateAdded: new Date()
+//                 }
+//             }]}
+//         })
+//   })
+
+
+// for (p of patients) {
+//      Person.findByIdAndUpdate( mongoose.Types.ObjectId(p._id),{"record": p.record}, {new: true}, (e, data) => {
+//        if(e) {
+//          console.log(e)
+//        }
+//        console.log(data.record.notes)
+//      })
+      
+//   }
+
+    
+    
+  //  Transformation here
+  
+   //filter patients base on current status and department
     switch(official.role) {
       case 'Doctor':
       patients = patients.filter(patient => patient.record.visits[0][0].status === req.params.type && patient.record.visits[0][0].dept === official.department);
@@ -106,14 +159,21 @@ getPatients: async (req, res) => {
       case 'Nurse':
       patients = patients.filter(patient => patient.record.visits[0][0].status === req.params.type && patient.record.visits[0][0].dept === official.department);
       break;
-      case 'Pharmacy':
+      case 'Pharmacist':
       patients = patients.filter(patient => patient.record.medications.length > 0);
+      break;
+      case 'Cashier':
+      patients = patients.filter(patient => patient.record.invoices.length > 0);
       break;
       case 'Admin':
       patients = (req.params.type) ? patients.filter(patient => patient.record.visits[0][0].status === req.params.type) : patients.filter(patient => patient.record.medications.length) ;
       break;
       default:
-      patients = patients.filter(patient => patient.record.visits[0][0].status === req.params.type);
+      if(req.params.type === 'out') {
+        patients = patients.filter(patient => patient.record.visits[0][0].status === 'out' || !patient.record.visits[0][0].status);
+      } else {
+         patients = patients.filter(patient => patient.record.visits[0][0].status === req.params.type);
+      }
       break
     }
 
@@ -127,9 +187,10 @@ getPatients: async (req, res) => {
 getHistory: async (req, res) => {
   try {
     const patient = await Person.findById(req.params.id)
-    .populate({path:'record.notes.by', select:'info'})
-    .populate({path:'record.conditions.by', select:'info'})
+    .populate({path:'record.notes.meta.addedBy', select:'info'})
+    .populate({path:'record.conditions.meta.addedBy', select:'info'})
     .exec()
+    console.log(patient.record.notes)
     res.send(patient) 
   }
   catch(e){
@@ -331,7 +392,7 @@ Connection.findOneAndUpdate({'people.person': data.sender},{"people.$.messages":
 
 },
 
-explore: async (req, res)=>{
+explore: async (req, res) => {
   try {
     const people = await Person.find({'info.official.hospital': req.cookies.h},'info' )
     res.send(people);
@@ -339,18 +400,17 @@ explore: async (req, res)=>{
   catch(e) {
     throw e
   }
- 
 },
 runTransaction: async (req, res) => {
   try {
      let client = await Client.findByIdAndUpdate(req.cookies.h)
-     console.log(req.body.cart);
      req.body.cart.forEach(product => {
       client.inventory[client.inventory.findIndex(pro => pro._id.toString() === product._id)] = product;
     });
-    const person = await Person.findByIdAndUpdate( req.body.patient._id, {
-      'record.medications': req.body.patient.record.medications
-     })
+    const person = await Person.findByIdAndUpdate( req.body.id, {
+      'record': req.body.record
+     }, {new: true})
+     console.log(person.record.invoices)
     await client.save()
     res.send()
   }
@@ -436,8 +496,6 @@ updateClient: async (req, res) => {
     throw e
   } 
 },
- 
-
 getInPatients: (req, res)=>{
     Person.find({'record.visits.status':'admitted'},(e, patients)=>{
     if(!e){
@@ -492,7 +550,10 @@ updateInfo: async (req, res) => {
 updateRecord: async (req, res) => {
   try {
     await Item.insertMany(req.body.items);
-    const person = await Person.findByIdAndUpdate(req.body.patient._id, {record: req.body.patient.record},{new:true})
+    const person = await Person.findByIdAndUpdate(
+      req.body.patient._id, {
+        record: req.body.patient.record
+      },{new: true})
     res.send(person);
   }
   catch(e) {
@@ -517,19 +578,25 @@ updateNote: (req, res)=>{
   })
 },
 
-updateMedication: (req, res) => {
- 
-  Person.findOneAndUpdate({_id:req.body.id },
-     {
-       'record.medications': req.body.medication
-     },{new:true},(e, patient) => {
-    if(!e){
-      
-      res.send(patient)
-  } else {
-    console.log(e)
+updateMedication: async (req, res) => {
+  try {
+  let {record:{medications}} = await Person.findByIdAndUpdate(req.cookies.i,{"record.medications": req.body.medications}, {new: true})
+   res.send(medications)
+  } catch(e) {
+    throw e
   }
-})
+
+ 
+//   Person.findOneAndUpdate({_id:req.body.id },
+//      {
+//        'record.medications': req.body.medication
+//      },{new:true},(e, patient) => {
+//     if(!e){
+//       res.send(patient)
+//   } else {
+//     console.log(e)
+//   }
+// })
 
 },
 
@@ -545,7 +612,6 @@ updateMedication: (req, res) => {
 
 addProduct: async (req, res) => {
   try {
-    console.log(req.body.products)
     const client = await Client.findByIdAndUpdate(req.cookies.h, { $push: {inventory: { $each: req.body.products}}}, {new: true} )
     req.body.items = req.body.items.map(item => ({...item, type: 'drug'}))
     await Item.insertMany(req.body.items)
@@ -559,7 +625,8 @@ addProduct: async (req, res) => {
 getProducts: async (req, res) => {
   try {
     let {inventory} = await Client.findById(req.cookies.h)
-    inventory = Array.from(inventory).map(o => o.toJSON()).map(product => ({...product, type:'Product'}))
+  //    client.inventory = Array.from(client.inventory).map(o => o.toJSON()).map(product => ({...product, type:'Products'}))
+  //  client = await client.save()
     const items = await Item.find()
       res.send({inventory: inventory, items: items})
   }

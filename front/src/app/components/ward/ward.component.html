@@ -48,15 +48,15 @@
                         {{patients[curIndex].info.personal.firstName + ' '+ patients[curIndex].info.personal.lastName}}<span class="small-headericon"></span>
                       </a>
                   </div>
-                    <div style="width:53%;margin:auto" class="card-body orderbody">
+                  <div style="width:53%;margin:auto" class="card-body orderbody">
                     <h1 *ngIf='!medications.length' style='color:lightgrey; width:100%; text-align:center;top:43%;position:absolute;' class="dept headtitle">NO RECORD</h1>
                         <div *ngFor="let medic of patients[curIndex].record.medications; let i = index" class="carditem priscriptioncontainer order">
                             <div  class="timeline condition drugtimeline">
-                                <p class="timelinedate">{{medic[0]?.dateCreated|date:'dd'}}</p>
-                                <p class="timelinedate month">{{medic[0]?.dateCreated|date:'MMM'|uppercase}}</p>
+                                <p class="timelinedate">{{medic[0]?.meta.dateAdded|date:'dd'}}</p>
+                                <p class="timelinedate month">{{medic[0]?.meta.dateAdded|date:'MMM'|uppercase}}</p>
                             </div>
                             <div *ngFor ="let m of medic; let j= index" class="priscription drug">
-                                <h6 class="dept">{{m.product.item.name}}&nbsp;<span class="predata">{{m.product.item.mesure+m.product.item.unit}}</span>
+                                <h6 class="dept">{{m.name}}&nbsp;<span class="predata"></span>
                                   <span *ngIf = 'm.paused' class="predata priceval">
                                     <i title='Discontinued' class="material-icons editicon continue blocked-icon">block</i>
                                   </span>
@@ -68,7 +68,7 @@
                                 <h6 class="dept previnfo">Dosage&nbsp;<span class="predata">
                                   {{m.priscription.intake+'-'+m.priscription.freq+'-'+m.priscription.piriod}} </span></h6>
                                 <h6 class="dept previnfo"style="color:lightgrey">
-                                  {{m.dateCreated|date:'hh:mma'|lowercase}}<span class="predata lastadministered" style="left:49%;width:97px; text-align:right">{{m.lastTaken|date:'dd MMM hh:mma'|lowercase}}</span></h6>
+                                  {{m.meta.dateAdded|date:'hh:mma'|lowercase}}<span class="predata lastadministered" style="left:49%;width:97px; text-align:right">{{m.lastTaken|date:'dd MMM hh:mma'|lowercase}}</span></h6>
                             </div>
                        </div>
                  </div>

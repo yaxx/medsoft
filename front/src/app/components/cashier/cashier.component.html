@@ -1,0 +1,199 @@
+
+  <div *ngIf = 'patients.length' class="modal fade" role="dialog" tabindex="-1" id="billingModal" style="border-radius:12px;width:auto;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="width:480px;border-radius:0px;border-radius:12px;padding-left:0px;padding-right: 0px;">
+            <div class="modal-body" style="border-radius:0px;padding: 0px;">
+                <div  class="card card-secondary historycard midlecard profilecard" style="margin:auto;min-height:200px;border-radius:12px;">
+                    <div style='padding-left: 30px;border-top-right-radius:12px;border-top-left-radius:12px;' class="card-header profileheader small-header">
+                        <i  *ngIf='cardView.editing||cardView.reversing' (click)="switchViews('orders')"  style='position:absolute;left:1%;top:2%; cursor:pointer; display: inline-block;
+                          color:#1da1f2;' title="Back"
+                          class="icon ion-android-arrow-back "> </i>
+                        <div style="left:23px" class="timeline lastdoc priscriber headerdp small-dp">
+                          <img [src] = getDp(patients[curIndex].info.personal.avatar)/>
+                        </div>
+                        <a href="#" class="patien-name small-name">
+                          {{patients[curIndex]?.info.personal.firstName + ' '+ patients[curIndex].info.personal.lastName}}<span class="small-headericon"></span>
+                        </a>
+                        <h6 style='font-size:10px; font-weight:bold; position:absolute;color:dodgerblue;  top:4%;left:76%' class="patien-name small-name">ORDERS</h6>
+                   </div>
+                   <div *ngIf='cardView.orders' class="card-body orderbody"style=" width:65%; margin:auto;">
+                      <div style="border-left:2px solid #1da1f2;height:200px; width:100%;">
+                      <div style='border:none'   *ngFor="let invoices of patient.record.invoices; let i = index"  class="carditem priscriptioncontainer order">
+                          <div style='left:-4%' class="timeline condition drugtimeline">
+                              <p class="timelinedate">{{invoices[0]?.meta.dateAdded|date:'dd'}}</p>
+                              <p class="timelinedate month"> {{invoices[0]?.meta.dateAdded|date:'MMM'|uppercase}}</p>
+                          </div>
+                          <div *ngFor ="let invoice of invoices; let j= index" class="priscription drug">
+                            <h6 class="dept">{{invoice.name}}&nbsp;<span class="predata">
+                                </span>
+                                <span *ngIf="invoice.paid"  class="predata priceval">
+                                <i (click)='getReversables(i,j)' data-target="#reversePayment" data-toggle="modal" title = 'Reverse payment'  class="icon ion-ios-checkmark-empty paid-icon"></i>
+                                </span>
+                                <span *ngIf="!invoice.paid"  class="predata priceval">
+                                <i (click)="selectItem(i,j)" style=' color:lightgrey;'  *ngIf="invoice.meta.selected" class="icon ion-ios-checkmark-empty paid-icon" title="Deselect "></i>
+                                <div  style='border-color:rgb(228, 227, 227)' 
+                                *ngIf ="!invoice.meta.selected && !invoice.quantity" class="mycheckbox"  >
+                                </div>
+                                <div class="mycheckbox" *ngIf ="!invoice.meta.selected && invoice.quantity" (click)="selectItem(i,j)" >
+                                </div>
+                                </span>
+                            </h6>
+                            <h6 class="dept previnfo">Description&nbsp;<span class = "predata">
+                                {{invoice.desc}} </span></h6>
+                            <h6 class="dept previnfo"style="color:lightgrey">
+                                  Price&nbsp;<span [ngStyle]=getStyle(invoice) style="text-align:right;left:80%;display: inline-block;width:50px" *ngIf = invoice.price class="predata priceval">
+                                    {{(invoice.price)*(invoice.quantity)}}</span>
+                                  <span *ngIf = !invoice.price class="predata priceval">---</span>
+                              </h6>
+                           </div>
+                           <!-- <label  class='totalLbl' *ngIf='somePaid(i)' >{{getTransTotal(i)}} </label> -->
+                      </div>
+                     
+                     
+                    </div>
+                   <div style='left:110%; height:32px;width:32px'title ='Comfirm Payment' class="floter">
+                          <i *ngIf='processing' class="fa fa-circle-o-notch fa-spin fa-10x slow-spin" style="position:absolute;bottom:5px;left:5px;font-size:20px;color: #1da1f2;"> </i>
+                          <i (click) = comfirmPayment()  *ngIf='!processing' style="color:#1da1f2;bottom:-10px"
+                           class="icon ion-ios-checkmark-empty flotericon"> </i>
+                    </div>
+                  </div>
+                  <div *ngIf='cardView.reversing' class="card-body orderbody"style="width:56%;margin:auto;">
+                      <form  style="top:15%;" class=" staffsform">
+                        <div  style="top:1px; margin-bottom:25px; min-height: 80px;max-height: 120;"  class="form-group vitals-section setGroup">
+                          <table *ngIf="edited.length"  cellspacing="0" class="data-table drugs-table" style="width:100%;left:0%;" >
+                          <thead class='productHead'>
+                              <tr class="staff-th">
+                                  <th style="padding-left:4px;" class="headlbl staff-th">ITEM</th>
+                                  <th style='text-align:right' class="headlbl staff-th">PRICE</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                  <tr *ngFor="let med of edited; let i = index; let odd = odd;"  style="border-bottom:2px solid white;" [class.even] = odd  class="ro staff-row">
+                                    <td style="padding-left:4px;" class="data"> {{med.name}}></td>
+                                     <td style='font-size:11px' class="data">
+                                         {{med.invoice.quantity * med.stockInfo.price}}
+                                    </td>
+                                  </tr>
+                              </tbody>
+                              <tfoot col-span='4' style='font-size:11px; text-align:right; position:absolute; font-weight:bold;padding-right: 10px; border-top: 1px solid whitesmoke;width:100%'>Total: <span>{{getPriceTotal()}}</span> </tfoot>
+                            </table>
+                        </div>
+                        <div style='left:110%; height:32px;width:32px' title ='Reverse tranasaction' class="floter">
+                          <i *ngIf = 'processing' class="fa fa-circle-o-notch fa-spin fa-10x slow-spin" style="position:absolute;bottom:5px;left:5px;font-size:20px;color: #1da1f2;"> </i>
+                         <i (click)=reversePayment() style='font-size: 23px;left:3px; top:4px;' class="material-icons flotericon">rotate_left</i>
+                        </div>
+                    </form>
+                  </div>
+                 <div *ngIf = transMsg style="padding:5px;border-top: 1px solid rgb(248, 247, 247)" class="card-footer"> <h6  class="feedbackMsg">{{transMsg}}</h6></div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+<nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:0px;background: #f3f8f7">
+  <div class="container">
+      <a class="navbar-brand" href="#">
+          <em>foldr</em>
+      </a>
+      <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navcol-1">
+          <ul class="nav navbar-nav"></ul>
+          <form class="top-searchform" target="_self">
+              <div class="form-group">
+                <input [(ngModel)] = searchTerm #search (keyup)='searchPatient(searchTerm)' autocomplete = "off" style="border-radius:.999em;
+                width:80%;display:inline-block;
+                position: absolute;
+                text-align: left;
+                vertical-align: middle;
+                top:11%;
+                box-shadow:none;
+                outline:none;
+                background-color: rgb(243, 248, 247);
+                "
+                class="form-control"
+                type="search" name="search" id="search-field" placeholder="Search patient">
+                <i style='font-size:20px; top:3px;left:83%;position:relative;display:inline' class="icon ion-ios-search " title="Search"></i>
+         <h6 style=' cursor:pointer; font-size:12px;left:98%;position:relative;display:inline-block;color:grey;font-weight:normal;
+                      '>Sort by: <span (click)='toggleSortMenu()'>
+                        {{nowSorting}}</span></h6>
+          <div *ngIf=sortMenu style='position: absolute; left:120%; width:100px;top:6px;height:110px'  class="menu">
+            <ul (mouseleave) = 'toggleSortMenu()' class="actions primary">
+                <li (click)='sortPatients("name")' class="action">A-Z</li>
+                <li (click)='sortPatients("age")' class="action">Age</li>
+                <li (click)='sortPatients("status")' class="action">Status</li>
+                <li (click)='sortPatients("sex")' class="action">Gender</li>
+                <li (click)='sortPatients("date")' class="action">Date added</li>
+            </ul>
+        </div>
+     </div>
+    </form>
+      </div>
+  </div>
+  <i style="left:80%;" class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
+    <i [routerLink]="['./me']" data-target="#newModal" data-toggle="modal" style="left:83%;" class="icon ion-ios-person-outline arrow buble" id="add" title="Me" ></i>
+
+   <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:90%;position:absolute;height:30px;width:30px;top:5px; margin-bottom:0px;"> <img style='height:100%; width:100%; object-fit:cover;' [src] = getMyDp()/></div>
+</nav>
+
+    <div style="padding-top:60px" class="container">
+          <div class="row">
+            <div *ngIf='!patients.length' class='issue'>
+              <div *ngIf='loading' class="lds-css ng-scope"><div style="width:100%;height:100%" class="lds-rolling"><div></div></div></div>
+              <div (click)=refresh()  *ngIf='message' title='Refresh' class='refresh'><i class="icon ion-ios-reload "></i></div>
+              <h6 *ngIf='message' style='font-size:13px;position:absolute;top:65%; width:100%; color:lightgrey;text-align: center' >{{message}}</h6>
+            </div>
+            <div  *ngFor="let patient of patients; let i=index"  class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                  <div *ngIf = "patient.card.view == 'front'"  class="card card-secondary maincard">
+                    <div style="border-radius:12px" class="card-header profileheader"><i class="icon ion-android-more-vertical headericon moreicon actions-icon"></i>
+                        <div class="timeline lastdoc priscriber headerdp">
+                            <img [src] = getDp(patient.info.personal.avatar)/>
+                        </div>
+                    </div>
+                    <p style='margin-bottom:2px;'  class="dept displayname">
+                    {{patient.info.personal.firstName + ' ' + patient.info.personal.lastName}}<span class="predata editicon"></span></p>
+                    <div class="card-body mainbody">
+                        <div class="carditem basic-item">
+                            <h6 class="dept basic-info">Sex</h6>
+                            <h6 class="dept basic-info sex-info">
+                                {{patient.info.personal.gender.charAt(0).toUpperCase()}}</h6>
+                        </div>
+                        <div class="carditem basic-item">
+                            <h6 class="dept basic-info">Age</h6>
+                            <h6 class="dept basic-info sex-info">{{patient.info.personal.dob|dob}}</h6>
+                        </div>
+                        <div class="carditem basic-item">
+                           <h6 class="dept basic-info">Seen</h6>
+                           <h6 class="dept basic-info sex-info">{{patient.record.visits.length}}</h6>
+                        </div>
+                        <div class="priscription basic-subinfo">
+                          <div class="sub-container">
+                              <h6 class="dept basic-secondary basic-value">
+                                  {{patient.record.visits[0][0].dept}}</h6>
+                          </div>
+                          <div class="sub-container">
+                              <h6 style="width:100%;text-align:center" class="dept basic-secondary basic-value">
+                                  {{patient.record.invoices[0][0].meta.dateAdded|date:'dd-MM-y'}}&nbsp;<span>
+                                  {{patient.record.invoices[0][0].meta.dateAdded|date:'hh:mma'|lowercase}}</span>
+                              </h6>
+                          </div>
+                      </div>
+                    </div>
+                    <button (click)='viewOrders(i)' data-toggle="modal" data-target="#billingModal" style=" width: 95px;font-size: 10px; height:27px;left:52%; bottom:7%;" class="btn btn-sm btn-outline-primary inputs mainbtn" > VIEW ORDERS
+                    </button>
+                </div>
+          </div>
+      </div>
+  </div>
+

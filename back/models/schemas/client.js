@@ -33,8 +33,8 @@ var ClientScheema = new Scheema({
                 item: {
                     _id: String,   
                     name: String,
-                    // type: String,
                     brand: String,
+                    type: {type:String, required: false},
                     category: String,
                     description: String,
                     mesure: Number,
@@ -50,6 +50,7 @@ var ClientScheema = new Scheema({
                     quantity: Number,
                     inStock: Number
                 },
+                type: {type:String, required: false},
                 dateCreated: Date  
             }],
             staffs: [

@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import {HttpClientModule} from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
@@ -27,76 +28,92 @@ import { AppointmentsComponent } from './components/appointments/appointments.co
 import { MainComponent } from './components/navs/main/main.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { DeceasedComponent } from './components/deceased/deceased.component';
+import { CashierComponent } from './components/cashier/cashier.component';
+
 const routes: Routes = [
   {
-    path: '', 
-    redirectTo: 'login', 
+    path: '',
+    redirectTo: 'login',
     pathMatch: 'full'
   },
   {
-    path: 'login', 
+    path: 'login',
     component: LoginComponent
   },
   {
-    path: 'signup', 
+    path: 'signup',
     component: LoginComponent
   },
   {
-    path: 'settings', 
+    path: 'settings',
     component: SettingsComponent
   },
   {
-    path: 'pharmacy', 
+    path: 'pharmacy',
     component: MainComponent,
     children: [
-      { 
-        path: 'me', 
+      {
+        path: 'me',
         component: MessagesComponent
       },
       {
-        path: '', 
+        path: '',
         component: PharmacyComponent
       }
     ]
   },
   {
-    path: 'admin', 
+    path: 'billing',
     component: MainComponent,
     children: [
       {
-        path: 'appointments', 
-        component: AppointmentsComponent
-      },
-      {
-        path: 'consultations', 
-        component: ConsultationComponent
-      },
-      {
-        path: 'addmisions', 
-        component: PatientComponent
-      },
-      {
-        path: 'discharged', 
-        component: RegistrationComponent
-      },
-      {
-        path: 'pharmacy', 
-        component: PharmacyComponent
-      },
-      {
-        path: 'inventory', 
-        component: InventoryComponent
-      },
-      {
-        path: 'deceased', 
-        component:  DeceasedComponent
-      },
-      {
-        path: 'me', 
+        path: 'me',
         component: MessagesComponent
       },
       {
-        path: 'settings', 
+        path: '',
+        component: CashierComponent
+      }
+    ]
+  },
+  {
+    path: 'admin',
+    component: MainComponent,
+    children: [
+      {
+        path: 'appointments',
+        component: AppointmentsComponent
+      },
+      {
+        path: 'consultations',
+        component: ConsultationComponent
+      },
+      {
+        path: 'addmisions',
+        component: PatientComponent
+      },
+      {
+        path: 'discharged',
+        component: RegistrationComponent
+      },
+      {
+        path: 'pharmacy',
+        component: PharmacyComponent
+      },
+      {
+        path: 'inventory',
+        component: InventoryComponent
+      },
+      {
+        path: 'deceased',
+        component:  DeceasedComponent
+      },
+      {
+        path: 'me',
+        component: MessagesComponent
+      },
+      {
+        path: 'settings',
         component: SettingsComponent
       },
       {
@@ -106,31 +123,31 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'information', 
+    path: 'information',
     component: MainComponent,
     children: [
         {
-          path: 'appointments', 
+          path: 'appointments',
           component: AppointmentsComponent
         },
         {
-          path: 'addmisions', 
+          path: 'addmisions',
           component: PatientComponent
         },
         {
-          path: 'consultations', 
+          path: 'consultations',
           component: ConsultationComponent
         },
         {
-          path: 'deceased', 
+          path: 'deceased',
           component:  DeceasedComponent
         },
         {
-          path: 'pharmacy', 
+          path: 'pharmacy',
           component: PharmacyComponent
         },
         {
-          path: 'me', 
+          path: 'me',
           component: MessagesComponent
         },
         {
@@ -139,49 +156,49 @@ const routes: Routes = [
       ]
   },
   {
-    path: ':dept/consultation', 
+    path: ':dept/consultation',
     component: MainComponent,
     children: [
       {
-        path: 'appointments', 
+        path: 'appointments',
         component: AppointmentsComponent
       },
       {
-        path: 'addmisions', 
+        path: 'addmisions',
         component: PatientComponent
       },
       {
-        path: 'history/:id', 
+        path: 'history/:id',
         component: HistoryComponent
       },
-      { 
-        path: 'me', 
+      {
+        path: 'me',
         component: MessagesComponent
       },
-      { 
-        path: '', 
+      {
+        path: '',
         component: ConsultationComponent
       }
     ]
   },
   {
-    path: ':dept/ward', 
+    path: ':dept/ward',
     component: MainComponent,
       children: [
-        { 
-          path: 'addmisions', 
+        {
+          path: 'addmisions',
           component: WardComponent
         },
         {
-          path: 'me', 
+          path: 'me',
           component: MessagesComponent},
         {
-          path: '', 
+          path: '',
           component: RegistrationComponent}
       ]
     },
     {
-      path: '**', 
+      path: '**',
       component: LoginComponent
     }
 
@@ -205,11 +222,13 @@ const routes: Routes = [
     AppointmentsComponent,
     MainComponent,
     SettingsComponent,
-    DeceasedComponent
-  
+    DeceasedComponent,
+    CashierComponent
+
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     AutosizeModule,
     HttpClientModule,

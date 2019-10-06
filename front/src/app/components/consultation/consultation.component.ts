@@ -10,11 +10,11 @@ import {states, lgas } from '../../data/states';
 import {Tests, Scannings, Surgeries} from '../../data/request';
 import {Client, Department} from '../../models/client.model';
 import {Conditions} from '../../data/conditions';
-import { Item, StockInfo, Product, Card, Invoice} from '../../models/inventory.model';
+import { Item, StockInfo, Product, Card, Invoice, Meta} from '../../models/inventory.model';
 import {Subject} from 'rxjs';
 import {Observable} from 'rxjs';
 import {WebcamImage, WebcamInitError, WebcamUtil} from 'ngx-webcam';
-import { Record, Medication, Condition, Note, Visit, Session, Test, Surgery, Scan, Complain, Meta} from '../../models/record.model';
+import { Record, Medication, Condition, Note, Visit, Session, Test, Surgery, Scan, Complain } from '../../models/record.model';
 const uri = 'http://localhost:5000/api/upload';
 // const uri = 'http://192.168.1.100:5000/api/upload';
 @Component({
@@ -53,6 +53,7 @@ export class ConsultationComponent implements OnInit {
   sortBy = 'added';
   sortMenu = false;
   message = null;
+  cardCount = null;
   showPhotoMenu = false;
   nowSorting = 'Date added';
   myDepartment = null;
@@ -61,6 +62,7 @@ export class ConsultationComponent implements OnInit {
   errors: WebcamInitError[] = [];
   webcamImage: WebcamImage = null;
   count = -1;
+  dept = null;
   // webcam snapshot trigger
   private trigger: Subject<void> = new Subject<void>();
   // switch to next / previous / specific webcam; true/false: forward/backwards, string: deviceId
@@ -82,7 +84,7 @@ export class ConsultationComponent implements OnInit {
    this.myDepartment = this.route.snapshot.params['dept'];
     this.socket.io.on('enroled', (patient: Person) => {
       if (patient.record.visits[0][0].dept.toLowerCase() === this.myDepartment || this.route.snapshot.params['admin']) {
-        patient.card = {view: 'front', menu: false};
+        patient.card = {view: 'front', menu: false, btn: 'discharge'};
         this.patients.unshift(patient);
       }
   });
@@ -184,17 +186,17 @@ export class ConsultationComponent implements OnInit {
     this.toggleWebcam();
   }
   addInitials() {
-     this.patient.record.cards.unshift({
-      ...this.card,
-      meta: new Meta(this.cookies.get('i'))
-    });
-    this.patient.record.invoices.unshift({
-      ...new Invoice(),
-      name: 'Card',
-      desc: this.card.category,
-      meta: new Meta(this.cookies.get('i'))
-    });
-    this.patient.record.visits.unshift([new Visit()]);
+    //  this.patient.record.cards.unshift({
+    //   ...this.card,
+    //   meta: new Meta(this.cookies.get('i'))
+    // });
+    // this.patient.record.invoices.unshift({
+    //   ...new Invoice(),
+    //   name: 'Card',
+    //   desc: this.card.category,
+    //   meta: new Meta(this.cookies.get('i'))
+    // });
+    // this.patient.record.visits.unshift([new Visit()]);
   }
   addRecord() {
     this.addInitials();
@@ -305,10 +307,10 @@ getDp(avatar: String) {
     }
 }
 next(){
-  this.count = this.count+1;
+  this.count = this.count + 1;
 }
 prev(){
-  this.count = this.count-1;
+  this.count = this.count - 1;
 }
   getMyDp() {
     return this.getDp(this.cookies.get('d'));
@@ -342,13 +344,50 @@ prev(){
   switchToNewMedic() {
     this.medicView = !this.medicView;
   }
-  switchToAp(i: number) {
-    this.patients[i].card.view = 'ap';
-    this.curIndex = i;
+  getRefDept() {
+    return this.client.departments.filter(dept => dept.hasWard && dept.name !== this.dept);
   }
-  switchToFront(i: number) {
-    this.patients[i].card.view = 'front';
+
+  dispose(i: number, disposition: string, label) {
+    this.patients[i].record.visits[0][0].status = disposition;
+    this.patients[i].card.btn = label;
   }
+  switchCards(i: number, face: string) {
+    this.patients[i].record.visits[0][0].status = 'out';
+    this.patients[i].card.view = face;
+     switch (face) {
+       case 'ap': this.cardCount = 'ap';
+         break;
+       case 'dispose': this.cardCount = 'dispose';
+       this.patients[i].card.btn = 'discharge';
+       this.dept = this.patients[i].record.visits[0][0].dept; 
+         break;
+       default: this.cardCount = null;
+       this.patients[i].record.visits[0][0].status = 'queued';
+       this.patients[i].record.visits[0][0].dept = this.dept;
+       this.patients[i].card.btn = 'discharge';
+         break;
+     }
+   }
+  comfirmDesposition(i: number) {
+    this.processing = true;
+    this.patients[i].record.visits[0][0].dept = (
+      this.patients[i].record.visits[0][0].status !== 'queued') ? this.dept : this.patients[i].record.visits[0][0].dept;
+    this.dataService.updateRecord(this.patients[i], this.session.newItems).subscribe((p: Person) => {
+      this.processing = false;
+      this.patients.splice(i, 1);
+      this.feedback = 'Note added successfully';
+      setTimeout(() => {
+        this.feedback = null;
+      }, 4000);
+   }, (e) => {
+     this.feedback = 'Unbale to add note';
+     this.processing = false;
+   });
+  }
+  // switchToFront(i: number) {
+  //   this.patients[i].card.view = 'front';
+  // }
   sortPatients(sortOption: string) {
     this.sortMenu = false;
     switch (sortOption) {
@@ -446,7 +485,6 @@ prev(){
         });
       }
     }
-    console.log(this.session.invoices);
   }
   addMedication() {
     if (this.session.items.some(i => i.name === this.session.medication.name)) {
@@ -587,7 +625,7 @@ getPatients(type) {
   this.dataService.getPatients(type).subscribe((patients: Person[]) => {
      if (patients.length) {
       patients.forEach(p => {
-      p.card = {menu: false, view: 'front'};
+      p.card = {menu: false, view: 'front', btn: 'discharge'};
     });
     this.clonedPatients = patients;
     this.patients = patients;

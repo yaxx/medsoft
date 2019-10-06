@@ -63,29 +63,29 @@ export class PatientComponent implements OnInit {
      private cookies: CookieService
   ) { }
   ngOnInit() {
-    // this.myDepartment = this.route.snapshot.params['dept'];
-    // this.getPatients('Admit');
-    // this.getClient();
-    // this.getItems();
-    // this.socket.io.on('store update', (data) => {
-    //   if(data.action === 'new') {
-    //     this.products.concat(data.changes);
-    //   } else if (data.action === 'update') {
-    //       for (const product of data.changes) {
-    //           this.products[this.products.findIndex(prod => prod._id === product._id)] = product;
-    //         }
-    //   } else {
-    //       for (const product of data.changes) {
-    //         this.products.splice(this.products.findIndex(prod => prod._id === product._id) , 1);
-    //       }
-    //   }
-    // });
-    // this.uploader.onBuildItemForm = (fileItem: any, form: any) => {
-    //   form.append('id', this.patients[this.curIndex]._id);
-    //  };
-    // this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any ) => {
-    //   this.attachments.push(JSON.parse(response));
-    // };
+    this.myDepartment = this.route.snapshot.params['dept'];
+    this.getPatients('Admit');
+    this.getClient();
+    this.getItems();
+    this.socket.io.on('store update', (data) => {
+      if(data.action === 'new') {
+        this.products.concat(data.changes);
+      } else if (data.action === 'update') {
+          for (const product of data.changes) {
+              this.products[this.products.findIndex(prod => prod._id === product._id)] = product;
+            }
+      } else {
+          for (const product of data.changes) {
+            this.products.splice(this.products.findIndex(prod => prod._id === product._id) , 1);
+          }
+      }
+    });
+    this.uploader.onBuildItemForm = (fileItem: any, form: any) => {
+      form.append('id', this.patients[this.curIndex]._id);
+     };
+    this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any ) => {
+      this.attachments.push(JSON.parse(response));
+    };
 
   }
   getItems() {
@@ -100,13 +100,13 @@ export class PatientComponent implements OnInit {
   }
 
   getMyDp() {
-    // return this.getDp(this.cookies.get('d'))
+    return this.getDp(this.cookies.get('d'))
   }
-  refresh(){
-    // this.message = null;
-    // this.getPatients('Admit');
-    // this.getClient();
-    // this.getItems();
+  refresh() {
+    this.message = null;
+    this.getPatients('Admit');
+    this.getClient();
+    this.getItems();
   }
   getClient() {
   //   this.dataService.getClient().subscribe((client: any) => {
@@ -153,24 +153,24 @@ export class PatientComponent implements OnInit {
     // this.curIndex = i;
    }
    getPatients(type) {
-    // this.loading = true;
-    // this.dataService.getPatients(type).subscribe((patients: Person[]) => {
-    //   if(patients.length) {
-    //     patients.forEach(p => {
-    //     p.card = {menu: false, view: 'front'};
-    //   });
-    //   this.patients   = patients;
-    //   this.clonedPatients  = patients;
-    //   this.loading = false;
-    //   this.message = null;
-    //   } else {
-    //     this.message = 'No Records So Far';
-    //     this.loading = false;
-    //   }
-    // },(e) => {
-    //   this.message = 'Something went wrong';
-    //   this.loading = false;
-    // });
+    this.loading = true;
+    this.dataService.getPatients(type).subscribe((patients: Person[]) => {
+      if(patients.length) {
+        patients.forEach(p => {
+        p.card = {menu: false, view: 'front'};
+      });
+      this.patients   = patients;
+      this.clonedPatients  = patients;
+      this.loading = false;
+      this.message = null;
+      } else {
+        this.message = 'No Records So Far';
+        this.loading = false;
+      }
+    },(e) => {
+      this.message = 'Something went wrong';
+      this.loading = false;
+    });
   }
   dischargePtient(patient, i) {
 //     let visit = patient.record.visits[0][0];

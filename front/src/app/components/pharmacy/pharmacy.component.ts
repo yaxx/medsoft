@@ -29,7 +29,7 @@ export class PharmacyComponent implements OnInit {
   items: Item[] = [];
   temItems: Item[] = [];
   searchedProducts: Product[] = [];
-  medications: any[] = [];
+  medications: Invoice[][] = new Array<Invoice[]>();
   edited: Invoice[] = [];
   editables: Invoice[] = [];
   tempMedications: Medication[] = [];
@@ -110,26 +110,25 @@ export class PharmacyComponent implements OnInit {
       this.loading = false;
     });
   }
+
   viewOrders(i: number) {
     this.curIndex = i;
     this.switchViews('orders');
-    this.medications = [];
-    this.patient = cloneDeep(this.patients[i]);
-    this.medications = this.patient.record.invoices.filter(
-      invoices => invoices.filter(medic => medic.desc.includes('|')));
+    this.medications = cloneDeep(this.patients[i].record.invoices);
+    this.medications = this.medications.filter(invoices => invoices.filter(invoice => invoice.desc.includes('|')));
 
-      console.log(this.medications)
-
-    this.medications = this.medications.map(
-      invoices => invoices.map( medic => {
-      const product = this.products.find(pro => pro.item.name === medic.name);
-      return ( product && !medic.paid) ? ({
-        ...medic, price: product.stockInfo
-        }) : medic;
-    }));
+  //  this.patient.record.invoices = this.patient.record.invoices.filter(invoices => invoices.length)
+  //   this.medications = this.patient.record.invoices.map(
+  //     invoices => invoices.map( i => {
+  //     const product = this.products.find(pro => pro.item.name === i.name);
+  //     return ( product && !i.paid) ? ({
+  //       ...i, price: product.stockInfo.price
+  //       }) : i;
+  //   }));
+  // this.medications = this.patient.record.invoices;
   }
-  getDosage(med: string){
-    return med.desc.split('|')[1];
+  getDosage(desc: string) {
+    return desc.split('|')[1];
   }
   switchViews(view) {
     switch(view) {
@@ -158,7 +157,7 @@ export class PharmacyComponent implements OnInit {
   switchToEdit() {
     this.editables = this.getSelections();
     this.count = this.editables.length;
-    this.medication = this.editables.shift();
+    // this.medication = this.editables.shift();
     this.input = this.medication.name;
     this.switchViews('editing');
   }
@@ -235,22 +234,19 @@ export class PharmacyComponent implements OnInit {
     this.updateMedications();
     // this.runTransaction('purchase');
    }
-
-
-
   runTransaction(type: string) {
-    this.processing = true;
-    this.dataService.runTransaction(this.patient, this.cart).subscribe(() => {
-      this.products = this.clonedStore;
-      this.processing = false;
-      this.patients[this.curIndex] = this.patient;
-      this.socket.io.emit('transaction', this.cart);
-      this.transMsg = (type === 'purchase') ? 'Transaction successfull': 'Transaction successfully reversed';
-      this.reset();
-    }, (e) => {
-      this.transMsg = (type === 'purchase') ?  'Transaction unsuccessfull': 'Unable to reverse transaction';
-      this.processing = false;
-    });
+    // this.processing = true;
+    // this.dataService.runTransaction(this.patient, this.cart).subscribe(() => {
+    //   this.products = this.clonedStore;
+    //   this.processing = false;
+    //   this.patients[this.curIndex] = this.patient;
+    //   this.socket.io.emit('transaction', this.cart);
+    //   this.transMsg = (type === 'purchase') ? 'Transaction successfull': 'Transaction successfully reversed';
+    //   this.reset();
+    // }, (e) => {
+    //   this.transMsg = (type === 'purchase') ?  'Transaction unsuccessfull': 'Unable to reverse transaction';
+    //   this.processing = false;
+    // });
   }
   updateInventory(action) {
     // this.clonedStore = cloneDeep(this.products);
@@ -270,20 +266,20 @@ export class PharmacyComponent implements OnInit {
   }
 
    updateCurMedications() {
-    this.edited.forEach(medication => {
-      this.medications.forEach((group, i) => {
-       group.forEach((medic , j) => {
-         if (medic._id === medication._id) {
-          this.medications[i][j] = {...medication, processed: true};
-         }
-       });
-     });
-     this.patient.record.medications = this.medications;
-   });
+  //   this.edited.forEach(medication => {
+  //     this.medications.forEach((group, i) => {
+  //      group.forEach((medic , j) => {
+  //        if (medic._id === medication._id) {
+  //         this.medications[i][j] = {...medication, processed: true};
+  //        }
+  //      });
+  //    });
+  //    this.patient.record.medications = this.medications;
+  //  });
   }
 
   somePaid(i) {
-    return this.medications[i].some(invoice => invoice.paid);
+    // return this.medications[i].some(invoice => invoice.paid);
    }
   getTransTotal(invoices:Invoice[]) {
     let total = 0;
@@ -355,26 +351,26 @@ cancel() {
 
 
   next() {
-    if (this.medication.name) {
-        this.edited.unshift(this.medication);
-        this.medication = new Medication();
-      if (this.editables.length) {
-        this.medication = this.editables.shift();
-        }
-  } else if(this.editables.length) {
-    this.medication = this.editables.shift();
-  }
+  //   if (this.medication.name) {
+  //       this.edited.unshift(this.medication);
+  //       this.medication = new Medication();
+  //     if (this.editables.length) {
+  //       this.medication = this.editables.shift();
+  //       }
+  // } else if(this.editables.length) {
+  //   this.medication = this.editables.shift();
+  // }
 }
 
 previous() {
-  if (this.medication.name) {
-   if (this.edited.length) {
-    this.editables.unshift(this.medication);
-    this.medication = this.edited.shift();
-   }
-} else if(this.edited.length) {
-  this.medication = this.edited.shift();
- }
+//   if (this.medication.name) {
+//    if (this.edited.length) {
+//     this.editables.unshift(this.medication);
+//     this.medication = this.edited.shift();
+//    }
+// } else if(this.edited.length) {
+//   this.medication = this.edited.shift();
+//  }
 }
 routeHas(path) {
   return this.router.url.includes(path);

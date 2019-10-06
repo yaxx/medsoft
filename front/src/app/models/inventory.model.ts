@@ -1,4 +1,11 @@
-import {Meta} from './record.model';
+
+export class Meta {
+  constructor(
+  public addedBy: string = null,
+  public selected: boolean = false,
+  public dateAdded: Date = new Date()
+  ){}
+}
 export class Item {
   constructor(
     public name: string = null,
@@ -32,16 +39,17 @@ export class Product {
     ) {}
 }
 export class Invoice {
-    public name: string =null,
+  constructor(
+    public name: string = null,
     public desc: string = null,
     public comfirmedBy: any = null,
     public price: number = null,
     public paid: Boolean = false,
-    public quantity = 1,
+    public quantity: number = 1,
     public datePaid: Date = null,
     public processed: Boolean = true,
     public meta: Meta = new Meta()
-
+  ){}
 }
 export class Card {
   constructor(

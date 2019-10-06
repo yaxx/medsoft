@@ -29,8 +29,8 @@ export class CashierComponent implements OnInit {
   temItems: Item[] = [];
   searchedProducts: Product[] = [];
   medications: any[] = new Array<any>(new Array<Medication>());
-  edited: Medication[] = [];
-  editables: Medication[] = [];
+  edited: Invoice[] = [];
+  editables: Invoice[] = [];
   tempMedications: Medication[] = [];
   inlinePatients = [];
   inlineProducts = [];
@@ -88,7 +88,7 @@ export class CashierComponent implements OnInit {
     this.getPatients();
     this.getProducts();
   }
-  getPatients(type:string) {
+  getPatients(type?: string) {
     this.loading = true;
     this.dataService.getPatients(type).subscribe((patients: Person[]) => {
       if(patients.length) {
@@ -108,17 +108,27 @@ export class CashierComponent implements OnInit {
       this.loading = false;
     });
   }
+  getDesc(desc: string) {
+    return desc.split('|')[0];
+  }
   viewOrders(i: number) {
     this.curIndex = i;
     this.switchViews('orders');
     this.patient = cloneDeep(this.patients[i]);
-    this.patient.record.invoices = this.patient.record.invoices.map(
-      invoice => invoice.map( i => {
-      const product = this.products.find(pro => pro.item.name === i.desc);
-      return ( product && !i.paid) ? ({
-        ...i, price: product.stockInfo.price
-        }) : i;
-    }));
+    this.patient.record.invoices.forEach((invoices, i) => invoices.forEach((invoice, j) => {
+      if(invoice.processed) {
+        } else {
+        this.patient.record.invoices[i].splice(j, 1);
+      }
+   }));
+   this.patient.record.invoices = this.patient.record.invoices.filter(invoices => invoices.length);
+  //  this.patient.record.invoices = this.patient.record.invoices.map(
+  //     invoice => invoice.map( i => {
+  //     const product = this.products.find(pro => pro.item.name === i.name);
+  //     return ( product && !i.paid) ? ({
+  //       ...i, price: product.stockInfo.price
+  //       }) : i;
+  //   }));
   }
   switchViews(view) {
     switch(view) {
@@ -145,16 +155,16 @@ export class CashierComponent implements OnInit {
 
 
   switchToEdit() {
-    this.editables = this.getSelections();
-    this.count = this.editables.length;
-    this.medication = this.editables.shift();
-    this.input = this.medication.name;
+    this.edited = this.getSelections();
+    // this.count = this.editables.length;
+    // this.medication = this.editables.shift();
+    // this.input = this.medication.name;
     this.switchViews('editing');
   }
   getReversables(i: number, j: number) {
     // this.curIndex = i;
-    this.edited.push(this.patient.record.medications[i][j]);
-    this.switchViews('reversing');
+    // this.edited.push(this.patient.record.medications[i][j]);
+    // this.switchViews('reversing');
   }
   sortPatients(sortOption: string) {
     this.sortMenu = false;
@@ -195,15 +205,16 @@ export class CashierComponent implements OnInit {
   }
   getSelections() {
     const selected = [];
-     this.medications.forEach(group => {
+     this.patient.record.invoices.forEach(group => {
        group.forEach(medic => {
          if (medic.meta.selected) {
-          medic.meta.selected = !medic.meta.selected;
+           console.log(medic)
+            medic.meta.selected = !medic.meta.selected;
             selected.push(medic);
          }
        });
      });
-     this.count = selected.length;
+
      return selected;
   }
   reset() {
@@ -307,11 +318,11 @@ export class CashierComponent implements OnInit {
     // return total;
   }
   getPriceTotal() {
-    // let total = 0;
-    //  this.edited.forEach((m) => {
-    //    total = total + m.invoice.quantity * m.stockInfo.price;
-    //  });
-    //  return total;
+    let total = 0;
+     this.edited.forEach((invoice) => {
+       total = total + invoice.quantity * invoice.price;
+     });
+     return total;
   }
     getDp(avatar: String) {
     return 'http://localhost:5000/api/dp/' + avatar;

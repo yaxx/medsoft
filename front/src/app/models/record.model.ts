@@ -1,4 +1,4 @@
-import {Product, StockInfo, Item, Invoice, Card} from './inventory.model';
+import {Product, StockInfo, Item, Invoice, Meta, Card} from './inventory.model';
 
 
 
@@ -13,7 +13,7 @@ export class Record {
     public allegies: Allegy[] = [],
     public devices: Device[] = [],
     public visits: any[] = [],
-    public invoices: Invoice[] = [],
+    public invoices: Invoice[][] = new Array<Invoice[]>(),
     public cards: Card[] = [],
     public appointments: Appointment[] = [],
     public medications: any[] = [],
@@ -23,13 +23,7 @@ export class Record {
     public deathNote: DeathNote = new DeathNote()
      ) {}
   }
-  export class Meta {
-    constructor(
-    public addedBy: string = null,
-    public selected: boolean = false,
-    public dateAdded: Date = new Date()
-    ){}
-  }
+  
   export class Priscription {
   constructor(
     public intake = null,
@@ -78,6 +72,7 @@ export class Note {
     public meta: Meta = new Meta()
      ) {}
   }
+
 export class Bp {
   constructor(
     public value: number = null,

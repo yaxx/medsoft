@@ -1,5 +1,5 @@
 
-<div class="modal fade" role="dialog" tabindex="-1" id="noteModal" style="border-radius:12px;width:auto;">
+<div *ngIf="patients.length" class="modal fade" role="dialog" tabindex="-1" id="noteModal" style="border-radius:12px;width:auto;">
   <div class="modal-dialog" role="document">
       <div class="modal-content" style="width:480px;border-radius:0px;border-radius:12px;padding-left:0px;padding-right: 0px;">
           <div class="modal-body" style="border-radius:0px;padding: 0px;">
@@ -38,7 +38,7 @@
 </div>
 
 
-<div class="modal fade" role="dialog" tabindex="-1" id="filesModal" style="border-radius:4px;width:auto;">
+<div *ngIf="patients.length" class="modal fade" role="dialog" tabindex="-1" id="filesModal" style="border-radius:4px;width:auto;">
   <div class="modal-dialog" role="document">
       <div class="modal-content" style="width:500px;border-radius:4px;;padding-left:0px;padding-right: 0px;">
           <div class="card-header profileheader small-header">
@@ -86,7 +86,7 @@
 </div>
 
 
-<div class="modal fade" role="dialog" tabindex="-1" id="medicModal" style="border-radius:12px;width:auto;">
+<!-- <div *ngIf="patients.length" class="modal fade" role="dialog" tabindex="-1" id="medicModal" style="border-radius:12px;width:auto;">
     <div class="modal-dialog" role="document">
         <div class="modal-content" style="width:480px;border-radius:0px;border-radius:12px;padding-left:0px;padding-right: 0px;">
             <div class="modal-body" style="border-radius:0px;padding: 0px;">
@@ -208,7 +208,7 @@
         </div>
      </div>
   </div>
-</div>
+</div> -->
 
 
 
@@ -228,7 +228,7 @@
                   text-align: left;
                   vertical-align: middle;
                   top:11%;
-                  background-color: rgb(243, 248, 247);
+                  background-color: rgba(233, 236, 239, 0.7);
                   box-shadow:none;
                   outline:none;
                   "

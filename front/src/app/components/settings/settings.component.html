@@ -59,9 +59,6 @@
 
 
 
-
-
-
 <div class="modal fade" role="dialog" tabindex="-1" id="staffModal" style="border-radius:12px;width:auto;">
     <div class="modal-dialog" role="document">
         <div class="modal-content" style="width:480px;border-radius:0px;border-radius:12px;padding-left:0px;padding-right: 0px;">
@@ -70,7 +67,8 @@
                     <div style='padding-left: 30px;border-top-right-radius:12px;border-top-left-radius:12px; border-bottom:0px' class="card-header profileheader small-header">
                         <h6 *ngIf='staffMode === "new"' style='font-size:11px;position:absolute; top:5%;left:2%;color:#1da1f2;' class="patien-name small-name">ADD STAFF</h6>
                         <h6 *ngIf='staffMode === "edit"' style='font-size:11px;position:absolute; top:5%;left:2%;color:#1da1f2;' class="patien-name small-name">EDIT ACCOUNT<span>
-                <i  *ngIf='staffMode === "edit"' (click)="switchView('view')" style='position:relative;right:58%;top:2px; cursor:pointer; display: inline-block; color:#1da1f2;' title="Back" class="icon ion-android-arrow-back "> </i></span></h6>
+                        <i  *ngIf='staffMode === "edit"' (click)="switchView('view')" style='position:relative;right:58%;top:2px; cursor:pointer; display: inline-block; color:#1da1f2;' title="Back" class="icon ion-android-arrow-back "> </i></span>
+                        </h6>
                     </div>
 
                     <div style='margin-left:0px;padding-top:22px ' class="card-body orderbody">
@@ -97,8 +95,8 @@
                             <div class="form-group vitals-section formGroup" style=" width:49%; margin-right: 4px">
                                 <label style='font-size:8px' for="drug" class="labelss">DEPARTMENT</label>
                                 <select [(ngModel)]="staff.info.official.department" style='font-size:11px' class="patientdata inputs dataInfo newpatient" name="department">
-                          <option *ngFor="let d of client.departments">{{d.name}}</option>
-                      </select>
+                                    <option *ngFor="let d of client.departments">{{d.name}}</option>
+                                </select>
                             </div>
                             <div class="form-group vitals-section formGroup" style=" width:49%; ">
                                 <label style='font-size:8px' for="role" class="labelss">ROLE</label>
@@ -108,7 +106,7 @@
                                   <option>Nurse</option>
                                   <option>Pharmacist</option>
                                   <option>Lab Scientist</option>
-                           </select>
+                                </select>
                             </div>
                         </form>
                         <button (click)=updateAccount() *ngIf='staffMode ==="edit"' style=" width: 62%; margin-top:10px; left:18.5%;color: #1da1f2; border-radius:4px; font-size:11px; color:white; " type="button" class="btn btn-sm btn-primary inputs mainbtn">
@@ -189,7 +187,7 @@
     </div>
 </div>
 
-<nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:0px;background:#f3f8f7">
+<!-- <nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:0px;background:#f3f8f7">
     <div class="container">
         <a class="navbar-brand" href="#">
             <em>foldr</em>
@@ -198,10 +196,10 @@
     <i style="left:80%;" class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
     <i [routerLink]="['../../me']" data-target="#newModal" data-toggle="modal" style="left:83%;" class="icon ion-ios-person-outline arrow buble" id="add" title="Me"></i>
     <div class="timeline lastdoc priscriber headerdp small-dp user-dp" style="left:90%;position:absolute;height:30px;width:30px;top:5px; margin-bottom:0px;">
-        <!-- <img style='height:100%; width:100%; object-fit:cover;' [src] = getMyDp()/> -->
+
     </div>
-</nav>
-<div style="padding-top:40px" class="container history-container">
+</nav> -->
+<div style="padding-top:0px" class="container history-container">
     <div class="row history-row" style='height:100%'>
         <div style='position:absolute; top:40%;left:42%' *ngIf='!client._id' class='issue'>
             <div *ngIf='loading' class="lds-css ng-scope">
@@ -213,7 +211,7 @@
             <h6 *ngIf='message' style='font-size:13px;position:absolute;top:65%; width:100%; color:lightgrey;text-align: center'>{{message}}</h6>
         </div>
         <div *ngIf=client._id class="col col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
-            <div style='height:100%' class="card-colums leftcolumn">
+            <div style='height:53%' class="card-colums leftcolumn">
                 <div class="card card-secondary historycard leftcard" style='height:100%;width:214px;left:30px;overflow:hidden'>
                     <div *ngIf='clientMode!=="edit"' style='border-bottom:none' class="card-header grapheader">
                         <h1 class="dept headtitle"><span style="position:absolute;left:102%;">
@@ -255,8 +253,7 @@
                             <h6 class="dept detailshead">ACCOUNT</h6>
                             <p class="dept previnfo">Category:&nbsp;<span class="predata">
                                {{client.info.category||'--- '}}</span></p>
-                            <!-- <p class="dept previnfo">Date Created:&nbsp;<span class="predata">
-                                {{client.createdAt|date:'longDate '}}</span></p> -->
+
                         </div>
                     </div>
                     <div [class.back]='clientMode==="edit"' [class.front]='clientMode==="view"' class="card-body " style=' padding-right:10px;top:7%; position:absolute;border-left:0px;height:100% '>
@@ -265,25 +262,24 @@
                             <div class="timeline detailstimeline"><i style='left: 41%;color: #1da1f2;position: relative; ' class="icon ion-information  deticon"></i></div>
                             <h6 class="dept detailshead">INFO</h6>
                             <p class="dept previnfo">Hospital:&nbsp;<span class="predata">
-                        {{client.info.name}}</span></p>
+                              {{client.info.name}}</span></p>
                             <p class="dept previnfo">Ownership:&nbsp;<span class="predata">
-                        {{client.info.ownership||'--- '}}</span></p>
-                            <!-- <p class="dept previnfo">Account Type:&nbsp;<span class="predata">
-                        {{cleint.info.accountType||'--- '}}</span></p> -->
+                              {{client.info.ownership||'--- '}}</span></p>
+
                             <p class="dept previnfo">Specialization:&nbsp;<span class="predata">
-                            {{client.info.specialization||'--- '}}</span></p>
+                              {{client.info.specialization||'--- '}}</span></p>
                         </div>
                         <div style='margin-bottom:28px; ' class="carditem">
                             <div class="timeline detailstimeline"><i class="icon ion-ios-location-outline deticon"></i></div>
                             <h6 class="dept detailshead">CONTACT</h6>
                             <p class="dept previnfo">Mobile:&nbsp;<span class="predata">
-                        {{client.info.mobile}}</span></p>
+                              {{client.info.mobile}}</span></p>
                             <p class="dept previnfo">Email:&nbsp;<span class="predata">
-                        {{client.info.email}}</span></p>
+                              {{client.info.email}}</span></p>
                             <p class="dept previnfo">Address:&nbsp;<span class="predata">
-                        {{client.info.address}}</span></p>
+                              {{client.info.address}}</span></p>
                             <p class="dept previnfo">City:&nbsp;<span class="predata">
-                        {{client.info.city||'--- '}}</span></p>
+                              {{client.info.city||'--- '}}</span></p>
                             <p class="dept previnfo">ZIP:&nbsp;<span class="predata">
                         </span></p>
                         </div>
@@ -292,11 +288,8 @@
                             <h6 class="dept detailshead">ACCOUNT</h6>
                             <p class="dept previnfo">Category:&nbsp;<span class="predata">
                                {{client.info.category||'--- '}}</span></p>
-                            <!-- <p class="dept previnfo">Date Created:&nbsp;<span class="predata">
-                                {{client.createdAt|date:'longDate '}}</span></p> -->
                         </div>
                     </div>
-
                     <div [class.in]='clientMode==="edit"' [class.out]='clientMode==="view"' class="card-body standby " style='padding-right:0px;border-left: 0px;margin-left:0px;  position:absolute;height:100%;  top:7% '>
                         <form style="top:15%; width:90%;margin:auto; padding-top:0px" class=" staffsform">
                             <div style='margin-bottom:20px; padding-bottom:15px; border-bottom:1px solid whitesmoke; ' class='form-group '>
@@ -320,7 +313,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div style='margin-bottom:20px; padding-bottom:15px; border-bottom:1px solid whitesmoke; ' class='form-group '>
+                            <div style='margin-bottom:20px; padding-bottom:15px;  ' class='form-group '>
                                 <div class="form-group  vitals-section address">
                                     <label style='font-size:8px ' for="email" class="labelss complain">EMAIL</label>
                                     <input type="email" [(ngModel)]="client.info.email" name="email" class="form-control patientdata inputs dataInfo">
@@ -344,10 +337,23 @@
                                     <input [(ngModel)]="client.info.address" name="address" class="form-control patientdata inputs dataInfo">
                                 </div>
                             </div>
-                            <button style=" width: 90px; left:81px; bottom:2%; width: 90%; left: 11px;top:50%;font-size: 12px;height: 27px;
-                            box-shadow: none; " type="submit" class="btn btn-sm btn-outline-primary inputs mainbtn">Save Changes <span></span> </button>
-                            <!-- <i class="fa fa-circle-o-notch editicon continue blocked-icon fa-spin" style="font-size:18px;position: absolute;;left:77%"></i> -->
+                            <button style=" width: 90px; left:81px; width: 90%; left: 11px;top:80%;font-size: 10px;height: 27px;
+                            box-shadow: none; " type="submit" class="btn btn-sm btn-outline-primary inputs mainbtn">SAVE CHANGES<span *ngIf='processing'> <i class="fa fa-circle-o-notch editicon continue blocked-icon fa-spin" style="font-size:18px;position: absolute;;left:77%"></i></span> 
+                            </button>
                         </form>
+                    </div>
+                </div>
+
+
+
+                <div class="card card-secondary historycard leftcard" style='height:88%;width:214px;left:30px;'>
+                    <div style='border-bottom:none' class="card-header grapheader">
+                        <h1 class="dept headtitle"><span style="position:absolute;left:102%;">
+                      </span>ACTIVITIES<span (click)="switchClient('edit')" style='position:absolute;left:93%;top:-2px; cursor:pointer;'></span >
+                    </h1>
+                    </div>
+                    <div  class="card-body " style=' padding-right:10px;top:7%; position:absolute;border-left:0px;height:100%;width:100%;margin-left: 0px; '>
+                        <h1 style='color:lightgrey; width:100%; text-align:center;top:43%;position:absolute;' class="dept headtitle">NO ACTIVITIES</h1>
                     </div>
                 </div>
             </div>
@@ -356,14 +362,15 @@
             <div class="card-colums">
                 <div class="card card-secondary historycard midlecard graphcard" style="position:absolute;height:100%; width:442px;margin:auto;left:18px;">
                     <div class="card-header grapheader">
-                        <h1 data-toggle=modal data-target='#staffModal ' class="dept headtitle">STAFFS
-                            <i (click)='openStafftModal() ' data-toggle=modal data-target='#staffModal ' style="left:98%" class="icon ion-ios-plus-empty editicon editclient addinfo" title="Add staff">
+                        <h1 data-toggle=modal data-target='#staffModal' class="dept headtitle">
+                            STAFFS
+                            <i (click)='openStafftModal()' data-toggle=modal data-target='#staffModal' style="left:98%" class="icon ion-ios-plus-empty editicon editclient addinfo" title="Add staff">
                             </i>
                         </h1>
                     </div>
-                    <div style=' margin-left: 0px; border-left: 0px ' class="card-body notecardbody">
+                    <div data-simplebar  style=' margin-left: 0px; border-left: 0px ' class="card-body notecardbody">
                         <div *ngFor="let staff of client.staffs; let i = index" class="carditem noteitem writeup" style="display:inline-block;width: 33%;">
-                            <div (click)='selectStaff(staff, i) ' title='Details ' data-toggle=modal data-target='#staffModal ' class="timeline noter patientdp staffdp" style="border-radius:50%;width:60px;margin:auto;position:relative">
+                            <div (click)='selectStaff(staff, i)' title='Details ' data-toggle='modal' data-target='#staffModal' class="timeline noter patientdp staffdp" style="border-radius:50%;width:60px;margin:auto;position:relative">
                                 <img style='height:100%; width:100%; object-fit:cover; border-radius:50%;border:none ' [src]=getDp(staff.info.personal.avatar)/>
                             </div>
                             <div style='position:relative; '>
@@ -374,9 +381,6 @@
                                     {{staff.info.official.department}}<span class="predata">
                               </span>
                                 </h1>
-                                <!-- <h1 class="dept previnfo" style='text-align:center;color:lightgrey '>
-                                {{staff.info.contact.me.mobile}}<span class="predata">  </span>
-                            </h1> -->
                             </div>
                         </div>
                     </div>
@@ -385,28 +389,53 @@
         </div>
         <div *ngIf='client._id ' class="col col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
             <div style='height:100% ' class="card-colums rightcolumn">
-                <div style="width:214px;left:2px;height:100%;position:relative" class="card card-secondary historycard rightcard allegies">
+                <div style="width:214px;left:2px;height:65%;position:relative;overflow: hidden;" class="card card-secondary historycard rightcard allegies">
                     <div style='border-bottom:none ' class="card-header grapheader">
-                        <h1 class="dept headtitle"><span style="position:absolute;left:102%;">
-                      <div  title="Add department" (click) = 'openDeptModal() 'data-toggle ='modal ' data-target ='#deptModal '  id ='menu-hilighter ' class="timeline detailstimeline " style='height:22px;width:22px;cursor:pointer '><i class="icon ion-ios-plus-empty deticon"
-                      style='left: 5px; position: absolute; align-self: center; top: -5%;font-size: 18px; '></i></div></span>PROFILE</h1>
+                        <h1 *ngIf='deptMode !== "add"' class="dept headtitle">DEPARTMENTS <i (click)='switchRightCard("add") ' style="left:98%;cursor: pointer;" class="icon ion-ios-plus-empty editicon editclient addinfo" title="Add department"></i></h1>
+                        <h1 style="padding-left: 12px;" *ngIf='deptMode === "add"' class="dept headtitle">ADD DEPARTMENTS <i (click)='switchRightCard("view") ' style="left:-3%;cursor: pointer;position: absolute;bottom:-4px;z-index:5" class="icon ion-android-arrow-back editicon editclient addinfo" title="Back"></i></h1>
                     </div>
-                    <!-- <div style='border-bottom:none ' class="card-header grapheader">
-                      <h1  class="dept headtitle">DEPARTMENTS  <i (click) = 'openDeptModal() ' data-toggle ='modal ' data-target ='#deptModal ' style="left:98%" class="icon ion-ios-plus-empty editicon editclient addinfo" title="Add department"></i></h1>
-                  </div> -->
-                    <div style='padding-top:10px ' class="card-body rightcardbody">
-                        <h1 *ngIf='!client.departments.length ' style='color:lightgrey; width:100%; text-align:center;top:43%;position:absolute; ' class="dept headtitle">NO DEPARTMENTS</h1>
+                    <div [class.back]='deptMode==="add"' [class.front]='deptMode==="view"'  style='padding-top:10px;position:absolute;top:7%' class="card-body rightcardbody depts">
+                        <h1 *ngIf='!client.departments.length' style='color:lightgrey; width:100%; text-align:center;top:43%;position:absolute;' class="dept headtitle">NO DEPARTMENTS
+                        </h1>
                         <div *ngIf='client.departments.length ' class="carditem deptitem">
                             <div *ngFor="let department of client.departments let i = index;" data-toggle='modal ' data-target='#productModal ' class="department">
-                                <i *ngIf="department.name === 'Information '" class="icon ion-information addicon infoicon"></i>
-                                <i *ngIf="department.name === 'GOPD '" class="icon ion-ios-people addicon infoicon consicon"></i>
-                                <i *ngIf="department.name === 'Maternity '" class="material-icons addicon infoicon maticon" title="Add Department">pregnant_woman</i>
-                                <i *ngIf="department.name === 'Pharmacy '" class="icon ion-ios-medkit addicon pharmicon"></i>
-                                <i *ngIf="department.name === 'Emergency '" class="icon ion-ios-pulse addicon pharmicon"></i>
-                                <i *ngIf="department.name === 'Hematology '" class="icon ion-waterdrop addicon pharmicon"></i>
+                                <i *ngIf="department.name === 'Information'" class="icon ion-information addicon infoicon"></i>
+                                <i *ngIf="department.name === 'GOPD'" class="icon ion-ios-people addicon infoicon consicon"></i>
+                                <i *ngIf="department.name === 'Maternity'" class="material-icons addicon infoicon maticon" title="Add Department">pregnant_woman</i>
+                                <i *ngIf="department.name === 'Pharmacy'" class="icon ion-ios-medkit addicon pharmicon"></i>
+                                <i *ngIf="department.name === 'Emergency'" class="icon ion-ios-pulse addicon pharmicon"></i>
+                                <i *ngIf="department.name === 'Hematology'" class="icon ion-waterdrop addicon pharmicon"></i>
                                 <h6 class="deptname">{{department.name}}</h6>
                             </div>
                         </div>
+                    </div>
+                    <div [class.in]='deptMode==="add"' [class.out]='deptMode==="view"'   style='padding-top:10px; position: absolute;height: 80%;width:100%' class="card-body rightcardbody newDept">
+                        <form style="top:15%; width:90%;margin:auto; padding-top:30px" class=" staffsform">
+                            <div class="form-group  vitals-section address">
+                                <label style='font-size:8px' for="email" class="labelss">DEPARTMENT</label>
+                                <select (change)=selectDept($event.target.value) [(ngModel)]="deptName" style='font-size:11px;' class=" patientdata inputs dataInfo newpatient" name="department">
+                                  <option *ngFor="let dept of departments">{{dept.name}}</option>
+                              </select>
+                            </div>
+                            <div class="form-group  vitals-section address">
+                                <label style='font-size:8px' for="email" class="labelss">#ROOMS</label>
+                                <input type="number" [min]="1" style='font-size:11px;' 
+                                class=" form-control patientdata inputs dataInfo newpatient" name="department">
+                             
+                            </div>
+                            <button (click) = addDepartment() style=" width: 90px; left:81px; width: 90%; left: 11px;top:55%;font-size: 10px;height: 27px;
+                            box-shadow: none;"  class="btn btn-sm btn-outline-primary inputs mainbtn"><span><i style="font-size:16px; position:absolute; left:19%; bottom:4%;font-weight: bolder" class="icon ion-ios-plus-empty"></i>
+                            </span> ADD DEPARTMENT<span *ngIf='processing'> <i class="fa fa-circle-o-notch editicon continue blocked-icon fa-spin" style="font-size:18px;position: absolute;left:77%"></i></span> 
+                            </button>
+                        </form>   
+                    </div>
+                </div>
+                <div style="width:214px;left:2px;height:33%;position:relative" class="card card-secondary historycard rightcard allegies">
+                    <div style='border-bottom:none ' class="card-header grapheader">
+                        <h1 class="dept headtitle">OVERVIEW</h1>
+                    </div>
+                    <div style='padding-top:10px' class="card-body rightcardbody">
+                        <h1 style='color:lightgrey; width:100%; text-align:center;top:43%;position:absolute;' class="dept headtitle">NO INFO</h1>
                     </div>
                 </div>
             </div>

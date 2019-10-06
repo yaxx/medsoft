@@ -44,6 +44,7 @@ export class SettingsComponent implements OnInit {
   numbOfBeds = null;
   staffMode = 'view';
   clientMode = null;
+  deptMode = null;
   roomNumb = 1;
   staffIndex = null;
   deptName = null;
@@ -70,8 +71,8 @@ export class SettingsComponent implements OnInit {
         this.departments = res.departments;
         this.roomNumb = this.getRoomNumbs();
         this.deptName = res.departments[0].name;
+        console.log(this.client.departments);
       }
-
     }, (e) => {
       this.message = 'Something went wrong';
       this.loading = false;
@@ -143,6 +144,9 @@ export class SettingsComponent implements OnInit {
   } else {return false; }
 
   }
+  switchRightCard(view) {
+    this.deptMode = view;
+  }
   generatePassword(): string {
     return Math.floor(Math.random() * (10000 - 1000 + 1) + 1000).toString();
   }
@@ -184,7 +188,6 @@ export class SettingsComponent implements OnInit {
     this.staffIndex = i;
     this.staff = cloneDeep(staff);
     this.switchView('view') ;
-
   }
   switchView(view: string) {
     this.staffMode = view;

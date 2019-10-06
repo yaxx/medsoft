@@ -97,9 +97,11 @@
 .card-header.grapheader {
     padding-top: 6px;
     padding-bottom: 6px;
-    border-bottom: 1px solid rgb(251, 245, 245);
-    border-top-right-radius: 12px;
-    border-top-left-radius: 12px;
+    border-bottom: none;
+    /* border-bottom: 1px solid rgb(251, 245, 245); */
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    background: #fdfdfd;
 }
 
 .card.card-secondary.historycard.midlecard.topcard.graphcard {
@@ -503,6 +505,7 @@ p {
     margin: auto;
 }
 
+
 .container.history-container {
     max-width: 957px;
     margin: auto;
@@ -510,12 +513,14 @@ p {
     height: 100%;
 }
 
-.staffsform {
+.staffsform, .card-body.mainbody, .depts {
     left: 0%;
 }
+.card-body.mainbody.stand-by.front, .card-body.mainbody.disp.front, .newDept {
+    left:-100%;
+}
 
-.card-body.standby,
-.reqForm {
+.card-body.standby,.reqForm {
     right: 100%;
     width: 100%;
 }
@@ -528,7 +533,41 @@ p {
     animation-duration: .2s;
     animation-timing-function: ease-in;
 }
+.card-body.mainbody.stand-by.ap{
+    left: 0%;
+    animation-name: card-in;
+    animation-duration: .2s;
+    animation-timing-function: ease-in;
+}
+.card-body.mainbody.stand-by.ap,  .card-body.mainbody.disp.dispose,.newDept.in {
+    left: 0%;
+    animation-name: card-in;
+    animation-duration: .2s;
+    animation-timing-function: ease-in;
+}
+.card-body.mainbody.stand-by.front, .card-body.mainbody.disp.front,.newDept.out {
+    left: -100%;
+    animation-name: card-out;
+    animation-duration: .2s;
+    animation-timing-function: ease-in;
+}
 
+@keyframes card-in {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 0%;
+    }
+}
+@keyframes card-out {
+    0% {
+        left: 0%;
+    }
+    100% {
+        left: -100%;
+    }
+}
 @keyframes in {
     0% {
         right: 100%;
@@ -538,8 +577,7 @@ p {
     }
 }
 
-.card-body.standby.out,
-.reqForm.out {
+.card-body.standby.out,.reqForm.out {
     right: 100%;
     /* display:block; */
     animation-name: out;
@@ -556,9 +594,7 @@ p {
     }
 }
 
-.card-body.back,
-.staffsform.back,
-.reqForm.back {
+.reqForm.back,.staffsform.back,.card-body.back, .card-body.mainbody.ap, .depts.add {
     left: 100%;
     animation-name: editing;
     animation-duration: .2s;
@@ -575,7 +611,7 @@ p {
 }
 
 .card-body.front,
-.staffsform.front {
+.staffsform.front, .card-body.mainbody.front, .dept.front {
     left: 0%;
     /* transition: .5s; */
     animation-timing-function: ease-out;

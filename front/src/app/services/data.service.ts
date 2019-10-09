@@ -106,7 +106,7 @@ export class DataService {
       `${this.uri}/new-record`, record, {withCredentials: true});
   }
 
-  updateRecord(patient, newItems?:Item[]) {
+  updateRecord(patient, newItems = []) {
     return this.http.post(
       `${this.uri}/update-record`, {patient: patient, items: newItems} , {withCredentials: true});
  }

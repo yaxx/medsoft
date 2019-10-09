@@ -98,9 +98,11 @@ export class PatientComponent implements OnInit {
     return 'http://localhost:5000/api/dp/' + avatar;
     // return 'http://18.221.76.96:5000/api/dp/' + avatar;
   }
-
+  linked() {
+    return !this.router.url.includes('information');
+  }
   getMyDp() {
-    return this.getDp(this.cookies.get('d'))
+    return this.getDp(this.cookies.get('d'));
   }
   refresh() {
     this.message = null;
@@ -172,6 +174,15 @@ export class PatientComponent implements OnInit {
       this.loading = false;
     });
   }
+  isAdmin() {
+    return this.router.url.includes('admin');
+  }
+ isInfo() {
+    return this.router.url.includes('information');
+  }
+  isConsult() {
+    return !this.router.url.includes('information') && !this.router.url.includes('pharmacy') && !this.router.url.includes('billing') && !this.router.url.includes('ward') && !this.router.url.includes('admin');
+  }
   dischargePtient(patient, i) {
 //     let visit = patient.record.visits[0][0];
 //     patient.record.visits[0][0] = {...visit, status: 'Discharge', dischargedOn: new Date()};
@@ -185,6 +196,7 @@ export class PatientComponent implements OnInit {
 //       this.patients.splice(i, 1);
 //  });
 }
+
 routeHas(path){
   // return this.router.url.includes(path);
 }
@@ -282,14 +294,13 @@ routeHas(path){
     // this.product = new Product(item, new StockInfo());
    }
    showMenu(i: number) {
-    // this.hideMenu();
-    // this.patients[i].card.menu = true;
+    this.hideMenu();
+    this.patients[i].card.menu = true;
   }
   hideMenu() {
-    // this.patients.forEach(p => {
-    //   p.card.menu =  false;
-
-    // });
+    this.patients.forEach(p => {
+      p.card.menu =  false;
+    });
   }
  addMore() {
     // let tempro = null;

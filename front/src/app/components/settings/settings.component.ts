@@ -6,6 +6,7 @@ import {Client, Department, Bed, Room} from '../../models/client.model';
 import {Connection, Connections, Info, Person} from '../../models/person.model';
 import {CookieService } from 'ngx-cookie-service';
 import {states, lgas} from '../../data/states';
+import {departments} from '../../data/departments';
 import * as cloneDeep from 'lodash/cloneDeep';
 @Component({
   selector: 'app-settings',
@@ -45,6 +46,7 @@ export class SettingsComponent implements OnInit {
   staffMode = 'view';
   clientMode = null;
   deptMode = null;
+  numOfRooms = null;
   roomNumb = 1;
   staffIndex = null;
   deptName = null;
@@ -68,10 +70,9 @@ export class SettingsComponent implements OnInit {
         this.loading = false;
         this.client = res.client;
         this.staffs = res.client.staffs;
-        this.departments = res.departments;
+        this.departments = departments;
         this.roomNumb = this.getRoomNumbs();
         this.deptName = res.departments[0].name;
-        console.log(this.client.departments);
       }
     }, (e) => {
       this.message = 'Something went wrong';
@@ -95,15 +96,15 @@ export class SettingsComponent implements OnInit {
   getRoomNumbs() {
    return this.department.rooms.length + 1;
   }
-  addRoom() {
-    const beds = [];
-    for (let i = 0; i < this.numbOfBeds; i++) {
-        beds.push(new Bed(i + 1));
-    }
-    this.rooms.push({...new Room(), number: this.rooms.length + 1, beds: beds});
-    this.roomNumb++;
-    this.numbOfBeds = null;
-  }
+  // addRoom() {
+  //   const beds = [];
+  //   for (let i = 0; i < this.numbOfBeds; i++) {
+  //       beds.push(new Bed(i + 1));
+  //   }
+  //   this.rooms.push({...new Room(), number: this.rooms.length + 1, beds: beds});
+  //   this.roomNumb++;
+  //   this.numbOfBeds = null;
+  // }
   openDeptModal() {
     this.client.departments.forEach((d) => {
       this.departments = this.departments.filter(dep => dep.name !== d.name);
@@ -121,29 +122,34 @@ export class SettingsComponent implements OnInit {
   refresh() {
     this.getSettings();
  }
-  selectDept(name) {
-    const dps = cloneDeep(this.departments);
-    this.department = dps.find(department => department.name === name);
-    this.rooms = [];
-    this.numbOfBeds = null;
-    this.roomNumb = 1;
-    // console.log(this.department);
+  // selectDept(name) {
+  //   const dps = cloneDeep(this.departments);
+  //   this.department = dps.find(department => department.name === name);
+  //   this.rooms = [];
+  //   this.numbOfBeds = null;
+  //   this.roomNumb = 1;
+   
+  // }
+  deptHasWard() {
+    return this.departments.find(dept => dept.name === this.department.name).hasWard;
   }
   isAddminStaff() {
     const dept = this.departments.find(department => department.name === this.staff.info.official.department);
     if (dept) {
       this.staff.info.official.department = dept.name;
       return  dept.hasWard;
-    } else {return false; }
+    } else {
+      return false; 
+    }
 
   }
-  deptHasWard() {
-   this.department = this.departments.find(department => department.name === this.department.name || null);
-   if (this.department) {
-    return  this.department.hasWard;
-  } else {return false; }
+  // deptHasWard() {
+  //  this.department = this.departments.find(department => department.name === this.department.name || null);
+  //  if (this.department) {
+  //   return  this.department.hasWard;
+  // } else {return false; }
 
-  }
+  // }
   switchRightCard(view) {
     this.deptMode = view;
   }
@@ -192,22 +198,39 @@ export class SettingsComponent implements OnInit {
   switchView(view: string) {
     this.staffMode = view;
   }
+  resetNumOfRooms() {
+    this.numOfRooms = null;
+  }
+  inComplete() {
+    return (this.deptHasWard() && !this.numOfRooms) ? true : false;
+  }
+  setDepartmet() {
+    if(this.numOfRooms) {
+     for (let index = 0; index < this.numOfRooms; index++) {
+       this.department.rooms.push({...new Room(), number: index + 1 });
+     }
+     this.department.hasWard = true;
+    }
+  }
+  resetVariables() {
+    this.department = new Department();
+    this.rooms = [];
+    this.numbOfBeds = null;
+    this.roomNumb = 1;
+    this.numOfRooms = null;
+    this.transMsg = null;
+  } 
   addDepartment() {
     this.processing = true;
-    const copy = cloneDeep(this.client);
-    this.department = {...this.department , name: this.deptName, rooms: this.rooms};
+    this.setDepartmet();
+    let copy = cloneDeep(this.client);
     copy.departments.unshift(this.department);
-    this.dataService.updateClient(copy).subscribe((client: Client) => {
-      this.client.departments = client.departments;
+    this.dataService.updateClient(copy).subscribe((res: Client) => {
+      this.client.departments.unshift(this.department); 
       this.processing = false;
       this.transMsg = 'Department added successfully';
-      this.department = new Department();
-      this.rooms = [];
-      this.numbOfBeds = null;
-      this.roomNumb = 1;
-      this.processing = false;
       setTimeout(() => {
-        this.transMsg = null;
+        this.resetVariables();
     }, 4000);
     }, (e) => {
       this.transMsg = 'Could not add department';
@@ -216,3 +239,4 @@ export class SettingsComponent implements OnInit {
     );
   }
 }
+

@@ -79,7 +79,10 @@ export class RegistrationComponent implements OnInit {
     this.sortMenu = !this.sortMenu;
   }
   getMyDp() {
-    return this.getDp(this.cookies.get('d'))
+    return this.getDp(this.cookies.get('d'));
+  }
+  getDept(){
+    return this.client.departments.filter(d => d.hasWard);
   }
   refresh() {
     this.message = null;
@@ -115,11 +118,11 @@ export class RegistrationComponent implements OnInit {
     this.processing = true;
     this.visit.status = 'queued';
     this.patient.record.visits.unshift([this.visit]);
-    this.dataService.updateRecord(this.patient).subscribe(patient=>{
+    this.dataService.updateRecord(this.patient).subscribe(patient => {
       this.socket.io.emit('enroled', patient);
       this.visit = new Visit();
       this.processing = false;
-      this.patients.splice(this.curIndex,1);
+      this.patients.splice(this.curIndex, 1);
       this.feedback = 'Patient enrole  successfully';
       setTimeout(() => {
         this.feedback = null;

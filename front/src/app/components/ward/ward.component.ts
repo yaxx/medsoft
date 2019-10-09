@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FileSelectDirective, FileUploader } from 'ng2-file-upload';
 import {DataService} from '../../services/data.service';
 import {SocketService} from '../../services/socket.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {CookieService } from 'ngx-cookie-service';
 import { Priscription, Scan, Vital, Medication, Note} from '../../models/record.model';
 import { Person } from '../../models/person.model';
@@ -46,8 +46,10 @@ export class WardComponent implements OnInit {
   processing = false;
   curIndex = 0;
   sortBy = 'added';
+  allocated = null;
   message = null;
   url = '';
+  cardCount = null;
   sortMenu = false;
   nowSorting = 'Date added';
   uploader: FileUploader = new FileUploader({url: uri});
@@ -59,6 +61,7 @@ export class WardComponent implements OnInit {
       private dataService: DataService,
       private route: ActivatedRoute,
       private cookies: CookieService,
+      private router: Router,
       private socket: SocketService ) { }
   ngOnInit() {
     this.myDepartment = this.route.snapshot.params['dept'];
@@ -193,7 +196,7 @@ export class WardComponent implements OnInit {
     this.dataService.getPatients(type).subscribe((patients: Person[]) => {
       if(patients.length) {
         patients.forEach(p => {
-          p.card = {menu: false, view: 'front'};
+          p.card = {menu: false, view: 'front', name: null, processing: false, errorMsg: null, sucsMsg: null};
         });
         this.patients   = patients;
         this.clonedPatients  = patients;
@@ -207,31 +210,59 @@ export class WardComponent implements OnInit {
       this.loading = false;
     });
   }
-  getRooms() {
-    return this.client.departments.find(dept => dept.name === this.patient.record.visits[0][0].dept).rooms;
+  getRooms(i) {
+    return this.client.departments.find(dept => dept.name === this.patients[i].record.visits[0][0].dept).rooms;
   }
   getBeds() {
-// tslint:disable-next-line: max-line-length
-    return (this.patient.record.visits[0][0].wardNo) ? this.client.departments.find( dep => dep.name === this.patient.record.visits[0][0].dept).rooms[this.patient.record.visits[0][0].wardNo - 1].beds.filter(bed => !bed.allocated) : [];
+    
   }
-  changeBed(i: number) {
-    this.patients[i].card.view = 'bed';
-    this.patient = this.patients[i];
-    this.clonePatient = cloneDeep(this.patient);
-    this.hideMenu();
+  switchCards(i: number, face: string) {
+    // this.patients[i].record.visits[0][0].status = 'out';
+    this.patients[i].card.view = face;
+     switch (face) {
+       case 'ap': this.patients[i].card.name = 'ap';
+         break;
+       case 'dispose': this.patients[i].card.name = 'dispose';
+      //  this.patients[i].card.btn = 'discharge';
+      //  this.dept = this.patients[i].record.visits[0][0].dept; 
+         break;
+       default: this.patients[i].card.name = null;
+      //  this.patients[i].record.visits[0][0].status = 'queued';
+      //  this.patients[i].record.visits[0][0].dept = this.dept;
+      //  this.patients[i].card.btn = 'discharge';
+         break;
+     }
+  }
+  allocateRoom(i) {
+    this.patients[i].card.processing = true;
+    this.dataService.updateRecord(this.patients[i]).subscribe((res: Person) => {
+      this.patients[i].card.processing = false;
+      this.patients[i].record.visits[0][0].wardNo =  res.record.visits[0][0].wardNo;
+      this.patients[i].card.sucsMsg  = 'Room successfully allocated';
+      setTimeout(() => {
+        this.patients[i].card.sucsMsg  = null;
+      }, 4000);
+      setTimeout(() => {
+        this.switchCards(i, 'front');
+      }, 6000);
+    }, (e) => {
+      this.patients[i].card.processing = false;
+      this.patients[i].card.errorMsg  = 'Unable to allocate room';
+    })
   }
   assignBed(i: number) {
-    this.cloneClient = cloneDeep(this.client);
-    const index = this.client.departments.findIndex(d => d.name === this.patient.record.visits[0][0].dept);
-    if (this.patient.record.visits[0][0].bedNo) {
-      this.client.departments[index].rooms[this.patient.record.visits[0][0].wardNo - 1].beds[this.patient.record.visits[0][0].bedNo - 1].allocated = false;
-      this.client.departments[index].rooms[this.patient.record.visits[0][0].wardNo - 1].beds[this.patient.record.visits[0][0].bedNo - 1].allocated = true;
-    } else {
-      this.client.departments[index].rooms[this.patient.record.visits[0][0].wardNo - 1].beds[this.patient.record.visits[0][0].bedNo - 1].allocated = true;
-    }
-    this.dataService.updateBed(this.patient, this.client).subscribe((p: Person) => {
-        this.switchToFront(i);
-   });
+
+  //   this.cloneClient = cloneDeep(this.client);
+  //   const index = this.client.departments.findIndex(d => d.name === this.patient.record.visits[0][0].dept);
+  //   if (this.patient.record.visits[0][0].bedNo) {
+  //     this.client.departments[index].rooms[this.patient.record.visits[0][0].wardNo - 1].beds[this.patient.record.visits[0][0].bedNo - 1].allocated = false;
+  //     this.client.departments[index].rooms[this.patient.record.visits[0][0].wardNo - 1].beds[this.patient.record.visits[0][0].bedNo - 1].allocated = true;
+  //   } else {
+  //     this.client.departments[index].rooms[this.patient.record.visits[0][0].wardNo - 1].beds[this.patient.record.visits[0][0].bedNo - 1].allocated = true;
+  //   }
+  //   this.dataService.updateBed(this.patient, this.client).subscribe((p: Person) => {
+  //       this.switchToFront(i);
+  //  });
  }
 
   switchToFront(i: number) {
@@ -301,7 +332,9 @@ export class WardComponent implements OnInit {
       this.vitals = new Vital();
     });
   }
-
+  linked() {
+    return !this.router.url.includes('information');
+  }
   updateNote() {
    this.dataService.updateNote(this.patients[this.curIndex]._id, this.note).subscribe((patient: Person) => {
     patient.card = {menu: false, view: 'front'};
@@ -334,7 +367,7 @@ export class WardComponent implements OnInit {
 
     });
   }
-  selectMedication(i: number, j: number) {
+selectMedication(i: number, j: number) {
     if (this.patients[i].record.medications[j].paused) {
       this.patients[i].record.medications[j].paused = false;
     } else {

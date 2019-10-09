@@ -138,11 +138,14 @@ export class ConsultationComponent implements OnInit {
        };
 
   }
-  isConsult() {
-    return this.router.url.includes('consultation') && !(this.router.url.includes('information') || this.router.url.includes('admin'));
+  isAdmin() {
+    return this.router.url.includes('admin');
   }
  isInfo() {
     return this.router.url.includes('information');
+  }
+  isConsult() {
+    return !this.router.url.includes('information') && !this.router.url.includes('pharmacy') && !this.router.url.includes('billing') && !this.router.url.includes('ward') && !this.router.url.includes('admin');
   }
   // tslint:disable-next-line:one-line
   showDetails(i: number){
@@ -657,7 +660,7 @@ getPatients(type) {
     this.session = new Session();
     this.clonedPatient = cloneDeep(this.patients[i]);
     this.patient = this.patients[i];
-     this.url = this.getDp(this.patient.info.personal.avatar);
+    this.url = this.getDp(this.patient.info.personal.avatar);
    }
 
 

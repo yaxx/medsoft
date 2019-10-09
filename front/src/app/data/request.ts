@@ -16,6 +16,7 @@ export const Scannings = [
   'Fluoroscopy',
   'Mammography',
   'MRI ',
+  'Myocardial perfusion',
   'Ultrasound',
   'X-Ray'
 ]

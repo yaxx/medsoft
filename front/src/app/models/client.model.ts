@@ -17,7 +17,7 @@ export class Room {
 
 export class Department {
   constructor(
-    public name: string = null,
+    public name: string = 'Anaesthetics',
     public type: string = null,
     public hasWard: boolean = false,
     public rooms: Room[] = [],

@@ -60,7 +60,7 @@ cred = {
         const role = person.info.official.role;
         switch (role) {
           case 'Doctor':
-            route = `/${person.info.official.department.toLowerCase()}/consultation`;
+            route = `/${person.info.official.department.toLowerCase()}`;
             break;
           case 'Nurse':
             route = `/${person.info.official.department.toLowerCase()}/ward`;

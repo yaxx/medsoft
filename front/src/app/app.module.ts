@@ -81,9 +81,14 @@ const routes: Routes = [
     component: MainComponent,
     children: [
       {
+        path: 'history/:id',
+        component: HistoryComponent
+      },
+      {
         path: 'appointments',
         component: AppointmentsComponent
       },
+    
       {
         path: 'consultations',
         component: ConsultationComponent
@@ -155,32 +160,7 @@ const routes: Routes = [
         }
       ]
   },
-  {
-    path: ':dept/consultation',
-    component: MainComponent,
-    children: [
-      {
-        path: 'appointments',
-        component: AppointmentsComponent
-      },
-      {
-        path: 'addmisions',
-        component: PatientComponent
-      },
-      {
-        path: 'history/:id',
-        component: HistoryComponent
-      },
-      {
-        path: 'me',
-        component: MessagesComponent
-      },
-      {
-        path: '',
-        component: ConsultationComponent
-      }
-    ]
-  },
+  
   {
     path: ':dept/ward',
     component: MainComponent,
@@ -195,6 +175,32 @@ const routes: Routes = [
         {
           path: '',
           component: RegistrationComponent}
+      ]
+    },
+    {
+      path: ':dept',
+      component: MainComponent,
+      children: [
+        {
+          path: 'appointments',
+          component: AppointmentsComponent
+        },
+        {
+          path: 'addmisions',
+          component: PatientComponent
+        },
+        {
+          path: 'history/:id',
+          component: HistoryComponent
+        },
+        {
+          path: 'me',
+          component: MessagesComponent
+        },
+        {
+          path: '',
+          component: ConsultationComponent
+        }
       ]
     },
     {

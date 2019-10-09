@@ -139,15 +139,9 @@
             <ul class="nav navbar-nav"></ul>
             <form class="top-searchform" target="_self">
                 <div class="form-group">
-                    <input [(ngModel)]=searchTerm #search (keyup)='searchPatient(searchTerm)' autocomplete="off" style="border-radius:.999em;
-                width:80%;display:inline-block;
-                position: absolute;
-                text-align: left;
-                vertical-align: middle;
-                top:11%;
-                box-shadow:none;
-                outline:none;
-                background-color: rgba(233, 236, 239, 0.7);
+                    <input [(ngModel)]=searchTerm #search (keyup)='searchPatient(searchTerm)' autocomplete="off" style="border-radius:.999em;   width:80%;display:inline-block;
+                position: absolute;text-align: left;vertical-align: middle;top:11%; box-shadow:none;
+               outline:none; background-color: rgba(233, 236, 239, 0.7);
                 " class="form-control" type="search" name="search" id="search-field" placeholder="Search patient">
                     <i style='font-size:20px; top:3px;left:83%;position:relative;display:inline' class="icon ion-ios-search " title="Search"></i>
                     <h6 style=' cursor:pointer; font-size:12px;left:98%;position:relative;display:inline-block;color:grey;font-weight:normal;

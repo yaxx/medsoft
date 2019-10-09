@@ -84,9 +84,9 @@
                             <div class="form-group vitals-section formGroup" style=" width:49%; margin-right: 4px">
                                 <label style='font-size:8px' for="gender" class="labelss complain">GENDER</label>
                                 <select [(ngModel)]="staff.info.personal.gender" class="patientdata inputs dataInfo newpatient" name="gender">
-                          <option>Male</option>
-                          <option>Female</option>
-                      </select>
+                                    <option>Male</option>
+                                    <option>Female</option>
+                                </select>
                             </div>
                             <div class="form-group vitals-section formGroup" style=" width:49%; ">
                                 <label style='font-size:8px' for="mobile" class="labelss complain">MOBILE</label>
@@ -94,7 +94,7 @@
                             </div>
                             <div class="form-group vitals-section formGroup" style=" width:49%; margin-right: 4px">
                                 <label style='font-size:8px' for="drug" class="labelss">DEPARTMENT</label>
-                                <select [(ngModel)]="staff.info.official.department" style='font-size:11px' class="patientdata inputs dataInfo newpatient" name="department">
+                                <select  [(ngModel)]="staff.info.official.department" style='font-size:11px' class="patientdata inputs dataInfo newpatient" name="department">
                                     <option *ngFor="let d of client.departments">{{d.name}}</option>
                                 </select>
                             </div>
@@ -338,7 +338,7 @@
                                 </div>
                             </div>
                             <button style=" width: 90px; left:81px; width: 90%; left: 11px;top:80%;font-size: 10px;height: 27px;
-                            box-shadow: none; " type="submit" class="btn btn-sm btn-outline-primary inputs mainbtn">SAVE CHANGES<span *ngIf='processing'> <i class="fa fa-circle-o-notch editicon continue blocked-icon fa-spin" style="font-size:18px;position: absolute;;left:77%"></i></span> 
+                            box-shadow: none; " type="submit" class="btn btn-sm btn-outline-primary inputs mainbtn">SAVE CHANGES<span *ngIf='processing'> <i class="fa fa-circle-o-notch editicon continue blocked-icon fa-spin" style="font-size:18px;position: absolute;left:77%"></i></span> 
                             </button>
                         </form>
                     </div>
@@ -394,10 +394,26 @@
                         <h1 *ngIf='deptMode !== "add"' class="dept headtitle">DEPARTMENTS <i (click)='switchRightCard("add") ' style="left:98%;cursor: pointer;" class="icon ion-ios-plus-empty editicon editclient addinfo" title="Add department"></i></h1>
                         <h1 style="padding-left: 12px;" *ngIf='deptMode === "add"' class="dept headtitle">ADD DEPARTMENTS <i (click)='switchRightCard("view") ' style="left:-3%;cursor: pointer;position: absolute;bottom:-4px;z-index:5" class="icon ion-android-arrow-back editicon editclient addinfo" title="Back"></i></h1>
                     </div>
-                    <div [class.back]='deptMode==="add"' [class.front]='deptMode==="view"'  style='padding-top:10px;position:absolute;top:7%' class="card-body rightcardbody depts">
+                    <div data-simplebar [class.back]='deptMode==="add"' [class.front]='deptMode==="view"'  style='padding-top:10px;position:absolute;top:7%;height:100%' class="card-body rightcardbody depts">
                         <h1 *ngIf='!client.departments.length' style='color:lightgrey; width:100%; text-align:center;top:43%;position:absolute;' class="dept headtitle">NO DEPARTMENTS
                         </h1>
-                        <div *ngIf='client.departments.length ' class="carditem deptitem">
+                        <div *ngFor="let department of client.departments let i = index;"  style='margin-bottom:15px; padding-bottom: 10px; left:25px;border-bottom: 1px solid #f4f8fc; width:75%' class="carditem">
+                            <div style="height: 35px; width:35px;border-radius:5px " class="timeline detailstimeline">
+                                <i *ngIf="department.name === 'Information'" style='left: 41%;top:8%;color: #1da1f2;position: relative;' class="icon ion-information  deticon"></i>
+                                <i *ngIf="department.name === 'GOPD'" class="icon ion-ios-people addicon infoicon consicon"></i>
+                                <i *ngIf="department.name === 'Maternity'" class="material-icons addicon infoicon maticon" title="Add Department">pregnant_woman</i>
+                                <i *ngIf="department.name === 'Pharmacy'" class="icon ion-ios-medkit addicon pharmicon"></i>
+                                <i *ngIf="department.name === 'Emergency'" class="icon ion-ios-pulse addicon pharmicon"></i>
+                                <i *ngIf="department.name === 'Hematology'" class="icon ion-waterdrop addicon pharmicon"></i>
+                            </div>
+                            <p style="padding-left: 13px" class="dept previnfo">Dept:&nbsp;<span class="predata">
+                                {{department.name}}</span>
+                            </p>
+                            <p style="padding-left: 13px" class="dept previnfo">Staffs:&nbsp;<span class="predata">
+                                5</span></p>
+                            <!-- <p style="padding-left: 13px" class="dept previnfo">Rooms:&nbsp;<span class="predata">10</span></p> -->
+                        </div>
+                        <!-- <div *ngIf='client.departments.length ' class="carditem deptitem">
                             <div *ngFor="let department of client.departments let i = index;" data-toggle='modal ' data-target='#productModal ' class="department">
                                 <i *ngIf="department.name === 'Information'" class="icon ion-information addicon infoicon"></i>
                                 <i *ngIf="department.name === 'GOPD'" class="icon ion-ios-people addicon infoicon consicon"></i>
@@ -407,23 +423,22 @@
                                 <i *ngIf="department.name === 'Hematology'" class="icon ion-waterdrop addicon pharmicon"></i>
                                 <h6 class="deptname">{{department.name}}</h6>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     <div [class.in]='deptMode==="add"' [class.out]='deptMode==="view"'   style='padding-top:10px; position: absolute;height: 80%;width:100%' class="card-body rightcardbody newDept">
                         <form style="top:15%; width:90%;margin:auto; padding-top:30px" class=" staffsform">
                             <div class="form-group  vitals-section address">
                                 <label style='font-size:8px' for="email" class="labelss">DEPARTMENT</label>
-                                <select (change)=selectDept($event.target.value) [(ngModel)]="deptName" style='font-size:11px;' class=" patientdata inputs dataInfo newpatient" name="department">
+                                <select (change)=resetNumOfRooms() [(ngModel)]="department.name" style='font-size:11px;' class=" patientdata inputs dataInfo newpatient" name="department">
                                   <option *ngFor="let dept of departments">{{dept.name}}</option>
-                              </select>
+                                </select>
                             </div>
-                            <div class="form-group  vitals-section address">
+                            <div *ngIf='deptHasWard()' class="form-group  vitals-section address">
                                 <label style='font-size:8px' for="email" class="labelss">#ROOMS</label>
-                                <input type="number" [min]="1" style='font-size:11px;' 
+                                <input [(ngModel)]="numOfRooms" type="number" [min]="1" style='font-size:11px;' 
                                 class=" form-control patientdata inputs dataInfo newpatient" name="department">
-                             
                             </div>
-                            <button (click) = addDepartment() style=" width: 90px; left:81px; width: 90%; left: 11px;top:55%;font-size: 10px;height: 27px;
+                            <button [disabled]='inComplete()' (click) = addDepartment() style=" width: 90px; left:81px; width: 90%; left: 11px;top:55%;font-size: 10px;height: 27px;
                             box-shadow: none;"  class="btn btn-sm btn-outline-primary inputs mainbtn"><span><i style="font-size:16px; position:absolute; left:19%; bottom:4%;font-weight: bolder" class="icon ion-ios-plus-empty"></i>
                             </span> ADD DEPARTMENT<span *ngIf='processing'> <i class="fa fa-circle-o-notch editicon continue blocked-icon fa-spin" style="font-size:18px;position: absolute;left:77%"></i></span> 
                             </button>

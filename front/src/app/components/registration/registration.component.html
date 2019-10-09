@@ -15,7 +15,7 @@
                         <form (submit)=enrolePatient() style="top:15%; padding-left: 2%;margin-top:10px; padding-right: 2%;" class=" staffsform">
                             <div class="form-group vitals-section address">
                                 <label style='font-size:8px' for="department" class="labelss">DEPARTMENT</label>
-                                <select style='font-size:11px' [(ngModel)]=visit.dept class="patientdata status inputs dataInfo " name="department">     <option *ngFor ='let department of client.departments'>
+                                <select style='font-size:11px' [(ngModel)] = visit.dept class="patientdata status inputs dataInfo " name="department">     <option *ngFor ='let department of getDept()'>
                                     {{department.name}}
                                   </option>
                                 </select>
@@ -54,25 +54,15 @@
         <div class="collapse navbar-collapse" id="navcol-1">
             <form class="top-searchform" target="_self">
                 <div class="form-group">
-                    <input [(ngModel)]=searchTerm #search (keyup)='searchPatient(searchTerm)' autocomplete="off" style="border-radius:.999em;
-                  width:80%;display:inline-block;
-                  position: absolute;
-                  text-align: left;
-                  vertical-align: middle;
-                  top:11%;
-                  background-color: rgba(233, 236, 239, 0.7);
-                  box-shadow:none;
-                  outline:none;
-                  " class="form-control" type="search" name="search" id="search-field" placeholder="Search patient">
+                    <input [(ngModel)]=searchTerm #search (keyup)='searchPatient(searchTerm)' autocomplete="off" style="border-radius:.999em; width:80%;display:inline-block;
+                    position: absolute;   text-align: left; vertical-align: middle;  top:11%;
+                    background-color: rgba(233, 236, 239, 0.7);box-shadow:none;outline:none;
+                    "class="form-control" type="search" name="search" id="search-field"           placeholder="Search patient">
                     <i style='font-size:20px; top:3px;left:83%;position:relative;display:inline' class="icon ion-ios-search " title="Search"></i>
-                    <h6 style='font-size:12px;
-                            left:98%;position:relative;display:inline-block;
-                            color:grey;
-                            font-weight:normal;'>Sort by: <span stye='cursor:pointer' (click)='toggleSortMenu()'>
-                              {{nowSorting}}</span></h6>
-                    <div *ngIf=sortMenu style='position: absolute;
-                            left:120%;
-                            width:100px;top:6px;
+                    <h6 style='font-size:12px;left:98%;position:relative;display:inline-block;
+                     color:grey; font-weight:normal;'>Sort by: <span stye='cursor:pointer' (click)
+                           ='toggleSortMenu()'>{{nowSorting}}</span></h6>
+                    <div *ngIf=sortMenu style='position: absolute;left:120%; width:100px;top:6px;
                             height:110px' class="menu">
                         <ul (mouseleave)='toggleSortMenu()' class="actions primary">
                             <li (click)='sortPatients("name")' class="action">A-Z</li>

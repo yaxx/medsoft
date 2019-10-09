@@ -52,7 +52,8 @@
 
 .addicon.infoicon {
   font-weight:normal;
-  font-size:35px;
+  font-size:22px;
+  color: #1da1f2;
   /*text-align:center;*/
   left:42%;
 }
@@ -62,35 +63,41 @@
   position:absolute;
   margin:0px;
   font-size:small;
-  color:grey;
+
   top:55%;
   /*font-weight:normal;*/
   width:100%;
 }
 
 .icon.ion-ios-medkit.addicon.pharmicon {
-  font-size:32px;
+  font-size:17px;
   top:7px;
+  color: #4cb6f7;
 }
 .icon.ion-waterdrop.addicon.pharmicon {
-  font-size:28px;
-  top:9px;
-  
+  font-size:17px;
+  top:7px;
+  color: #4cb6f7;
 }
 .icon.ion-ios-pulse.addicon.pharmicon {
-  font-size:25px;
-  top:13px;
+  font-size:19px;
+  top:4px;
+  left: 25%;
+  color: #4cb6f7;
  
+}
 
 .icon.ion-ios-people.addicon.infoicon.consicon {
-  font-size:31px;
-  top:7px;
-  left:31%;
+  font-size:20px;
+  top:3px;
+  left:28%;
+  color: #4cb6f7;
 }
 
 .material-icons.addicon.infoicon.maticon {
-  left:29%;
-  top:14%;
+  left:20%;
+  top:12%;
+  color: #4cb6f7;
 }
 
 .carditem.deptitem {

@@ -9,6 +9,6 @@ import {NgForm} from '@angular/forms';
 })
 export class AppComponent {
   form: NgForm;
-  title = 'spinr';
+  title = 'foldr';
   sample: string;
 }

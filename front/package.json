@@ -15,11 +15,7 @@
     "electron": "electron .",
     "electron-build": "ng build --prod && electron ."
   },
-  "win": {
-    "target": [
-      "nsis"
-    ]
-  },
+
   "nsis": {
     "runAfterFinish": true,
     "license": "LICENSE"

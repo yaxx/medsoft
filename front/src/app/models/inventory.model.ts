@@ -44,11 +44,12 @@ export class Invoice {
     public desc: string = null,
     public comfirmedBy: any = null,
     public price: number = null,
-    public paid: Boolean = false,
+    public paid: boolean = false,
     public quantity: number = 1,
     public datePaid: Date = null,
-    public processed: Boolean = true,
-    public meta: Meta = new Meta()
+    public meta: Meta = new Meta(),
+    public processed: boolean = true,
+    public _id?: string 
   ){}
 }
 export class Card {

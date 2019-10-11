@@ -1,5 +1,7 @@
 body {
-    background-color: rgb(243, 248, 247);
+    /* background-color: rgb(243, 248, 247); */
+      
+    background-color: #f8f9fa;;
 }
 
 @media (min-width:768px) {

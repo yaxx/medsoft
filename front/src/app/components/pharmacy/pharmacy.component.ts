@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {DataService} from '../../services/data.service';
 import {SocketService} from '../../services/socket.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import update from 'react-addons-update';
 import {Person} from '../../models/person.model';
 import {CookieService} from 'ngx-cookie-service';
 import {Product, Item, StockInfo,Invoice} from '../../models/inventory.model';
@@ -29,7 +28,7 @@ export class PharmacyComponent implements OnInit {
   items: Item[] = [];
   temItems: Item[] = [];
   searchedProducts: Product[] = [];
-  medications: Invoice[][] = new Array<Invoice[]>();
+  invoices: Invoice[][] = new Array<Invoice[]>();
   edited: Invoice[] = [];
   editables: Invoice[] = [];
   tempMedications: Medication[] = [];
@@ -45,6 +44,8 @@ export class PharmacyComponent implements OnInit {
   };
   sortBy = 'added';
   sortMenu = false;
+  sucsLine = null;
+  errLine = null;
   nowSorting = 'Date added';
   view = 'default';
   count = 0;
@@ -111,22 +112,6 @@ export class PharmacyComponent implements OnInit {
     });
   }
 
-  viewOrders(i: number) {
-    this.curIndex = i;
-    this.switchViews('orders');
-    this.medications = cloneDeep(this.patients[i].record.invoices);
-    this.medications = this.medications.filter(invoices => invoices.filter(invoice => invoice.desc.includes('|')));
-
-  //  this.patient.record.invoices = this.patient.record.invoices.filter(invoices => invoices.length)
-  //   this.medications = this.patient.record.invoices.map(
-  //     invoices => invoices.map( i => {
-  //     const product = this.products.find(pro => pro.item.name === i.name);
-  //     return ( product && !i.paid) ? ({
-  //       ...i, price: product.stockInfo.price
-  //       }) : i;
-  //   }));
-  // this.medications = this.patient.record.invoices;
-  }
   getDosage(desc: string) {
     return desc.split('|')[1];
   }
@@ -155,15 +140,15 @@ export class PharmacyComponent implements OnInit {
   }
 
   switchToEdit() {
-    this.editables = this.getSelections();
-    this.count = this.editables.length;
-    // this.medication = this.editables.shift();
-    this.input = this.medication.name;
+    this.edited = this.getSelections();
     this.switchViews('editing');
+  }
+  getMaxQty(med) {
+    return this.products.find(prod => prod.item.name === med.name).stockInfo.quantity;
   }
   getReversables(i: number, j: number) {
     // this.curIndex = i;
-    this.edited.push(this.patient.record.medications[i][j]);
+    this.edited.push(this.patient.record.invoices[i][j]);
     this.switchViews('reversing');
   }
   sortPatients(sortOption: string) {
@@ -195,25 +180,22 @@ export class PharmacyComponent implements OnInit {
   }
 
   selectItem(i: number, j: number) {
-   this.medications[i][j].meta.selected = !this.medications[i][j].meta.selected;
-   if (this.patients[this.curIndex].record.medications[i][j].invoice.paid) {}
-
+   this.invoices[i][j].meta.selected = !this.invoices[i][j].meta.selected;
   }
   medidcationsSelected(i: number) {
-    return this.medications.some(med => med.some(m => m.meta.selected));
+    return this.invoices.some(med => med.some(m => m.meta.selected));
   }
   getSelections() {
-    const selected = [];
-     this.medications.forEach(group => {
+    const selections = [];
+     this.invoices.forEach(group => {
        group.forEach(medic => {
          if (medic.meta.selected) {
           medic.meta.selected = !medic.meta.selected;
-            selected.push(medic);
+          selections.push(medic);
          }
        });
      });
-     this.count = selected.length;
-     return selected;
+    return selections;
   }
   reset() {
     setTimeout(() => {
@@ -226,62 +208,69 @@ export class PharmacyComponent implements OnInit {
     }, 4000);
 
   }
-   processPayment() {
-    // this.edited = this.edited.filter(medication => medication.stockInfo.price);
-    this.updateCurMedications();
-    this.updateInventory('purchase');
-
-    this.updateMedications();
-    // this.runTransaction('purchase');
-   }
-  runTransaction(type: string) {
-    // this.processing = true;
-    // this.dataService.runTransaction(this.patient, this.cart).subscribe(() => {
-    //   this.products = this.clonedStore;
-    //   this.processing = false;
-    //   this.patients[this.curIndex] = this.patient;
-    //   this.socket.io.emit('transaction', this.cart);
-    //   this.transMsg = (type === 'purchase') ? 'Transaction successfull': 'Transaction successfully reversed';
-    //   this.reset();
-    // }, (e) => {
-    //   this.transMsg = (type === 'purchase') ?  'Transaction unsuccessfull': 'Unable to reverse transaction';
-    //   this.processing = false;
-    // });
-  }
-  updateInventory(action) {
-    // this.clonedStore = cloneDeep(this.products);
-    // this.edited.forEach(medication => {
-    //   this.clonedStore.forEach(product => {
-    //     if(product.item.name === medication.name) {
-    //       if(action === 'purchase') {
-    //         product.stockInfo.quantity = product.stockInfo.quantity - medication.invoice.quantity;
-    //         product.stockInfo.sold = product.stockInfo.sold + medication.invoice.quantity;
-    //       } else {
-    //         product.stockInfo.quantity = product.stockInfo.quantity + medication.invoice.quantity;
-    //         product.stockInfo.sold = product.stockInfo.sold - medication.invoice.quantity;
-    //       }
-    //         }
-    //       });
-    //     });
-  }
-
-   updateCurMedications() {
-  //   this.edited.forEach(medication => {
-  //     this.medications.forEach((group, i) => {
-  //      group.forEach((medic , j) => {
-  //        if (medic._id === medication._id) {
-  //         this.medications[i][j] = {...medication, processed: true};
-  //        }
-  //      });
-  //    });
-  //    this.patient.record.medications = this.medications;
-  //  });
-  }
-
+   
   somePaid(i) {
-    // return this.medications[i].some(invoice => invoice.paid);
+    // return this.invoices[i].some(invoice => invoice.paid);
    }
-  getTransTotal(invoices:Invoice[]) {
+updatePrices(invoices: Invoice[], i: number) {
+  if(invoices.length) {
+    invoices.forEach(invoice => {
+      let p = this.products.find(prod => prod.item.name === invoice.name); 
+      if(p && !invoice.paid) {
+        invoice.price = p.stockInfo.price;
+      }
+    });
+    this.invoices[i] = invoices;
+  } else {
+    this.invoices.splice(i, 1);
+  }
+}
+  viewOrders(i: number) {
+    this.curIndex = i;
+    this.switchViews('orders');
+    this.invoices = cloneDeep(this.patients[i].record.invoices);
+    this.invoices.forEach((invoices , m) => {
+      let items = [];
+      invoices.forEach((invoice) => {
+        if(invoice.desc.includes('|')) {
+          items.push(invoice);
+        }
+        });
+        this.updatePrices(items, m);
+    });
+  }
+   sendRecord() {
+    this.processing = true;
+    this.dataService.updateRecord(this.patients[this.curIndex]).subscribe((patient: Person) => {
+      this.sucsLine = 'Invoice successfully updated';
+      this.processing = false;
+      setTimeout(() => {
+        this.sucsLine = null;
+      }, 4000);
+      setTimeout(() => {
+       this.switchViews('orders')
+      }, 6000);
+    }, (e) => {
+      this.errLine = 'Unable to update invoice';
+      this.processing = false;
+    });
+  }
+   updateInvoices() {
+      this.edited.forEach(invoice => {
+        invoice.processed = true;
+        this.patients[this.curIndex].record.invoices.forEach((m) =>  {
+          m[m.findIndex(i => i._id === invoice._id)] = invoice;
+        });
+        this.products.forEach(prod => {
+          if(prod.item.name === invoice.name) {
+            prod.stockInfo.quantity = prod.stockInfo.quantity - invoice.quantity;
+          }
+        });
+      });
+      this.sendRecord();
+      this.switchViews('orders');
+   }
+  getTransTotal(invoices: Invoice[]) {
     let total = 0;
     invoices.forEach((invoice) => {
       total = (invoice.paid) ? (total + invoice.quantity * invoice.price) : (total + 0);
@@ -295,6 +284,7 @@ export class PharmacyComponent implements OnInit {
      });
      return total;
   }
+ 
     getDp(avatar: String) {
     // return 'http://192.168.1.100:5000/api/dp/' + avatar;
     return 'http://localhost:5000/api/dp/' + avatar;
@@ -310,78 +300,35 @@ export class PharmacyComponent implements OnInit {
       this.items = res.items;
     });
   }
-  selectMedication(m: Medication, selected: number) {
-    // this.medication = new Medication(m.product, m.priscription);
-    // this.id = m._id;
-    // this.selected = selected;
-    // this.input = m.product.item.name + ' ' + m.product.item.mesure + m.product.item.unit;
-  }
+  
 
-  searchProducts(i: string) {
-//   if (i === '') {
-//     this.searchedProducts = [];
-//   } else {
-//       this.searchedProducts = this.products.filter((product) => {
-//       const patern =  new RegExp('\^' + i , 'i');
-//       return patern.test(product.item.name);
-//       });
-// }
-}
-cancel() {
-  // this.patients[this.curIndex] = this.dataService.getCachedPatient(this.patients[this.curIndex]._id)
-  // this.products = this.dataService.getCachedProducts();
-}
 
  searchPatient(name: string) {
-//    if(name!==''){
-//     this.patients = this.patients.filter((patient) => {
-//       const patern =  new RegExp('\^' + name
-//       , 'i');
-//       return patern.test(patient.info.personal.firstName);
-//       });
-//    } else {
-//      this.patients = this.clonedPatients;
-//    }
-//  }
-// addSelection(product: Product) {
-//   this.input = product.item.name;
-//   this.product = product;
-//   this.searchedProducts = [];
-}
+   if(name!==''){
+    this.patients = this.patients.filter((patient) => {
+      const patern =  new RegExp('\^' + name
+      , 'i');
+      return patern.test(patient.info.personal.firstName);
+      });
+   } else {
+     this.patients = this.clonedPatients;
+   }
+ }
 
 
-  next() {
-  //   if (this.medication.name) {
-  //       this.edited.unshift(this.medication);
-  //       this.medication = new Medication();
-  //     if (this.editables.length) {
-  //       this.medication = this.editables.shift();
-  //       }
-  // } else if(this.editables.length) {
-  //   this.medication = this.editables.shift();
-  // }
-}
 
-previous() {
-//   if (this.medication.name) {
-//    if (this.edited.length) {
-//     this.editables.unshift(this.medication);
-//     this.medication = this.edited.shift();
-//    }
-// } else if(this.edited.length) {
-//   this.medication = this.edited.shift();
-//  }
-}
+
+
 routeHas(path) {
   return this.router.url.includes(path);
 }
 getStyle(i: Invoice) {
-  return {color: i.paid ? 'black' : 'lightgrey'};
+  return {color: i.processed ? 'black' : 'lightgrey'};
 }
 updateMedications() {
   this.processing = true;
-  this.dataService.updateMedication(this.medications).subscribe((m) => {
-   this.patients[this.curIndex].record.medications = this.medications;
+  this.dataService.updateMedication(this.invoices).subscribe((m) => {
+   this.patients[this.curIndex].record.invoices = this.invoices;
    this.processing = false;
    this.switchViews('orders');
   }, (e) => {

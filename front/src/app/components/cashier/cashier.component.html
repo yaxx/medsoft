@@ -16,31 +16,31 @@
                     </div>
                     <div *ngIf='cardView.orders' class="card-body orderbody" style=" width:65%; margin:auto;">
                         <div style="border-left:2px solid #1da1f2;height:200px; width:100%;">
-                            <div style='border:none' *ngFor="let invoices of patient.record.invoices; let i = index" class="carditem priscriptioncontainer order">
+                            <div style='border:none' *ngFor="let invoices of invoices; let i = index" class="carditem priscriptioncontainer order">
                                 <div style='left:-4%' class="timeline condition drugtimeline">
                                     <p class="timelinedate">{{invoices[0]?.meta.dateAdded|date:'dd'}}</p>
                                     <p class="timelinedate month"> {{invoices[0]?.meta.dateAdded|date:'MMM'|uppercase}}</p>
                                 </div>
                                 <div *ngFor="let invoice of invoices; let j= index" class="priscription drug">
-                                    <h6 class="dept">{{invoice.name}}&nbsp;<span class="predata">
-                                </span>
-                                        <span *ngIf="invoice.paid" class="predata priceval">
-                                <i (click)='getReversables(i,j)' data-target="#reversePayment" data-toggle="modal" title = 'Reverse payment'  class="icon ion-ios-checkmark-empty paid-icon"></i>
-                                </span>
-                                        <span *ngIf="!invoice.paid" class="predata priceval">
-                                <i (click)="selectItem(i,j)" style=' color:lightgrey;'  *ngIf="invoice.meta.selected" class="icon ion-ios-checkmark-empty paid-icon" title="Deselect "></i>
-                                <div  style='border-color:rgb(228, 227, 227)'
-                                *ngIf ="!invoice.meta.selected && !invoice.quantity" class="mycheckbox"  >
-                                </div>
-                                <div class="mycheckbox" *ngIf ="!invoice.meta.selected && invoice.quantity" (click)="selectItem(i,j)" >
-                                </div>
-                                </span>
+                                    <h6 class="dept">{{invoice.name}}&nbsp;<span class="predata"></span>
+                                    <span *ngIf="invoice.paid" class="predata priceval">
+                                        <i (click)='getReversables(i,j)' data-target="#reversePayment" data-toggle="modal" title = 'Reverse payment'  class="icon ion-ios-checkmark-empty paid-icon"></i>
+                                    </span>
+                                    <span *ngIf="!invoice.paid" class="predata priceval">
+                                        <i (click)="selectItem(i,j)" style=' color:lightgrey;'  *ngIf="invoice.meta.selected" class="icon ion-ios-checkmark-empty paid-icon" title="Deselect "></i>
+                                        <div  style='border-color:rgb(228, 227, 227)'
+                                        *ngIf ="!invoice.meta.selected && !invoice.quantity" class="mycheckbox"  >
+                                        </div>
+                                        <div class="mycheckbox" *ngIf ="!invoice.meta.selected && invoice.quantity" (click)="selectItem(i,j)" >
+                                        </div>
+                                    </span>
                                     </h6>
                                     <h6 class="dept previnfo">Description&nbsp;<span class="predata">
-                                {{getDesc(invoice.desc)}} </span></h6>
-                                    <h6 class="dept previnfo" style="color:lightgrey">
-                                        Price&nbsp;<span [ngStyle]=getStyle(invoice) style="text-align:right;left:80%;display: inline-block;width:50px" *ngIf=invoice.price class="predata priceval">
-                                    {{(invoice.price) * (invoice.quantity)}}</span>
+                                        {{getDesc(invoice.desc)}} </span></h6>
+                                    <h6 class="dept previnfo" style="color:lightgrey">Price&nbsp;
+                                        <span [ngStyle]=getStyle(invoice) style="text-align:right;
+                                        left:80%;display: inline-block;width:50px" *ngIf=invoice.price      class="predata priceval">{{invoice.price * invoice.quantity}}
+                                        </span>
                                         <span *ngIf=!invoice.price class="predata priceval">---</span>
                                     </h6>
                                 </div>
@@ -73,10 +73,11 @@
                                     <tfoot col-span='4' style='font-size:11px; text-align:right; position:absolute; font-weight:bold;padding-right: 5px; border-top: 1px solid whitesmoke;width:100%'>Total: <span>{{getPriceTotal()}}</span> </tfoot>
                                 </table>
                             </div>
-                            <div style='left:110%; height:32px;width:32px' title='Reverse tranasaction' class="floter">
-                                <i *ngIf='processing' class="fa fa-circle-o-notch fa-spin fa-10x slow-spin" style="position:absolute;bottom:5px;left:5px;font-size:20px;color: #1da1f2;"> </i>
-                                <i (click)=reversePayment() style='font-size: 23px;left:3px; top:4px;' class="material-icons flotericon">rotate_left</i>
-                            </div>
+                            <button (click) = 'comfirmPayment()' style=" width: 170px;font-size: 10px; height:27px;left:28%; bottom:24%;" class="btn btn-sm btn-outline-primary inputs mainbtn"> COMFIRM PAYMENT
+                                <span style="position: absolute; bottom: -7%;left: 80%;">
+                                <i *ngIf="processing" class="fa fa-circle-o-notch fa-spin fa-10x slow-spin " style="position:absolute;bottom:5px;left:5px;font-size:19px;color: #1da1f2;"> </i>
+                                </span>
+                            </button>
                         </form>
                     </div>
                     <div *ngIf=transMsg style="padding:5px;border-top: 1px solid rgb(248, 247, 247)" class="card-footer">
@@ -96,7 +97,7 @@
 
 
 
-<nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:0px;background: #f3f8f7">
+<nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:0px;">
     <div class="container">
         <a class="navbar-brand" href="#">
             <em>foldr</em>
@@ -153,7 +154,7 @@
             <div (click)=refresh() *ngIf='message' title='Refresh' class='refresh'><i class="icon ion-ios-reload "></i></div>
             <h6 *ngIf='message' style='font-size:13px;position:absolute;top:65%; width:100%; color:lightgrey;text-align: center'>{{message}}</h6>
         </div>
-        <div *ngFor="let patient of patients; let i=index" class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+        <div *ngFor="let patient of patients; let i = index" class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
             <div *ngIf="patient.card.view == 'front'" class="card card-secondary maincard">
                 <div style="border-radius:12px" class="card-header profileheader"><i class="icon ion-android-more-vertical headericon moreicon actions-icon"></i>
                     <div class="timeline lastdoc priscriber headerdp">
@@ -179,7 +180,8 @@
                     <div class="priscription basic-subinfo">
                         <div class="sub-container">
                             <h6 class="dept basic-secondary basic-value">
-                                {{patient.record.visits[0][0].dept}}</h6>
+                                {{patient.record.visits[0][0].dept}}
+                            </h6>
                         </div>
                         <div class="sub-container">
                             <h6 style="width:100%;text-align:center" class="dept basic-secondary basic-value">
@@ -190,7 +192,6 @@
                     </div>
                 </div>
                 <button (click)='viewOrders(i)' data-toggle="modal" data-target="#billingModal" style=" width: 95px;font-size: 10px; height:27px;left:52%; bottom:7%;" class="btn btn-sm btn-outline-primary inputs mainbtn"> VIEW ORDERS </button>
-
             </div>
         </div>
     </div>

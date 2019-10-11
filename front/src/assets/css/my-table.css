@@ -142,7 +142,8 @@ left:4px;
   padding: 6px 0px 6px 0px;
   font-size:10px;
   background:rgb(253, 253, 253);
-  color: rgb(136, 136, 136);
+  font-weight: bold;
+  /* color: rgb(136, 136, 136); */
 }
 
 td {

@@ -25,13 +25,13 @@ export class CashierComponent implements OnInit {
   medication: Medication = new Medication();
   temProducts: Product[] = [];
   item: Item = new Item();
-  items: Item[] = [];
-  temItems: Item[] = [];
+
+
   searchedProducts: Product[] = [];
-  medications: any[] = new Array<any>(new Array<Medication>());
+  invoices: Invoice[][] = new Array<Invoice[]>();
   edited: Invoice[] = [];
   editables: Invoice[] = [];
-  tempMedications: Medication[] = [];
+
   inlinePatients = [];
   inlineProducts = [];
   transMsg = null;
@@ -111,25 +111,70 @@ export class CashierComponent implements OnInit {
   getDesc(desc: string) {
     return desc.split('|')[0];
   }
-  viewOrders(i: number) {
-    this.curIndex = i;
-    this.switchViews('orders');
-    this.patient = cloneDeep(this.patients[i]);
-    this.patient.record.invoices.forEach((invoices, i) => invoices.forEach((invoice, j) => {
-      if(invoice.processed) {
-        } else {
-        this.patient.record.invoices[i].splice(j, 1);
+
+  updateInvoices() {
+    this.edited.forEach(invoice => {
+      this.patients[this.curIndex].record.invoices.forEach((m) =>  {
+        m[m.findIndex(i => i._id === invoice._id)] = {...invoice, paid: true, datePaid: new Date(), comfirmedBy: this.cookies.get('i')};
+      });
+      this.products.forEach(prod => {
+        if(prod.item.name === invoice.name) {
+          prod.stockInfo.quantity = prod.stockInfo.quantity - invoice.quantity;
+          prod.stockInfo.sold = prod.stockInfo.sold + invoice.quantity;
+          this.cart.push(prod)
+        } else if(prod.item.name === invoice.desc) {
+          prod.stockInfo.quantity = prod.stockInfo.quantity - invoice.quantity;
+          prod.stockInfo.sold = prod.stockInfo.sold + invoice.quantity;
+          this.patients[this.curIndex].record.visits[0][0].status = 'queued';
+          this.cart.push(prod);
+        }
+      });
+    });
+    // this.sendRecord();
+  
+ }
+ switchToEdit() {
+  this.invoices.forEach(inner => {
+    inner.forEach(invoice => {
+      if (invoice.meta.selected) {
+       invoice.meta.selected = !invoice.meta.selected;
+         this.edited.push(invoice);
       }
-   }));
-   this.patient.record.invoices = this.patient.record.invoices.filter(invoices => invoices.length);
-  //  this.patient.record.invoices = this.patient.record.invoices.map(
-  //     invoice => invoice.map( i => {
-  //     const product = this.products.find(pro => pro.item.name === i.name);
-  //     return ( product && !i.paid) ? ({
-  //       ...i, price: product.stockInfo.price
-  //       }) : i;
-  //   }));
+    });
+  });
+  this.switchViews('editing');
+}
+
+updatePrices(invoices: Invoice[], i: number) {
+  if(invoices.length) {
+    invoices.forEach(invoice => {
+      let p = (invoice.name === 'Card') ? this.products.find(prod => prod.item.name === invoice.desc) : this.products.find(prod => prod.item.name === invoice.name); 
+      if(p && !invoice.paid) {
+        invoice.price = p.stockInfo.price;
+      }
+    });
+    this.invoices[i] = invoices;
+  } else {
+    this.invoices.splice(i, 1);
   }
+}
+
+viewOrders(i: number) {
+  this.curIndex = i;
+  this.switchViews('orders');
+  this.invoices = this.patients[i].record.invoices;
+  this.invoices.forEach((invoices , m) => {
+    let items = [];
+    invoices.forEach((invoice) => {
+      if(invoice.processed) {
+        items.push(invoice);
+      }
+      });
+      this.updatePrices(items, m);
+  });
+
+}
+
   switchViews(view) {
     switch(view) {
       case 'orders':
@@ -154,13 +199,7 @@ export class CashierComponent implements OnInit {
   }
 
 
-  switchToEdit() {
-    this.edited = this.getSelections();
-    // this.count = this.editables.length;
-    // this.medication = this.editables.shift();
-    // this.input = this.medication.name;
-    this.switchViews('editing');
-  }
+ 
   getReversables(i: number, j: number) {
     // this.curIndex = i;
     // this.edited.push(this.patient.record.medications[i][j]);
@@ -195,28 +234,15 @@ export class CashierComponent implements OnInit {
   }
 
   selectItem(i: number, j: number) {
-   this.patient.record.invoices[i][j].meta.selected = !this.patient.record.invoices[i][j].meta.selected;
+   this.invoices[i][j].meta.selected = !this.invoices[i][j].meta.selected;
   }
   selectCard(i){
     this.patient.record.cards[i].meta.selected =  !this.patient.record.cards[i].meta.selected;
   }
   medidcationsSelected(i: number) {
-    return this.medications.some(med => med.some(m => m.meta.selected));
+    return this.invoices.some(med => med.some(m => m.meta.selected));
   }
-  getSelections() {
-    const selected = [];
-     this.patient.record.invoices.forEach(group => {
-       group.forEach(medic => {
-         if (medic.meta.selected) {
-           console.log(medic)
-            medic.meta.selected = !medic.meta.selected;
-            selected.push(medic);
-         }
-       });
-     });
-
-     return selected;
-  }
+ 
   reset() {
     setTimeout(() => {
       // this.switchViews('orders');
@@ -229,80 +255,27 @@ export class CashierComponent implements OnInit {
 
   }
 
-  reversePayment() {
-    //   this.edited.forEach(medication => {
-    //     this.medications.forEach((group, i) => {
-    //      group.forEach((medic , j) => {
-    //        if (medic._id === medication._id) {
-    //         this.medications[i][j] = {...medication, paid: false, quantity: 0, selected: false};
-    //        }
-    //      });
-    //    });
-    //  });
-
-    // this.patient.record.medications = this.medications;
-    // this.updateInventory('reverse');
-    // this.runTransaction('refund');
-  }
 
   runTransaction(type: string) {
     this.processing = true;
-    this.dataService.runTransaction(this.patient._id, this.patient.record, this.cart).subscribe(() => {
+    this.dataService.runTransaction(this.patients[this.curIndex]._id, this.patients[this.curIndex].record, this.cart).subscribe(() => {
       this.products = this.clonedStore;
       this.processing = false;
-      this.patients[this.curIndex] = this.patient;
+      // this.patients[this.curIndex] = this.patient;
       this.socket.io.emit('transaction', this.cart);
-      this.transMsg = (type === 'purchase') ? 'Transaction successfull': 'Transaction successfully reversed';
+      this.transMsg = (type === 'purchase') ? 'Transaction successfull' : 'Transaction successfully reversed';
       this.reset();
+      this.switchViews('orders');
     }, (e) => {
-      this.transMsg = (type === 'purchase') ?  'Transaction unsuccessfull': 'Unable to reverse transaction';
+      this.transMsg = (type === 'purchase') ?  'Transaction unsuccessfull' : 'Unable to reverse transaction';
       this.processing = false;
     });
   }
 
-  updateQty(action, i, q) {
-      this.clonedStore = cloneDeep(this.products);
-      if(action === 'purchase') {
-            this.clonedStore[i].stockInfo.quantity = this.clonedStore[i].stockInfo.quantity - q;
-            this.clonedStore[i].stockInfo.sold = this.clonedStore[i].stockInfo.sold + q;
-          } else {
-            this.clonedStore[i].stockInfo.quantity = this.clonedStore[i].stockInfo.quantity + q;
-            this.clonedStore[i].stockInfo.sold = this.clonedStore[i].stockInfo.sold - q;
-          }
-            this.cart.push(this.clonedStore[i]);
-  }
-  updateInventory(action) {
-    this.clonedStore = cloneDeep(this.products);
-    for(let invoices of this.patient.record.invoices) {
-      for (let i of invoices) {
-        this.clonedStore.forEach((product, index) => {
-          if( product.item.name === i.name || product.item.name === i.desc ) {
-            this.updateQty(action, index, i.quantity);
-          }
-        });
-      }
-    }
-  }
-  updateInvoices() {
-    this.patient.record.invoices = this.patient.record.invoices.map(
-      invoices => invoices.map(i => {
-        if(i.name === 'Card' && i.meta.selected) {
-          this.patient.record.visits[0][0].status = 'queued';
-        } else {}
-        return (i.meta.selected) ? ({
-          ...i, paid: true,
-          datePaid: new Date(),
-          comfirmedBy: this.cookies.get('i')
-        }) : i;
-      }
-    ));
-
-   }
-
+ 
+ 
   comfirmPayment() {
     this.updateInvoices();
-    this.updateInventory('purchase');
-  //  console.log(this.patient.record.invoices)
     this.runTransaction('purchase');
    }
 
@@ -337,7 +310,6 @@ export class CashierComponent implements OnInit {
   getProducts() {
     this.dataService.getProducts().subscribe((res: any) => {
       this.products = res.inventory;
-      this.items = res.items;
     });
   }
   selectMedication(m: Medication, selected: number) {
@@ -375,14 +347,14 @@ cancel() {
 
 
 updateMedications() {
-  this.processing = true;
-  this.dataService.updateMedication(this.medications).subscribe((newMedications: Medication[]) => {
-   this.patients[this.curIndex].record.medications = newMedications;
-   this.processing = false;
-  },(e) => {
-    this.transMsg = 'Unable to process payment';
-    this.processing = false;
-  });
+  // this.processing = true;
+  // this.dataService.updateMedication(this.invoices).subscribe((newMedications: Medication[]) => {
+  //  this.patients[this.curIndex].record.medications = newMedications;
+  //  this.processing = false;
+  // },(e) => {
+  //   this.transMsg = 'Unable to process payment';
+  //   this.processing = false;
+  // });
 }
 
 

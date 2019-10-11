@@ -144,7 +144,7 @@
 <nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:0px">
   <div class="container">
       <a class="navbar-brand" href="#">
-          <em>spinr</em>
+          <em>unstack</em>
       </a>
           <div class="collapse navbar-collapse" id="navcol-1">
           <ul class="nav navbar-nav"></ul>
@@ -196,7 +196,6 @@
         <h6 *ngIf='message' style='font-size:13px;position:absolute;top:65%; width:100%; color:lightgrey;text-align: center' >{{message}}</h6>
       </div>
       <div *ngFor="let patient of patients; let i = index"  class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
-      <!-- <div style="border-radius:12px" *ngIf = "patient.card.view == 'front'" class="card card-secondary maincard"> -->
           <div  style="border-radius:12px;overflow: hidden;" class="card card-secondary maincard " >
               <div *ngIf="patient.card.view==='front'"  style='padding-left:30px; border-top-right-radius: 12px; border-top-left-radius: 12px;  padding-top: 0px;
               height: 32px;
@@ -210,7 +209,6 @@
                       </ul>
                   </div>
               </div>
-
               <div *ngIf="patient.card.view!=='front'" style='padding-left: 37px;   border-top-right-radius: 12px; border-top-left-radius: 12px; padding-top: 0px;
               position:absolute;  width:100%;padding-bottom: 0px;height:32px' class="card-header profileheader small-header">
                   <i (click)="switchCards(i,'front')" style='position:absolute;
@@ -240,9 +238,6 @@
                       <img  [src]=getDp(patient.info.personal.avatar)/>
                   </div>
                   <p (click)='showDetails(i)' data-toggle=modal data-target='#detailsModal' style='margin-bottom:2px;position:relative;top:3px' class="patien-name"> {{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}</p>
-                  <!-- <a style="position:relative;top:3px" *ngIf='linked()' href="#" title="View history" [routerLink]="['./history', patient._id]" routerLinkActive="router-link-active" class="patien-name">
-                  {{patient.info.personal.firstName + ' ' + patient.info.personal.lastName}}
-                  <span class="predata editicon"></span></a> -->
                   <div>
                       <div style="position: relative;top:12px" class="carditem basic-item">
                           <h6 class="dept basic-info">Sex</h6>
@@ -308,66 +303,7 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-         <!-- <div style="border-radius:12px" class="card-header profileheader">
-          <i (click) ='showMenu(i)'  class="icon ion-android-more-vertical headericon moreicon actions-icon"></i>
-          <div *ngIf = "patient.card.menu" class="menu">
-                  <ul (mouseleave)=hideMenu(i) class="actions primary">
-                      <li (click)="selectPatient(i)" data-target="#uploadModal" data-toggle="modal" class="action">Attache file</li>
-                      <li (click) = changeBed(i) class="action">Allocation</li>
-                      <li (click) = switchToVitals(i) class="action">Update Vitals</li>
-                      <li (click)="selectPatient(i)" data-target="#medicModal" data-toggle="modal" class="action">Medications</li>
-                  </ul>
-          </div>
-          <div class="timeline lastdoc priscriber headerdp">
-              <img [src] = getDp(patient.info.personal.avatar)/>
-          </div>
-        </div>
-        <p style='margin-bottom:2px;'   class="patien-name">{{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}</p>
-        <div class="card-body mainbody">
-            <div class="carditem basic-item">
-                <h6 class="dept basic-info">Sex</h6>
-                <h6 class="dept basic-info sex-info">
-                    {{patient.info.personal.gender.charAt(0).toUpperCase()}}
-                </h6>
-            </div>
-            <div class="carditem basic-item">
-                <h6 class="dept basic-info">Age</h6>
-                <h6 class="dept basic-info sex-info">{{patient.info.personal.dob|dob}}</h6>
-            </div>
-            <div class="carditem basic-item">
-                <h6 class="dept basic-info">Room</h6>
-                <h6 class="dept basic-info sex-info"> {{patient.record.visits[0][0].wardNo ||'?'}}<span style='vertical-align:super;font-size:12px;font-weight: normal'>
-                  {{patient.record.visits[0][0].bedNo ||'?'}}</span></h6>
-            </div>
-            <div class="priscription basic-subinfo">
-                <div class="sub-container">
-                  <h6 style="width:100%;text-align:center" class="dept basic-secondary basic-value">
-                    {{patient.record.visits[0][0].visitedOn|date:'dd MMM, yy'}}&nbsp;<span>
-                    {{patient.record.visits[0][0].visitedOn|date:'hh:mma'|lowercase}}</span>
-                  </h6>
-                </div>
-            </div>
-          </div> -->
-      </div>
+</div>
       <!-- <div style="border-radius:12px"  *ngIf = "patient.card.view == 'vitals'"   class="card card-secondary maincard">
           <div style='padding-left: 30px;border-bottom:0px;border-top-left-radius:12px;border-top-right-radius:12px;' class="card-header profileheader small-header">
               <i (click)=switchToFront(i) style='position:absolute;

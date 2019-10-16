@@ -1,0 +1,17 @@
+.anouncer{
+    margin-bottom: 5px;
+    /* font-weight: bold; */
+    font-style: italic;
+    text-align: right;
+    color:lightgrey;
+    /* color: #ced4da; */
+}
+.anouncer span {
+    font-weight: normal;
+    font-style: normal;
+    color:lightgrey;
+    font-size: 11px;
+}
+.notification:hover {
+    background: rgba(248, 249, 250, .5);
+}

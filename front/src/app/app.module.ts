@@ -29,6 +29,7 @@ import { MainComponent } from './components/navs/main/main.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { DeceasedComponent } from './components/deceased/deceased.component';
 import { CashierComponent } from './components/cashier/cashier.component';
+import { NotificationsComponent } from './components/notifications/notifications.component';
 
 const routes: Routes = [
   {
@@ -118,6 +119,10 @@ const routes: Routes = [
         component: MessagesComponent
       },
       {
+        path: 'notifications',
+        component: NotificationsComponent
+      },
+      {
         path: 'settings',
         component: SettingsComponent
       },
@@ -156,6 +161,10 @@ const routes: Routes = [
           component: MessagesComponent
         },
         {
+          path: 'notifications',
+          component: NotificationsComponent
+        },
+        {
           path: '', component: RegistrationComponent
         }
       ]
@@ -170,8 +179,17 @@ const routes: Routes = [
           component: WardComponent
         },
         {
+          path: 'deceased',
+          component:  DeceasedComponent
+        },
+        {
           path: 'me',
-          component: MessagesComponent},
+          component: MessagesComponent
+        },
+        {
+          path: 'notifications',
+          component: NotificationsComponent
+        },
         {
           path: '',
           component: RegistrationComponent}
@@ -188,6 +206,14 @@ const routes: Routes = [
         {
           path: 'addmisions',
           component: PatientComponent
+        },
+        {
+          path: 'notifications',
+          component: NotificationsComponent
+        },
+        {
+          path: 'deceased',
+          component:  DeceasedComponent
         },
         {
           path: 'history/:id',
@@ -229,7 +255,8 @@ const routes: Routes = [
     MainComponent,
     SettingsComponent,
     DeceasedComponent,
-    CashierComponent
+    CashierComponent,
+    NotificationsComponent
 
   ],
   imports: [

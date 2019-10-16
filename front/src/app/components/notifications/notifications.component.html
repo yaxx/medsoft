@@ -1,0 +1,94 @@
+<div class="modal fade" role="dialog" tabindex="-1" id="noteModal" style="border-radius:12px;width:auto;">
+    <div style="max-width: 479px;" class="modal-dialog" role="document">
+        <div class="modal-content" style="width: 515px;border-radius:0px;border-radius:12px;padding-left:0px;padding-right: 0px;">
+            <div class="modal-body" style="border-radius:0px;padding: 0px;">
+                <div class="card card-secondary historycard midlecard profilecard" style="margin:auto;min-height:246px;border-radius:12px; width:100%;">
+                    <div style='padding-left: 30px;border-top-right-radius:12px;border-top-left-radius:12px;' class="card-header profileheader small-header">
+                        <h6 style='font-size:10px; font-weight:bold; position:absolute;color:dodgerblue;  top:4%;left:2%' class="patien-name small-name">NEW NOTIFICATION</h6>
+                    </div>
+                    <div style="width:100%;margin:auto" class="card-body orderbody">
+                        <form novalidate class="patientform">
+                            <div class="card card-secondary historycard midlecard profilecard" style="border-bottom:none;margin:0px;margin-right: 0px;width:100%; min-height: 100px;">
+                                <div style="padding-top:0px;padding-left: 10px; padding-right: 10px;" class="card-body topcardbody clientinfobody nopading">
+                                    <div class="form-group vitals-section formGroup newnote">
+                                        <textarea [(ngModel)]= notification.note id='newnote' style="width:100%; min-height: 120px; font-size: 13px; padding: 5px; border: 0px; " name="note" placeholder="Additional note"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <button [disabled] = !notification.note (click) = addNotifications() style=" width: 120px;font-size: 10px; height:27px;left:71%; bottom:13%;" class="btn btn-sm btn-outline-primary inputs mainbtn"> POST
+                            <span style="position: absolute; bottom: -7%;left: 70%;">
+                            <i *ngIf="processing" class="fa fa-circle-o-notch fa-spin fa-10x slow-spin " style="position:absolute;bottom:5px;left:2px;font-size:19px;color: #1da1f2;"> </i>
+                            </span>
+                        </button>
+                    </div>
+                    <!-- <div  style="padding:5px;border-top: 1px solid rgb(248, 247, 247)" class="card-footer">
+                        <h6 class="feedbackMsg">{{Success}}</h6>
+                    </div> -->
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="padding-top:0px" class="container history-container">
+    <div class="row history-row" style='height:100%'>
+        <!-- <div style='position:absolute; top:40%;left:42%' *ngIf='!client._id' class='issue'>
+            <div *ngIf='loading' class="lds-css ng-scope">
+                <div style="width:100%;height:100%" class="lds-rolling">
+                    <div></div>
+                </div>
+            </div>
+            <div (click)=refresh() *ngIf='message' title='Refresh' class='refresh'><i class="icon ion-ios-reload "></i></div>
+            <h6 *ngIf='message' style='font-size:13px;position:absolute;top:65%; width:100%; color:lightgrey;text-align: center'>{{message}}</h6>
+        </div> -->
+        
+        <div style="margin: auto; margin-top:0px; height: 100%; max-width: 560px"  class="col col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-lg-offset-3 col-md-offset-3 ">
+                <div class="card card-secondary historycard midlecard graphcard" style="position: relative;height:100%; width:100%;margin:auto;left:18px;">
+                    <div style="border-top-right-radius: 0px;height: 39px;border-top-left-radius: 0px; "
+                    class="card-header grapheader">
+                        <h1 style="font-weight: bold" data-toggle=modal data-target='#staffModal' class="dept headtitle">
+                            NOTIFICATIONS
+                            <i data-toggle=modal data-target='#noteModal' style="left:98%;bottom:-9px;font-size: 26px;" class="icon ion-ios-plus-empty editicon editclient addinfo" title="Add Notification">
+                            </i>
+                        </h1>
+                    </div>
+                    <div data-simplebar  style='margin-left: 0px; border-left: 0px;padding-top:0%;' class="card-body notecardbody">
+                        <!-- <h1 style='color:lightgrey; width:100%; text-align:center;top:43%;position:absolute;' class="dept headtitle">NO NOTIFICATIONS</h1> -->
+
+
+                    <div *ngIf="!notifications.length" style='position:absolute; top:40%;left:32%' class='issue'>
+                          <div *ngIf="loading" class="lds-css ng-scope">
+                              <div style="width:100%;height:100%" class="lds-rolling">
+                                  <div></div>
+                              </div>
+                          </div>
+                          <div *ngIf="feedback" style="top:15%;left:38%" title='Refresh' class='refresh'><i (click)=refresh() class="icon ion-ios-reload "></i></div>
+                          <h6 *ngIf="feedback" style='font-size:13px;position:absolute;top:65%; width:100%; color:lightgrey;text-align: center'>
+                          {{feedback}}
+                          </h6>
+                    </div>
+
+
+
+
+
+                      <div *ngFor="let note of notifications" style="padding-right: 10%;padding-left:10%;border-bottom:1px solid whitesmoke;padding-bottom: 10px;padding-top: 10px" class="carditem noteitem writeup notification">
+                          <i style="top: -2px; left:93%" (click)=showMenu() class="icon ion-android-more-horizontal headericon moreicon actions-icon"></i>
+                          <!-- <div style="width:25%;height:65px;position: absolute;left:84%;" class="menu">
+                            <ul class="actions primary">
+                                <li class="action">Edit</li>
+                                <li class="action">Delete </li>
+                            </ul>
+                          </div>  -->
+                            <p class="note-item">{{note.note}} <br>
+                              <span class="read-more"><a href="#">Read more</a></span>
+                          </p>
+                          <p class="anouncer">-Management:&nbsp;<span>{{note.meta.dateAdded|date:'dd/MM/y hh:mma'|lowercase}}</span></p>
+                        </div>
+                      
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>

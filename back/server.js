@@ -3,7 +3,7 @@ const app = express()
 const server = require('http').Server(app)
 const io = require('socket.io')(server)
 const api = require('./routes/api')
-const Notification = require('./models/schemas/noteschema')
+// const Notification = require('./models/schemas/noteschema')
 const Connection = require('./models/schemas/connection')
 const Messages = require('./models/schemas/messageschema')
 const path = require('path');
@@ -78,12 +78,12 @@ io.sockets.on('connection', (socket) => {
       } else { console.log(err) }
     })
 
-    Notification({from: socket.request.cookies.q, to: data.username, button: 'Follow'}).save((err, note) => {
-      if (err) {
-        console.log(err)
-      } else {
-      }
-    })
+    // Notification({from: socket.request.cookies.q, to: data.username, button: 'Follow'}).save((err, note) => {
+    //   if (err) {
+    //     console.log(err)
+    //   } else {
+    //   }
+    // })
     logins.forEach(function (user) {
       if (user.username === data.username) {
         socket.to(user.id).emit('newnotification', {})
@@ -105,25 +105,25 @@ io.sockets.on('connection', (socket) => {
         })
       } else { console.log(err) }
     })
-    Notification({from: socket.request.cookies.q, to: data.username, button: 'Following'}).save((err, note) => {
-      if (err) {
-        console.log(err)
-      } else {
+    // Notification({from: socket.request.cookies.q, to: data.username, button: 'Following'}).save((err, note) => {
+    //   if (err) {
+    //     console.log(err)
+    //   } else {
 
-      }
-    })
-    Notification.findOne({_id: data.i}, (err, mynote) => {
-      if (!err) {
-        mynote.button = 'Following'
-        mynote.save((err, n) => {
-          if (!err) {
-          }
-          console.log(err)
-        })
-      } else {
-        console.log(err)
-      }
-    })
+    //   }
+    // })
+    // Notification.findOne({_id: data.i}, (err, mynote) => {
+    //   if (!err) {
+    //     mynote.button = 'Following'
+    //     mynote.save((err, n) => {
+    //       if (!err) {
+    //       }
+    //       console.log(err)
+    //     })
+    //   } else {
+    //     console.log(err)
+    //   }
+    // })
   })
   socket.on('check', (data) => {
     console.log(logins)
@@ -150,6 +150,9 @@ app.get('/api/inpatients', api.getInPatients)
 app.get('/api/orders', api.getOrders)
 app.get('/api/products', api.getProducts)
 app.get('/api/history/:id', api.getHistory)
+app.get('/api/notifications', api.getNotifications)
+
+
 app.post('/api/follow', api.followPerson)
 app.post('/api/followback', api.followBack)
 app.post('/api/unfollow', api.unFollow)
@@ -160,6 +163,8 @@ app.post('/api/new-patient', api.addPerson)
 app.post('/api/new-product', api.addProduct)
 app.post('/api/person', api.addPerson)
 app.post('/api/updatenote', api.updateNote)
+app.post('/api/addnotification', api.addNotifications)
+// app.post('/api/updateNotification', api.updateNotifications)
 app.post('/api/upload', api.uploadFile)
 app.post('/api/download', api.downloadFile)
 app.post('/api/updatebed', api.updateBed)

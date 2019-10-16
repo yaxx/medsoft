@@ -431,21 +431,24 @@
         <a class="navbar-brand" href="#">
             <em>foldr</em>
         </a>
-        <!-- <ul class='nav-items'>
-        <li (click)=toggleView()><h6>Products</h6></li>
-        <li (click)=toggleView()><h6>Services</h6></li>
-
-      </ul> -->
         <form class="top-searchform" target="_self">
             <div class="form-group">
-                <input [(ngModel)]=searchTerm #search (keyup)='searchProducts(searchTerm)' autocomplete="off" style="border-radius:.999em;width:80%; display:inline-block;position: absolute;top:11%; background-color: rgb(243, 248, 247);box-shadow:none;
-                  outline:none;
-                " class="form-control" type="search" name="search" id="search-field" placeholder="Search product">
+                    <input [(ngModel)]=searchTerm #search (keyup)='searchProducts(searchTerm)' autocomplete="off" style="border-radius:.999em;
+                    width:80%;display:inline-block;
+                    position: absolute;
+                    text-align: left;
+                    vertical-align: middle;
+                    top:11%;
+                    box-shadow:none;
+                    outline:none;
+                    background-color: rgba(233, 236, 239, 0.7);
+                    " class="form-control" type="search" name="search" id="search-field" placeholder="Search patient">
+              
                 <i style='font-size:20px; top:3px;left:83%;position:relative;display:inline' class="icon ion-ios-search " title="Search"></i>
                 <h6 style='font-size:12px;
                 left:98%;position:relative;display:inline-block;
                 color:grey;
-                font-weight:normal;'>Filter:<span style='cursor:pointer; color:#1da1f2;' (click)='toggleMenu()'>
+                font-weight:normal;'>View: <span style='cursor:pointer; color:#1da1f2;' (click)='toggleMenu()'>
                   {{tableView}}</span></h6>
                 <div *ngIf=menuView style='position: absolute; left:120%; width:100px;top:6px; height:110px' class="menu">
                     <ul (mouseleave)=toggleMenu() class="actions primary">
@@ -458,11 +461,11 @@
         </form>
 
     </div>
-    <i style="left:80%;" class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
+   
     <i *ngIf="tableView ==='Products'" style="left:75%;" class="icon ion-ios-plus-empty arrow buble" id="add" title="Add Product" data-target="#productModal" data-toggle="modal"></i>
     <i *ngIf="tableView === 'Services'" style="left:75%;" class="icon ion-ios-plus-empty arrow buble" id="add" title="Add Service" data-target="#serviceModal" data-toggle="modal"></i>
     <i *ngIf="tableView === 'Cards'" style="left:75%;" class="icon ion-ios-plus-empty arrow buble" id="add" title="Add Card" data-target="#cardModal" data-toggle="modal"></i>
-    <i style="left:83%;" class="icon ion-ios-person-outline arrow buble" id="add" title="Me"></i>
+  
     <div class="timeline lastdoc priscriber headerdp small-dp user-dp" style="left:90%;position:absolute;height:30px;width:30px;top:5px; margin-bottom:0px;"> <img style='height:100%; width:100%; object-fit:cover;' [src]=getMyDp()/></div>
 </nav>
 

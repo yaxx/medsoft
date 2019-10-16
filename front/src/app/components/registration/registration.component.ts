@@ -6,7 +6,9 @@ import {SocketService} from '../../services/socket.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import * as cloneDeep from 'lodash/cloneDeep';
 import {Person, Info} from '../../models/person.model';
-import {Visit} from '../../models/record.model';
+import {states, lgas } from '../../data/states';
+import { Item, StockInfo, Product, Card, Invoice, Meta} from '../../models/inventory.model';
+import {Visit, Session} from '../../models/record.model';
 import {Client, Department} from '../../models/client.model';
 import {CookieService } from 'ngx-cookie-service';
 // const uri = 'http://192.168.1.100:5000/api/upload';
@@ -23,19 +25,26 @@ export class RegistrationComponent implements OnInit {
   clonedPatients: Person[] = [];
   clonedPatient: Person = new Person();
   patient: Person = new Person();
+  products: Product[] = [];
   client: Client = new Client();
   file: File = null;
+  states = states;
+  lgas = lgas;
   info: Info = new Info();
-  visit:Visit = new Visit();
-  card: string = null;
+  visit: Visit = new Visit();
+  card: Card = new Card();
+
   url = '';
   curIndex = 0;
+  session: Session = new Session();
   message = null;
   feedback = null;
+  cardTypes = [];
   processing = false;
   sortBy = 'added';
   sortMenu = false;
   loading = false;
+  count = 0
   nowSorting = 'Date added';
   view = 'info';
   searchTerm = '';
@@ -88,11 +97,16 @@ export class RegistrationComponent implements OnInit {
     this.message = null;
     this.getPatients('out');
   }
-  getClient() {
-    this.dataService.getClient().subscribe((res: any) => {
-      this.client = res.client;
-  })
-}
+
+    getClient() {
+      this.dataService.getClient().subscribe((res: any) => {
+        this.client = res.client;
+        this.products = res.client.inventory;
+        this.cardTypes = res.client.inventory.filter(p => p.type === 'Cards');
+        this.session.items = res.items;
+    });
+    }
+
   getPatients(type) {
     this.loading = true;
     this.dataService.getPatients(type).subscribe((patients: Person[]) => {
@@ -113,6 +127,9 @@ export class RegistrationComponent implements OnInit {
       this.message = 'Something went wrong';
       this.loading = false;
     });
+  }
+  getLgas() {
+    return this.lgas[this.states.indexOf(this.patient.info.contact.me.state)];
   }
   enrolePatient()  {
     this.processing = true;
@@ -214,6 +231,21 @@ export class RegistrationComponent implements OnInit {
         break;
     }
   }
+
+
+  next(){
+    this.count = this.count + 1;
+  }
+  prev() {
+    this.count = this.count - 1;
+  }
+
+
+
+
+
+
+
 }
 
 

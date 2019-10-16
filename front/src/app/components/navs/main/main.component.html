@@ -40,10 +40,15 @@
     <span class="homespan">
         <i  style ='font-size: 26px;position:relative; ' class="icon ion-ios-close-outline homeicon"></i>
     </span>
-</a>
-  <a  *ngIf='isAdmin() || isInfo()' style="top:49%" href="#" [routerLink]="['./deceased']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Deceased">
+ </a>
+  <a  *ngIf='isAdmin() || isInfo() || isConsult()'style="top:49%" href="#" [routerLink]="['./deceased']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Deceased">
     <span class="homespan">
         <i  style ='font-size: 26px;position:relative; ' class="icon ion-ios-close-outline homeicon"></i>
+    </span>
+</a>
+<a *ngIf = 'isConsult() || isWard()' style="top:57%" href="#"   [routerLink]="['./notifications']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Notifications">
+    <span class="homespan">
+        <i  style ='font-size: 26px;position:relative;' class="icon ion-android-notifications-none homeicon"></i>
     </span>
 </a>
 <a *ngIf='isAdmin() || isInfo()'  style="top:58%" href="#" [routerLink]="['./pharmacy']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Pharmacy">
@@ -54,6 +59,12 @@
 <a *ngIf = isAdmin()  style="top:65%" href="#"   [routerLink]="['./inventory']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Inventory">
     <span class="homespan">
         <i  style ='font-size: 26px;position:relative;' class="icon ion-android-apps homeicon"></i>
+    </span>
+</a>
+
+<a *ngIf = isAdmin()  style="top:72%" href="#"   [routerLink]="['./notifications']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Notifications">
+    <span class="homespan">
+        <i  style ='font-size: 26px;position:relative;' class="icon ion-android-notifications-none homeicon"></i>
     </span>
 </a>
 

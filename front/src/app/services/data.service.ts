@@ -134,12 +134,20 @@ export class DataService {
   }
   updateBed(patient, client) {
     return this.http.post(
-      `${this.uri}/updatebed`, {patient:patient, client:client}, {withCredentials: true});
+      `${this.uri}/updatebed`, {patient: patient, client: client}, {withCredentials: true});
   }
   updateNote(i, n) {
     return this.http.post(
       `${this.uri}/updatenote`, {id: i, note: n}, {withCredentials: true});
 
+  }
+  getNotifications() {
+    return this.http.get(
+      `${this.uri}/notifications`, {withCredentials: true});
+  }
+  addNotifications(note) {
+    return this.http.post(
+      `${this.uri}/addnotification`, {note: note}, {withCredentials: true});
   }
   getNew() {
     return this.staff;

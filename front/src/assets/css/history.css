@@ -19,8 +19,8 @@
 }
 
 .card.card-secondary.historycard.rightcard {
-    width: 188px;
-    left: 16px;
+    width: 205px;
+    left: 12px;
 }
 
 .card-body.topcardbody {
@@ -37,13 +37,13 @@
 
 .card.card-secondary.historycard.midlecard {
     width: 470px;
-    min-height: 170px;
+    min-height: 185px;
 }
 
 .card.card-secondary.historycard.leftcard {
     width: 200px;
     height: 424px;
-    left: 20px;
+    left: 27px;
 }
 
 .card-body.midcardbody {
@@ -626,4 +626,42 @@ p {
     100% {
         left: 0%;
     }
+}
+
+
+
+.steps {
+    position: relative;
+    width: 75%;
+    border-top:1px solid whitesmoke;
+    display: flex;
+    justify-content: space-around;
+    right: 10px;
+    flex-direction: row;
+    align-items: center;
+    margin:auto;
+}
+.step-item {
+  height: 25px;
+  width:25px;
+  border: 1px solid whitesmoke;
+  border-radius:50%;
+  position: relative;
+  top:-15px;
+  z-index: 100;
+  background: white;
+  margin-bottom: 15px;
+}
+.step-lebel {
+  position: absolute;
+  font-size:9px;
+  font-weight: normal;
+  text-align: center;
+  right: -28px;
+  top: 112%;
+  width:84px;
+  color: #4285f4;
+}
+.curent-step {
+  border-color: #4285f4;
 }

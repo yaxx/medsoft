@@ -238,8 +238,9 @@
                   <h6 style='font-size:12px;
                         left:98%;position:relative;display:inline-block;
                         color:grey;
-                        font-weight:normal;'>Sort by: <span stye='cursor:pointer'(click)='toggleSortMenu()'>
-                          {{nowSorting}}</span></h6>
+                        font-weight:normal;'>Sort: <span style='cursor:pointer; color:#1da1f2;'  (click)='toggleSortMenu()'>
+                          {{nowSorting}}</span>
+                  </h6>
                   <div *ngIf=sortMenu style='position: absolute;
                         left:120%;
                         width:100px;top:6px;
@@ -256,8 +257,7 @@
       </form>
         </div>
     </div>
-    <i style="left:80%;" class="icon ion-android-notifications-none arrow buble note" title="Notifications"></i>
-    <i [routerLink]="['../../me']" data-target="#newModal" data-toggle="modal" style="left:83%;" class="icon ion-ios-person-outline arrow buble" id="add" title="Me" ></i>
+  
 
     <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:90%;position:absolute;height:30px;width:30px;top:5px; margin-bottom:0px;"> <img style='height:100%; width:100%; object-fit:cover;' [src] = getMyDp()/></div>
     </nav>

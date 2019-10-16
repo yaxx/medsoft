@@ -10,7 +10,7 @@ const Department = require ('../models/schemas/department')
 const multer = require ('multer')
 const path = require('path');
 const  truncate  = require ('fs');
-const Notifications = require('../models/schemas/noteschema')
+const Notification = require('../models/schemas/noteschema')
 const Connection = require('../models/schemas/connection')
 // var Messages = require('../models/schemas/messageschema')
 let name = null
@@ -577,6 +577,22 @@ updateNote: (req, res)=>{
   } else {console.log(e)}
   })
 },
+getNotifications: async (req, res)=>{
+ try {
+   const notes = await Notification.find()
+   res.send(notes);
+ } catch (error) {
+   console.log(error)
+ }
+},
+addNotifications: async(req, res)=>{
+ try {
+   const note = await new Notification(req.body.note).save()
+   res.send(note);
+ } catch (error) {
+   console.log(error)
+ }
+},
 
 updateMedication: async (req, res) => {
   try {
@@ -693,29 +709,29 @@ getMessages: function (req, res) {
   })
 },
 
-getNotifications: function (req, res) {
-  Notifications.updateMany({to: req.cookies.username}, {$set: {seen: true}}, (err, note) => {
-    if (err) {
-      console.log(err)
-    } else {
-      console.log(note)
-    }
-  })
-  Notifications.find({to: req.cookies.username}).populate('require', 'name username dp _id').exec((err, notes) => {
-    if (!err) {
+// getNotifications: function (req, res) {
+//   Notifications.updateMany({to: req.cookies.username}, {$set: {seen: true}}, (err, note) => {
+//     if (err) {
+//       console.log(err)
+//     } else {
+//       console.log(note)
+//     }
+//   })
+//   Notifications.find({to: req.cookies.username}).populate('require', 'name username dp _id').exec((err, notes) => {
+//     if (!err) {
       
-      res.send(notes)
-    } else { console.log(err) }
-  })
-},
-getNewNotifications: function (req, res) {
-  Notifications.find({to: req.cookies.username, seen: false}, (err, notes) => {
-    if (!err) {
+//       res.send(notes)
+//     } else { console.log(err) }
+//   })
+// },
+// getNewNotifications: function (req, res) {
+//   Notifications.find({to: req.cookies.username, seen: false}, (err, notes) => {
+//     if (!err) {
     
-      res.send(notes)
-    } else { console.log(err) }
-  })
-},
+//       res.send(notes)
+//     } else { console.log(err) }
+//   })
+// },
 getProfile: function (req, res) {
   User.find({username: req.cookies.username}, (err, prof) => {
     if (!err) {

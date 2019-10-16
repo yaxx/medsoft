@@ -61,7 +61,7 @@ export class ConsultationComponent implements OnInit {
   showWebcam = false;
   errors: WebcamInitError[] = [];
   webcamImage: WebcamImage = null;
-  count = -1;
+  count = 0;
   dept = null;
   // webcam snapshot trigger
   private trigger: Subject<void> = new Subject<void>();
@@ -841,7 +841,6 @@ submitRecord() {
     this.composeMedications();
     this.composeInvoices();
     this.checkScalars() ;
-    // console.log(this.patient.record)
     this.sendRecord();
 
   }

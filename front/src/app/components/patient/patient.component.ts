@@ -5,9 +5,10 @@ import {SocketService} from '../../services/socket.service';
 import {CookieService } from 'ngx-cookie-service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Item, StockInfo, Product} from '../../models/inventory.model';
-import {Client} from '../../models/client.model';
+import * as cloneDeep from 'lodash/cloneDeep';
 import { Person} from '../../models/person.model';
-import { Priscription, Medication, Visit, Note} from '../../models/record.model';
+import {PersonUtil} from '../../util/person.util';
+
 
 const uri = 'http://localhost:5000/api/upload';
 // const uri = 'http://18.221.76.96:5000/api/upload';
@@ -18,29 +19,17 @@ const uri = 'http://localhost:5000/api/upload';
 })
 export class PatientComponent implements OnInit {
   patients: Person[] = [];
-  clonedPatients: Person[] =[];
+  clonedPatients: Person[] = [];
   patient: Person = new Person();
-  products: Product[] = [];
-  medications: any[] = [];
-  client: Client = new Client();
-  product: Product = new Product();
-  priscription: Priscription = new Priscription();
-  medication: Medication = new Medication();
-  temProducts: Product[] = [];
-  item: Item = new Item();
-  items: Item[] = [];
-  temItems: Item[] = [];
-  searchedItems: Item[] = [];
-  edited: Medication[] = [];
-  tempMedications: Medication[] = [];
   uploader: FileUploader = new FileUploader({url: uri});
   temPatients: Person[] = new Array<Person>();
   file: File = null;
-  note = new Note();
   input = '';
+  reg = true;
   view = 'bed';
   id = null;
   medicView = false;
+  cardTypes = [];
   sortBy = 'added';
   sortMenu = false;
   nowSorting = 'Date added';
@@ -52,6 +41,7 @@ export class PatientComponent implements OnInit {
   processing = false;
   loading = false;
   curIndex = 0;
+  count = 0;
   url = '';
   attachments: any = [];
   myDepartment = null;
@@ -60,34 +50,38 @@ export class PatientComponent implements OnInit {
      private socket: SocketService,
      private route: ActivatedRoute,
      private router: Router,
+     private psn: PersonUtil,
      private cookies: CookieService
   ) { }
   ngOnInit() {
+    this.getClient();
     this.myDepartment = this.route.snapshot.params['dept'];
     this.getPatients('Admit');
-    this.getClient();
-    this.getItems();
-    this.socket.io.on('store update', (data) => {
-      if(data.action === 'new') {
-        this.products.concat(data.changes);
-      } else if (data.action === 'update') {
-          for (const product of data.changes) {
-              this.products[this.products.findIndex(prod => prod._id === product._id)] = product;
-            }
-      } else {
-          for (const product of data.changes) {
-            this.products.splice(this.products.findIndex(prod => prod._id === product._id) , 1);
-          }
-      }
-    });
     this.uploader.onBuildItemForm = (fileItem: any, form: any) => {
       form.append('id', this.patients[this.curIndex]._id);
      };
     this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any ) => {
       this.attachments.push(JSON.parse(response));
     };
-
   }
+  getClient() {
+    this.dataService.getClient().subscribe((res: any) => {
+      this.cardTypes = res.client.inventory.filter(p => p.type === 'Cards');
+  });
+  }
+  viewDetails(i) {
+    this.reg = false;
+    this.curIndex = i;
+    this.count = 0;
+    this.psn.person = cloneDeep(this.patients[i]);
+  }
+  updateInfo() {
+    const info = this.psn.updateInfo();
+    if(info) {
+      this.patients[this.curIndex].info = info;
+    }
+ }
+
   getItems() {
     // this.dataService.getItems().subscribe((items: Item[]) => {
     //   this.items = items;
@@ -107,53 +101,16 @@ export class PatientComponent implements OnInit {
   refresh() {
     this.message = null;
     this.getPatients('Admit');
-    this.getClient();
-    this.getItems();
-  }
-  getClient() {
-  //   this.dataService.getClient().subscribe((client: any) => {
-  //     this.client = client.client;
-  // });
-  }
-  getPriceTotal() {
-    // let total = 0;
-    // this.tempMedications.forEach((medic) => {
-    //   total = total +  medic.product.stockInfo.price;
-    // });
-    // return total;
-  }
-  fileSelected(event) {
-    // if (event.target.files && event.target.files[0]) {
-    //   this.file = <File>event.target.files[0];
-    //   const reader = new FileReader();
-    //   reader.readAsDataURL(event.target.files[0]); // read file as data url
-    //   reader.onload = (e) => {
-    //     let ev = <any>e.target;
-    //     // called once readAsDataURL is completed
-    //     this.url = ev.target.result;
-
-    //   };
-    // }
 
   }
-  medidcationsSelected(i: number) {
-    // return this.patients[i].record.medications.some(med => med.some(m => m.selected));
+  
+  next() {
+    this.count = this.count + 1;
   }
-  uploadFile() {
-    // const data: FormData = new FormData();
-    // data.append('file', this.file);
-    // this.dataService.upload(this.file,
-    //    this.patients[this.curIndex]._id).subscribe(res => {
-    // });
+  prev() {
+    this.count = this.count - 1;
+  }
 
-  }
-  pullMedications(i: number) {
-    // this.curIndex = i;
-    // this.medications = this.patients[i].record.medications;
-  }
-  pullNote(i: number) {
-    // this.curIndex = i;
-   }
    getPatients(type) {
     this.loading = true;
     this.dataService.getPatients(type).subscribe((patients: Person[]) => {
@@ -183,26 +140,9 @@ export class PatientComponent implements OnInit {
   isConsult() {
     return !this.router.url.includes('information') && !this.router.url.includes('pharmacy') && !this.router.url.includes('billing') && !this.router.url.includes('ward') && !this.router.url.includes('admin');
   }
-  dischargePtient(patient, i) {
-//     let visit = patient.record.visits[0][0];
-//     patient.record.visits[0][0] = {...visit, status: 'Discharge', dischargedOn: new Date()};
-//     const j = this.client.departments.findIndex(d => d.name === visit.dept);
-//     this.client.departments[j].rooms[visit.wardNo - 1].beds.forEach(bed => {
-//       if(bed.number === visit.bedNo) {
-//         bed.allocated = false;
-//       }
-//     });
-//     this.dataService.updateBed(patient, this.client).subscribe((p: Person) => {
-//       this.patients.splice(i, 1);
-//  });
-}
 
-routeHas(path){
-  // return this.router.url.includes(path);
-}
-  switchToNewMedic() {
-    // this.medicView = !this.medicView;
-  }
+
+
   toggleSortMenu() {
     // this.sortMenu = !this.sortMenu;
   }
@@ -215,22 +155,7 @@ routeHas(path){
   switchToFront(i) {
     // this.patients[i].card = {menu: false, view: 'front'};
   }
-  composeMedication() {
-  //   if (this.medications.length) {
-  //     if (new Date(this.medications[0][0].dateCreated)
-  //     .toLocaleDateString() === new Date()
-  //     .toLocaleDateString()) {
-  //       for(let m of this.tempMedications) {
-  //         this.medications[0].unshift(m);
-  //       }
-  //      } else {
-  //       this.medications.unshift(this.tempMedications);
-  //      }
 
-  // } else {
-  //   this.medications = [this.tempMedications];
-  // }
-  }
   searchPatient(name:string) {
   //  if (name !== '') {
   //   this.patients = this.patients.filter((patient) => {
@@ -274,25 +199,9 @@ routeHas(path){
     // }
   }
 
-  saveMedication(i) {
-    // this.composeMedication();
-    // this.patients[i].record.medications = this.medications;
-    // this.loading = true;
-    // this.dataService.updateRecord(this.patients[i]).subscribe((p: Person) => {
-    //   p.card = {menu: false, view: 'front'};
-    //   this.patients[i] = p;
-    //   this.medications = new Array<any>(new Array<Medication>());
-    //   this.tempMedications = [];
-    //   this.loading = false;
-    // });
-  }
 
 
- addSelection(item: Item) {
-    // this.input = item.name + ' ' + item.mesure + item.unit;
-    // this.temItems = new Array<Item>();
-    // this.product = new Product(item, new StockInfo());
-   }
+
    showMenu(i: number) {
     this.hideMenu();
     this.patients[i].card.menu = true;
@@ -302,132 +211,16 @@ routeHas(path){
       p.card.menu =  false;
     });
   }
- addMore() {
-    // let tempro = null;
-    // if( this.product.item.name) {
-    //   } else {
-    //    this.product.item.name = this.input;
-    //  }
-    // this.client.inventory.forEach(prod => {
-    //   if(prod.item._id === this.product.item._id) {
-    //     tempro = prod;
-    //   }
-    // })
-    // if (tempro) {
-    //   this.tempMedications.unshift(new Medication(tempro, this.priscription))
-    // } else {
-    //    this.tempMedications.unshift(new Medication(this.product, this.priscription));
-    // }
-    // this.product = new Product();
-    // this.priscription = new Priscription();
-    // this.input = null;
-   }
-  selectItem(i: number, j: number, k: number) {
-    // this.patients[i].record.medications[j][k].selected =
-    // this.patients[i].record.medications[j][k].selected ? false : true;
-   }
-   playMedication(i: number, j: number) {
-    // this.patients[this.curIndex].record.medications[i][j].paused = false;
-    // this.dataService.updateRecord(this.patients[this.curIndex]).subscribe((p: Person) => {
-    //   p.card = {menu: false, view: 'front'};
-    //   this.patients[i] = p;
-    // });
-   }
-   pauseMedication(i: number, j: number) {
-    // this.patients[this.curIndex].record.medications[i][j].paused = true;
-    // this.patients[this.curIndex].record.medications[i][j].pausedOn = new Date();
-    // this.dataService.updateRecord(this.patients[this.curIndex]).subscribe((p: Person) => {
-    //   p.card = {menu: false, view: 'front'};
-    //   this.patients[i] = p;
 
-    // });
-   }
+  
 
 
-   saveNote() {
-    // this.processing = true;
-    // this.patients[this.curIndex].record.notes.unshift({...this.note, by: this.cookies.get('i')})
-    //   this.dataService.updateRecord(this.patients[this.curIndex]).subscribe((p: Person) => {
-    //         p.card = {menu: false, view: 'front'};
-    //         this.feedback = 'Note added successfully';
-    //         this.processing = false;
-    //         this.note = new Note();
-    //   });
+  
 
-    }
+ 
 
-  selectDrug(p: number, m: number) {
-    // if (this.patients[p].record.medications[m].selected) {
-    //   this.patients[p].record.medications[m].selected = false;
-    // } else {
-    //   this.patients[p].record.medications[m].selected = true;
-    // }
-  }
 
-  updateTimeTaken(i: number) {
-    // this.patients[i].record.medications.forEach(group => {
-    //   group.forEach(medic => {
-    //     if (medic.selected) {
-    //       medic.lastTaken = new Date();
-    //       medic.selected = false;
-    //     } 
-    //   });
-    // });
-    // this.dataService.updateRecord(this.patients[this.curIndex]).subscribe((p: Person) => {
-    //   this.patients[i] = p;
-    // });
-  }
-  selectMedication(p: number, m: number) {
-  // if (this.patients[p].record.medications[m].paused) {
-  //   this.patients[p].record.medications[m].paused = false;
 
-  // } else {
-  //   this.patients[p].record.medications[m].paused = true;
-  // }
-}
-discharge(i) {
-  // this.patients[i].status = 'discharged';
-}
-gone(i) {
-  // this.patients[i].status = 'gone';
-}
-switchViews() {
-  // if (this.view === 'details') {
-  //    this.view = '';
-  // } else {
-  //   this.view = 'details';
-  // }
-}
-
-// getProducts() {
-//   this.dataService.getProducts().subscribe((p: any) => {
-//     this.products = p.inventory;
-
-//   });
-// }
-
-searchItems(i: string, type: string) {
-//   if (i === '') {
-//     this.temItems = [];
-//   } else {
-//       this.temItems = this.items.filter(it => it.type === type).filter((item) => {
-//       const patern =  new RegExp('\^' + i , 'i');
-//       return patern.test(item.name);
-//     });
-// }
-}
-selectProduct(product: Product) {
-// this.input = product.item.name + ' ' + product.item.mesure + product.item.unit;
-// this.temProducts = new Array<Product>();
-// this.medication.product = product;
-}
-
-updateMedication() {
-//   this.dataService.updateMedication( this.patients[this.selected]._id, this.medication).subscribe((medications: Medication[]) => {
-//    this.patients[this.selected].record.medications = medications;
-//    this.medication = new Medication(new Product(), new Priscription());
-//   });
- }
 
 
 }

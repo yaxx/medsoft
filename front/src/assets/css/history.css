@@ -37,7 +37,7 @@
 
 .card.card-secondary.historycard.midlecard {
     width: 470px;
-    min-height: 185px;
+    min-height: 205px;
 }
 
 .card.card-secondary.historycard.leftcard {
@@ -150,9 +150,9 @@
 .view-more {
     font-size: 13px;
     font-style: italic;
-    /*position:absolute;*/
+    cursor: pointer;
     float: right;
-    /*margin-right:5px;*/
+    color: #1da1f2;
     margin-bottom: 1px;
     bottom: 7px;
     position: relative;

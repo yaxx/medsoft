@@ -51,7 +51,7 @@
         <i  style ='font-size: 26px;position:relative;' class="icon ion-android-notifications-none homeicon"></i>
     </span>
 </a>
-<a *ngIf='isAdmin() || isInfo()'  style="top:58%" href="#" [routerLink]="['./pharmacy']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Pharmacy">
+<a *ngIf='isAdmin()'  style="top:58%" href="#" [routerLink]="['./pharmacy']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Pharmacy">
     <span class="homespan">
         <i style ='font-size: 24px; color: rgb(158, 158, 158); position: relative; top:5px;right: 3px;' class="material-icons editicon continue blocked-icon">block</i>
     </span>
@@ -63,6 +63,11 @@
 </a>
 
 <a *ngIf = isAdmin()  style="top:72%" href="#"   [routerLink]="['./notifications']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Notifications">
+    <span class="homespan">
+        <i  style ='font-size: 26px;position:relative;' class="icon ion-android-notifications-none homeicon"></i>
+    </span>
+</a>
+<a *ngIf = isInfo()  style="top:58%" href="#"   [routerLink]="['./notifications']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Notifications">
     <span class="homespan">
         <i  style ='font-size: 26px;position:relative;' class="icon ion-android-notifications-none homeicon"></i>
     </span>

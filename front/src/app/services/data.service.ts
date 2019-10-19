@@ -110,9 +110,13 @@ export class DataService {
     return this.http.post(
       `${this.uri}/update-record`, {patient: patient, items: newItems} , {withCredentials: true});
  }
+  updateHistory(patient, newItems = []) {
+    return this.http.post(
+      `${this.uri}/update-history`, {patient: patient, items: newItems} , {withCredentials: true});
+ }
   updateInfo(info, id) {
     return this.http.post(
-      `${this.uri}/update-info`, {info:info, id:id}, {withCredentials: true});
+      `${this.uri}/update-info`, {info: info, id: id}, {withCredentials: true});
  }
 
   upload(image, pid) {

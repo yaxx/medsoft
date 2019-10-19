@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { CookieService } from 'ngx-cookie-service';
 import {DataService} from './services/data.service';
 import {SocketService} from './services/socket.service';
+import {PersonUtil} from './util/person.util';
 import {NotePipe} from './pipes/note.pipe';
 import {FileUploadModule} from 'ng2-file-upload';
 import {AutosizeModule} from 'ngx-autosize';
@@ -272,7 +273,7 @@ const routes: Routes = [
   // declarations: [
   //   AutosizeDirective
   // ],
-  providers: [DataService, CookieService, SocketService],
+  providers: [DataService, CookieService, SocketService, PersonUtil],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

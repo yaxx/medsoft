@@ -8,6 +8,7 @@ import {CookieService} from 'ngx-cookie-service';
 import {Product, Item, Invoice, StockInfo} from '../../models/inventory.model';
 import {Priscription, Medication} from '../../models/record.model';
 import * as cloneDeep from 'lodash/cloneDeep';
+import { timeout } from 'q';
 @Component({
   selector: 'app-cashier',
   templateUrl: './cashier.component.html',
@@ -35,6 +36,7 @@ export class CashierComponent implements OnInit {
   inlinePatients = [];
   inlineProducts = [];
   transMsg = null;
+  errMsg = null;
   input = '';
   searchTerm = '';
   cardView = {
@@ -236,23 +238,22 @@ viewOrders(i: number) {
   selectItem(i: number, j: number) {
    this.invoices[i][j].meta.selected = !this.invoices[i][j].meta.selected;
   }
-  selectCard(i){
+  selectCard(i) {
     this.patient.record.cards[i].meta.selected =  !this.patient.record.cards[i].meta.selected;
   }
-  medidcationsSelected(i: number) {
-    return this.invoices.some(med => med.some(m => m.meta.selected));
+  invoiceSelcted() {
+    return this.invoices.some(invoices => invoices.some(i => i.meta.selected));
   }
  
   reset() {
     setTimeout(() => {
-      // this.switchViews('orders');
       this.transMsg = null;
       this.cart = [];
-      // this.edited = [];
-      // this.editables = [];
       this.clonedStore = [];
-    }, 4000);
-
+    }, 3000);
+    setTimeout(() => {
+      this.switchViews('orders');
+    }, 6000);
   }
 
 
@@ -261,13 +262,11 @@ viewOrders(i: number) {
     this.dataService.runTransaction(this.patients[this.curIndex]._id, this.patients[this.curIndex].record, this.cart).subscribe(() => {
       this.products = this.clonedStore;
       this.processing = false;
-      // this.patients[this.curIndex] = this.patient;
       this.socket.io.emit('transaction', this.cart);
-      this.transMsg = (type === 'purchase') ? 'Transaction successfull' : 'Transaction successfully reversed';
+      this.transMsg = (type === 'purchase') ? 'Payment successfully comfirmed' : 'Transaction successfully reversed';
       this.reset();
-      this.switchViews('orders');
     }, (e) => {
-      this.transMsg = (type === 'purchase') ?  'Transaction unsuccessfull' : 'Unable to reverse transaction';
+      this.errMsg = (type === 'purchase') ?  'Unable to comfirm payment' : 'Unable to reverse transaction';
       this.processing = false;
     });
   }

@@ -55,7 +55,7 @@ export class Personal {
     public religion: string = 'Islam',
     public mstatus: string = 'Single',
     public cardType: string = null,
-    public cardNum: number = null,
+    public cardNum: string = null,
     public avatar: string = 'avatar.jpg'
      ) {}
 }
@@ -64,6 +64,8 @@ export class Me {
     public mobile: number = null,
     public email: string = null,
     public address: string = null,
+    public kinName: string = null,
+    public kinMobile: string = null,
     public state: string = null,
     public lga: string =  null
   ) {}
@@ -77,7 +79,6 @@ export class Emergency {
     public address: string = null,
     public occupation: string = null,
     public rel: string = null
-  
   ) {}
 }
 
@@ -87,25 +88,30 @@ export class Contact {
     public emergency: Emergency = new Emergency()
   ) {}
 }
+export class Insurance {
+  constructor(
+    public name: string = null,
+    public mobile: number = null,
+    public rel: string = null,
+    public idNo: string = null,
+    public groupNo: string = null,
+    public subscriber: string = null,
+    public employer: string = null,
+    public ssn: string = null 
+    ) {}
+}
 export class Info {
   constructor(
     public _id?: string,
     public personal: Personal = new Personal(),
     public official: Official = new Official(),
     public contact: Contact = new Contact(),
+    public insurance: Insurance = new Insurance(),
     public lastLogin: Date = new Date(),
     public online: boolean = true
   ) {}
 }
-export class Insurance {
-  constructor(public name: string = null,
-    public mobile: number = null ,
-    public rel: string = null,
-    public employer: string = null,
-    public ssn: string = null 
-    ) {}
 
-}
 
 export class Person {
   constructor(

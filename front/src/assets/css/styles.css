@@ -820,15 +820,21 @@ html {
 
 .feedbackMsg {
     font-size: 11px;
-    position: relative;
+    position: absolute;
     font-weight: normal;
-    width: 70%;
+    width: 100%;
     text-align: center;
     margin-bottom: 0px;
     padding: 0px;
     color: lightgreen;
-    vertical-align: middle;
+   
     margin: auto;
+    bottom: 20px
+}
+.display-name:hover{
+    /* border-bottom: 2px solid #1da1f2; */
+    cursor: pointer;
+    /* color:#1da1f2; */
 }
 
 .okbtn {

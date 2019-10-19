@@ -106,6 +106,9 @@ export class InventoryComponent implements OnInit {
   refresh() {
     this.getProducts();
   }
+  formCompleted() {
+    return this.item.name && this.product.stockInfo.price && this.product.stockInfo.quantity && this.product.stockInfo.expiry;
+  }
 
   sortProducts(name: string) {
     switch (name) {
@@ -151,7 +154,8 @@ export class InventoryComponent implements OnInit {
         this.newItems.unshift({...this.item, type: this.tableView});
         this.items.unshift({...this.item, type: this.tableView});
       }
-    if (this.products.some(product => product.item.name === this.item.name) || this.temProducts.some(product => product.item.name === this.item.name)) {
+    if (this.products.some(product => product.item.name === this.item.name) || 
+    this.temProducts.some(product => product.item.name === this.item.name)) {
     this.errLine = 'Product already exist';
     } else {
       this.product.item = this.item;

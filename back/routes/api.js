@@ -190,7 +190,6 @@ getHistory: async (req, res) => {
     .populate({path:'record.notes.meta.addedBy', select:'info'})
     .populate({path:'record.conditions.meta.addedBy', select:'info'})
     .exec()
-    console.log(patient.record.notes)
     res.send(patient) 
   }
   catch(e){
@@ -555,6 +554,24 @@ updateRecord: async (req, res) => {
         record: req.body.patient.record
       },{new: true})
     res.send(person);
+  }
+  catch(e) {
+    throw e
+  } 
+},
+updateHistory: async(req, res) => {
+  try {
+    await Item.insertMany(req.body.items);
+    const person = await Person.findByIdAndUpdate(
+      req.body.patient._id, {
+        record: req.body.patient.record
+      },{new: true}
+      )
+     const patient = await Person.findById(req.body.patient._id)
+      .populate({path:'record.notes.meta.addedBy', select:'info'})
+      .populate({path:'record.conditions.meta.addedBy', select:'info'})
+      .exec()
+    res.send(patient);
   }
   catch(e) {
     throw e

@@ -1,25 +1,26 @@
-<div *ngIf='patients.length' class="modal fade" role="dialog" tabindex="-1" id="billingModal" style="border-radius:12px;width:auto;">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content" style="width:480px;border-radius:0px;border-radius:12px;padding-left:0px;padding-right: 0px;">
-            <div class="modal-body" style="border-radius:0px;padding: 0px;">
-                <div class="card card-secondary historycard midlecard profilecard" style="margin:auto;min-height:250px;border-radius:12px;">
-                    <div style='padding-left: 30px;border-top-right-radius:12px;border-top-left-radius:12px;' class="card-header profileheader small-header">
-                        <i *ngIf='cardView.editing||cardView.reversing' (click)="switchViews('orders')" style='position:absolute;left:1%;top:2%; cursor:pointer; display: inline-block;
-                          color:#1da1f2;' title="Back" class="icon ion-android-arrow-back "> </i>
-                        <div style="left:23px" class="timeline lastdoc priscriber headerdp small-dp">
+<div  class="modal" role="dialog" tabindex="-1" id="billingModal" style="border-radius:32px;max-width:841px;margin: auto;padding-top: 35px">
+        <div style="max-width: 730px;border-radius:32px;" class="modal-dialog" role="document">
+            <div class="modal-content" style="width:100%; height:400px;border-radius:32px;padding-left:0px;padding-right: 0px;">
+                <div class="modal-body" style="border-radius:32px;padding: 0px;">
+                    <div class="card card-secondary historycard midlecard profilecard" style="margin:auto;min-height:400px;border-radius:32px;width:100%;position: absolute">
+                    <div style='padding-left: 30px;border-top-right-radius:32px;border-top-left-radius:32px;border-bottom: 0px;height:40px;margin-bottom: 15px;' class="card-header profileheader small-header">
+                      
+                        <div style="left:23px;top:13px" class="timeline lastdoc priscriber headerdp small-dp">
                             <img [src]=getDp(patients[curIndex].info.personal.avatar)/>
                         </div>
-                        <a href="#" class="patien-name small-name">
+                        <p style="top:5px"  href="#" class="patien-name small-name">
                           {{patients[curIndex]?.info.personal.firstName + ' '+ patients[curIndex].info.personal.lastName}}<span class="small-headericon"></span>
-                        </a>
-                        <h6 style='font-size:10px; font-weight:bold; position:absolute;color:dodgerblue;  top:4%;left:70%' class="patien-name small-name">COMFIRM PAYMENT</h6>
+                        </p>
+                        <h6 style='font-size:10px; font-weight:bold; position:absolute;color:dodgerblue;top:5%;left:70%' class="patien-name small-name">ORDERS</h6>
                     </div>
-                    <div *ngIf='cardView.orders' class="card-body orderbody" style=" width:65%; margin:auto;">
-                        <div style="border-left:2px solid #1da1f2;height:200px; width:100%;">
+                    <div *ngIf='cardView.orders' class="card-body orderbody" style=" width:55%; margin:auto;">
+                        <div style="border-left:2px solid #1da1f2;height:290px; width:100%;">
                             <div style='border:none' *ngFor="let invoices of invoices; let i = index" class="carditem priscriptioncontainer order">
-                                <div style='left:-4%' class="timeline condition drugtimeline">
+                                <div style='left:-3%' class="timeline condition drugtimeline">
                                     <p class="timelinedate">{{invoices[0]?.meta.dateAdded|date:'dd'}}</p>
-                                    <p class="timelinedate month"> {{invoices[0]?.meta.dateAdded|date:'MMM'|uppercase}}</p>
+                                    <p class="timelinedate month">
+                                        {{invoices[0]?.meta.dateAdded|date:'MMM'|uppercase}}
+                                    </p>
                                 </div>
                                 <div *ngFor="let invoice of invoices; let j= index" class="priscription drug">
                                     <h6 class="dept">{{invoice.name}}&nbsp;<span class="predata"></span>
@@ -39,7 +40,7 @@
                                         {{getDesc(invoice.desc)}} </span></h6>
                                     <h6 class="dept previnfo" style="color:lightgrey">Price&nbsp;
                                         <span [ngStyle]=getStyle(invoice) style="text-align:right;
-                                        left:80%;display: inline-block;width:50px" *ngIf=invoice.price      class="predata priceval">{{invoice.price * invoice.quantity}}
+                                        left:84%;display: inline-block;width:50px" *ngIf=invoice.price      class="predata priceval">{{invoice.price * invoice.quantity}}
                                         </span>
                                         <span *ngIf=!invoice.price class="predata priceval">---</span>
                                     </h6>
@@ -47,18 +48,15 @@
                                 <!-- <label  class='totalLbl' *ngIf='somePaid(i)' >{{getTransTotal(i)}} </label> -->
                             </div>
                         </div>
-                        <div style='left:110%; height:32px;width:32px' title='Comfirm Payment' class="floter">
-                            <i *ngIf='processing' class="fa fa-circle-o-notch fa-spin fa-10x slow-spin" style="position:absolute;bottom:5px;left:5px;font-size:20px;color: #1da1f2;"> </i>
-                            <i (click)=switchToEdit() *ngIf='!processing' style="color:#1da1f2;bottom:-10px" class="icon ion-ios-checkmark-empty flotericon"> </i>
-                        </div>
+                      
                     </div>
-                    <div *ngIf='cardView.editing' class="card-body orderbody" style="width:76%;margin:auto;">
+                    <div *ngIf='cardView.editing' class="card-body orderbody" style="width:55%;margin:auto;">
                         <form style="top:15%;" class=" staffsform">
                             <div style="top:1px; margin-bottom:25px; min-height: 80px;max-height: 120;" class="form-group vitals-section setGroup">
                                 <table *ngIf="edited.length" cellspacing="0" class="data-table drugs-table" style="width:100%;left:0%;">
                                     <thead class='productHead'>
                                         <tr style="padding-left: 4px" class="staff-th">
-                                            <th style="padding:3px 8px;font-weight: bold;color:#1da1f2;" class="headlbl staff-th">ITEM</th>
+                                            <th style="padding:3px 8px;font-weight: bold;color:#1da1f2;" class="headlbl staff-th">ORDER</th>
                                             <th style='text-align:right;padding:3px 8px;font-weight: bold;color:#1da1f2;' class="headlbl staff-th">PRICE</th>
                                         </tr>
                                     </thead>
@@ -80,9 +78,22 @@
                             </button>
                         </form>
                     </div>
-                    <div *ngIf=transMsg style="padding:5px;border-top: 1px solid rgb(248, 247, 247)" class="card-footer">
-                        <h6 class="feedbackMsg">{{transMsg}}</h6>
+                    <div *ngIf='cardView.editing||cardView.reversing' style="left:7%; top:45%;position: absolute;
+                        width: 7%;" class="btn-group disposition">
+                        <button (click)="switchViews('orders')" style="width:32px;height: 32px;border-radius: 50%;left:35%"   class="btn btn-outline-primary  dispo " >
+                            <i  style='position:absolute;right:36%;top:2px; font-size:large; cursor:pointer; display: inline-block;' title="Back" class="icon ion-android-arrow-back "> 
+                            </i>
+                        </button>
                     </div>
+                    <div *ngIf='cardView.orders && invoiceSelcted()' style="left:80%; top:45%;position: absolute;
+                    width: 7%;" class="btn-group disposition">
+                        <button (click)=switchToEdit() style="width:32px;height: 32px;border-radius: 50%;left:35%"   class="btn btn-outline-primary  dispo " >
+                            <i   style='position:absolute;right:36%;top:2px; font-size:large; cursor:pointer; display: inline-block;' title="Go to payment" class="icon ion-android-arrow-forward "> 
+                            </i>
+                        </button>
+                    </div>
+                    <h6 *ngIf="transMsg" class="feedbackMsg">{{transMsg}}</h6>
+                    <h6 *ngIf="errMsg"  style="color: red" class="feedbackMsg">{{errMsg}}</h6>
                 </div>
             </div>
         </div>
@@ -100,7 +111,7 @@
 <nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:0px;">
     <div class="container">
         <a class="navbar-brand" href="#">
-            <em>foldr</em>
+            <em>foldirect</em>
         </a>
         <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
           <span class="sr-only">Toggle navigation</span>
@@ -182,8 +193,10 @@
                         </div>
                         <div class="sub-container">
                             <h6 style="width:100%;text-align:center" class="dept basic-secondary basic-value">
-                                {{patient.record.invoices[0][0].meta.dateAdded|date:'dd-MM-y'}}&nbsp;<span>
-                                  {{patient.record.invoices[0][0].meta.dateAdded|date:'hh:mma'|lowercase}}</span>
+                                {{patient.record.invoices[0][0].meta.dateAdded|date:'dd-MM-y'}}&nbsp;
+                                <span>
+                                  {{patient.record.invoices[0][0].meta.dateAdded|date:'hh:mma'|lowercase}}
+                                </span>
                             </h6>
                         </div>
                     </div>

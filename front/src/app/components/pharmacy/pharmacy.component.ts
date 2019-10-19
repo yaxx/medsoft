@@ -35,6 +35,7 @@ export class PharmacyComponent implements OnInit {
   inlinePatients = [];
   inlineProducts = [];
   transMsg = null;
+  errMsg = null;
   input = '';
   searchTerm = '';
   cardView = {
@@ -44,8 +45,8 @@ export class PharmacyComponent implements OnInit {
   };
   sortBy = 'added';
   sortMenu = false;
-  sucsLine = null;
-  errLine = null;
+
+
   nowSorting = 'Date added';
   view = 'default';
   count = 0;
@@ -197,17 +198,7 @@ export class PharmacyComponent implements OnInit {
      });
     return selections;
   }
-  reset() {
-    setTimeout(() => {
-      this.switchViews('orders');
-      this.transMsg = null;
-      this.cart = [];
-      this.edited = [];
-      this.editables = [];
-      this.clonedStore = [];
-    }, 4000);
-
-  }
+  
    
   somePaid(i) {
     // return this.invoices[i].some(invoice => invoice.paid);
@@ -239,19 +230,26 @@ updatePrices(invoices: Invoice[], i: number) {
         this.updatePrices(items, m);
     });
   }
+  reset() {
+    setTimeout(() => {
+      this.transMsg = null;
+      this.cart = [];
+      this.clonedStore = [];
+    }, 3000);
+    setTimeout(() => {
+      this.edited = [];
+      this.editables = [];
+      this.switchViews('orders');
+    }, 6000);
+
+  }
    sendRecord() {
     this.processing = true;
     this.dataService.updateRecord(this.patients[this.curIndex]).subscribe((patient: Person) => {
-      this.sucsLine = 'Invoice successfully updated';
-      this.processing = false;
-      setTimeout(() => {
-        this.sucsLine = null;
-      }, 4000);
-      setTimeout(() => {
-       this.switchViews('orders')
-      }, 6000);
+      this.transMsg = 'Invoice successfully updated';
+    this.reset()
     }, (e) => {
-      this.errLine = 'Unable to update invoice';
+      this.errMsg = 'Unable to update invoice';
       this.processing = false;
     });
   }

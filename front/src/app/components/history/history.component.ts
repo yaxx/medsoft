@@ -204,6 +204,10 @@ removeTest(i) {
  this.tests.splice(i, 1);
  this.session.invoices.splice(i, 1);
 }
+isEmptySession() {
+  return !this.session.invoices.length && !this.session.complains.length &&
+  !this.session.conditions.length && !this.session.allegies.allegy && !this.session.famHist.condition && !this.session.note.note;
+}
 
 fetchDept() {
   return this.client.departments
@@ -493,7 +497,7 @@ checkScalars() {
 }
 sendRecord() {
   this.processing = true;
-  this.dataService.updateRecord(this.patient).subscribe((patient: Person) => {
+  this.dataService.updateHistory(this.patient).subscribe((patient: Person) => {
     this.patient.record  = patient.record;
     this.socket.io.emit('consulted', patient);
     this.session = new Session();
@@ -501,7 +505,7 @@ sendRecord() {
     this.processing = false;
     setTimeout(() => {
       this.feedback = null;
-    }, 4000);
+    }, 5000);
   }, (e) => {
     this.errLine = 'Unable to update record';
     this.processing = false;

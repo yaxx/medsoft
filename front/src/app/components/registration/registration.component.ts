@@ -6,6 +6,7 @@ import {SocketService} from '../../services/socket.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import * as cloneDeep from 'lodash/cloneDeep';
 import {Person, Info} from '../../models/person.model';
+import {PersonUtil} from '../../util/person.util';
 import {states, lgas } from '../../data/states';
 import { Item, StockInfo, Product, Card, Invoice, Meta} from '../../models/inventory.model';
 import {Visit, Session} from '../../models/record.model';
@@ -33,7 +34,7 @@ export class RegistrationComponent implements OnInit {
   info: Info = new Info();
   visit: Visit = new Visit();
   card: Card = new Card();
-
+  reg = true;
   url = '';
   curIndex = 0;
   session: Session = new Session();
@@ -44,7 +45,8 @@ export class RegistrationComponent implements OnInit {
   sortBy = 'added';
   sortMenu = false;
   loading = false;
-  count = 0
+  count = 0;
+  creating = false;
   nowSorting = 'Date added';
   view = 'info';
   searchTerm = '';
@@ -58,23 +60,25 @@ export class RegistrationComponent implements OnInit {
     private cookies: CookieService,
     private socket: SocketService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private psn: PersonUtil
     ) { }
 
   ngOnInit() {
     this.getPatients('out');
     this.getClient();
-    this.socket.io.on('consulted', (patient: Person) => {
-      const i = this.patients.findIndex(p => p._id === patient._id);
-      if(patient.record.visits[0][0].status === 'out') {
-        this.patients.unshift(patient);
-        this.clonedPatients.unshift(patient);
-      }
-  });
-    this.socket.io.on('enroled', (patient: Person) => {
-      this.patients.unshift(patient);
-      this.clonedPatients.unshift(patient);
-  });
+  //   this.socket.io.on('consulted', (patient: Person) => {
+  //     const i = this.patients.findIndex(p => p._id === patient._id);
+  //     if(patient.record.visits[0][0].status === 'out') {
+  //       this.patients.unshift(patient);
+  //       this.clonedPatients.unshift(patient);
+  //     }
+  // });
+  //   this.socket.io.on('enroled', (patient: Person) => {
+  //     this.patients.unshift(patient);
+  //     this.clonedPatients.unshift(patient);
+  // });
+  
   }
   routeHas(path) {
     return this.router.url.includes(path);
@@ -90,7 +94,7 @@ export class RegistrationComponent implements OnInit {
   getMyDp() {
     return this.getDp(this.cookies.get('d'));
   }
-  getDept(){
+  getDept() {
     return this.client.departments.filter(d => d.hasWard);
   }
   refresh() {
@@ -98,19 +102,18 @@ export class RegistrationComponent implements OnInit {
     this.getPatients('out');
   }
 
-    getClient() {
-      this.dataService.getClient().subscribe((res: any) => {
-        this.client = res.client;
-        this.products = res.client.inventory;
-        this.cardTypes = res.client.inventory.filter(p => p.type === 'Cards');
-        this.session.items = res.items;
-    });
-    }
+  getClient() {
+    this.dataService.getClient().subscribe((res: any) => {
+      this.client = res.client;
+      this.products = res.client.inventory;
+      this.cardTypes = res.client.inventory.filter(p => p.type === 'Cards');
+      this.session.items = res.items;
+  });
+  }
 
   getPatients(type) {
     this.loading = true;
     this.dataService.getPatients(type).subscribe((patients: Person[]) => {
-      console.log(patients)
       if(patients.length) {
         patients.forEach(p => {
           p.card = {menu: false, view: 'front'};
@@ -123,31 +126,15 @@ export class RegistrationComponent implements OnInit {
           this.message = 'No Records So Far';
           this.loading = false;
       }
-    },(e) => {
+    }, (e) => {
       this.message = 'Something went wrong';
       this.loading = false;
     });
   }
-  getLgas() {
-    return this.lgas[this.states.indexOf(this.patient.info.contact.me.state)];
-  }
+
+  
   enrolePatient()  {
-    this.processing = true;
-    this.visit.status = 'queued';
-    this.patient.record.visits.unshift([this.visit]);
-    this.dataService.updateRecord(this.patient).subscribe(patient => {
-      this.socket.io.emit('enroled', patient);
-      this.visit = new Visit();
-      this.processing = false;
-      this.patients.splice(this.curIndex, 1);
-      this.feedback = 'Patient enrole  successfully';
-      setTimeout(() => {
-        this.feedback = null;
-      }, 4000);
-    }, (e) => {
-    this.feedback = 'Unbale to enrole patient';
-    this.processing = false;
-  });
+   
   }
   // fileSelected(event) {
   //   if (event.target.files && event.target.files[0]) {
@@ -180,7 +167,7 @@ export class RegistrationComponent implements OnInit {
     }
   }
   searchPatient(name:string) {
-   if(name!==''){
+   if(name !== ''){
     this.patients = this.patients.filter((patient) => {
       const patern =  new RegExp('\^' + name
       , 'i');
@@ -192,15 +179,17 @@ export class RegistrationComponent implements OnInit {
 
   }
   countVisits(i) {
-    let count = []
+    let count = [];
     this.patients[i].record.visits.map(vs => vs.map(v => {
     if (v.status === 'out') {
-      count.push(v)
+      count.push(v);
     }
   }))
   return count;
 }
- 
+isInfo() {
+  return this.router.url.includes('information');
+}
   getMe() {
     return this.cookies.get('a');
   }
@@ -215,10 +204,7 @@ export class RegistrationComponent implements OnInit {
         this.patients.sort((m: Person, n: Person) => n.info.personal.gender.localeCompare(m.info.personal.gender));
         this.nowSorting = 'Gender';
         break;
-      case 'status':
-        // this.patients.sort((m, n) => m.record.visits[m.record.visits.length-1].status.localeCompare(m.record.visits[n.record.visits.length-1].status.localeCompare));
-        // this.nowSorting = 'Status';
-        // break;
+    
         case 'age':
         this.patients.sort((m, n) => new Date(m.info.personal.dob).getFullYear() - new Date(n.info.personal.dob).getFullYear());
         this.nowSorting = 'Age';
@@ -233,14 +219,79 @@ export class RegistrationComponent implements OnInit {
   }
 
 
-  next(){
+  next() {
     this.count = this.count + 1;
   }
   prev() {
     this.count = this.count - 1;
   }
+   // validWithoutCard() {
+  //   return (this.patient.info.personal.firstName) &&
+  //    (this.patient.info.personal.lastName) && 
+  //    (this.patient.info.personal.dob)
+  // }
+  // validWithCard() {
+  //   return (this.patient.info.personal.firstName) &&
+  //    (this.patient.info.personal.lastName) && 
+  //    (this.patient.info.personal.dob) && 
+  //    (this.card.cardNum);
+  // }
+  viewDetails(i) {
+    this.psn.reg = false;
+    this.curIndex = i;
+    this.count = 0;
+    this.psn.card = cloneDeep(this.patients[i].record.cards[0]);
+    this.psn.person = cloneDeep(this.patients[i]);
+    console.log(this.psn.person);
+    
+  }
+  
+  clearPatient() {
+  this.count = 0;
+  this.psn.reg = true;
+  this.psn.card = new Card();
+  this.psn.person = new Person();
+}
 
+  addRecord() {
+    this.creating = true;
+    // this.addInitials();
+    this.dataService.addPerson(this.patient).subscribe((newpatient: Person) => {
+      newpatient.card = {menu: false, view: 'front'};
+      this.patients.unshift(newpatient);
+      this.socket.io.emit('consulted', newpatient);
+      this.patient = new Person();
+      this.card = new Card();
+      this.creating = false;
+      this.feedback = 'Patient added successfully';
+      setTimeout(() => {
+        this.feedback = null;
+      }, 4000);
+ }, (e) => {
+   this.feedback = 'Unbale to add patient';
+   this.creating = false;
+ });
+}
 
+updateInfo() {
+ let info = this.psn.updateInfo();
+ if(info) {
+   this.patients[this.curIndex].info = info;
+ }
+}
+createRecord() {
+    if (this.reg) {
+      if (this.url) {
+        this.uploader.uploadAll();
+        this.addRecord();
+    } else {
+    this.addRecord();
+    }
+  } else {
+    this.updateInfo();
+  }
+
+}
 
 
 

@@ -27,6 +27,8 @@ const personScheema = new Scheema({
             me: {
                 mobile: Number,
                 email: String,
+                kinName: String,
+                kinMobile: String,
                 state: String,
                 lga: String,
                 address: String
@@ -41,10 +43,12 @@ const personScheema = new Scheema({
             }
         },
         insurance: {
-            name: String,
             rel: String,
+            idNo: String,
+            groupNo: String,
+            subscriber: String,
             employer: String,
-            ssn: String
+            ssn: String 
         },
         official: {
             hospital: {

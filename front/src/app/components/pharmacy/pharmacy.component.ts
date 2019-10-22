@@ -285,7 +285,7 @@ updatePrices(invoices: Invoice[], i: number) {
  
     getDp(avatar: String) {
     // return 'http://192.168.1.100:5000/api/dp/' + avatar;
-    return 'http://localhost:5000/api/dp/' + avatar;
+    return 'http://13.59.243.243/api/dp/' + avatar;
     // return 'http://18.221.76.96:5000/api/dp/' + avatar;
   }
 
@@ -298,8 +298,6 @@ updatePrices(invoices: Invoice[], i: number) {
       this.items = res.items;
     });
   }
-  
-
 
  searchPatient(name: string) {
    if(name!==''){

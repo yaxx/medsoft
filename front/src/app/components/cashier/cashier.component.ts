@@ -297,8 +297,8 @@ viewOrders(i: number) {
      return total;
   }
     getDp(avatar: String) {
-    return 'http://localhost:5000/api/dp/' + avatar;
-    // return 'http://18.221.76.96:5000/api/dp/' + avatar;
+    // return 'http://localhost:5000/api/dp/' + avatar;
+    return 'http://13.59.243.243/api/dp/' + avatar;
   }
   getStyle(i: Invoice) {
     return {color: i.paid ? 'black': 'lightgrey'};

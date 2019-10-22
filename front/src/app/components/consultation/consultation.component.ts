@@ -73,7 +73,7 @@ export class ConsultationComponent implements OnInit {
      private dataService: DataService,
      private route: ActivatedRoute,
      private router: Router,
-     private psn: PersonUtil,
+     public psn: PersonUtil,
      private cookies: CookieService,
      private socket: SocketService ) {}
   ngOnInit() {
@@ -203,8 +203,8 @@ export class ConsultationComponent implements OnInit {
 
 
   getDp(avatar: String) {
-    return 'http://localhost:5000/api/dp/' + avatar || '../assets/img/avatar.jpg';
-      // return 'http://192.168.1.100:5000/api/dp/' + avatar;
+    // return 'http://localhost:5000/api/dp/' + avatar || '../assets/img/avatar.jpg';
+      return 'http://13.59.243.243/api/dp/' + avatar;
     }
 
  

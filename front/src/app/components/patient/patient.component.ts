@@ -50,7 +50,7 @@ export class PatientComponent implements OnInit {
      private socket: SocketService,
      private route: ActivatedRoute,
      private router: Router,
-     private psn: PersonUtil,
+     public psn: PersonUtil,
      private cookies: CookieService
   ) { }
   ngOnInit() {
@@ -89,8 +89,8 @@ export class PatientComponent implements OnInit {
   }
   getDp(avatar: String) {
     //  return 'http://192.168.1.100:5000/api/dp/' + avatar;
-    return 'http://localhost:5000/api/dp/' + avatar;
-    // return 'http://18.221.76.96:5000/api/dp/' + avatar;
+    // return 'http://localhost:5000/api/dp/' + avatar;
+    return 'http://13.59.243.243/api/dp/' + avatar;
   }
   linked() {
     return !this.router.url.includes('information');

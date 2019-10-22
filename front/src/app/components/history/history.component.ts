@@ -142,10 +142,10 @@ export class HistoryComponent implements OnInit {
   }
   getImage(fileName: String){
     // return 'http://192.168.0.100:5000/api/dp/' + fileName;
-    return 'http://localhost:5000/api/dp/' + fileName;
-    // return 'http://18.221.76.96:5000/api/dp/' + fileName;
+    // return 'http://localhost:5000/api/dp/' + fileName;
+    return 'http://13.59.243.243/api/dp/' + fileName;
   }
-  compareNotes(i:number, note: Note) {
+  compareNotes(i: number, note: Note) {
     return this.notes[i].note.length === note.note.length;
   }
   downloadImage(file: string) {

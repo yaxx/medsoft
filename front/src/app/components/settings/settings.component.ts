@@ -80,8 +80,8 @@ export class SettingsComponent implements OnInit {
     });
   }
   getDp(avatar: String) {
-    return 'http://localhost:5000/api/dp/' + avatar;
-    // return 'http://18.221.76.96:5000/api/dp/' + avatar;
+    // return 'http://localhost:5000/api/dp/' + avatar;
+    return 'http://13.59.243.243/api/dp/' + avatar;
   }
 
   getMyDp() {
@@ -122,14 +122,7 @@ export class SettingsComponent implements OnInit {
   refresh() {
     this.getSettings();
  }
-  // selectDept(name) {
-  //   const dps = cloneDeep(this.departments);
-  //   this.department = dps.find(department => department.name === name);
-  //   this.rooms = [];
-  //   this.numbOfBeds = null;
-  //   this.roomNumb = 1;
-   
-  // }
+  
   deptHasWard() {
     return this.departments.find(dept => dept.name === this.department.name).hasWard;
   }
@@ -141,15 +134,8 @@ export class SettingsComponent implements OnInit {
     } else {
       return false; 
     }
-
   }
-  // deptHasWard() {
-  //  this.department = this.departments.find(department => department.name === this.department.name || null);
-  //  if (this.department) {
-  //   return  this.department.hasWard;
-  // } else {return false; }
-
-  // }
+ 
   switchRightCard(view) {
     this.deptMode = view;
   }

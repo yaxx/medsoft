@@ -61,7 +61,7 @@ export class RegistrationComponent implements OnInit {
     private socket: SocketService,
     private route: ActivatedRoute,
     private router: Router,
-    private psn: PersonUtil
+    public psn: PersonUtil
     ) { }
 
   ngOnInit() {

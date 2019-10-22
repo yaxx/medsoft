@@ -99,8 +99,8 @@ export class WardComponent implements OnInit {
 
   }
   getDp(avatar: String) {
-    return 'http://localhost:5000/api/dp/' + avatar;
-    // return 'http://18.221.76.96:5000/api/dp/' + avatar;
+    // return 'http://localhost:5000/api/dp/' + avatar;
+    return 'http://13.59.243.243/api/dp/' + avatar;
   }
   getMyDp() {
     return this.getDp(this.cookies.get('d'));

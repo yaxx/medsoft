@@ -1,523 +1,667 @@
 .itemlist {
-  padding-left:15px;
-  font-size:12px;
-  color:grey;
+    padding-left: 15px;
+    font-size: 12px;
+    color: grey;
 }
 
 .card-body.rightcardbody.conditionbody {
-  padding-top:8px;
+    padding-top: 8px;
 }
 
 .patientname {
-  padding-left:40px;
+    padding-left: 40px;
 }
 
 .timeline.noter.patientdp {
-  height:60px;
-  width:65px;
-  border-radius:4px;
+    height: 60px;
+    width: 65px;
+    border-radius: 4px;
 }
 
 .card.card-secondary.historycard.rightcard {
-  width:188px;
-  left:16px;
+    width: 205px;
+    left: 12px;
 }
 
-
-
 .card-body.topcardbody {
-  border:none;
-  margin-left:0px;
-  padding-top:10px;
+    border: none;
+    margin-left: 0px;
+    padding-top: 10px;
 }
 
 .card-body.rightcardbody {
-  border:none;
-  margin-left:0px;
-  padding-top:0px;
+    border: none;
+    margin-left: 0px;
+    padding-top: 0px;
 }
 
 .card.card-secondary.historycard.midlecard {
-  width:470px;
-  min-height:170px;
+    width: 470px;
+    min-height: 205px;
 }
 
 .card.card-secondary.historycard.leftcard {
-  width:200px;
-  height:424px;
-  left:20px;
+    width: 200px;
+    height: 424px;
+    left: 27px;
 }
+
 .card-body.midcardbody {
-  /*height:370px;*/
-  position:relative;
-  margin-left:0px;
-  border-left:0px;
+    /*height:370px;*/
+    position: relative;
+    margin-left: 0px;
+    border-left: 0px;
 }
-
-
-
 
 .card.card-secondary.maincard.halfcard.midright {
-  left:8px;
+    left: 8px;
 }
 
 .card.card-secondary.historycard.midlecard.topcard {
-  padding-top:0%;
+    padding-top: 0%;
 }
 
 .timelinedate.timelinemonth {
-  font-size:8px;
-  color:lightgrey;
-  bottom:5px;
-  position:absolute;
-  text-align:center;
-  left:5px;
+    font-size: 8px;
+    color: lightgrey;
+    bottom: 5px;
+    position: absolute;
+    text-align: center;
+    left: 5px;
 }
 
 .card.card-secondary.maincard.halfcard {
-  max-width:230px;
-  display:inline-block;
-  min-height:350px;
-  position:relative;
-  border-radius:4px;
+    max-width: 230px;
+    display: inline-block;
+    min-height: 350px;
+    position: relative;
+    border-radius: 4px;
 }
 
 .card-colums.leftcolumn {
-  width:230px;
-  position:relative;
-  /*left:-44px;*/
+    width: 230px;
+    position: relative;
+    /*left:-44px;*/
 }
-
 
 .card-colums.rightcolumn {
-  width:230px;
-  position:relative;
-  /*right:-84px;*/
+    width: 230px;
+    position: relative;
+    /*right:-84px;*/
 }
 
-
-
 .card.card-secondary.historycard.rightcard.allegies {
-  min-height:150px;
+    min-height: 150px;
 }
 
 .card-header.grapheader {
-  padding-top:6px;
-  padding-bottom:6px;
-  border-bottom:1px solid rgb(251,245,245);
-  border-top-right-radius:12px;
-  border-top-left-radius:12px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    border-bottom: none;
+    /* border-bottom: 1px solid rgb(251, 245, 245); */
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    background: #fdfdfd;
 }
 
 .card.card-secondary.historycard.midlecard.topcard.graphcard {
-  min-height:180px;
+    min-height: 180px;
 }
 
 .card.card-secondary.historycard.rightcard.condition {
-  height:280px;
+    height: 280px;
 }
 
 .card.card-secondary.historycard.rightcard.medication {
-  min-height:372px;
-  max-height:400px;
+    min-height: 372px;
+    max-height: 400px;
 }
 
 .card.card-secondary.historycard.leftcard.visits {
-  max-height:400px;
+    max-height: 400px;
 }
 
 .card.card-secondary.historycard.leftcard.deathinfo {
-  min-height:230px;
+    min-height: 230px;
 }
 
 .carditem.noteitem {
-  padding-left:4%;
+    padding-left: 4%;
 }
 
 .card-body.midcardbody {
-  /* height:370px; */
-  position:relative;
+    /* height:370px; */
+    position: relative;
 }
 
 .carditem.noteitem.writeup {
-  font-size:13px;
-  margin-bottom:2px;
-  padding-right:3%;
-  min-height:49px;
+    font-size: 13px;
+    margin-bottom: 2px;
+    padding-right: 3%;
+    min-height: 49px;
 }
+
 .read-more {
-  bottom:2px;
-  position:relative;
-  font-style:italic;
+    bottom: 2px;
+    position: relative;
+    font-style: italic;
 }
+
 .view-more {
-  font-size:13px;
-  font-style:italic;
-  /*position:absolute;*/
-  float:right;
-  /*margin-right:5px;*/
-  margin-bottom:1px;
-  bottom:7px;
-  position:relative;
-  width:92%;
-  text-align:right;
-  margin:auto;
+    font-size: 13px;
+    font-style: italic;
+    cursor: pointer;
+    float: right;
+    color: #1da1f2;
+    margin-bottom: 1px;
+    bottom: 7px;
+    position: relative;
+    width: 92%;
+    text-align: right;
+    margin: auto;
 }
-
-
 
 .icon.ion-android-more-vertical.thread-icon {
-  font-size:22px;
-  color:#1da1f2;
-  position:absolute;
-  /*right:2px;*/
-  top:-20%;
-  left:1.3%;
-  background:white;
-  /*height:8px;*/
-  float:left;
+    font-size: 22px;
+    color: #1da1f2;
+    position: absolute;
+    /*right:2px;*/
+    top: -20%;
+    left: 1.3%;
+    background: white;
+    /*height:8px;*/
+    float: left;
 }
 
-
-
 .predata.notetime {
-  font-weight:normal;
-  position:absolute;
-  left:75%;
-  font-size:11px;
+    font-weight: normal;
+    position: absolute;
+    left: 75%;
+    font-size: 11px;
 }
 
 .dept.previnfo.noterinfo {
-  font-weight:500;
-  color:#333333;
-  font-size:13px;
+    font-weight: 500;
+    color: #333333;
+    font-size: 13px;
 }
+
 .dept.previnfo.sec-info {
-  color:#808080;
-  font-size:11px;
+    color: #808080;
+    font-size: 11px;
 }
 
-.priscription.drug.side-item{
-  margin-bottom:10px;
+.priscription.drug.side-item {
+    margin-bottom: 10px;
 }
-
-
 
 .timeline.noter {
-  left:-3.5%;
-  /* background:url(../../assets/img/avatar.jpg); */
-  background-size:cover;
-  background-position:center;
-  height:28px;
-  width:28px;
+    left: -3.5%;
+    /* background:url(../../assets/img/avatar.jpg); */
+    background-size: cover;
+    background-position: center;
+    height: 28px;
+    width: 28px;
 }
 
 .card-body.notecardbody {
-  padding-top:10px;
+    padding-top: 10px;
 }
-.dept.complain{
-  color:grey;
+
+.dept.complain {
+    color: grey;
 }
 
 .dept.headtitle {
-  color:#1da1f2;
-  border-top-right-radius:12px;
-  border-top-left-radius:12px;
+    color: #1da1f2;
+    border-top-right-radius: 12px;
+    border-top-left-radius: 12px;
 }
 
 .dept.previnfo.weightval {
-  position:absolute;
-  bottom:49px;
-  display:inline-block;
-  font-size:larger;
-  left:57px;
-  font-weight:bold;
-  color:grey;
+    position: absolute;
+    bottom: 49px;
+    display: inline-block;
+    font-size: larger;
+    left: 57px;
+    font-weight: bold;
+    color: grey;
 }
 
 .unitval {
-  font-size:small;
-  position:relative;
-  right:10px;
-  display:inline;
-  font-weight:normal;
+    font-size: small;
+    position: relative;
+    right: 10px;
+    display: inline;
+    font-weight: normal;
 }
 
 .dept.previnfo.weightlabel {
-  position:absolute;
-  bottom:71px;
-  left:56px;
-  color:grey;
-  display:inline-block;
-  width:44px;
-  font-size:10px;
+    position: absolute;
+    bottom: 71px;
+    left: 56px;
+    color: grey;
+    display: inline-block;
+    width: 44px;
+    font-size: 10px;
 }
 
 .dept.systolic {
-  display:inline-block;
-  position:absolute;
-  color:lightgrey;
-  bottom:47%;
-  left:13%;
-  font-size:x-small;
+    display: inline-block;
+    position: absolute;
+    color: lightgrey;
+    bottom: 47%;
+    left: 13%;
+    font-size: x-small;
 }
 
 .progress.bpmesure {
-  position:absolute;
-  width:30%;
-  border-radius:51px;
-  bottom:37%;
-  left:13%;
-  height:14px;
-  font-size:x-small;
+    position: absolute;
+    width: 30%;
+    border-radius: 51px;
+    bottom: 37%;
+    left: 13%;
+    height: 14px;
+    font-size: x-small;
 }
 
 .dept.systolic.dystolic {
-  bottom:28%;
+    bottom: 28%;
 }
 
 .progress.bpmesure.dystoprogress {
-  bottom:18%;
-}
-
-.card-body.infobody {
-  margin-left:22px;
+    bottom: 18%;
 }
 
 .dept.detailshead {
-  font-size:9px;
-  font-weight:bold;
+    font-size: 9px;
+    font-weight: bold;
 }
 
 .timeline.detailstimeline {
-  height:22px;
-  width:22px;
-  left:-12px;
+    height: 22px;
+    width: 22px;
+    left: -12px;
 }
 
 .dept.firstheader {
-  font-size:10px;
-  font-weight:bold;
+    font-size: 10px;
+    font-weight: bold;
 }
 
 .timeline.docdp {
-  background:url(../../assets/img/model.jpg);
-  background-size:cover;
-  background-position:center;
+    background: url(../../assets/img/model.jpg);
+    background-size: cover;
+    background-position: center;
 }
 
 .btn-group.footerbotton {
-  position:absolute;
+    position: absolute;
 }
 
 .card-colums.rightcolumn.sugcolumn {
-  left:-19px;
+    left: -19px;
 }
 
 .card-colums.leftcolumn.online-card {
-  left:60px;
-  position:relative
+    left: 60px;
+    position: relative
 }
 
 .card-body.onlinesbody {
-  margin-left:0px;
-  border:none;
-  padding-top:0%;
+    margin-left: 0px;
+    border: none;
+    padding-top: 0%;
 }
 
 .timeline.lastdoc.priscriber.headerdp.persondp {
-  left:8px;
-  position:absolute;
+    left: 8px;
+    position: absolute;
 }
 
 .dept.latestmsg {
-  top:7px;
-  left:22px;
-  font-weight:normal;
+    top: 7px;
+    left: 22px;
+    font-weight: normal;
 }
 
 .dept.personname {
-  font-weight:bold;
-  left:22px;
-  top:9px;
+    font-weight: bold;
+    left: 22px;
+    top: 9px;
 }
 
 .card-header.profileheader.person {
-  margin-left:0px;
-  left:0px;
-  border-bottom:none;
-  position:relative;
-  padding-top:2px;
-  padding-bottom:2px;
-  height:41px;
+    margin-left: 0px;
+    left: 0px;
+    border-bottom: none;
+    position: relative;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    height: 41px;
 }
 
 .icon.ion-ios-search.searchicon.searchperson {
-  left:93%;
-  bottom:-31%;
+    left: 93%;
+    bottom: -31%;
 }
 
 .carditem.people {
-  padding-left:0%;
-  margin:0px;
+    padding-left: 0%;
+    margin: 0px;
 }
 
 .timetaken.chattime {
-  color:lightgrey;
-  font-weight:normal;
+    color: lightgrey;
+    font-weight: normal;
 }
 
 .card.card-secondary.historycard.midlecard.chatcard {
-  min-height:500px;
-  margin:auto;
-  /*vh:100%;*/
-  position:relative;
+    min-height: 500px;
+    margin: auto;
+    /*vh:100%;*/
+    position: relative;
 }
 
 .dept.personname {
-  font-weight:bold;
-  left:22px;
-  top:9px;
+    font-weight: bold;
+    left: 22px;
+    top: 9px;
 }
 
 .carditem.person {
-  margin:0px;
-  margin-left:0px;
+    margin: 0px;
+    margin-left: 0px;
 }
 
 .row.chatrow {
-  height:100%;
+    height: 100%;
 }
 
 .card.card-secondary.historycard.leftcard {
-  height:424px;
+    height: 424px;
 }
 
 p {
-  /*margin-top:0;*/
-  /*margin-bottom:1rem;*/
+    /*margin-top:0;*/
+    /*margin-bottom:1rem;*/
 }
-.card{
-  /* margin-bottom: 4px; */
+
+.card {
+    /* margin-bottom: 4px; */
 }
+
 .card-group {
-  display:-webkit-box;
-  display:-ms-flexbox;
-  display:flex;
-  -webkit-box-orient:vertical;
-  -webkit-box-direction:normal;
-  /*-ms-flex-direction:column;*/
-  flex-direction:row;
-  width:100%;
-  /* margin-bottom:5px; */
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    /*-ms-flex-direction:column;*/
+    flex-direction: row;
+    width: 100%;
+    /* margin-bottom:5px; */
 }
 
 .img-fluid {
-  max-width:100%;
-  height:100%;
-  object-fit:cover;
-  min-width:100%;
-  border-radius:5px;
+    max-width: 100%;
+    height: 100%;
+    object-fit: cover;
+    min-width: 100%;
+    border-radius: 5px;
 }
 
 .note-item {
-  margin-bottom:10px;
+    margin-bottom: 10px;
 }
 
 .image-link {
-  height:100%;
-  position:relative;
-  display:block;
+    height: 100%;
+    position: relative;
+    display: block;
 }
+
 .carditem.scan-items {
-  margin-bottom:0px;
-  padding-top:5px;
-  border-top:1px solid #f8f7f7;
-  /*border-bottom:1px solid #f8f7f7;*/
-  height:40px;
-  width:81%;
-  margin:auto;
+    margin-bottom: 0px;
+    padding-top: 5px;
+    border-top: 1px solid #f8f7f7;
+    /*border-bottom:1px solid #f8f7f7;*/
+    height: 40px;
+    width: 81%;
+    margin: auto;
 }
 
 .card.scan-thumnail {
-  width:30px;
-  height:30px;
-  display:inline-block;
-  margin:0px;
-  border-color:white;
-  margin-bottom:0px;
-  margin-right:4px;
-  margin-left:0px;
-  border-collapse:collapse;
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    margin: 0px;
+    border-color: white;
+    margin-bottom: 0px;
+    margin-right: 4px;
+    margin-left: 0px;
+    border-collapse: collapse;
 }
+
 .icon.ion-ios-download-outline.downloadicon {
-  font-size:22px;
-  position:absolute;
-  cursor:pointer;
-  left:91%;
-  color:lightgrey;
-  bottom:10%;
+    font-size: 22px;
+    position: absolute;
+    cursor: pointer;
+    left: 91%;
+    color: lightgrey;
+    bottom: 10%;
 }
 
 .filename {
-  font-size:11px;
-  width:57%;
-  bottom:34%;
-  position:absolute;
-  color:grey;
-  margin-bottom:0px;
-  left:29%;
-  font-weight:normal;
+    font-size: 11px;
+    width: 57%;
+    bottom: 34%;
+    position: absolute;
+    color: grey;
+    margin-bottom: 0px;
+    left: 29%;
+    font-weight: normal;
 }
 
 .timeline.lastdoc.priscriber.headerdp.seenby {
-  height:22px;
-  width:22px;
-  top: -1px;
-  left: 1%;
-  margin-bottom:0px;
-  position:relative;
- 
+    height: 22px;
+    width: 22px;
+    top: -1px;
+    left: 1%;
+    margin-bottom: 0px;
+    position: relative;
 }
 
-
-
-
 .card.card-secondary.maincard.halfcard.halfcard-right {
-  left:8px;
-  /* border-left:1px solid rgba(0,0,0,.125); */
-  border-top-left-radius:4px;
+    left: 8px;
+    /* border-left:1px solid rgba(0,0,0,.125); */
+    border-top-left-radius: 4px;
 }
 
 .card.card-secondary.maincard {
-  max-height:400px;
-  min-height:400px;
+    max-height: 400px;
+    min-height: 400px;
 }
 
-.card-group > .card {
-  margin-bottom:15px;
+.card-group>.card {
+    margin-bottom: 15px;
 }
 
 .card.card-secondary.historycard.rightcard.conditions {
-  min-height:300px;
-  max-height:300px;
+    min-height: 300px;
+    max-height: 300px;
 }
 
 .card.card-secondary.historycard.leftcard.deathinfo {
-  max-height:200px;
+    max-height: 200px;
 }
-.timetaken.dischargedon{
-  left:80px;
-  width:100%;
+
+.timetaken.dischargedon {
+    left: 80px;
+    width: 100%;
 }
+
 .row.history-row {
-  margin:auto;
+    margin: auto;
 }
+
+
 .container.history-container {
-  max-width:957px;
-  margin:auto;
-  position:relative;
-  height:100%;
+    max-width: 957px;
+    margin: auto;
+    position: relative;
+    height: 100%;
+}
+
+.staffsform, .card-body.mainbody, .depts {
+    left: 0%;
+}
+.card-body.mainbody.stand-by.front, .card-body.mainbody.disp.front, .newDept {
+    left:-100%;
+}
+
+.card-body.standby,.reqForm {
+    right: 100%;
+    width: 100%;
+}
+
+.card-body.standby.in,
+.reqForm.in {
+    right: 0%;
+    display: block;
+    animation-name: in;
+    animation-duration: .2s;
+    animation-timing-function: ease-in;
+}
+.card-body.mainbody.stand-by.ap{
+    left: 0%;
+    animation-name: card-in;
+    animation-duration: .2s;
+    animation-timing-function: ease-in;
+}
+.card-body.mainbody.stand-by.ap,  .card-body.mainbody.disp.dispose,.newDept.in {
+    left: 0%;
+    animation-name: card-in;
+    animation-duration: .2s;
+    animation-timing-function: ease-in;
+}
+.card-body.mainbody.stand-by.front, .card-body.mainbody.disp.front,.newDept.out {
+    left: -100%;
+    animation-name: card-out;
+    animation-duration: .2s;
+    animation-timing-function: ease-in;
+}
+
+@keyframes card-in {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 0%;
+    }
+}
+@keyframes card-out {
+    0% {
+        left: 0%;
+    }
+    100% {
+        left: -100%;
+    }
+}
+@keyframes in {
+    0% {
+        right: 100%;
+    }
+    100% {
+        right: 0%;
+    }
+}
+
+.card-body.standby.out,.reqForm.out {
+    right: 100%;
+    /* display:block; */
+    animation-name: out;
+    animation-duration: .2s;
+    animation-timing-function: ease-in;
+}
+
+@keyframes out {
+    0% {
+        right: 0%;
+    }
+    100% {
+        right: 100%;
+    }
+}
+
+.reqForm.back,.staffsform.back,.card-body.back, .card-body.mainbody.ap, .depts.add {
+    left: 100%;
+    animation-name: editing;
+    animation-duration: .2s;
+    animation-timing-function: ease-in;
+}
+
+@keyframes editing {
+    0% {
+        left: 0%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+.card-body.front,
+.staffsform.front, .card-body.mainbody.front, .dept.front {
+    left: 0%;
+    /* transition: .5s; */
+    animation-timing-function: ease-out;
+    animation-name: view;
+    animation-duration: .2s;
+}
+
+@keyframes view {
+    0% {
+        left: 100%;
+    }
+    100% {
+        left: 0%;
+    }
 }
 
 
+
+.steps {
+    position: relative;
+    width: 75%;
+    border-top:1px solid whitesmoke;
+    display: flex;
+    justify-content: space-around;
+    right: 10px;
+    flex-direction: row;
+    align-items: center;
+    margin:auto;
+}
+.step-item {
+  height: 25px;
+  width:25px;
+  border: 1px solid whitesmoke;
+  border-radius:50%;
+  position: relative;
+  top:-15px;
+  z-index: 100;
+  background: white;
+  margin-bottom: 15px;
+}
+.step-lebel {
+  position: absolute;
+  font-size:9px;
+  font-weight: normal;
+  text-align: center;
+  right: -28px;
+  top: 112%;
+  width:84px;
+  color: #4285f4;
+}
+.curent-step {
+  border-color: #4285f4;
+}

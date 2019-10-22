@@ -41,7 +41,6 @@ const createPerson = async data => {
         record: data.record,                                                                                   
       }).save() 
     }
-
     if(con) {
         await Client.findOneAndUpdate({
         _id: person.info.official.hospital

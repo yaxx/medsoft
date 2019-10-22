@@ -178,6 +178,7 @@ export class InventoryComponent implements OnInit {
   }
   clearFeedback() {
     this.feedback = null;
+    this.errLine = null;
   }
   toggleView(view: string) {
     this.tableView = view;
@@ -241,7 +242,7 @@ export class InventoryComponent implements OnInit {
       }
     }
   }
-  previous() {
+  prev() {
       if (this.input !== '') {
         if (this.edited.length) {
           if (this.item._id) {

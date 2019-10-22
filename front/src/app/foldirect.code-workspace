@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "C:\\medsoft"
+		},
+		{
+			"path": "C:\\x-app\\app"
+		}
+	],
+	"settings": {
+		"php.validate.executablePath": "C:/php/php.exe"
+	}
+}

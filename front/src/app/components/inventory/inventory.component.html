@@ -1,14 +1,19 @@
 
-<div  class="modal " role="dialog" tabindex="-1" id="productModal" style="border-radius:32px;max-width:841px;margin: auto;padding-top: 35px">
-        <div style="max-width: 730px;border-radius:32px;" class="modal-dialog" role="document">
-            <div class="modal-content" style="width:100%; height:400px;border-radius:32px;padding-left:0px;padding-right: 0px;">
-                <div class="modal-body" style="border-radius:32px;padding: 0px;">
-                        <div class="card card-secondary historycard midlecard profilecard" style="margin:auto;min-height:400px;border-radius:32px;width:100%;position: absolute">
+<div class="modal " role="dialog" tabindex="-1" id="productModal" style="border-radius:32px;max-width:570px;margin: auto;padding-top: 0px">
+        <div style="max-width: 730px;border-radius:32px;height:100%;margin-top: 0px;margin-bottom: 0px;" class="modal-dialog" role="document">
+            <div class="modal-content" style="width:100%; height:100%;margin-top:0px;border-radius:32px;padding-left:0px;padding-right: 0px;">
+                <div class="modal-body" style="border-radius:32px;padding: 0px;height:100%;">
+                        <div class="card card-secondary historycard midlecard profilecard" style="margin:auto;height:100%;border-radius:0px;width:100%;position: absolute">
                             <div style='padding-left: 30px;border-top-right-radius:32px;border-top-left-radius:32px;border-bottom: 0px;height:40px;margin-bottom: 10px;' class="card-header profileheader small-header">
-                                    <h6 style='font-size:11px;position:absolute;color:dodgerblue; font-weight: normal; top:18px;left:75%' class="patien-name small-name">NEW PRODUCT</h6>
+                                <h6 *ngIf="tableView ==='Products'" style='font-size:11px;position:absolute;color:dodgerblue; font-weight:normal; top:18px; width:100%' class="patien-name small-name">ADD PRODUCTS<span style="left:87%;bottom:-4px; cursor:pointer;position:absolute;font-size:20px;"><i title="Close" class="icon ion-android-close" data-dismiss ='modal' style="font-size: 17px;"></i></span>
+                                </h6>
+                                <h6 *ngIf="tableView ==='Services'" style='font-size:11px;position:absolute;color:dodgerblue; font-weight:normal; top:18px; width:100%' class="patien-name small-name">ADD SERVICES<span style="left:87%;bottom:-4px; cursor:pointer;position:absolute;font-size:20px;"><i title="Close" class="icon ion-android-close" data-dismiss ='modal' style="font-size: 17px;"></i></span>
+                                </h6>
+                                <h6 *ngIf="tableView ==='Cards'" style='font-size:11px;position:absolute;color:dodgerblue; font-weight:normal; top:18px; width:100%' class="patien-name small-name">ADD CARDS<span style="left:87%;bottom:-4px; cursor:pointer;position:absolute;font-size:20px;"><i title="Close" class="icon ion-android-close" data-dismiss ='modal' style="font-size: 17px;"></i></span>
+                                </h6>
                             </div>
-                            <div class="card-body orderbody" style="width:85%;margin:auto;">
-                                <form style="top:15%; width:60%;margin:auto;" class=" staffsform"(submit)= addProducts()>
+                            <div *ngIf="tableView ==='Products'"  class="card-body orderbody" style="width:85%;margin:auto;">
+                                <form style="top:15%; width:60%;margin:auto;" class=" staffsform" (submit) = addProducts()>
                                 <div class="form-group vitals-section address">
                                     <label style='font-size:8px' for="drug" class="labelss">PRODUCT</label>
                                     <input autocomplete="off" (focus)=clearFeedback() (keyup)="searchItems(item.name,'drug')" [(ngModel)]=item.name type="text" name="drug" placeholder="E.g Paracetamol 500mg" class="form-control patientdata dystolic inputs dataInfo" />
@@ -22,23 +27,22 @@
                             </div>
                             <div class="form-group vitals-section formGroup" style=" width:49%; margin-right: 5px">
                                 <label style='font-size:8px' for="dos" class="labelss complain">QTY</label>
-                                <input (focus)=clearFeedback() form-control [min]='1' [(ngModel)]="product.stockInfo.quantity" style="border-top-right-radius: 4px;border-bottom-right-radius: 4px;font-size:11px" type="number" name="dos" class="form-control patientdata inputs dataInfo">
+                                <input (focus)=clearFeedback() form-control [min]='1' [(ngModel)]="product.stockInfo.quantity" style="font-size:11px" type="number" name="dos" class="form-control patientdata inputs dataInfo">
                             </div>
                             <div class="form-group vitals-section formGroup" style=" width:49%; ">
                                 <label style='font-size:8px' for="price" class="labelss complain">PRICE</label>
-                                <input (focus)=clearFeedback() [min]='1' type="number" [(ngModel)]="product.stockInfo.price" style="border-radius: 4px;font-size:11px;border-top-right-radius: 4px;border-bottom-right-radius:4px" class="form-control patientdata status inputs dataInfo "
-                                    name="price">
+                                <input (focus)=clearFeedback() [min]='1' type="number" [(ngModel)]="product.stockInfo.price" style="font-size:11px;" class="form-control patientdata status inputs dataInfo" name="price">
                             </div>
                             <div class="form-group vitals-section address" style='width:100%'>
                                 <label style="font-size:8px" for="request" class="labelss">EXPIRY</label>
-                                <input type="date" style='border-top-right-radius: 0px;border-bottom-right-radius: 0px;width: 93%;' name='request' 
+                                <input (focus)=clearFeedback() type="date" style='width: 91%;' name='request' 
                                 [(ngModel)]="product.stockInfo.expiry"  autocomplete="off" class="patientdata dystolic inputs dataInfo">
-                                <div style="background: white;border:1px solid whitesmoke;border-left:0px;top:0px;height: 28px; cursor:pointer" id='moreBtn' title="Add complain">
-                                    <i *ngIf="formCompleted()"  style="left: 13%;  top: -29%;"  (click)='addMore()' class="icon   ion-ios-plus-empty arrow "></i>
+                                <div style="background: white;top:0px;height: 28px; cursor:pointer" id='moreBtn' >
+                                    <i title="Add Product" *ngIf = formCompleted()  style="left:13%; top:-29%;" (click) = addMore() class = "icon ion-ios-plus-empty arrow">
+                                    </i>
                                 </div>
                             </div>
                         </form>
-                      
                         <div style="top:1px;position:relative;width:80%;margin:auto;height: 200px">
                             <table *ngIf="temProducts.length" cellspacing="0" class="data-table drugs-table" style="width:100%;left:0%;" summary="List of all items in store. ">
                                 <thead class='productHead'>
@@ -66,29 +70,70 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div *ngIf=" temProducts.length" (click)="addProducts()" style='left:90%; height:32px;width:32px' title='Done' class="floter">
-                            <i *ngIf='processing' class="fa fa-circle-o-notch fa-spin fa-10x slow-spin" style="position:absolute;bottom:5px;left:5px;font-size:20px;color: #1da1f2;"> </i>
-                            <i *ngIf='!processing' style="color:#1da1f2;bottom:-10px" class="icon ion-ios-checkmark-empty flotericon"> </i>
-                        </div>
                     </div>
-                </div>
-                <h6 *ngIf=feedback class="feedbackMsg">{{feedback}}</h6>
-                <h6 *ngIf=errLine style="color: red" class="feedbackMsg">{{errLine}}</h6>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<div  class="modal " role="dialog" tabindex="-1" id="addModal" style="border-radius:32px;max-width:841px;margin: auto;padding-top: 35px">
-        <div style="max-width: 730px;border-radius:32px;" class="modal-dialog" role="document">
-            <div class="modal-content" style="width:100%; height:400px;border-radius:32px;padding-left:0px;padding-right: 0px;">
-                <div class="modal-body" style="border-radius:32px;padding: 0px;">
-                <div class="card card-secondary historycard midlecard profilecard" style="margin:auto;min-height:240px;border-radius:12px;">
-                    <div style='padding-left: 30px;border-top-right-radius:12px;border-top-left-radius:12px;' class="card-header profileheader small-header">
-                        <h6 style='font-size:11px;position:absolute; top:5%;left:2%;color:#1da1f2;' class="patien-name small-name">NEW CARD</h6>
+                    <div *ngIf='tableView==="Services"' style='margin-left:0px' class="card-body orderbody">
+                            <form style="top:15%; width:56%;margin:auto;" class=" staffsform" 
+                            (submit)=addProducts()>
+                                <div class="form-group vitals-section address">
+                                    <label style="font-size:8px" for="conclution" class="labelss">CATEGORY</label>
+                                    <select name='conclution' [(ngModel)]="item.category" autocomplete="off" class="patientdata dystolic inputs dataInfo">
+                                        <option>Scanning</option>
+                                        <option>Surgery</option>
+                                        <option>Test</option>
+                                    </select>
+                                </div>
+                                <div class="form-group vitals-section address">
+                                    <label style='font-size:8px;color:#1da1f2;' for="drug" class="labelss">DESCRIPTION</label>
+                                    <input autocomplete="off" (focus)=getDescriptions() (keyup)="searchItems(item.name,'drug')" [(ngModel)]=item.name type="text" name="drug" class="form-control patientdata dystolic inputs dataInfo" />
+                                    <div data-simplebar style="min-height:100px;max-height:400px;position:absolute;z-index:2" *ngIf=inventoryItems.length class="options prisOption edit">
+                                        <ul class="itemsList">
+                                            <li *ngFor="let item of inventoryItems">
+                                                <p (click)="selectDesc(item)" class="dept firstheader drugItem" style="font-size:11px;padding-left: 10px; padding-right: 10px;font-weight: normal;">
+                                                    {{item}}<span class="lastdept timetaken "></span>
+                                                </p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="form-group vitals-section address">
+                                    <label style='font-size:8px' for="expiry" class="labelss complain">PRICE</label>
+                                    <input (focus)=clearFeedback() [(ngModel)]="product.stockInfo.price" style="font-size:11px;border-top-right-radius: 0px;border-bottom-right-radius:0px;width: 91%;" type="number" name="price" class="form-control patientdata inputs dataInfo" placeholder="">
+                                    <div style="background: white;top:1px;height: 26px; cursor:pointer" id='moreBtn' >
+                                        <i title="Add Service" style="left:13%; top:-29%;" (click) = addMore() class = "icon ion-ios-plus-empty arrow">
+                                        </i>
+                                    </div>
+                                </div>
+                            </form>
+                            <div *ngIf="temProducts.length" style="top:1px;position:relative;width:80%;margin:auto;height: 200px">
+                                <table cellspacing="0" class="data-table drugs-table" style="width:100%;left:0%;" summary="List of all items in store. ">
+                                    <thead class='productHead'>
+                                        <tr class="staff-th">
+                                            <th style="padding-left:4px;" class="headlbl staff-th">SERVICE</th>
+                                            <th class="headlbl staff-th">CATEGORY</th>
+                                            <th class="headlbl staff-th">PRICE</th>
+                                            <th style='text-align:right' class="headlbl staff-th">DATE ADDED</th>
+                                            <th style='text-align:right' class="headlbl staff-th"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let product of edited; let i = index; let odd = odd;" style="border-bottom:2px solid white;" [class.even]=odd 
+                                        class="ro staff-row">
+                                            <td style="padding-left:4px;" class="data">
+                                                {{product.item.name}}<span class="predata">
+                                            </span></td>
+                                            <td class="data">{{product.item.category}}</td>
+                                            <td class="data">{{product.stockInfo.price}}</td>
+                                            <td style='text-align: right;padding-right: 2px;' class="data">
+                                                {{product.dateCreated|date:'dd-MM-y'}}</td>
+                                            <td style="text-align: left; padding-left:3px" class="data">
+                                                <i (click)="removeProduct(i)" class="icon ion-ios-trash-outline tableicon" title="Remove" style="font-size:17px; cursor: pointer;"></i>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                     </div>
-                    <div style='margin-left:0px' class="card-body orderbody">
+                    <div *ngIf="tableView ==='Cards'"  style='margin-left:0px' class="card-body orderbody">
                         <form style="top:15%; width:56%;padding-top:18px;margin:auto;" class=" staffsform" (submit)=addProducts()>
                             <div class="form-group vitals-section address">
                                 <label style="font-size:8px" for="conclution" class="labelss">CARD</label>
@@ -100,13 +145,14 @@
                             </div>
                             <div class="form-group vitals-section address" style=" width:47%; margin-right: 3px">
                                 <label style='font-size:8px' for="price" class="labelss complain">PRICE</label>
-                                <input (focus)=clearFeedback() [min]='1' type="number" [(ngModel)]="product.stockInfo.price" style="border-radius: 4px;font-size:11px;border-top-right-radius: 4px;border-bottom-right-radius:4px" class="form-control patientdata status inputs dataInfo "
-                                    name="price">
+                                <input (focus)=clearFeedback() [min]='1' type="number" [(ngModel)]="product.stockInfo.price" style="font-size:11px;" class="form-control patientdata status inputs dataInfo" name="price">
                             </div>
                             <div class="form-group vitals-section address" style=" width:42.3%; ">
                                 <label style='font-size:8px' for="expiry" class="labelss complain">QTY</label>
-                                <input (focus)=clearFeedback() [(ngModel)]="product.stockInfo.quantity" style="font-size:11px;border-top-right-radius: 0px;border-bottom-right-radius:0px" type="number" name="expiry" class="form-control patientdata inputs dataInfo" placeholder="">
-                                <div id='moreBtn' title="Add Card"><i (click)='addMore()' class="icon ion-ios-plus-empty arrow " style="font-size:25px;position: absolute;left:27%;top:-17%; cursor:pointer"></i></div>
+                                <input (focus)=clearFeedback() [(ngModel)]="product.stockInfo.quantity" style="font-size:11px;width: 91%;" type="number" name="expiry" class="form-control patientdata inputs dataInfo" placeholder="">
+                                <div style="background: white;top:0px;height: 28px; cursor:pointer" id='moreBtn' >
+                                    <i title="Add Card"  style="left:13%; top:-28%;" (click) = addMore() class = "icon ion-ios-plus-empty arrow"></i>
+                                </div>
                             </div>
                         </form>
                         <div *ngIf="temProducts.length" style="top:1px; margin-bottom:25px;position:relative;width: 322px;left:70px;" class="form-group vitals-section setGroup">
@@ -134,18 +180,18 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div *ngIf=" temProducts.length" (click)="addProducts()" style='left:90%; height:32px;width:32px' title='Done' class="floter">
-                            <i *ngIf='processing' class="fa fa-circle-o-notch fa-spin fa-10x slow-spin" style="position:absolute;bottom:5px;left:5px;font-size:20px;color: #1da1f2;"> </i>
-                            <i *ngIf='!processing' style="color:#1da1f2;bottom:-10px" class="icon ion-ios-checkmark-empty flotericon"> </i>
-                        </div>
                     </div>
-                    <div *ngIf=errLine style="padding:5px;border-top: 1px solid rgb(248, 247, 247)" class="card-footer">
-                        <h6 style='color:red' class="feedbackMsg">{{errLine}}</h6>
+                    <div style="position: absolute;top:87%;width:100%;display:flex;justify-content: center;align-content: center;" class="btn-group disposition">
+                        <button (click)="addProducts()" [disabled]=!temProducts.length  style=" width: 170px;font-size: 10px; border-radius: 30px; height:27px;" class="btn btn-sm btn-outline-primary  mainbtn">
+                           DONE
+                            <span *ngIf='processing' style="position: absolute; bottom: -7%;left: 10%;">
+                                <i class="fa fa-circle-o-notch fa-spin fa-10x slow-spin " style="position:absolute;bottom:5px;left:5px;font-size:19px;color: #1da1f2;"></i>
+                            </span>
+                        </button>
                     </div>
-                    <div *ngIf=feedback style="padding:5px;border-top: 1px solid rgb(248, 247, 247)" class="card-footer">
-                        <h6 class="feedbackMsg">{{feedback}}</h6>
-                    </div>
-                </div>
+                 </div>
+                <h6 *ngIf="feedback" class="feedbackMsg">{{feedback}}</h6>
+                <h6 *ngIf=errLine style="color: red" class="feedbackMsg">{{errLine}}</h6>
             </div>
         </div>
     </div>
@@ -153,99 +199,25 @@
 
 
 
-<div  class="modal " role="dialog" tabindex="-1" id="addModal" style="border-radius:32px;max-width:841px;margin: auto;padding-top: 35px">
-        <div style="max-width: 730px;border-radius:32px;" class="modal-dialog" role="document">
-            <div class="modal-content" style="width:100%; height:400px;border-radius:32px;padding-left:0px;padding-right: 0px;">
-                <div class="modal-body" style="border-radius:32px;padding: 0px;">
-                <div class="card card-secondary historycard midlecard profilecard" style="margin:auto;min-height:240px;border-radius:12px;">
-                    <div style='padding-left: 30px;border-top-right-radius:12px;border-top-left-radius:12px;' class="card-header profileheader small-header">
-                        <h6 style='font-size:11px;position:absolute; top:5%;left:2%;color:#1da1f2;' class="patien-name small-name">NEW SERVICE</h6>
-                    </div>
-                    <div style='margin-left:0px' class="card-body orderbody">
-                        <form style="top:15%; width:56%;margin:auto;" class=" staffsform" (submit)=
-                        addProducts()>
-                            <div class="form-group vitals-section address">
-                                <label style="font-size:8px" for="conclution" class="labelss">CATEGORY</label>
-                                <select name='conclution' [(ngModel)]="item.category" autocomplete="off" class="patientdata dystolic inputs dataInfo">
-                              <option>Scanning</option>
-                              <option>Surgery</option>
-                              <option>Test</option>
-                            </select>
-                            </div>
-                            <div class="form-group vitals-section address">
-                                <label style='font-size:8px;color:#1da1f2;' for="drug" class="labelss">DESCRIPTION</label>
-                                <input autocomplete="off" (focus)=getDescriptions() (keyup)="searchItems(item.name,'drug')" [(ngModel)]=item.name type="text" name="drug" class="form-control patientdata dystolic inputs dataInfo" />
-                                <div data-simplebar style="min-height:100px;max-height:400px;position:absolute;z-index:2" *ngIf=inventoryItems.length class="options prisOption edit">
-                                    <ul class="itemsList">
-                                        <li *ngFor="let item of inventoryItems">
-                                            <p (click)="selectDesc(item)" class="dept firstheader drugItem" style="font-size:11px;padding-left: 10px; padding-right: 10px;font-weight: normal;">
-                                                {{item}}<span class="lastdept timetaken "></span></p>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="form-group vitals-section address" style=" width:90%; ">
-                                <label style='font-size:8px' for="expiry" class="labelss complain">PRICE</label>
-                                <input (focus)=clearFeedback() [(ngModel)]="product.stockInfo.price" style="font-size:11px;border-top-right-radius: 0px;border-bottom-right-radius:0px" type="number" name="price" class="form-control patientdata inputs dataInfo" placeholder="">
-                                <div id='moreBtn' title="Add Service"><i (click)=' addMoreService()' class="icon ion-ios-plus-empty arrow " style="font-size:25px;position: absolute;left:27%;top:-17%; cursor:pointer"></i></div>
-                            </div>
-                        </form>
-                        <div *ngIf="temProducts.length" style="top:1px; margin-bottom:25px;position:relative;width: 322px;left:70px;" class="form-group vitals-section setGroup">
-                            <table cellspacing="0" class="data-table drugs-table" style="width:100%;left:0%;" summary="List of all items in store. ">
-                                <thead class='productHead'>
-                                    <tr class="staff-th">
-                                        <th style="padding-left:4px;" class="headlbl staff-th">SERVICE</th>
-                                        <th class="headlbl staff-th">CATEGORY</th>
-                                        <th class="headlbl staff-th">PRICE</th>
-                                        <th style='text-align:right' class="headlbl staff-th">DATE ADDED</th>
-                                        <th style='text-align:right' class="headlbl staff-th"></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let product of temProducts; let i = index; let odd = odd;" style="border-bottom:2px solid white;" [class.even]= odd
-                                    class="ro staff-row">
-                                        <td style="padding-left:4px;" class="data">
-                                            {{product.item.name}}<span class="predata">
-                                    </span></td>
-                                        <td class="data">{{product.item.category}}</td>
-                                        <td class="data">{{product.stockInfo.price}}</td>
-                                        <td style='text-align: right;padding-right: 2px;' class="data">{{product.dateCreated|date:'dd-MM-y'}}</td>
-                                        <td style="text-align: left; padding-left:3px" class="data">
-                                            <i (click)="removeProduct(i)" class="icon ion-ios-trash-outline tableicon" title="Remove" style="font-size:17px; cursor: pointer;"></i>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div *ngIf=" temProducts.length" (click)="addProducts()" style='left:90%; height:32px;width:32px' title='Done' class="floter">
-                            <i *ngIf='processing' class="fa fa-circle-o-notch fa-spin fa-10x slow-spin" style="position:absolute;bottom:5px;left:5px;font-size:20px;color: #1da1f2;"> </i>
-                            <i *ngIf='!processing' style="color:#1da1f2;bottom:-10px" class="icon ion-ios-checkmark-empty flotericon"> </i>
-                        </div>
-                    </div>
-                    <div *ngIf=feedback style="padding:5px;border-top: 1px solid rgb(248, 247, 247)" class="card-footer">
-                        <h6 class="feedbackMsg">{{feedback}}</h6>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 
-<div  class="modal" role="dialog" tabindex="-1" id="editModal" style="border-radius:32px;max-width:841px;margin: auto;padding-top: 35px">
-        <div style="max-width: 730px;border-radius:32px;" class="modal-dialog" role="document">
-            <div class="modal-content" style="width:100%; height:400px;border-radius:32px;padding-left:0px;padding-right: 0px;">
-                <div class="modal-body" style="border-radius:32px;padding: 0px;">
-                <div class="card card-secondary historycard midlecard profilecard" style="margin:auto;min-height:400px;border-radius:32px; width:100%">
-                    <div *ngIf='tableView === "Services"' style='padding-left: 30px;border-top-right-radius:32px;border-top-left-radius:32px;border-bottom: none' class="card-header profileheader small-header">
-                        <h6 style='font-size:11px;position:absolute; top:5%;left:2%' class="patien-name small-name">EDIT SERVICES</h6>
-                    </div>
-                    <div *ngIf='tableView === "Products"' style='padding-left: 30px;border-top-right-radius:32px;border-top-left-radius:32px; border-bottom: none' class="card-header profileheader small-header">
-                        <h6 style='font-size:11px;position:absolute; top:5%;left:2%' class="patien-name small-name">EDIT PRODUCT</h6>
-                    </div>
 
-                 
-                    <div *ngIf='tableView === "Products"' style='margin-left:0px;width:85%;margin:auto;' class="card-body orderbody">
+
+
+
+<div class="modal " role="dialog" tabindex="-1" id="editModal" style="border-radius:32px;max-width:570px;margin: auto;padding-top: 0px">
+    <div style="max-width: 730px;border-radius:32px;height:100%;margin-top: 0px;margin-bottom: 0px;" class="modal-dialog" role="document">
+        <div class="modal-content" style="width:100%; height:100%;margin-top:0px;border-radius:32px;padding-left:0px;padding-right: 0px;">
+            <div class="modal-body" style="border-radius:32px;padding: 0px;height:100%;">
+                    <div class="card card-secondary historycard midlecard profilecard" style="margin:auto;height:100%;border-radius:0px;width:100%;position: absolute">
+                        <h6 *ngIf="tableView ==='Services'" style='font-size:11px;position:absolute;color:dodgerblue; font-weight:normal; top:18px; width:100%' class="patien-name small-name">EDIT SERVICES<span style="left:89%;bottom:-4px; cursor:pointer;position:absolute;font-size:20px;"><i title="Close" class="icon ion-android-close" data-dismiss ='modal' style="font-size: 17px;"></i></span>
+                        </h6>
+                    <h6 *ngIf="tableView ==='Products'" style='font-size:11px;position:absolute;color:dodgerblue; font-weight:normal; top:18px; width:100%' class="patien-name small-name">EDIT PRODUCTS
+                        <span style="left:89%;bottom:-4px; cursor:pointer;position:absolute;font-size:20px;">
+                        <i title="Close" class="icon ion-android-close" data-dismiss ='modal' style="font-size: 17px;"></i>
+                    </span>
+                    </h6>
+                    <div *ngIf='tableView === "Products"' style='margin-left:0px;width:85%;margin:auto;padding-top: 48px;' class="card-body orderbody">
                         <form style="top:15%; width:60%;margin:auto;">
                             <div class="form-group vitals-section address">
                                 <label style='font-size:8px' for="drug" class="labelss">PRODUCT</label>
@@ -260,24 +232,23 @@
                             </div>
                             <div class="form-group vitals-section formGroup" style=" width:49%; margin-right: 3px">
                                 <label style='font-size:8px' for="dos" class="labelss complain">QTY</label>
-                                <input [min]='0' [(ngModel)]="product.stockInfo.quantity" style="border-top-right-radius: 4px;border-bottom-right-radius: 4px;font-size:11px" type="number" name="dos" class="patientdata inputs dataInfo">
+                                <input [min]='0' [(ngModel)]="product.stockInfo.quantity" style="border-top-right-radius: 4px;border-bottom-right-radius:4px;font-size:11px" type="number" name="dos" class="patientdata inputs dataInfo">
                             </div>
                             <div class="form-group vitals-section formGroup" style=" width:49%; ">
                                 <label style='font-size:8px' for="price" class="labelss complain">PRICE</label>
-                                <input type="number" [min]="0" [(ngModel)]="product.stockInfo.price" style="border-radius: 4px;font-size:11px;border-top-right-radius: 4px;border-bottom-right-radius:4px" class=" patientdata status inputs dataInfo " name="price">
+                                <input type="number" [min]="0" [(ngModel)]="product.stockInfo.price" style="font-size:11px;" class=" patientdata status inputs dataInfo " name="price">
                             </div>
                             <div class="form-group vitals-section address">
                                 <label style='font-size:8px' for="expiry" class="labelss complain">EXPIRY</label>
-                                <input [(ngModel)]="product.stockInfo.expiry" style="font-size:11px;border-radius: 4px;" type="date" name="expiry" class="patientdata inputs dataInfo" placeholder="">
+                                <input [(ngModel)]="product.stockInfo.expiry" style="font-size:11px;" type="date" name="expiry" class="patientdata inputs dataInfo" placeholder="">
                             </div>
-                            <div style="margin-bottom:0px; width:100%;position:relative;height:25px;" class="form-group vitals-section formGroup">
+                            <div style="margin-bottom:0px; width:100%;position:relative;height:15px;" class="form-group vitals-section formGroup">
                                 <p style='position: absolute;left:47%;text-align:center; font-size:11px; top:10%;'>
-                                    {{edited.length}}<span>/</span><span>{{count}}</span></p>
-                                <i (click)='previous()' title="Previous" class="icon ion-ios-arrow-left shift-icon"></i>
-                                <i (click)='next()' title="Next" class="icon ion-ios-arrow-right shift-icon next-icon"></i>
+                                    {{edited.length}}<span>|</span><span>{{count}}</span>
+                                </p>
                             </div>
                         </form>
-                        <div *ngIf="edited.length" style="top:1px;position:relative;width:80%;margin:auto;height: 200px">
+                        <div *ngIf="edited.length" style="top:1px;position:relative;width:85%;margin:auto;height: 200px">
                             <table cellspacing="0" class="data-table drugs-table" style="width:100%;left:0%;" summary="List of all items in store. ">
                                 <thead class='productHead'>
                                     <tr class="staff-th">
@@ -295,32 +266,37 @@
                                         </td>
                                         <td class="data">{{product.stockInfo.quantity}}</td>
                                         <td class="data">{{product.stockInfo.price}}</td>
-                                        <td style='text-align: right;padding-right: 2px;' class="data">{{product.stockInfo.expiry}}</td>
+                                        <td style='text-align: right;padding-right: 2px;' class="data">
+                                            {{product.stockInfo.expiry}}
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
-
-                    <div *ngIf='tableView==="Services"' style='margin-left:0px' class="card-body orderbody">
+                    <div *ngIf='tableView==="Services"' style='margin-left:0px;padding-top:48px;' class="card-body orderbody">
                         <form style="top:15%; width:56%;margin:auto;" class=" staffsform" 
                         (submit)=addProducts()>
                             <div class="form-group vitals-section address">
                                 <label style="font-size:8px" for="conclution" class="labelss">CATEGORY</label>
                                 <select name='conclution' [(ngModel)]="item.category" autocomplete="off" class="patientdata dystolic inputs dataInfo">
-                          <option>Scanning</option>
-                          <option>Surgery</option>
-                          <option>Test</option>
-                        </select>
+                                    <option>Scanning</option>
+                                    <option>Surgery</option>
+                                    <option>Test</option>
+                                </select>
                             </div>
                             <div class="form-group vitals-section address">
-                                <label style='font-size:8px;color:#1da1f2;' for="drug" class="labelss">DESCRIPTION</label>
-                                <input autocomplete="off" (focus)=showDesc() (keyup)="searchItems(item.name,'drug')" [(ngModel)]=item.name type="text" name="drug" class="form-control patientdata dystolic inputs dataInfo" />
-                                <div data-simplebar style="min-height:100px;max-height:400px;position:absolute;z-index:2" *ngIf=inventoryItems.length class="options prisOption edit">
+                                <label style='font-size:8px;color:#1da1f2;' for="drug" class="labelss">DESCRIPTION
+                                </label>
+                                <input autocomplete="off" (focus)=getDescriptions() (keyup)="searchItems(item.name,'drug')" 
+                                [(ngModel)]=item.name type="text" name="drug" class="form-control patientdata dystolic inputs dataInfo" />
+                                <div data-simplebar style="min-height:100px;max-height:400px;position:absolute;z-index:200" *ngIf=inventoryItems.length class="options prisOption edit">
                                     <ul class="itemsList">
                                         <li *ngFor="let item of inventoryItems">
                                             <p (click)="selectDesc(item)" class="dept firstheader drugItem" style="font-size:11px;padding-left: 10px; padding-right: 10px;font-weight: normal;">
-                                                {{item}}<span class="lastdept timetaken "></span></p>
+                                                {{item}}
+                                                <span class="lastdept timetaken "></span>
+                                            </p>
                                         </li>
                                     </ul>
                                 </div>
@@ -331,9 +307,8 @@
                             </div>
                             <div style="margin-bottom:0px; width:100%;position:relative;height:25px;" class="form-group vitals-section formGroup">
                                 <p style='position: absolute;left:47%;text-align:center; font-size:11px; top:10%;'>
-                                    {{edited.length}}<span>/</span><span>{{count}}</span></p>
-                                <i (click)='previous()' title="Previous" class="icon ion-ios-arrow-left shift-icon"></i>
-                                <i (click)='next()' title="Next" class="icon ion-ios-arrow-right shift-icon next-icon"></i>
+                                    {{edited.length}}<span>/</span><span>{{count}}</span>
+                                </p>
                             </div>
                         </form>
                         
@@ -345,7 +320,6 @@
                                         <th class="headlbl staff-th">CATEGORY</th>
                                         <th class="headlbl staff-th">PRICE</th>
                                         <th style='text-align:right' class="headlbl staff-th">DATE ADDED</th>
-                                        <th style='text-align:right' class="headlbl staff-th"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -357,26 +331,39 @@
                                         <td class="data">{{product.item.category}}</td>
                                         <td class="data">{{product.stockInfo.price}}</td>
                                         <td style='text-align: right;padding-right: 2px;' class="data">
-                                            {{product.dateCreated|date:'dd-MM-y'}}</td>
-                                        <td style="text-align: left; padding-left:3px" class="data">
-                                            <i (click)="removeProduct(i)" class="icon ion-ios-trash-outline tableicon" title="Remove" style="font-size:17px; cursor: pointer;"></i>
+                                            {{product.dateCreated|date:'dd-MM-y'}}
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                    <div *ngIf=" edited.length" (click)="updateProducts()" style='left:88%; height:32px;width:32px' title='Update' class="floter">
-                        <i *ngIf='processing' class="fa fa-circle-o-notch fa-spin fa-10x slow-spin" style="position:absolute;bottom:5px;left:5px;font-size:20px;color: #1da1f2;"> </i>
-                        <i *ngIf='!processing' style="color:#1da1f2;bottom:-10px" class="icon ion-ios-checkmark-empty flotericon"> </i>
+                    <div style="position: absolute;top:87%;width:100%;display:flex;justify-content: center;align-content: center;" class="btn-group disposition">
+                        <button (click)="updateProducts()" [disabled]=!edited.length  style=" width: 170px;font-size: 10px; border-radius: 30px; height:27px;" class="btn btn-sm btn-outline-primary  mainbtn">
+                            UPDATE 
+                            <span *ngIf='processing' style="position: absolute; bottom: -7%;left: 10%;">
+                                <i class="fa fa-circle-o-notch fa-spin fa-10x slow-spin " style="position:absolute;bottom:5px;left:5px;font-size:19px;color: #1da1f2;"></i>
+                            </span>
+                        </button>
                     </div>
+                </div>
+                <div style="position: absolute; display:flex; justify-content: center;align-items: center;padding-left: 0px; top:80px;left: 12%; width: 7%;" class="btn-group disposition">
+                    <button  (click) = prev() style="width:30px;height: 30px;border-radius: 50%;"   class="btn btn-outline-primary  dispo " >
+                        <i style='position:absolute;right:36%;top:2px; font-size:large; cursor:pointer; display: inline-block;' title="Back" class="icon ion-android-arrow-back "></i>
+                    </button>
+                </div>
+                <div style="position: absolute; display:flex; justify-content: center;align-items: center;padding-left: 0px; top:80px; left:75%; width:7%;" class="btn-group disposition">
+                    <button (click)=next() style="width:30px;height: 30px;border-radius: 50%;left:35%"   class="btn btn-outline-primary  dispo ">
+                        <i style='position:absolute;right:36%;top:2px; font-size:large; cursor:pointer; display: inline-block;' title="Next" class="icon ion-android-arrow-forward "> 
+                        </i>
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<div  class="modal " role="dialog" tabindex="-1" id="addModal" style="border-radius:32px;max-width:841px;margin: auto;padding-top: 35px">
+<div  class="modal " role="dialog" tabindex="-1" id="deleteModal" style="border-radius:32px;max-width:841px;margin: auto;padding-top: 35px">
         <div style="max-width: 730px;border-radius:32px;" class="modal-dialog" role="document">
             <div class="modal-content" style="width:100%; height:400px;border-radius:32px;padding-left:0px;padding-right: 0px;">
                 <div class="modal-body" style="border-radius:32px;padding: 0px;">
@@ -395,14 +382,15 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let product of pickDeletables(); let i = index; let odd = odd;" style="border-bottom:2px solid white;" [class.even]=o dd class="ro staff-row">
+                                <tr *ngFor="let product of pickDeletables(); let i = index; let odd = odd;" style="border-bottom:2px solid white;" [class.even]=odd class="ro staff-row">
                                     <td style="padding-left:4px;" class="data">
                                         {{product.item.name}}<span class="predata">
                                     </span></td>
                                     <td class="data">{{product.stockInfo.quantity}}</td>
                                     <td class="data">{{product.stockInfo.price}}</td>
                                     <td style='text-align: right;padding-right: 2px;' class="data">
-                                        {{product.stockInfo.expiry|date:'dd-MM-y'}}</td>
+                                        {{product.stockInfo.expiry|date:'dd/MM/y'}}
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -456,8 +444,8 @@
     </div>
    
     <i *ngIf="tableView ==='Products'" style="left:75%;" class="icon ion-ios-plus-empty arrow buble" id="add" title="Add Product" data-target="#productModal" data-toggle="modal"></i>
-    <i *ngIf="tableView === 'Services'" style="left:75%;" class="icon ion-ios-plus-empty arrow buble" id="add" title="Add Service" data-target="#serviceModal" data-toggle="modal"></i>
-    <i *ngIf="tableView === 'Cards'" style="left:75%;" class="icon ion-ios-plus-empty arrow buble" id="add" title="Add Card" data-target="#cardModal" data-toggle="modal"></i>
+    <i *ngIf="tableView === 'Services'" style="left:75%;" class="icon ion-ios-plus-empty arrow buble" id="add" title="Add Service" data-target="#productModal" data-toggle="modal"></i>
+    <i *ngIf="tableView === 'Cards'" style="left:75%;" class="icon ion-ios-plus-empty arrow buble" id="add" title="Add Card" data-target="#productModal" data-toggle="modal"></i>
   
     <div class="timeline lastdoc priscriber headerdp small-dp user-dp" style="left:90%;position:absolute;height:30px;width:30px;top:5px; margin-bottom:0px;"> <img style='height:100%; width:100%; object-fit:cover;' [src]=getMyDp()/></div>
 </nav>

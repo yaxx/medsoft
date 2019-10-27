@@ -65,11 +65,11 @@ uploadFile: (req, res)=>{
   })
 },
 getDp: (req, res) => {
-  const filePath = path.join(__dirname, '../uploads') + '/'+req.params.id
+  const filePath = path.join(__dirname, '../uploads') + '/' + req.params.id
   res.sendFile(filePath);
 },
 downloadFile: (req, res) => {
-  const filename = path.join(__dirname, '../uploads') + '/'+req.body.fileName
+  const filename = path.join(__dirname, '../uploads') + '/' + req.body.fileName
   res.sendFile(filename);
 },
 addPerson: async (req, res) => {

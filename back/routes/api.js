@@ -63,7 +63,6 @@ uploadFile: (req, res)=>{
      res.send(req.file.filename)
     }
   })
-
 },
 getDp: (req, res) => {
   const filePath = path.join(__dirname, '../uploads') + '/'+req.params.id

@@ -20,7 +20,7 @@ app.use('/graphql', graphQlHttp({
 }))
 // app.use(cors({origin:"http://localhost:4200", credentials: true}))
 app.use(cors({origin:"*", credentials: true}))
-// app.use(express.static(path.join(__dirname,'dist','front')))
+app.use(express.static(path.join(__dirname,'dist','front')))
 app.use(require('morgan')('dev'))
 app.use(bodyParser.json())
 app.use(require('cookie-parser')('blackfly'))
@@ -158,7 +158,7 @@ app.post('/api/update-info', api.updateInfo)
 app.post('/api/updateclient', api.updateClient)
 app.post('/api/login', api.login)
 app.post('/api/transaction', api.runTransaction)
-server.listen(80, (err) => {
+server.listen(5000, (err) => {
   if (err) {
     console.log(err.stack)
   } else {

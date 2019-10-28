@@ -18,9 +18,7 @@
                             <div style='border:none' *ngFor="let invoices of invoices; let i = index" class="carditem priscriptioncontainer order">
                                 <div style='left:-3%' class="timeline condition drugtimeline">
                                     <p class="timelinedate">{{invoices[0]?.meta.dateAdded|date:'dd'}}</p>
-                                    <p class="timelinedate month">
-                                        {{invoices[0]?.meta.dateAdded|date:'MMM'|uppercase}}
-                                    </p>
+                                    <p class="timelinedate month">{{invoices[0]?.meta.dateAdded|date:'MMM'|uppercase}}</p>
                                 </div>
                                 <div *ngFor="let invoice of invoices; let j= index" class="priscription drug">
                                     <h6 class="dept">{{invoice.name}}&nbsp;<span class="predata"></span>
@@ -32,7 +30,7 @@
                                         <div  style='border-color:rgb(228, 227, 227)'
                                         *ngIf ="!invoice.meta.selected && !invoice.quantity" class="mycheckbox"  >
                                         </div>
-                                        <div class="mycheckbox" *ngIf ="!invoice.meta.selected && invoice.quantity" (click)="selectItem(i,j)" >
+                                        <div class="mycheckbox" *ngIf ="!invoice.meta.selected && invoice.quantity" (click)="selectItem(i,j)">
                                         </div>
                                     </span>
                                     </h6>

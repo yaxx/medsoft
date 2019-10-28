@@ -77,8 +77,7 @@ addPerson: async (req, res) => {
   const exist = await Person.findOne({
     'info.contact.me.mobile': req.body.info.contact.me.mobile
   })
-  console.log(exist)
-  if(exist) {
+  if(exist.length) {
       res.status(400).send(exist)
     } else {
       res.send(await createPerson({

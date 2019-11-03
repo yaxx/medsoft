@@ -4,7 +4,7 @@ import {DataService} from '../../services/data.service';
 import {SocketService} from '../../services/socket.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CookieService } from 'ngx-cookie-service';
-import { Priscription, Scan, Vital, Medication, Note} from '../../models/record.model';
+import { Priscription, Scan, Session, Vital, Medication, Note} from '../../models/record.model';
 import { Person } from '../../models/person.model';
 import { Product, Item} from '../../models/inventory.model';
 import { Client} from '../../models/client.model';
@@ -27,7 +27,7 @@ export class WardComponent implements OnInit {
   client: Client = new Client();
   cloneClient: Client = new Client();
   product: Product = new Product();
-  vitals: Vital = new Vital();
+  // vitals: Vital = new Vital();
   priscription: Priscription = new Priscription();
   medication: Medication = new Medication();
   medications: any[] = [];
@@ -36,9 +36,14 @@ export class WardComponent implements OnInit {
   items: Item[] = new Array<Item>();
   file: File = null;
   filesDesc = null;
+  errLine = null;
+  feedback = null;
+  vital = 'Blood Presure';
+  vitals = [];
   note = new Note();
   input = '';
   view = 'bed';
+  session: Session = new Session();
   id = null;
   loading = false;
   selected = null;
@@ -47,6 +52,7 @@ export class WardComponent implements OnInit {
   curIndex = 0;
   sortBy = 'added';
   allocated = null;
+  count = 0;
   message = null;
   url = '';
   cardCount = null;
@@ -92,15 +98,16 @@ export class WardComponent implements OnInit {
       if(patient.record.visits[0][0].dept.toLowerCase() === this.myDepartment && patient.record.visits[0][0].status === 'Admit') {
         this.patients.unshift(patient);
         this.clonedPatients.unshift(patient);
-      } else if (patient.record.visits[0][0].dept.toLowerCase() === this.myDepartment && patient.record.visits[0][0].status === 'Discharged') {
+      } else if (patient.record.visits[0][0].dept.toLowerCase() ===
+       this.myDepartment && patient.record.visits[0][0].status === 'Discharged') {
          this.patients.splice(i, 1);
       }
   });
 
   }
   getDp(avatar: String) {
-    // return 'http://localhost:5000/api/dp/' + avatar;
-    return 'http://13.59.243.243/api/dp/' + avatar;
+    return 'http://localhost:5000/api/dp/' + avatar;
+    // return 'http://13.59.243.243/api/dp/' + avatar;
   }
   getMyDp() {
     return this.getDp(this.cookies.get('d'));
@@ -109,6 +116,9 @@ export class WardComponent implements OnInit {
     this.dataService.getClient().subscribe((res: any) => {
       this.client = res.client;
   });
+  }
+  goTo(count: number) {
+    this.count = count;
   }
   refresh() {
     this.message = null;
@@ -252,17 +262,6 @@ export class WardComponent implements OnInit {
   }
   assignBed(i: number) {
 
-  //   this.cloneClient = cloneDeep(this.client);
-  //   const index = this.client.departments.findIndex(d => d.name === this.patient.record.visits[0][0].dept);
-  //   if (this.patient.record.visits[0][0].bedNo) {
-  //     this.client.departments[index].rooms[this.patient.record.visits[0][0].wardNo - 1].beds[this.patient.record.visits[0][0].bedNo - 1].allocated = false;
-  //     this.client.departments[index].rooms[this.patient.record.visits[0][0].wardNo - 1].beds[this.patient.record.visits[0][0].bedNo - 1].allocated = true;
-  //   } else {
-  //     this.client.departments[index].rooms[this.patient.record.visits[0][0].wardNo - 1].beds[this.patient.record.visits[0][0].bedNo - 1].allocated = true;
-  //   }
-  //   this.dataService.updateBed(this.patient, this.client).subscribe((p: Person) => {
-  //       this.switchToFront(i);
-  //  });
  }
 
   switchToFront(i: number) {
@@ -272,64 +271,95 @@ export class WardComponent implements OnInit {
     this.patients[i].card.view = 'vitals';
     this.curIndex = i;
   }
+   addVital() {
+    switch (this.vital) {
+      case 'Blood Presure':
+        this.vitals.unshift({
+          name: 'Blood Presure', 
+          val: this.session.vitals.bp.systolic + '/'
+        + this.session.vitals.bp.diastolic + 'mm Hg'
+        });
+        break;
+      case 'Tempreture':
+        this.vitals.unshift({
+          name: 'Tempreture', 
+          val: this.session.vitals.tempreture.value + 'F' 
+        });
+        break;
+      case 'Respiratory Rate':
+        this.vitals.unshift({
+          name: 'Respiratory Rate', 
+          val: this.session.vitals.resp.value + 'bpm'
+        });
+        break;
+      case 'Pulse Rate':
+        this.vitals.unshift({
+          name: 'Pulse Rate', 
+          val: this.session.vitals.pulse.value + 'bpm'
+        });
+        break;
+      default:
+        break;
+    }
+  }
   updateVitals(i: number) {
-    if(this.vitals.tempreture) {
-      this.patients[i].record.vitals.bp =
-      this.patients[i].record.vitals.tempreture
-      .filter(t => new Date(t.meta.dateAdded).toLocaleDateString() !== new Date().toLocaleDateString());
-      this.patients[i].record.vitals.tempreture.unshift(this.vitals.tempreture);
-    } else {
+    // if(this.vitals.tempreture) {
+    //   this.patients[i].record.vitals.bp =
+    //   this.patients[i].record.vitals.tempreture
+    //   .filter(t => new Date(t.meta.dateAdded).toLocaleDateString() !== new Date().toLocaleDateString());
+    //   this.patients[i].record.vitals.tempreture.unshift(this.vitals.tempreture);
+    // } else {
 
-    }
-    if(this.vitals.bp) {
-      this.patients[i].record.vitals.bp =
-      this.patients[i].record.vitals.bp
-      .filter(b => new Date(b.meta.dateAdded).toLocaleDateString() !== new Date()
-      .toLocaleDateString())
-      this.patients[i].record.vitals.bp.unshift(this.vitals.bp);
-    } else {
+    // }
+    // if(this.vitals.bp) {
+    //   this.patients[i].record.vitals.bp =
+    //   this.patients[i].record.vitals.bp
+    //   .filter(b => new Date(b.meta.dateAdded).toLocaleDateString() !== new Date()
+    //   .toLocaleDateString())
+    //   this.patients[i].record.vitals.bp.unshift(this.vitals.bp);
+    // } else {
 
-    }
-    if(this.vitals.pulse.value) {
-      this.patients[i].record.vitals.pulse =
-      this.patients[i].record.vitals.pulse
-      .filter(p => new Date(p.meta.dateAdded).toLocaleDateString() !== new Date()
-      .toLocaleDateString())
-      this.patients[i].record.vitals.pulse.unshift(this.vitals.pulse);
-    } else {
+    // }
+    // if(this.vitals.pulse.value) {
+    //   this.patients[i].record.vitals.pulse =
+    //   this.patients[i].record.vitals.pulse
+    //   .filter(p => new Date(p.meta.dateAdded).toLocaleDateString() !== new Date()
+    //   .toLocaleDateString())
+    //   this.patients[i].record.vitals.pulse.unshift(this.vitals.pulse);
+    // } else {
 
-    }
-    if(this.vitals.resp.value) {
-      this.patients[i].record.vitals.resp =
-      this.patients[i].record.vitals.resp
-      .filter(r => new Date(r.meta.dateAdded).toLocaleDateString() !== new Date()
-      .toLocaleDateString())
-      this.patients[i].record.vitals.resp.unshift(this.vitals.resp);
-    } else {
+    // }
+    // if(this.vitals.resp.value) {
+    //   this.patients[i].record.vitals.resp =
+    //   this.patients[i].record.vitals.resp
+    //   .filter(r => new Date(r.meta.dateAdded).toLocaleDateString() !== new Date()
+    //   .toLocaleDateString())
+    //   this.patients[i].record.vitals.resp.unshift(this.vitals.resp);
+    // } else {
 
-    }
-    if(this.vitals.height.value) {
-      this.patients[i].record.vitals.height =
-      this.patients[i].record.vitals.height.filter(h => new Date(h.meta.dateAdded).toLocaleDateString() !== new Date()
-      .toLocaleDateString());
-      this.patients[i].record.vitals.height.unshift(this.vitals.height);
-    } else {
+    // }
+    // if(this.vitals.height.value) {
+    //   this.patients[i].record.vitals.height =
+    //   this.patients[i].record.vitals.height.filter(h => new Date(h.meta.dateAdded).toLocaleDateString() !== new Date()
+    //   .toLocaleDateString());
+    //   this.patients[i].record.vitals.height.unshift(this.vitals.height);
+    // } else {
 
-    }
-    if(this.vitals.weight.value) {
-      this.patients[i].record.vitals.weight =
-      this.patients[i].record.vitals.weight.filter(w => new Date(w.meta.dateAdded).toLocaleDateString() !== new Date()
-      .toLocaleDateString());
-      this.patients[i].record.vitals.weight.unshift(this.vitals.weight);
-    } else {
+    // }
+    // if(this.vitals.weight.value) {
+    //   this.patients[i].record.vitals.weight =
+    //   this.patients[i].record.vitals.weight.filter(w => new Date(w.meta.dateAdded).toLocaleDateString() !== new Date()
+    //   .toLocaleDateString());
+    //   this.patients[i].record.vitals.weight.unshift(this.vitals.weight);
+    // } else {
 
-    }
+    // }
 
     this.dataService.updateRecord(this.patients[i]).subscribe((p: Person) => {
       p.card = {menu: false, view: 'front'};
       this.patients[i] = p;
       this.loading = false;
-      this.vitals = new Vital();
+     
     });
   }
   linked() {

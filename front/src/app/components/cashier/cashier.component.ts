@@ -26,13 +26,10 @@ export class CashierComponent implements OnInit {
   medication: Medication = new Medication();
   temProducts: Product[] = [];
   item: Item = new Item();
-
-
   searchedProducts: Product[] = [];
   invoices: Invoice[][] = new Array<Invoice[]>();
   edited: Invoice[] = [];
   editables: Invoice[] = [];
-
   inlinePatients = [];
   inlineProducts = [];
   transMsg = null;
@@ -65,7 +62,7 @@ export class CashierComponent implements OnInit {
     this.getPatients();
     this.getProducts();
     this.socket.io.on('new order', (patient: Person) => {
-    this.patients.push(patient);
+      this.patients.push(patient);
     });
     this.socket.io.on('store update', (data) => {
       if(data.action === 'new') {
@@ -114,27 +111,7 @@ export class CashierComponent implements OnInit {
     return desc.split('|')[0];
   }
 
-  updateInvoices() {
-    this.edited.forEach(invoice => {
-      this.patients[this.curIndex].record.invoices.forEach((m) =>  {
-        m[m.findIndex(i => i._id === invoice._id)] = {...invoice, paid: true, datePaid: new Date(), comfirmedBy: this.cookies.get('i')};
-      });
-      this.products.forEach(prod => {
-        if(prod.item.name === invoice.name) {
-          prod.stockInfo.quantity = prod.stockInfo.quantity - invoice.quantity;
-          prod.stockInfo.sold = prod.stockInfo.sold + invoice.quantity;
-          this.cart.push(prod)
-        } else if(prod.item.name === invoice.desc) {
-          prod.stockInfo.quantity = prod.stockInfo.quantity - invoice.quantity;
-          prod.stockInfo.sold = prod.stockInfo.sold + invoice.quantity;
-          this.patients[this.curIndex].record.visits[0][0].status = 'queued';
-          this.cart.push(prod);
-        }
-      });
-    });
-    // this.sendRecord();
   
- }
  switchToEdit() {
   this.invoices.forEach(inner => {
     inner.forEach(invoice => {
@@ -146,18 +123,38 @@ export class CashierComponent implements OnInit {
   });
   this.switchViews('editing');
 }
-
+updateInvoices() {
+    this.edited.forEach(invoice => {
+      this.patients[this.curIndex].record.invoices.forEach((m) =>  {
+        m[m.findIndex(i => i._id === invoice._id)] = {...invoice, paid: true, datePaid: new Date(), comfirmedBy: this.cookies.get('i')};
+      });
+      this.products.forEach(prod => {
+        if(prod.item.name === invoice.name) {
+          prod.stockInfo.quantity = prod.stockInfo.quantity - invoice.quantity;
+          prod.stockInfo.sold = prod.stockInfo.sold + invoice.quantity;
+          this.cart.push(prod);
+        } else if(prod.item.name === invoice.desc) {
+          prod.stockInfo.quantity = prod.stockInfo.quantity - invoice.quantity;
+          prod.stockInfo.sold = prod.stockInfo.sold + invoice.quantity;
+          this.patients[this.curIndex].record.visits[0][0].status = 'queued';
+          this.cart.push(prod);
+        }
+      });
+    });
+   
+ }
 updatePrices(invoices: Invoice[], i: number) {
   if(invoices.length) {
     invoices.forEach(invoice => {
-      let p = (invoice.name === 'Card') ? this.products.find(prod => prod.item.name === invoice.desc) : this.products.find(prod => prod.item.name === invoice.name); 
+      let p = (invoice.name === 'Card') ? 
+      this.products.find(prod => prod.item.name === invoice.desc) : this.products.find(prod => prod.item.name === invoice.name); 
       if(p && !invoice.paid) {
         invoice.price = p.stockInfo.price;
       }
     });
     this.invoices[i] = invoices;
   } else {
-    this.invoices.splice(i, 1);
+    // this.invoices.splice(i, 1);
   }
 }
 
@@ -165,17 +162,34 @@ viewOrders(i: number) {
   this.curIndex = i;
   this.switchViews('orders');
   this.invoices = this.patients[i].record.invoices;
-  this.invoices.forEach((invoices , m) => {
-    let items = [];
+  this.invoices.forEach((invoices , j) => {
+    const items = [];
     invoices.forEach((invoice) => {
       if(invoice.processed) {
         items.push(invoice);
       }
       });
-      this.updatePrices(items, m);
+      this.updatePrices(items, j);
   });
-
 }
+runTransaction(type: string) {
+  this.processing = true;
+  this.dataService.runTransaction(this.patients[this.curIndex]._id, this.patients[this.curIndex].record, this.cart).subscribe(() => {
+    this.products = this.clonedStore;
+    this.processing = false;
+    this.socket.io.emit('transaction', this.cart);
+    this.transMsg = (type === 'purchase') ? 'Payment successfully comfirmed' : 'Transaction successfully reversed';
+    this.reset();
+  }, (e) => {
+    this.errMsg = (type === 'purchase') ?  'Unable to comfirm payment' : 'Unable to reverse transaction';
+    this.processing = false;
+  });
+}
+
+comfirmPayment() {
+  this.updateInvoices();
+  this.runTransaction('purchase');
+ }
 
   switchViews(view) {
     switch(view) {
@@ -257,27 +271,7 @@ viewOrders(i: number) {
   }
 
 
-  runTransaction(type: string) {
-    this.processing = true;
-    this.dataService.runTransaction(this.patients[this.curIndex]._id, this.patients[this.curIndex].record, this.cart).subscribe(() => {
-      this.products = this.clonedStore;
-      this.processing = false;
-      this.socket.io.emit('transaction', this.cart);
-      this.transMsg = (type === 'purchase') ? 'Payment successfully comfirmed' : 'Transaction successfully reversed';
-      this.reset();
-    }, (e) => {
-      this.errMsg = (type === 'purchase') ?  'Unable to comfirm payment' : 'Unable to reverse transaction';
-      this.processing = false;
-    });
-  }
-
  
- 
-  comfirmPayment() {
-    this.updateInvoices();
-    this.runTransaction('purchase');
-   }
-
 
   somePaid(i) {
     // return this.medications[i].some(m => m.invoice.paid);
@@ -297,8 +291,8 @@ viewOrders(i: number) {
      return total;
   }
     getDp(avatar: String) {
-    // return 'http://localhost:5000/api/dp/' + avatar;
-    return 'http://13.59.243.243/api/dp/' + avatar;
+    return 'http://localhost:5000/api/dp/' + avatar;
+    // return 'http://13.59.243.243/api/dp/' + avatar;
   }
   getStyle(i: Invoice) {
     return {color: i.paid ? 'black': 'lightgrey'};

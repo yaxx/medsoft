@@ -34,13 +34,14 @@ export class HistoryComponent implements OnInit {
   scannings = Scannings;
   surgeries = Surgeries;
   conditions = Conditions;
+  vital = 'Blood Presure';
+  vitals = [];
   patient: Person = new Person();
   loading = false;
   processing = false;
   errLine = null;
   message = null;
   bpChart = [];
-  
   chartData = [];
   notes: Note[] = [];
   chartLabels = new Array<String>(10);
@@ -67,11 +68,10 @@ export class HistoryComponent implements OnInit {
       this.message = 'Something went wrong';
       this.loading = false;
     });
-
-    this.patient.record.vitals.bp.forEach((bp, i) => {
-        this.chartData.push(bp.value);
-        this.chartLabels[i] = new Date(bp.meta.dateAdded).getDate().toString() + months[new Date(bp.meta.dateAdded).getMonth()];
-      });
+    // this.patient.record.vitals.bp.forEach((bp, i) => {
+    //     this.chartData.push(bp.systolic);
+    //     this.chartLabels[i] = new Date(bp.meta.dateAdded).getDate().toString() + months[new Date(bp.meta.dateAdded).getMonth()];
+    //   });
     this.bpChart = new Chart('bpChart', {
       type: 'bar',
         options: {
@@ -142,8 +142,8 @@ export class HistoryComponent implements OnInit {
   }
   getImage(fileName: String){
     // return 'http://192.168.0.100:5000/api/dp/' + fileName;
-    // return 'http://localhost:5000/api/dp/' + fileName;
-    return 'http://13.59.243.243/api/dp/' + fileName;
+    return 'http://localhost:5000/api/dp/' + fileName;
+    // return 'http://13.59.243.243/api/dp/' + fileName;
   }
   compareNotes(i: number, note: Note) {
     return this.notes[i].note.length === note.note.length;
@@ -161,7 +161,38 @@ export class HistoryComponent implements OnInit {
       return 'http://localhost:5000/api/dp/' + avatar;
       // return 'http://http://192.168.1.100:5000/api/dp/' + avatar;
   }
+  addVital() {
+    switch (this.vital) {
+      case 'Blood Presure':
+        this.vitals.unshift({
+          name: 'Blood Presure', 
+          val: this.session.vitals.bp.systolic + '/'
+        + this.session.vitals.bp.diastolic + 'mm Hg'
+        });
+        break;
+      case 'Tempreture':
+        this.vitals.unshift({
+          name: 'Tempreture', 
+          val: this.session.vitals.tempreture.value + 'F' 
+        });
+        break;
+      case 'Respiratory Rate':
+        this.vitals.unshift({
+          name: 'Respiratory Rate', 
+          val: this.session.vitals.resp.value + 'bpm'
+        });
+        break;
+      case 'Pulse Rate':
+        this.vitals.unshift({
+          name: 'Pulse Rate', 
+          val: this.session.vitals.pulse.value + 'bpm'
+        });
+        break;
+      default:
+        break;
+    }
 
+  }
   isAdmin() {
     return this.router.url.includes('admin');
   }
@@ -169,7 +200,11 @@ export class HistoryComponent implements OnInit {
     return this.router.url.includes('information');
   }
   isConsult() {
-    return !this.router.url.includes('information') && !this.router.url.includes('pharmacy') && !this.router.url.includes('billing') && !this.router.url.includes('ward') && !this.router.url.includes('admin');
+    return !this.router.url.includes('information') && 
+    !this.router.url.includes('pharmacy') && 
+    !this.router.url.includes('billing') && 
+    !this.router.url.includes('ward') &&
+    !this.router.url.includes('admin');
   }
 
 getDescriptions() {
@@ -198,15 +233,20 @@ removeComplain(i: number) {
 
 removePriscription(i: number) {
 this.session.medications.splice(i, 1);
-this.session.invoices.splice(i, 1);
+this.session.medInvoices.splice(i, 1);
 }
 removeTest(i) {
  this.tests.splice(i, 1);
  this.session.invoices.splice(i, 1);
 }
 isEmptySession() {
-  return !this.session.invoices.length && !this.session.complains.length &&
-  !this.session.conditions.length && !this.session.allegies.allegy && !this.session.famHist.condition && !this.session.note.note;
+  return !this.session.invoices.length && 
+  !this.session.complains.length &&
+  !this.session.conditions.length && 
+  !this.session.allegies.allegy && 
+  !this.session.famHist.condition && 
+  !this.session.note.note && 
+  !this.session.medications.length;
 }
 
 fetchDept() {
@@ -383,38 +423,55 @@ addMedication() {
     this.session.items.unshift(new Item('drug', this.session.medication.name));
   }
   if (this.session.medications.some(medic => medic.name === this.session.medication.name)) {
-    this.feedback = 'Medication already added';
+    this.errLine = 'Medication already added';
   } else {
   this.session.medications.unshift({
     ...this.session.medication,
     meta: new Meta(this.cookies.get('i'))
   });
+  this.addInvoice(this.session.medication.name, 'Medication');
+  this.session.medication = new Medication();
 }
-this.addInvoice(this.session.medication.name, 'Medication');
-this.session.medication = new Medication();
+
+}
+invoiceExist() {
+  return this.session.invoices.some(invoice => invoice.name === this.session.reqItem.name);
 }
 addTest() {
-  this.session.tests.unshift(new Test(
-    this.session.reqItem.name,
-    new Meta(this.cookies.get('i'))
-    ));
+  if(this.invoiceExist()) {
+    this.errLine = 'Request already added';
+  } else {
+    this.session.tests.unshift(new Test(
+      this.session.reqItem.name,
+      new Meta(this.cookies.get('i'))
+      ));
     this.addInvoice(this.session.reqItem.name, 'Test');
+  }
 }
 addSurgery() {
-  this.session.surgeries.unshift({
+  if(this.invoiceExist()) {
+    this.errLine = 'Request already added';
+  } else {
+     this.session.surgeries.unshift({
     ...new Surgery(),
     name: this.session.reqItem.name,
     meta: new Meta(this.cookies.get('i'))
   });
   this.addInvoice(this.session.reqItem.name, 'Surgery');
+  }
  }
 addScanning() {
-  this.session.scans.unshift({
+  if(this.invoiceExist()) {
+    this.errLine = 'Request already added';
+  } else {
+     this.session.scans.unshift({
     ...new Scan(),
     name: this.session.reqItem.name,
     meta: new Meta(this.cookies.get('i'))
   });
   this.addInvoice(this.session.reqItem.name, 'Scan');
+  }
+ 
 }
 addComplain() {
    this.session.complains.unshift({
@@ -462,15 +519,29 @@ getPriceTotal() {
   //  });
   //  return total;
 }
-removeRequest(i: number) {
+clearMsg() {
+  this.errLine = null;
+}
+goTo(count: number) {
+  this.count = count;
+}
+removeData(invoice: Invoice) {
+if(invoice.desc === 'Test') {
+  const i  = this.session.tests.findIndex(tst => tst.name === invoice.name);
+  this.session.tests.splice(i, 1);
+} else if (invoice.desc === 'Surgery') {
+  this.session.surgeries.splice(this.session.surgeries.findIndex(sgr => sgr.name === invoice.name), 1);
+}
+this.session.scans.splice(this.session.scans.findIndex(scn => scn.name === invoice.name), 1);
+}
+removeRequest(i: number, invoice: Invoice) {
   this.session.reqItems.splice(i, 1);
   this.session.invoices.splice(i, 1);
+  this.removeData(invoice);
 }
 removeCondition(i: number) {
   this.session.conditions.splice(i, 1);
 }
-
-
 checkScalars() {
   if (this.session.famHist.condition) {
     this.patient.record.famHist.unshift({

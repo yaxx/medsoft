@@ -206,7 +206,7 @@ export class PharmacyComponent implements OnInit {
 updatePrices(invoices: Invoice[], i: number) {
   if(invoices.length) {
     invoices.forEach(invoice => {
-      let p = this.products.find(prod => prod.item.name === invoice.name); 
+      const p = this.products.find(prod => prod.item.name === invoice.name); 
       if(p && !invoice.paid) {
         invoice.price = p.stockInfo.price;
       }
@@ -220,14 +220,14 @@ updatePrices(invoices: Invoice[], i: number) {
     this.curIndex = i;
     this.switchViews('orders');
     this.invoices = cloneDeep(this.patients[i].record.invoices);
-    this.invoices.forEach((invoices , m) => {
-      let items = [];
+    this.invoices.forEach((invoices , index) => {
+      const items = [];
       invoices.forEach((invoice) => {
         if(invoice.desc.includes('|')) {
           items.push(invoice);
         }
         });
-        this.updatePrices(items, m);
+        this.updatePrices(items, index);
     });
   }
   reset() {
@@ -247,7 +247,7 @@ updatePrices(invoices: Invoice[], i: number) {
     this.processing = true;
     this.dataService.updateRecord(this.patients[this.curIndex]).subscribe((patient: Person) => {
       this.transMsg = 'Invoice successfully updated';
-    this.reset()
+      this.reset();
     }, (e) => {
       this.errMsg = 'Unable to update invoice';
       this.processing = false;
@@ -265,6 +265,7 @@ updatePrices(invoices: Invoice[], i: number) {
           }
         });
       });
+      console.log(this.patients[this.curIndex].record.invoices);
       this.sendRecord();
       this.switchViews('orders');
    }
@@ -285,8 +286,8 @@ updatePrices(invoices: Invoice[], i: number) {
  
     getDp(avatar: String) {
     // return 'http://192.168.1.100:5000/api/dp/' + avatar;
-    return 'http://13.59.243.243/api/dp/' + avatar;
-    // return 'http://18.221.76.96:5000/api/dp/' + avatar;
+    // return 'http://13.59.243.243/api/dp/' + avatar;
+    return 'http://localhost:5000/api/dp/' + avatar;
   }
 
   getMyDp() {

@@ -246,4 +246,14 @@
     transition: all 0.2s linear;
     transition-delay: 0.15s;
   }
+  ::-webkit-input-placeholder { /* Edge */
+    color: lightgrey;
+  }
   
+  :-ms-input-placeholder { /* Internet Explorer */
+    color: lightgrey;
+  }
+  
+  ::placeholder {
+    color: lightgrey;
+  }

@@ -434,7 +434,8 @@ html {
     border-bottom: 1px solid whitesmoke;
     height: 27px;
     width: 25px;
-    background: whitesmoke;
+    background: white;
+    border-bottom: 1px solid whitesmoke;top:1px;height: 26px;
 }
 
 #moreBtn i {

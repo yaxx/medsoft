@@ -106,7 +106,8 @@ const personScheema = new Scheema({
         }],
         vitals: {
             bp: [{
-                value: Number,
+                systolic: Number,
+                dystolic: Number,
                 meta: {
                     addedBy: {
                         type: Scheema.Types.ObjectId,

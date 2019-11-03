@@ -75,7 +75,8 @@ export class Note {
 
 export class Bp {
   constructor(
-    public value: number = null,
+    public systolic: number = null,
+    public diastolic: number = null,
     public meta: Meta = new Meta()
     ) {}
 }
@@ -116,7 +117,8 @@ export class Weight {
 }
 
 export class Vital {
-  constructor(public bp: Bp= new Bp(),
+  constructor(
+    public bp: Bp= new Bp(),
     public resp: Resp = new Resp(),
     public pulse: Pulse = new Pulse(),
     public bloodGl: Bg = new Bg(),
@@ -178,13 +180,13 @@ export class Surgery {
   }
 export class Vitals {
   constructor(
-    public bp: Bp[] = [],
-    public resp: Resp[] = [],
-    public pulse: Pulse[] = [],
-    public bloodGl: Bg[] = [],
-    public tempreture: Temp[] = [],
-    public height: Height[] = [],
-    public weight: Weight[] = []
+    public bp: Bp = new Bp(),
+    public resp: Resp = new Resp(),
+    public pulse: Pulse = new Pulse(),
+    public bloodGl: Bg = new Bg(),
+    public tempreture: Temp = new  Temp(),
+    public height: Height = new Height(),
+    public weight: Weight = new Weight()
   ) {}
 }
 
@@ -226,7 +228,7 @@ export class Session {
     public complain: Complain = new Complain(),
     public condition: Condition = new Condition(),
     public medication: Medication = new Medication(),
-    public vital: Vital = new Vital(),
+    public vitals: Vital = new Vital(),
     public allegies: Allegy = new Allegy(),
     public devices: Device = new Device(),
     public visits: Visit = new Visit(),

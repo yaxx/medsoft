@@ -76,9 +76,9 @@ export class InventoryComponent implements OnInit {
     // this.input = this.product.item.name + ' ' + this.product.item.mesure + this.product.item.unit;
   }
   getDp(avatar: String) {
-    // return 'http://192.168.1.100:5000/api/dp/' + avatar;
+    return 'http://192.168.1.100:5000/api/dp/' + avatar;
     // return 'http://localhost:5000/api/dp/' + avatar;
-    return 'http://13.59.243.243/api/dp/' + avatar;
+    // return 'http://13.59.243.243/api/dp/' + avatar;
   }
   getMyDp() {
     return this.getDp(this.cookies.get('d'));
@@ -165,16 +165,18 @@ export class InventoryComponent implements OnInit {
     }
   }
   addMoreService() {
-     if (this.products.some(product => product.item.name === this.item.name) || this.temProducts.some(product => product.item.name === this.item.name)) {
-    this.errLine = 'Product already exist';
+     if (this.products.some(product => product.item.name === this.product.item.name) || 
+     this.temProducts.some(product => product.item.name === this.product.item.name)) {
+    this.errLine = 'Service already exist';
     } else {
-      this.product.item = this.item;
       this.temProducts.unshift({
         ...this.product, type: this.tableView
       });
-      this.item = new Item();
       this.product = new Product();
     }
+  }
+  serviceFormCompleted() {
+    return this.product.stockInfo.price && this.product.item.name && this.product.item.category;
   }
   clearFeedback() {
     this.feedback = null;
@@ -185,8 +187,12 @@ export class InventoryComponent implements OnInit {
     const p = this.clonedInventory;
     this.curentItems =  p.filter(product => product.type === this.tableView);
     this.temProducts = [];
-    this.item = new Item();
+    this.editables = [];
+    this.edited = [];
     this.product = new Product();
+    this.curentItems.forEach(product => {
+      product.selected = false;
+    }); 
   }
   toggleMenu() {
     this.menuView = !this.menuView;
@@ -195,11 +201,10 @@ export class InventoryComponent implements OnInit {
     this.temProducts.splice(i, 1);
   }
   selectCategory(i: Item) {
-    this.item.category = i.name;
+    this.product.item.category = i.name;
     this.categories = [];
   }
   addSelection(i: Item) {
-    this.item.name = i.name;
     this.product.item = i;
     this.temItems = [];
   }
@@ -223,49 +228,15 @@ export class InventoryComponent implements OnInit {
     return this.product;
    }
   next() {
-    if (this.input !== '') {
-      if (this.item._id) {
-          this.product.item = this.item;
-          this.item = new Item();
-          this.edited.unshift(this.updateStock());
-      } else if (this.product.item.name !== this.input) {
-          this.product.item = new Item(this.input);
-          this.edited.unshift(this.updateStock());
-      } else {
-          this.edited.unshift(this.updateStock());
-      }
-      this.input = '';
+      this.edited.unshift(this.product);
       this.product = new Product();
       if (this.editables.length) {
           this.product = this.editables.shift();
-          this.input = this.product.item.name;
       }
-    }
   }
   prev() {
-      if (this.input !== '') {
-        if (this.edited.length) {
-          if (this.item._id) {
-            this.product.item = this.item;
-            this.item = new Item();
-            this.editables.unshift(this.product);
-
-          } else if (this.product.item.name !== this.input) {
-              this.product.item = new Item(this.input);
-              this.editables.unshift(this.product);
-              this.product = this.edited.shift();
-              this.input = this.product.item.name;
-
-          } else {
-              this.editables.unshift(this.product);
-              this.product = this.edited.shift();
-              this.input = this.product.item.name;
-          }
-      }
-    } else if (this.edited.length) {
+       this.editables.unshift(this.product);
         this.product = this.edited.shift();
-        this.input = this.product.item.name;
-    }
   }
   selectionOccure() {
     return this.products.some((product) => product.selected);
@@ -281,23 +252,26 @@ export class InventoryComponent implements OnInit {
     this.categories = this.items.filter(item => item.type === type);
 }
 getDescriptions() {
-  switch (this.item.category) {
+  switch (this.product.item.category) {
     case 'Card':
-    this.inventoryItems = ['Standard', 'Premium', 'Exclusive'];
+      this.inventoryItems = ['Standard', 'Premium', 'Exclusive'];
     break;
     case 'Surgery':
-    this.inventoryItems = this.surgeryItems;
+      this.inventoryItems = this.surgeryItems;
     break;
-  case 'Scanning':
-    this.inventoryItems = this.scanItems;
+    case 'Scanning':
+      this.inventoryItems = this.scanItems;
     break;
-  case 'Test':
-    this.inventoryItems = this.testItems;
+    case 'Test':
+      this.inventoryItems = this.testItems;
     break;
     default:
     break;
   }
 
+}
+hideList() {
+  this.inventoryItems = [];
 }
 getItems() {
   const prods = this.products;
@@ -305,7 +279,7 @@ getItems() {
   return this.curentItems;
 }
 selectDesc(name) {
-  this.item.name = name;
+  this.product.item.name = name;
   this.inventoryItems = [];
 }
 searchItems(i: string, type: string) {
@@ -315,6 +289,16 @@ searchItems(i: string, type: string) {
         this.temItems = this.items.filter(it => it.type === type).filter((item) => {
         const patern =  new RegExp('\^' + i , 'i');
         return patern.test(item.name);
+      });
+  }
+}
+searchDesc() {
+    if (this.product.item.name === '') {
+      this.inventoryItems = [];
+    } else {
+        this.inventoryItems = this.inventoryItems.filter((item) => {
+        const patern =  new RegExp('\^' + this.product.item.name  , 'i');
+        return patern.test(this.product.item.name);
       });
   }
 }
@@ -337,24 +321,29 @@ searchItems(i: string, type: string) {
   });
 
   }
+  clearTemVariables() {
+    this.editables = this.edited = [];
+    this.product = new Product();
+    this.errLine = null;
+  }
   updateProducts() {
     this.processing = true;
     this.dataService.updateProducts(this.edited).subscribe(() => {
         this.edited.forEach(product => {
-        this.products[this.products.findIndex(pro => pro._id === product._id)] = product;
+          const i  = this.curentItems.findIndex(pro => pro._id === product._id);
+          this.curentItems[i] = product;
     });
     this.socket.io.emit('store update', {action: 'update', changes: this.edited});
     this.product = new Product();
-    this.input = '';
     this.processing = false;
     this.edited = this.editables = [];
-    this.feedback = 'Inventory succesffully updated';
+    this.feedback = 'Update succesfull';
     setTimeout(() => {
       this.feedback = null;
     }, 4000);
    }, (e) => {
       this.processing = false;
-      this.feedback = 'Unable to update store';
+      this.feedback = 'Unable to update inventory';
     });
 }
 deleteProducts() {

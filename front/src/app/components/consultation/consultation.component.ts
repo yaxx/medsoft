@@ -191,11 +191,11 @@ export class ConsultationComponent implements OnInit {
 
  getClient() {
     this.dataService.getClient().subscribe((res: any) => {
+      this.client = res.client;
       this.cardTypes = res.client.inventory.filter(p => p.type === 'Cards');
   });
   }
 
-  
   clearPatient() {
     this.reg = true;
     this.patient = new Person();
@@ -203,8 +203,8 @@ export class ConsultationComponent implements OnInit {
 
 
   getDp(avatar: String) {
-    // return 'http://localhost:5000/api/dp/' + avatar || '../assets/img/avatar.jpg';
-      return 'http://13.59.243.243/api/dp/' + avatar;
+    return 'http://localhost:5000/api/dp/' + avatar || '../assets/img/avatar.jpg';
+      // return 'http://13.59.243.243/api/dp/' + avatar;
     }
 
  
@@ -310,8 +310,7 @@ export class ConsultationComponent implements OnInit {
   searchPatient(name: string) {
     if (name !== '') {
      this.patients = this.patients.filter((patient) => {
-       const patern =  new RegExp('\^' + name
-       , 'i');
+       const patern =  new RegExp('\^' + name , 'i');
        return patern.test(patient.info.personal.firstName);
        });
     } else {
@@ -321,11 +320,6 @@ export class ConsultationComponent implements OnInit {
    toggleSortMenu() {
     this.sortMenu = !this.sortMenu;
   }
-  
-
- 
-
-
 switchBtn(option: string) {
    this.in = option;
 }
@@ -352,7 +346,7 @@ getPatients(type) {
   }
  
    getBMI() {
-     return  (this.session.vital.weight.value / Math.pow(this.session.vital.height.value, 2)).toFixed(2);
+     return  (this.session.vitals.weight.value / Math.pow(this.session.vitals.height.value, 2)).toFixed(2);
    }
   selectPatient(i: number) {
     this.curIndex = i;

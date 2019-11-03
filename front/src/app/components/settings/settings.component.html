@@ -111,11 +111,11 @@
                                 </select>
                             </div>
                         </form>
-                        <button (click)=updateAccount() *ngIf='staffMode ==="edit"' style=" width: 62%; margin-top:10px; left:18.5%;color: #1da1f2; border-radius:4px; font-size:11px; color:white; " type="button" class="btn btn-sm btn-primary inputs mainbtn">
+                        <button (click)=updateAccount() *ngIf='staffMode ==="edit"' style=" width: 62%; margin-top:10px; left:18.5%;color: #1da1f2; border-radius:4px; font-size:11px; color:white; " type="button" class="btn btn-sm btn-primary  mainbtn">
                          <i *ngIf = processing   class="fa fa-circle-o-notch fa-spin fa-10x slow-spin" style="position:absolute;bottom:4px;left:78%;font-size:17px;color: white;"></i>
                         Update Account
                        </button>
-                        <button (click)=createAccount() *ngIf='staffMode ==="new"' style=" width: 62%; margin-top:10px; left:18.5%;color: #1da1f2; border-radius:4px; font-size:11px; color:white; " type="button" class="btn btn-sm btn-primary inputs mainbtn">
+                        <button (click)=createAccount() *ngIf='staffMode ==="new"' style=" width: 62%; margin-top:10px; left:18.5%;color: #1da1f2; border-radius:4px; font-size:11px; color:white; " type="button" class="btn btn-sm btn-primary  mainbtn">
                         <i *ngIf = processing   class="fa fa-circle-o-notch fa-spin fa-10x slow-spin" style="position:absolute;bottom:4px;left:78%;font-size:17px;color: white;"></i>
                         Create Account
                      </button>
@@ -339,8 +339,8 @@
                                     <input [(ngModel)]="client.info.address" name="address" class="form-control patientdata inputs dataInfo">
                                 </div>
                             </div>
-                            <button style=" width: 90px; left:81px; width: 90%; left: 11px;top:80%;font-size: 10px;height: 27px;
-                            box-shadow: none; " type="submit" class="btn btn-sm btn-outline-primary inputs mainbtn">SAVE CHANGES<span *ngIf='processing'> <i class="fa fa-circle-o-notch editicon continue blocked-icon fa-spin" style="font-size:18px;position: absolute;left:77%"></i></span> 
+                            <button style=" width: 80px; left:81px; width: 90%; left: 11px;top:80%;font-size: 10px;height: 27px;
+                            box-shadow: none; " type="submit" class="btn btn-sm btn-outline-primary mainbtn">SAVE CHANGES<span *ngIf='processing'> <i class="fa fa-circle-o-notch editicon continue blocked-icon fa-spin" style="font-size:18px;position: absolute;left:77%"></i></span> 
                             </button>
                         </form>
                     </div>
@@ -440,9 +440,11 @@
                                 <input [(ngModel)]="numOfRooms" type="number" [min]="1" style='font-size:11px;' 
                                 class=" form-control patientdata inputs dataInfo newpatient" name="department">
                             </div>
-                            <button [disabled]='inComplete()' (click) = addDepartment() style=" width: 90px; left:81px; width: 90%; left: 11px;top:55%;font-size: 10px;height: 27px;
-                            box-shadow: none;"  class="btn btn-sm btn-outline-primary inputs mainbtn"><span><i style="font-size:16px; position:absolute; left:19%; bottom:4%;font-weight: bolder" class="icon ion-ios-plus-empty"></i>
-                            </span> ADD DEPARTMENT<span *ngIf='processing'> <i class="fa fa-circle-o-notch editicon continue blocked-icon fa-spin" style="font-size:18px;position: absolute;left:77%"></i></span> 
+                            <button [disabled]='inComplete()' (click) = addDepartment() style=" width: 90px; left:81px; width: 70%; left: 28px;top:55%;font-size: 10px;height: 27px;
+                            box-shadow: none;"  class="btn btn-sm btn-outline-primary  mainbtn"><span><i style="font-size:16px; position:absolute; left:10%; bottom:4%;font-weight: bolder" class="icon ion-ios-plus-empty"></i>
+                            </span> ADD DEPARTMENT<span *ngIf='processing'>
+                                <i class="fa fa-circle-o-notch editicon continue blocked-icon fa-spin" style="font-size:18px;position: absolute;left:77%"></i>
+                            </span> 
                             </button>
                         </form>   
                     </div>

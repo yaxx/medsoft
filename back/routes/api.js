@@ -44,7 +44,9 @@ const createPerson = async data => {
     if(con) {
         await Client.findOneAndUpdate({
         _id: person.info.official.hospital
-      },{ $push:{staffs: person._id }}
+      },{ 
+        $push:{staffs: person._id }
+      }
     )
   } else {}
     return person
@@ -417,6 +419,8 @@ runTransaction: async (req, res) => {
 },
 
 login: async (req, res) => {
+  console.log(req.body);
+  
   try {
     const person = await Person.findOne({ $or: [{
       'info.contact.me.email':req.body.username,
@@ -432,6 +436,7 @@ login: async (req, res) => {
     }
   ]
 })
+console.log(person)
   if(person) {
     res.send(person)
   } else {

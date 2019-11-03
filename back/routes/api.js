@@ -1,6 +1,6 @@
 // const { error } require 'util'
 const mongoose = require ('mongoose')
-var ObjectId = require ('mongoose').Types.ObjectId
+// var ObjectId = require ('mongoose').Types.ObjectId
 const Person = require('../models/schemas/person')
 const Client = require ('../models/schemas/client')
 // constPerson require '../models/schemas/staffs'

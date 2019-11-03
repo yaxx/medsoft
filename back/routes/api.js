@@ -96,11 +96,10 @@ catch (e) {
   
 },
 getPatients: async (req, res) => {
-  
   try {
     const {info: {official}} = await Person.findById(req.cookies.i).select('info');
-    let patients = await Person.find({$where: 'this.record.visits.length'})
-
+    let patients = await Person.find()
+    patients = Array.from(patients).map(p => p.toJSON()).filter(person => person.record.visits.length > 0);
 
 
 

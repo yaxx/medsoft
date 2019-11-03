@@ -396,7 +396,7 @@
                         <h1 *ngIf='deptMode !== "add"' class="dept headtitle">DEPARTMENTS <i (click)='switchRightCard("add") ' style="left:98%;cursor: pointer;" class="icon ion-ios-plus-empty editicon editclient addinfo" title="Add department"></i></h1>
                         <h1 style="padding-left: 12px;" *ngIf='deptMode === "add"' class="dept headtitle">ADD DEPARTMENTS <i (click)='switchRightCard("view") ' style="left:-3%;cursor: pointer;position: absolute;bottom:-4px;z-index:5" class="icon ion-android-arrow-back editicon editclient addinfo" title="Back"></i></h1>
                     </div>
-                    <div data-simplebar [class.back]='deptMode==="add"' [class.front]='deptMode==="view"'  style='padding-top:10px;position:absolute;top:7%;height:100%' class="card-body rightcardbody depts">
+                    <div data-simplebar [class.back]='deptMode==="add"' [class.front]='deptMode==="view"'  style='padding-top:10px;position:absolute;top:7%;height:100%;width:100%' class="card-body rightcardbody depts">
                         <h1 *ngIf='!client.departments.length' style='color:lightgrey; width:100%; text-align:center;top:43%;position:absolute;' class="dept headtitle">NO DEPARTMENTS
                         </h1>
                         <div *ngFor="let department of client.departments let i = index;"  style='margin-bottom:15px; padding-bottom: 10px; left:25px;border-bottom: 1px solid #f4f8fc; width:75%' class="carditem">

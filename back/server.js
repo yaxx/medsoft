@@ -19,8 +19,8 @@ app.use('/graphql', graphQlHttp({
   graphiql: true
 }))
 // app.use(cors({origin:"http://localhost:4200", credentials: true}))
-app.use(cors({origin:"http://13.59.243.243:5000", credentials: true}))
-// app.use(cors({origin:"*", credentials: true}))
+// app.use(cors({origin:"http://13.59.243.243:5000", credentials: true}))
+app.use(cors({origin:"*", credentials: true}))
 app.use(express.static(path.join(__dirname,'dist','front')))
 app.use(require('morgan')('dev'))
 app.use(bodyParser.json())
@@ -134,8 +134,6 @@ app.get('/api/orders', api.getOrders)
 app.get('/api/products', api.getProducts)
 app.get('/api/history/:id', api.getHistory)
 app.get('/api/notifications', api.getNotifications)
-
-
 app.post('/api/follow', api.followPerson)
 app.post('/api/followback', api.followBack)
 app.post('/api/unfollow', api.unFollow)

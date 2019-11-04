@@ -31,7 +31,7 @@ export class DataService {
   }
   explore() {
     return this.http.get(
-      `${this.uri}/explore`, {withCredentials: true}
+      `${this.uri}/explore`, { withCredentials: true }
       );
   }
   getConnections(id) {

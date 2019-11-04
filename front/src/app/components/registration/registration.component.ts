@@ -85,8 +85,8 @@ export class RegistrationComponent implements OnInit {
   }
   getDp(avatar: String) {
     // return 'http://192.168.1.100:5000/api/dp/' + avatar;
+    return 'http://localhost/api/dp/' + avatar;
     // return 'http://localhost:5000/api/dp/' + avatar;
-    return 'http://localhost:5000/api/dp/' + avatar;
   }
   toggleSortMenu() {
     this.sortMenu = !this.sortMenu;

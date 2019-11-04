@@ -133,8 +133,8 @@ export class HistoryComponent implements OnInit {
     });
   }
   getDp(avatar: String) {
-    return 'http://localhost:5000/api/dp/' + avatar;
-    // return 'http://18.221.76.96:5000/api/dp/' + avatar;
+    return 'http://localhost/api/dp/' + avatar;
+    // return 'http://192.168.0.100:5000/api/dp/'+ avatar;
   }
 
   getMyDp() {
@@ -142,7 +142,7 @@ export class HistoryComponent implements OnInit {
   }
   getImage(fileName: String){
     // return 'http://192.168.0.100:5000/api/dp/' + fileName;
-    return 'http://localhost:5000/api/dp/' + fileName;
+    return 'http://localhost/api/dp/' + fileName;
     // return 'http://13.59.243.243/api/dp/' + fileName;
   }
   compareNotes(i: number, note: Note) {

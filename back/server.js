@@ -19,7 +19,7 @@ app.use('/graphql', graphQlHttp({
   graphiql: true
 }))
 // app.use(cors({origin:"http://localhost:4200", credentials: true}))
-// app.use(cors({origin:"http://13.59.243.243:5000", credentials: true}))
+// app.use(cors({origin:"http://3.19.194.118:5000", credentials: true}))
 app.use(cors({origin:"*", credentials: true}))
 app.use(express.static(path.join(__dirname,'dist','front')))
 app.use(require('morgan')('dev'))
@@ -148,12 +148,10 @@ app.post('/api/addnotification', api.addNotifications)
 // app.post('/api/updateNotification', api.updateNotifications)
 app.post('/api/upload', api.uploadFile)
 app.post('/api/download', api.downloadFile)
-
 app.post('/api/update-history', api.updateHistory)
 app.post('/api/delete-staff', api.deleteStaff)
 app.post('/api/update-record', api.updateRecord)
 app.post('/api/update-info', api.updateInfo)
-
 app.post('/api/updateclient', api.updateClient)
 app.post('/api/login', api.login)
 app.post('/api/transaction', api.runTransaction)

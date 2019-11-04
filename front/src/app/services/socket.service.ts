@@ -5,7 +5,7 @@ import { Socket } from '../models/socket';
   providedIn: 'root'
 })
 export class SocketService {
-// io: Socket = socketIo('http://localhost:5000');
-  io: Socket = socketIo('http://13.59.243.243');
+io: Socket = socketIo('http://localhost');
+  // io: Socket = socketIo('http://13.59.243.243');
   constructor() { }
 }

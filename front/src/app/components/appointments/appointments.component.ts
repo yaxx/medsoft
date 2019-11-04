@@ -10,7 +10,8 @@ import {Visit , Appointment} from '../../models/record.model';
 import {CookieService } from 'ngx-cookie-service';
 import * as cloneDeep from 'lodash/cloneDeep';
 // const uri = 'http://localhost:5000/api/upload';
-const uri = 'http://13.59.243.243/api/upload';
+// const uri = 'http://13.59.243.243/api/upload';
+const uri = 'http://192.168.1.100:5000/api/upload';
 @Component({
   selector: 'app-appointments',
   templateUrl: './appointments.component.html',
@@ -66,7 +67,7 @@ export class AppointmentsComponent implements OnInit {
    }
    getDp(avatar: String) {
     // return 'http://localhost:5000/api/dp/' + avatar;
-    return 'http://13.59.243.243/api/dp/' + avatar;
+    return 'http://192.168.1.100:5000/api/dp/' + avatar;
   }
   getMyDp() {
     return this.getDp(this.cookies.get('d'));

@@ -291,8 +291,8 @@ comfirmPayment() {
      return total;
   }
     getDp(avatar: String) {
-    return 'http://localhost:5000/api/dp/' + avatar;
-    // return 'http://13.59.243.243/api/dp/' + avatar;
+    // return 'http://localhost:5000/api/dp/' + avatar;
+    return 'http://192.168.1.100/api/dp/' + avatar;
   }
   getStyle(i: Invoice) {
     return {color: i.paid ? 'black': 'lightgrey'};
@@ -318,8 +318,8 @@ cancel() {
   // this.products = this.dataService.getCachedProducts();
 }
 
- searchPatient(name:string) {
-   if(name!==''){
+ searchPatient(name: string) {
+   if(name !== '') {
     this.patients = this.patients.filter((patient) => {
       const patern =  new RegExp('\^' + name , 'i');
       return patern.test(patient.info.personal.firstName);

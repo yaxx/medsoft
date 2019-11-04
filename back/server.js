@@ -155,7 +155,7 @@ app.post('/api/update-info', api.updateInfo)
 app.post('/api/updateclient', api.updateClient)
 app.post('/api/login', api.login)
 app.post('/api/transaction', api.runTransaction)
-server.listen(5000, (err) => {
+server.listen(80, (err) => {
   if (err) {
     console.log(err.stack)
   } else {

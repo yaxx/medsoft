@@ -14,7 +14,6 @@ declare var io: {
 export class DataService {
   // uri = 'http://192.168.1.100:5000/api';
   uri = 'http://3.19.194.118:80/api';
-  // uri = 'http://3.19.194.118:5000/api';
   socket: Socket;
   staff: Person = new Person();
   patients: Person[] = new Array<Person>();

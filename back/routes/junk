@@ -21,3 +21,26 @@
   //     } else { console.log(err) }
   //   }
   // )
+
+
+
+                                    //Tests update - Added report and comment 
+  //   patients = Array.from(patients).map(p => p.toJSON()).filter(p => p.record.cards.length > 0).map(patient => {
+  //     let {record} = patient
+  //     return ({
+  //       ...patient, record: {...record, tests: record.tests.map(tests => tests.map(t => ({
+  //         name: t.name,
+  //         meta: t.meta,
+  //         treated: false,
+  //         report: {
+  //           comment: null,
+  //           meta: {
+  //             dateAdded: null,
+  //             addedBy: null
+  //           },
+  //           attachments: []
+  //         }
+  //       })))
+  //     }
+  //   }) 
+  // })

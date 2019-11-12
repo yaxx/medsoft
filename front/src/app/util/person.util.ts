@@ -66,33 +66,42 @@ export  class PersonUtil {
         ...this.card,
         meta: new Meta(this.cookies.get('i'))
     });
-    this.person.record.invoices[0] = [{
+    this.person.record.visits = [[new Visit()]];
+
+    this.person.record.invoices = [[{
         ...new Invoice(),
         name: 'Card',
         desc: this.card.category,
         processed: true,
         meta: new Meta(this.cookies.get('i'))
-    }];
+    }]];
     }
     addRecord() {
-    this.creating = true;
-    this.addInitials();
-    this.backEnd.addPerson(this.person).subscribe((newPerson: Person) => {
-        newPerson.card = {menu: false, view: 'front'};
-        this.socket.io.emit('consulted', newPerson);
-        this.person = new Person();
-        this.card = new Card();
-        this.creating = false;
-        this.successMsg = 'Patient added successfully';
-        setTimeout(() => {
-        this.successMsg = null;
-        }, 4000);
-        return newPerson;
-    }, (e) => {
-    this.errorMsg = 'Unbale to add patient';
-    this.creating = false;
-    return null;
-    });
+
+        this.creating = true;
+        this.addInitials();
+        this.backEnd.addPerson(this.person).subscribe((newPerson: Person) => {
+        
+            newPerson.card = {menu: false, view: 'front'};
+            // this.socket.io.emit('new order', newPerson);
+            this.person = newPerson;
+            console.log(newPerson);
+            this.card = new Card();
+            this.creating = false;
+            this.successMsg = 'Patient added successfully';
+            setTimeout(() => {
+            this.successMsg = null;
+            }, 4000);
+            
+        }, (e) => {
+        
+            this.errorMsg = 'Unbale to add patient';
+            this.creating = false;
+          
+        });
+        console.log(this.person);
+        
+        
     }
     update() : Info {
         let info = null;

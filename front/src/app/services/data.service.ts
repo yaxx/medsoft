@@ -12,8 +12,9 @@ declare var io: {
   providedIn: 'root'
 })
 export class DataService {
+  uri = 'http://localhost:5000/api';
   // uri = 'http://192.168.1.100:5000/api';
-  uri = 'http://3.19.194.118:80/api';
+  // uri = 'http://3.19.194.118:80/api';
   socket: Socket;
   staff: Person = new Person();
   patients: Person[] = new Array<Person>();
@@ -119,16 +120,21 @@ export class DataService {
       `${this.uri}/update-info`, {info: info, id: id}, {withCredentials: true});
  }
 
+
+  uploadScans(formData) {
+    return this.http.post(
+      `${this.uri}/upload-scans`, formData, {withCredentials: true});
+  }
   upload(image, pid) {
     return this.http.post(
       `${this.uri}/upload`, image, {withCredentials: true});
   }
   download(file: string){
     return this.http.post(
-      `${this.uri}/download`, {fileName:file}, {
+      `${this.uri}/download`, {fileName: file}, {
         withCredentials: true,
         responseType: 'blob',
-        headers: new HttpHeaders().append('Content-Type','application/json')
+        headers: new HttpHeaders().append('Content-Type', 'application/json')
 
       });
   }

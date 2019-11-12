@@ -23,6 +23,9 @@ const store = multer.diskStorage({
 const upload = multer({
   storage: store
 }).single('file')
+const uploads = multer({
+  storage: store
+}).array('files')
 
 const createPerson = async data => {
   try {
@@ -45,20 +48,20 @@ const createPerson = async data => {
         await Client.findOneAndUpdate({
         _id: person.info.official.hospital
       },{ 
-        $push:{staffs: person._id }
+        $push: {staffs: person._id }
       }
     )
   } else {}
-    return person
+  return person
 } catch (e)  {
   throw e
-}
+  }
 }
 
 
 module.exports = {
-uploadFile: (req, res)=>{
-  upload(req, res, (err)=>{
+uploadFile: (req, res) => {
+  upload(req, res, (err) => {
     if(err) {
      return res.status(501).jason({error:err})
     } else {
@@ -66,6 +69,30 @@ uploadFile: (req, res)=>{
     }
   })
 },
+uploadScans: (req, res) => {
+  uploads(req, res, (err) => {
+    if(err) {
+     return res.status(501).jason({error: err})
+    } else {
+    res.send(req.files)
+    }
+  })
+},
+// postReport: (req, res) => {
+//   console.log(req.body)
+//   uploads(req, res, (err) => {
+//     if(err) {
+//      return res.status(501).jason({error: err})
+//     } else {
+//       console.log(req.files)
+//     for (const file of req.files) {
+//        req.body.patient.record.tests[req.body.fileindex.i][req.body.index.j].push(file.filename)
+//     }
+//     console.log(req.files)
+//      this.updateRecord(req, res)
+//     }
+//   })
+// },
 getDp: (req, res) => {
   const filePath = path.join(__dirname, '../uploads') + '/' + req.params.id
   res.sendFile(filePath);
@@ -79,7 +106,7 @@ addPerson: async (req, res) => {
   const exist = await Person.findOne({
     'info.contact.me.mobile': req.body.info.contact.me.mobile
   })
-  if(exist.length) {
+  if(exist) {
       res.status(400).send(exist)
     } else {
       res.send(await createPerson({
@@ -89,7 +116,6 @@ addPerson: async (req, res) => {
      )
     }
   }
-
 catch (e) {
   throw e
 }
@@ -99,57 +125,32 @@ getPatients: async (req, res) => {
   try {
     const {info: {official}} = await Person.findById(req.cookies.i).select('info');
     let patients = await Person.find()
-    patients = Array.from(patients).map(p => p.toJSON()).filter(person => person.record.visits.length > 0);
+    patients = Array.from(patients).filter(person => person.record.visits.length > 0);
 
+  //   patients = Array.from(patients).map(p => p.toJSON()).filter(p => p.record.cards.length > 0).map(patient => {
+  //     let {record} = patient
+  //     return ({
+  //       ...patient, record: {...record, tests: record.tests.map(tests => tests.map(t => ({
+  //         ...t,
+  //         dept: 'Microbiology'
+          
+  //       })))
+  //     }
+  //   }) 
+  // })
 
-
-//     patients = Array.from(patients).map(p => p.toJSON()).filter(p => p.record.cards.length === 0).map(patient => {
-//       let {record} = patient
-//       return ({
-//         ...patient, record: {...record, cards: [{
-//                 category: 'Standard',
-//                 pin: null,
-//                 stockInfo: {
-//                     inStock: 0,
-//                     price: 0,
-//                     sold: 0,
-//                     expired: false,
-//                     status: false,
-//                     quantity: 0,
-//                     expiry: new Date()
-//                 },
-//                 invoice: {
-//                     comfirmedBy: null,
-//                     price: 1000,
-//                     quantity: 1,
-//                     paid: false,
-//                     datePaid: null 
-//                 },
-//                 meta: {
-//                     addedBy: "5cb5db184dded22b6cec06af",
-//                     selected: false,
-//                     dateAdded: new Date()
-//                 }
-//             }]}
-//         })
-//   })
-
-
-// for (p of patients) {
-//      Person.findByIdAndUpdate( mongoose.Types.ObjectId(p._id),{"record": p.record}, {new: true}, (e, data) => {
-//        if(e) {
-//          console.log(e)
-//        }
-//        console.log(data.record.notes)
-//      })
-      
-//   }
+  // for (p of patients) {
+  //     Person.findByIdAndUpdate( mongoose.Types.ObjectId(p._id),{"record": p.record}, {new: true}, (e, data) => {
+  //       if(e) {
+  //         console.log(e)
+  //       }
+       
+  //     })
+        
+  //   }
 
     
-    
-  //  Transformation here
-  
-   //filter patients base on current status and department
+ 
     switch(official.role) {
       case 'Doctor':
       patients = patients.filter(patient => patient.record.visits[0][0].status === req.params.type && patient.record.visits[0][0].dept === official.department);
@@ -159,6 +160,13 @@ getPatients: async (req, res) => {
       break;
       case 'Pharmacist':
       patients = patients.filter(patient => patient.record.medications.length > 0);
+      case 'Lab Scientist':
+        if(official.department = 'Microbiology') {
+          patients = patients.filter(patient => patient.record.tests.length > 0);
+          console.log('Microbiology')
+        } else {
+          patients = patients.filter(patient => patient.record.scans.length > 0);
+        }
       break;
       case 'Cashier':
       patients = patients.filter(patient => patient.record.invoices.length > 0);
@@ -185,8 +193,16 @@ getPatients: async (req, res) => {
 getHistory: async (req, res) => {
   try {
     const patient = await Person.findById(req.params.id)
-    .populate({path:'record.notes.meta.addedBy', select:'info'})
-    .populate({path:'record.conditions.meta.addedBy', select:'info'})
+    .populate({
+      path:'record.notes.meta.addedBy', select:'info'
+    })
+    .populate({
+      path:'record.conditions.meta.addedBy', select:'info'
+    })
+    .populate({
+      path:'record.tests',
+      populate: {path:'report.meta.addedBy', Model: 'Person', select:'info'}
+    })
     .exec()
     res.send(patient) 
   }

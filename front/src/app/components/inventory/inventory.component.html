@@ -1,10 +1,10 @@
 
-<div class="modal " role="dialog" tabindex="-1" id="productModal" style="border-radius:32px;max-width:570px;margin: auto;padding-top: 0px">
+<div class="modal " role="dialog" tabindex="-1" id="productModal" style="max-width:570px;margin: auto;padding-top: 0px">
         <div style="max-width: 730px;border-radius:32px;height:100%;margin-top: 0px;margin-bottom: 0px;" class="modal-dialog" role="document">
-            <div class="modal-content" style="width:100%; height:100%;margin-top:0px;border-radius:32px;padding-left:0px;padding-right: 0px;">
-                <div class="modal-body" style="border-radius:32px;padding: 0px;height:100%;">
+            <div class="modal-content" style="width:100%; height:100%;margin-top:0px;padding-left:0px;padding-right: 0px;">
+                <div class="modal-body" style="padding: 0px;height:100%;">
                         <div class="card card-secondary historycard midlecard profilecard" style="margin:auto;height:100%;border-radius:0px;width:100%;position: absolute">
-                            <div style='padding-left: 30px;border-top-right-radius:32px;border-top-left-radius:32px;border-bottom: 0px;height:40px;margin-bottom: 10px;' class="card-header profileheader small-header">
+                            <div style='padding-left: 30px;border-top-right-radius:0px;border-top-left-radius:0px;border-bottom: 0px;height:40px;margin-bottom: 10px;' class="card-header profileheader small-header">
                                 <h6 *ngIf="tableView ==='Products'" style='font-size:11px;position:absolute;color:dodgerblue; font-weight:normal; top:18px; width:100%' class="patien-name small-name">ADD PRODUCTS<span style="left:87%;bottom:-4px; cursor:pointer;position:absolute;font-size:20px;"><i (click)='clearTemVariables()'  title="Close" class="icon ion-android-close" data-dismiss ='modal' style="font-size: 17px;"></i></span>
                                 </h6>
                                 <h6 *ngIf="tableView ==='Services'" style='font-size:11px;position:absolute;color:dodgerblue; font-weight:normal; top:18px; width:100%' class="patien-name small-name">ADD SERVICES<span style="left:87%;bottom:-4px; cursor:pointer;position:absolute;font-size:20px;"><i (click)=clearTemVariables() title="Close" class="icon ion-android-close" data-dismiss ='modal' style="font-size: 17px;"></i></span>
@@ -16,14 +16,8 @@
                                 <form style="top:15%; width:60%;margin:auto;" class=" staffsform" (submit) = addProducts()>
                                 <div class="form-group vitals-section address">
                                     <label style='font-size:8px' for="drug" class="labelss">PRODUCT</label>
-                                    <input autocomplete="off" (focus)=clearFeedback() (keyup)="searchItems(product.item.name,'drug')" [(ngModel)]=product.item.name type="text" name="drug" placeholder="E.g Paracetamol 500mg" class="form-control patientdata dystolic inputs dataInfo" />
-                                    <div data-simplebar style="min-height:100px;position:absolute;z-index:2" *ngIf=temItems.length class="options prisOption edit">
-                                        <ul class="itemsList">
-                                            <li *ngFor="let item of temItems">
-                                                <p (click)="addSelection(item)" class="dept firstheader drugItem" style="font-size:11px;padding-left: 10px; padding-right: 10px;font-weight: normal;">{{item.name}}<span class="lastdept timetaken "></span></p>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                    <input autocomplete="off" (focus)=clearFeedback() [(ngModel)]=product.item.name type="text" name="drug" placeholder="E.g Paracetamol 500mg" class="form-control patientdata dystolic inputs dataInfo" />
+                                   
                             </div>
                             <div class="form-group vitals-section formGroup" style=" width:49%; margin-right: 5px">
                                 <label style='font-size:8px' for="dos" class="labelss complain">QTY</label>
@@ -83,11 +77,11 @@
                                 </div>
                                 <div class="form-group vitals-section address">
                                     <label style='font-size:8px;' for="drug" class="labelss">DESCRIPTION</label>
-                                    <input autocomplete="off" (focus) = getDescriptions() (keyup)="searchItems(product.item.name,'drug')" [(ngModel)]=product.item.name type="text" name="drug" class="form-control patientdata dystolic inputs dataInfo" />
-                                    <div data-simplebar style="height:400px;position:absolute;z-index:2" *ngIf=inventoryItems.length class="options prisOption edit">
-                                        <ul class="itemsList">
-                                            <li *ngFor="let item of inventoryItems">
-                                                <p (click)="selectDesc(item)" class="dept firstheader drugItem" style="font-size:11px;padding-left: 10px; padding-right: 10px;font-weight: normal;">{{item}}<span class="lastdept timetaken "></span>
+                                    <input autocomplete="off" (keyup) = getDescriptions()  [(ngModel)]=product.item.name type="text" name="drug" class="form-control patientdata dystolic inputs dataInfo" />
+                                    <div  *ngIf="matches.length" style="position: absolute;z-index:200;height: 300px;border: none;"  class="options prisOption edit">
+                                        <ul data-simplebar class="itemsList" style=" border-radius:4px; height: 300px;background-color: white;border:1px solid whitesmoke">
+                                            <li *ngFor="let match of matches">
+                                                <p (click)=selectTest(match) class="dept firstheader drugItem" style="font-size:11px;padding-left: 10px; padding-right: 10px;font-weight: normal;">{{match}}<span class="lastdept timetaken "></span>
                                                 </p>
                                             </li>
                                         </ul>
@@ -202,31 +196,28 @@
 
 
 
-<div class="modal " role="dialog" tabindex="-1" id="editModal" style="border-radius:32px;max-width:570px;margin: auto;padding-top: 0px">
-    <div style="max-width: 730px;border-radius:32px;height:100%;margin-top: 0px;margin-bottom: 0px;" class="modal-dialog" role="document">
-        <div class="modal-content" style="width:100%; height:100%;margin-top:0px;border-radius:32px;padding-left:0px;padding-right: 0px;">
-            <div class="modal-body" style="border-radius:32px;padding: 0px;height:100%;">
+<div class="modal " role="dialog" tabindex="-1" id="editModal" style="max-width:570px;margin: auto;padding-top: 0px">
+    <div style="max-width: 730px;height:100%;margin-top: 0px;margin-bottom: 0px;" class="modal-dialog" role="document">
+        <div class="modal-content" style="width:100%; height:100%;margin-top:0px;padding-left:0px;padding-right: 0px;">
+            <div class="modal-body" style="padding: 0px;height:100%;">
                     <div class="card card-secondary historycard midlecard profilecard" style="margin:auto;height:100%;border-radius:0px;width:100%;position: absolute">
                         <h6 *ngIf="tableView ==='Services'" style='font-size:11px;position:absolute;color:dodgerblue; font-weight:normal; top:18px; width:100%' class="patien-name small-name">EDIT SERVICES<span style="left:89%;bottom:-4px; cursor:pointer;position:absolute;font-size:20px;"><i title = "Close"   (click) = clearTemVariables() class="icon ion-android-close" data-dismiss ='modal' style="font-size: 17px;"></i></span>
                         </h6>
-                    <h6 *ngIf="tableView ==='Products'" style='font-size:11px;position:absolute;color:dodgerblue; font-weight:normal; top:18px; width:100%' class="patien-name small-name">EDIT PRODUCTS
-                        <span style="left:89%;bottom:-4px; cursor:pointer;position:absolute;font-size:20px;">
-                        <i (click) = clearTemVariables() title="Close" class="icon ion-android-close" data-dismiss = 'modal' style="font-size: 17px;"></i>
-                    </span>
-                    </h6>
+                        <h6 *ngIf="tableView ==='Products'" style='font-size:11px;position:absolute;color:dodgerblue; font-weight:normal; top:18px; width:100%' class="patien-name small-name">EDIT PRODUCTS
+                            <span style="left:89%;bottom:-4px; cursor:pointer;position:absolute;font-size:20px;">
+                            <i (click) = clearTemVariables() title="Close" class="icon ion-android-close" data-dismiss = 'modal' style="font-size: 17px;"></i>
+                        </span>
+                        </h6>
+                        <h6 *ngIf="tableView ==='Cards'" style='font-size:11px;position:absolute;color:dodgerblue; font-weight:normal; top:18px; width:100%' class="patien-name small-name">EDIT CARDS
+                            <span style="left:89%;bottom:-4px; cursor:pointer;position:absolute;font-size:20px;">
+                            <i (click) = clearTemVariables() title="Close" class="icon ion-android-close" data-dismiss = 'modal' style="font-size: 17px;"></i>
+                        </span>
+                        </h6>
                     <div *ngIf='tableView === "Products"' style='margin-left:0px;width:85%;margin:auto;padding-top: 48px;' class="card-body orderbody">
                         <form style="top:15%; width:60%;margin:auto;">
                             <div class="form-group vitals-section address">
                                 <label style='font-size:8px' for="drug" class="labelss">PRODUCT</label>
-                                <input autocomplete="off" (keyup)="searchItems(product.item.name, 'drug')" [(ngModel)]=product.item.name type="text" name="drug" placeholder="E.g Paracetamol 500mg" class="patientdata dystolic inputs dataInfo" style="font-size:11px;" />
-                                <div style="min-height: 300px;" *ngIf=temItems.length class="options prisOption edit">
-                                    <ul class="itemsList">
-                                        <li *ngFor="let item of temItems">
-                                            <p (click)="addSelection(item)" class="dept firstheader drugItem" style="font-size:11px;padding-left: 10px; padding-right: 10px;font-weight: normal;">{{item.name}}<span class="lastdept timetaken "></span>
-                                            </p>
-                                        </li>
-                                    </ul>
-                                </div>
+                                <input autocomplete="off"  [(ngModel)]=product.item.name type="text" name="drug" placeholder="E.g Paracetamol 500mg" class="patientdata dystolic inputs dataInfo" style="font-size:11px;" />
                             </div>
                             <div class="form-group vitals-section formGroup" style=" width:49%; margin-right: 3px">
                                 <label style='font-size:8px' for="dos" class="labelss complain">QTY</label>
@@ -272,34 +263,19 @@
                             </table>
                         </div>
                     </div>
-                    <div *ngIf='tableView==="Services"' style='margin-left:0px;padding-top:48px;' class="card-body orderbody">
-                        <form style="top:15%; width:56%;margin:auto;" class=" staffsform" 
-                        (submit)=addProducts()>
+                    <div *ngIf='tableView==="Cards"' style='margin-left:0px;padding-top:48px;' class="card-body orderbody">
+                        <form style="top:15%; width:56%;padding-top:18px;margin:auto;" class=" staffsform" (submit)=addProducts()>
                             <div class="form-group vitals-section address">
-                                <label style="font-size:8px" for="conclution" class="labelss">CATEGORY</label>
-                                <select name='conclution' [(ngModel)]="item.category" autocomplete="off" class="patientdata dystolic inputs dataInfo">
-                                    <option>Scanning</option>
-                                    <option>Surgery</option>
-                                    <option>Test</option>
-                                </select>
+                                <label style="font-size:8px" for="conclution" class="labelss">CARD</label>
+                                <input (focus)=clearFeedback() [(ngModel)]="product.item.name"   name="category" class="form-control patientdata inputs dataInfo" placeholder="">
                             </div>
-                            <div class="form-group vitals-section address">
-                                <label style='font-size:8px;' for="drug" class="labelss">DESCRIPTION
-                                </label>
-                                <input autocomplete="off" (focus) = getDescriptions() (keyup) = searchDesc()
-                                [(ngModel)]=product.item.name type="text" name="desc" class="form-control patientdata dystolic inputs dataInfo" />
-                                <div data-simplebar style="min-height:100px;max-height:400px;position:absolute;z-index:200" *ngIf=inventoryItems.length class="options prisOption edit">
-                                    <ul class="itemsList">
-                                        <li *ngFor="let item of inventoryItems">
-                                            <p (click)="selectDesc(item)" class="dept firstheader drugItem" style="font-size:11px;padding-left: 10px; padding-right: 10px;font-weight: normal;">{{item}} <span class="lastdept timetaken "></span>
-                                            </p>
-                                        </li>
-                                    </ul>
-                                </div>
+                            <div class="form-group vitals-section address" style=" width:47%; margin-right: 3px">
+                                <label style='font-size:8px' for="price" class="labelss complain">PRICE</label>
+                                <input (focus)=clearFeedback() [min]='1' type="number" [(ngModel)]="product.stockInfo.price" style="font-size:11px;" class="form-control patientdata status inputs dataInfo" name="price">
                             </div>
-                            <div class="form-group vitals-section address">
-                                <label style='font-size:8px' for="expiry" class="labelss complain">PRICE</label>
-                                <input (focus)=clearFeedback() [(ngModel)]="product.stockInfo.price" style="font-size:11px;border-top-right-radius: 0px;border-bottom-right-radius:0px" type="number" name="price" class="form-control patientdata inputs dataInfo" placeholder="">
+                            <div class="form-group vitals-section address" style=" width:51.3%; ">
+                                <label style='font-size:8px' for="expiry" class="labelss complain">QTY</label>
+                                <input (focus)=clearFeedback() [(ngModel)]="product.stockInfo.quantity" style="font-size:11px;" type="number" name="expiry" class="form-control patientdata inputs dataInfo">
                             </div>
                             <div style="margin-bottom:0px; width:100%;position:relative;height:25px;" class="form-group vitals-section formGroup">
                                 <p style='position: absolute;left:47%;text-align:center; font-size:11px; top:10%;'>
@@ -307,7 +283,56 @@
                                 </p>
                             </div>
                         </form>
-                        
+                        <div *ngIf="edited.length" style="top:1px;position:relative;width:80%;margin:auto;height: 200px">
+                            <table cellspacing="0" class="data-table drugs-table" style="width:100%;left:0%;" summary="List of all items in store. ">
+                                <thead class='productHead'>
+                                    <tr class="staff-th">
+                                        <th style="padding-left:4px;" class="headlbl staff-th">SERVICE</th>
+                                        <th class="headlbl staff-th">CATEGORY</th>
+                                        <th class="headlbl staff-th">PRICE</th>
+                                        <th style='text-align:right' class="headlbl staff-th">DATE ADDED</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let product of edited; let i = index; let odd = odd;" style="border-bottom:2px solid white;" [class.even]=odd 
+                                    class="ro staff-row">
+                                        <td style="padding-left:4px;" class="data">
+                                            {{product.item.name}}<span class="predata">
+                                        </span></td>
+                                        <td class="data">{{product.item.category}}</td>
+                                        <td class="data">{{product.stockInfo.price}}</td>
+                                        <td style='text-align: right;padding-right: 2px;' class="data">
+                                            {{product.dateCreated|date:'dd-MM-y'}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div *ngIf='tableView==="Services"' style='margin-left:0px;padding-top:48px;' class="card-body orderbody">
+                        <form style="top:15%; width:56%;margin:auto;" class=" staffsform" (submit)=addProducts()>
+                            <div class="form-group vitals-section address">
+                                <label style='font-size:8px;' for="drug" class="labelss">DESCRIPTION</label>
+                                <input autocomplete="off" (keyup) = getDescriptions()  [(ngModel)]=product.item.name type="text" name="drug" class="form-control patientdata dystolic inputs dataInfo" />
+                                <div  *ngIf="matches.length" style="position: absolute;z-index:200;height: 300px;border: none;"  class="options prisOption edit">
+                                    <ul data-simplebar class="itemsList" style=" border-radius:4px; height: 300px;background-color: white;border:1px solid whitesmoke">
+                                        <li *ngFor="let match of matches">
+                                            <p (click)=selectTest(match) class="dept firstheader drugItem" style="font-size:11px;padding-left: 10px; padding-right: 10px;font-weight: normal;">{{match}}<span class="lastdept timetaken "></span>
+                                            </p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="form-group vitals-section address">
+                                <label style='font-size:8px' for="expiry" class="labelss complain">PRICE</label>
+                                <input (focus)=clearFeedback() [(ngModel)]="product.stockInfo.price" type="number" name="price" class="form-control patientdata inputs dataInfo" placeholder="">
+                            </div>
+                            <div style="margin-bottom:0px; width:100%;position:relative;height:25px;" class="form-group vitals-section formGroup">
+                                <p style='position: absolute;left:47%;text-align:center; font-size:11px; top:10%;'>
+                                    {{edited.length}}<span>/</span><span>{{count}}</span>
+                                </p>
+                            </div>
+                        </form>
                         <div *ngIf="edited.length" style="top:1px;position:relative;width:80%;margin:auto;height: 200px">
                             <table cellspacing="0" class="data-table drugs-table" style="width:100%;left:0%;" summary="List of all items in store. ">
                                 <thead class='productHead'>
@@ -345,13 +370,35 @@
                 </div>
                 <h6 *ngIf="feedback" class="feedbackMsg">{{feedback}}</h6>
                 <h6 *ngIf=errLine style="color: red" class="feedbackMsg">{{errLine}}</h6>
-                <div style="position: absolute; display:flex; justify-content: center;align-items: center;padding-left: 0px; top:80px;left: 12%; width: 7%;" class="btn-group disposition">
-                    <button [disabled] = !edited.length   (click) = prev() style="width:30px;height: 30px;border-radius: 50%;"   class="btn btn-outline-primary  dispo " >
-                        <i style='position:absolute;right:36%;top:2px; font-size:large; cursor:pointer; display: inline-block;' title="Back" class="icon ion-android-arrow-back "></i>
+                <div *ngIf='tableView==="Services"'   style=" top:112px;left: 37%; width: 7%;" class="btn-group disposition">
+                    <button [disabled] = !edited.length   (click) = prev() style="width:30px;height: 30px;border-radius: 50%; border: none;"   class="btn btn-outline-primary  dispo " >
+                        <i style='position:absolute;right:59%;top:2px; font-size:large; cursor:pointer; display: inline-block;' title="Back" class="icon ion-android-arrow-back shift-btn "></i>
                     </button>
                 </div>
-                <div style="position: absolute; display:flex; justify-content: center;align-items: center;padding-left: 0px; top:80px; left:75%; width:7%;" class="btn-group disposition">
-                    <button [disabled] = !product.item.name (click)=next() style="width:30px;height: 30px;border-radius: 50%;left:35%"   class="btn btn-outline-primary  dispo ">
+                <div *ngIf='tableView==="Services"'  style=" top:112px; left:55%; width:7%;" class="btn-group disposition shift-btn">
+                    <button [disabled] = !product.item.name (click)=next() style="width:30px;height: 30px;border-radius: 50%;border: none;"   class="btn btn-outline-primary  dispo ">
+                        <i style='position:absolute;right:36%;top:2px; font-size:large; cursor:pointer; display: inline-block;' title="Next" class="icon ion-android-arrow-forward "> 
+                        </i>
+                    </button>
+                </div>
+                <div *ngIf='tableView==="Cards"'   style=" top:131px;left: 37%; width: 7%;" class="btn-group disposition">
+                    <button [disabled] = !edited.length   (click) = prev() style="width:30px;height: 30px;border-radius: 50%; border: none;"   class="btn btn-outline-primary  dispo " >
+                        <i style='position:absolute;right:59%;top:2px; font-size:large; cursor:pointer; display: inline-block;' title="Back" class="icon ion-android-arrow-back shift-btn "></i>
+                    </button>
+                </div>
+                <div *ngIf='tableView==="Cards"'  style=" top:131px; left:55%; width:7%;" class="btn-group disposition shift-btn">
+                    <button [disabled] = !product.item.name (click)=next() style="width:30px;height: 30px;border-radius: 50%;border: none;"   class="btn btn-outline-primary  dispo ">
+                        <i style='position:absolute;right:36%;top:2px; font-size:large; cursor:pointer; display: inline-block;' title="Next" class="icon ion-android-arrow-forward "> 
+                        </i>
+                    </button>
+                </div>
+                <div *ngIf='tableView==="Products"'  style=" top:149px;left: 37%; width: 7%;" class="btn-group disposition">
+                    <button [disabled] = !edited.length   (click) = prev() style="width:30px;height: 30px;border-radius: 50%; border: none;"   class="btn btn-outline-primary  dispo " >
+                        <i style='position:absolute;right:59%;top:2px; font-size:large; cursor:pointer; display: inline-block;' title="Back" class="icon ion-android-arrow-back shift-btn "></i>
+                    </button>
+                </div>
+                <div *ngIf='tableView==="Products"'  style=" top:149px; left:55%; width:7%;" class="btn-group disposition shift-btn">
+                    <button [disabled] = !product.item.name (click)=next() style="width:30px;height: 30px;border-radius: 50%;border: none;"   class="btn btn-outline-primary  dispo ">
                         <i style='position:absolute;right:36%;top:2px; font-size:large; cursor:pointer; display: inline-block;' title="Next" class="icon ion-android-arrow-forward "> 
                         </i>
                     </button>

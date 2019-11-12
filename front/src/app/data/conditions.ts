@@ -4,7 +4,8 @@ export const Conditions = [
 
 
 
-
+    'Abdominal Aortic Aneurysm',
+    'ACL Injury or Tear',
     'Acidosis and alkalosis',
     'acute inflammatory polyneuropathy',
     'Adrenal insufficiency and Addison\'s disease',
@@ -13,21 +14,25 @@ export const Conditions = [
     'Alzheimer\'s disease',
     'Anaemia',
     'Angina pectoris',
+    'Anxiety Disorders',
     'Ankylosing spondylitis',
     'Anthrax',
     'Antiphospholipid Syndrome',
+    'Arrhythmias',
     'Arthritis',
     'Asthma',
     'Autoimmune disorders',
 
 
 
-
+    'Back and Neck Pain',
     'Barmah Forest virus',
     'Benign prostatic hyperplasia',
     'Benign prostatic hypertrophy',
+    'Bladder Cancer',
     'Bleeding disorders',
     'Bone marrow disorders',
+    'Brain Tumor',
     'Bowel cancer',
     'BPH',
     'Breast cancer',
@@ -37,7 +42,9 @@ export const Conditions = [
 
     'CAH',
     'Cardiovascular disease (CVD)',
+    'Celiac Disease',
     'Cervical cancer',
+    'Cerebral Palsy',
     'Chlamydia',
     'Chronic fatigue syndrome',
     'Clotting disorders',
@@ -56,6 +63,7 @@ export const Conditions = [
 
 
     'Degenerative Joint Disease',
+     'Dementia',
     'Diabetes',
     'Diabetes mellitus',
     'Diarrhoea',
@@ -65,9 +73,11 @@ export const Conditions = [
 
 
 
-
+    'Eating Disorders',
     'Endocrine system and syndromes',
     'Epilepsy',
+    'End Stage Renal Disease',
+    'Esophageal Cancer',
 
 
 
@@ -87,26 +97,30 @@ export const Conditions = [
     'Gout',
     'Graves\' disease',
     'Guillain-Barré syndrome',
+    'Gynecologic Cancer',
 
 
 
 
 
-
+    'Hand Conditions',
     'Hashimoto\'s Thyroiditis',
+    'Headache',
     'Heart attack',
     'Heart disease',
     'Hepatitis',
     'Herpes',
-    'High blood pressure',
+    'Hearing Loss',
+    'High Cholesterol',
     'HIV',
     'HPV',
     'HTLV',
-    'Human immunodeficiency virus (HIV)',
     'Human T-cell Lymphotropic viruses',
+    'Human Papillomavirus (HPV)',
     'Huntington\'s disease',
+    'Hydrocephalus',
     'Hypercoagulable disorders',
-    'Hypertension (high blood pressure)',
+    'Hypertension',
     'Hyperthyroidism',
     'Hypothyroidism',
 
@@ -120,6 +134,7 @@ export const Conditions = [
     'Influenza',
     'Insulin resistance',
     'Insulin Resistance',
+    'Irritable Bowel Syndrome',
 
 
 
@@ -130,8 +145,8 @@ export const Conditions = [
 
 
 
-    'Kidney and urinary tract: function',
-    'Kidney and urinary tract: function, disorders and diseases',
+    'Kidney Cancer',
+    'Kidney Stones',
 
 
 
@@ -151,6 +166,7 @@ export const Conditions = [
     'Malaria',
     'Malnutrition',
     'Medullary thyroid carcinoma',
+    'Melanoma',
     'Meningitis and encephalitis',
     'Menopause',
     'Metabolic syndrome',
@@ -169,18 +185,19 @@ export const Conditions = [
     'Nontuberculous Mycobacteria',
 
 
-
+    'Obesity',
     'Osteoarthritis',
     'Osteoporosis',
     'Ovarian cancer',
 
 
 
-
+    'Parkinson\'s Disease',
     'Pancreatic cancer',
     'Pancreatic diseases',
     'Pancreatic insufficiency',
     'Pancreatitis',
+    'Pelvic Floor Disorders',
     'Pelvic Inflammatory Disease (PID)',
     'Peptic ulcer',
     'Pituitary disorders',
@@ -212,8 +229,11 @@ export const Conditions = [
     'Sarcoidosis',
     'Scleroderma',
     'Scleroderma (previously termed)',
+    'Scoliosis',
+
     'Scoline apnoea',
     'Sepsis',
+    'Seizures',
     'Septic arthritis',
     'Sexually transmitted diseases',
     'Sexually transmitted infections',
@@ -222,10 +242,12 @@ export const Conditions = [
     'Skin Cancer',
     'SLE',
     'Staph wound infections and MRSA',
+    'Stomach (Gastric) Cancer',
     'STDs',
     'Still\'s disease',
     'STIs',
     'STIs or STDs',
+    'Stress',
     'Stroke',
     'Suxamethonium apnoea',
     'Syphilis',
@@ -237,16 +259,18 @@ export const Conditions = [
     'Testicular cancer',
     'Thalassaemia',
     'Thyroid diseases',
+    'Thyroid Cancer',
     'Travellers\' Diseases',
     'Trichomonas',
 
 
 
     'Urinary tract infection (UTI)',
-
+    'Urinary Incontinence',
     // tslint:disable-next-line: no-trailing-whitespace
     
     'Vasculitis',
+    'Vascular Anomalies',
     'Viral hepatitis',
     'Vitamin B12 and folate deficiency',
 
@@ -254,5 +278,7 @@ export const Conditions = [
     'West Nile virus',
     'Wilson disease',
     'Wound and skin infections',
+
+    'Zika'
 
   ];

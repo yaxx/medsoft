@@ -78,14 +78,14 @@
                     </div>
                     <div *ngIf='cardView.editing||cardView.reversing' style="left:7%; top:45%;position: absolute;
                         width: 7%;" class="btn-group disposition">
-                        <button (click)="switchViews('orders')" style="width:32px;height: 32px;border-radius: 50%;left:35%"   class="btn btn-outline-primary  dispo " >
+                        <button (click)="switchViews('orders')" style="width:32px;height: 32px;border-radius: 50%;left:35%"   class="btn btn-outline-primary  dispo shift-button" >
                             <i  style='position:absolute;right:36%;top:2px; font-size:large; cursor:pointer; display: inline-block;' title="Back" class="icon ion-android-arrow-back "> 
                             </i>
                         </button>
                     </div>
                     <div *ngIf='cardView.orders' style="left:80%; top:45%;position: absolute;
                     width: 7%;" class="btn-group disposition">
-                        <button (click)=switchToEdit() style="width:32px;height: 32px;border-radius: 50%;left:35%"   class="btn btn-outline-primary  dispo " >
+                        <button (click)=switchToEdit() style="width:32px;height: 32px;border-radius: 50%;left:35%"   class="btn btn-outline-primary  dispo shift-button  " >
                             <i   style='position:absolute;right:36%;top:2px; font-size:large; cursor:pointer; display: inline-block;' title="Go to payment" class="icon ion-android-arrow-forward "> 
                             </i>
                         </button>
@@ -103,12 +103,12 @@
 <nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:1px solid whitesmoke;">
     <div class="container">
         <a class="navbar-brand" href="#">
-            <em>foldr</em>
+            <em>foldirect</em>
         </a>
         <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
           <span class="sr-only">Toggle navigation</span>
           <span class="navbar-toggler-icon"></span>
-      </button>
+        </button>
         <div class="collapse navbar-collapse" id="navcol-1">
             <ul class="nav navbar-nav"></ul>
             <form class="top-searchform" target="_self">

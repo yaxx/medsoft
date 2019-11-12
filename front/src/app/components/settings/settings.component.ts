@@ -80,7 +80,7 @@ export class SettingsComponent implements OnInit {
     });
   }
   getDp(avatar: String) {
-    return 'http://localhost/api/dp/' + avatar;
+    return 'http://localhost:5000/api/dp/' + avatar;
     // return 'http://192.168.0.100:5000/api/dp/' + avatar;
   }
 

@@ -67,7 +67,7 @@ oldPwd = null;
    }
 
    fileSelected(event) {
-    if (event.target.files && event.target.files[0]) {
+    
       this.file = <File>event.target.files[0];
       const reader = new FileReader();
        reader.readAsDataURL(event.target.files[0]); // read file as data url
@@ -75,7 +75,7 @@ oldPwd = null;
         let ev = <any>e; // called once readAsDataURL is completed
         this.url = ev.target.result;
       };
-    }
+    
 
   }
 getLastMessage(msgs){

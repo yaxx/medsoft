@@ -1135,3 +1135,22 @@ html {
         left: -100%;
     }
 }
+.record-placeholder {
+    color:lightgrey; 
+    width:100%; 
+    text-align:center;
+    top:43%;
+    position:absolute;
+}
+.shift-btn {
+    position: absolute; 
+    display:flex; 
+    justify-content: center;
+    align-items: center;
+    padding-left: 0px;
+    width:7%;
+    border:none;
+}
+.shift-button {
+    border: none;
+}

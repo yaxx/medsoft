@@ -4,6 +4,7 @@ import {Person} from '../../models/person.model';
 import {DataService} from '../../services/data.service';
 import {SocketService} from '../../services/socket.service';
 import {CookieService } from 'ngx-cookie-service';
+import { FileSelectDirective, FileUploader } from 'ng2-file-upload';
 import {Router} from '@angular/router';
 // const { session } = require('electron')
 
@@ -23,6 +24,7 @@ accountExist = false;
 loading = false;
 creating = false;
 client: Client = new Client();
+
 cred = {
   username: null,
   password: null,
@@ -65,11 +67,14 @@ cred = {
           case 'Nurse':
             route = `/${person.info.official.department.toLowerCase()}/ward`;
           break;
+          case 'Lab Scientist':
+            route = '/lab';
+          break;
           default:
             route = `/${person.info.official.department.toLowerCase()}`;
           break;
         }
-        this.router.navigate([route]);      
+        this.router.navigate([route]);
       } else {
         this.cookie.set('i', person._id);
         this.cookie.set('h', person.info.official.hospital);

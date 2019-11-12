@@ -257,3 +257,50 @@
   ::placeholder {
     color: lightgrey;
   }
+  .comment {
+    position: absolute;
+    padding:10px;
+    left:-50px;
+    background:white;
+    z-index:1000;
+    border:1px solid whitesmoke;
+    border-radius: 8px;
+    width:400px;
+    height: 200px;
+  }
+  .commentor-dp {
+    display: inline-block;
+    position:relative;
+    margin-bottom: 0px;
+  }
+  .image-container {
+    background-color: rgba(0, 0, 0, .5);
+     height: auto; 
+     max-height: 100%;
+     position:absolute;
+     left:-100%;  
+     width: auto;
+     max-width: 100%;
+     display: none;
+  }
+  .current-image {
+    left:0%; 
+    display: block; 
+  }
+  .close-comment {
+    position: absolute; 
+    left:92%; 
+    top:5%; 
+    height: 20px;
+    width:20px;
+    border-radius: 50%;
+    font-size: 20px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+  }
+  .close-comment:hover {
+    background:rgba(0, 0, 0, .07);
+    cursor: pointer;
+  }

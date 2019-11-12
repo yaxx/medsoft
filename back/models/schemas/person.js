@@ -274,6 +274,8 @@ const personScheema = new Scheema({
         scans: [
             [{
                 name: String,
+                dept: String,
+                treated: Boolean,
                 bodyPart: String,
                 meta: {
                     addedBy: {
@@ -282,12 +284,27 @@ const personScheema = new Scheema({
                     },
                     selected: Boolean,
                     dateAdded: Date
+                },
+                report: {
+                    comment: String,
+                    attachments: [],
+                    meta: {
+                        addedBy: {
+                            type: Scheema.Types.ObjectId,
+                            ref: 'Person'
+                        },
+                        selected: Boolean,
+                        dateAdded: Date
+                    }
                 }
+              
             }]
         ],
         tests: [
             [{
                 name: String,
+                dept: String,
+                treated: Boolean,
                 meta: {
                     addedBy: {
                         type: Scheema.Types.ObjectId,
@@ -296,15 +313,18 @@ const personScheema = new Scheema({
                     selected: Boolean,
                     dateAdded: Date
                 },
-                // type: String,
-                status: String,
-                verified: Boolean,
-                verifiedBy: {
-                    type: Scheema.Types.ObjectId,
-                    ref: 'Person'
-                },
-                // result: String,
-                dateVerified: Date
+                report: {
+                    comment: String,
+                    attachments: [],
+                    meta: {
+                        addedBy: {
+                            type: Scheema.Types.ObjectId,
+                            ref: 'Person'
+                        },
+                        selected: Boolean,
+                        dateAdded: Date
+                    }
+                }
             }]
 
         ],

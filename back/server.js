@@ -18,10 +18,10 @@ app.use('/graphql', graphQlHttp({
   rootValue: graphQlResolvers,
   graphiql: true
 }))
-// app.use(cors({origin:"http://localhost:4200", credentials: true}))
+app.use(cors({origin:"http://localhost:4200", credentials: true}))
 // app.use(cors({origin:"http://3.19.194.118:5000", credentials: true}))
-app.use(cors({origin:"*", credentials: true}))
-app.use(express.static(path.join(__dirname,'dist','front')))
+// app.use(cors({origin:"*", credentials: true}))
+// app.use(express.static(path.join(__dirname,'dist','front')))
 app.use(require('morgan')('dev'))
 app.use(bodyParser.json())
 app.use(require('cookie-parser')('blackfly'))
@@ -50,6 +50,9 @@ io.sockets.on('connection', (socket) => {
   })
   socket.on('consulted', (patient) => {
     socket.broadcast.emit('consulted', patient);  
+  })
+  socket.on('new order', (patient) => {
+    socket.broadcast.emit('new order', patient);  
   })
   socket.on('Discharge',(patient)=>{
     socket.broadcast.emit('Discharge', patient);  
@@ -95,12 +98,26 @@ io.sockets.on('connection', (socket) => {
   socket.on('followback', (data) => {
     Messages({parties: [socket.request.cookies.username, data.username], chats: []}).save((err, messages) => {
       if (!err) {
-        Contact.updateOne({'username': socket.request.cookies.username, 'contacts.userid': data.id}, {$set: {'contacts.$.am': 'Following', 'contacts.$.connected': true, 'contacts.$.messages': messages._id}}, {upsert: true}, (err, obj) => {
+        Contact.updateOne({
+          'username': socket.request.cookies.username,
+          'contacts.userid': data.id
+        }, {
+          $set: {
+            'contacts.$.am': 'Following', 
+            'contacts.$.connected': true, 
+            'contacts.$.messages': messages._id
+          }}, {upsert: true}, (err, obj) => {
           if (!err) {
 
           } else { console.log(err) }
         })
-        Contact.updateOne({'username': data.username, 'contacts.userid': socket.request.cookies.q}, {$set: {'contacts.$.thisPerson': 'Following', 'contacts.$.connected': true}, 'contacts.$.messages': messages._id}, {upsert: true}, (err, obj) => {
+        Contact.updateOne({
+          'username': data.username, 
+          'contacts.userid': socket.request.cookies.q
+        }, {$set: {
+          'contacts.$.thisPerson': 'Following', 
+          'contacts.$.connected': true
+        }, 'contacts.$.messages': messages._id}, {upsert: true}, (err, obj) => {
           if (!err) {
           } else { console.log(err) }
         })
@@ -118,8 +135,8 @@ io.sockets.on('connection', (socket) => {
   })
 })
 app.get('/', (req, res) => {
-  // res.render('index')
-  res.sendFile(path.resolve(__dirname,'dist','front','index.html'));
+  res.render('index')
+  // res.sendFile(path.resolve(__dirname,'dist','front','index.html'));
 })
 app.get('/api/client', api.getClient)  
 app.get('/api/patients/:type', api.getPatients)
@@ -147,6 +164,8 @@ app.post('/api/updatenote', api.updateNote)
 app.post('/api/addnotification', api.addNotifications)
 // app.post('/api/updateNotification', api.updateNotifications)
 app.post('/api/upload', api.uploadFile)
+app.post('/api/upload-scans', api.uploadScans)
+// app.post('/api/report', api.postReport)
 app.post('/api/download', api.downloadFile)
 app.post('/api/update-history', api.updateHistory)
 app.post('/api/delete-staff', api.deleteStaff)
@@ -155,7 +174,7 @@ app.post('/api/update-info', api.updateInfo)
 app.post('/api/updateclient', api.updateClient)
 app.post('/api/login', api.login)
 app.post('/api/transaction', api.runTransaction)
-server.listen(80, (err) => {
+server.listen(5000, (err) => {
   if (err) {
     console.log(err.stack)
   } else {

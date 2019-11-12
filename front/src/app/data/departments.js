@@ -30,7 +30,8 @@ export const departments = [{
     },
     {
         name: 'Haematology',
-        hasWard: false
+        hasWard: false,
+        type: 'Lab'
     },
     {
         name: 'Information',
@@ -42,7 +43,17 @@ export const departments = [{
     },
     {
         name: 'Microbiology',
-        hasWard: false
+        hasWard: false,
+        type: 'Lab'
+    },
+    {
+        name: 'Chemical Pathology',
+        hasWard: false,
+        type: 'Lab'
+    },
+    {
+        name: 'Immunology',
+        hasWard: true
     },
     {
         name: 'Neonatal',
@@ -83,6 +94,11 @@ export const departments = [{
     {
         name: 'Radiotherapy',
         hasWard: false
+    },
+    {
+        name: 'Radiology',
+        hasWard: false,
+        type: 'Lab'
     },
     {
         name: 'Renal unit',

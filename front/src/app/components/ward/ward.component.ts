@@ -11,8 +11,8 @@ import { Client} from '../../models/client.model';
 import * as cloneDeep from 'lodash/cloneDeep';
 
 
-const uri = 'http://localhost:5000/api/upload';
-// const uri = 'http://18.221.76.96:5000/api/upload';
+// const uri = 'http://localhost:5000/api/upload';
+const uri = 'http://192.168.1.100:5000/api/upload';
 @Component({
   selector: 'app-ward',
   templateUrl: './ward.component.html',
@@ -106,8 +106,8 @@ export class WardComponent implements OnInit {
 
   }
   getDp(avatar: String) {
-    return 'http://localhost/api/dp/' + avatar;
-    //return 'http://192.168.0.100:5000/api/dp/' + avatar;
+    return 'http://localhost:5000/api/dp/' + avatar;
+    // return 'http://192.168.0.100:5000/api/dp/' + avatar;
     // return 'http://13.59.243.243/api/dp/' + avatar;
   }
   getMyDp() {

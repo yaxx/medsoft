@@ -37,12 +37,12 @@
                                 </div>
                                 <form *ngIf="count==0"  style="top: 3%; height:100%;width:60%;position: relative;margin:auto;padding-top: 22px;" class=" staffsform">
                                     <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block">
-                                        <label style="font-size:8px" for="firstname" class="labelss">FIRST NAME<span style='font-size:11px; color:red;'>*</span>
+                                        <label style="font-size:8px" for="firstname" class="labelss"><span style='font-size:11px; color:red;'>*</span>FIRST NAME
                                         </label>
                                         <input [(ngModel)]="psn.person.info.personal.firstName" style='font-size:11px;text-align: left' autocomplete="off" type="text" name="firstname" class="form-control patientdata dystolic inputs dataInfo">
                                     </div>
                                     <div style="width:49%; display:inline-block" class="form-group vitals-section">
-                                        <label style="font-size:8px" for="lastname" class="labelss">LAST NAME<span style='font-size:11px; color:red;'>*</span> </label>
+                                        <label style="font-size:8px" for="lastname" class="labelss"><span style='font-size:11px; color:red;'>*</span>LAST NAME </label>
                                         <input [(ngModel)]="psn.person.info.personal.lastName" style='font-size:11px' autocomplete="off" type="text" name="lastname" class="form-control patientdata dystolic inputs dataInfo"/>
                                     </div>
                                     <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block">
@@ -60,7 +60,7 @@
                                         </select>
                                     </div>
                                         <div style="width:49%; display:inline-block;margin-right: 5px; " class="form-group vitals-section">
-                                            <label style="font-size:8px" for="dob" class="labelss">DATE OF BIRTH<span style='font-size:11px; color:red;'>*</span></label>
+                                            <label style="font-size:8px" for="dob" class="labelss"><span style='font-size:11px; color:red;'>*</span>DATE OF BIRTH</label>
                                             <input name='dob' [(ngModel)]="psn.person.info.personal.dob" type="date" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
                                         </div>
                                         <div style="width:49%; display:inline-block; " class="form-group vitals-section">
@@ -98,7 +98,7 @@
                                     </form>
                                     <form *ngIf="count==1"  style="top: 3%; height:100%;width:60%;position: relative;margin:auto;padding-top: 10px;" class=" staffsform">
                                         <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block">
-                                            <label style="font-size:8px" for="mobile" class="labelss">MOBILE<span style='font-size:11px; color:red;'>*</span></label>
+                                            <label style="font-size:8px" for="mobile" class="labelss"><span style='font-size:11px; color:red;'>*</span>MOBILE</label>
                                             <input name='mobile' [(ngModel)]="psn.person.info.contact.me.mobile" type="text" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
                                         </div>
                                         <div class="form-group vitals-section" style="width:49%; display:inline-block">
@@ -199,20 +199,20 @@
                         </div>
                         <div style="left:12%; top:45%;position: absolute;
                         width: 7%;" class="btn-group disposition">
-                            <button [disabled]='count === 0' (click) = prev() style="width:32px;height: 32px;border-radius: 50%;left:35%"   class="btn btn-outline-primary  dispo " >
+                            <button [disabled]='count === 0' (click) = prev() style="width:32px;height: 32px;border-radius: 50%;left:35%"   class="btn btn-outline-primary  dispo shift-button" >
                                 <i style='position:absolute;right:36%;top:2px; font-size:large; cursor:pointer; display: inline-block;' title="Back" class="icon ion-android-arrow-back "> 
                                 </i>
                             </button>
                         </div>
                         <div style="left: 76%; top:45%;position: absolute;
                         width: 7%;" class="btn-group disposition">
-                            <button [disabled]='count === 2'(click)=next() style="width:32px;height: 32px;border-radius: 50%;left:35%"   class="btn btn-outline-primary  dispo ">
+                            <button [disabled]='count === 2'(click)=next() style="width:32px;height: 32px;border-radius: 50%;left:35%"   class="btn btn-outline-primary  dispo shift-button ">
                                 <i style='position:absolute;right:36%;top:2px; font-size:large; cursor:pointer; display: inline-block;' title="Next" class="icon ion-android-arrow-forward "> 
                                 </i>
                             </button>
                         </div>
                         <div *ngIf="count === 2 && psn.reg" style="left:31%;top:286px;position:relative;width:53%" class="btn-group disposition">
-                            <button (click)=createRecord() [disabled] = "psn.creating||psn.isInvalidForm()"  style=" width: 170px;font-size: 10px; border-radius: 30px; height:27px;left:15%; bottom:10%;" class="btn btn-sm btn-outline-primary mainbtn">
+                            <button (click)=addRecord() [disabled] = "psn.creating||psn.isInvalidForm()"  style=" width: 170px;font-size: 10px; border-radius: 30px; height:27px;left:15%; bottom:10%;" class="btn btn-sm btn-outline-primary mainbtn">
                                 CREATE RECORD
                                 <span *ngIf='psn.creating' style="position: absolute; bottom: -7%;left: 10%;">
                                     <i class="fa fa-circle-o-notch fa-spin fa-10x slow-spin " style="position:absolute;bottom:5px;left:5px;font-size:19px;color: #1da1f2;"> </i>
@@ -228,9 +228,7 @@
                             </button>
                         </div>
                         <h6 *ngIf="psn.successMsg" class="feedbackMsg">{{psn.successMsg}}</h6>
-                        <h6 *ngIf="psn.errorMsg"  style="color: red" class="feedbackMsg">
-                            {{psn.errorMsg}}
-                        </h6>
+                        <h6 *ngIf="psn.errorMsg"  style="color: red" class="feedbackMsg">{{psn.errorMsg}}</h6>
                     </div>
                 </div>
             </div>

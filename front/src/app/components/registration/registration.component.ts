@@ -67,6 +67,13 @@ export class RegistrationComponent implements OnInit {
   ngOnInit() {
     this.getPatients('out');
     this.getClient();
+    this.socket.io.on('new order', (patient: Person) => {
+      const i = this.patients.findIndex(p => p._id === patient._id);
+      if(i) {
+        this.patients.splice(i, 1).unshift(patient);
+      }
+      this.patients.unshift(patient);
+    });
   //   this.socket.io.on('consulted', (patient: Person) => {
   //     const i = this.patients.findIndex(p => p._id === patient._id);
   //     if(patient.record.visits[0][0].status === 'out') {
@@ -85,8 +92,7 @@ export class RegistrationComponent implements OnInit {
   }
   getDp(avatar: String) {
     // return 'http://192.168.1.100:5000/api/dp/' + avatar;
-    return 'http://localhost/api/dp/' + avatar;
-    // return 'http://localhost:5000/api/dp/' + avatar;
+    return 'http://localhost:5000/api/dp/' + avatar;
   }
   toggleSortMenu() {
     this.sortMenu = !this.sortMenu;
@@ -148,10 +154,31 @@ export class RegistrationComponent implements OnInit {
   //   }
 
   // }
+  addRecord() {
+
+    this.psn.creating = true;
+    this.psn.addInitials();
+    this.dataService.addPerson(this.psn.person).subscribe((newPerson: Person) => {
+        newPerson.card = {menu: false, view: 'front'};
+        this.socket.io.emit('new order', newPerson);
+        this.patients.unshift(newPerson);
+        this.psn.card = new Card();
+        this.psn.creating = false;
+        this.psn.successMsg = 'Patient added successfully';
+        this.psn.person = new Person();
+        setTimeout(() => {
+        this.psn.successMsg = null;
+        }, 4000);
+    }, (e) => {
+        this.psn.errorMsg = 'Unbale to add patient';
+        this.creating = false;
+    });
+    // console.log(this.person);
+}
   switchToBack(i: number) {
     this.patients[i].card.view = 'back';
   }
-  switchToFront(i: number){
+  switchToFront(i: number) {
     this.patients[i].card.view = 'front';
   }
   selectPatient(i: number) {
@@ -179,7 +206,7 @@ export class RegistrationComponent implements OnInit {
 
   }
   countVisits(i) {
-    let count = [];
+    const count = [];
     this.patients[i].record.visits.map(vs => vs.map(v => {
     if (v.status === 'out') {
       count.push(v);
@@ -242,8 +269,6 @@ isInfo() {
     this.count = 0;
     this.psn.card = cloneDeep(this.patients[i].record.cards[0]);
     this.psn.person = cloneDeep(this.patients[i]);
-    console.log(this.psn.person);
-    
   }
   
   clearPatient() {
@@ -253,28 +278,20 @@ isInfo() {
   this.psn.person = new Person();
 }
 
-  addRecord() {
-    this.creating = true;
-    // this.addInitials();
-    this.dataService.addPerson(this.patient).subscribe((newpatient: Person) => {
-      newpatient.card = {menu: false, view: 'front'};
-      this.patients.unshift(newpatient);
-      this.socket.io.emit('consulted', newpatient);
-      this.patient = new Person();
-      this.card = new Card();
-      this.creating = false;
-      this.feedback = 'Patient added successfully';
-      setTimeout(() => {
-        this.feedback = null;
-      }, 4000);
- }, (e) => {
-   this.feedback = 'Unbale to add patient';
-   this.creating = false;
- });
-}
+//   addRecord() {
+//  this.psn.addRecord();
+//    console.log(this.psn.person);
+   
+
+//     if(this.psn.person._id) {
+     
+//       this.patients.unshift(this.psn.person);
+//       this.psn.person = new Person();
+//     }
+// }
 
 updateInfo() {
- let info = this.psn.updateInfo();
+ const info = this.psn.updateInfo();
  if(info) {
    this.patients[this.curIndex].info = info;
  }

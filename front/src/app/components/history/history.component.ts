@@ -27,15 +27,22 @@ export class HistoryComponent implements OnInit {
   department: Department = new Department();
   session: Session = new Session();
   feedback = null;
+  currentImage = 0;
   count = 0;
   cardTypes = [];
   client: Client = new Client();
   tests = Tests;
+  scans = [];
+  clonedTest = [];
+  images = [];
+ 
   scannings = Scannings;
   surgeries = Surgeries;
   conditions = Conditions;
+  medications = [];
   vital = 'Blood Presure';
   vitals = [];
+  matches = [];
   patient: Person = new Person();
   loading = false;
   processing = false;
@@ -53,6 +60,7 @@ export class HistoryComponent implements OnInit {
 
   ngOnInit() {
     this.getClient();
+
     let day = null;
     const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
     this.loading = true;
@@ -133,16 +141,19 @@ export class HistoryComponent implements OnInit {
     });
   }
   getDp(avatar: String) {
-    return 'http://localhost/api/dp/' + avatar;
+    return 'http://localhost:5000/api/dp/' + avatar;
     // return 'http://192.168.0.100:5000/api/dp/'+ avatar;
   }
 
   getMyDp() {
     return this.getDp(this.cookies.get('d'))
   }
+  pullImages(i, j) {
+    this.images = this.patient.record.tests[i][j].report.attachments;
+  }
   getImage(fileName: String){
     // return 'http://192.168.0.100:5000/api/dp/' + fileName;
-    return 'http://localhost/api/dp/' + fileName;
+    return 'http://localhost:5000/api/dp/' + fileName;
     // return 'http://13.59.243.243/api/dp/' + fileName;
   }
   compareNotes(i: number, note: Note) {
@@ -239,6 +250,62 @@ removeTest(i) {
  this.tests.splice(i, 1);
  this.session.invoices.splice(i, 1);
 }
+searchTest() {
+  if (!this.session.reqItem.name) {
+    this.matches = [];
+  } else {
+      this.matches = this.tests.filter((name) => {
+      const patern =  new RegExp('\^' + this.session.reqItem.name , 'i');
+      return patern.test(name);
+    });
+  }
+}
+searchScans() {
+  if (!this.session.reqItem.name) {
+    this.matches = [];
+  } else {
+      this.matches = this.scans.filter((name) => {
+      const patern =  new RegExp('\^' + this.session.reqItem.name , 'i');
+      return patern.test(name);
+    });
+  }
+}
+searchCond() {
+  if (!this.session.condition.condition) {
+    this.matches = [];
+  } else {
+      this.matches = this.conditions.filter((name) => {
+      const patern =  new RegExp('\^' + this.session.condition.condition, 'i');
+      return patern.test(name);
+    });
+  }
+}
+searchMedications() {
+  if (!this.session.medication.name) {
+    this.matches = [];
+  } else {
+      this.matches = this.medications.filter((name) => {
+      const patern =  new RegExp('\^' + this.session.medication.name, 'i');
+      return patern.test(name);
+    });
+  }
+}
+selectMedic(match) {
+  this.session.medication.name = match;
+  this.matches = [];
+}
+selectTest(match) {
+  this.session.reqItem.name = match;
+  this.matches = [];
+}
+selectScan(match) {
+  this.session.reqItem.name = match;
+  this.matches = [];
+}
+selectCond(match) {
+  this.session.condition.condition = match;
+  this.matches = [];
+}
 isEmptySession() {
   return !this.session.invoices.length && 
   !this.session.complains.length &&
@@ -253,23 +320,56 @@ fetchDept() {
   return this.client.departments
   .filter(dept => (dept.hasWard) && (dept.name !== this.patient.record.visits[0][0].dept));
 }
+getPriceTotal() {
+  let total = 0;
+   this.session.medInvoices.forEach((invoice) => {
+     total = total + invoice.quantity * invoice.price;
+   });
+   return total;
+}
+getRequestTotal() {
+  const invoices = cloneDeep(this.session.invoices);
+  let total = 0;
+  invoices.filter(i => i.desc === 'Test' || i.desc === 'Scan').forEach((invoice) => {
+     total = total + invoice.quantity * invoice.price;
+   });
+   return total;
+}
 getClient() {
   this.dataService.getClient().subscribe((res: any) => {
     this.client = res.client;
     this.products = res.client.inventory;
+    this.scans = res.client.inventory.filter(prod => prod.type === 'Services' && 
+    prod.item.category === 'Scanning').map(scan => scan.item.name);
+    this.medications = res.client.inventory.filter(prod => prod.type === 'Products').map(med => med.item.name);
     this.cardTypes = res.client.inventory.filter(p => p.type === 'Cards');
     this.session.items = res.items;
 });
 }
-next(){
+next() {
   this.count = this.count + 1;
 }
 prev() {
   this.count = this.count - 1;
 }
+nextImage() {
+  this.currentImage = this.currentImage + 1;
+}
+prevImage() {
+  this.currentImage = this.currentImage - 1;
+}
+toggleComment(i,j, action) {
+  this.patient.record.tests[i][j].report.meta.selected = (action === 'open') ? true : false;
+}
+getLength(length){
+  return (length > 1 ) ? 's' : '';
+}
 getProducts() {
   this.dataService.getProducts().subscribe((res: any) => {
     this.products = res.inventory;
+    this.medications = res.inventory.filter(prod => prod.type === 'Products').map(med => med.name);
+    console.log(this.medications);
+    console.log(this.products);
     this.session.items = res.items;
  });
 }
@@ -441,10 +541,11 @@ addTest() {
   if(this.invoiceExist()) {
     this.errLine = 'Request already added';
   } else {
-    this.session.tests.unshift(new Test(
-      this.session.reqItem.name,
-      new Meta(this.cookies.get('i'))
-      ));
+    this.session.tests.unshift({
+      ...new Test(),
+      name: this.session.reqItem.name,
+      meta: new Meta(this.cookies.get('i'))
+    });
     this.addInvoice(this.session.reqItem.name, 'Test');
   }
 }
@@ -512,13 +613,7 @@ addRequest() {
   }
 
 }
-getPriceTotal() {
-  // let total = 0;
-  //  this.session.medications.forEach((medic) => {
-  //    total = total +  medic.stockInfo.price;
-  //  });
-  //  return total;
-}
+
 clearMsg() {
   this.errLine = null;
 }

@@ -31,6 +31,7 @@ import { SettingsComponent } from './components/settings/settings.component';
 import { DeceasedComponent } from './components/deceased/deceased.component';
 import { CashierComponent } from './components/cashier/cashier.component';
 import { NotificationsComponent } from './components/notifications/notifications.component';
+import { LabComponent } from './components/lab/lab.component';
 
 const routes: Routes = [
   {
@@ -65,6 +66,20 @@ const routes: Routes = [
     ]
   },
   {
+    path: 'lab',
+    component: MainComponent,
+    children: [
+      {
+        path: 'me',
+        component: MessagesComponent
+      },
+      {
+        path: '',
+        component: LabComponent
+      }
+    ]
+  },
+  {
     path: 'billing',
     component: MainComponent,
     children: [
@@ -90,7 +105,6 @@ const routes: Routes = [
         path: 'appointments',
         component: AppointmentsComponent
       },
-    
       {
         path: 'consultations',
         component: ConsultationComponent
@@ -257,7 +271,8 @@ const routes: Routes = [
     SettingsComponent,
     DeceasedComponent,
     CashierComponent,
-    NotificationsComponent
+    NotificationsComponent,
+    LabComponent
 
   ],
   imports: [

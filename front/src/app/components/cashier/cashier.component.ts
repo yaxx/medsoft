@@ -62,7 +62,11 @@ export class CashierComponent implements OnInit {
     this.getPatients();
     this.getProducts();
     this.socket.io.on('new order', (patient: Person) => {
-      this.patients.push(patient);
+      const i = this.patients.findIndex(p => p._id === patient._id);
+      if(i) {
+        this.patients.splice(i, 1).unshift(patient);
+      }
+      this.patients.unshift(patient);
     });
     this.socket.io.on('store update', (data) => {
       if(data.action === 'new') {
@@ -291,8 +295,8 @@ comfirmPayment() {
      return total;
   }
     getDp(avatar: String) {
-    // return 'http://localhost:5000/api/dp/' + avatar;
-    return 'http://192.168.1.100/api/dp/' + avatar;
+    return 'http://localhost:5000/api/dp/' + avatar;
+    // return 'http://192.168.1.100/api/dp/' + avatar;
   }
   getStyle(i: Invoice) {
     return {color: i.paid ? 'black': 'lightgrey'};

@@ -158,15 +158,20 @@ export class Visit {
     public bedNo:  number = null
      ) {}
   }
-
+  export class Report {
+    constructor(
+      public comment: string = null,
+      public meta: Meta = new Meta(),
+      public attachments: string[] = [],
+    ) {}
+  }
 export class Test {
   constructor(
     public name: string = null,
+    public dept: string = null,
     public meta: Meta = new Meta(),
-    public status: string = null,
-    public verified: boolean = false,
-    public verifiedBy: string = null,
-    public dateVerified: Date = null
+    public treated: boolean = false,
+    public report: Report = new Report()
      ) {}
   }
 
@@ -175,9 +180,24 @@ export class Surgery {
     public name: string = null,
     public meta: Meta = new Meta(),
     public status: string = null,
-    public result?: Object,
+    public result?: Object
      ) {}
   }
+
+export class Scan {
+constructor(
+  public name: string = null,
+  public dept: string = null,
+  public bodyPart: string = null,
+  public meta: Meta = new Meta(),
+  public comment: Note = new Note(),
+  public attachments: string[] = [],
+  public opened: boolean = false,
+  public treated: string = null,
+  public treatedBy: string = null,
+  public dateTreated: Date = null
+) {}
+}
 export class Vitals {
   constructor(
     public bp: Bp = new Bp(),
@@ -188,14 +208,6 @@ export class Vitals {
     public height: Height = new Height(),
     public weight: Weight = new Weight()
   ) {}
-}
-
-export class Scan {
-constructor(
-  public name: string = null,
-  public bodyPart: string = null,
-  public meta: Meta = new Meta(),
-){}
 }
   export class DeathNote {
   constructor(public diagnosis: string = null,

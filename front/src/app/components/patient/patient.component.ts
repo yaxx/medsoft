@@ -11,7 +11,8 @@ import {PersonUtil} from '../../util/person.util';
 
 
 // const uri = 'http://localhost:5000/api/upload';
-const uri = 'http://18.221.76.96:5000/api/upload';
+// const uri = 'http://18.221.76.96:5000/api/upload';
+const uri = 'http://192.168.1.100:5000/api/upload';
 @Component({
   selector: 'app-patient',
   templateUrl: './patient.component.html',
@@ -89,7 +90,7 @@ export class PatientComponent implements OnInit {
   }
   getDp(avatar: String) {
     //  return 'http://192.168.1.100:5000/api/dp/' + avatar;
-    return 'http://localhost/api/dp/' + avatar;
+    return 'http://localhost:5000/api/dp/' + avatar;
     // return 'http://13.59.243.243/api/dp/' + avatar;
   }
   linked() {

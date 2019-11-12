@@ -19,6 +19,8 @@ export class NotificationsComponent implements OnInit {
   loading = false;
   message = null;
   feedback = null;
+  succMessage = null;
+  errLine = null;
   constructor(private dataService: DataService,
     private router: Router,
     private cookies: CookieService,
@@ -43,6 +45,10 @@ selectNotification(i) {
   this.index =  i;
   this.notification = cloneDeep(this.notifications[i]);
 }
+clear() {
+  this.succMessage = null;
+  this.errLine = null;
+}
 addNotifications() {
   this.processing = true;
   this.notification = {
@@ -52,8 +58,9 @@ addNotifications() {
     this.processing = false;
     this.notifications.unshift(notification);
     this.notification = new Note();
+    this.succMessage = 'Post Succesfull';
   }, (e) => {
-    this.message = 'Unable to update notifications';
+    this.errLine = 'Unable to update notifications';
     this.processing = false;
   });
 }

@@ -1,44 +1,5 @@
-<!-- <div class="modal fade" role="dialog" tabindex="-1" id="noteModal" style="border-radius:12px;width:auto;">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content" style="width:480px;border-radius:12px;padding-left:0px;padding-right: 0px;">
-            <div class="modal-body" style="border-radius:0px;padding: 0px;">
-                <div class="card card-secondary historycard midlecard profilecard" style="margin:auto;min-height:200px;border-radius:12px;">
-                    <div style='padding-left: 30px;border-top-right-radius:12px;border-top-left-radius:12px;' class="card-header profileheader small-header">
-                        <div style="left:23px" class="timeline lastdoc priscriber headerdp small-dp">
-                          <img [src] = getDp(patients[curIndex])/>
-                        </div>
-                        <a href="#" class="patien-name small-name">
-                          {{patients[curIndex].info.personal.firstName + ' '+ patients[curIndex].info.personal.lastName}}<span class="small-headericon"></span>
-                        </a>
-                    </div>
-                  <div style="width:90%;margin:auto" class="card-body orderbody">
-                    <form (submit) = updateNote() novalidate  class="patientform" >
-                      <div class="card card-secondary historycard midlecard profilecard" style="border-bottom:none;margin:0px;margin-right: 0px;width:100%; min-height: 140px;">
-                         <div style="padding-top:0px;padding-left: 10px; padding-right: 10px;"  class="card-body topcardbody clientinfobody nopading">
-                           <div class="form-group vitals-section formGroup newnote" >
-                             <textarea [(ngModel)]="note.note" id ='newnote' style="width:100%; min-height: 110px; font-size: 13px; padding: 5px; border: 0px; " name= "note" placeholder="Additional note"></textarea>
-                           </div>
-                         </div>
-                     </div>
-                    </form>
-               </div>
-               <div *ngIf='note.note' style='left:78%; height:32px;width:32px;'
-                     title ='Taken' class="floter">
-                     <i style="color:#1da1f2;bottom:-10px;" class="icon ion-ios-checkmark-empty flotericon">
-                    </i>
-                </div>
-               </div>
-          </div>
-      </div>
-  </div>
-</div> -->
 
 
-
-<!-- <div *ngIf='patients.length' class="modal fade" role="dialog" tabindex="-1" id="medicModal" style="border-radius:12px;width:auto;">
-  <div class="modal-dialog" role="document">
-      <div class="modal-content" style="width:480px;border-radius:12px;padding-left:0px;padding-right: 0px;">
-          <div class="modal-body" style="border-radius:0px;padding: 0px;"> -->
 
               <div *ngIf='patients.length' class="modal " role="dialog" tabindex="-1" id="medicModal" style="border-radius:32px;max-width:841px;margin: auto;padding-top: 35px">
                   <div style="max-width: 730px;border-radius:32px;" class="modal-dialog" role="document">

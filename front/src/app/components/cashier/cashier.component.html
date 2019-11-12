@@ -77,14 +77,14 @@
                     </div>
                     <div *ngIf='cardView.editing||cardView.reversing' style="left:7%; top:45%;position: absolute;
                         width: 7%;" class="btn-group disposition">
-                        <button (click)="switchViews('orders')" style="width:32px;height: 32px;border-radius: 50%;left:35%"   class="btn btn-outline-primary  dispo " >
+                        <button (click)="switchViews('orders')" style="width:32px;height: 32px;border-radius: 50%;left:35%"   class="btn btn-outline-primary  dispo shift-button  " >
                             <i  style='position:absolute;right:36%;top:2px; font-size:large; cursor:pointer; display: inline-block;' title="Back" class="icon ion-android-arrow-back "> 
                             </i>
                         </button>
                     </div>
                     <div *ngIf='cardView.orders && invoiceSelcted()' style="left:80%; top:45%;position: absolute;
                     width: 7%;" class="btn-group disposition">
-                        <button (click)=switchToEdit() style="width:32px;height: 32px;border-radius: 50%;left:35%"   class="btn btn-outline-primary  dispo " >
+                        <button (click)=switchToEdit() style="width:32px;height: 32px;border-radius: 50%;left:35%"   class="btn btn-outline-primary  dispo shift-button" >
                             <i   style='position:absolute;right:36%;top:2px; font-size:large; cursor:pointer; display: inline-block;' title="Go to payment" class="icon ion-android-arrow-forward "> 
                             </i>
                         </button>

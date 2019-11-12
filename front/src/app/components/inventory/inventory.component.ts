@@ -19,9 +19,8 @@ export class InventoryComponent implements OnInit {
   stockInfo: StockInfo = new StockInfo();
   temItems: Item[] = [];
   items: Item[] = [];
-  testItems = Tests;
-  scanItems = Scannings;
-  surgeryItems = Surgeries;
+  scanItems = [];
+  surgeryItems = [];
   inventoryItems = [];
   newItems: Item[] = [];
   products: Product[] = [];
@@ -32,6 +31,9 @@ export class InventoryComponent implements OnInit {
   editables: Product[] = [];
   edited: Product[] = [];
   selections: number[] = [];
+  tests = Tests;
+  scans = Scannings;
+  matches = [];
   input = '';
   loading = false;
   processing = false;
@@ -77,7 +79,7 @@ export class InventoryComponent implements OnInit {
   }
   getDp(avatar: String) {
     // return 'http://192.168.1.100:5000/api/dp/' + avatar;
-    return 'http://localhost/api/dp/' + avatar;
+    return 'http://localhost:5000/api/dp/' + avatar;
     // return 'http://13.59.243.243/api/dp/' + avatar;
   }
   getMyDp() {
@@ -109,7 +111,20 @@ export class InventoryComponent implements OnInit {
   formCompleted() {
     return this.item.name && this.product.stockInfo.price && this.product.stockInfo.quantity && this.product.stockInfo.expiry;
   }
-
+  searchTests() {
+    if (!this.product.item.name) {
+      this.matches = [];
+    } else {
+        this.matches = this.tests.filter((name) => {
+        const patern =  new RegExp('\^' + this.product.item.name , 'i');
+        return patern.test(name);
+      });
+    }
+  }
+  selectTest(match) {
+    this.product.item.name = match;
+    this.matches = [];
+  }
   sortProducts(name: string) {
     switch (name) {
       case 'name':
@@ -254,22 +269,23 @@ export class InventoryComponent implements OnInit {
 getDescriptions() {
   switch (this.product.item.category) {
     case 'Card':
-      this.inventoryItems = ['Standard', 'Premium', 'Exclusive'];
+      // this.inventoryItems = ['Standard', 'Premium', 'Exclusive'];
     break;
     case 'Surgery':
-      this.inventoryItems = this.surgeryItems;
+      // this.matches = this.searchSurgeries();
     break;
     case 'Scanning':
-      this.inventoryItems = this.scanItems;
+      // this.inventoryItems = this.searchScans;
     break;
     case 'Test':
-      this.inventoryItems = this.testItems;
+      this.searchTests();
     break;
     default:
     break;
   }
 
 }
+
 hideList() {
   this.inventoryItems = [];
 }

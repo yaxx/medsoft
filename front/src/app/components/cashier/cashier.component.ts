@@ -296,7 +296,7 @@ comfirmPayment() {
   }
     getDp(avatar: String) {
     return 'http://localhost:5000/api/dp/' + avatar;
-    // return 'http://192.168.1.100/api/dp/' + avatar;
+    // return 'http://192.168.1.101/api/dp/' + avatar;
   }
   getStyle(i: Invoice) {
     return {color: i.paid ? 'black': 'lightgrey'};

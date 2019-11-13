@@ -28,6 +28,7 @@
     "mongoose": "^5.3.16",
     "morgan": "^1.9.1",
     "multer": "^1.4.1",
+    "simplebar": "^5.0.6",
     "socket.io": "^2.1.1",
     "socket.io-cookie-parser": "^1.0.0"
   }

@@ -17,11 +17,11 @@ export class Room {
 
 export class Department {
   constructor(
-    public name: string = 'Anaesthetics',
-    public type: string = null,
+    public name: string = null,
+    public category: string = null,
     public hasWard: boolean = false,
-    public rooms: Room[] = [],
     public description: string = null,
+    public rooms: Room[] = [],
     public dateCreated: Date = new Date() ) {}
 }
 export class Info {

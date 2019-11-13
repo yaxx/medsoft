@@ -1,4 +1,4 @@
-<div class="modal fade" role="dialog" tabindex="-1" id="deptModal" style="border-radius:12px;width:auto;">
+<!-- <div class="modal fade" role="dialog" tabindex="-1" id="deptModal" style="border-radius:12px;width:auto;">
     <div class="modal-dialog" role="document">
         <div class="modal-content" style="width:480px;border-radius:0px;border-radius:12px;padding-left:0px;padding-right: 0px;">
             <div class="modal-body" style="border-radius:0px;padding: 0px;">
@@ -10,11 +10,11 @@
                         <form style="top:15%; width:56%;margin:auto; padding-top:30px" class=" staffsform">
                             <div class="form-group  vitals-section address">
                                 <label style='font-size:8px' for="email" class="labelss">DEPARTMENT</label>
-                                <select  [(ngModel)]="deptName" style='font-size:11px' class=" patientdata inputs dataInfo newpatient" name="department">
+                                <select  [(ngModel)]="department.name" style='font-size:11px' class=" patientdata inputs dataInfo newpatient" name="department">
                                   <option *ngFor="let dept of departments">{{dept.name}}</option>
                               </select>
                             </div>
-                            <div *ngIf='(deptName !== "Pharmacy" ) && (deptName !== "Information") && (deptName !== "Billing")'>
+                            <div *ngIf='(department.name !== "Pharmacy" ) && (department !== "Information") && (department.name !== "Billing")'>
                                 <div class="form-group vitals-section formGroup" style=" width:46%;">
                                     <label style="font-size:8px" for="dos" class="labelss complain">ROOM</label>
                                     <input [(ngModel)]=roomNumb style="border-top-right-radius: 0px;border-bottom-right-radius: 0px;" name="dos" class=" form-control patientdata inputs dataInfo">
@@ -57,7 +57,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
 
 

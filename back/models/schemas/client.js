@@ -16,8 +16,9 @@ var ClientScheema = new Scheema({
         },
         departments: [{
                 name: String,
+                category: String,
+                hasWard: Boolean,
                 descriptions: String,
-                hasWard: Boolean, 
                 rooms: [{
                     name: String,
                     number: Number,
@@ -31,7 +32,6 @@ var ClientScheema = new Scheema({
         }],   
         inventory: [{
                 item: {
-                    _id: String,   
                     name: String,
                     brand: String,
                     type: {type:String, required: false},

@@ -11,7 +11,7 @@ import {Report} from '../../models/record.model';
 import * as cloneDeep from 'lodash/cloneDeep';
 import { timeout } from 'q';
 const uri = 'http://localhost:5000/api/upload';
-// const uri = 'http://192.168.1.100:5000/api/upload';
+// const uri = 'http://192.168.1.101:5000/api/upload';
 @Component({
   selector: 'app-lab',
   templateUrl: './lab.component.html',
@@ -88,7 +88,7 @@ export class LabComponent implements OnInit {
   }
   getDp(avatar: String) {
     // return 'http://localhost:5000/api/dp/' + avatar;
-    return 'http://192.168.1.100/api/dp/' + avatar;
+    return 'http://192.168.1.101/api/dp/' + avatar;
   }
   selectItem(i: number, j: number) {
     this.testIndex = {i: i, j: j};

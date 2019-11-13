@@ -12,7 +12,7 @@ import { Item, StockInfo, Product, Card, Invoice, Meta} from '../../models/inven
 import {Visit, Session} from '../../models/record.model';
 import {Client, Department} from '../../models/client.model';
 import {CookieService } from 'ngx-cookie-service';
-// const uri = 'http://192.168.1.100:5000/api/upload';
+// const uri = 'http://192.168.1.101:5000/api/upload';
 const uri = 'http://localhost:5000/api/upload';
 // const uri = 'http://18.221.76.96:5000/api/upload';
  @Component({
@@ -50,10 +50,8 @@ export class RegistrationComponent implements OnInit {
   nowSorting = 'Date added';
   view = 'info';
   searchTerm = '';
-  // dpurl = 'http://192.168.1.100:5000/api/dp/';
   dpurl = 'http://localhost:5000/api/dp/';
-  // dpurl = 'http://192.168.1.100:5000/api/dp/';
-
+  // dpurl = 'http://192.168.1.101:5000/api/dp/';
   uploader: FileUploader = new FileUploader({url: uri});
   constructor(
     private dataService: DataService,
@@ -91,7 +89,7 @@ export class RegistrationComponent implements OnInit {
     return this.router.url.includes(path);
   }
   getDp(avatar: String) {
-    // return 'http://192.168.1.100:5000/api/dp/' + avatar;
+    // return 'http://192.168.1.101:5000/api/dp/' + avatar;
     return 'http://localhost:5000/api/dp/' + avatar;
   }
   toggleSortMenu() {

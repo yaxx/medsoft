@@ -1,12 +1,14 @@
 import { Component, OnInit, OnDestroy} from '@angular/core';
 import {DataService} from '../../services/data.service';
 import {Product, Item, StockInfo} from '../../models/inventory.model';
-import {Person} from '../../models/person.model';
+
 import {Tests, Scannings, Surgeries} from '../../data/request';
 import {CookieService } from 'ngx-cookie-service';
-import { sortBy } from 'sort-by-typescript';
+
 import {SocketService} from '../../services/socket.service';
 import * as cloneDeep from 'lodash/cloneDeep';
+import Simplebar from 'simplebar';
+import 'simplebar/dist/simplebar.css';
 @Component({
   selector: 'app-inventory',
   templateUrl: './inventory.component.html',
@@ -78,9 +80,9 @@ export class InventoryComponent implements OnInit {
     // this.input = this.product.item.name + ' ' + this.product.item.mesure + this.product.item.unit;
   }
   getDp(avatar: String) {
-    // return 'http://192.168.1.100:5000/api/dp/' + avatar;
+    // return 'http://192.168.1.101:5000/api/dp/' + avatar;
     return 'http://localhost:5000/api/dp/' + avatar;
-    // return 'http://13.59.243.243/api/dp/' + avatar;
+ 
   }
   getMyDp() {
     return this.getDp(this.cookies.get('d'));

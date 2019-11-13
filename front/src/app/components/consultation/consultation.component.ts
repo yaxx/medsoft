@@ -16,7 +16,7 @@ import {Observable} from 'rxjs';
 import {WebcamImage, WebcamInitError, WebcamUtil} from 'ngx-webcam';
 import { Record,  Session} from '../../models/record.model';
 const uri = 'http://localhost:5000/api/upload';
-// const uri = 'http://192.168.1.100:5000/api/upload';
+// const uri = 'http://192.168.1.101:5000/api/upload';
 @Component({
   selector: 'app-consultation',
   templateUrl: './consultation.component.html',
@@ -203,8 +203,8 @@ export class ConsultationComponent implements OnInit {
 
 
   getDp(avatar: String) {
-      return 'http://localhost:5000/api/dp/' + avatar || '../assets/img/avatar.jpg';
-      // return 'http://192.168.1.100:5000/api/dp/' + avatar;
+      // return 'http://localhost:5000/api/dp/' + avatar || '../assets/img/avatar.jpg';
+      return 'http://192.168.1.101:5000/api/dp/' + avatar;
     }
 
  

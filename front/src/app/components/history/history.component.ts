@@ -6,6 +6,8 @@ import {Conditions} from '../../data/conditions';
 import {DataService} from '../../services/data.service';
 import * as cloneDeep from 'lodash/cloneDeep';
 import {SocketService} from '../../services/socket.service';
+import 'simplebar';
+import 'simplebar/dist/simplebar.css';
 import {CookieService } from 'ngx-cookie-service';
 import {ActivatedRoute, Router} from '@angular/router';
 import { Item, StockInfo, Product, Card, Invoice, Meta} from '../../models/inventory.model';
@@ -142,7 +144,7 @@ export class HistoryComponent implements OnInit {
   }
   getDp(avatar: String) {
     return 'http://localhost:5000/api/dp/' + avatar;
-    // return 'http://192.168.0.100:5000/api/dp/'+ avatar;
+    // return 'http://192.168.0.101:5000/api/dp/'+ avatar;
   }
 
   getMyDp() {
@@ -152,9 +154,9 @@ export class HistoryComponent implements OnInit {
     this.images = this.patient.record.tests[i][j].report.attachments;
   }
   getImage(fileName: String){
-    // return 'http://192.168.0.100:5000/api/dp/' + fileName;
+    // return 'http://192.168.1.101:5000/api/dp/' + fileName;
     return 'http://localhost:5000/api/dp/' + fileName;
-    // return 'http://13.59.243.243/api/dp/' + fileName;
+  
   }
   compareNotes(i: number, note: Note) {
     return this.notes[i].note.length === note.note.length;
@@ -170,7 +172,7 @@ export class HistoryComponent implements OnInit {
 }
   getDocDp(avatar: string) {
       return 'http://localhost:5000/api/dp/' + avatar;
-      // return 'http://http://192.168.1.100:5000/api/dp/' + avatar;
+      // return 'http://http://192.168.1.101:5000/api/dp/' + avatar;
   }
   addVital() {
     switch (this.vital) {
@@ -183,13 +185,13 @@ export class HistoryComponent implements OnInit {
         break;
       case 'Tempreture':
         this.vitals.unshift({
-          name: 'Tempreture', 
-          val: this.session.vitals.tempreture.value + 'F' 
+          name: 'Tempreture',
+          val: this.session.vitals.tempreture.value + 'F'
         });
         break;
       case 'Respiratory Rate':
         this.vitals.unshift({
-          name: 'Respiratory Rate', 
+          name: 'Respiratory Rate',
           val: this.session.vitals.resp.value + 'bpm'
         });
         break;

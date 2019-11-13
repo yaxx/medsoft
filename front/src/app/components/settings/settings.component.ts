@@ -71,8 +71,9 @@ export class SettingsComponent implements OnInit {
         this.client = res.client;
         this.staffs = res.client.staffs;
         this.departments = departments;
+        console.log(res.client.departments);
         this.roomNumb = this.getRoomNumbs();
-        this.deptName = res.departments[0].name;
+        // this.deptName = res.departments[0].name;
       }
     }, (e) => {
       this.message = 'Something went wrong';
@@ -81,7 +82,7 @@ export class SettingsComponent implements OnInit {
   }
   getDp(avatar: String) {
     return 'http://localhost:5000/api/dp/' + avatar;
-    // return 'http://192.168.0.100:5000/api/dp/' + avatar;
+    // return 'http://192.168.1.101:5000/api/dp/' + avatar;
   }
 
   getMyDp() {
@@ -109,7 +110,7 @@ export class SettingsComponent implements OnInit {
     this.client.departments.forEach((d) => {
       this.departments = this.departments.filter(dep => dep.name !== d.name);
     });
-    this.deptName = this.departments[0].name;
+    // this.deptName = this.departments[0].name;
   }
   switchClient(view: string) {
     this.clientMode = view;
@@ -124,7 +125,8 @@ export class SettingsComponent implements OnInit {
  }
   
   deptHasWard() {
-    return this.departments.find(dept => dept.name === this.department.name).hasWard;
+    const d = departments.find(dept => dept.name === this.department.name)
+    return (d) ? d.hasWard : false;
   }
   isAddminStaff() {
     const dept = this.departments.find(department => department.name === this.staff.info.official.department);
@@ -197,6 +199,7 @@ export class SettingsComponent implements OnInit {
      }
      this.department.hasWard = true;
     }
+    this.department.category = departments.find(dept => dept.name === this.department.name).category;
   }
   resetVariables() {
     this.department = new Department();

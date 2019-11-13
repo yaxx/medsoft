@@ -21,7 +21,7 @@ app.use('/graphql', graphQlHttp({
 app.use(cors({origin:"http://localhost:4200", credentials: true}))
 // app.use(cors({origin:"http://3.19.194.118:5000", credentials: true}))
 // app.use(cors({origin:"*", credentials: true}))
-app.use(express.static(path.join(__dirname,'dist','front')))
+// app.use(express.static(path.join(__dirname,'dist','front')))
 app.use(require('morgan')('dev'))
 app.use(bodyParser.json())
 app.use(require('cookie-parser')('blackfly'))
@@ -69,7 +69,9 @@ io.sockets.on('connection', (socket) => {
   socket.on('follow', (data) => {
     let d = data
     d.am = 'Following'
-    Contact.updateOne({ 'username': socket.request.cookies.username }, {$push: { contacts: d }}, {upsert: true}, (err, obj) => {
+    Contact.updateOne({
+       'username': socket.request.cookies.username 
+      }, {$push: { contacts: d }}, {upsert: true}, (err, obj) => {
       if (!err) {
             // console.log(obj)
       } else { console.log(err) }

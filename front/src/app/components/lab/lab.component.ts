@@ -87,8 +87,8 @@ export class LabComponent implements OnInit {
     this.errMsg = null;
   }
   getDp(avatar: String) {
-    // return 'http://localhost:5000/api/dp/' + avatar;
-    return 'http://192.168.1.101/api/dp/' + avatar;
+    return 'http://localhost:5000/api/dp/' + avatar;
+    // return 'http://192.168.1.101/api/dp/' + avatar;
   }
   selectItem(i: number, j: number) {
     this.testIndex = {i: i, j: j};

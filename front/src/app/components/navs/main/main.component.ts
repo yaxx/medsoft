@@ -23,7 +23,10 @@ seg2 = null;
  
   }
   isConsult() {
-    return !this.router.url.includes('information') && !this.router.url.includes('pharmacy') && !this.router.url.includes('billing') && !this.router.url.includes('ward') && !this.router.url.includes('admin');
+    return !this.isInfo() &&
+     !this.isBillable() && 
+     !this.isWard() && 
+     !this.isAdmin();
   }
   isAdmin() {
     return this.router.url.includes('admin');
@@ -36,6 +39,11 @@ seg2 = null;
   }
   isVisible() {
     return !this.router.url.includes('pharmacy') || !this.router.url.includes('billing'); 
+  }
+  isBillable() {
+    return this.router.url.split('/')[1] === 'pharmacy' ||
+    this.router.url.split('/')[1] === 'billing' ||
+    this.router.url.split('/')[1] === 'lab';
   }
  
 }

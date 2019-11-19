@@ -32,7 +32,7 @@ io.sockets.on('connection', (socket) => {
   console.log('%s socket(s) connected', connections.length)
   socket.on('login', (data) => {
     data.si = socket.id;
-    logins.push({ui:data.ui,si:socket.id})
+    logins.push({ui: data.ui, si: socket.id})
     console.log(logins);
     socket.broadcast.emit('online', data.ui)
   })
@@ -43,22 +43,31 @@ io.sockets.on('connection', (socket) => {
     if (user.ui === data.reciever) {
       socket.to(user.si).emit('new message', data)
     } else {}
+    })
   })
-  })
-  socket.on('enroled',(patient) => {
+  socket.on('enroled', (patient) => {
     socket.broadcast.emit('enroled', patient);  
+  })
+  socket.on('card payment', (patient) => {
+    socket.broadcast.emit('card payment', patient);  
+  })
+  socket.on('new report', (patient) => {
+    socket.broadcast.emit('new report', patient);  
+  })
+  socket.on('discharge', (patient) => {
+    socket.broadcast.emit('discharge', patient);  
   })
   socket.on('consulted', (patient) => {
     socket.broadcast.emit('consulted', patient);  
   })
-  socket.on('new order', (patient) => {
-    socket.broadcast.emit('new order', patient);  
+  socket.on('new patient', (patient) => {
+    socket.broadcast.emit('new patient', patient);  
   })
   socket.on('Discharge',(patient)=>{
     socket.broadcast.emit('Discharge', patient);  
   })
-  socket.on('transaction', cart => {
-    socket.broadcast.emit('transaction', cart);
+  socket.on('payment', cart => {
+    socket.broadcast.emit('payment', cart);
   })
   
   socket.on('store update', changes => {

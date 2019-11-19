@@ -90,25 +90,26 @@
                               {{patient.record.visits[0].dept.toUpperCase()}}</h6>
                         </div> -->
                         <div class="sub-container">
-                            <h6 class="dept basic-secondary basic-value">{{patient.record.appointments[0].title}}</h6>
+                            <h6 style="color: darkgrey;" class="dept basic-secondary basic-value">{{patient.record.appointments[0].title}}</h6>
                         </div>
                         <div class="sub-container">
                           <h6 style="width:100%;text-align:center" class="dept basic-secondary basic-value">
-                            {{patient.record.appointments[0].date|date:'dd MMM, yy'}}&nbsp;<span>
+                            {{patient.record.appointments[0].date|date:'dd/MM/y'}}&nbsp;<span>
                             {{patient.record.appointments[0].time}}</span>
                           </h6>
                         </div>
                       </div>
                 </div>
-                <button *ngIf='routeHas("information")' (click) = "submitRecord()"  style=" width: 90px;font-size: 10px; height:27px;left:52%; bottom:7%;" class="btn btn-sm btn-outline-primary inputs mainbtn" >ENROLE</button>
-                <div  *ngIf='!routeHas("information")'style='padding: 4px 4px 4px 27px;border-top:none;border-bottom:none;border-bottom-right-radius:12px;border-bottom-left-radius:12px' class="card-footer profileheader small-header">
+               
+                <div style='padding: 4px 4px 4px 27px;border-top:none;border-bottom:none;border-bottom-right-radius:12px;border-bottom-left-radius:12px' class="card-footer profileheader small-header">
                   <div style="left:10%; top:84%" class="timeline lastdoc priscriber headerdp small-dp">
                     <img [src] = getDp(patient.info.personal.avatar)/>
                   </div>
                   <h6 style="font-weight:normal;width:125px; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;margin: 2px;" href="#" class="patien-name small-name">
                     {{'Dr.'+' '+patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}
                   </h6>
-                  <p style='position: absolute;bottom:0.1%;font-size: 10px;color:lightgrey;left: 70%;'> {{patient.record.appointments[0].setOn|date:'dd MMM, yy'}}</p>
+                  <p style='position: absolute;bottom:0.1%;font-size: 10px;color:lightgrey;left: 70%;'>
+                    {{patient.record.appointments[0].setOn|date:'dd/MM/y'}}</p>
                 </div>
 
             </div>

@@ -2,6 +2,16 @@
 <router-outlet></router-outlet>
 <div style="background: white;z-index:1035" class="sidenav">
 
+  <a  *ngIf="isBillable()"  style="top:28%"  href="#" [routerLink]="['./']" [routerLinkActiveOptions]={exact:true}  routerLinkActive="router-link-active"  class="home reviewmenu" title="Pending Orders"><span class="homespan"><i style ='font-size: 22px; color: rgb(158, 158, 158); position: relative; top:5px;right: 3px;' class="material-icons homeicon wardicon">check</i></span>
+  </a>
+  <a  *ngIf="isBillable()"  style="top:35%" href="#" [routerLink]="['./completed']" routerLinkActive="router-link-active"   class="home wardmenu" title="Completed Orders"><span class="homespan"><i style ='font-size: 22px; color: rgb(158, 158, 158); position: relative; top:5px;right: 3px;' class="material-icons homeicon wardicon">done_all</i></span>
+  </a>
+  <a *ngIf = "isBillable()" style="top:43%" href="#"   [routerLink]="['./notifications']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Notifications">
+    <span class="homespan">
+        <i  style ='font-size: 26px;position:relative;' class="icon ion-android-notifications-none homeicon"></i>
+    </span>
+</a>
+
   <a *ngIf='isAdmin() || isInfo() || isWard()' style="top:21%" href="#" [routerLink]="['./']" [routerLinkActiveOptions]={exact:true}  routerLinkActive="router-link-active"  class="home reviewmenu" title="Discharged">
       <span class="homespan">
           <i  style ='font-size: 26px;position:relative; ' class="icon ion-ios-checkmark-outline homeicon"></i>
@@ -31,16 +41,18 @@
   </a> -->
 
  
+ 
   <a *ngIf=isWard()  style="top:28%" href="#" [routerLink]="['./addmisions']" routerLinkActive="router-link-active"   class="home wardmenu" title="Addmisions"><span class="homespan"><i style ='font-size: 25px; color: rgb(158, 158, 158); position: relative; top:5px;right: 3px;' class="material-icons homeicon wardicon">airline_seat_individual_suite</i></span>
   </a>
-  <a *ngIf='isAdmin() || isInfo() || isConsult()'  style="top:42%" href="#" [routerLink]="['./addmisions']" routerLinkActive="router-link-active"   class="home wardmenu" title="Addmisions"><span class="homespan"><i style ='font-size: 25px; color: rgb(158, 158, 158); position: relative; top:5px;right: 3px;' class="material-icons homeicon wardicon">airline_seat_individual_suite</i></span>
-  </a>
-
   <a *ngIf='isWard()' style="top:35%" href="#" [routerLink]="['./deceased']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Deceased">
     <span class="homespan">
         <i  style ='font-size: 26px;position:relative; ' class="icon ion-ios-close-outline homeicon"></i>
     </span>
  </a>
+  <a *ngIf='isAdmin() || isInfo() || isConsult()'  style="top:42%" href="#" [routerLink]="['./addmisions']" routerLinkActive="router-link-active"   class="home wardmenu" title="Addmisions"><span class="homespan"><i style ='font-size: 25px; color: rgb(158, 158, 158); position: relative; top:5px;right: 3px;' class="material-icons homeicon wardicon">airline_seat_individual_suite</i></span>
+  </a>
+
+ 
   <a  *ngIf='isAdmin() || isInfo() || isConsult()'style="top:49%" href="#" [routerLink]="['./deceased']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Deceased">
     <span class="homespan">
         <i  style ='font-size: 26px;position:relative; ' class="icon ion-ios-close-outline homeicon"></i>

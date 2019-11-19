@@ -66,11 +66,14 @@ export class PharmacyComponent implements OnInit {
   ngOnInit() {
     this.getPatients('Pharmacy');
     this.getProducts();
+    this.socket.io.on('consulted', (patient: Person) => {
+      this.patients.push(patient);
+    });
     this.socket.io.on('new order', (patient: Person) => {
       this.patients.push(patient);
     });
     this.socket.io.on('store update', (data) => {
-      if(data.action === 'new') {
+      if (data.action === 'new') {
         this.products = [...data.changes, ...this.products];
       } else if (data.action === 'update') {
           for (const product of data.changes) {
@@ -92,14 +95,28 @@ export class PharmacyComponent implements OnInit {
     this.getPatients('Pharmacy');
     this.getProducts();
   }
+  filterPatients(patients: Person[]) : Person[] {
+    const completes: Person[] = [];
+    const pendings: Person[] = [];
+    patients.forEach(pat => {
+      const medInvoices = [];
+      pat.record.invoices.forEach(invoices => {
+        if (invoices.some(i => i.desc.includes('|'))) {
+          medInvoices.push(invoices.filter(n => n.desc.includes('|')));
+        }
+      });
+      medInvoices.every(invoices => invoices.every(i => i.paid)) ? completes.push(pat) : pendings.push(pat);
+    });
+    return (this.router.url.includes('completed')) ? completes : pendings;
+  }
   getPatients(type: string) {
     this.loading = true;
     this.dataService.getPatients(type).subscribe((patients: Person[]) => {
-      if(patients.length) {
+      if (patients.length) {
         patients.forEach(p => {
           p.card = {menu: false, view: 'front'};
         });
-        this.patients =  patients;
+        this.patients =  this.filterPatients(patients).sort((m, n) => new Date(n.createdAt).getTime() - new Date(m.createdAt).getTime());
          this.clonedPatients  = patients;
         this.loading = false;
         this.message = null;
@@ -204,10 +221,10 @@ export class PharmacyComponent implements OnInit {
     // return this.invoices[i].some(invoice => invoice.paid);
    }
 updatePrices(invoices: Invoice[], i: number) {
-  if(invoices.length) {
+  if (invoices.length) {
     invoices.forEach(invoice => {
       const p = this.products.find(prod => prod.item.name === invoice.name); 
-      if(p && !invoice.paid) {
+      if (p && !invoice.paid) {
         invoice.price = p.stockInfo.price;
       }
     });
@@ -223,7 +240,7 @@ updatePrices(invoices: Invoice[], i: number) {
     this.invoices.forEach((invoices , index) => {
       const items = [];
       invoices.forEach((invoice) => {
-        if(invoice.desc.includes('|')) {
+        if (invoice.desc.includes('|')) {
           items.push(invoice);
         }
         });
@@ -242,6 +259,11 @@ updatePrices(invoices: Invoice[], i: number) {
       this.switchViews('orders');
     }, 6000);
 
+  }
+  closeModal() {
+    if (this.patients[this.curIndex].record.invoices.every(invoices => invoices.every(i => i.paid))) {
+      this.patients.splice(this.curIndex, 1);
+    }
   }
    sendRecord() {
     this.processing = true;
@@ -265,9 +287,7 @@ updatePrices(invoices: Invoice[], i: number) {
           }
         });
       });
-      console.log(this.patients[this.curIndex].record.invoices);
       this.sendRecord();
-      this.switchViews('orders');
    }
   getTransTotal(invoices: Invoice[]) {
     let total = 0;

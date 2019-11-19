@@ -209,7 +209,7 @@ export class WardComponent implements OnInit {
         patients.forEach(p => {
           p.card = {menu: false, view: 'front', name: null, processing: false, errorMsg: null, sucsMsg: null};
         });
-        this.patients   = patients;
+        this.patients   = patients.sort((m, n) => new Date(n.createdAt).getTime() - new Date(m.createdAt).getTime());
         this.clonedPatients  = patients;
         this.loading = false;
       } else {

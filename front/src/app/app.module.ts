@@ -60,6 +60,18 @@ const routes: Routes = [
         component: MessagesComponent
       },
       {
+        path: 'pending',
+        component: PharmacyComponent
+      },
+      {
+        path: 'completed',
+        component: PharmacyComponent
+      },
+      {
+        path: 'notifications',
+        component: NotificationsComponent
+      },
+      {
         path: '',
         component: PharmacyComponent
       }
@@ -74,6 +86,18 @@ const routes: Routes = [
         component: MessagesComponent
       },
       {
+        path: 'pending',
+        component: LabComponent
+      },
+      {
+        path: 'completed',
+        component: LabComponent
+      },
+      {
+        path: 'notifications',
+        component: NotificationsComponent
+      },
+      {
         path: '',
         component: LabComponent
       }
@@ -86,6 +110,18 @@ const routes: Routes = [
       {
         path: 'me',
         component: MessagesComponent
+      },
+      {
+        path: 'pending',
+        component: CashierComponent
+      },
+      {
+        path: 'completed',
+        component: CashierComponent
+      },
+      {
+        path: 'notifications',
+        component: NotificationsComponent
       },
       {
         path: '',

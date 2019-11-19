@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {DataService} from '../../services/data.service';
 import {SocketService} from '../../services/socket.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import update from 'react-addons-update';
 import {Person} from '../../models/person.model';
 import {CookieService} from 'ngx-cookie-service';
 import {Product, Item, Invoice, StockInfo} from '../../models/inventory.model';
@@ -61,15 +60,11 @@ export class CashierComponent implements OnInit {
   ngOnInit() {
     this.getPatients();
     this.getProducts();
-    this.socket.io.on('new order', (patient: Person) => {
-      const i = this.patients.findIndex(p => p._id === patient._id);
-      if(i) {
-        this.patients.splice(i, 1).unshift(patient);
-      }
+    this.socket.io.on('new patient', (patient: Person) => {
       this.patients.unshift(patient);
     });
     this.socket.io.on('store update', (data) => {
-      if(data.action === 'new') {
+      if (data.action === 'new') {
         this.products = [...data.changes, ...this.products];
       } else if (data.action === 'update') {
           for (const product of data.changes) {
@@ -91,14 +86,22 @@ export class CashierComponent implements OnInit {
     this.getPatients();
     this.getProducts();
   }
+  filterPatients(patients: Person[]) : Person[] {
+    const completes: Person[] = [];
+    const pendings: Person[] = [];
+    patients.forEach(pat => {
+      pat.record.invoices.every(invoices => invoices.every(i => i.paid)) ? completes.push(pat) : pendings.push(pat);
+    });
+    return (this.router.url.includes('completed')) ? completes : pendings;
+  }
   getPatients(type?: string) {
     this.loading = true;
     this.dataService.getPatients(type).subscribe((patients: Person[]) => {
-      if(patients.length) {
+      if (patients.length) {
         patients.forEach(p => {
           p.card = {menu: false, view: 'front'};
         });
-        this.patients =  patients;
+        this.patients =  this.filterPatients(patients).sort((m, n) => new Date(n.createdAt).getTime() - new Date(m.createdAt).getTime());
         this.clonedPatients  = patients;
         this.loading = false;
         this.message = null;
@@ -115,7 +118,6 @@ export class CashierComponent implements OnInit {
     return desc.split('|')[0];
   }
 
-  
  switchToEdit() {
   this.invoices.forEach(inner => {
     inner.forEach(invoice => {
@@ -130,14 +132,19 @@ export class CashierComponent implements OnInit {
 updateInvoices() {
     this.edited.forEach(invoice => {
       this.patients[this.curIndex].record.invoices.forEach((m) =>  {
-        m[m.findIndex(i => i._id === invoice._id)] = {...invoice, paid: true, datePaid: new Date(), comfirmedBy: this.cookies.get('i')};
+        m[m.findIndex(i => i._id === invoice._id)] = {
+          ...invoice, 
+          paid: true, 
+          datePaid: new Date(), 
+          comfirmedBy: this.cookies.get('i')
+        };
       });
       this.products.forEach(prod => {
-        if(prod.item.name === invoice.name) {
+        if (prod.item.name === invoice.name) {
           prod.stockInfo.quantity = prod.stockInfo.quantity - invoice.quantity;
           prod.stockInfo.sold = prod.stockInfo.sold + invoice.quantity;
           this.cart.push(prod);
-        } else if(prod.item.name === invoice.desc) {
+        } else if (prod.item.name === invoice.desc) {
           prod.stockInfo.quantity = prod.stockInfo.quantity - invoice.quantity;
           prod.stockInfo.sold = prod.stockInfo.sold + invoice.quantity;
           this.patients[this.curIndex].record.visits[0][0].status = 'queued';
@@ -145,14 +152,13 @@ updateInvoices() {
         }
       });
     });
-   
  }
 updatePrices(invoices: Invoice[], i: number) {
-  if(invoices.length) {
+  if (invoices.length) {
     invoices.forEach(invoice => {
       let p = (invoice.name === 'Card') ? 
       this.products.find(prod => prod.item.name === invoice.desc) : this.products.find(prod => prod.item.name === invoice.name); 
-      if(p && !invoice.paid) {
+      if (p && !invoice.paid) {
         invoice.price = p.stockInfo.price;
       }
     });
@@ -181,7 +187,8 @@ runTransaction(type: string) {
   this.dataService.runTransaction(this.patients[this.curIndex]._id, this.patients[this.curIndex].record, this.cart).subscribe(() => {
     this.products = this.clonedStore;
     this.processing = false;
-    this.socket.io.emit('transaction', this.cart);
+     (this.cart[0].type === 'Cards') ?
+     this.socket.io.emit('card payment', this.patients[this.curIndex]) : this.socket.io.emit('payment', this.cart);
     this.transMsg = (type === 'purchase') ? 'Payment successfully comfirmed' : 'Transaction successfully reversed';
     this.reset();
   }, (e) => {
@@ -189,7 +196,11 @@ runTransaction(type: string) {
     this.processing = false;
   });
 }
-
+closeModal() {
+  if (this.patients[this.curIndex].record.invoices.every(invoices => invoices.every(i => i.paid))) {
+    this.patients.splice(this.curIndex, 1);
+  }
+}
 comfirmPayment() {
   this.updateInvoices();
   this.runTransaction('purchase');

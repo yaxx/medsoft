@@ -57,6 +57,7 @@ cred = {
         this.cookie.set('i', person._id);
         this.cookie.set('h', person.info.official.hospital);
         this.cookie.set('d', person.info.personal.avatar);
+        this.cookie.set('dpt', person.info.official.department);
         this.socket.io.emit('login', {ui: person._id, lastLogin: person.info.lastLogin});
         let route = null;
         const role = person.info.official.role;

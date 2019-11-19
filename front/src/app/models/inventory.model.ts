@@ -49,8 +49,8 @@ export class Invoice {
     public datePaid: Date = null,
     public meta: Meta = new Meta(),
     public processed: boolean = true,
-    public _id?: string 
-  ){}
+    public _id?: string
+  ) {}
 }
 export class Card {
   constructor(

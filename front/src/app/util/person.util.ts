@@ -83,9 +83,8 @@ export  class PersonUtil {
         this.backEnd.addPerson(this.person).subscribe((newPerson: Person) => {
         
             newPerson.card = {menu: false, view: 'front'};
-            // this.socket.io.emit('new order', newPerson);
+            this.socket.io.emit('new patient', newPerson);
             this.person = newPerson;
-            console.log(newPerson);
             this.card = new Card();
             this.creating = false;
             this.successMsg = 'Patient added successfully';

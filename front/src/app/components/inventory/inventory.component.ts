@@ -44,7 +44,7 @@ export class InventoryComponent implements OnInit {
   feedback = null;
   categories = [];
   menuView = false;
-  cat = 'Products'
+  cat = 'Products';
   errLine = null;
   cardType = 'Standard'
   curentItems = [];
@@ -60,8 +60,12 @@ export class InventoryComponent implements OnInit {
 
   ngOnInit() {
     this.getProducts();
-    this.socket.io.on('transaction', cart => {
+    this.socket.io.on('payment', cart => {
+      console.log(cart);
+      
       cart.forEach(product => {
+        console.log(this.products.findIndex(pro => pro._id === product._id));
+        
         this.products[this.products.findIndex(pro => pro._id === product._id)] = product;
       });
     });

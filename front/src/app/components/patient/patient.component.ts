@@ -90,7 +90,6 @@ export class PatientComponent implements OnInit {
   getDp(avatar: String) {
     //  return 'http://192.168.1.101:5000/api/dp/' + avatar;
     return 'http://localhost:5000/api/dp/' + avatar;
-   
   }
   linked() {
     return !this.router.url.includes('information');
@@ -110,15 +109,22 @@ export class PatientComponent implements OnInit {
   prev() {
     this.count = this.count - 1;
   }
-
+  filterPatients(patients: Person[]) : Person[] {
+    const completes: Person[] = [];
+    const pendings: Person[] = [];
+    patients.forEach(pat => {
+      pat.record.invoices.every(invoices => invoices.every(i => i.paid)) ? completes.push(pat) : pendings.push(pat);
+    });
+    return (this.router.url.includes('completed')) ? completes : pendings;
+  }
    getPatients(type) {
     this.loading = true;
     this.dataService.getPatients(type).subscribe((patients: Person[]) => {
-      if(patients.length) {
+      if (patients.length) {
         patients.forEach(p => {
         p.card = {menu: false, view: 'front'};
       });
-      this.patients   = patients;
+      this.patients   = this.filterPatients(patients).sort((m, n) => new Date(n.createdAt).getTime() - new Date(m.createdAt).getTime());
       this.clonedPatients  = patients;
       this.loading = false;
       this.message = null;

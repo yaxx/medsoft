@@ -130,15 +130,19 @@ getPatients: async (req, res) => {
   //   patients = Array.from(patients).map(p => p.toJSON()).filter(p => p.record.cards.length > 0).map(patient => {
   //     let {record} = patient
   //     return ({
-  //       ...patient, record: {...record, tests: record.tests.map(tests => tests.map(t => ({
-  //         ...t,
-  //         dept: 'Microbiology'
-          
+  //       ...patient, record: {...record, scans: record.scans.map(scans => scans.map(s =>  ({
+  //         name: s.name,
+  //         dept: s.dept,
+  //         treated: s.treated,
+  //         report: {
+  //           ...s.report, attachments: s.attachments, 
+  //           comment: s.comment,
+  //           meta: s.report.meta
+  //         }
   //       })))
   //     }
   //   }) 
   // })
-
   // for (p of patients) {
   //     Person.findByIdAndUpdate( mongoose.Types.ObjectId(p._id),{"record": p.record}, {new: true}, (e, data) => {
   //       if(e) {
@@ -147,7 +151,7 @@ getPatients: async (req, res) => {
        
   //     })
         
-  //   }
+  // }
 
     
  
@@ -161,12 +165,7 @@ getPatients: async (req, res) => {
       case 'Pharmacist':
       patients = patients.filter(patient => patient.record.medications.length > 0);
       case 'Lab Scientist':
-        if(official.department = 'Microbiology') {
-          patients = patients.filter(patient => patient.record.tests.length > 0);
-          console.log('Microbiology')
-        } else {
-          patients = patients.filter(patient => patient.record.scans.length > 0);
-        }
+          patients = patients.filter(patient => patient.record.tests.some(t => t.dept === official.dept) || patient.record.scans.some(t => t.dept === official.dept));
       break;
       case 'Cashier':
       patients = patients.filter(patient => patient.record.invoices.length > 0);

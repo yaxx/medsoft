@@ -52,7 +52,7 @@ export class AppointmentsComponent implements OnInit {
 
    ngOnInit() {
       this.myDepartment = this.route.snapshot.url[0].path;
-      this.getPatients('Appointment');
+      this.getPatients('ap');
       this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any ) => {
       this.patient.info.personal.avatar = response;
       this.patient.record.visits.unshift(new Visit());

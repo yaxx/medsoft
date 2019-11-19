@@ -18,11 +18,12 @@
   display:block;
 }
 
+
 .card.scan-thumnail {
-  width:80px;
-  height:80px;
-  display:inline-block;
-  margin:0px;
+  width: 80px;
+  height: 80px;
+  display: inline-block;
+  margin: 0px;
   border-color:white;
   margin-right:3px;
   margin-left:0px;
@@ -75,4 +76,21 @@ top:12%;
   position: relative;
   font-weight: bold;
 
+}
+.off {
+ left: -100%;
+} 
+.on {
+  left: 0%;
+  animation-name: card-in;
+  animation-duration: .2s;
+  animation-timing-function: ease-in;
+}
+@keyframes card-in {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 0%;
+    }
 }

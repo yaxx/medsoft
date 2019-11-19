@@ -11,7 +11,7 @@ import 'simplebar/dist/simplebar.css';
 import {CookieService } from 'ngx-cookie-service';
 import {ActivatedRoute, Router} from '@angular/router';
 import { Item, StockInfo, Product, Card, Invoice, Meta} from '../../models/inventory.model';
-import { Record, Medication, Condition, Note, Visit, Session, Test, Surgery, Scan, Complain } from '../../models/record.model';
+import { Record, Medication, Condition, Note, Visit, Session, Test, Surgery, Scan, Complain, Bp, Resp, Pulse, Temp } from '../../models/record.model';
 import {Chart} from 'chart.js';
 import {saveAs} from 'file-saver';
 // import { truncateSync } from 'fs';
@@ -150,13 +150,17 @@ export class HistoryComponent implements OnInit {
   getMyDp() {
     return this.getDp(this.cookies.get('d'))
   }
-  pullImages(i, j) {
-    this.images = this.patient.record.tests[i][j].report.attachments;
+  pullImages(i, j, item) {
+    this.images = (item === 'test') ? this.patient.record.tests[i][j]
+    .report.attachments : this.patient.record.scans[i][j].report.attachments;
   }
   getImage(fileName: String){
     // return 'http://192.168.1.101:5000/api/dp/' + fileName;
     return 'http://localhost:5000/api/dp/' + fileName;
   
+  }
+  getLabs() {
+    return this.client.departments.filter(dept => dept.category === 'Lab');
   }
   compareNotes(i: number, note: Note) {
     return this.notes[i].note.length === note.note.length;
@@ -175,35 +179,150 @@ export class HistoryComponent implements OnInit {
       // return 'http://http://192.168.1.101:5000/api/dp/' + avatar;
   }
   addVital() {
-    switch (this.vital) {
+    const i = this.vitals.findIndex(v => v.name === this.vital);
+     switch (this.vital) {
       case 'Blood Presure':
-        this.vitals.unshift({
-          name: 'Blood Presure', 
-          val: this.session.vitals.bp.systolic + '/'
-        + this.session.vitals.bp.diastolic + 'mm Hg'
-        });
+        if(i >= 0) {
+          this.vitals[i] = {
+            name: 'Blood Presure', 
+            val: this.session.vitals.bp.systolic + '/'
+          + this.session.vitals.bp.diastolic + 'mm Hg'
+          };
+        } else {
+          this.vitals.unshift({
+            name: 'Blood Presure', 
+            val: this.session.vitals.bp.systolic + '/'
+          + this.session.vitals.bp.diastolic + 'mm Hg'
+          });
+          console.log(this.vitals);
+        }
         break;
       case 'Tempreture':
-        this.vitals.unshift({
-          name: 'Tempreture',
-          val: this.session.vitals.tempreture.value + 'F'
-        });
+          if (i >= 0) {
+            this.vitals[i] = {
+              name: 'Tempreture',
+              val: this.session.vitals.tempreture.value + 'F'
+            };
+          } else {
+            this.vitals.unshift({
+              name: 'Tempreture',
+              val: this.session.vitals.tempreture.value + 'F'
+            });
+          }
         break;
       case 'Respiratory Rate':
-        this.vitals.unshift({
-          name: 'Respiratory Rate',
-          val: this.session.vitals.resp.value + 'bpm'
-        });
+        if (i >= 0) {
+          this.vitals[i] = {
+            name: 'Respiratory Rate',
+            val: this.session.vitals.resp.value + 'bpm'
+          };
+        } else {
+          this.vitals.unshift({
+            name: 'Respiratory Rate',
+            val: this.session.vitals.resp.value + 'bpm'
+          });
+        }
         break;
       case 'Pulse Rate':
-        this.vitals.unshift({
-          name: 'Pulse Rate', 
-          val: this.session.vitals.pulse.value + 'bpm'
-        });
+        if (i >= 0) {
+          this.vitals[i] = {
+            name: 'Pulse Rate', 
+            val: this.session.vitals.pulse.value + 'bpm'
+          };
+        } else {
+          this.vitals.unshift({
+            name: 'Pulse Rate', 
+            val: this.session.vitals.pulse.value + 'bpm'
+          });
+        }
         break;
       default:
         break;
     }
+
+  }
+  removeVital(i, sign) {
+    this.vitals.splice(i, 1);
+    switch (sign.name) {
+      case 'Blood Presure':
+        this.session.vitals.bp = new Bp();
+        break;
+      case 'Tempreture':
+        this.session.vitals.tempreture = new Temp();
+        break;
+      case 'Pulse Rate':
+        this.session.vitals.pulse = new Pulse();
+        break;
+      case 'Respiratory Rate':
+        this.session.vitals.resp = new Resp();
+        break;
+      default:
+        break;
+    }
+  }
+  clearVital(name) {
+    switch (name) {
+      case 'Blood Presure':
+        if(!this.session.vitals.bp.systolic || !this.session.vitals.bp.diastolic) {
+          this.vitals = this.vitals.filter(v => v.name !== name);
+        }
+        break;
+      case 'Tempreture':
+          if(!this.session.vitals.tempreture.value) {
+            this.vitals = this.vitals.filter(t => t.name !== name);
+          }
+        break;
+      case 'Pulse Rate':
+          if(!this.session.vitals.pulse.value) {
+            this.vitals = this.vitals.filter(p => p.name !== name);
+          }
+        break;
+      case 'Respiratory Rate':
+          if(!this.session.vitals.resp.value) {
+            this.vitals = this.vitals.filter(r => r.name !== name);
+          }
+        break;
+      default:
+        break;
+    }
+  }
+
+
+
+  composeVitals() {
+    if (this.session.vitals.tempreture.value) {
+      if (this.patient.record.vitals.tempreture.length > 30) {
+        this.patient.record.vitals.tempreture.unshift(this.session.vitals.tempreture);
+        this.patient.record.vitals.tempreture.splice(this.patient.record.vitals.tempreture.length - 1 , 1);
+      } else {
+        this.patient.record.vitals.tempreture.unshift(this.session.vitals.tempreture);
+      }
+    } else {}
+
+    if (this.session.vitals.bp.systolic && this.session.vitals.bp.diastolic) {
+      if (this.patient.record.vitals.bp.length > 30) {
+        this.patient.record.vitals.bp.unshift(this.session.vitals.bp);
+        this.patient.record.vitals.bp.splice(this.patient.record.vitals.bp.length - 1 , 1);
+      } else {
+        this.patient.record.vitals.bp.unshift(this.session.vitals.bp);
+      }
+    } else {}
+    if (this.session.vitals.pulse.value) {
+      if (this.patient.record.vitals.pulse.length > 30) {
+        this.patient.record.vitals.pulse.unshift(this.session.vitals.pulse);
+        this.patient.record.vitals.pulse.splice(this.patient.record.vitals.pulse.length - 1 , 1);
+      } else {
+        this.patient.record.vitals.pulse.unshift(this.session.vitals.pulse);
+      }
+    } else {}
+    if (this.session.vitals.resp.value) {
+      if (this.patient.record.vitals.resp.length > 30) {
+        this.patient.record.vitals.resp.unshift(this.session.vitals.pulse);
+        this.patient.record.vitals.resp.splice(this.patient.record.vitals.resp.length - 1 , 1);
+      } else {
+        this.patient.record.vitals.resp.unshift(this.session.vitals.resp);
+      }
+    } else {}
 
   }
   isAdmin() {
@@ -253,21 +372,21 @@ removeTest(i) {
  this.session.invoices.splice(i, 1);
 }
 searchTest() {
-  if (!this.session.reqItem.name) {
+  if (!this.session.test.name) {
     this.matches = [];
   } else {
       this.matches = this.tests.filter((name) => {
-      const patern =  new RegExp('\^' + this.session.reqItem.name , 'i');
+      const patern =  new RegExp('\^' + this.session.test.name , 'i');
       return patern.test(name);
     });
   }
 }
 searchScans() {
-  if (!this.session.reqItem.name) {
+  if (!this.session.scan.name) {
     this.matches = [];
   } else {
       this.matches = this.scans.filter((name) => {
-      const patern =  new RegExp('\^' + this.session.reqItem.name , 'i');
+      const patern =  new RegExp('\^' + this.session.scan.name , 'i');
       return patern.test(name);
     });
   }
@@ -297,11 +416,11 @@ selectMedic(match) {
   this.matches = [];
 }
 selectTest(match) {
-  this.session.reqItem.name = match;
+  this.session.test.name = match;
   this.matches = [];
 }
 selectScan(match) {
-  this.session.reqItem.name = match;
+  this.session.scan.name = match;
   this.matches = [];
 }
 selectCond(match) {
@@ -315,7 +434,8 @@ isEmptySession() {
   !this.session.allegies.allegy && 
   !this.session.famHist.condition && 
   !this.session.note.note && 
-  !this.session.medications.length;
+  !this.session.medications.length &&
+  !this.vitals.length;
 }
 
 fetchDept() {
@@ -363,15 +483,16 @@ prevImage() {
 toggleComment(i,j, action) {
   this.patient.record.tests[i][j].report.meta.selected = (action === 'open') ? true : false;
 }
-getLength(length){
+toggleScanComment(i, j, action) {
+  this.patient.record.scans[i][j].report.meta.selected = (action === 'open') ? true : false;
+}
+getLength(length) {
   return (length > 1 ) ? 's' : '';
 }
 getProducts() {
   this.dataService.getProducts().subscribe((res: any) => {
     this.products = res.inventory;
     this.medications = res.inventory.filter(prod => prod.type === 'Products').map(med => med.name);
-    console.log(this.medications);
-    console.log(this.products);
     this.session.items = res.items;
  });
 }
@@ -379,7 +500,7 @@ checkItems(type: string) {
   // return this.temItems.some(item => item.type === type);
 }
 composeInvoices() {
-  let invoices = cloneDeep([...this.session.invoices, ...this.session.medInvoices]);
+  const invoices = cloneDeep([...this.session.invoices, ...this.session.medInvoices]);
   if (invoices.length) {
   if (this.patient.record.invoices.length) {
     if (new Date(this.patient.record.invoices[0][0].meta.dateAdded)
@@ -418,7 +539,7 @@ composeTests() {
     if (this.patient.record.tests.length) {
     if (new Date(this.patient.record.tests[0][0].meta.dateAdded)
     .toLocaleDateString() === new Date().toLocaleDateString()) {
-      for (const t of this.tests) {
+      for (const t of this.session.tests) {
         this.patient.record.tests[0].unshift(t);
       }
      } else {
@@ -544,11 +665,10 @@ addTest() {
     this.errLine = 'Request already added';
   } else {
     this.session.tests.unshift({
-      ...new Test(),
-      name: this.session.reqItem.name,
+      ...this.session.test,
       meta: new Meta(this.cookies.get('i'))
     });
-    this.addInvoice(this.session.reqItem.name, 'Test');
+    this.addInvoice(this.session.test.name, 'Test');
   }
 }
 addSurgery() {
@@ -557,10 +677,9 @@ addSurgery() {
   } else {
      this.session.surgeries.unshift({
     ...new Surgery(),
-    name: this.session.reqItem.name,
     meta: new Meta(this.cookies.get('i'))
   });
-  this.addInvoice(this.session.reqItem.name, 'Surgery');
+  this.addInvoice(this.session.surgery.name, 'Surgery');
   }
  }
 addScanning() {
@@ -568,11 +687,10 @@ addScanning() {
     this.errLine = 'Request already added';
   } else {
      this.session.scans.unshift({
-    ...new Scan(),
-    name: this.session.reqItem.name,
+    ...this.session.scan,
     meta: new Meta(this.cookies.get('i'))
   });
-  this.addInvoice(this.session.reqItem.name, 'Scan');
+  this.addInvoice(this.session.scan.name, 'Scan');
   }
  
 }
@@ -682,15 +800,15 @@ sendRecord() {
 
 updateRecord() {
   this.processing = true;
+  this.composeVitals();
   this.composeTests();
   this.composeScans();
   this.composeComplains();
   this.composeConditions();
   this.composeMedications();
   this.composeInvoices();
-  this.checkScalars() ;
+  this.checkScalars();
   this.sendRecord();
-
 }
 
 }

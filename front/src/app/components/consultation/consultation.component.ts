@@ -57,6 +57,8 @@ export class ConsultationComponent implements OnInit {
   nowSorting = 'Date added';
   myDepartment = null;
   errLine = null;
+  successMsg =  null;
+  errorMsg =  null;
   showWebcam = false;
   errors: WebcamInitError[] = [];
   webcamImage: WebcamImage = null;
@@ -79,10 +81,19 @@ export class ConsultationComponent implements OnInit {
   ngOnInit() {
    this.getPatients('queued');
    this.getClient();
-   this.myDepartment = this.route.snapshot.params['dept'];
-    this.socket.io.on('enroled', (patient: Person) => {
-      if (patient.record.visits[0][0].dept.toLowerCase() === this.myDepartment || this.route.snapshot.params['admin']) {
+    this.socket.io.on('card payment', (patient: Person) => {
+       if (this.isAdmin) {
+        this.patients.unshift(patient);
+      }  else if (patient.record.visits[0][0].dept === this.cookies.get('dept')) {
         patient.card = {view: 'front', menu: false, btn: 'discharge'};
+        this.patients.unshift(patient);
+      }
+  });
+    this.socket.io.on('enroled', (patient: Person) => {
+      patient.card = {menu: false, view: 'front', btn: 'discharge'};
+       if (this.isAdmin) {
+        this.patients.unshift(patient);
+      }  else if (patient.record.visits[0][0].dept === this.cookies.get('dept')) {
         this.patients.unshift(patient);
       }
   });
@@ -98,6 +109,12 @@ export class ConsultationComponent implements OnInit {
           this.products.splice(this.products.findIndex(prod => prod._id === product._id) , 1);
         }
     }
+  });
+  this.socket.io.on('new report', (patient: Person) => {
+    const i = this.patients.findIndex(p => p._id === patient._id);
+      if (i !== -1 && patient.record.visits[0][0].dept === this.cookies.get('dept')) {
+        this.patients.splice(i, 1).unshift(patient);
+      }
   });
   this.socket.io.on('consulted', (patient: Person) => {
     const i = this.patients.findIndex(p => p._id === patient._id);
@@ -124,7 +141,6 @@ export class ConsultationComponent implements OnInit {
          this.patients.splice(i, 1);
       }
   });
- 
   this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any ) => {
     this.patient.info.personal.avatar = response;
     this.psn.update();
@@ -137,11 +153,13 @@ export class ConsultationComponent implements OnInit {
       return this.router.url.includes('information');
     }
     isConsult() {
-      return !this.router.url.includes('information') && !this.router.url.includes('pharmacy') && !this.router.url.includes('billing') && !this.router.url.includes('ward') && !this.router.url.includes('admin');
+      return !this.router.url.includes('information') &&
+      !this.router.url.includes('pharmacy') &&
+      !this.router.url.includes('billing') && 
+      !this.router.url.includes('ward') && 
+      !this.router.url.includes('admin');
   }
-    // tslint:disable-next-line:one-line
-    
-  refresh() {
+   refresh() {
     this.message = null;
     this.getPatients('queued');
     this.getClient();
@@ -218,16 +236,24 @@ export class ConsultationComponent implements OnInit {
   }
   setAppointment() {
     this.patients[this.curIndex].record.appointments.unshift(this.session.appointment);
-    this.patients[this.curIndex].record.visits[0][0].status = 'Appointment';
+    this.patients[this.curIndex].record.visits[0][0].status = 'ap';
     this.processing = true;
     this.dataService.updateRecord(this.patients[this.curIndex], this.session.newItems).subscribe(patient => {
       this.processing = false;
-      this.feedback = 'Appointment updated';
+      this.successMsg = 'Appointment Set';
       setTimeout(() => {
-        this.feedback = null;
+        this.successMsg = null;
+      }, 5000);
+      setTimeout(() => {
+        this.switchCards(this.curIndex , 'front');
+      }, 7000);
+      setTimeout(() => {
         this.patients.splice(this.curIndex , 1);
-      }, 3000);
-    });
+      }, 10000);
+     }, (e) => {
+       this.processing = false;
+       this.errorMsg = 'Unable to set Appointment';
+     });
   }
   showMenu(i: number) {
     this.hideMenu();
@@ -250,10 +276,13 @@ export class ConsultationComponent implements OnInit {
     this.patients[i].card.btn = label;
   }
   switchCards(i: number, face: string) {
+    this.curIndex = i;
     this.patients[i].record.visits[0][0].status = 'out';
     this.patients[i].card.view = face;
      switch (face) {
-       case 'ap': this.cardCount = 'ap';
+       case 'ap': this.cardCount = 'dispose';
+         break;
+       case 'appointment': this.cardCount = 'ap';
          break;
        case 'dispose': this.cardCount = 'dispose';
        this.patients[i].card.btn = 'discharge';
@@ -270,15 +299,22 @@ export class ConsultationComponent implements OnInit {
     this.processing = true;
     this.patients[i].record.visits[0][0].dept = (
       this.patients[i].record.visits[0][0].status !== 'queued') ? this.dept : this.patients[i].record.visits[0][0].dept;
-    this.dataService.updateRecord(this.patients[i], this.session.newItems).subscribe((p: Person) => {
+      this.patients[i].record.visits[0][0].dischargedOn = new Date();
+      this.dataService.updateRecord(this.patients[i], this.session.newItems).subscribe((p: Person) => {
       this.processing = false;
-      this.patients.splice(i, 1);
-      this.feedback = 'Note added successfully';
+      this.socket.io.emit(this.patients[i].card.btn.toLowerCase(), this.patients[i]);
+      this.successMsg = 'Success';
       setTimeout(() => {
-        this.feedback = null;
-      }, 4000);
+        this.successMsg = null;
+      }, 5000);
+      setTimeout(() => {
+        this.switchCards(i, 'front');
+      }, 8000);
+      setTimeout(() => {
+        this.patients.splice(i, 1);
+      }, 10000);
    }, (e) => {
-     this.feedback = 'Unbale to add note';
+     this.errorMsg = 'Something went wrong';
      this.processing = false;
    });
   }
@@ -332,7 +368,7 @@ getPatients(type) {
       p.card = {menu: false, view: 'front', btn: 'discharge'};
     });
     this.clonedPatients = patients;
-    this.patients = patients;
+    this.patients = patients.sort((m, n) => new Date(n.createdAt).getTime() - new Date(m.createdAt).getTime());
     this.loading = false;
     this.message = null;
     } else {

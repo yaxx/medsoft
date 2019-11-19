@@ -40,9 +40,12 @@ export class RegistrationComponent implements OnInit {
   session: Session = new Session();
   message = null;
   feedback = null;
+  successMsg = null;
+  errLine = null;
   cardTypes = [];
   processing = false;
   sortBy = 'added';
+  cardCount = null;
   sortMenu = false;
   loading = false;
   count = 0;
@@ -65,11 +68,16 @@ export class RegistrationComponent implements OnInit {
   ngOnInit() {
     this.getPatients('out');
     this.getClient();
-    this.socket.io.on('new order', (patient: Person) => {
-      const i = this.patients.findIndex(p => p._id === patient._id);
-      if(i) {
-        this.patients.splice(i, 1).unshift(patient);
-      }
+    this.socket.io.on('new patient', (patient: Person) => {
+      console.log(patient);
+      this.patients.unshift(patient);
+    });
+    this.socket.io.on('card payment', (patient: Person) => {
+      console.log(patient);
+      this.patients.splice(this.patients.findIndex(p => p._id === patient._id) , 1);
+    });
+    this.socket.io.on('discharge', (patient: Person) => {
+      patient.card = {menu: false, view: 'front'};
       this.patients.unshift(patient);
     });
   //   this.socket.io.on('consulted', (patient: Person) => {
@@ -88,12 +96,20 @@ export class RegistrationComponent implements OnInit {
   routeHas(path) {
     return this.router.url.includes(path);
   }
+  switchCardView(i , view) {
+    this.curIndex = i;
+    this.cardCount = view;
+    this.patients[i].card.view = view;
+  }
   getDp(avatar: String) {
     // return 'http://192.168.1.101:5000/api/dp/' + avatar;
     return 'http://localhost:5000/api/dp/' + avatar;
   }
   toggleSortMenu() {
     this.sortMenu = !this.sortMenu;
+  }
+  getRefDept() {
+    return this.client.departments.filter(dept => dept.hasWard);
   }
   getMyDp() {
     return this.getDp(this.cookies.get('d'));
@@ -118,11 +134,11 @@ export class RegistrationComponent implements OnInit {
   getPatients(type) {
     this.loading = true;
     this.dataService.getPatients(type).subscribe((patients: Person[]) => {
-      if(patients.length) {
+      if (patients.length) {
         patients.forEach(p => {
           p.card = {menu: false, view: 'front'};
         });
-        this.patients   = patients;
+        this.patients   = patients.sort((m, n) => new Date(n.createdAt).getTime() - new Date(m.createdAt).getTime());
         this.clonedPatients  = patients;
         this.loading = false;
         this.message = null;
@@ -135,10 +151,35 @@ export class RegistrationComponent implements OnInit {
       this.loading = false;
     });
   }
+  showMenu(i: number) {
+    this.hideMenu();
+    this.patients[i].card.menu = true;
+  }
+  hideMenu() {
+    this.patients.forEach(p => {
+      p.card.menu =  false;
+    });
+  }
 
-  
-  enrolePatient()  {
-   
+  enrolePatient(i: number)  {
+    this.processing = true;
+    this.patients[this.curIndex].record.visits.unshift({...this.visit, status: 'queued'});
+    this.dataService.updateRecord(this.patients[this.curIndex]).subscribe((patient) => {
+    this.successMsg = 'Patient Enroled';
+    this.processing = false;
+    this.socket.io.emit('enroled', patient);
+    setTimeout(() => {
+      this.successMsg = null;
+    }, 3000);
+    setTimeout(() => {
+      this.switchCardView(i, 'front');
+    }, 6000);
+    setTimeout(() => {
+     this.patients.splice(i , 1);
+    }, 9000);
+   }, (e) => {
+    this.errLine = 'Unable to Enroled';
+   });
   }
   // fileSelected(event) {
   //   if (event.target.files && event.target.files[0]) {
@@ -153,12 +194,11 @@ export class RegistrationComponent implements OnInit {
 
   // }
   addRecord() {
-
     this.psn.creating = true;
     this.psn.addInitials();
     this.dataService.addPerson(this.psn.person).subscribe((newPerson: Person) => {
         newPerson.card = {menu: false, view: 'front'};
-        this.socket.io.emit('new order', newPerson);
+        this.socket.io.emit('new patient', newPerson);
         this.patients.unshift(newPerson);
         this.psn.card = new Card();
         this.psn.creating = false;
@@ -209,7 +249,7 @@ export class RegistrationComponent implements OnInit {
     if (v.status === 'out') {
       count.push(v);
     }
-  }))
+  }));
   return count;
 }
 isInfo() {

@@ -245,20 +245,13 @@
 <nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:0px">
     <div class="container">
         <a class="navbar-brand" href="#">
-            <em>Catalyst</em>
+            <em>Foldirect</em>
         </a>        
         <div class="collapse navbar-collapse" id="navcol-1">
             <form class="top-searchform" target="_self">
                 <div class="form-group">
-                  <input [(ngModel)] = searchTerm #search (keyup)='searchPatient(searchTerm)' autocomplete = "off" style="border-radius:.999em;
-                  width:80%;display:inline-block;
-                  position: absolute;
-                  text-align: left;
-                  vertical-align: middle;
-                  top:11%;
-                  background-color: rgba(233, 236, 239, 0.7);
-                  box-shadow:none;
-                  outline:none;
+                  <input [(ngModel)] = searchTerm #search (keyup)='searchPatient(searchTerm)' autocomplete = "off" style="border-radius:.999em;  width:80%;display:inline-block; position: absolute; text-align: left;
+                 vertical-align: middle; top:11%; background-color: rgba(233, 236, 239, 0.7);box-shadow:none;  outline:none;
                   "
                   class="form-control"
                   type="search" name="search" id="search-field" placeholder="Search patient">
@@ -280,14 +273,14 @@
                   <li (click)='sortPatients("sex")' class="action">Gender</li>
                   <li (click)='sortPatients("date")' class="action">Date added</li>
               </ul>
-          </div>
-       </div>          
+            </div>
+        </div>          
       </form>
-        </div>
+    </div>
     </div>
 
     <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:90%;position:absolute;height:30px;width:30px;top:5px; margin-bottom:0px;"> <img style='height:100%; width:100%; object-fit:cover;' [src] = getMyDp()/></div>
-    </nav>
+</nav>
 
     <div style="padding-top:60px" class="container">
         <div class="row">

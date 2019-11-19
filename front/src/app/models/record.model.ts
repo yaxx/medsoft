@@ -8,7 +8,7 @@ export class Record {
     public complains: any[] = [],
     public famHist: FamHist[] = [],
     public notes: Note[] = [],
-    public vitals: Vitals = new Vitals(),
+    public vitals: Vital = new Vital(),
     public conditions: any[] = [],
     public allegies: Allegy[] = [],
     public devices: Device[] = [],
@@ -116,7 +116,7 @@ export class Weight {
    ) {}
 }
 
-export class Vital {
+export class VitalItems {
   constructor(
     public bp: Bp= new Bp(),
     public resp: Resp = new Resp(),
@@ -125,6 +125,17 @@ export class Vital {
     public tempreture: Temp = new Temp(),
     public height: Height = new Height(),
     public weight: Weight = new Weight()
+  ) {}
+}
+export class Vital {
+  constructor(
+    public bp: Bp[] = [],
+    public resp: Resp [] = [],
+    public pulse: Pulse [] = [],
+    public bloodGl: Bg [] = [],
+    public tempreture: Temp [] = [],
+    public height: Height [] = [],
+    public weight: Weight [] = []
   ) {}
 }
 export class Condition {
@@ -174,7 +185,14 @@ export class Test {
     public report: Report = new Report()
      ) {}
   }
-
+  export class Scan {
+    constructor(
+      public name: string = null,
+      public dept: string = null,
+      public meta: Meta = new Meta(),
+      public report: Report = new Report()
+    ) {}
+}
 export class Surgery {
   constructor(
     public name: string = null,
@@ -184,20 +202,7 @@ export class Surgery {
      ) {}
   }
 
-export class Scan {
-constructor(
-  public name: string = null,
-  public dept: string = null,
-  public bodyPart: string = null,
-  public meta: Meta = new Meta(),
-  public comment: Note = new Note(),
-  public attachments: string[] = [],
-  public opened: boolean = false,
-  public treated: string = null,
-  public treatedBy: string = null,
-  public dateTreated: Date = null
-) {}
-}
+
 export class Vitals {
   constructor(
     public bp: Bp = new Bp(),
@@ -240,7 +245,10 @@ export class Session {
     public complain: Complain = new Complain(),
     public condition: Condition = new Condition(),
     public medication: Medication = new Medication(),
-    public vitals: Vital = new Vital(),
+    public surgery: Surgery = new Surgery(),
+    public scan: Scan = new Scan(),
+    public test: Test = new Test(),
+    public vitals: VitalItems = new VitalItems(),
     public allegies: Allegy = new Allegy(),
     public devices: Device = new Device(),
     public visits: Visit = new Visit(),

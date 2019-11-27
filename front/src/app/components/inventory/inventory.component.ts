@@ -84,7 +84,7 @@ export class InventoryComponent implements OnInit {
     // this.input = this.product.item.name + ' ' + this.product.item.mesure + this.product.item.unit;
   }
   getDp(avatar: String) {
-    // return 'http://192.168.1.101:5000/api/dp/' + avatar;
+    //return 'http://192.168.1.101:5000/api/dp/' + avatar;
     return 'http://localhost:5000/api/dp/' + avatar;
  
   }
@@ -102,7 +102,7 @@ export class InventoryComponent implements OnInit {
         this.loading = false;
         this.message = null;
       } else {
-        this.message = 'No Products So Far';
+        this.message = `No ${this.tableView} So Far`;
         this.loading = false;
       }
     }, (e) => {
@@ -115,7 +115,7 @@ export class InventoryComponent implements OnInit {
     this.getProducts();
   }
   formCompleted() {
-    return this.item.name && this.product.stockInfo.price && this.product.stockInfo.quantity && this.product.stockInfo.expiry;
+    return this.product.item.name && this.product.stockInfo.price && this.product.stockInfo.quantity && this.product.stockInfo.expiry;
   }
   searchTests() {
     if (!this.product.item.name) {
@@ -170,18 +170,25 @@ export class InventoryComponent implements OnInit {
     }
   }
   addMore() {
-     if (this.items.some(item => item.name === this.item.name)) {
+     if (this.items.some(item => item.name === this.product.item.name)) {
       } else {
-        this.newItems.unshift({...this.item, type: this.tableView});
-        this.items.unshift({...this.item, type: this.tableView});
+        this.newItems.unshift({
+          ...this.item,
+          name: this.product.item.name,
+          type: this.tableView
+        });
+        this.items.unshift({
+          ...this.item,
+          name: this.product.item.name,
+          type: this.tableView
+        });
       }
-    if (this.products.some(product => product.item.name === this.item.name) || 
-    this.temProducts.some(product => product.item.name === this.item.name)) {
+    if (this.products.some(product => product.item.name === this.product.item.name) || 
+    this.temProducts.some(product => product.item.name === this.product.item.name)) {
     this.errLine = 'Product already exist';
     } else {
-      this.product.item = this.item;
+      // this.product.item = this.item;
       this.temProducts.unshift({...this.product, type: this.tableView});
-      this.item = new Item();
       this.product = new Product();
     }
   }
@@ -206,7 +213,8 @@ export class InventoryComponent implements OnInit {
   toggleView(view: string) {
     this.tableView = view;
     const p = this.clonedInventory;
-    this.curentItems =  p.filter(product => product.type === this.tableView);
+    this.curentItems =  p.filter(product => product.type === view);
+    this.message =(this.curentItems.length) ? null : `No ${view} So Far`;
     this.temProducts = [];
     this.editables = [];
     this.edited = [];

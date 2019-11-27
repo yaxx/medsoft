@@ -524,8 +524,12 @@ p {
     right: 100%;
     width: 100%;
 }
+.card-body.mainbody.standby, .reqForm {
+    right: 100%;
+    width: 100%;
+}
 
-.card-body.standby.in,
+.card-body.standby.in, .card-body.mainbody.standby,
 .reqForm.in {
     right: 0%;
     display: block;
@@ -533,7 +537,7 @@ p {
     animation-duration: .2s;
     animation-timing-function: ease-in;
 }
-.card-body.mainbody.stand-by.ap{
+.card-body.mainbody.stand-by.ap {
     left: 0%;
     animation-name: card-in;
     animation-duration: .2s;
@@ -577,7 +581,7 @@ p {
     }
 }
 
-.card-body.standby.out,.reqForm.out {
+.card-body.standby.out, .card-body.mainbody.standby.out,.reqForm.out {
     right: 100%;
     /* display:block; */
     animation-name: out;

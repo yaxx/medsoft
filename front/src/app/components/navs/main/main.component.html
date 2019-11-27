@@ -79,6 +79,11 @@
         <i  style ='font-size: 26px;position:relative;' class="icon ion-android-notifications-none homeicon"></i>
     </span>
 </a>
+<a *ngIf = isAdmin()  style="top:82%" href="#"   [routerLink]="['./dashboard']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Notifications">
+    <span class="homespan">
+        <i  style ='font-size: 26px;position:relative;' class="icon ion-stats-bars homeicon"></i>
+    </span>
+</a>
 <a *ngIf = isInfo()  style="top:58%" href="#"   [routerLink]="['./notifications']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Notifications">
     <span class="homespan">
         <i  style ='font-size: 26px;position:relative;' class="icon ion-android-notifications-none homeicon"></i>

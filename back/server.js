@@ -13,11 +13,13 @@ const graphQlHttp = require('express-graphql')
 const {buildSchema} = require('graphql')
 const graphQlSchema = require('./graphql/schemas/index')
 const graphQlResolvers = require('./graphql/resolvers/index')
+// app.set('view engine', 'html');
 app.use('/graphql', graphQlHttp({
   schema: graphQlSchema,
   rootValue: graphQlResolvers,
   graphiql: true
 }))
+
 app.use(cors({origin:"http://localhost:4200", credentials: true}))
 // app.use(cors({origin:"http://3.19.194.118:5000", credentials: true}))
 // app.use(cors({origin:"*", credentials: true}))
@@ -137,7 +139,6 @@ io.sockets.on('connection', (socket) => {
    
   })
   socket.on('check', (data) => {
-    console.log(logins)
     logins.forEach(function (user) {
       if (user.username === data.username) {
         socket.to(user.id).emit('newnotification', {})
@@ -145,10 +146,13 @@ io.sockets.on('connection', (socket) => {
     })
   })
 })
-app.get('/', (req, res) => {
+app.get('/gopd/notifications', (req, res) => {
   res.render('index')
   // res.sendFile(path.resolve(__dirname,'dist','front','index.html'));
 })
+// app.get('*',function (req, res) {
+//  res.redirect('/');
+// }); 
 app.get('/api/client', api.getClient)  
 app.get('/api/patients/:type', api.getPatients)
 app.get('/api/myaccount', api.getMyAccount)

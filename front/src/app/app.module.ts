@@ -32,6 +32,7 @@ import { DeceasedComponent } from './components/deceased/deceased.component';
 import { CashierComponent } from './components/cashier/cashier.component';
 import { NotificationsComponent } from './components/notifications/notifications.component';
 import { LabComponent } from './components/lab/lab.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 const routes: Routes = [
   {
@@ -174,6 +175,10 @@ const routes: Routes = [
         component: NotificationsComponent
       },
       {
+        path: 'dashboard',
+        component: DashboardComponent
+      },
+      {
         path: 'settings',
         component: SettingsComponent
       },
@@ -308,7 +313,8 @@ const routes: Routes = [
     DeceasedComponent,
     CashierComponent,
     NotificationsComponent,
-    LabComponent
+    LabComponent,
+    DashboardComponent
 
   ],
   imports: [

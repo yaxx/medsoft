@@ -17,7 +17,7 @@ function createWindow () {
   //   console.error(error)
   // })
   win.once('ready-to-show', () => {win.show()})
-    win.on('closed',function() {
+    win.on('closed', function() {
     win = null;
   })
 

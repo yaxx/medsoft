@@ -8,10 +8,12 @@
                             <i  title="close" class="icon ion-ios-close-empty"></i>
                         </div>
                         <div style='padding-left: 30px;border-top-right-radius:32px;border-top-left-radius:32px;border-bottom: 0px;height:40px;margin-bottom: 20px;' class="card-header profileheader small-header">
-                             <h6 *ngIf="psn.reg" style='font-size:11px;position:absolute;color:dodgerblue; font-weight: normal; top:18px;left:75%' class="patien-name small-name">NEW PATIENT</h6>
-                             <h6 *ngIf="!psn.reg" style='font-size:11px;position:absolute;color:dodgerblue; font-weight: normal; top:18px;left:75%' class="patien-name small-name">PATIENT INFO</h6>
+                             <h6 *ngIf="psn.reg" style='font-size:11px;position:absolute;color:dodgerblue; font-weight: normal; top:18px;left:3%' class="patien-name small-name">ADD PATIENT</h6>
+                             <h6 *ngIf="!psn.reg" style='font-size:11px;position:absolute;color:dodgerblue; font-weight: normal; top:18px;left:3%' class="patien-name small-name">PATIENT INFO</h6>
+                             <h6 (click) = "toggleAddOption(1)" [class.new] = psn.addOption [class.old] = !psn.addOption    *ngIf="psn.reg" style='left:75%' class="patien-name small-name ">NEW</h6>
+                             <h6 (click) = "toggleAddOption(0)" [class.new] = !psn.addOption [class.old] = psn.addOption   *ngIf="psn.reg" style='left:81%;' class="patien-name small-name ">OLD</h6>
                         </div>
-                        <div class="card-body orderbody" style="width:85%;margin:auto;">
+                        <div class="card-body orderbody" style="width:85%; margin:auto;">
                             <div class="steps">
                                 <div [class.curent-step] = 'count === 0' class="step-item">
                                     <span>
@@ -49,7 +51,7 @@
                                         <input [(ngModel)]="psn.person.info.personal.lastName" style='font-size:11px' autocomplete="off" type="text" name="lastname" class="form-control patientdata dystolic inputs dataInfo"/>
                                     </div>
                                     <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block">
-                                        <label style="font-size:8px" for="gender" class="labelss"><span style='font-size:11px; color:red;'>*</span>GENDER</label>
+                                        <label style="font-size:8px" for="gender" class="labelss">GENDER</label>
                                         <select name='gender' [(ngModel)]="psn.person.info.personal.gender" style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo">
                                             <option>Male</option>
                                             <option>Female</option>
@@ -90,22 +92,22 @@
                                                 <option>Others</option>
                                             </select>
                                         </div>
-                                        <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block">
-                                            <label style="font-size:8px" for="cardtype" class="labelss"><span style='font-size:11px; color:red;'>*</span>CARD TYPE</label>
+                                        <div *ngIf="psn.addOption === 1" class="form-group vitals-section address" >
+                                            <label style="font-size:8px" for="cardtype" class="labelss">CARD TYPE</label>
                                             <select name='cardtype' [(ngModel)]="psn.card.category" style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo">
                                                 <option *ngFor="let i of cardTypes">
                                                     {{i.item.name}}
                                                 </option>
                                             </select>
                                         </div>
-                                        <div style="width:49%; display:inline-block; " class="form-group vitals-section">
+                                        <!-- <div style="width:49%; display:inline-block; " class="form-group vitals-section">
                                             <label style="font-size:8px" for="tribe" class="labelss"><span style='font-size:11px; color:red;'>*</span>CARD NUMBER</label>
                                             <input name='tribe' [(ngModel)]="psn.card.pin" type="text" style='font-size:11px' autocomplete="off" class=" form-control patientdata dystolic inputs dataInfo" />
-                                        </div>
+                                        </div> -->
                                     </form>
                                     <form *ngIf="count==1"  style="top: 3%; height:100%;width:60%;position: relative;margin:auto;padding-top: 10px;" class=" staffsform">
                                         <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block">
-                                            <label style="font-size:8px" for="mobile" class="labelss"><span style='font-size:11px; color:red;'>*</span>MOBILE</label>
+                                            <label style="font-size:8px" for="mobile" class="labelss">MOBILE</label>
                                             <input name='mobile' [(ngModel)]="psn.person.info.contact.me.mobile" type="text" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
                                         </div>
                                         <div class="form-group vitals-section" style="width:49%; display:inline-block">
@@ -133,7 +135,7 @@
                                             <input [(ngModel)]="psn.person.info.contact.me.address" style='font-size:11px' autocomplete="off" type="text" name="address" class="form-control patientdata dystolic inputs dataInfo" />
                                         </div>
                                         <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block">
-                                            <label style="font-size:8px" for="statee" class="labelss"><span style='font-size:11px; color:red;'>*</span>NEXT OF KIN NAME</label>
+                                            <label style="font-size:8px" for="statee" class="labelss">NEXT OF KIN NAME</label>
                                             <input name='kinname' [(ngModel)]="psn.person.info.contact.me.kinName" type="text" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
                                         </div>
                                         <div style="width:49%; display:inline-block" class="form-group vitals-section">
@@ -148,7 +150,7 @@
                                             <label style="font-size:8px" for="emobile" class="labelss"><span style='font-size:11px; color:red;'>*</span>EMERGENCY MOBILE</label>
                                             <input name='emobile' [(ngModel)]="psn.person.info.contact.emergency.mobile" type="text" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
                                         </div>
-                                        <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block">
+                                        <!-- <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block">
                                             <label style="font-size:8px" for="eoccp" class="labelss">RELATIONSHIP</label>
                                             <select name='rel' [(ngModel)]="psn.person.info.contact.emergency.rel" style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo">
                                                 <option>Parent</option>
@@ -168,7 +170,7 @@
                                                 <option>Student</option>
                                                 <option>Others</option>
                                             </select>
-                                        </div>
+                                        </div> -->
                                     </form>
                                     <form *ngIf="count==2"  style="top: 3%; height:100%;width:60%;position: relative;margin:auto;padding-top:26px;" class=" staffsform">
                                     <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block">
@@ -308,11 +310,11 @@
                 <i *ngIf="isInfo()" (click)='showMenu(i)' class="icon ion-android-more-vertical headericon moreicon actions-icon"></i>
                     <div style="left: 62%" (mouseleave) = hideMenu(i) *ngIf="patient.card.menu" class="menu">
                         <ul  class="actions primary">
-                            <li (click)="switchCardView(i,'enrole')" class="action">Enrole</li>
+                            <li *ngIf="patient.record.cards[0] && patient.record.cards[0].pin" (click)="switchCardView(i,'enrole')" class="action">Enrole</li>
+                            <li (click)="switchCardView(i,'card')" class="action">Add Card</li>
                             <li (click)=viewDetails(i) data-toggle="modal" data-target="#addModal" class="action">
                                 Edit Info
                             </li>
-                            <li (click)="switchCardView(i,'card')" class="action">Add Card</li>
                         </ul>
                     </div>
                 </div>
@@ -329,9 +331,6 @@
                         {{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}<span class="small-headericon"></span>
                     </p>
                 </div>
-
-
-            
                 <div [class.ap]='cardCount' [class.front]='patient.card.view === "front"' style="position: absolute; width:100%;height: 87%;top:13%" class="card-body mainbody">
                     <div style="position: relative;margin-bottom: 0px;top:0px" class="timeline lastdoc priscriber headerdp">
                     <img  [src]=getDp(patient.info.personal.avatar)/>
@@ -385,12 +384,12 @@
 
                 <div [class.on]='patient.card.view === "enrole"'   style="position: absolute; width:100%;height: 87%; top:13%;background:white;border-bottom-right-radius: 12px;border-bottom-left-radius: 12px" class="card-body mainbody off">
                     <form  style="top:15%;position:absolute;width:100%; padding-left: 4%; padding-right: 6%;" class=" staffsform">
-                        <div style=" margin-top:2px;" class="form-group vitals-section formGroup">
+                        <!-- <div style=" margin-top:2px;" class="form-group vitals-section formGroup">
                             <label style='font-size:8px;left: 25px;top:-15%;' for="title" class="labelss complain">
                                 CARD NUMBER 
                             </label>
                             <input placeholder="Scan card pin" style='font-size:11px; width:100%; padding-left: 5px; border-radius: 0px;border: none;border-bottom: 1px solid whitesmoke;'  name="cardpin" class="patientdata dataInfo ref-dept" >
-                        </div>
+                        </div> -->
                         <div style=" margin-top:2px;   " class="form-group vitals-section formGroup">
                             <label style='font-size:8px;left: 25px;top:-15%;' for="title" class="labelss complain">DEPARTMENT</label>
                             <select [(ngModel)]="visit.dept" style='font-size:11px; width:100%; padding-left: 5px; border-radius: 0px;border: none;border-bottom: 1px solid whitesmoke;'  name="dept" class="patientdata dataInfo ref-dept" >
@@ -413,19 +412,21 @@
                             <label style='font-size:8px;left: 25px;top:-15%;' for="title" class="labelss complain">
                                 CART TYPE
                             </label>
-                            <select  style='font-size:11px; width:100%; padding-left: 5px; border-radius: 0px;border: none;border-bottom: 1px solid whitesmoke;'  name="pulse" class="patientdata dataInfo ref-dept" >
-                                <option>Standard</option>
+                            <select name='cardtype' [(ngModel)]="card.category" style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo">
+                                <option *ngFor="let i of cardTypes">
+                                    {{i.item.name}}
+                                </option>
                             </select>
                         </div>
-                        <div style=" margin-top:2px;" class="form-group vitals-section formGroup">
+                        <!-- <div style=" margin-top:2px;" class="form-group vitals-section formGroup">
                             <label style='font-size:8px;left: 25px;top:-15%;' for="title" class="labelss complain">
                                 CARD NUMBER 
                             </label>
                             <input placeholder="scan card pin" style='font-size:11px; width:100%; padding-left: 5px; border-radius: 0px;border: none;border-bottom: 1px solid whitesmoke;'  name="pulse" class="patientdata dataInfo ref-dept" >
-                        </div>
+                        </div> -->
                     </form>
-                    <button style=" width: 170px;font-size: 10px; height:27px;left:15%; bottom:17%;" class="btn btn-sm btn-outline-primary  mainbtn">ADD CARD<span style="position: absolute; bottom: -7%;left: 80%;">
-                        <i *ngIf="processing" class="fa fa-circle-o-notch fa-spin fa-10x slow-spin " style="position:absolute;bottom:5px;left:5px;font-size:19px;color: #1da1f2;">
+                    <button (click) = addCard() style=" width: 170px;font-size: 10px; height:27px;left:15%; bottom:17%;" class="btn btn-sm btn-outline-primary  mainbtn">ADD CARD<span *ngIf="processing" style="position: absolute; bottom: -7%;left: 10%;">
+                        <i class="fa fa-circle-o-notch fa-spin fa-10x slow-spin" style="position:absolute;bottom:5px;left:5px;font-size:19px;color: #1da1f2;">
                         </i>
                     </span>
                     </button>

@@ -305,8 +305,8 @@ updatePrices(invoices: Invoice[], i: number) {
   }
  
     getDp(avatar: String) {
-    // return 'http://192.168.1.101:5000/api/dp/' + avatar;
-    return 'http://localhost:5000/api/dp/' + avatar;
+    return 'http://192.168.1.101:5000/api/dp/' + avatar;
+    // return 'http://localhost:5000/api/dp/' + avatar;
   }
 
   getMyDp() {
@@ -320,7 +320,7 @@ updatePrices(invoices: Invoice[], i: number) {
   }
 
  searchPatient(name: string) {
-   if(name!==''){
+   if (name) {
     this.patients = this.patients.filter((patient) => {
       const patern =  new RegExp('\^' + name
       , 'i');

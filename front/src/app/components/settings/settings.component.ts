@@ -81,8 +81,8 @@ export class SettingsComponent implements OnInit {
     });
   }
   getDp(avatar: String) {
-    return 'http://localhost:5000/api/dp/' + avatar;
-    // return 'http://192.168.1.101:5000/api/dp/' + avatar;
+    // return 'http://localhost:5000/api/dp/' + avatar;
+    return 'http://192.168.1.101:5000/api/dp/' + avatar;
   }
 
   getMyDp() {

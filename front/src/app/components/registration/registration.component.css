@@ -77,9 +77,36 @@ top:12%;
   font-weight: bold;
 
 }
+
+.new {
+  font-size:10px;
+  position:absolute;
+  color:#1da1f2; 
+  top:18px;
+  border-bottom: 1px solid #1da1f2;
+  padding: 0px;
+  width: 42px;
+  text-align: center;
+  padding-bottom: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.old {
+  font-size:10px;
+  position:absolute;
+  color:lightgrey; 
+  top:18px;
+  border-bottom: 1px solid lightgrey;
+  padding: 0px;
+  width: 42px;
+  text-align: center;
+  padding-bottom: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
 .off {
- left: -100%;
-} 
+  left: -100%;
+ } 
 .on {
   left: 0%;
   animation-name: card-in;

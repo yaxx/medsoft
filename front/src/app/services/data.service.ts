@@ -12,7 +12,7 @@ declare var io: {
   providedIn: 'root'
 })
 export class DataService {
-   uri = 'http://localhost:5000/api';
+  uri = 'http://localhost:5000/api';
   //uri = 'http://192.168.1.101:5000/api';
   // uri = 'http://3.19.194.118:80/api';
   socket: Socket;

@@ -4,7 +4,7 @@ import {SocketService} from '../../services/socket.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Person} from '../../models/person.model';
 import {CookieService} from 'ngx-cookie-service';
-import {Product, Item, Invoice, StockInfo} from '../../models/inventory.model';
+import {Product, Item, Invoice, Card, StockInfo} from '../../models/inventory.model';
 import {Priscription, Medication} from '../../models/record.model';
 import * as cloneDeep from 'lodash/cloneDeep';
 import { timeout } from 'q';
@@ -19,6 +19,7 @@ export class CashierComponent implements OnInit {
   patient: Person = new Person();
   products: Product[] = [];
   clonedStore: Product[] = [];
+  card = new Card();
   cart: Product[] = [];
   product: Product = new Product();
   priscription: Priscription = new Priscription();
@@ -45,6 +46,7 @@ export class CashierComponent implements OnInit {
   nowSorting = 'Date added';
   view = 'default';
   count = 0;
+  cardCount = null;
   id = '';
   selected = null;
   curIndex = 0;
@@ -62,6 +64,15 @@ export class CashierComponent implements OnInit {
     this.getProducts();
     this.socket.io.on('new patient', (patient: Person) => {
       this.patients.unshift(patient);
+    });
+    this.socket.io.on('enroled', (patient: Person) => {
+      const i = this.patients.findIndex(p => p._id === patient._id);
+      if (i === -1) {
+        this.patients.unshift(patient);
+      } else {
+        this.patients[i] = patient;
+      }
+      this.patients =  this.filterPatients(this.patients).sort((m, n) => new Date(n.createdAt).getTime() - new Date(m.createdAt).getTime());
     });
     this.socket.io.on('store update', (data) => {
       if (data.action === 'new') {
@@ -128,6 +139,13 @@ export class CashierComponent implements OnInit {
     });
   });
   this.switchViews('editing');
+}
+switchCardView(i , view) {
+  this.curIndex = i;
+  this.cardCount = view;
+  this.patients[i].card.view = view;
+  this.patient = cloneDeep(this.patients[i]);
+  this.card = this.patient.record.cards[0] || new Card();
 }
 updateInvoices() {
     this.edited.forEach(invoice => {
@@ -197,9 +215,9 @@ runTransaction(type: string) {
   });
 }
 closeModal() {
-  if (this.patients[this.curIndex].record.invoices.every(invoices => invoices.every(i => i.paid))) {
-    this.patients.splice(this.curIndex, 1);
-  }
+  // if (this.patients[this.curIndex].record.invoices.every(invoices => invoices.every(i => i.paid))) {
+  //   this.patients.splice(this.curIndex, 1);
+  // }
 }
 comfirmPayment() {
   this.updateInvoices();

@@ -23,7 +23,7 @@ export class DeceasedComponent implements OnInit {
   client: Client = new Client();
   file: File = null;
   info: Info = new Info();
-  visit:Visit = new Visit();
+  visit: Visit = new Visit();
   card: string = null;
   url = '';
   curIndex = 0;
@@ -53,8 +53,8 @@ export class DeceasedComponent implements OnInit {
     return this.router.url.includes(path);
   }
   getDp(avatar: String) {
-    return 'http://localhost/api/dp/' + avatar;
-    // return 'http://192.168.1.101:5000/api/dp/' + avatar;
+    // return 'http://localhost/api/dp/' + avatar;
+    return 'http://192.168.1.101:5000/api/dp/' + avatar;
   }
   toggleSortMenu() {
     this.sortMenu = !this.sortMenu;

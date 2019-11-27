@@ -101,7 +101,7 @@ export class HistoryComponent implements OnInit {
             xAxes: [{
               gridLines: {
                 display: false,
-                color:'white'
+                color: 'white'
               },
               ticks: {
                 fontSize: 10,
@@ -111,7 +111,7 @@ export class HistoryComponent implements OnInit {
             yAxes: [{
               gridLines: {
                 drawBorder: false,
-                color:'whitesmoke'
+                color: 'whitesmoke'
               },
               ticks: {
                 beginAtZero: false,
@@ -143,20 +143,20 @@ export class HistoryComponent implements OnInit {
     });
   }
   getDp(avatar: String) {
-    return 'http://localhost:5000/api/dp/' + avatar;
-    // return 'http://192.168.0.101:5000/api/dp/'+ avatar;
+    // return 'http://localhost:5000/api/dp/' + avatar;
+    return 'http://192.168.1.101:5000/api/dp/'+ avatar;
   }
 
   getMyDp() {
-    return this.getDp(this.cookies.get('d'))
+    return this.getDp(this.cookies.get('d'));
   }
   pullImages(i, j, item) {
     this.images = (item === 'test') ? this.patient.record.tests[i][j]
     .report.attachments : this.patient.record.scans[i][j].report.attachments;
   }
-  getImage(fileName: String){
-    // return 'http://192.168.1.101:5000/api/dp/' + fileName;
-    return 'http://localhost:5000/api/dp/' + fileName;
+  getImage(fileName: String) {
+    return 'http://192.168.1.101:5000/api/dp/' + fileName;
+    // return 'http://localhost:5000/api/dp/' + fileName;
   
   }
   getLabs() {
@@ -175,8 +175,8 @@ export class HistoryComponent implements OnInit {
   this.patient.record.notes[i].note = this.notes[i].note;
 }
   getDocDp(avatar: string) {
-      return 'http://localhost:5000/api/dp/' + avatar;
-      // return 'http://http://192.168.1.101:5000/api/dp/' + avatar;
+      // return 'http://localhost:5000/api/dp/' + avatar;
+      return 'http://http://192.168.1.101:5000/api/dp/' + avatar;
   }
   addVital() {
     const i = this.vitals.findIndex(v => v.name === this.vital);
@@ -201,12 +201,12 @@ export class HistoryComponent implements OnInit {
           if (i >= 0) {
             this.vitals[i] = {
               name: 'Tempreture',
-              val: this.session.vitals.tempreture.value + 'F'
+              val: this.session.vitals.tempreture.value + 'C'
             };
           } else {
             this.vitals.unshift({
               name: 'Tempreture',
-              val: this.session.vitals.tempreture.value + 'F'
+              val: this.session.vitals.tempreture.value + 'C'
             });
           }
         break;
@@ -226,7 +226,7 @@ export class HistoryComponent implements OnInit {
       case 'Pulse Rate':
         if (i >= 0) {
           this.vitals[i] = {
-            name: 'Pulse Rate', 
+            name: 'Pulse Rate',
             val: this.session.vitals.pulse.value + 'bpm'
           };
         } else {
@@ -332,9 +332,9 @@ export class HistoryComponent implements OnInit {
     return this.router.url.includes('information');
   }
   isConsult() {
-    return !this.router.url.includes('information') && 
-    !this.router.url.includes('pharmacy') && 
-    !this.router.url.includes('billing') && 
+    return !this.router.url.includes('information') &&
+    !this.router.url.includes('pharmacy') &&
+    !this.router.url.includes('billing') &&
     !this.router.url.includes('ward') &&
     !this.router.url.includes('admin');
   }

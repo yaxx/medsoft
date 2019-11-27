@@ -78,10 +78,10 @@
                             </button>
                         </form>
                     </div>
-                    <div *ngIf='cardView.editing||cardView.reversing' style="left:7%; top:45%;position: absolute;
+                    <div *ngIf='cardView.editing || cardView.reversing' style="left:7%; top:45%;position: absolute;
                         width: 7%;" class="btn-group disposition">
-                        <button (click)="switchViews('orders')" style="width:32px;height: 32px;border-radius: 50%;left:35%"   class="btn btn-outline-primary  dispo shift-button  " >
-                            <i  style='position:absolute;right:36%;top:2px; font-size:large; cursor:pointer; display: inline-block;' title="Back" class="icon ion-android-arrow-back "> 
+                        <button (click)="switchViews('orders')" style="width:32px;height: 32px;border-radius: 50%;left:35%"   class="btn btn-outline-primary  dispo shift-button" >
+                            <i  style='position:absolute;right:36%;top:2px; font-size:large; cursor:pointer; display: inline-block;' title="Back" class="icon ion-android-arrow-back"> 
                             </i>
                         </button>
                     </div>
@@ -163,14 +163,81 @@
             <h6 *ngIf='message' style='font-size:13px;position:absolute;top:65%; width:100%; color:lightgrey;text-align: center'>{{message}}</h6>
         </div>
         <div *ngFor="let patient of patients; let i = index" class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
-            <div *ngIf="patient.card.view == 'front'" class="card card-secondary maincard">
+                <div style="overflow: hidden;"  class="card card-secondary maincard">
+                    <div *ngIf="patient.card.view!=='front'" style='padding-left: 37px;   border-top-right-radius: 12px; border-top-left-radius: 12px; padding-top: 0px;
+                    position:absolute; width:100%; padding-bottom: 0px;height:32px' class="card-header profileheader small-header">
+                        <i (click)="switchCardView(i,'front')" style='position:absolute;  left:3%;top:4px; cursor:pointer;
+                        display: inline-block;
+                        color:#1da1f2;' title="Back" class="icon ion-android-arrow-back">
+                        </i>
+                        <div style="left:23px;position: absolute;" class="timeline lastdoc priscriber headerdp small-dp">
+                            <img [src] = getDp(patient.info.personal.avatar)/>
+                        </div>
+                        <p style="top:6px;margin-bottom:0px;position: absolute;" class="patien-name small-name">
+                            {{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}<span class="small-headericon"></span>
+                        </p>
+                    </div>
+                    <div [class.ap]='cardCount' [class.front]='patient.card.view === "front"' style="position: absolute; width:100%;height: 87%;top:13%" class="card-body mainbody">
+                        <div style="position: relative;margin-bottom: 0px;top:0px" class="timeline lastdoc priscriber headerdp">
+                            <img  [src]=getDp(patient.info.personal.avatar)/>
+                        </div>
+                        <p  title="View Details" style='margin-bottom:2px;position:relative;top:3px' class="patien-name display-name">
+                            {{patient.info.personal.firstName + ' '+patient.info.personal.lastName}}
+                        </p>
+                        <div>
+                            <div style="position: relative;top:12px" class="carditem basic-item">
+                                <h6 class="dept basic-info">Sex</h6>
+                                <h6 class="dept basic-info sex-info">
+                                    {{patient.info.personal.gender.charAt(0).toUpperCase()}}
+                                </h6>
+                            </div>
+                            <div style="position: relative;top:12px" class="carditem basic-item">
+                                <h6 class="dept basic-info">Age</h6>
+                                <h6 class="dept basic-info sex-info">{{patient.info.personal.dob|dob}}</h6>
+                            </div>
+                            <div style="top: 10px;" class="carditem basic-item">
+                                <h6 class="dept basic-info">Seen</h6>
+                                <h6 class="dept basic-info sex-info">{{patient.record.visits.length}}</h6>
+                            </div>
+                            <div style="top:-3px" class="priscription basic-subinfo">
+                                <div  class="sub-container">
+                                    <h6 style="width:100%;text-align:center" class="dept basic-secondary basic-value">
+                                        {{patient.record.invoices[0][0].meta.dateAdded|date:'dd-MM-y'}}&nbsp;
+                                        <span>
+                                            {{patient.record.invoices[0][0].meta.dateAdded|date:'hh:mma'|lowercase}}
+                                        </span>
+                                    </h6>
+                                </div>
+                            </div>
+                        </div>
+                        <button *ngIf="patients[i].record.cards[0].pin"  (click)='viewOrders(i)'  data-toggle="modal" data-target="#billingModal" style=" width: 120px;font-size: 10px; height:27px;left: 26%;
+                        bottom: 10%;" class="btn btn-sm btn-outline-primary mainbtn">SHOW ORDERS</button>
+                        <button (click)="switchCardView(i,'card')" *ngIf="!patients[i].record.cards[0].pin"  style=" width: 120px;font-size: 10px; height:27px;left: 26%;bottom: 10%;" class="btn btn-sm btn-outline-primary mainbtn"> ADD CARD </button>
+                    </div>
+                    <div [class.on]='patient.card.view === "card"'   style="position: absolute; width:100%;height: 87%; top:13%;background:white;border-bottom-right-radius: 12px;border-bottom-left-radius: 12px" class="card-body mainbody off">
+                        <form style="top:25%;position:absolute;width:100%; padding-left: 4%; padding-right: 6%;" class=" staffsform">
+                            <div style=" margin-top:2px;" class="form-group vitals-section formGroup">
+                                <label style='font-size:8px;left: 25px;top:-15%;' for="title" class="labelss complain">
+                                    CARD PIN 
+                                </label>
+                                <input [(ngModel)]="card.pin" placeholder="Scan card pin" style='font-size:11px; width:100%; padding-left: 5px; border-radius: 0px;border: none;border-bottom: 1px solid whitesmoke;' name="pin" class="patientdata dataInfo ref-dept" >
+                            </div>
+                        </form>
+                        <button  style=" width: 170px;font-size: 10px; height:27px;left:15%; bottom:17%;" class="btn btn-sm btn-outline-primary  mainbtn">ALLOCATE CARD<span *ngIf="processing" style="position: absolute; bottom: -7%;left: 10%;"><i class="fa fa-circle-o-notch fa-spin fa-10x slow-spin" style="position:absolute;bottom:5px;left:5px;font-size:19px;color: #1da1f2;"></i></span>
+                        </button>
+                    </div>
+                    <h6 *ngIf="successsMsg && curIndex===i" class="feedbackMsg">{{successMsg}}</h6>
+                    <h6 *ngIf="errorMsg && curIndex===i"  style="color: red" class="feedbackMsg">{{errorMsg}}</h6>
+                </div>
+            <!-- <div *ngIf="patient.card.view == 'front'" class="card card-secondary maincard">
                 <div style="border-radius:12px" class="card-header profileheader">
                     <div class="timeline lastdoc priscriber headerdp">
                         <img [src]=getDp(patient.info.personal.avatar)/>
                     </div>
                 </div>
                 <p style='margin-bottom:2px;' class="dept displayname">
-                    {{patient.info.personal.firstName + ' ' + patient.info.personal.lastName}}<span class="predata editicon"></span></p>
+                    {{patient.info.personal.firstName + ' ' + patient.info.personal.lastName}}<span class="predata editicon"></span>
+                </p>
                 <div class="card-body mainbody">
                     <div class="carditem basic-item">
                         <h6 class="dept basic-info">Sex</h6>
@@ -201,10 +268,13 @@
                         </div>
                     </div>
                 </div>
-                <button (click)='viewOrders(i)'  data-toggle="modal" data-target="#billingModal" style=" width: 120px;font-size: 10px; height:27px;left:45%; bottom:7%;" class="btn btn-sm btn-outline-primary mainbtn">
+                <button *ngIf="patients[i].record.cards[0].pin"  (click)='viewOrders(i)'  data-toggle="modal" data-target="#billingModal" style=" width: 120px;font-size: 10px; height:27px;left:45%; bottom:7%;" class="btn btn-sm btn-outline-primary mainbtn">
                     OPEN ORDERS 
                 </button>
-            </div>
+                <button *ngIf="!patients[i].record.cards[0].pin"  style=" width: 120px;font-size: 10px; height:27px;left:45%; bottom:7%;" class="btn btn-sm btn-outline-primary mainbtn">
+                    ALLOCATE CARD
+                </button>
+            </div> -->
         </div>
     </div>
 </div>

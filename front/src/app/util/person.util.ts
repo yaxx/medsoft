@@ -7,6 +7,7 @@ import {CookieService } from 'ngx-cookie-service';
 import {Visit} from '../models/record.model';
 import { FileSelectDirective, FileUploader } from 'ng2-file-upload';
 import { SocketService } from '../services/socket.service';
+import { PatientComponent } from '../components/patient/patient.component';
 const uri = 'http://localhost:5000/api/upload';
 @Injectable({
     providedIn: 'root'
@@ -21,6 +22,7 @@ export  class PersonUtil {
     lgas = lgas;
     card = new Card();
     reg = true;
+    addOption = 1;
     invoice = new Invoice();
     info = new Info();
     url = null;
@@ -30,7 +32,7 @@ export  class PersonUtil {
     person: Person = new Person();
     constructor(
         private socket: SocketService,
-        private cookies: CookieService, 
+        private cookies: CookieService,
         private backEnd: DataService
          ) {
         this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any ) => {
@@ -39,21 +41,20 @@ export  class PersonUtil {
     }
     withCard() {
         return (this.person.info.personal.firstName) &&
-        (this.person.info.personal.lastName) && 
+        (this.person.info.personal.lastName) &&
         (this.person.info.personal.dob) &&
-        (this.person.record.cards[0].pin);
+        (this.card.category);
     }
     withoutCard() {
         return (this.person.info.personal.firstName) &&
-        (this.person.info.personal.lastName) && 
-        (this.person.info.personal.dob); 
+        (this.person.info.personal.lastName) &&
+        (this.person.info.personal.dob);
     }
     isValidInfo() {
-        return (!this.reg) ? this.withCard() : this.withoutCard();
+        return (this.addOption === 1) ? this.withCard() : this.withoutCard();
       }
     isValidContact() {
-        return (this.person.info.contact.me.mobile) && (this.person.info.contact.emergency.mobile) &&
-        (this.person.info.contact.me.kinName) ;
+        return (this.person.info.contact.emergency.mobile);
     }
     isInvalidForm() {
         return !(this.isValidInfo() && this.isValidContact());
@@ -61,13 +62,19 @@ export  class PersonUtil {
     getLgas() {
         return this.lgas[this.states.indexOf(this.person.info.contact.me.state)];
     }
+    addDefaults() {
+        // this.person.record.cards.unshift({
+        //     ...this.card,
+        //     meta: new Meta(this.cookies.get('i'))
+        // });
+        this.person.record.visits = [[{...new Visit(), status: 'out'}]];
+    }
     addInitials() {
     this.person.record.cards.unshift({
         ...this.card,
         meta: new Meta(this.cookies.get('i'))
     });
     this.person.record.visits = [[new Visit()]];
-
     this.person.record.invoices = [[{
         ...new Invoice(),
         name: 'Card',
@@ -76,8 +83,42 @@ export  class PersonUtil {
         meta: new Meta(this.cookies.get('i'))
     }]];
     }
+    addCard() {
+        if (this.person.record.cards.length) {
+            if (this.person.record.cards[0].pin) {
+                this.person.record.cards.unshift(this.card);
+                this.person.record.visits.unshift([new Visit()]);
+                this.person.record.invoices.unshift([{
+                    ...new Invoice(),
+                    name: 'Card',
+                    desc: this.card.category,
+                    processed: true,
+                    meta: new Meta(this.cookies.get('i'))
+                }]);
+            } else {
+                this.person.record.cards[0] = this.card;
+                this.person.record.visits[0] = [{...new Visit()}];
+                this.person.record.invoices[0] = [{
+                    ...new Invoice(),
+                    name: 'Card',
+                    desc: this.card.category,
+                    processed: true,
+                    meta: new Meta(this.cookies.get('i'))
+                }];
+            }
+        } else {
+            this.person.record.cards.push(this.card);
+            this.person.record.visits.push([new Visit()]);
+            this.person.record.invoices.push([{
+                ...new Invoice(),
+                name: 'Card',
+                desc: this.card.category,
+                processed: true,
+                meta: new Meta(this.cookies.get('i'))
+            }]);
+        }
+    }
     addRecord() {
-
         this.creating = true;
         this.addInitials();
         this.backEnd.addPerson(this.person).subscribe((newPerson: Person) => {

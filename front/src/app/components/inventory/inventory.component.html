@@ -17,7 +17,6 @@
                                 <div class="form-group vitals-section address">
                                     <label style='font-size:8px' for="drug" class="labelss">PRODUCT</label>
                                     <input autocomplete="off" (focus)=clearFeedback() [(ngModel)]=product.item.name type="text" name="drug" placeholder="E.g Paracetamol 500mg" class="form-control patientdata dystolic inputs dataInfo" />
-                                   
                             </div>
                             <div class="form-group vitals-section formGroup" style=" width:49%; margin-right: 5px">
                                 <label style='font-size:8px' for="dos" class="labelss complain">QTY</label>
@@ -70,6 +69,7 @@
                                 <div class="form-group vitals-section address">
                                     <label style="font-size:8px" for="conclution" class="labelss">CATEGORY</label>
                                     <select name='conclution' [(ngModel)]="product.item.category" autocomplete="off" class="patientdata dystolic inputs dataInfo">
+                                        <option>Consultation</option>
                                         <option>Scanning</option>
                                         <option>Surgery</option>
                                         <option>Test</option>
@@ -128,7 +128,7 @@
                         <form style="top:15%; width:56%;padding-top:18px;margin:auto;" class=" staffsform" (submit)=addProducts()>
                             <div class="form-group vitals-section address">
                                 <label style="font-size:8px" for="conclution" class="labelss">CARD</label>
-                                <select name='conclution' [(ngModel)]="item.name" autocomplete="off" class="patientdata dystolic inputs dataInfo">
+                                <select name='conclution' [(ngModel)]="product.item.name" autocomplete="off" class="patientdata dystolic inputs dataInfo">
                                     <option>Standard</option>
                                     <option>Premium</option>
                                     <option>Exclusive</option>
@@ -146,7 +146,7 @@
                                 </div>
                             </div>
                         </form>
-                        <div *ngIf="temProducts.length" style="top:1px; margin-bottom:25px;position:relative;width: 322px;left:70px;" class="form-group vitals-section setGroup">
+                        <div *ngIf="temProducts.length" style="top:1px;margin:auto; margin-bottom:25px;position:relative;width: 322px;left:118px;" class="form-group vitals-section setGroup">
                             <table cellspacing="0" class="data-table drugs-table" style="width:100%;left:0%;" summary="List of all items in store. ">
                                 <thead class='productHead'>
                                     <tr class="staff-th">
@@ -500,16 +500,16 @@
 
 
 <div style="padding-top:43px;height:100%" class=" col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-    <div *ngIf='!products.length' class='issue'>
+    <div *ngIf='!curentItems.length' class='issue'>
         <div *ngIf='loading' class="lds-css ng-scope">
             <!-- <div style="width:100%;height:100%" class="lds-rolling"></div> -->
             <!-- <div>
         </div> -->
         </div>
         <div (click)='refresh()' *ngIf='message' title='Refresh' class='refresh'><i class="icon ion-ios-reload "></i></div>
-        <h6 *ngIf='message' style='font-size:13px;position:absolute;top:65%; width:100%; color:lightgrey;text-align: center'>{{message}}</h6>
+        <h6 *ngIf=message||!curentItems.length style='font-size:13px;position:absolute;top:65%; width:100%; color:lightgrey;text-align: center'>{{message}}</h6>
     </div>
-    <table *ngIf='tableView === "Services"' cellspacing="0" class="data-table" summary="List of all items in store. ">
+    <table *ngIf='tableView === "Services" && curentItems.length' cellspacing="0" class="data-table" summary="List of all items in store. ">
         <thead>
             <tr>
                 <th class="checkhead"></th>
@@ -551,7 +551,7 @@
             </tr>
         </tbody>
     </table>
-    <table *ngIf=' tableView === "Products"' cellspacing="0" class="data-table" summary="List of all items in store. ">
+    <table *ngIf=' tableView === "Products" && curentItems.length' cellspacing="0" class="data-table" summary="List of all items in store. ">
         <thead>
             <tr>
                 <th class="checkhead"></th>
@@ -610,7 +610,7 @@
             </tr>
         </tbody>
     </table>
-    <table *ngIf=' tableView === "Cards"' cellspacing="0" class="data-table" summary="List of all items in store. ">
+    <table *ngIf=' tableView === "Cards" && curentItems.length' cellspacing="0" class="data-table" summary="List of all items in store. ">
         <thead>
             <tr>
                 <th class="checkhead"></th>

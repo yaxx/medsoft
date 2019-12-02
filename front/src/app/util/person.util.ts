@@ -51,7 +51,7 @@ export  class PersonUtil {
         (this.person.info.personal.dob);
     }
     isValidInfo() {
-        return (this.addOption === 1) ? this.withCard() : this.withoutCard();
+        return this.withoutCard();
       }
     isValidContact() {
         return (this.person.info.contact.emergency.mobile);
@@ -118,31 +118,7 @@ export  class PersonUtil {
             }]);
         }
     }
-    addRecord() {
-        this.creating = true;
-        this.addInitials();
-        this.backEnd.addPerson(this.person).subscribe((newPerson: Person) => {
-        
-            newPerson.card = {menu: false, view: 'front'};
-            this.socket.io.emit('new patient', newPerson);
-            this.person = newPerson;
-            this.card = new Card();
-            this.creating = false;
-            this.successMsg = 'Patient added successfully';
-            setTimeout(() => {
-            this.successMsg = null;
-            }, 4000);
-            
-        }, (e) => {
-        
-            this.errorMsg = 'Unbale to add patient';
-            this.creating = false;
-          
-        });
-        console.log(this.person);
-        
-        
-    }
+
     update() : Info {
         let info = null;
         this.updating = true;

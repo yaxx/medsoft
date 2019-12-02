@@ -80,7 +80,7 @@ export class DataService {
   }
   runTransaction(pid, record, cart) {
     return this.http.post(
-      `${this.uri}/transaction`, {id: pid,record: record, cart: cart}, {withCredentials: true}
+      `${this.uri}/transaction`, {id: pid, record: record, cart: cart}, {withCredentials: true}
       );
   }
   deleteProducts(product) {

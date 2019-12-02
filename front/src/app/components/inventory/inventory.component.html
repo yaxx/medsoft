@@ -77,7 +77,7 @@
                                 </div>
                                 <div class="form-group vitals-section address">
                                     <label style='font-size:8px;' for="drug" class="labelss">DESCRIPTION</label>
-                                    <input autocomplete="off" (keyup) = getDescriptions()  [(ngModel)]=product.item.name type="text" name="drug" class="form-control patientdata dystolic inputs dataInfo" />
+                                    <input autocomplete="off" (keyup) = getDescriptions()  [(ngModel)]=product.item.name type="text" name="desc" class="form-control patientdata dystolic inputs dataInfo" />
                                     <div  *ngIf="matches.length" style="position: absolute;z-index:200;height: 300px;border: none;"  class="options prisOption edit">
                                         <ul data-simplebar class="itemsList" style=" border-radius:4px; height: 300px;background-color: white;border:1px solid whitesmoke">
                                             <li *ngFor="let match of matches">
@@ -132,17 +132,18 @@
                                     <option>Standard</option>
                                     <option>Premium</option>
                                     <option>Exclusive</option>
+                                    <option>Family</option>
                                 </select>
                             </div>
                             <div class="form-group vitals-section address" style=" width:47%; margin-right: 3px">
                                 <label style='font-size:8px' for="price" class="labelss complain">PRICE</label>
                                 <input (focus)=clearFeedback() [min]='1' type="number" [(ngModel)]="product.stockInfo.price" style="font-size:11px;" class="form-control patientdata status inputs dataInfo" name="price">
                             </div>
-                            <div class="form-group vitals-section address" style=" width:42.3%; ">
-                                <label style='font-size:8px' for="expiry" class="labelss complain">QTY</label>
-                                <input (focus)=clearFeedback() [(ngModel)]="product.stockInfo.quantity" style="font-size:11px;width: 91%;" type="number" name="expiry" class="form-control patientdata inputs dataInfo" placeholder="">
-                                <div style="background: white;top:0px;height: 28px; cursor:pointer" id='moreBtn' >
-                                    <i title="Add Card"  style="left:13%; top:-28%;" (click) = addMore() class = "icon ion-ios-plus-empty arrow"></i>
+                            <div class="form-group vitals-section address" style=" width:48.3%; ">
+                                <label style='font-size:8px' for="sn" class="labelss complain">SERIAL NUMBER</label>
+                                <input [maxLength] ='6' (focus)=clearFeedback() [(ngModel)]="product.item.description" style="font-size:11px;width: 91%;"  name="sn" class="form-control patientdata inputs dataInfo" placeholder="">
+                                <div style="background: white;top:-1px;height: 28px; cursor:pointer" id='moreBtn' >
+                                    <i *ngIf=isValidCard() title="Add Card"  style="left:13%; top:-28%;" (click) = addMoreCard() class = "icon ion-ios-plus-empty arrow"></i>
                                 </div>
                             </div>
                         </form>
@@ -151,7 +152,7 @@
                                 <thead class='productHead'>
                                     <tr class="staff-th">
                                         <th style="padding-left:4px;" class="headlbl staff-th">CARD</th>
-                                        <th class="headlbl staff-th">QTY</th>
+                                        <th class="headlbl staff-th">SERIAL NUMBER</th>
                                         <th style="text-align: right; " class="headlbl staff-th">PRICE</th>
                                         <th style='text-align:right' class="headlbl staff-th"></th>
                                     </tr>
@@ -160,12 +161,12 @@
                                     <tr *ngFor="let product of temProducts; let i = index; let odd = odd;" style="border-bottom:2px solid white;" [class.even]=odd class="ro staff-row">
                                         <td style="padding-left:4px;" class="data">
                                             {{product.item.name}}<span class="predata"></span></td>
-                                        <td class="data">{{product.stockInfo.quantity}}</td>
-                                        <td style="text-align: right;" class="data">
+                                        <td style="font-size: 10.5px;" class="data">{{product.item.description}}</td>
+                                        <td style="text-align: center;" class="data">
                                             {{product.stockInfo.price}}
                                         </td>
                                         <td style="text-align: right; padding-left:3px" class="data">
-                                            <i (click)="removeProduct(i)" class="icon ion-ios-trash-outline tableicon" title="Remove" style="font-size:17px; cursor: pointer;"></i>
+                                            <i (click)="removeProduct(i)" class="icon ion-ios-trash-outline tableicon" title="Remove" style="font-size:15px; cursor: pointer;"></i>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -624,14 +625,14 @@
                           <i *ngIf="sortBy==='price'" style="color:lightgreen" class="icon ion-android-arrow-dropdown"></i>
                      </span>
                 </th>
-                <th title="Sort by price" (click)="sortProducts('quantity')">QUANTITY
+                <th title="Sort by price" (click)="sortProducts('description')">CARD NUMBER
                     <span class="sorter">
-                          <i *ngIf="sortBy==='quantity'" style="color:lightgreen" class="icon ion-android-arrow-dropdown"></i>
+                          <i *ngIf="sortBy==='description'" style="color:lightgreen" class="icon ion-android-arrow-dropdown"></i>
                      </span>
                 </th>
-                <th title="Sort by sold" (click)="sortProducts('sold')">SOLD
+                <th title="Sort by sold" (click)="sortProducts('status')">STATUS
                     <span class="sorter">
-                        <i *ngIf="sortBy === 'sold'" style="color:lightgreen" class="icon ion-android-arrow-dropdown"></i>
+                        <i *ngIf="sortBy === 'status'" style="color:lightgreen" class="icon ion-android-arrow-dropdown"></i>
                   </span>
                 </th>
                 <th style='text-align:center' title="Sort by recently added" (click)="sortProducts('added')" title="Sort by date added">DATE ADDED
@@ -646,8 +647,8 @@
                 <td class="check-box"></td>
                 <td>{{product.item.name}}&nbsp;<span class="predata"></span></td>
                 <td>{{product.stockInfo.price}}</td>
-                <td>{{product.stockInfo.quantity}}</td>
-                <td>{{product.stockInfo.sold||0}}</td>
+                <td>{{product.item.description}}</td>
+                <td style="font-size: 10.5px;">{{getSatus(product.stockInfo.status)}}</td>
                 <td style='text-align:center'>{{product.dateCreated|date:'dd-MM-y'}}</td>
             </tr>
         </tbody>

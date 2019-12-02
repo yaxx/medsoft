@@ -357,7 +357,7 @@
 <nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:0px;">
     <div class="container">
         <a class="navbar-brand" href="#">
-            <em>Foldirect</em>
+            <em>DashBox</em>
         </a>
         <div class="collapse navbar-collapse" id="navcol-1">
             <form class="top-searchform" target="_self">
@@ -421,7 +421,7 @@
                         </ul>
                     </div>
                 </div>
-                <div *ngIf="patient.card.view!=='front'" style='padding-left: 37px;   border-top-right-radius: 12px; border-top-left-radius: 12px; padding-top: 0px;
+                <div *ngIf="patient.card.view ==='dispose'|| patient.card.view === 'ap'" style='padding-left: 37px;   border-top-right-radius: 12px; border-top-left-radius: 12px; padding-top: 0px;
                 position:absolute;  width:100%;padding-bottom: 0px;height:32px' class="card-header profileheader small-header">
                     <i (click)="switchCards(i,'front')" style='position:absolute;
                           left:3%;top:4px; cursor:pointer;
@@ -481,7 +481,7 @@
                     <div class="btn-group disposition">
                         <button (click)="dispose(i,'out', 'discharge')" [class.active] ='patient.record.visits[0][0].status==="out"' class="btn btn-outline-primary  dispo " >Discharge</button>
                         <button (click)="dispose(i,'Admit', 'admit')" [class.active] ='patient.record.visits[0][0].status==="Admit"'  class="btn btn-outline-primary dispo">Admit</button>
-                        <button (click)="dispose(i, 'queued', 'refer')"  [class.active] ='patient.record.visits[0][0].status==="queued"' class="btn btn-outline-primary  dispo">Refer</button>
+                        <button (click)="dispose(i, 'queued', 'refer')"  [class.active] ='patient.record.visits[0][0].status==="queued"' class="btn btn-outline-primary  dispo">Foward</button>
                     </div>
                     <form [class.in] ='patient.record.visits[0][0].status==="queued"' [class.out] ='patient.record.visits[0][0].status!=="queued"' style="top:35%;position:absolute;width:100%; padding-left: 4%; padding-right: 6%;" class=" staffsform next-dept">
                         <div style=" margin-top:2px;   " class="form-group vitals-section formGroup">

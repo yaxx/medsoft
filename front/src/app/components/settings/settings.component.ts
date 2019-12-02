@@ -76,13 +76,13 @@ export class SettingsComponent implements OnInit {
         // this.deptName = res.departments[0].name;
       }
     }, (e) => {
-      this.message = 'Something went wrong';
+      this.message = 'Network Error';
       this.loading = false;
     });
   }
   getDp(avatar: String) {
-    // return 'http://localhost:5000/api/dp/' + avatar;
-    return 'http://192.168.1.101:5000/api/dp/' + avatar;
+    return 'http://localhost:5000/api/dp/' + avatar;
+    // return 'http://192.168.1.101:5000/api/dp/' + avatar;
   }
 
   getMyDp() {

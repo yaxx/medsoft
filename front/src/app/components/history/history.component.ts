@@ -143,8 +143,8 @@ export class HistoryComponent implements OnInit {
     });
   }
   getDp(avatar: String) {
-    // return 'http://localhost:5000/api/dp/' + avatar;
-    return 'http://192.168.1.101:5000/api/dp/'+ avatar;
+   return 'http://localhost:5000/api/dp/' + avatar;
+    // return 'http://192.168.1.101:5000/api/dp/'+ avatar;
   }
 
   getMyDp() {
@@ -155,8 +155,8 @@ export class HistoryComponent implements OnInit {
     .report.attachments : this.patient.record.scans[i][j].report.attachments;
   }
   getImage(fileName: String) {
-    return 'http://192.168.1.101:5000/api/dp/' + fileName;
-    // return 'http://localhost:5000/api/dp/' + fileName;
+    //return 'http://192.168.1.101:5000/api/dp/' + fileName;
+   return 'http://localhost:5000/api/dp/' + fileName;
   
   }
   getLabs() {
@@ -175,8 +175,8 @@ export class HistoryComponent implements OnInit {
   this.patient.record.notes[i].note = this.notes[i].note;
 }
   getDocDp(avatar: string) {
-      // return 'http://localhost:5000/api/dp/' + avatar;
-      return 'http://http://192.168.1.101:5000/api/dp/' + avatar;
+       return 'http://localhost:5000/api/dp/' + avatar;
+     //  return 'http://http://192.168.1.101:5000/api/dp/' + avatar;
   }
   addVital() {
     const i = this.vitals.findIndex(v => v.name === this.vital);
@@ -184,13 +184,13 @@ export class HistoryComponent implements OnInit {
       case 'Blood Presure':
         if(i >= 0) {
           this.vitals[i] = {
-            name: 'Blood Presure', 
+            name: 'Blood Presure',
             val: this.session.vitals.bp.systolic + '/'
           + this.session.vitals.bp.diastolic + 'mm Hg'
           };
         } else {
           this.vitals.unshift({
-            name: 'Blood Presure', 
+            name: 'Blood Presure',
             val: this.session.vitals.bp.systolic + '/'
           + this.session.vitals.bp.diastolic + 'mm Hg'
           });

@@ -268,6 +268,10 @@ const routes: Routes = [
           component: NotificationsComponent
         },
         {
+          path: 'discharged',
+          component: RegistrationComponent
+        },
+        {
           path: 'deceased',
           component:  DeceasedComponent
         },

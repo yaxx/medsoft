@@ -33,6 +33,8 @@ export class CashierComponent implements OnInit {
   inlinePatients = [];
   inlineProducts = [];
   transMsg = null;
+  successMsg = null;
+  errorMsg = null;
   errMsg = null;
   input = '';
   searchTerm = '';
@@ -62,18 +64,26 @@ export class CashierComponent implements OnInit {
   ngOnInit() {
     this.getPatients();
     this.getProducts();
-    this.socket.io.on('new patient', (patient: Person) => {
-      this.patients.unshift(patient);
-    });
-    this.socket.io.on('enroled', (patient: Person) => {
+    // this.socket.io.on('new patient', (patient: Person) => {
+    //   this.patients.unshift({
+    //     ...patient, card: {menu: false, view: 'front'}
+    //   });
+    // });
+    this.socket.io.on('enroled', (patient) => {
       const i = this.patients.findIndex(p => p._id === patient._id);
       if (i === -1) {
-        this.patients.unshift(patient);
+        this.patients.unshift({
+          ...patient, card: {menu: false, view: 'front'}
+        });
       } else {
-        this.patients[i] = patient;
+        this.patients[i] = {
+          ...patient, card: {menu: false, view: 'front'}
+        };
       }
       this.patients =  this.filterPatients(this.patients).sort((m, n) => new Date(n.createdAt).getTime() - new Date(m.createdAt).getTime());
     });
+
+
     this.socket.io.on('store update', (data) => {
       if (data.action === 'new') {
         this.products = [...data.changes, ...this.products];
@@ -108,12 +118,12 @@ export class CashierComponent implements OnInit {
   getPatients(type?: string) {
     this.loading = true;
     this.dataService.getPatients(type).subscribe((patients: Person[]) => {
-      if (patients.length) {
-        patients.forEach(p => {
+      this.patients =  this.filterPatients(patients).sort((m, n) => new Date(n.createdAt).getTime() - new Date(m.createdAt).getTime());
+      if (this.patients.length) {
+        this.patients.forEach(p => {
           p.card = {menu: false, view: 'front'};
         });
-        this.patients =  this.filterPatients(patients).sort((m, n) => new Date(n.createdAt).getTime() - new Date(m.createdAt).getTime());
-        this.clonedPatients  = patients;
+        this.clonedPatients  = this.patients;
         this.loading = false;
         this.message = null;
       } else {
@@ -121,7 +131,7 @@ export class CashierComponent implements OnInit {
         this.loading = false;
       }
     }, (e) => {
-      this.message = 'Something went wrong';
+      this.message = 'Newtwork Error';
       this.loading = false;
     });
   }
@@ -149,11 +159,11 @@ switchCardView(i , view) {
 }
 updateInvoices() {
     this.edited.forEach(invoice => {
-      this.patients[this.curIndex].record.invoices.forEach((m) =>  {
+      this.patients[this.curIndex].record.invoices.forEach((m) => {
         m[m.findIndex(i => i._id === invoice._id)] = {
-          ...invoice, 
-          paid: true, 
-          datePaid: new Date(), 
+          ...invoice,
+          paid: true,
+          datePaid: new Date(),
           comfirmedBy: this.cookies.get('i')
         };
       });
@@ -162,20 +172,20 @@ updateInvoices() {
           prod.stockInfo.quantity = prod.stockInfo.quantity - invoice.quantity;
           prod.stockInfo.sold = prod.stockInfo.sold + invoice.quantity;
           this.cart.push(prod);
-        } else if (prod.item.name === invoice.desc) {
-          prod.stockInfo.quantity = prod.stockInfo.quantity - invoice.quantity;
-          prod.stockInfo.sold = prod.stockInfo.sold + invoice.quantity;
-          this.patients[this.curIndex].record.visits[0][0].status = 'queued';
-          this.cart.push(prod);
         }
+        // else if (prod.item.name === invoice.desc) {
+        //   this.patients[this.curIndex].record.visits[0][0].status = 'queued';
+        //   this.cart.push(prod);
+        // }
       });
     });
  }
 updatePrices(invoices: Invoice[], i: number) {
   if (invoices.length) {
     invoices.forEach(invoice => {
-      let p = (invoice.name === 'Card') ? 
-      this.products.find(prod => prod.item.name === invoice.desc) : this.products.find(prod => prod.item.name === invoice.name); 
+      const p = (invoice.name === 'Card') ?
+      this.products.find(prod => prod.item.name === invoice.desc) :
+      this.products.find(prod => prod.item.name === invoice.name);
       if (p && !invoice.paid) {
         invoice.price = p.stockInfo.price;
       }
@@ -193,24 +203,25 @@ viewOrders(i: number) {
   this.invoices.forEach((invoices , j) => {
     const items = [];
     invoices.forEach((invoice) => {
-      if(invoice.processed) {
+      if (invoice.processed) {
         items.push(invoice);
       }
       });
       this.updatePrices(items, j);
   });
 }
-runTransaction(type: string) {
+runTransaction(type: string, patient) {
   this.processing = true;
-  this.dataService.runTransaction(this.patients[this.curIndex]._id, this.patients[this.curIndex].record, this.cart).subscribe(() => {
+  this.dataService.runTransaction(patient._id, patient.record, this.cart).subscribe(() => {
     this.products = this.clonedStore;
     this.processing = false;
-     (this.cart[0].type === 'Cards') ?
-     this.socket.io.emit('card payment', this.patients[this.curIndex]) : this.socket.io.emit('payment', this.cart);
-    this.transMsg = (type === 'purchase') ? 'Payment successfully comfirmed' : 'Transaction successfully reversed';
-    this.reset();
+    (this.cart[0].type === 'Cards') ?
+    this.socket.io.emit('new card', {patient: patient, item: this.cart[0]}) :
+    this.socket.io.emit('payment', {patient: patient, item: this.cart});
+    this.successMsg = (type === 'purchase') ? 'Payment successfully comfirmed' : 'Transaction successfully reversed';
+    this.resetOrders();
   }, (e) => {
-    this.errMsg = (type === 'purchase') ?  'Unable to comfirm payment' : 'Unable to reverse transaction';
+    this.errorMsg = (type === 'purchase') ?  'Something went wrong' : 'Unable to reverse transaction';
     this.processing = false;
   });
 }
@@ -220,8 +231,9 @@ closeModal() {
   // }
 }
 comfirmPayment() {
+  this.patients[this.curIndex].record.visits[0][0].status = 'queued';
   this.updateInvoices();
-  this.runTransaction('purchase');
+  this.runTransaction('purchase', this.patients[this.curIndex]);
  }
 
   switchViews(view) {
@@ -247,7 +259,30 @@ comfirmPayment() {
     }
   }
 
+  assignCard() {
+  const i = this.products.findIndex(p => p.item.description === this.card.pin);
+  if (i !== -1) {
+    if (this.products[i].stockInfo.status) {
+        this.products[i].stockInfo.status = false;
+        this.patient.record.invoices[0][0] = {
+        ...this.patient.record.invoices[0][0],
+        paid: true,
+        price: this.products[i].stockInfo.price,
+        datePaid: new Date(),
+        comfirmedBy: this.cookies.get('i')
+    };
+    this.cart.push(this.products[i]);
+    this.patient.record.visits[0][0].status = 'queued';
+    this.runTransaction('purchase', this.patient);
+    } else {
+      this.errorMsg = 'Card Unavailable';
+    }
 
+  } else {
+    this.errorMsg = 'Card Unavailable';
+  }
+
+}
  
   getReversables(i: number, j: number) {
     // this.curIndex = i;
@@ -292,6 +327,23 @@ comfirmPayment() {
     return this.invoices.some(invoices => invoices.some(i => i.meta.selected));
   }
  
+  resetOrders() {
+    setTimeout(() => {
+      this.successMsg = null;
+      this.cart = [];
+      this.clonedStore = [];
+      this.patients[this.curIndex].record = this.patient.record;
+    }, 3000);
+    setTimeout(() => {
+      this.switchCardView(this.curIndex, 'front');
+    }, 6000);
+    // setTimeout(() => {
+    //   if (this.patients[this.curIndex].record.invoices.every(invoices => invoices.every(invoice => invoice.paid))) {
+    //     this.patients.splice(this.curIndex, 1);
+    //     this.message = (this.patients.length) ? null : 'No Record So Far';
+    //   }
+    // }, 8000);
+  }
   reset() {
     setTimeout(() => {
       this.transMsg = null;

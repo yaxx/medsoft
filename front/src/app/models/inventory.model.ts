@@ -22,7 +22,7 @@ export class StockInfo {
     public price: number = 0,
     public sold: number = 0,
     public expired: boolean = false,
-    public status: boolean = false,
+    public status: boolean = true,
     public quantity: number = 0,
     public expiry: Date = null,
     public _id?: string

@@ -50,8 +50,8 @@ io.sockets.on('connection', (socket) => {
   socket.on('enroled', (patient) => {
     socket.broadcast.emit('enroled', patient);  
   })
-  socket.on('card payment', (patient) => {
-    socket.broadcast.emit('card payment', patient);  
+  socket.on('new card', (changes) => {
+    socket.broadcast.emit('new card', changes);  
   })
   socket.on('new report', (patient) => {
     socket.broadcast.emit('new report', patient);  

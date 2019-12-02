@@ -60,15 +60,17 @@ export class InventoryComponent implements OnInit {
 
   ngOnInit() {
     this.getProducts();
-    this.socket.io.on('payment', cart => {
-      console.log(cart);
-      
-      cart.forEach(product => {
-        console.log(this.products.findIndex(pro => pro._id === product._id));
-        
-        this.products[this.products.findIndex(pro => pro._id === product._id)] = product;
-      });
+    this.socket.io.on('payment', changes => {
+      changes.item.forEach(product => {
+        this.curentItems[this.curentItems.findIndex(pro => pro._id === product._id)] = product;
     });
+    });
+    this.socket.io.on('new card', changes => {
+        this.curentItems[this.curentItems.findIndex(pro => pro._id === changes.item._id)] = changes.item;
+    });
+    // this.socket.io.on('enroled', changes => {
+    //     this.curentItems[this.curentItems.findIndex(pro => pro._id === changes.item._id)] = changes.item;
+    // });
     // this.socket.io.on('refund', refund => {
     //     this.products.forEach(prod => {
     //       if(prod._id === refund.product._id) {
@@ -115,7 +117,10 @@ export class InventoryComponent implements OnInit {
     this.getProducts();
   }
   formCompleted() {
-    return this.product.item.name && this.product.stockInfo.price && this.product.stockInfo.quantity && this.product.stockInfo.expiry;
+    return this.product.item.name && 
+    this.product.stockInfo.price &&
+    this.product.stockInfo.quantity &&
+    this.product.stockInfo.expiry;
   }
   searchTests() {
     if (!this.product.item.name) {
@@ -169,6 +174,16 @@ export class InventoryComponent implements OnInit {
         break;
     }
   }
+  addMoreCard() {
+    if (this.products.some(product => product.item.description === this.product.item.description) || 
+    this.temProducts.some(product => product.item.description === this.product.item.description)) {
+    this.errLine = 'Card already exist';
+    } else {
+      const p = cloneDeep({...this.product, type: this.tableView});
+      this.temProducts.unshift(p);
+      this.product.item.description = null;
+    }
+  }
   addMore() {
      if (this.items.some(item => item.name === this.product.item.name)) {
       } else {
@@ -205,6 +220,13 @@ export class InventoryComponent implements OnInit {
   }
   serviceFormCompleted() {
     return this.product.stockInfo.price && this.product.item.name && this.product.item.category;
+  }
+  isValidCard() {
+    return (this.product.item.description &&
+      this.product.item.description.length === 6 &&
+      this.product.item.name &&
+      this.product.stockInfo.price
+      )
   }
   clearFeedback() {
     this.feedback = null;
@@ -409,5 +431,8 @@ searchProducts(search: string) {
 
 }
 
+getSatus(status: boolean) {
+  return (status) ? 'AVAILABLE' : 'TAKEN' ;
+}
 
 }

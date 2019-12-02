@@ -21,7 +21,8 @@ var RecordScheema = new Scheema({
             value: Number,
             dateCreated: Date
         }],
-        pulse: [{value: Number, dateCreated: {type:Date, default:Date.now()}}],
+        pulse: [{
+            value: Number, dateCreated: {type:Date, default:Date.now()}}],
         height: [{value: Number, dateCreated: {type:Date, default:Date.now()}}],
         weight: [{value: Number, dateCreated: {type:Date, default:Date.now()}}],
         tempreture: [{value: Number, dateCreated: {type:Date, default:Date.now()}}],

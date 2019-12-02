@@ -81,22 +81,23 @@ export class ConsultationComponent implements OnInit {
   ngOnInit() {
    this.getPatients('queued');
    this.getClient();
-    this.socket.io.on('card payment', (patient: Person) => {
-       if (this.isAdmin) {
-        this.patients.unshift(patient);
-      }  else if (patient.record.visits[0][0].dept === this.cookies.get('dept')) {
-        patient.card = {view: 'front', menu: false, btn: 'discharge'};
-        this.patients.unshift(patient);
-      }
+   this.socket.io.on('payment', (payLoad) => {
+      if (this.isAdmin && payLoad.patient.record.invoices[0][0].name === 'Consultation') {
+        this.patients.unshift(payLoad.patient);
+    }  else if (payLoad.patient.record.visits[0][0].dept === this.cookies.get('dept')) {
+        payLoad.patient.card = {view: 'front', menu: false, btn: 'discharge'};
+        this.patients.unshift(payLoad.patient);
+    }
   });
-    this.socket.io.on('enroled', (patient: Person) => {
-      patient.card = {menu: false, view: 'front', btn: 'discharge'};
-       if (this.isAdmin) {
-        this.patients.unshift(patient);
-      }  else if (patient.record.visits[0][0].dept === this.cookies.get('dept')) {
-        this.patients.unshift(patient);
-      }
+   this.socket.io.on('new card', (changes) => {
+      if (this.isAdmin) {
+      this.patients.unshift(changes.patient);
+    }  else if (changes.patient.record.visits[0][0].dept === this.cookies.get('dept')) {
+      changes.patient.card = {view: 'front', menu: false, btn: 'discharge'};
+      this.patients.unshift(changes.patient);
+    }
   });
+
   this.socket.io.on('store update', (data) => {
     if (data.action === 'new') {
       this.products.concat(data.changes);
@@ -155,7 +156,7 @@ export class ConsultationComponent implements OnInit {
     isConsult() {
       return !this.router.url.includes('information') &&
       !this.router.url.includes('pharmacy') &&
-      !this.router.url.includes('billing') && 
+      !this.router.url.includes('billing') &&
       !this.router.url.includes('ward') && 
       !this.router.url.includes('admin');
   }
@@ -342,7 +343,6 @@ export class ConsultationComponent implements OnInit {
         break;
     }
   }
-  
   searchPatient(name: string) {
     if (name !== '') {
      this.patients = this.patients.filter((patient) => {
@@ -393,9 +393,6 @@ getPatients(type) {
     this.url = this.getDp(this.patient.info.personal.avatar);
    }
 
-
-
-  
    removeDp() {
      this.url = null;
    }

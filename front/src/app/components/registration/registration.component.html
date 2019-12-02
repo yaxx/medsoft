@@ -8,10 +8,10 @@
                             <i  title="close" class="icon ion-ios-close-empty"></i>
                         </div>
                         <div style='padding-left: 30px;border-top-right-radius:32px;border-top-left-radius:32px;border-bottom: 0px;height:40px;margin-bottom: 20px;' class="card-header profileheader small-header">
-                             <h6 *ngIf="psn.reg" style='font-size:11px;position:absolute;color:dodgerblue; font-weight: normal; top:18px;left:3%' class="patien-name small-name">ADD PATIENT</h6>
+                             <!-- <h6 *ngIf="psn.reg" style='font-size:11px;position:absolute;color:dodgerblue; font-weight: normal; top:18px;left:3%' class="patien-name small-name">ADD PATIENT</h6>
                              <h6 *ngIf="!psn.reg" style='font-size:11px;position:absolute;color:dodgerblue; font-weight: normal; top:18px;left:3%' class="patien-name small-name">PATIENT INFO</h6>
                              <h6 (click) = "toggleAddOption(1)" [class.new] = psn.addOption [class.old] = !psn.addOption    *ngIf="psn.reg" style='left:75%' class="patien-name small-name ">NEW</h6>
-                             <h6 (click) = "toggleAddOption(0)" [class.new] = !psn.addOption [class.old] = psn.addOption   *ngIf="psn.reg" style='left:81%;' class="patien-name small-name ">OLD</h6>
+                             <h6 (click) = "toggleAddOption(0)" [class.new] = !psn.addOption [class.old] = psn.addOption   *ngIf="psn.reg" style='left:81%;' class="patien-name small-name ">OLD</h6> -->
                         </div>
                         <div class="card-body orderbody" style="width:85%; margin:auto;">
                             <div class="steps">
@@ -92,14 +92,14 @@
                                                 <option>Others</option>
                                             </select>
                                         </div>
-                                        <div *ngIf="psn.addOption === 1" class="form-group vitals-section address" >
+                                        <!-- <div *ngIf="psn.addOption === 1" class="form-group vitals-section address" >
                                             <label style="font-size:8px" for="cardtype" class="labelss">CARD TYPE</label>
                                             <select name='cardtype' [(ngModel)]="psn.card.category" style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo">
-                                                <option *ngFor="let i of cardTypes">
-                                                    {{i.item.name}}
+                                                <option *ngFor="let name of cardTypes">
+                                                    {{name}}
                                                 </option>
                                             </select>
-                                        </div>
+                                        </div> -->
                                         <!-- <div style="width:49%; display:inline-block; " class="form-group vitals-section">
                                             <label style="font-size:8px" for="tribe" class="labelss"><span style='font-size:11px; color:red;'>*</span>CARD NUMBER</label>
                                             <input name='tribe' [(ngModel)]="psn.card.pin" type="text" style='font-size:11px' autocomplete="off" class=" form-control patientdata dystolic inputs dataInfo" />
@@ -383,21 +383,21 @@
 
 
                 <div [class.on]='patient.card.view === "enrole"'   style="position: absolute; width:100%;height: 87%; top:13%;background:white;border-bottom-right-radius: 12px;border-bottom-left-radius: 12px" class="card-body mainbody off">
-                    <form  style="top:15%;position:absolute;width:100%; padding-left: 4%; padding-right: 6%;" class=" staffsform">
-                        <!-- <div style=" margin-top:2px;" class="form-group vitals-section formGroup">
+                    <form  style="top:15%;position:absolute;width:100%; padding-left: 10%; padding-right: 10%;" class=" staffsform">
+                        <div style=" margin-top:2px;" class="form-group vitals-section formGroup">
                             <label style='font-size:8px;left: 25px;top:-15%;' for="title" class="labelss complain">
                                 CARD NUMBER 
                             </label>
-                            <input placeholder="Scan card pin" style='font-size:11px; width:100%; padding-left: 5px; border-radius: 0px;border: none;border-bottom: 1px solid whitesmoke;'  name="cardpin" class="patientdata dataInfo ref-dept" >
-                        </div> -->
-                        <div style=" margin-top:2px;   " class="form-group vitals-section formGroup">
+                            <input autocomplete="off" (focus) = clearField()  [maxLength] = '6' [(ngModel)]="pin" placeholder="Scan card pin" style='font-size:11px; width:100%; padding-left: 5px; border-radius: 0px;border: none;border-bottom: 1px solid whitesmoke;'  name="cardpin" class="patientdata dataInfo ref-dept" >
+                        </div>
+                        <div style=" margin-top:2px;" class="form-group vitals-section formGroup">
                             <label style='font-size:8px;left: 25px;top:-15%;' for="title" class="labelss complain">DEPARTMENT</label>
                             <select [(ngModel)]="visit.dept" style='font-size:11px; width:100%; padding-left: 5px; border-radius: 0px;border: none;border-bottom: 1px solid whitesmoke;'  name="dept" class="patientdata dataInfo ref-dept" >
                                 <option *ngFor="let dept of getRefDept()">{{dept.name}}</option>
                             </select>
                         </div>
                     </form>
-                    <button (click) = enrolePatient(i) style=" width: 170px;font-size: 10px; height:27px;left:15%; bottom:10%;" class="btn btn-sm btn-outline-primary  mainbtn">
+                    <button [disabled] = '!pin || !visit.dept' (click) = enrolePatient(i) style=" width: 170px;font-size: 10px; height:27px;left:15%; bottom:25%;" class="btn btn-sm btn-outline-primary  mainbtn">
                         ENROLE
                         <span *ngIf="processing"  style="position: absolute; bottom: -7%;left: 76%;">
                         <i class="fa fa-circle-o-notch fa-spin fa-10x slow-spin " style="position:absolute;bottom:5px;left:5px;font-size:19px;color: #1da1f2;"> </i>
@@ -407,31 +407,31 @@
 
 
                 <div [class.on]='patient.card.view === "card"'   style="position: absolute; width:100%;height: 87%; top:13%;background:white;border-bottom-right-radius: 12px;border-bottom-left-radius: 12px" class="card-body mainbody off">
-                    <form  style="top:15%;position:absolute;width:100%; padding-left: 4%; padding-right: 6%;" class=" staffsform">
-                        <div style=" margin-top:2px;   " class="form-group vitals-section formGroup">
+                    <form  style="top:15%;position:absolute;width:100%; padding-left: 10%; padding-right: 10%;" class=" staffsform">
+                        <div style=" margin-top:2px;" class="form-group vitals-section formGroup">
                             <label style='font-size:8px;left: 25px;top:-15%;' for="title" class="labelss complain">
                                 CART TYPE
                             </label>
-                            <select name='cardtype' [(ngModel)]="card.category" style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo">
-                                <option *ngFor="let i of cardTypes">
-                                    {{i.item.name}}
+                            <select (change) = clearPin() name='cardtype' [(ngModel)]="card.category" style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo">
+                                <option *ngFor="let name of cardTypes">
+                                    {{name}}
                                 </option>
                             </select>
                         </div>
-                        <!-- <div style=" margin-top:2px;" class="form-group vitals-section formGroup">
+                        <div *ngIf="card.category === 'Family'" style=" margin-top:2px;" class="form-group vitals-section formGroup">
                             <label style='font-size:8px;left: 25px;top:-15%;' for="title" class="labelss complain">
                                 CARD NUMBER 
                             </label>
-                            <input placeholder="scan card pin" style='font-size:11px; width:100%; padding-left: 5px; border-radius: 0px;border: none;border-bottom: 1px solid whitesmoke;'  name="pulse" class="patientdata dataInfo ref-dept" >
-                        </div> -->
+                            <input [(ngModel)]="card.pin" placeholder="scan card pin" style='font-size:11px; width:100%; padding-left: 5px; border-radius: 0px;border: none;border-bottom: 1px solid whitesmoke;'  name="pulse" class="patientdata dataInfo ref-dept" >
+                        </div>
                     </form>
-                    <button (click) = addCard() style=" width: 170px;font-size: 10px; height:27px;left:15%; bottom:17%;" class="btn btn-sm btn-outline-primary  mainbtn">ADD CARD<span *ngIf="processing" style="position: absolute; bottom: -7%;left: 10%;">
+                    <button  (click) = addCard() style=" width: 170px;font-size: 10px; height:27px;left:15%; bottom:17%;" class="btn btn-sm btn-outline-primary  mainbtn">ADD CARD<span *ngIf="processing" style="position: absolute; bottom: -7%;left: 10%;">
                         <i class="fa fa-circle-o-notch fa-spin fa-10x slow-spin" style="position:absolute;bottom:5px;left:5px;font-size:19px;color: #1da1f2;">
                         </i>
                     </span>
                     </button>
                 </div>
-                <h6 *ngIf="successsMsg && curIndex===i" class="feedbackMsg">{{successMsg}}</h6>
+                <h6 *ngIf="successMsg && curIndex===i" class="feedbackMsg">{{successMsg}}</h6>
                 <h6 *ngIf="errorMsg && curIndex===i"  style="color: red" class="feedbackMsg">{{errorMsg}}</h6>
             </div>
         </div>

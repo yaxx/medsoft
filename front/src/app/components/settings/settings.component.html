@@ -392,7 +392,9 @@
                             <div style="height: 35px; width:35px;border-radius:5px " class="timeline detailstimeline">
                                 <i *ngIf="department.name === 'Information'" style='left: 41%;top:8%;color: #1da1f2;position: relative;' class="icon ion-information  deticon"></i>
                                 <i *ngIf="department.name === 'GOPD'" class="icon ion-ios-people addicon infoicon consicon"></i>
-                                <i *ngIf="department.name === 'Maternity'" class="material-icons addicon infoicon maticon" title="Add Department">pregnant_woman</i>
+                                <i *ngIf="department.name === 'Maternity'" class="material-icons addicon infoicon maticon" >pregnant_woman</i>
+                                <i *ngIf="department.name === 'Microbiology'" class="material-icons addicon infoicon maticon" >blur_on</i>
+                                <i style="font-size: 20px;top:19%" style="font-size: 20px;top:19%" *ngIf="department.name === 'Billing'" class="material-icons addicon infoicon maticon" >account_balance</i>
                                 <i *ngIf="department.name === 'Pharmacy'" class="icon ion-ios-medkit addicon pharmicon"></i>
                                 <i *ngIf="department.name === 'Emergency'" class="icon ion-ios-pulse addicon pharmicon"></i>
                                 <i *ngIf="department.name === 'Hematology'" class="icon ion-waterdrop addicon pharmicon"></i>

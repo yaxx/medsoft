@@ -17,7 +17,12 @@
           <i  style ='font-size: 26px;position:relative; ' class="icon ion-ios-checkmark-outline homeicon"></i>
       </span>
   </a>
-  <a *ngIf='isAdmin() || isInfo() || isConsult()' style="top:35%" href="#" [routerLink]="['./appointments']"   routerLinkActive="router-link-active"  class="home reviewmenu" title="Appointments">
+  <a *ngIf='isConsult()' style="top:49%" href="#" [routerLink]="['./discharged']" [routerLinkActiveOptions]={exact:true}  routerLinkActive="router-link-active"  class="home reviewmenu" title="Discharged">
+      <span class="homespan">
+          <i  style ='font-size: 26px;position:relative; ' class="icon ion-ios-checkmark-outline homeicon"></i>
+      </span>
+  </a>
+  <a *ngIf='isAdmin() || isInfo() || isConsult()' style="top:42%" href="#" [routerLink]="['./appointments']"   routerLinkActive="router-link-active"  class="home reviewmenu" title="Appointments">
     <span class="homespan">
         <i class="icon ion-ios-calendar-outline homeicon"></i>
     </span>
@@ -49,39 +54,49 @@
         <i  style ='font-size: 26px;position:relative; ' class="icon ion-ios-close-outline homeicon"></i>
     </span>
  </a>
-  <a *ngIf='isAdmin() || isInfo() || isConsult()'  style="top:42%" href="#" [routerLink]="['./addmisions']" routerLinkActive="router-link-active"   class="home wardmenu" title="Addmisions"><span class="homespan"><i style ='font-size: 25px; color: rgb(158, 158, 158); position: relative; top:5px;right: 3px;' class="material-icons homeicon wardicon">airline_seat_individual_suite</i></span>
+  <a *ngIf='isAdmin() || isInfo() || isConsult()'  style="top:35%" href="#" [routerLink]="['./addmisions']" routerLinkActive="router-link-active"   class="home wardmenu" title="Addmisions"><span class="homespan"><i style ='font-size: 25px; color: rgb(158, 158, 158); position: relative; top:5px;right: 3px;' class="material-icons homeicon wardicon">airline_seat_individual_suite</i></span>
   </a>
 
  
-  <a  *ngIf='isAdmin() || isInfo() || isConsult()'style="top:49%" href="#" [routerLink]="['./deceased']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Deceased">
+  <a  *ngIf='isConsult()'style="top:57%" href="#" [routerLink]="['./deceased']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Deceased">
     <span class="homespan">
         <i  style ='font-size: 26px;position:relative; ' class="icon ion-ios-close-outline homeicon"></i>
     </span>
 </a>
-<a *ngIf = 'isConsult() || isWard()' style="top:57%" href="#"   [routerLink]="['./notifications']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Notifications">
+  <a  *ngIf='isAdmin() || isInfo()'style="top:49%" href="#" [routerLink]="['./deceased']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Deceased">
+    <span class="homespan">
+        <i  style ='font-size: 26px;position:relative; ' class="icon ion-ios-close-outline homeicon"></i>
+    </span>
+</a>
+<a *ngIf = 'isWard()' style="top:57%" href="#"   [routerLink]="['./notifications']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Notifications">
     <span class="homespan">
         <i  style ='font-size: 26px;position:relative;' class="icon ion-android-notifications-none homeicon"></i>
     </span>
 </a>
-<a *ngIf='isAdmin()'  style="top:58%" href="#" [routerLink]="['./pharmacy']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Pharmacy">
+<a *ngIf = 'isConsult()' style="top:65%" href="#"   [routerLink]="['./notifications']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Notifications">
+    <span class="homespan">
+        <i  style ='font-size: 26px;position:relative;' class="icon ion-android-notifications-none homeicon"></i>
+    </span>
+</a>
+<!-- <a *ngIf='isAdmin()'  style="top:58%" href="#" [routerLink]="['./pharmacy']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Pharmacy">
     <span class="homespan">
         <i style ='font-size: 24px; color: rgb(158, 158, 158); position: relative; top:5px;right: 3px;' class="material-icons editicon continue blocked-icon">block</i>
     </span>
-</a>
-<a *ngIf = isAdmin()  style="top:65%" href="#"   [routerLink]="['./inventory']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Inventory">
+</a> -->
+<a *ngIf = isAdmin()  style="top:56%" href="#"   [routerLink]="['./inventory']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Inventory">
     <span class="homespan">
         <i  style ='font-size: 26px;position:relative;' class="icon ion-android-apps homeicon"></i>
     </span>
 </a>
 
-<a *ngIf = isAdmin()  style="top:72%" href="#"   [routerLink]="['./notifications']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Notifications">
+<a *ngIf = isAdmin() style="top:63%" href="#"  [routerLink]="['./notifications']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Notifications">
     <span class="homespan">
         <i  style ='font-size: 26px;position:relative;' class="icon ion-android-notifications-none homeicon"></i>
     </span>
 </a>
-<a *ngIf = isAdmin()  style="top:82%" href="#"   [routerLink]="['./dashboard']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Notifications">
+<a *ngIf = isAdmin()  style="top:72%" href="#" [routerLink]="['./dashboard']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Notifications">
     <span class="homespan">
-        <i  style ='font-size: 26px;position:relative;' class="icon ion-stats-bars homeicon"></i>
+        <i  style ='font-size:26px;position:relative;' class="icon ion-stats-bars homeicon"></i>
     </span>
 </a>
 <a *ngIf = isInfo()  style="top:58%" href="#"   [routerLink]="['./notifications']" routerLinkActive="router-link-active"  class="home reviewmenu" title="Notifications">
@@ -89,8 +104,6 @@
         <i  style ='font-size: 26px;position:relative;' class="icon ion-android-notifications-none homeicon"></i>
     </span>
 </a>
-
-
 
 <a href="#" *ngIf='admin==="admin"'  [routerLink]="['./settings']" routerLinkActive="router-link-active" class="home settings" title="Settings"><span class="homespan"><i class="icon ion-ios-gear-outline homeicon"></i></span></a>
 </div>

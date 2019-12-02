@@ -216,7 +216,6 @@ const personScheema = new Scheema({
                 wardNo: Number,
                 bedNo: Number
             }]
-
         ],
 
         cards: [{

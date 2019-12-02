@@ -10,8 +10,8 @@ import { Person} from '../../models/person.model';
 import {PersonUtil} from '../../util/person.util';
 
 
-// const uri = 'http://localhost:5000/api/upload';
-const uri = 'http://192.168.1.101:5000/api/upload';
+const uri = 'http://localhost:5000/api/upload';
+// const uri = 'http://192.168.1.101:5000/api/upload';
 @Component({
   selector: 'app-patient',
   templateUrl: './patient.component.html',
@@ -88,8 +88,8 @@ export class PatientComponent implements OnInit {
     // });
   }
   getDp(avatar: String) {
-     return 'http://192.168.1.101:5000/api/dp/' + avatar;
-    // return 'http://localhost:5000/api/dp/' + avatar;
+    //  return 'http://192.168.1.101:5000/api/dp/' + avatar;
+    return 'http://localhost:5000/api/dp/' + avatar;
   }
   linked() {
     return !this.router.url.includes('information');
@@ -102,7 +102,6 @@ export class PatientComponent implements OnInit {
     this.getPatients('Admit');
 
   }
-  
   next() {
     this.count = this.count + 1;
   }
@@ -124,7 +123,7 @@ export class PatientComponent implements OnInit {
         patients.forEach(p => {
         p.card = {menu: false, view: 'front'};
       });
-      this.patients   = this.filterPatients(patients).sort((m, n) => new Date(n.createdAt).getTime() - new Date(m.createdAt).getTime());
+      this.patients   = patients.sort((m, n) => new Date(n.createdAt).getTime() - new Date(m.createdAt).getTime());
       this.clonedPatients  = patients;
       this.loading = false;
       this.message = null;

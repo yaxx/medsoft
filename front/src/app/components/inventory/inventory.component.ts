@@ -99,8 +99,8 @@ export class InventoryComponent implements OnInit {
       this.items = res.items;
       if (res.inventory.length) {
         this.clonedInventory = res.inventory;
-        this.products = res.inventory;
-        this.curentItems  =  res.inventory.filter(product => product.type === 'Products');
+        this.products = res.inventory.map(p => ({...p, selected: false}));
+        this.curentItems  =  this.products.filter(product => product.type === 'Products');
         this.loading = false;
         this.message = null;
       } else {
@@ -235,8 +235,8 @@ export class InventoryComponent implements OnInit {
   toggleView(view: string) {
     this.tableView = view;
     const p = this.clonedInventory;
-    this.curentItems =  p.filter(product => product.type === view);
-    this.message =(this.curentItems.length) ? null : `No ${view} So Far`;
+    this.curentItems =  p.filter(product => product.type === view).map(p => ({...p, selected: false}));
+    this.message = (this.curentItems.length) ? null : `No ${view} So Far`;
     this.temProducts = [];
     this.editables = [];
     this.edited = [];
@@ -290,7 +290,7 @@ export class InventoryComponent implements OnInit {
         this.product = this.edited.shift();
   }
   selectionOccure() {
-    return this.products.some((product) => product.selected);
+    return this.curentItems.some((product) => product.selected);
   }
   dropSelection(i) {
     this.temProducts = this.temProducts.splice(i, 1);

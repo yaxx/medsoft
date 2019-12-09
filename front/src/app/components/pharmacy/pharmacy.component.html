@@ -29,7 +29,7 @@
                                         <span *ngIf="!m.paid" class="predata priceval">
                                         <i (click)="selectItem(i,j)" style=' color:lightgrey;'  *ngIf="m.meta.selected" class="icon ion-ios-checkmark-empty paid-icon" title="Deselect "></i>
                                         <div  style='border-color:rgb(216, 216, 216)' *ngIf ="!m.price" class="mycheckbox"></div>
-                                        <div  class="mycheckbox" *ngIf="(!m.meta.selected) && (m.price)"  (click)="selectItem(i,j)" ></div>
+                                        <div class="mycheckbox" *ngIf="(!m.meta.selected) && (m.price)"  (click)="selectItem(i,j)" ></div>
                                         </span>
                                     </h6>
                                     <h6 class="dept previnfo">Dosage&nbsp;<span class="predata">{{getDosage(m.desc)}}</span>
@@ -138,7 +138,20 @@
         </div>
     </div>
   
-    <div class="timeline lastdoc priscriber headerdp small-dp user-dp" style="left:90%;position:absolute;height:30px;width:30px;top:5px; margin-bottom:0px;"> <img style='height:100%; width:100%; object-fit:cover;' [src]=getMyDp()/></div>
+    <div (mouseleave) = hideLogOut() class="timeline lastdoc priscriber headerdp small-dp user-dp" style="left:90%;position:absolute;height:87px;width:90px;top:5px; margin-bottom:0px;background:inherit">
+        <div  class="timeline lastdoc priscriber headerdp small-dp user-dp" style="position:absolute;height:30px;width:30px;top:5px; margin-bottom:0px;"> 
+            <img (click) = showLogOut() style='height:100%; width:100%; object-fit:cover; cursor: pointer;' [src]=getMyDp()/>
+            <span *ngIf="logout">
+                <div style='position: absolute;width: 100px;top: 33px;height: 34px; padding-left: 0px;left: -95%;' class="menu">
+                    <ul  class="actions primary">
+                        <li style="text-align: center;padding-left: 0px;" (click)=logOut() class="action">
+                            Log out
+                        </li>
+                    </ul>
+                </div>
+            </span>
+        </div>
+    </div>
 </nav>
 <div style="padding-top:60px" class="container">
     <div class="row">
@@ -153,7 +166,7 @@
         </div>
         <div *ngFor="let patient of patients; let i=index" class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
             <div *ngIf="patient.card.view == 'front'" class="card card-secondary maincard">
-                <div style="border-radius:12px" class="card-header profileheader">
+                <div style="border-radius: 25px;" class="card-header profileheader">
                     <!-- <i class="icon ion-android-more-vertical headericon moreicon actions-icon"></i> -->
                     <div class="timeline lastdoc priscriber headerdp">
                         <img [src]=getDp(patient.info.personal.avatar)/>
@@ -176,9 +189,9 @@
                         <h6 class="dept basic-info sex-info">{{patient.record.visits.length}}</h6>
                     </div>
                     <div class="priscription basic-subinfo">
-                        <div class="sub-container">
+                        <!-- <div class="sub-container">
                             <h6 class="dept basic-secondary basic-value">{{patient.record.visits[0][0].dept}}</h6>
-                        </div>
+                        </div> -->
                         <div class="sub-container">
                             <h6 style="width:100%;text-align:center" class="dept basic-secondary basic-value">
                                 {{patient.record.medications[0][0].meta.dateAdded|date:'dd-MM-y'}}&nbsp;
@@ -187,9 +200,8 @@
                         </div>
                     </div>
                 </div>
-                <button (click)='viewOrders(i)' data-toggle="modal" data-target="#medicModal" style=" width: 100px;font-size: 10px; height:27px;left:52%; bottom:7%;" class="btn btn-sm btn-outline-primary mainbtn">ORDERS 
-                </button>
-                <!-- <button (click)='viewOrders(i)' data-toggle="modal" data-target="#medicModal" style=" width: 95px;font-size: 10px; height:27px;left:52%; bottom:7%;" class="btn btn-sm btn-outline-primary mainbtn"> VIEW ORDERS</button> -->
+                <button (click)='viewOrders(i)'  data-toggle="modal" data-target="#medicModal" style=" width: 120px;font-size: 10px; height:27px;left: 26%;
+                bottom: 9%;" class="btn btn-sm btn-outline-primary mainbtn">SHOW ORDERS</button>
             </div>
         </div>
     </div>

@@ -347,6 +347,7 @@ const personScheema = new Scheema({
                 price: Number,
                 quantity: Number,
                 paid: Boolean,
+                credit: Boolean,
                 processed: Boolean,
                 datePaid: Date,
                 comfirmedBy: {

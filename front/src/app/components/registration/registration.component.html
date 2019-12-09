@@ -44,37 +44,37 @@
                                     <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block">
                                         <label style="font-size:8px" for="firstname" class="labelss"><span style='font-size:11px; color:red;'>*</span>FIRST NAME
                                         </label>
-                                        <input [(ngModel)]="psn.person.info.personal.firstName" style='font-size:11px;text-align: left' autocomplete="off" type="text" name="firstname" class="form-control patientdata dystolic inputs dataInfo">
+                                        <input (focus) = clearError() [(ngModel)]="psn.person.info.personal.firstName" style='font-size:11px;text-align: left' autocomplete="off" type="text" name="firstname" class="form-control patientdata dystolic inputs dataInfo">
                                     </div>
                                     <div style="width:49%; display:inline-block" class="form-group vitals-section">
                                         <label style="font-size:8px" for="lastname" class="labelss"><span style='font-size:11px; color:red;'>*</span>LAST NAME </label>
-                                        <input [(ngModel)]="psn.person.info.personal.lastName" style='font-size:11px' autocomplete="off" type="text" name="lastname" class="form-control patientdata dystolic inputs dataInfo"/>
+                                        <input (focus) = clearError() [(ngModel)]="psn.person.info.personal.lastName" style='font-size:11px' autocomplete="off" type="text" name="lastname" class="form-control patientdata dystolic inputs dataInfo"/>
                                     </div>
                                     <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block">
                                         <label style="font-size:8px" for="gender" class="labelss">GENDER</label>
-                                        <select name='gender' [(ngModel)]="psn.person.info.personal.gender" style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo">
+                                        <select (focus) = clearError() name='gender' [(ngModel)]="psn.person.info.personal.gender" style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo">
                                             <option>Male</option>
                                             <option>Female</option>
                                         </select>
                                     </div>
                                     <div style="width:49%; display:inline-block" class="form-group vitals-section">
                                         <label style="font-size:8px" for="status" class="labelss">MARITAL STATUS</label>
-                                        <select name='status' [(ngModel)]="psn.person.info.personal.mstatus" style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo">
+                                        <select (focus) = clearError() name='status' [(ngModel)]="psn.person.info.personal.mstatus" style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo">
                                             <option>Married</option>
                                             <option>Single</option>
                                         </select>
                                     </div>
                                         <div style="width:49%; display:inline-block;margin-right: 5px; " class="form-group vitals-section">
                                             <label style="font-size:8px" for="dob" class="labelss"><span style='font-size:11px; color:red;'>*</span>DATE OF BIRTH</label>
-                                            <input name='dob' [(ngModel)]="psn.person.info.personal.dob" type="date" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
+                                            <input (focus) = clearError() name='dob' [(ngModel)]="psn.person.info.personal.dob" type="date" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
                                         </div>
                                         <div style="width:49%; display:inline-block; " class="form-group vitals-section">
                                             <label style="font-size:8px" for="tribe" class="labelss">TRIBE</label>
-                                            <input name='tribe' [(ngModel)]="psn.person.info.personal.tribe" type="text" style='font-size:11px' autocomplete="off" class=" form-control patientdata dystolic inputs dataInfo" />
+                                            <input (focus) = clearError() name='tribe' [(ngModel)]="psn.person.info.personal.tribe" type="text" style='font-size:11px' autocomplete="off" class=" form-control patientdata dystolic inputs dataInfo" />
                                         </div>
                                         <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block">
                                             <label style="font-size:8px" for="religion" class="labelss">RELIGION</label>
-                                            <select name='religion' [(ngModel)]="psn.person.info.personal.religion" style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo">
+                                            <select (focus) = clearError() name='religion' [(ngModel)]="psn.person.info.personal.religion" style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo">
                                                 <option>Islam</option>
                                                 <option>Christianity</option>
                                                 <option>Others</option>
@@ -82,7 +82,7 @@
                                         </div>
                                         <div class="form-group vitals-section" style="width:49%; display:inline-block">
                                             <label style="font-size:8px" for="occupation" class="labelss">OCCUPATION</label>
-                                            <select name='occupation' [(ngModel)]="psn.person.info.personal.occupation" style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo">
+                                            <select (focus) = clearError() name='occupation' [(ngModel)]="psn.person.info.personal.occupation" style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo">
                                                 <option>Civil Servant</option>
                                                 <option>Entreprenure</option>
                                                 <option>Farmer</option>
@@ -92,31 +92,20 @@
                                                 <option>Others</option>
                                             </select>
                                         </div>
-                                        <!-- <div *ngIf="psn.addOption === 1" class="form-group vitals-section address" >
-                                            <label style="font-size:8px" for="cardtype" class="labelss">CARD TYPE</label>
-                                            <select name='cardtype' [(ngModel)]="psn.card.category" style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo">
-                                                <option *ngFor="let name of cardTypes">
-                                                    {{name}}
-                                                </option>
-                                            </select>
-                                        </div> -->
-                                        <!-- <div style="width:49%; display:inline-block; " class="form-group vitals-section">
-                                            <label style="font-size:8px" for="tribe" class="labelss"><span style='font-size:11px; color:red;'>*</span>CARD NUMBER</label>
-                                            <input name='tribe' [(ngModel)]="psn.card.pin" type="text" style='font-size:11px' autocomplete="off" class=" form-control patientdata dystolic inputs dataInfo" />
-                                        </div> -->
+                                      
                                     </form>
                                     <form *ngIf="count==1"  style="top: 3%; height:100%;width:60%;position: relative;margin:auto;padding-top: 10px;" class=" staffsform">
                                         <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block">
                                             <label style="font-size:8px" for="mobile" class="labelss">MOBILE</label>
-                                            <input name='mobile' [(ngModel)]="psn.person.info.contact.me.mobile" type="text" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
+                                            <input (focus) = clearError() name='mobile' [(ngModel)]="psn.person.info.contact.me.mobile" type="text" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
                                         </div>
                                         <div class="form-group vitals-section" style="width:49%; display:inline-block">
                                             <label style="font-size:8px" for="email" class="labelss">EMAIL</label>
-                                            <input name='email' [(ngModel)]="psn.person.info.contact.me.email" type="text" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
+                                            <input (focus) = clearError() name='email' [(ngModel)]="psn.person.info.contact.me.email" type="text" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
                                         </div>
                                         <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block">
                                             <label style="font-size:8px" for="statee" class="labelss">STATE</label>
-                                            <select name='state' [(ngModel)]="psn.person.info.contact.me.state" style='font-size:11px' autocomplete="off" class=" patientdata dystolic inputs dataInfo">
+                                            <select (focus) = clearError() name='state' [(ngModel)]="psn.person.info.contact.me.state" style='font-size:11px' autocomplete="off" class=" patientdata dystolic inputs dataInfo">
                                                 <option *ngFor='let state of states'>
                                                     {{state}}
                                                 </option>
@@ -124,7 +113,7 @@
                                         </div>
                                         <div style="width:49%; display:inline-block" class="form-group vitals-section">
                                             <label style="font-size:8px" for="lga" class="labelss">CITY</label>
-                                            <select name='lga' [(ngModel)]="psn.person.info.contact.me.lga" style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo">
+                                            <select (focus) = clearError() name='lga' [(ngModel)]="psn.person.info.contact.me.lga" style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo">
                                                 <option *ngFor='let lga of psn.getLgas()'>
                                                     {{lga}}
                                                 </option>
@@ -132,23 +121,23 @@
                                         </div>
                                         <div class="form-group vitals-section address">
                                             <label style="font-size:8px" for="address" class="labelss">ADDRESS</label>
-                                            <input [(ngModel)]="psn.person.info.contact.me.address" style='font-size:11px' autocomplete="off" type="text" name="address" class="form-control patientdata dystolic inputs dataInfo" />
+                                            <input (focus) = clearError() [(ngModel)]="psn.person.info.contact.me.address" style='font-size:11px' autocomplete="off" type="text" name="address" class="form-control patientdata dystolic inputs dataInfo" />
                                         </div>
                                         <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block">
                                             <label style="font-size:8px" for="statee" class="labelss">NEXT OF KIN NAME</label>
-                                            <input name='kinname' [(ngModel)]="psn.person.info.contact.me.kinName" type="text" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
+                                            <input (focus) = clearError() name='kinname' [(ngModel)]="psn.person.info.contact.me.kinName" type="text" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
                                         </div>
                                         <div style="width:49%; display:inline-block" class="form-group vitals-section">
                                             <label style="font-size:8px" for="lga" class="labelss">NEXT OF KIN MOBILE</label>
-                                            <input name='kinmobile' [(ngModel)]="psn.person.info.contact.me.kinMobile" type="text" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
+                                            <input (focus) = clearError() name='kinmobile' [(ngModel)]="psn.person.info.contact.me.kinMobile" type="text" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
                                         </div>
                                         <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block">
                                             <label style="font-size:8px" for="ename" class="labelss">EMERGENCY CONTACT NAME</label>
-                                            <input name='ename' [(ngModel)]="psn.person.info.contact.emergency.name" type="text" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
+                                            <input (focus) = clearError() name='ename' [(ngModel)]="psn.person.info.contact.emergency.name" type="text" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
                                         </div>
                                         <div class="form-group vitals-section" style="width:49%; display:inline-block">
-                                            <label style="font-size:8px" for="emobile" class="labelss"><span style='font-size:11px; color:red;'>*</span>EMERGENCY MOBILE</label>
-                                            <input name='emobile' [(ngModel)]="psn.person.info.contact.emergency.mobile" type="text" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
+                                            <label style="font-size:8px" for="emobile" class="labelss">EMERGENCY MOBILE</label>
+                                            <input (focus) = clearError() name='emobile' [(ngModel)]="psn.person.info.contact.emergency.mobile" type="text" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
                                         </div>
                                         <!-- <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block">
                                             <label style="font-size:8px" for="eoccp" class="labelss">RELATIONSHIP</label>
@@ -175,27 +164,27 @@
                                     <form *ngIf="count==2"  style="top: 3%; height:100%;width:60%;position: relative;margin:auto;padding-top:26px;" class=" staffsform">
                                     <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block">
                                         <label style="font-size:8px" for="gnumb" class="labelss">GROUP No.</label>
-                                        <input [(ngModel)]="psn.person.info.insurance.groupNo" name='gnumb' type="text" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
+                                        <input (focus) = clearError() [(ngModel)]="psn.person.info.insurance.groupNo" name='gnumb' type="text" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
                                     </div>
                                     <div class="form-group vitals-section" style="width:49%; display:inline-block">
                                         <label style="font-size:8px" for="idnum" class="labelss">ID No.</label>
-                                        <input [(ngModel)]="psn.person.info.insurance.idNo" name='idnum' type="text" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
+                                        <input (focus) = clearError() [(ngModel)]="psn.person.info.insurance.idNo" name='idnum' type="text" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
                                     </div>
                                     <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block">
                                         <label style="font-size:8px" for="sub" class="labelss">HMO</label>
-                                        <input [(ngModel)]="psn.person.info.insurance.subscriber" name='sub'  type="text" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
+                                        <input (focus) = clearError() [(ngModel)]="psn.person.info.insurance.subscriber" name='sub'  type="text" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
                                     </div>
                                     <div style="width:49%; display:inline-block" class="form-group vitals-section">
                                         <label style="font-size:8px" for="employer" class="labelss">EMPLOYER</label>
-                                        <input [(ngModel)]="psn.person.info.insurance.employer" name='employer'  type="text" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
+                                        <input (focus) = clearError() [(ngModel)]="psn.person.info.insurance.employer" name='employer'  type="text" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
                                     </div>
                                     <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block">
                                         <label style="font-size:8px" for="ssn" class="labelss">SSN</label>
-                                        <input [(ngModel)]="psn.person.info.insurance.ssn" name='ssn'  type="text" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
+                                        <input (focus) = clearError() [(ngModel)]="psn.person.info.insurance.ssn" name='ssn'  type="text" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
                                     </div>
                                     <div style="width:49%; display:inline-block" class="form-group vitals-section">
                                         <label style="font-size:8px" for="irel" class="labelss">RELATIONSHIP</label>
-                                        <select [(ngModel)]="psn.person.info.insurance.rel" name='irel' style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo">
+                                        <select (focus) = clearError() [(ngModel)]="psn.person.info.insurance.rel" name='irel' style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo">
                                             <option>Parent</option>
                                             <option>Spouse</option>
                                             <option>Self</option>
@@ -285,8 +274,21 @@
             </form>
         </div>
     </div>
-    <i *ngIf='routeHas("information")' (click)='clearPatient()' style="left:75%;" class="icon ion-ios-plus-empty arrow buble" id="add" title="Add Patient" data-target="#addModal" data-toggle="modal"></i>
-    <div class="timeline lastdoc priscriber headerdp small-dp user-dp" style="left:90%;position:absolute;height:30px;width:30px;top:5px; margin-bottom:0px;"> <img style='height:100%; width:100%; object-fit:cover;' [src]=getMyDp()/></div>
+    <i *ngIf='isInfo()' (click)='clearPatient()' style="left:75%;" class="icon ion-ios-plus-empty arrow buble" id="add" title="Add Patient" data-target="#addModal" data-toggle="modal"></i>
+    <div (mouseleave) = hideLogOut() class="timeline lastdoc priscriber headerdp small-dp user-dp" style="left:90%;position:absolute;height:87px;width:90px;top:5px; margin-bottom:0px;background:inherit">
+        <div  class="timeline lastdoc priscriber headerdp small-dp user-dp" style="position:absolute;height:30px;width:30px;top:5px; margin-bottom:0px;"> 
+            <img (click) = showLogOut() style='height:100%; width:100%; object-fit:cover; cursor: pointer;' [src]=getMyDp()/>
+            <span *ngIf="logout">
+                <div style='position: absolute;width: 100px;top: 33px;height: 34px; padding-left: 0px;left: -95%;' class="menu">
+                    <ul  class="actions primary">
+                        <li style="text-align: center;padding-left: 0px;" (click)=logOut() class="action">
+                            Log out
+                        </li>
+                    </ul>
+                </div>
+            </span>
+        </div>
+    </div>
 </nav>
 
 <div style="padding-top:60px" class="container">
@@ -335,9 +337,15 @@
                     <div style="position: relative;margin-bottom: 0px;top:0px" class="timeline lastdoc priscriber headerdp">
                     <img  [src]=getDp(patient.info.personal.avatar)/>
                     </div>
-                    <p  title="View Details" style='margin-bottom:2px;position:relative;top:3px' class="patien-name display-name">
+                    <p *ngIf="isInfo() || isWard()"  style='margin-bottom:2px;position:relative;top:3px' class="patien-name display-name">
                         {{patient.info.personal.firstName + ' '+patient.info.personal.lastName}}
                     </p>
+                    <a style="position:relative;top:3px" *ngIf='isConsult()' href="#" title="View history" [routerLink]="['../history', patient._id]" routerLinkActive="router-link-active" class="patien-name">
+                        {{patient.info.personal.firstName + ' ' + patient.info.personal.lastName}}
+                        <span class="predata editicon"></span></a>
+                        <a style="position:relative;top:3px" *ngIf='isAdmin()' href="#" title="View history" [routerLink]="['./history', patient._id]" routerLinkActive="router-link-active" class="patien-name">
+                        {{patient.info.personal.firstName + ' ' + patient.info.personal.lastName}}
+                        <span class="predata editicon"></span></a>
                     <div>
                         <div style="position: relative;top:12px" class="carditem basic-item">
                             <h6 class="dept basic-info">Sex</h6>
@@ -388,7 +396,7 @@
                             <label style='font-size:8px;left: 25px;top:-15%;' for="title" class="labelss complain">
                                 CARD NUMBER 
                             </label>
-                            <input autocomplete="off" (focus) = clearField()  [maxLength] = '6' [(ngModel)]="pin" placeholder="Scan card pin" style='font-size:11px; width:100%; padding-left: 5px; border-radius: 0px;border: none;border-bottom: 1px solid whitesmoke;'  name="cardpin" class="patientdata dataInfo ref-dept" >
+                            <input autocomplete="off" (focus) = clearError()  [maxLength] = '6' [(ngModel)]="pin" placeholder="Scan card pin" style='font-size:11px; width:100%; padding-left: 5px; border-radius: 0px;border: none;border-bottom: 1px solid whitesmoke;'  name="cardpin" class="patientdata dataInfo ref-dept" >
                         </div>
                         <div style=" margin-top:2px;" class="form-group vitals-section formGroup">
                             <label style='font-size:8px;left: 25px;top:-15%;' for="title" class="labelss complain">DEPARTMENT</label>

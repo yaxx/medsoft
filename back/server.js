@@ -20,10 +20,10 @@ app.use('/graphql', graphQlHttp({
   graphiql: true
 }))
 
-app.use(cors({origin:"http://localhost:4200", credentials: true}))
-// app.use(cors({origin:"http://3.19.194.118:5000", credentials: true}))
-// app.use(cors({origin:"*", credentials: true}))
-// app.use(express.static(path.join(__dirname,'dist','front')))
+//app.use(cors({origin:"http://localhost:4200", credentials: true}))
+
+app.use(cors({origin:"*", credentials: true}))
+app.use(express.static(path.join(__dirname,'dist','front')))
 app.use(require('morgan')('dev'))
 app.use(bodyParser.json())
 app.use(require('cookie-parser')('blackfly'))
@@ -35,11 +35,9 @@ io.sockets.on('connection', (socket) => {
   socket.on('login', (data) => {
     data.si = socket.id;
     logins.push({ui: data.ui, si: socket.id})
-    console.log(logins);
     socket.broadcast.emit('online', data.ui)
   })
   socket.on('new message', (data) => {
-    console.log(data.msgs)
   //  api.updateMessages(data)
    logins.forEach(function (user) {
     if (user.ui === data.reciever) {
@@ -146,7 +144,7 @@ io.sockets.on('connection', (socket) => {
     })
   })
 })
-app.get('/gopd/notifications', (req, res) => {
+app.get('/', (req, res) => {
   res.render('index')
   // res.sendFile(path.resolve(__dirname,'dist','front','index.html'));
 })

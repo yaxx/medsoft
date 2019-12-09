@@ -37,6 +37,7 @@ export class PharmacyComponent implements OnInit {
   transMsg = null;
   errMsg = null;
   input = '';
+  logout = false;
   searchTerm = '';
   cardView = {
     orders: true,
@@ -215,8 +216,6 @@ export class PharmacyComponent implements OnInit {
      });
     return selections;
   }
-  
-   
   somePaid(i) {
     // return this.invoices[i].some(invoice => invoice.paid);
    }
@@ -305,9 +304,11 @@ updatePrices(invoices: Invoice[], i: number) {
   }
  
     getDp(avatar: String) {
-     //return 'http://192.168.1.101:5000/api/dp/' + avatar;
-    return 'http://localhost:5000/api/dp/' + avatar;
+     return 'http://192.168.1.101:5000/api/dp/' + avatar;
+    //return 'http://localhost:5000/api/dp/' + avatar;
   }
+
+
 
   getMyDp() {
     return this.getDp(this.cookies.get('d'));
@@ -318,7 +319,15 @@ updatePrices(invoices: Invoice[], i: number) {
       this.items = res.items;
     });
   }
-
+  logOut() {
+    this.dataService.logOut();
+  }
+  showLogOut() {
+    this.logout = true;
+  }
+  hideLogOut() {
+    this.logout = false;
+  }
  searchPatient(name: string) {
    if (name) {
     this.patients = this.patients.filter((patient) => {

@@ -4,15 +4,15 @@ import {DataService} from '../../services/data.service';
 import {SocketService} from '../../services/socket.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CookieService } from 'ngx-cookie-service';
-import { Priscription, Scan, Session, Vital, Medication, Note} from '../../models/record.model';
+import { Priscription, Scan, Session, Vital, Medication, Note, Bp, Resp, Pulse, Temp} from '../../models/record.model';
 import { Person } from '../../models/person.model';
 import { Product, Item} from '../../models/inventory.model';
 import { Client} from '../../models/client.model';
 import * as cloneDeep from 'lodash/cloneDeep';
 
 
-const uri = 'http://localhost:5000/api/upload';
-// const uri = 'http://192.168.1.101:5000/api/upload';
+//const uri = 'http://localhost:5000/api/upload';
+ const uri = 'http://192.168.1.101:5000/api/upload';
 @Component({
   selector: 'app-ward',
   templateUrl: './ward.component.html',
@@ -40,6 +40,9 @@ export class WardComponent implements OnInit {
   feedback = null;
   vital = 'Blood Presure';
   vitals = [];
+  selections = [];
+  successMsg = null;
+  errorMsg = null;
   note = new Note();
   input = '';
   view = 'bed';
@@ -55,12 +58,18 @@ export class WardComponent implements OnInit {
   count = 0;
   message = null;
   url = '';
+  logout = false;
   cardCount = null;
   sortMenu = false;
   nowSorting = 'Date added';
   uploader: FileUploader = new FileUploader({url: uri});
   attachments: any = [];
   myDepartment = null;
+  cardView = {
+    orders: true,
+    editing: false,
+    reversing: false
+  };
 
 
   constructor(
@@ -84,7 +93,7 @@ export class WardComponent implements OnInit {
     this.socket.io.on('Discharge', (patient: Person) => {
       const i = this.patients.findIndex(p => p._id === patient._id);
       if(patient.record.visits[0][0].dept.toLowerCase() === this.myDepartment ) {
-         if(i < 0) {
+         if (i < 0) {
          } else {
            this.patients.splice(i, 1);
          }
@@ -106,8 +115,8 @@ export class WardComponent implements OnInit {
 
   }
   getDp(avatar: String) {
-    return 'http://localhost:5000/api/dp/' + avatar;
-    // return 'http://192.168.1.101:5000/api/dp/' + avatar;
+    // return 'http://localhost:5000/api/dp/' + avatar;
+    return 'http://192.168.1.101:5000/api/dp/' + avatar;
 
   }
   getMyDp() {
@@ -160,7 +169,7 @@ export class WardComponent implements OnInit {
   }
   selectPatient(i: number) {
     this.curIndex = i;
-
+    this.patient = cloneDeep(this.patients[i]);
    }
    showMenu(i: number) {
      this.hideMenu();
@@ -173,6 +182,46 @@ export class WardComponent implements OnInit {
    }
    showSortMenu() {
     this.sortMenu = true;
+  }
+  logOut() {
+    this.dataService.logOut();
+  }
+  showLogOut() {
+    this.logout = true;
+  }
+  hideLogOut() {
+    this.logout = false;
+  }
+  // viewDetails(i) {
+  //   this.reg = false;
+  //   this.curIndex = i;
+  //   this.count = 0;
+  //   this.psn.person = cloneDeep(this.patients[i]);
+  // }
+  switchToEdit() {
+    this.patient.record.medications.forEach(inner => {
+      inner.forEach(medic => {
+        if (medic.meta.selected) {
+           this.selections.push(medic);
+        }
+      });
+    });
+    this.switchViews('editing');
+  }
+  switchViews(view) {
+    switch (view) {
+      case 'orders':
+      this.cardView.orders = true;
+      this.cardView.editing = false;
+      this.selections = [];
+      break;
+      case 'editing':
+      this.cardView.orders = false;
+      this.cardView.editing = true;
+      break;
+      default:
+      break;
+    }
   }
    sortPatients(sortOption: string) {
     this.sortMenu = false;
@@ -201,11 +250,13 @@ export class WardComponent implements OnInit {
         break;
     }
   }
-
+  isWard() {
+    return this.router.url.includes('ward');
+  }
   getPatients(type) {
     this.loading = true;
     this.dataService.getPatients(type).subscribe((patients: Person[]) => {
-      if(patients.length) {
+      if (patients.length) {
         patients.forEach(p => {
           p.card = {menu: false, view: 'front', name: null, processing: false, errorMsg: null, sucsMsg: null};
         });
@@ -216,8 +267,8 @@ export class WardComponent implements OnInit {
         this.message = 'No Records So Far';
         this.loading = false;
       }
-    },(e) => {
-      this.message = 'Something went wrong';
+    }, (e) => {
+      this.message = 'Network Error';
       this.loading = false;
     });
   }
@@ -228,22 +279,20 @@ export class WardComponent implements OnInit {
     
   }
   switchCards(i: number, face: string) {
-    // this.patients[i].record.visits[0][0].status = 'out';
+    this.patients[this.curIndex].card.view = 'front';
+    this.curIndex = i;
     this.patients[i].card.view = face;
      switch (face) {
-       case 'ap': this.patients[i].card.name = 'ap';
+       case 'ap': this.cardCount = 'dispose';
          break;
-       case 'dispose': this.patients[i].card.name = 'dispose';
-      //  this.patients[i].card.btn = 'discharge';
-      //  this.dept = this.patients[i].record.visits[0][0].dept; 
+       case 'appointment': this.cardCount = 'ap';
          break;
-       default: this.patients[i].card.name = null;
-      //  this.patients[i].record.visits[0][0].status = 'queued';
-      //  this.patients[i].record.visits[0][0].dept = this.dept;
-      //  this.patients[i].card.btn = 'discharge';
+       case 'dispose': this.cardCount = 'dispose';
+        break;
+       default: this.cardCount = null;
          break;
      }
-  }
+   }
   allocateRoom(i) {
     this.patients[i].card.processing = true;
     this.dataService.updateRecord(this.patients[i]).subscribe((res: Person) => {
@@ -261,163 +310,228 @@ export class WardComponent implements OnInit {
       this.patients[i].card.errorMsg  = 'Unable to allocate room';
     })
   }
-  assignBed(i: number) {
 
- }
-
-  switchToFront(i: number) {
-    this.patients[i].card.view = 'front';
-  }
-  switchToVitals(i: number) {
-    this.patients[i].card.view = 'vitals';
-    this.curIndex = i;
-  }
-   addVital() {
-    switch (this.vital) {
+  clearVital(name) {
+    this.clearError();
+    switch (name) {
       case 'Blood Presure':
-        this.vitals.unshift({
-          name: 'Blood Presure', 
-          val: this.session.vitals.bp.systolic + '/'
-        + this.session.vitals.bp.diastolic + 'mm Hg'
-        });
+        if (!this.session.vitals.bp.systolic || !this.session.vitals.bp.diastolic) {
+          this.vitals = this.vitals.filter(v => v.name !== name);
+        }
         break;
       case 'Tempreture':
-        this.vitals.unshift({
-          name: 'Tempreture', 
-          val: this.session.vitals.tempreture.value + 'F' 
-        });
-        break;
-      case 'Respiratory Rate':
-        this.vitals.unshift({
-          name: 'Respiratory Rate', 
-          val: this.session.vitals.resp.value + 'bpm'
-        });
+          if(!this.session.vitals.tempreture.value) {
+            this.vitals = this.vitals.filter(t => t.name !== name);
+          }
         break;
       case 'Pulse Rate':
-        this.vitals.unshift({
-          name: 'Pulse Rate', 
-          val: this.session.vitals.pulse.value + 'bpm'
-        });
+          if(!this.session.vitals.pulse.value) {
+            this.vitals = this.vitals.filter(p => p.name !== name);
+          }
+        break;
+      case 'Respiratory Rate':
+          if(!this.session.vitals.resp.value) {
+            this.vitals = this.vitals.filter(r => r.name !== name);
+          }
         break;
       default:
         break;
     }
   }
-  updateVitals(i: number) {
-    // if(this.vitals.tempreture) {
-    //   this.patients[i].record.vitals.bp =
-    //   this.patients[i].record.vitals.tempreture
-    //   .filter(t => new Date(t.meta.dateAdded).toLocaleDateString() !== new Date().toLocaleDateString());
-    //   this.patients[i].record.vitals.tempreture.unshift(this.vitals.tempreture);
-    // } else {
+  addVital() {
+    const i = this.vitals.findIndex(v => v.name === this.vital);
+     switch (this.vital) {
+      case 'Blood Presure':
+        if (i >= 0) {
+          this.vitals[i] = {
+            name: 'Blood Presure',
+            val: this.session.vitals.bp.systolic + '/'
+          + this.session.vitals.bp.diastolic + 'mm Hg'
+          };
+        } else {
+          this.vitals.unshift({
+            name: 'Blood Presure',
+            val: this.session.vitals.bp.systolic + '/'
+          + this.session.vitals.bp.diastolic + 'mm Hg'
+          });
+          console.log(this.vitals);
+        }
+        break;
+      case 'Tempreture':
+          if (i >= 0) {
+            this.vitals[i] = {
+              name: 'Tempreture',
+              val: this.session.vitals.tempreture.value + 'C'
+            };
+          } else {
+            this.vitals.unshift({
+              name: 'Tempreture',
+              val: this.session.vitals.tempreture.value + 'C'
+            });
+          }
+        break;
+      case 'Respiratory Rate':
+        if (i >= 0) {
+          this.vitals[i] = {
+            name: 'Respiratory Rate',
+            val: this.session.vitals.resp.value + 'bpm'
+          };
+        } else {
+          this.vitals.unshift({
+            name: 'Respiratory Rate',
+            val: this.session.vitals.resp.value + 'bpm'
+          });
+        }
+        break;
+      case 'Pulse Rate':
+        if (i >= 0) {
+          this.vitals[i] = {
+            name: 'Pulse Rate',
+            val: this.session.vitals.pulse.value + 'bpm'
+          };
+        } else {
+          this.vitals.unshift({
+            name: 'Pulse Rate', 
+            val: this.session.vitals.pulse.value + 'bpm'
+          });
+        }
+        break;
+      default:
+        break;
+    }
 
-    // }
-    // if(this.vitals.bp) {
-    //   this.patients[i].record.vitals.bp =
-    //   this.patients[i].record.vitals.bp
-    //   .filter(b => new Date(b.meta.dateAdded).toLocaleDateString() !== new Date()
-    //   .toLocaleDateString())
-    //   this.patients[i].record.vitals.bp.unshift(this.vitals.bp);
-    // } else {
-
-    // }
-    // if(this.vitals.pulse.value) {
-    //   this.patients[i].record.vitals.pulse =
-    //   this.patients[i].record.vitals.pulse
-    //   .filter(p => new Date(p.meta.dateAdded).toLocaleDateString() !== new Date()
-    //   .toLocaleDateString())
-    //   this.patients[i].record.vitals.pulse.unshift(this.vitals.pulse);
-    // } else {
-
-    // }
-    // if(this.vitals.resp.value) {
-    //   this.patients[i].record.vitals.resp =
-    //   this.patients[i].record.vitals.resp
-    //   .filter(r => new Date(r.meta.dateAdded).toLocaleDateString() !== new Date()
-    //   .toLocaleDateString())
-    //   this.patients[i].record.vitals.resp.unshift(this.vitals.resp);
-    // } else {
-
-    // }
-    // if(this.vitals.height.value) {
-    //   this.patients[i].record.vitals.height =
-    //   this.patients[i].record.vitals.height.filter(h => new Date(h.meta.dateAdded).toLocaleDateString() !== new Date()
-    //   .toLocaleDateString());
-    //   this.patients[i].record.vitals.height.unshift(this.vitals.height);
-    // } else {
-
-    // }
-    // if(this.vitals.weight.value) {
-    //   this.patients[i].record.vitals.weight =
-    //   this.patients[i].record.vitals.weight.filter(w => new Date(w.meta.dateAdded).toLocaleDateString() !== new Date()
-    //   .toLocaleDateString());
-    //   this.patients[i].record.vitals.weight.unshift(this.vitals.weight);
-    // } else {
-
-    // }
-
-    this.dataService.updateRecord(this.patients[i]).subscribe((p: Person) => {
-      p.card = {menu: false, view: 'front'};
-      this.patients[i] = p;
-      this.loading = false;
-     
-    });
   }
+  removeVital(i, sign) {
+    this.vitals.splice(i, 1);
+    switch (sign.name) {
+      case 'Blood Presure':
+        this.session.vitals.bp = new Bp();
+        break;
+      case 'Tempreture':
+        this.session.vitals.tempreture = new Temp();
+        break;
+      case 'Pulse Rate':
+        this.session.vitals.pulse = new Pulse();
+        break;
+      case 'Respiratory Rate':
+        this.session.vitals.resp = new Resp();
+        break;
+      default:
+        break;
+    }
+  }
+  composeVitals() {
+    if (this.session.vitals.tempreture.value) {
+      if (this.patient.record.vitals.tempreture.length > 30) {
+        this.patient.record.vitals.tempreture.unshift(this.session.vitals.tempreture);
+        this.patient.record.vitals.tempreture.splice(this.patient.record.vitals.tempreture.length - 1 , 1);
+      } else {
+        this.patient.record.vitals.tempreture.unshift(this.session.vitals.tempreture);
+      }
+    } else {}
+
+    if (this.session.vitals.bp.systolic && this.session.vitals.bp.diastolic) {
+      if (this.patient.record.vitals.bp.length > 30) {
+        this.patient.record.vitals.bp.unshift(this.session.vitals.bp);
+        this.patient.record.vitals.bp.splice(this.patient.record.vitals.bp.length - 1 , 1);
+      } else {
+        this.patient.record.vitals.bp.unshift(this.session.vitals.bp);
+      }
+    } else {}
+    if (this.session.vitals.pulse.value) {
+      if (this.patient.record.vitals.pulse.length > 30) {
+        this.patient.record.vitals.pulse.unshift(this.session.vitals.pulse);
+        this.patient.record.vitals.pulse.splice(this.patient.record.vitals.pulse.length - 1 , 1);
+      } else {
+        this.patient.record.vitals.pulse.unshift(this.session.vitals.pulse);
+      }
+    } else {}
+    if (this.session.vitals.resp.value) {
+      if (this.patient.record.vitals.resp.length > 30) {
+        this.patient.record.vitals.resp.unshift(this.session.vitals.pulse);
+        this.patient.record.vitals.resp.splice(this.patient.record.vitals.resp.length - 1 , 1);
+      } else {
+        this.patient.record.vitals.resp.unshift(this.session.vitals.resp);
+      }
+    } else {}
+
+  }
+  switchToFront(i: number) {
+    this.patients[i].card.view = 'front';
+  }
+ 
   linked() {
     return !this.router.url.includes('information');
   }
-  updateNote() {
-   this.dataService.updateNote(this.patients[this.curIndex]._id, this.note).subscribe((patient: Person) => {
-    patient.card = {menu: false, view: 'front'};
-      this.patients[this.curIndex] = patient;
-   });
 
-  }
-  selectItem(i: number, j: number) {
-    this.patients[this.curIndex].record.medications[i][j].selected =
-    this.patients[this.curIndex].record.medications[i][j].selected ? false : true;
+  selectMedication(i: number, j: number) {
+    this.patient.record.medications[i][j].meta.selected =
+    this.patient.record.medications[i][j].meta.selected ? false : true;
    }
-
-  selectDrug(i: number, j: number) {
-    if (this.patients[i].record.medications[j].selected) {
-      this.patients[i].record.medications[j].selected = false;
-    } else {
-      this.patients[i].record.medications[j].selected = true;
-    }
+   medSelected() {
+    return this.patient.record.medications.some(med => med.some(m => m.meta.selected));
+   }
+   getStyle(medication) {
+    return {
+      textDecoration: medication.paused ? 'line-through' : 'none',
+      color: medication.paused ? 'light-grey' : 'black'
+    };
   }
- updateTimeTaken(i: number) {
-    this.patients[i].record.medications.forEach(group => {
+
+   resetOrders() {
+    this.processing = false;
+    setTimeout(() => {
+      this.successMsg = null;
+    }, 3000);
+    setTimeout(() => {
+      this.switchViews('orders');
+    }, 6000);
+  }
+ updateTimeTaken(i: number) { 
+  this.errorMsg = null;
+   this.processing = true;
+    this.patient.record.medications.forEach(group => {
       group.forEach(medic => {
-        if (medic.selected) {
+        if (medic.meta.selected) {
           medic.lastTaken = new Date();
-          medic.selected = false;
+          medic.meta.selected = false;
         }
       });
     });
-    this.dataService.updateRecord(this.patients[this.curIndex]).subscribe((p: Person) => {
-
+    this.dataService.updateRecord(this.patient).subscribe((p: Person) => {
+      this.successMsg = 'Medications Successfully Updated';
+      this.patients[this.curIndex].record = p.record;
+      this.resetOrders();
+    }, () => {
+      this.errorMsg = 'Unable to Update Medications';
     });
   }
-selectMedication(i: number, j: number) {
-    if (this.patients[i].record.medications[j].paused) {
-      this.patients[i].record.medications[j].paused = false;
-    } else {
-      this.patients[i].record.medications[j].paused = true;
-    }
+ updateVitals() {
+   this.errorMsg = null;
+   this.processing = true;
+    this.composeVitals();
+    this.dataService.updateRecord(this.patient).subscribe((p: Person) => {
+      this.successMsg = 'Vitals Successfully Updated';
+      this.patients[this.curIndex].record = p.record;
+      this.resetOrders();
+    }, () => {
+      this.errorMsg = 'Unable to Update Vitals';
+    });
+  }
+clearError() {
+  this.errorMsg = null;
 }
-discharge(i) {
-  // this.patients[i].status = 'discharged';
-}
+
 gone(i) {
   // this.patients[i].status = 'gone';
 }
-switchViews() {
-  if (this.view === 'details') {
-     this.view = '';
-  } else {
-    this.view = 'details';
-  }
-}
+// switchViews() {
+//   if (this.view === 'details') {
+//      this.view = '';
+//   } else {
+//     this.view = 'details';
+//   }
+// }
 
 getProducts() {
   this.dataService.getProducts().subscribe((p: any) => {

@@ -50,6 +50,7 @@ export class CashierComponent implements OnInit {
   count = 0;
   cardCount = null;
   id = '';
+  logout = false;
   selected = null;
   curIndex = 0;
   loading = false;
@@ -156,6 +157,7 @@ switchCardView(i , view) {
   this.patients[i].card.view = view;
   this.patient = cloneDeep(this.patients[i]);
   this.card = this.patient.record.cards[0] || new Card();
+  console.log(this.card);
 }
 updateInvoices() {
     this.edited.forEach(invoice => {
@@ -211,6 +213,7 @@ viewOrders(i: number) {
   });
 }
 runTransaction(type: string, patient) {
+  this.errorMsg = null;
   this.processing = true;
   this.dataService.runTransaction(patient._id, patient.record, this.cart).subscribe(() => {
     this.products = this.clonedStore;
@@ -335,14 +338,9 @@ comfirmPayment() {
       this.patients[this.curIndex].record = this.patient.record;
     }, 3000);
     setTimeout(() => {
+      this.switchViews('orders');
       this.switchCardView(this.curIndex, 'front');
     }, 6000);
-    // setTimeout(() => {
-    //   if (this.patients[this.curIndex].record.invoices.every(invoices => invoices.every(invoice => invoice.paid))) {
-    //     this.patients.splice(this.curIndex, 1);
-    //     this.message = (this.patients.length) ? null : 'No Record So Far';
-    //   }
-    // }, 8000);
   }
   reset() {
     setTimeout(() => {
@@ -373,14 +371,17 @@ comfirmPayment() {
      this.edited.forEach((invoice) => {
        total = total + invoice.quantity * invoice.price;
      });
-     return total;
+     return total.toFixed(2);
   }
     getDp(avatar: String) {
-    return 'http://localhost:5000/api/dp/' + avatar;
-    // return 'http://192.168.1.101/api/dp/' + avatar;
+     return 'http://localhost:5000/api/dp/' + avatar;
+     //return 'http://192.168.1.101:5000/api/dp/' + avatar;
   }
   getStyle(i: Invoice) {
-    return {color: i.paid ? 'black': 'lightgrey'};
+    return {color: i.paid ? 'black' : 'lightgrey'};
+  }
+  markAsCreadit(i: number, optn: boolean) {
+    this.edited[i].credit = optn;
   }
   getMyDp() {
     return this.getDp(this.cookies.get('d'));
@@ -389,6 +390,15 @@ comfirmPayment() {
     this.dataService.getProducts().subscribe((res: any) => {
       this.products = res.inventory;
     });
+  }
+  logOut() {
+    this.dataService.logOut();
+  }
+  showLogOut() {
+    this.logout = true;
+  }
+  hideLogOut() {
+    this.logout = false;
   }
   selectMedication(m: Medication, selected: number) {
     // this.medication = new Medication(m.product, m.priscription);

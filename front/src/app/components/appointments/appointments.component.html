@@ -45,7 +45,20 @@
     </div>
 </div>
 
-  <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:90%;position:absolute;height:30px;width:30px;top:5px; margin-bottom:0px;"> <img style='height:100%; width:100%; object-fit:cover;' [src] = getMyDp()/></div>
+<div (mouseleave) = hideLogOut() class="timeline lastdoc priscriber headerdp small-dp user-dp" style="left:90%;position:absolute;height:87px;width:90px;top:5px; margin-bottom:0px;background:inherit">
+    <div  class="timeline lastdoc priscriber headerdp small-dp user-dp" style="position:absolute;height:30px;width:30px;top:5px; margin-bottom:0px; "> 
+        <img (click) = showLogOut() style='height:100%; width:100%; object-fit:cover; cursor: pointer;' [src]=getMyDp()/>
+        <span *ngIf="logout">
+            <div style='position: absolute;width: 100px;top: 33px;height: 34px; padding-left: 0px;left: -95%;' class="menu">
+                <ul  class="actions primary">
+                    <li style="text-align: center;padding-left: 0px;" (click)=logOut() class="action">
+                        Log out
+                    </li>
+                </ul>
+            </div>
+        </span>
+    </div>
+</div>
 </nav>
 
 <div style="padding-top:60px" class="container">
@@ -55,105 +68,147 @@
               <div *ngIf='message' title='Refresh' class='refresh'><i class="icon ion-ios-reload "></i></div>
               <h6 *ngIf='message' style='font-size:13px;position:absolute;top:65%; width:100%; color:lightgrey;text-align: center' >{{message}}</h6>
           </div>
-          <div  *ngFor="let patient of patients; let i=index"  class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
-              <div *ngIf = "patient.card.view == 'front'"  class="card card-secondary maincard">
-                <div style="border-radius:12px" class="card-header profileheader"><i (click)='showMenu(i)' class="icon ion-android-more-vertical headericon moreicon actions-icon"></i>
-                  <div (mouseleave)= hideMenu(i) *ngIf = "patient.card.menu" class="menu">
-                    <ul class="actions primary">
-                         <li (click) = switchToAp(i) class="action">Edit AP</li>
-                         <li (click)="selectPatient(i)" data-target="#medicModal" data-toggle="modal" class="action">Cancel AP</li>
-                     </ul>
-                  </div>
-                  <div class="timeline lastdoc priscriber headerdp">
-                      <img [src] = getDp(patient.info.personal.avatar)/>
-                  </div>
-                </div>
-                <p style='margin-bottom:2px;' class="patien-name">{{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}</p>
-                <div class="card-body mainbody">
-                    <div class="carditem basic-item">
-                        <h6 class="dept basic-info">Sex</h6>
-                        <h6 class="dept basic-info sex-info">
-                            {{patient.info.personal.gender.charAt(0).toUpperCase()}}</h6>
-                    </div>
-                    <div class="carditem basic-item">
-                        <h6 class="dept basic-info">Age</h6>
-                        <h6 class="dept basic-info sex-info">{{patient.info.personal.dob|dob}}</h6>
-                    </div>
-                    <div class="carditem basic-item">
-                       <h6 class="dept basic-info">APs</h6>
-                       <h6 class="dept basic-info sex-info">{{patient.record.appointments.length}}</h6>
-                    </div>
-                    <div class="priscription basic-subinfo">
-                        <!-- <div class="sub-container">
-                            <h6 class="dept basic-secondary basic-value">
-                              {{patient.record.visits[0].dept.toUpperCase()}}</h6>
-                        </div> -->
-                        <div class="sub-container">
-                            <h6 style="color: darkgrey;" class="dept basic-secondary basic-value">{{patient.record.appointments[0].title}}</h6>
-                        </div>
-                        <div class="sub-container">
-                          <h6 style="width:100%;text-align:center" class="dept basic-secondary basic-value">
-                            {{patient.record.appointments[0].date|date:'dd/MM/y'}}&nbsp;<span>
-                            {{patient.record.appointments[0].time}}</span>
-                          </h6>
-                        </div>
-                      </div>
-                </div>
-               
-                <div style='padding: 4px 4px 4px 27px;border-top:none;border-bottom:none;border-bottom-right-radius:12px;border-bottom-left-radius:12px' class="card-footer profileheader small-header">
-                  <div style="left:10%; top:84%" class="timeline lastdoc priscriber headerdp small-dp">
-                    <img [src] = getDp(patient.info.personal.avatar)/>
-                  </div>
-                  <h6 style="font-weight:normal;width:125px; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;margin: 2px;" href="#" class="patien-name small-name">
-                    {{'Dr.'+' '+patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}
-                  </h6>
-                  <p style='position: absolute;bottom:0.1%;font-size: 10px;color:lightgrey;left: 70%;'>
-                    {{patient.record.appointments[0].setOn|date:'dd/MM/y'}}</p>
-                </div>
+          <div *ngFor="let patient of patients; let i=index"  class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
 
+
+
+
+      <div style="overflow: hidden;"  class="card card-secondary maincard">
+          <div *ngIf="patient.card.view==='front'"  style='padding-left: 30px; border-top-right-radius: 12px; border-top-left-radius: 12px;  padding-top: 0px;
+          height: 32px;
+          padding-bottom: 0px;' class="card-header profileheader">
+          <i *ngIf="isConsult()" (click)='showMenu(i)' class="icon ion-android-more-vertical headericon moreicon actions-icon"></i>
+          <div (mouseleave)= hideMenu(i) *ngIf = "patient.card.menu" class="menu">
+              <ul class="actions primary">
+                   <li (click)="switchCardView(i,'ap')" class="action">Edit AP</li>
+                   <li (click)="selectPatient(i)" data-target="#medicModal" data-toggle="modal" class="action">Cancel AP</li>
+               </ul>
             </div>
-
-            <div style="border-radius:12px"  *ngIf = "patient.card.view == 'ap'"   class="card card-secondary maincard">
-              <div style='padding-left: 30px;border-top-right-radius:12px;border-top-left-radius:12px' class="card-header profileheader small-header">
-                  <i (click)=switchToFront(i) style='position:absolute;
-                    left:3%;top:2%; cursor:pointer;
-                    display: inline-block;
-                    color:#1da1f2;' title="Back"
-                    class="icon ion-android-arrow-back ">
-                </i>
-                  <div style="left:23px" class="timeline lastdoc priscriber headerdp small-dp">
-                    <img [src] = getDp(patient.info.personal.avatar)/>
-                  </div>
-                  <a href="#" class="patien-name small-name">
-                    {{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}<span class="small-headericon"></span>
-                  </a>
-              </div>
-              <div  class="card-body mainbody" style="padding-top:20px">
-                  <form style="top:15%; padding-left: 2%; padding-right: 2%;" class=" staffsform" >
-                      <div style=" margin-top:3px;   " class="form-group vitals-section formGroup" >
-                          <label style = 'font-size: 8px' for="title" class="labelss complain">TITLE</label>
-                          <input  [(ngModel)]="appointment.title"  style='font-size:11px'  type="text" name="pulse" class=" form-control patientdata inputs dataInfo"   placeholder="e.g Anti natal routine">
-                      </div>
-                       <div style="width:49.3%;margin-right:3px; margin-top:3px; display:inline-block"  class="form-group vitals-section formGroup" >
-                          <label style = 'font-size: 8px' for="date" class="labelss complain">DATE</label>
-                          <input [(ngModel)]="appointment.setOn"   style='font-size:11px'  type="date" name="date" class="form-control patientdata inputs dataInfo">
-                      </div>
-                      <div style="width:49.3%; display:inline-block;margin-top:3px;" class="form-group vitals-section formGroup">
-                          <label style = 'font-size: 8px' for="time" class="labelss complain">TIME</label>
-                          <input [(ngModel)]="appointment.time"   style='font-size:11px' type="time" name="time" class="form-control patientdata inputs dataInfo">
-                      </div>
-                  </form>
-              </div>
-              <div (click) = 'setAppointment()' style='left:78%; height:32px;width:32px'
-                   title ='Done' class = "floter">
-                   <i *ngIf='processing'  class="fa fa-circle-o-notch fa-spin fa-10x slow-spin" style="position:absolute;bottom:5px;left:5px;font-size:20px;color: #1da1f2;">
-                  </i>
-                 <i *ngIf='!processing' style="color:#1da1f2;bottom:-10px;" class="icon ion-ios-checkmark-empty flotericon">
-                </i>
-             </div>
-             <div *ngIf = feedback style="padding:5px;border-bottom-left-radius:12px;border-bottom-right-radius:12px;border-top: 1px solid rgb(248, 247, 247)" class="card-footer"> <h6  class="feedbackMsg">{{feedback}}</h6></div>
           </div>
+          <div *ngIf="patient.card.view!=='front'" style='padding-left: 37px;   border-top-right-radius: 12px; border-top-left-radius: 12px; padding-top: 0px;
+          position:absolute; width:100%; padding-bottom: 0px;height:32px' class="card-header profileheader small-header">
+              <i (click)="switchCardView(i,'front')" style='position:absolute;  left:3%;top:4px; cursor:pointer;
+              display: inline-block;
+              color:#1da1f2;' title="Back" class="icon ion-android-arrow-back">
+              </i>
+              <div style="left:23px;position: absolute;" class="timeline lastdoc priscriber headerdp small-dp">
+                  <img [src] = getDp(patient.info.personal.avatar)/>
+              </div>
+              <p style="top:6px;margin-bottom:0px;position: absolute;" class="patien-name small-name">
+                  {{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}<span class="small-headericon"></span>
+              </p>
+          </div>
+          <div [class.ap]='cardCount' [class.front]='patient.card.view === "front"' style="position: absolute; width:100%;height: 87%;top:13%" class="card-body mainbody">
+              <div style="position: relative;margin-bottom: 0px;top:0px" class="timeline lastdoc priscriber headerdp">
+              <img  [src]=getDp(patient.info.personal.avatar)/>
+              </div>
+              <p *ngIf="isInfo()"  style='margin-bottom:2px;position:relative;top:3px' class="patien-name display-name">
+                  {{patient.info.personal.firstName + ' '+patient.info.personal.lastName}}
+              </p>
+              <a  *ngIf='isConsult()' style="position:relative;top:3px" href="#" title="View history" [routerLink]="['../history', patient._id]" routerLinkActive="router-link-active" class="patien-name">
+                  {{patient.info.personal.firstName + ' ' + patient.info.personal.lastName}}
+                  <span class="predata editicon"></span></a>
+                  <a *ngIf='isAdmin()' style="position:relative;top:3px" href="#" title="View history" [routerLink]="['./history', patient._id]" routerLinkActive="router-link-active" class="patien-name">
+                  {{patient.info.personal.firstName + ' ' + patient.info.personal.lastName}}
+                  <span class="predata editicon"></span></a>
+              <div>
+                  <div style="position: relative;top:12px" class="carditem basic-item">
+                      <h6 class="dept basic-info">Sex</h6>
+                      <h6 class="dept basic-info sex-info">
+                          {{patient.info.personal.gender.charAt(0).toUpperCase()}}
+                      </h6>
+                  </div>
+                  <div style="position: relative;top:12px" class="carditem basic-item">
+                      <h6 class="dept basic-info">Age</h6>
+                      <h6 class="dept basic-info sex-info">{{patient.info.personal.dob|dob}}</h6>
+                  </div>
+                  <div style="position: relative;top:12px" class="carditem basic-item">
+                      <h6 class="dept basic-info">APs</h6>
+                      <h6 class="dept basic-info sex-info">{{patient.record.appointments.length}}</h6>
+                  </div>
+              </div>
+              <div style="top:0px"   class="priscription basic-subinfo">
+                  <div class="sub-container">
+                      <h6 style="color: darkgrey;" class="dept basic-secondary basic-value">
+                        {{patient.record.appointments[0].title}}
+                      </h6>
+                  </div>
+                  <div class="sub-container">
+                    <h6 style="width:100%;text-align:center" class="dept basic-secondary basic-value">
+                      {{patient.record.appointments[0].date|date:'dd-MM-y'}}&nbsp;<span>
+                      {{patient.record.appointments[0].time |date: 'hh:mma'|lowercase}}</span>
+                    </h6>
+                  </div>
+                     
+                  </div>
+
+                  
+                <div *ngIf="patient.card.view ==='front'" style='padding: 4px 4px 4px 27px;border-top:none;border-bottom:none;border-bottom-right-radius:12px;border-bottom-left-radius:12px' class="card-footer profileheader small-header">
+                    <div style="left:10%; top:84%" class="timeline lastdoc priscriber headerdp small-dp">
+                      <img [src] = getDp(patient.info.personal.avatar)/>
+                    </div>
+                    <h6 style="font-weight:normal;width:125px; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;margin: 2px;top:14px;margin-left: 4px;" href="#" class="patien-name small-name">
+                      {{'Dr.'+' '+patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}
+                    </h6>
+                    <p style='position: absolute;bottom:0.1%;font-size: 10px;color:lightgrey;left: 70%;'>
+                      {{patient.record.appointments[0].setOn|date:'dd/MM/y'}}
+                    </p>
+                  </div>
+              </div>
+          <div [class.on]='patient.card.view === "ap"'   style="position: absolute; width:100%;height: 87%; top:13%;background:white;border-bottom-right-radius: 12px;border-bottom-left-radius: 12px" class="card-body mainbody off">
+              <form style="top:25%; padding-left: 8%; padding-right: 8%;" class=" staffsform" >
+                  <div style=" margin-top:3px;   " class="form-group vitals-section formGroup" >
+                      <label style = 'font-size: 8px' for="title" class="labelss complain">TITLE</label>
+                      <input  [(ngModel)]="appointment.title"  style='font-size:11px'  type="text" name="title" class=" form-control patientdata inputs dataInfo"   placeholder="e.g Anti natal routine">
+                  </div>
+                   <div style="margin-right:3px; margin-top:3px; display:inline-block"  class="form-group vitals-section formGroup" >
+                      <label style = 'font-size: 8px; text-align: left;' for="date" class="labelss complain">DATE</label>
+                      <input [(ngModel)]="appointment.setOn"   style='font-size:11px'  type="date" name="date" class="form-control patientdata inputs dataInfo">
+                  </div>
+                  <div style="display:inline-block;margin-top:3px;" class="form-group vitals-section formGroup">
+                      <label style = 'font-size: 8px' for="time" class="labelss complain">TIME</label>
+                      <input [(ngModel)]="appointment.time"   style='font-size:11px' type="time" name="time" class="form-control patientdata inputs dataInfo">
+                  </div>
+              </form>
+              <button [disabled] = '!appointment.title || !appointment.setOn' (click) = setAppointment() style=" width: 170px;font-size: 10px; height:27px;left:15%; bottom:25%;" class="btn btn-sm btn-outline-primary  mainbtn">
+                  SET APPOINTMENT
+                  <span *ngIf="processing"  style="position: absolute; bottom: -7%;left: 76%;">
+                  <i class="fa fa-circle-o-notch fa-spin fa-10x slow-spin " style="position:absolute;bottom:5px;left:5px;font-size:19px;color: #1da1f2;"> </i>
+              </span>
+              </button>
+          </div>
+
+
+          <div [class.on]='patient.card.view === "card"'   style="position: absolute; width:100%;height: 87%; top:13%;background:white;border-bottom-right-radius: 12px;border-bottom-left-radius: 12px" class="card-body mainbody off">
+              <!-- <form  style="top:15%;position:absolute;width:100%; padding-left: 10%; padding-right: 10%;" class=" staffsform">
+                  <div style=" margin-top:2px;" class="form-group vitals-section formGroup">
+                      <label style='font-size:8px;left: 25px;top:-15%;' for="title" class="labelss complain">
+                          CART TYPE
+                      </label>
+                      <select (change) = clearPin() name='cardtype' [(ngModel)]="card.category" style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo">
+                          <option *ngFor="let name of cardTypes">
+                              {{name}}
+                          </option>
+                      </select>
+                  </div>
+                  <div *ngIf="card.category === 'Family'" style=" margin-top:2px;" class="form-group vitals-section formGroup">
+                      <label style='font-size:8px;left: 25px;top:-15%;' for="title" class="labelss complain">
+                          CARD NUMBER 
+                      </label>
+                      <input [(ngModel)]="card.pin" placeholder="scan card pin" style='font-size:11px; width:100%; padding-left: 5px; border-radius: 0px;border: none;border-bottom: 1px solid whitesmoke;'  name="pulse" class="patientdata dataInfo ref-dept" >
+                  </div>
+              </form>
+              <button  (click) = addCard() style=" width: 170px;font-size: 10px; height:27px;left:15%; bottom:17%;" class="btn btn-sm btn-outline-primary  mainbtn">ADD CARD<span *ngIf="processing" style="position: absolute; bottom: -7%;left: 10%;">
+                  <i class="fa fa-circle-o-notch fa-spin fa-10x slow-spin" style="position:absolute;bottom:5px;left:5px;font-size:19px;color: #1da1f2;">
+                  </i>
+              </span>
+              </button> -->
+          </div>
+          <h6 *ngIf="successMsg && curIndex===i" class="feedbackMsg">{{successMsg}}</h6>
+          <h6 *ngIf="errorMsg && curIndex===i"  style="color: red" class="feedbackMsg">{{errorMsg}}</h6>
       </div>
+
+
   </div>
 </div>
 

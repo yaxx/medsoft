@@ -16,14 +16,13 @@ import {Observable} from 'rxjs';
 import {WebcamImage, WebcamInitError, WebcamUtil} from 'ngx-webcam';
 import { Record,  Session} from '../../models/record.model';
 const uri = 'http://localhost:5000/api/upload';
-// const uri = 'http://192.168.1.101:5000/api/upload';
+ //const uri = 'http://192.168.1.101:5000/api/upload';
 @Component({
   selector: 'app-consultation',
   templateUrl: './consultation.component.html',
   styleUrls: ['./consultation.component.css']
 })
 export class ConsultationComponent implements OnInit {
- 
   tests = Tests;
   scannings = Scannings;
   surgeries = Surgeries;
@@ -50,6 +49,7 @@ export class ConsultationComponent implements OnInit {
   feedback = null;
   reg = true;
   sortBy = 'added';
+  logout = false;
   sortMenu = false;
   message = null;
   cardCount = null;
@@ -153,11 +153,14 @@ export class ConsultationComponent implements OnInit {
   isInfo() {
       return this.router.url.includes('information');
     }
+  isWard() {
+      return this.router.url.includes('ward');
+    }
     isConsult() {
       return !this.router.url.includes('information') &&
       !this.router.url.includes('pharmacy') &&
       !this.router.url.includes('billing') &&
-      !this.router.url.includes('ward') && 
+      !this.router.url.includes('ward') &&
       !this.router.url.includes('admin');
   }
    refresh() {
@@ -165,7 +168,15 @@ export class ConsultationComponent implements OnInit {
     this.getPatients('queued');
     this.getClient();
   }
-
+logOut() {
+  this.dataService.logOut();
+}
+showLogOut() {
+  this.logout = true;
+}
+hideLogOut() {
+  this.logout = false;
+}
   next() {
     this.count = this.count + 1;
   }
@@ -222,11 +233,9 @@ export class ConsultationComponent implements OnInit {
 
 
   getDp(avatar: String) {
-      return 'http://localhost:5000/api/dp/' + avatar || '../assets/img/avatar.jpg';
-      // return 'http://192.168.1.101:5000/api/dp/' + avatar;
-    }
-
- 
+     return 'http://localhost:5000/api/dp/' + avatar || '../assets/img/avatar.jpg';
+       //return 'http://192.168.1.101:5000/api/dp/' + avatar;
+  }
 
   getMyDp() {
     return this.getDp(this.cookies.get('d'));
@@ -265,6 +274,7 @@ export class ConsultationComponent implements OnInit {
       p.card.menu =  false;
     });
   }
+
   switchToNewMedic() {
     this.medicView = !this.medicView;
   }
@@ -277,6 +287,7 @@ export class ConsultationComponent implements OnInit {
     this.patients[i].card.btn = label;
   }
   switchCards(i: number, face: string) {
+    this.patients[this.curIndex].card.view = 'front';
     this.curIndex = i;
     this.patients[i].record.visits[0][0].status = 'out';
     this.patients[i].card.view = face;

@@ -125,20 +125,13 @@ getPatients: async (req, res) => {
   try {
     const {info: {official}} = await Person.findById(req.cookies.i).select('info');
     let patients = await Person.find()
-    patients = Array.from(patients).filter(person => person.record.visits.length > 0);
+    patients = Array.from(patients).filter(person => person.info.official.department === null);
 
   //   patients = Array.from(patients).map(p => p.toJSON()).filter(p => p.record.cards.length > 0).map(patient => {
   //     let {record} = patient
   //     return ({
-  //       ...patient, record: {...record, scans: record.scans.map(scans => scans.map(s =>  ({
-  //         name: s.name,
-  //         dept: s.dept,
-  //         treated: s.treated,
-  //         report: {
-  //           ...s.report, attachments: s.attachments, 
-  //           comment: s.comment,
-  //           meta: s.report.meta
-  //         }
+  //       ...patient, record: {...record, invoices: record.invoices.map(invoice => invoice.map(i =>  ({
+  //        ...i, credit: false
   //       })))
   //     }
   //   }) 
@@ -189,27 +182,7 @@ getPatients: async (req, res) => {
   }
    
 },
-getHistory: async (req, res) => {
-  try {
-    const patient = await Person.findById(req.params.id)
-    .populate({
-      path:'record.notes.meta.addedBy', select:'info'
-    })
-    .populate({
-      path:'record.conditions.meta.addedBy', select:'info'
-    })
-    .populate({
-      path:'record.tests',
-      populate: {path:'report.meta.addedBy', Model: 'Person', select:'info'}
-    })
-    .exec()
-    res.send(patient) 
-  }
-  catch(e){
-    throw e
-  }
-   
-},
+
 
 addClient: async (req, res) => {
   try {
@@ -575,6 +548,27 @@ updateRecord: async (req, res) => {
     throw e
   } 
 },
+getHistory: async (req, res) => {
+  try {
+    const patient = await Person.findById(req.params.id)
+    .populate({
+      path:'record.notes.meta.addedBy', select:'info'
+    })
+    .populate({
+      path:'record.conditions.meta.addedBy', select:'info'
+    })
+    .populate({
+      path:'record.tests',
+      populate: {path:'report.meta.addedBy', select:'info'}
+    })
+    .exec()
+    res.send(patient) 
+  }
+  catch(e){
+    throw e
+  }
+   
+},
 updateHistory: async(req, res) => {
   try {
     await Item.insertMany(req.body.items);
@@ -584,10 +578,10 @@ updateHistory: async(req, res) => {
       },{new: true}
       )
      const patient = await Person.findById(req.body.patient._id)
-      .populate({path:'record.notes.meta.addedBy', select:'info'})
-      .populate({path:'record.conditions.meta.addedBy', select:'info'})
+      .populate({path: 'record.notes.meta.addedBy', select: 'info'})
       .exec()
-    res.send(patient);
+      console.log(patient.record.notes)
+      res.send(patient);
   }
   catch(e) {
     throw e

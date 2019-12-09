@@ -357,7 +357,7 @@
 <nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:0px;">
     <div class="container">
         <a class="navbar-brand" href="#">
-            <em>DashBox</em>
+            <em>synaps</em>
         </a>
         <div class="collapse navbar-collapse" id="navcol-1">
             <form class="top-searchform" target="_self">
@@ -371,7 +371,7 @@
                       color:grey;
                       font-weight:normal;'>Sort: <span style='cursor:pointer; color:#1da1f2;' (click)='toggleSortMenu()'>{{nowSorting}}</span>
                     </h6>
-                    <div *ngIf=sortMenu style='position: absolute;
+                    <div *ngIf="sortMenu" style='position: absolute;
                       left:120%;
                       width:100px;top:6px;
                       height:110px' class="menu">
@@ -383,13 +383,25 @@
                             <li (click)='sortPatients("date")' class="action">Date added</li>
                         </ul>
                     </div>
+                    
                 </div>
             </form>
+
         </div>
     </div>
-  
-    <div class="timeline lastdoc priscriber headerdp small-dp user-dp" style="left:90%;position:absolute;height:30px;width:30px;top:5px; margin-bottom:0px;"> 
-        <img style='height:100%; width:100%; object-fit:cover;' [src]=getMyDp()/>
+    <div (mouseleave) = hideLogOut() class="timeline lastdoc priscriber headerdp small-dp user-dp" style="left:90%;position:absolute;height:87px;width:90px;top:5px; margin-bottom:0px; background:inherit ">
+       <div  class="timeline lastdoc priscriber headerdp small-dp user-dp" style="position:absolute;height:30px;width:30px;top:5px; margin-bottom:0px;"> 
+            <img (click) = showLogOut() style='height:100%; width:100%; object-fit:cover; cursor: pointer;' [src]=getMyDp()/>
+            <span *ngIf="logout">
+                <div style='position: absolute;width: 100px;top: 33px;height: 34px; padding-left: 0px;left: -95%;' class="menu">
+                    <ul  class="actions primary">
+                        <li style="text-align: center;padding-left: 0px;" (click)=logOut() class="action">
+                            Log out
+                        </li>
+                    </ul>
+                </div>
+            </span>
+        </div>
     </div>
 </nav>
 
@@ -409,7 +421,7 @@
             <h6 *ngIf='message' style='font-size:13px;position:absolute;top:65%; width:100%; color:lightgrey;text-align: center'>{{message}}</h6>
         </div>
         <div *ngFor="let patient of patients; let i = index" class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
-            <div  style="border-radius:12px;overflow: hidden;" class="card card-secondary maincard " >
+            <div  style="overflow: hidden;" class="card card-secondary maincard " >
                 <div *ngIf="patient.card.view==='front'"  style='padding-left: 30px; border-top-right-radius: 12px; border-top-left-radius: 12px;  padding-top: 0px;
                 height: 32px;
                 padding-bottom: 0px;' class="card-header profileheader">
@@ -469,19 +481,18 @@
                     <h6 *ngIf='isAdmin()||isInfo()' style="width:100%;position:relative;text-align:center" class="dept basic-secondary basic-value">
                         {{patient.record.visits[0][0].dept}}
                     </h6>
-                    <h6 style="width:100%;position:relative;text-align:center" class="dept basic-secondary basic-value">
+                    <h6 style="width:100%; bottom:5px;position:relative;text-align:center;" class="dept basic-secondary basic-value">
                         {{patient.record.visits[0][0].visitedOn|date:'dd-MM-y'}}&nbsp;<span>
                         {{patient.record.visits[0][0].visitedOn | date:'hh:mma'|lowercase}}</span>
                     </h6>
                    
                 </div>
 
- 
-                <div  [class.on]='patient.card.view==="dispose"'  style="position:absolute; width:100%;height: 87%;top:13%;background:white;border-bottom-right-radius: 12px;border-bottom-left-radius: 12px;margin-left:0px;border:none;padding-top: 0px;" class="card-body off">
+                <div  [class.on]='patient.card.view === "dispose"'  style="position:absolute; width:100%;height: 87%;top:13%;background:white;border-bottom-right-radius: 12px;border-bottom-left-radius: 12px;margin-left:0px;border:none;padding-top: 0px;" class="card-body off">
                     <div class="btn-group disposition">
-                        <button (click)="dispose(i,'out', 'discharge')" [class.active] ='patient.record.visits[0][0].status==="out"' class="btn btn-outline-primary  dispo " >Discharge</button>
+                        <button (click)="dispose(i, 'out', 'discharge')" [class.active] ='patient.record.visits[0][0].status==="out"' class="btn btn-outline-primary  dispo " >Discharge</button>
                         <button (click)="dispose(i,'Admit', 'admit')" [class.active] ='patient.record.visits[0][0].status==="Admit"'  class="btn btn-outline-primary dispo">Admit</button>
-                        <button (click)="dispose(i, 'queued', 'refer')"  [class.active] ='patient.record.visits[0][0].status==="queued"' class="btn btn-outline-primary  dispo">Foward</button>
+                        <button (click)="dispose(i, 'queued', 'foward')"  [class.active] ='patient.record.visits[0][0].status==="queued"' class="btn btn-outline-primary  dispo">Foward</button>
                     </div>
                     <form [class.in] ='patient.record.visits[0][0].status==="queued"' [class.out] ='patient.record.visits[0][0].status!=="queued"' style="top:35%;position:absolute;width:100%; padding-left: 4%; padding-right: 6%;" class=" staffsform next-dept">
                         <div style=" margin-top:2px;   " class="form-group vitals-section formGroup">

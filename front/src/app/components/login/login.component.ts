@@ -33,7 +33,8 @@ cred = {
   constructor(
     private accountService: DataService,
     private socket: SocketService,
-    private cookie: CookieService, private router: Router
+    private cookie: CookieService,
+    private router: Router
     ) { }
 
   ngOnInit() {

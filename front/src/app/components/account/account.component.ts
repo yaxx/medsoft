@@ -10,7 +10,6 @@ import {CookieService } from 'ngx-cookie-service';
   styleUrls: ['./account.component.css']
 })
 export class AccountComponent implements OnInit {
-  
   info: Info = new Info();
   staff: Person = new Person();
   staffs: Person[] = new Array<Person>();
@@ -33,7 +32,11 @@ export class AccountComponent implements OnInit {
   action = 'new';
   exist = false;
 
-  constructor(private dataService: DataService, private cookies: CookieService, private router: Router) { }
+  constructor(
+    private dataService: DataService,
+    private cookies: CookieService,
+    private router: Router
+    ) { }
   ngOnInit() {
     this.dataService.getClient().subscribe((res: any) => {
       this.client = res.client;

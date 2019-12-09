@@ -45,6 +45,7 @@ export class Invoice {
     public comfirmedBy: any = null,
     public price: number = null,
     public paid: boolean = false,
+    public credit: boolean = false,
     public quantity: number = 1,
     public datePaid: Date = null,
     public meta: Meta = new Meta(),

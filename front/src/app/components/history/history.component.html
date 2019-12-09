@@ -480,9 +480,9 @@ max-width:100%;">
                               {{patient.info.personal.religion||'---'}}</span></p>
                             <p class="dept previnfo">Tribe:&nbsp;<span class="predata">
                               {{patient.info.personal.tribe||'---'}}</span></p>
-                            <p class="dept previnfo">Card Type:&nbsp;<span class="predata">
+                            <p *ngIf="patient.record.cards.length" class="dept previnfo">Card Type:&nbsp;<span class="predata">
                               {{patient.record.cards[0].category||'---'}}</span></p>
-                            <p class="dept previnfo">Card No:&nbsp;<span class="predata">
+                            <p *ngIf="patient.record.cards.length" class="dept previnfo">Card No:&nbsp;<span class="predata">
                                 {{patient.record.cards[0].pin||'---'}}</span></p>
                         </div>
                         <div class="carditem">
@@ -544,8 +544,13 @@ max-width:100%;">
                                 <p  class="timelinedate month"> {{visit[0]?.visitedOn|date:'MMM'|uppercase}}</p>
                             </div>
                             <div *ngFor ="let vst of visit; let j= index" class="priscription drug">
-                                <p class="dept">{{vst.dept}}<span class="predata"> </span><span class="predata notetime" style='left:50%;width:72px;text-align:center'  >{{vst.dischargedOn|date:'longDate'}}</span>
+                                <p class="dept">{{vst.dept}}
+                                    <span style="left: 72%;" class="predata notetime">{{vst.visitedOn|date:'hh:mma'|lowercase}}</span>
+                                    <span style="top: 100%;left: 1%;position: absolute;" class="predata">
+                                        {{vst.dischargedOn|date:'dd-MM-y hh:mma'|lowercase}}
+                                    </span>
                                 </p>
+                                
                             </div>
                         </div>
                     </div>
@@ -575,7 +580,7 @@ max-width:100%;">
                                 {{patient.createdAt|date:'longDate'}}&nbsp;
                             </h1>
                             <div style="width:150px;margin:auto;top:10px;">
-                                <button *ngIf="isConsult()" data-toggle="modal" data-target="#consModal"   style=" width:150px;top:10px;margin:auto;font-size:10px; height:27px;position:relative;" class="btn btn-sm btn-outline-primary  mainbtn">
+                                <button *ngIf="isConsult() && (patient.record.visits[0][0].status ==='queued'|| patient.record.visits[0][0].status === 'Admit') " data-toggle="modal" data-target="#consModal"   style=" width:150px;top:10px;margin:auto;font-size:10px; height:27px;position:relative;" class="btn btn-sm btn-outline-primary  mainbtn">
                                     UPDATE RECORD
                                 </button>
                             </div>
@@ -599,7 +604,7 @@ max-width:100%;">
                                 {{note.meta.dateAdded|date:'dd/MM/y hh:mma'|lowercase}}</span>
                             </h1>
                             <p class="note-item">{{note.note}}<br>
-                              <span *ngIf= "!compareNotes(i, note)" (click) = "readMore($event,i)" class="read-more"><a href="#">Read more</a></span>
+                              <!-- <span *ngIf= "!compareNotes(i, note)" (click) = "readMore($event,i)" class="read-more"><a href="#">Read more</a></span> -->
                           </p>
                         </div>
                     </div>
@@ -644,8 +649,11 @@ max-width:100%;">
                                                 <div class=" timeline lastdoc priscriber headerdp small-dp commentor-dp">
                                                         <img style='height:100%; width:100%; object-fit:cover; border-radius:50%;' [src] = getDp(patient.info.personal.avatar)/>
                                                 </div>
-                                                <p style="font-size: 11px;position: relative;display: inline-block;left:18px;" class="commentator-name">
+                                                <p style="font-size: 11px;position: relative;display: inline-block;left:18px;width: 87%;" class="commentator-name">
                                                     Mohammed Abdullahi
+                                                        <span style="color:lightgrey;float: right;">
+                                                        {{t.report.meta.dateAdded|date:'dd/MM/y hh:mma'|lowercase}}
+                                                    </span>
                                                 </p>
                                             </div>
                                         </div>
@@ -669,21 +677,21 @@ max-width:100%;">
                                     <p class="dept">{{s.name}} </p>
                                     <h6 *ngIf="s.report.attachments.length" class="dept previnfo" style="color:lightgrey">
                                     <span><i (click) = "pullImages(i,j, 'scan')" data-toggle="modal" data-target="#scanFiles" title="View attachment"  style='font-size: 15px; cursor: pointer;' class="icon ion-android-attach"></i></span>&nbsp;
-                                    {{s.report.attachments.length + ' '+'attachment'+getLength(s.report.attachments.length)}}
+                                    {{s.report.attachments.length + ' '+' attachment'+getLength(s.report.attachments.length)}}
                                     <span style="text-align:right;left:70%;display: inline-block;width:50px"  class="predata priceval">
                                         <i title="Download" style='font-size: 20px;position:absolute;bottom:-17px;left: 75%;cursor: pointer;' class="icon ion-ios-download-outline paid-icon"></i>
                                     </span>
                                     </h6>
                                     <h6 *ngIf="s.report.comment" class="dept previnfo" style="color:lightgrey">
-                                    <span><i (click)="toggleComment(i,j,'open') "title="View Comment" style='font-size: 17px;cursor:pointer' class="icon ion-ios-chatbubble-outline"></i></span>
+                                    <span><i (click)="toggleScanComment(i,j,'open') "title="View Comment" style='font-size: 17px;cursor:pointer' class="icon ion-ios-chatbubble-outline"></i></span>
                                     &nbsp;Comment
                                     </h6>
-                                    <div style="left:120px;" *ngIf="s.report.opened"  class="comment">
+                                    <div *ngIf="s.report.meta.selected"   style="left:-46px;"  class="comment">
                                         <div (click) = "toggleScanComment(i,j,'close')" class="close-comment">
                                             <i title="close" class="icon ion-ios-close-empty"></i>
                                         </div>
                                         <div style="width: 100%; position: relative;height: 80%;" class="comment-note">
-                                            <p style="font-size: .75rem;color:gray;padding:0 10px">
+                                            <p style="font-size: .75rem;color:gray;padding:0 10px;z-index: 100;">
                                                {{s.report.comment}}
                                             </p>
                                         </div>
@@ -692,8 +700,10 @@ max-width:100%;">
                                                 <div class=" timeline lastdoc priscriber headerdp small-dp commentor-dp">
                                                         <img style='height:100%; width:100%; object-fit:cover; border-radius:50%;' [src] = getDp(patient.info.personal.avatar)/>
                                                 </div>
-                                                <p style="font-size: 11px;position: relative;display: inline-block;left:18px;" class="commentator-name">
-                                                    Mohammed Abdullahi
+                                                <p style="font-size: 11px;position: relative;display: inline-block;left:18px;width: 87%;" class="commentator-name">
+                                                    Mohammed Abdullahi <span style="color:lightgrey;float: right;">
+                                                        {{s.report.meta.dateAdded|date:'dd/MM/y hh:mma'|lowercase}}
+                                                    </span>
                                                 </p>
                                             </div>
                                         </div>

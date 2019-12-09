@@ -68,4 +68,7 @@ refresh() {
   this.getNotifications();
 }
 
+isAdmin() {
+  return this.router.url.includes('admin');
+}
 }

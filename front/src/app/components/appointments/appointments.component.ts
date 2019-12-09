@@ -9,9 +9,8 @@ import {Person, Info} from '../../models/person.model';
 import {Visit , Appointment} from '../../models/record.model';
 import {CookieService } from 'ngx-cookie-service';
 import * as cloneDeep from 'lodash/cloneDeep';
-// const uri = 'http://localhost:5000/api/upload';
-// const uri = 'http://13.59.243.243/api/upload';
-const uri = 'http://192.168.1.101:5000/api/upload';
+  const uri = 'http://localhost:5000/api/upload';
+//const uri = 'http://192.168.1.101:5000/api/upload';
 @Component({
   selector: 'app-appointments',
   templateUrl: './appointments.component.html',
@@ -25,8 +24,10 @@ export class AppointmentsComponent implements OnInit {
    file: File = null;
    info: Info = new Info();
    url = '';
+   logout = false;
    curIndex = 0;
    sortBy = 'added';
+   cardCount = null;
    sortMenu = false;
    loading = false;
    myDepartment = null;
@@ -37,8 +38,8 @@ export class AppointmentsComponent implements OnInit {
    feedback = null;
    searchTerm = '';
    regMode =  'all';
-  //  dpurl = 'http://localhost:5000/api/dp/';
-   dpurl = 'http://192.168.1.101:5000/api/dp/';
+   dpurl = 'http://localhost:5000/api/dp/';
+  // dpurl = 'http://192.168.1.101:5000/api/dp/';
    appointment: Appointment = new Appointment();
    uploader: FileUploader = new FileUploader({url: uri});
    constructor(
@@ -89,6 +90,19 @@ export class AppointmentsComponent implements OnInit {
   }
   routeHas(path) {
     return this.router.url.includes(path);
+  }
+  isAdmin() {
+    return this.router.url.includes('admin');
+  }
+  isInfo() {
+      return this.router.url.includes('information');
+    }
+    isConsult() {
+      return !this.router.url.includes('information') &&
+      !this.router.url.includes('pharmacy') &&
+      !this.router.url.includes('billing') &&
+      !this.router.url.includes('ward') &&
+      !this.router.url.includes('admin');
   }
   queue(i) {
     this.patients[this.curIndex].record.visits[0][0].status = 'queued';
@@ -142,21 +156,24 @@ export class AppointmentsComponent implements OnInit {
       p.card.menu =  false;
     });
   }
-  
-  switchToAp(i: number){
-    this.patients[i].card.view = 'ap';
-    this.clonedPatient = cloneDeep(this.patients[i]);
-    this.appointment = this.clonedPatient.record.appointments[0];
+
+   switchCardView(i , view) {
+    this.patients[this.curIndex].card.view = 'front';
     this.curIndex = i;
+    this.cardCount = view;
+    this.patients[i].card.view = view;
+    this.patient = cloneDeep(this.patients[i]);
   }
-  switchToFront(i: number) {
-    this.patients[i].card.view = 'front';
+   logOut() {
+    this.dataService.logOut();
   }
-   switchToBack(i: number) {
-     this.patients[i].card.view = 'back';
-   }
-   
-   selectPatient(i: number){
+  showLogOut() {
+    this.logout = true;
+  }
+  hideLogOut() {
+    this.logout = false;
+  }
+   selectPatient(i: number) {
      this.info = this.patients[i].info;
    }
    

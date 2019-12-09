@@ -1,0 +1,81 @@
+.disposition {
+    width:100%;
+    padding-left: 10px;
+    top:34px;
+}
+ .dispo {
+    padding: 4px 6px;
+    font-size: 11px;
+    outline: none;
+    box-shadow: none;
+    width:75px;
+}
+.ref-dept {
+   border-radius: 30px;
+    }
+.ref-dept:focus{
+    outline: none;
+    box-shadow: none;
+    }
+.dispo:focus{
+    outline: none;
+    box-shadow: none;
+}
+.disposition button:nth-child(1) {
+    border-radius: 30px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+.disposition button:nth-child(3) {
+    border-radius: 30px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+.next-dept {
+    left: -100%;
+}
+.next-dept.out {
+    left: -100%;
+    animation-name: card-out;
+    animation-duration: .2s;
+    animation-timing-function: ease-in;
+}
+.next-dept.in {
+    left: 0%;
+    animation-name: card-in;
+    animation-duration: .2s;
+    animation-timing-function: ease-in;
+}
+@keyframes card-in {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 0%;
+    }
+}
+@keyframes card-out {
+    0% {
+        left: 0%;
+    }
+    100% {
+        left: -100%;
+    }
+}
+.off {
+    left: -100%;
+   } 
+.on {
+    left: 0%;
+    animation-name: card-in;
+    animation-duration: .2s;
+    animation-timing-function: ease-in;
+}
+@keyframes card-in {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 0%;
+    }
+}

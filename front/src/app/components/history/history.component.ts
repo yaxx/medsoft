@@ -37,7 +37,7 @@ export class HistoryComponent implements OnInit {
   scans = [];
   clonedTest = [];
   images = [];
- 
+  logout = false;
   scannings = Scannings;
   surgeries = Surgeries;
   conditions = Conditions;
@@ -143,8 +143,8 @@ export class HistoryComponent implements OnInit {
     });
   }
   getDp(avatar: String) {
-   return 'http://localhost:5000/api/dp/' + avatar;
-    // return 'http://192.168.1.101:5000/api/dp/'+ avatar;
+  //return 'http://localhost:5000/api/dp/' + avatar;
+    return 'http://192.168.1.101:5000/api/dp/'+ avatar;
   }
 
   getMyDp() {
@@ -155,15 +155,17 @@ export class HistoryComponent implements OnInit {
     .report.attachments : this.patient.record.scans[i][j].report.attachments;
   }
   getImage(fileName: String) {
-    //return 'http://192.168.1.101:5000/api/dp/' + fileName;
-   return 'http://localhost:5000/api/dp/' + fileName;
+    return 'http://192.168.1.101:5000/api/dp/' + fileName;
+    //return 'http://localhost:5000/api/dp/' + fileName;
   
   }
   getLabs() {
     return this.client.departments.filter(dept => dept.category === 'Lab');
   }
   compareNotes(i: number, note: Note) {
-    return this.notes[i].note.length === note.note.length;
+    console.log(note);
+    
+    // return this.notes[i].note.length === note.note.length;
   }
   downloadImage(file: string) {
     this.dataService.download(file).subscribe(
@@ -175,14 +177,14 @@ export class HistoryComponent implements OnInit {
   this.patient.record.notes[i].note = this.notes[i].note;
 }
   getDocDp(avatar: string) {
-       return 'http://localhost:5000/api/dp/' + avatar;
-     //  return 'http://http://192.168.1.101:5000/api/dp/' + avatar;
+      //return 'http://localhost:5000/api/dp/' + avatar;
+      return 'http://192.168.1.101:5000/api/dp/' + avatar;
   }
   addVital() {
     const i = this.vitals.findIndex(v => v.name === this.vital);
      switch (this.vital) {
       case 'Blood Presure':
-        if(i >= 0) {
+        if (i >= 0) {
           this.vitals[i] = {
             name: 'Blood Presure',
             val: this.session.vitals.bp.systolic + '/'
@@ -263,7 +265,7 @@ export class HistoryComponent implements OnInit {
   clearVital(name) {
     switch (name) {
       case 'Blood Presure':
-        if(!this.session.vitals.bp.systolic || !this.session.vitals.bp.diastolic) {
+        if (!this.session.vitals.bp.systolic || !this.session.vitals.bp.diastolic) {
           this.vitals = this.vitals.filter(v => v.name !== name);
         }
         break;
@@ -496,6 +498,12 @@ getProducts() {
     this.session.items = res.items;
  });
 }
+showLogOut() {
+  this.logout = true;
+}
+hideLogOut() {
+  this.logout = false;
+}
 checkItems(type: string) {
   // return this.temItems.some(item => item.type === type);
 }
@@ -672,7 +680,7 @@ addTest() {
   }
 }
 addSurgery() {
-  if(this.invoiceExist()) {
+  if (this.invoiceExist()) {
     this.errLine = 'Request already added';
   } else {
      this.session.surgeries.unshift({
@@ -782,10 +790,12 @@ checkScalars() {
   } else {}
 }
 sendRecord() {
+  this.errLine = null;
   this.processing = true;
   this.dataService.updateHistory(this.patient).subscribe((patient: Person) => {
+    console.log(patient.record.notes);
     this.patient.record  = patient.record;
-    this.socket.io.emit('consulted', patient);
+    this.socket.io.emit('record update', patient);
     this.session = new Session();
     this.feedback = 'Record successfully updated';
     this.processing = false;

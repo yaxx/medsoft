@@ -12,9 +12,9 @@ import { Item, StockInfo, Product, Card, Invoice, Meta} from '../../models/inven
 import {Visit, Session} from '../../models/record.model';
 import {Client, Department} from '../../models/client.model';
 import {CookieService } from 'ngx-cookie-service';
-// const uri = 'http://192.168.1.101:5000/api/upload';
-const uri = 'http://localhost:5000/api/upload';
-// const uri = 'http://18.221.76.96:5000/api/upload';
+//const uri = 'http://192.168.1.101:5000/api/upload';
+//const uri = 'http://localhost:5000/api/upload';
+ const uri = 'http://18.221.76.96:5000/api/upload';
  @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
@@ -36,6 +36,7 @@ export class RegistrationComponent implements OnInit {
   card: Card = new Card();
   reg = true;
   url = '';
+  logout = false;
   curIndex = 0;
   session: Session = new Session();
   message = null;
@@ -55,7 +56,7 @@ export class RegistrationComponent implements OnInit {
   view = 'info';
   pin = null;
   searchTerm = '';
-  // dpurl = 'http://localhost:5000/api/dp/';
+   //dpurl = 'http://localhost:5000/api/dp/';
   dpurl = 'http://192.168.1.101:5000/api/dp/';
   uploader: FileUploader = new FileUploader({url: uri});
   constructor(
@@ -112,8 +113,8 @@ export class RegistrationComponent implements OnInit {
     this.card = this.patient.record.cards[0] || new Card();
   }
   getDp(avatar: String) {
-    // return 'http://192.168.1.101:5000/api/dp/' + avatar;
-    return 'http://localhost:5000/api/dp/' + avatar;
+    return 'http://192.168.1.101:5000/api/dp/' + avatar;
+    //return 'http://localhost:5000/api/dp/' + avatar;
   }
   toggleSortMenu() {
     this.sortMenu = !this.sortMenu;
@@ -123,6 +124,15 @@ export class RegistrationComponent implements OnInit {
   }
   getMyDp() {
     return this.getDp(this.cookies.get('d'));
+  }
+  logOut() {
+    this.dataService.logOut();
+  }
+  showLogOut() {
+    this.logout = true;
+  }
+  hideLogOut() {
+    this.logout = false;
   }
   getDept() {
     return this.client.departments.filter(d => d.hasWard);
@@ -219,12 +229,13 @@ export class RegistrationComponent implements OnInit {
     this.errorMsg = 'Invalid Card Number';
   }
   }
-  clearField() {
+  clearError() {
     this.errorMsg = null;
   }
   addRecord() {
+    this.psn.errorMsg = null;
     this.psn.creating = true;
-    // this.psn.addDefaults();
+    this.psn.addDefaults();
     this.dataService.addPerson(this.psn.person).subscribe((newPerson: Person) => {
         newPerson.card = {menu: false, view: 'front'};
         this.patients.unshift(newPerson);
@@ -237,7 +248,7 @@ export class RegistrationComponent implements OnInit {
         }, 4000);
     }, (e) => {
         this.psn.errorMsg = 'Unbale to add patient';
-        this.creating = false;
+        this.psn.creating = false;
     });
     // console.log(this.person);
 }
@@ -282,6 +293,19 @@ export class RegistrationComponent implements OnInit {
 isInfo() {
   return this.router.url.includes('information');
 }
+isWard() {
+  return this.router.url.includes('ward');
+}
+isAdmin() {
+  return this.router.url.includes('admin');
+}
+isConsult() {
+  return !this.router.url.includes('information') &&
+  !this.router.url.includes('pharmacy') &&
+  !this.router.url.includes('billing') &&
+  !this.router.url.includes('ward') &&
+  !this.router.url.includes('admin');
+}
   getMe() {
     return this.cookies.get('a');
   }
@@ -296,7 +320,6 @@ isInfo() {
         this.patients.sort((m: Person, n: Person) => n.info.personal.gender.localeCompare(m.info.personal.gender));
         this.nowSorting = 'Gender';
         break;
-    
         case 'age':
         this.patients.sort((m, n) => new Date(m.info.personal.dob).getFullYear() - new Date(n.info.personal.dob).getFullYear());
         this.nowSorting = 'Age';
@@ -415,9 +438,9 @@ analyseCard() {
       this.errorMsg = 'Invalid Card Number';
     }
   } else {
-    this.patient.record.visits.unshift([
-      this.visit
-    ]);
+    // this.patient.record.visits.unshift([
+    //   this.visit
+    // ]);
     this.chargeForCard();
     this.patient.record.cards.unshift(this.card);
   }

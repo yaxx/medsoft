@@ -46,7 +46,7 @@
                     class="card-header grapheader">
                         <h1 style="font-weight: bold" data-toggle=modal data-target='#staffModal' class="dept headtitle">
                             NOTIFICATIONS
-                            <i data-toggle=modal data-target='#noteModal' style="left:98%;bottom:-9px;font-size: 26px;" class="icon ion-ios-plus-empty editicon editclient addinfo" title="Add Notification">
+                            <i *ngIf="isAdmin()" data-toggle=modal data-target='#noteModal' style="left:98%;bottom:-9px;font-size: 26px;" class="icon ion-ios-plus-empty editicon editclient addinfo" title="Add Notification">
                             </i>
                         </h1>
                     </div>
@@ -75,12 +75,12 @@
                                 <li class="action">Delete </li>
                             </ul>
                           </div>  -->
-                            <p class="note-item">{{note.note}} <br>
-                              <span class="read-more"><a href="#">Read more</a></span>
+                          <p class="note-item">{{note.note}} <br>
+                              <!-- <span class="read-more"><a href="#">Read more</a></span> -->
                           </p>
                           <p class="anouncer">-Management:&nbsp;<span>{{note.meta.dateAdded|date:'dd/MM/y hh:mma'|lowercase}}</span></p>
                         </div>
-                      
+
                     </div>
                 </div>
         </div>

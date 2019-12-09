@@ -133,7 +133,20 @@
         </form>
         </div>
     </div>
-    <div class="timeline lastdoc priscriber headerdp small-dp user-dp"style="left:90%;position:absolute;height:30px;width:30px;top:5px; margin-bottom:0px;"> <img style='height:100%; width:100%; object-fit:cover;' [src] = getMyDp()/></div>
+    <div (mouseleave) = hideLogOut() class="timeline lastdoc priscriber headerdp small-dp user-dp" style="left:90%;position:absolute;height:87px;width:90px;top:5px; margin-bottom:0px;background:inherit">
+        <div  class="timeline lastdoc priscriber headerdp small-dp user-dp" style="position:absolute;height:30px;width:30px;top:5px; margin-bottom:0px; "> 
+            <img (click) = showLogOut() style='height:100%; width:100%; object-fit:cover; cursor: pointer;' [src]=getMyDp()/>
+            <span *ngIf="logout">
+                <div style='position: absolute;width: 100px;top: 33px;height: 34px; padding-left: 0px;left: -95%;' class="menu">
+                    <ul  class="actions primary">
+                        <li style="text-align: center;padding-left: 0px;" (click)=logOut() class="action">
+                            Log out
+                        </li>
+                    </ul>
+                </div>
+            </span>
+        </div>
+    </div>
 </nav>
 
 
@@ -153,7 +166,7 @@
         </div>
         <div *ngFor="let patient of patients; let i = index" class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
             <div  class="card card-secondary maincard">
-                <div style="border-radius:12px" class="card-header profileheader">
+                <div style="border-radius:25px" class="card-header profileheader">
                     <div class="timeline lastdoc priscriber headerdp">
                         <img [src]=getDp(patient.info.personal.avatar)/>
                     </div>
@@ -190,7 +203,7 @@
                         </div>
                     </div>
                 </div>
-                <button (click)= openRequests(i)  data-toggle="modal" data-target="#requestModal" style=" width: 120px;font-size: 10px; height:27px;left:45%; bottom:7%;" class="btn btn-sm btn-outline-primary mainbtn">
+                <button (click)= openRequests(i)  data-toggle="modal" data-target="#requestModal" style=" width: 120px;font-size: 10px; height:27px;left:26%; bottom:7%;" class="btn btn-sm btn-outline-primary mainbtn">
                     OPEN REQUESTS 
                 </button>
             </div>

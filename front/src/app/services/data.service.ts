@@ -4,7 +4,9 @@ import {Product, Item} from '../models/inventory.model';
 import {Client, Department} from '../models/client.model';
 import {Person} from '../models/person.model';
 import * as socketIo from 'socket.io-client';
+import {Router} from '@angular/router';
 import { Socket } from '../models/socket';
+import {CookieService} from 'ngx-cookie-service';
 declare var io: {
   connect(url: string): Socket;
 };
@@ -12,17 +14,24 @@ declare var io: {
   providedIn: 'root'
 })
 export class DataService {
-  uri = 'http://localhost:5000/api';
-  //uri = 'http://192.168.1.101:5000/api';
-  // uri = 'http://3.19.194.118:80/api';
+ // uri = 'http://localhost:5000/api';
+  uri = 'http://192.168.1.101:5000/api';
   socket: Socket;
   staff: Person = new Person();
   patients: Person[] = new Array<Person>();
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private cookies: CookieService,
+    private router: Router
+    ) { }
   getHistory(id) {
     return this.http.get(
-      `${this.uri}/history/${id}`, {withCredentials: true} 
+      `${this.uri}/history/${id}`, {withCredentials: true}
       );
+  }
+  logOut() {
+    this.cookies.deleteAll();
+    this.router.navigate(['/']);
   }
   getMyAccount() {
     return this.http.get(

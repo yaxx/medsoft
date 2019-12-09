@@ -25,14 +25,14 @@
                                 <div *ngFor="let invoice of invoices; let j= index" class="priscription drug">
                                     <h6 class="dept">{{invoice.name}}&nbsp;<span class="predata"></span>
                                     <span *ngIf="invoice.paid" class="predata priceval">
-                                        <i (click)='getReversables(i,j)' data-target="#reversePayment" data-toggle="modal" title = 'Reverse payment'  class="icon ion-ios-checkmark-empty paid-icon"></i>
+                                        <i (click)='getReversables(i,j)' class="icon ion-ios-checkmark-empty paid-icon"></i>
                                     </span>
                                     <span *ngIf="!invoice.paid" class="predata priceval">
                                         <i (click)="selectItem(i,j)" style=' color:lightgrey;'  *ngIf="invoice.meta.selected" class="icon ion-ios-checkmark-empty paid-icon" title="Deselect "></i>
                                         <div  style='border-color:rgb(228, 227, 227)'
-                                        *ngIf ="!invoice.meta.selected && !invoice.quantity" class="mycheckbox"  >
+                                        *ngIf ="!invoice.price" class="mycheckbox">
                                         </div>
-                                        <div class="mycheckbox" *ngIf ="!invoice.meta.selected && invoice.quantity" (click)="selectItem(i,j)">
+                                        <div class="mycheckbox" *ngIf ="!invoice.meta.selected && invoice.price" (click)="selectItem(i,j)">
                                         </div>
                                     </span>
                                     </h6>
@@ -57,6 +57,7 @@
                                         <tr style="padding-left: 4px" class="staff-th">
                                             <th style="padding:3px 8px;font-weight: bold;color:#1da1f2;" class="headlbl staff-th">ORDER</th>
                                             <th style='text-align:right;padding:3px 8px;font-weight: bold;color:#1da1f2;' class="headlbl staff-th">PRICE</th>
+                                            <th style='padding: 4px;font-size:10px;color: #6c757d; text-align: right;' class="headlbl patient-th">CREDIT</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -64,6 +65,14 @@
                                             <td style="padding:2px 4px; " class="data"> {{invoice.name}}</td>
                                             <td style='font-size:11px;text-align:right;padding:2px 6px;' class="data">
                                                 {{invoice.quantity * invoice.price}}
+                                            </td>
+                                            <td style="text-align: right; padding-left:3px" class="data">
+                                                <div title="Credit Payment" *ngIf="!invoice.credit" (click) = markAsCreadit(i,true) style='position:relative;bottom:0px; left: 75%;' class="mycheckbox">
+                                                </div>
+                                                <span *ngIf="invoice.credit" style="left: -24%;position: relative;  text-align: center;
+                                                bottom: 12px;" class="predata priceval">
+                                                    <i title="Unmark"  (click) = markAsCreadit(i,false)   style=' color:lightgrey;'  class="icon ion-ios-checkmark-empty paid-icon" title="Deselect "></i>
+                                                </span>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -121,20 +130,14 @@
             <ul class="nav navbar-nav"></ul>
             <form class="top-searchform" target="_self">
                 <div class="form-group">
-                    <input [(ngModel)]=searchTerm #search (keyup)='searchPatient(searchTerm)' autocomplete="off" style="border-radius:.999em;
-                width:80%;display:inline-block;
-                position: absolute;
-                text-align: left;
-                vertical-align: middle;
-                top:11%;
-                box-shadow:none;
-                outline:none;
-                background-color: rgba(233, 236, 239, 0.7);
+                    <input [(ngModel)]=searchTerm #search (keyup)='searchPatient(searchTerm)' autocomplete="off" style="border-radius:.999em; width:80%;display:inline-block;  position: absolute; text-align: left;
+                        vertical-align: middle;top:11%; box-shadow:none; outline:none; background-color: rgba(233, 236, 239, 0.7);
                 " class="form-control" type="search" name="search" id="search-field" placeholder="Search patient">
                     <i style='font-size:20px; top:3px;left:83%;position:relative;display:inline' class="icon ion-ios-search " title="Search"></i>
                     <h6 style=' cursor:pointer; font-size:12px;left:98%;position:relative;display:inline-block;color:grey;font-weight:normal;
                       '>Sort: <span style='cursor:pointer; color:#1da1f2;' (click)='toggleSortMenu()'>
-                        {{nowSorting}}</span></h6>
+                        {{nowSorting}}</span>
+                    </h6>
                     <div *ngIf=sortMenu style='position: absolute; left:120%; width:100px;top:6px;height:110px' class="menu">
                         <ul (mouseleave)='toggleSortMenu()' class="actions primary">
                             <li (click)='sortPatients("name")' class="action">A-Z</li>
@@ -148,7 +151,20 @@
             </form>
         </div>
     </div>
-    <div class="timeline lastdoc priscriber headerdp small-dp user-dp" style="left:90%;position:absolute;height:30px;width:30px;top:5px; margin-bottom:0px;"> <img style='height:100%; width:100%; object-fit:cover;' [src]=getMyDp()/></div>
+    <div (mouseleave) = hideLogOut() class="timeline lastdoc priscriber headerdp small-dp user-dp" style="left:90%;position:absolute;height:87px;width:90px;top:5px; margin-bottom:0px;">
+        <div  class="timeline lastdoc priscriber headerdp small-dp user-dp" style="position:absolute;height:30px;width:30px;top:5px; margin-bottom:0px; background:inherit"> 
+            <img (click) = showLogOut() style='height:100%; width:100%; object-fit:cover; cursor: pointer;' [src]=getMyDp()/>
+            <span *ngIf="logout">
+                <div style='position: absolute;width: 100px;top: 33px;height: 34px; padding-left: 0px;left: -95%;' class="menu">
+                    <ul  class="actions primary">
+                        <li style="text-align: center;padding-left: 0px;" (click)=logOut() class="action">
+                            Log out
+                        </li>
+                    </ul>
+                </div>
+            </span>
+        </div>
+    </div>
 </nav>
 
 <div style="padding-top:60px" class="container">
@@ -215,7 +231,13 @@
                         <button (click)="switchCardView(i,'card')" *ngIf="!patients[i].record.cards[0].pin"  style=" width: 120px;font-size: 10px; height:27px;left: 26%;bottom: 10%;" class="btn btn-sm btn-outline-primary mainbtn"> ASSIGN CARD </button>
                     </div>
                     <div [class.on]='patient.card.view === "card"'   style="position: absolute; width:100%;height: 87%; top:13%;background:white;border-bottom-right-radius: 12px;border-bottom-left-radius: 12px" class="card-body mainbody off">
-                        <form style="top:25%;position:absolute;width:100%; padding-left: 4%; padding-right: 6%;" class=" staffsform">
+                        <form style="top:25%;position:absolute;width:100%; padding-left: 8%; padding-right: 8%;" class=" staffsform">
+                            <div style=" margin-top:2px;" class="form-group vitals-section formGroup">
+                                <label style='font-size:10px;font-weight: bold; color:grey; left: 45px;top:-15%;' for="title" class="labelss complain">
+                                    CARD TYPE: &nbsp; <span style='font-size:11px;'>{{card.category}}</span>
+                                </label>
+                                <input  placeholder="Scan card pin" style='font-size:11px; visibility: hidden; width:100%; padding-left: 5px; border-radius: 0px;border: none;border-bottom: 1px solid whitesmoke;' name="pin" class="patientdata dataInfo ref-dept" >
+                            </div>
                             <div style=" margin-top:2px;" class="form-group vitals-section formGroup">
                                 <label style='font-size:8px;left: 25px;top:-15%;' for="title" class="labelss complain">
                                     CARD PIN 

@@ -40,3 +40,20 @@
   width:52px;
 }
 
+.off {
+  left: -100%;
+ } 
+.on {
+  left: 0%;
+  animation-name: card-in;
+  animation-duration: .2s;
+  animation-timing-function: ease-in;
+}
+@keyframes card-in {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 0%;
+    }
+}

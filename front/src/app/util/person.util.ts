@@ -57,7 +57,7 @@ export  class PersonUtil {
         return (this.person.info.contact.emergency.mobile);
     }
     isInvalidForm() {
-        return !(this.isValidInfo() && this.isValidContact());
+        return !(this.isValidInfo());
     }
     getLgas() {
         return this.lgas[this.states.indexOf(this.person.info.contact.me.state)];
@@ -67,7 +67,7 @@ export  class PersonUtil {
         //     ...this.card,
         //     meta: new Meta(this.cookies.get('i'))
         // });
-        this.person.record.visits = [[{...new Visit(), status: 'out'}]];
+        this.person.record.visits = [[new Visit()]];
     }
     addInitials() {
     this.person.record.cards.unshift({

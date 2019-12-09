@@ -1,7 +1,7 @@
 {
-  "name": "spinr",
+  "name": "dashbox",
   "version": "0.0.1",
-  "productName": "spinr",
+  "productName": "dashbox",
   "main": "main.js",
   "scripts": {
     "ng": "ng",
@@ -15,14 +15,17 @@
     "electron": "electron .",
     "electron-build": "ng build --prod && electron ."
   },
-
   "nsis": {
     "runAfterFinish": true,
     "license": "LICENSE"
   },
   "build": {
-    "appId": "com.spinr.app",
-    "productName": "spinr"
+    "appId": "com.dashbox.app",
+    "productName": "dashbox",
+    "files": [
+      "main.js",
+      "dist/front"
+    ]
   },
   "private": true,
   "dependencies": {
@@ -71,7 +74,7 @@
     "@types/node": "~8.9.4",
     "@types/socket.io-client": "^1.4.32",
     "codelyzer": "~4.2.1",
-    "electron": "^2.0.7",
+    "electron": "^2.0.18",
     "electron-builder": "^20.40.2",
     "electron-installer-windows": "^2.0.0",
     "electron-packager": "^13.1.1",
@@ -84,6 +87,7 @@
     "karma-jasmine": "~1.1.1",
     "karma-jasmine-html-reporter": "^0.2.2",
     "protractor": "~5.4.0",
+    "rimraf": "^3.0.0",
     "ts-node": "~5.0.1",
     "tslint": "~5.9.1",
     "typescript": "~2.7.2"

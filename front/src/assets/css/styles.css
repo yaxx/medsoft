@@ -1167,6 +1167,17 @@ html {
     align-items: center;
     z-index: 10;
   }
+  .indicator {
+    height:14px;
+    width:14px;
+    position:absolute;
+    left:79%;
+    background:#07f282;
+    border-radius:50%;
+    bottom:5px;
+  }
+  
+  
   .off {
     left: -100%;
    } 

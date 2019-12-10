@@ -13,8 +13,8 @@ import {Visit, Session} from '../../models/record.model';
 import {Client, Department} from '../../models/client.model';
 import {CookieService } from 'ngx-cookie-service';
 //const uri = 'http://192.168.1.101:5000/api/upload';
-//const uri = 'http://localhost:5000/api/upload';
- const uri = 'http://18.221.76.96:5000/api/upload';
+const uri = 'http://localhost:5000/api/upload';
+
  @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
@@ -56,8 +56,8 @@ export class RegistrationComponent implements OnInit {
   view = 'info';
   pin = null;
   searchTerm = '';
-   //dpurl = 'http://localhost:5000/api/dp/';
-  dpurl = 'http://192.168.1.101:5000/api/dp/';
+  dpurl = 'http://localhost:5000/api/dp/';
+   //dpurl = 'http://192.168.1.101:5000/api/dp/';
   uploader: FileUploader = new FileUploader({url: uri});
   constructor(
     private dataService: DataService,
@@ -72,15 +72,12 @@ export class RegistrationComponent implements OnInit {
     this.getPatients('out');
     this.getClient();
     this.socket.io.on('new patient', (patient: Person) => {
-      console.log(patient);
       this.patients.unshift(patient);
     });
     this.socket.io.on('new card', (changes) => {
-      console.log(changes.patient);
       this.patients.splice(this.patients.findIndex(p => p._id === changes.patient._id) , 1);
     });
     this.socket.io.on('payment', (changes) => {
-      console.log(changes.patient);
       this.patients.splice(this.patients.findIndex(p => p._id === changes.patient._id) , 1);
     });
     this.socket.io.on('discharge', (patient: Person) => {
@@ -113,8 +110,8 @@ export class RegistrationComponent implements OnInit {
     this.card = this.patient.record.cards[0] || new Card();
   }
   getDp(avatar: String) {
-    return 'http://192.168.1.101:5000/api/dp/' + avatar;
-    //return 'http://localhost:5000/api/dp/' + avatar;
+   // return 'http://192.168.1.101:5000/api/dp/' + avatar;
+    return 'http://localhost:5000/api/dp/' + avatar;
   }
   toggleSortMenu() {
     this.sortMenu = !this.sortMenu;

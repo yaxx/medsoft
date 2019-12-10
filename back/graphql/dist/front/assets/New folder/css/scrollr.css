@@ -1,0 +1,27 @@
+.simplebar-scrollbar:before {
+  position: absolute;
+  content: "";
+  background:white;
+  border-radius: 18px;
+  left: 0;
+  right: 0;
+  opacity: 0;
+  width: 2px;
+  transition: opacity 0.2s linear;
+  -webkit-border-radius: 18px;
+  -moz-border-radius: 18px;
+  -ms-border-radius: 18px;
+  -o-border-radius: 18px;
+}
+.simplebar-track {
+  z-index: 1;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 2px;
+  pointer-events: none;
+}
+.simplebar-track.vertical .simplebar-scrollbar:before {
+  top: 0px;
+  bottom: 2px;
+}

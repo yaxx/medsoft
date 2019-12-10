@@ -328,6 +328,7 @@
                     </i>
                     <div style="left:23px;position: absolute;" class="timeline lastdoc priscriber headerdp small-dp">
                         <img [src] = getDp(patient.info.personal.avatar)/>
+                       
                     </div>
                     <p style="top:6px;margin-bottom:0px;position: absolute;" class="patien-name small-name">
                         {{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}<span class="small-headericon"></span>
@@ -336,6 +337,7 @@
                 <div [class.ap]='cardCount' [class.front]='patient.card.view === "front"' style="position: absolute; width:100%;height: 87%;top:13%" class="card-body mainbody">
                     <div style="position: relative;margin-bottom: 0px;top:0px" class="timeline lastdoc priscriber headerdp">
                     <img  [src]=getDp(patient.info.personal.avatar)/>
+                    <div class="indicator"></div>
                     </div>
                     <p *ngIf="isInfo() || isWard()"  style='margin-bottom:2px;position:relative;top:3px' class="patien-name display-name">
                         {{patient.info.personal.firstName + ' '+patient.info.personal.lastName}}

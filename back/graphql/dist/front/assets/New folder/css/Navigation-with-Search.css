@@ -1,0 +1,214 @@
+.navbar-brand {
+}
+
+.navigation-clean-search {
+  background:#ffffff;
+  /*padding-top:.75rem;*/
+  /*padding-bottom:.75rem;*/
+  color:#333;
+  border-radius:0;
+  box-shadow:none;
+  border:none;
+  padding:0px;
+  margin-bottom:0;
+  padding-top:0px;
+  padding-bottom:0px;
+}
+
+@media (min-width:768px) {
+  .navigation-clean-search {
+    padding-top:1rem;
+    padding-bottom:1rem;
+  }
+}
+
+.navigation-clean-search .navbar-brand {
+  font-weight:bold;
+  color:#2884fe;
+}
+
+.navigation-clean-search .navbar-brand:hover {
+  color:#222;
+}
+
+.navigation-clean-search .navbar-toggler {
+  border-color:#ddd;
+}
+
+.navigation-clean-search .navbar-toggler:hover, .navigation-clean-search .navbar-toggler:focus {
+  background:none;
+}
+
+.navigation-clean-search .navbar-toggler {
+  color:#888;
+}
+
+.navigation-clean-search .navbar-collapse, .navigation-clean-search .form-inline {
+  border-top-color:#ddd;
+}
+
+.arrow.buble {
+  left:25%;
+  position:absolute;
+  font-size:x-large;
+  cursor:pointer;
+}
+
+.icon.ion-android-notifications-none.arrow.buble.note {
+  left:21%;
+  cursor:pointer;
+}
+
+#add{
+ 
+  left:82%;
+  position:absolute;
+  font-size:x-large;
+  cursor:pointer;
+}
+.navigation-clean-search .navbar-nav a.active, .navigation-clean-search .navbar-nav > .show > a {
+  background:none;
+  box-shadow:none;
+}
+
+.navigation-clean-search.navbar-light .navbar-nav a.active, .navigation-clean-search.navbar-light .navbar-nav a.active:focus, .navigation-clean-search.navbar-light .navbar-nav a.active:hover {
+  color:#8f8f8f;
+  box-shadow:none;
+  background:none;
+  pointer-events:none;
+}
+
+.navigation-clean-search.navbar .navbar-nav .nav-link {
+  padding-left:18px;
+  padding-right:18px;
+}
+
+.navigation-clean-search.navbar-light .navbar-nav .nav-link {
+  color:#465765;
+}
+
+.navigation-clean-search.navbar-light .navbar-nav .nav-link:focus, .navigation-clean-search.navbar-light .navbar-nav .nav-link:hover {
+  color:#37434d !important;
+  background-color:transparent;
+}
+
+.navigation-clean-search .action-button, .navigation-clean-button .action-button:active {
+  background:#2884FE;
+  border-radius:20px;
+  font-size:9px;
+  color:#fff !important;
+  box-shadow:none;
+  border:none;
+  text-shadow:none;
+  /*padding:8px 20px;*/
+  transition:background-color 0.25s;
+}
+
+.navigation-clean-search .action-button:hover, .navigation-clean-search .action-button:focus {
+  background:#66d7d7;
+}
+
+.btn.btn-light.action-button {
+  right:24%;
+  position:absolute;
+  background:#02d1b8;
+}
+
+.navigation-clean-search .form-inline label {
+  color:#ccc;
+}
+
+.icon.ion-ios-arrow-down.arrow {
+  position:absolute;
+  left:75.5%;
+  color:#928f8f;
+  cursor:pointer;
+}
+
+.filter {
+  font-size:x-small;
+  margin:0px;
+  left:67%;
+  position:absolute;
+  color:#8f8f8f;
+}
+
+.form-inline.mr-auto.searchform {
+  width:40%;
+}
+
+.navigation-clean-search .form-inline .search-field {
+  background:none;
+  border:none;
+  /*border-bottom:1px solid transparent;*/
+  color:#ccc;
+  box-shadow:none;
+  color:inherit;
+  transition:border-bottom-color 0.3s;
+  width:200px;
+  position:relative;
+  border:1px solid blue;
+}
+
+@media (max-width:767px) {
+  .navigation-clean-search .form-inline .search-field {
+    display:inline-block;
+    width:80%;
+  }
+}
+
+.navigation-clean-search .form-inline .search-field:focus {
+  border-bottom:1px solid #ccc;
+}
+
+.icon.ion-ios-search.searchicon {
+  position:absolute;
+  font-size:20px;
+  left:64%;
+  color:#929698;
+  z-index:1;
+  cursor:pointer;
+}
+
+.icon.ion-ios-personadd-outline.addpaticipant {
+  font-size:x-large;
+  /*position:absolute;*/
+  left:95%;
+  width:30px;
+  padding:0px;
+  /*background:lightgrey;*/
+  /*border-radius:50%;*/
+  /*height:30px;*/
+  /*background-origin:content-box;*/
+}
+
+.logo {
+  height:5%;
+  width:100%;
+  position:absolute;
+  background-image:url(../../assets/img/medical-symbol-vector-6459988.jpg);
+  background-repeat:no-repeat;
+  background-size:contain;
+}
+
+#search-field:focus {
+  background:inherit;
+  border-color:#7f9bfe;
+}
+
+#search-field {
+  width:30%;
+  position:absolute;
+  border:1px solid #f4f2f2;
+  border-radius:5px;
+  padding:3px;
+  padding-left:30px;
+  font-size:small;
+  background:#f3f8f7;
+  left:33%;
+  opacity:0.3;
+  /*cursor:pointer;*/
+  text-align:center;
+  color:grey;
+}
+

@@ -1,0 +1,972 @@
+.mainwrap {
+  display:inline-block;
+  /*position:absolute;*/
+  height:100%;
+  /*border:1px solid grey;*/
+  width:73%;
+}
+
+.sidewrap {
+  width:27%;
+  height:98%;
+  /*border:1px solid lightgrey;*/
+  position:absolute;
+  display:inline-block;
+  left:73%;
+  top:1.7%;
+  padding:4px;
+}
+
+.justify-content-center.align-self-center.activedaytime.vitalsage.bplabel.navg.dystolicavg.exerciselbl.exercisepiriod {
+  top:90%;
+  left:50%;
+}
+
+.justify-content-center.align-self-center.activedaytime.vitalsage.bplabel.exercise.exercisetime {
+  top:87%;
+  color:grey;
+  font-size:xx-small;
+}
+
+.justify-content-center.align-self-center.activedaytime.vitalsage.bplabel.exercise {
+  top:80%;
+}
+
+.progress.systolicbar.exercisebar {
+  bottom:11%;
+  left:20%;
+  position:absolute;
+  width:38%;
+}
+
+.justify-content-center.align-self-center.activedaytime.vitalsage.bplabel.navg.dystolicavg.exerciselbl {
+  top:70%;
+  left:56%;
+}
+
+.progress.systolicbar {
+  left:70%;
+  position:absolute;
+}
+
+.progress-bar {
+  border-radius:8px;
+  background:#02d1b8;
+}
+
+.progress {
+  border-radius:8px;
+  width:30%;
+  left:35%;
+  position:relative;
+  height:13px;
+  bottom:-70%;
+  position:absolute;
+  z-index:1;
+}
+
+.justify-content-center.align-self-center.activedaytime.actdate.agelabel {
+  left:4%;
+  bottom:83%;
+  font-size:10px;
+  color:lightgrey;
+}
+
+.unit {
+  font-size:small;
+}
+
+.justify-content-center.align-self-center.activedaytime.vitalsage.weight {
+  left:54%;
+  color:#929698;
+}
+
+.justify-content-center.align-self-center.activedaytime.vitalsage {
+  left:4%;
+  font-size:larger;
+  font-weight:bolder;
+  /*font-size:11px;*/
+  bottom:28%;
+}
+
+.btn-group.footerbuttons.activetab.activetitle {
+  bottom:80%;
+  position:absolute;
+  width:24%;
+  left:63%;
+  padding:0px;
+  height:10px;
+  text-align:center;
+  font-size:x-small;
+}
+
+.activerange {
+  right:20%;
+  /*font-size:7px;*/
+  color:lightgrey;
+  font-weight:normal;
+  bottom:87%;
+}
+
+.justify-content-center.align-self-center.activedaytime.activetitle {
+  bottom:83%;
+  left:4%;
+  font-size:small;
+  color:#9a9999;
+}
+
+.justify-content-center.align-self-center.activedaytime.actdate {
+  bottom:11%;
+  font-weight:normal;
+  left:24%;
+}
+
+.activedaytime {
+  font-size:7px;
+  position:absolute;
+  bottom:20%;
+  margin:auto;
+  text-align:center;
+  display:block;
+  left:32%;
+}
+
+.halftime {
+  width:50%;
+  height:100%;
+  background:#bbf7f0;
+}
+
+.justify-content-center.align-self-center.activedaytime.vitalsage.bplabel.exercise.exercisetime.mainexval.exercisetopval {
+  top:10%;
+  color:darkgrey;
+}
+
+.activitytime.vitalshead.exercisehead.exercisefooter {
+  top:91%;
+  border-bottom:0px;
+  border-top:1px solid #f4f6f7;
+  position:absolute;
+}
+
+.justify-content-center.align-self-center.activedaytime.vitalsage.bplabel.exercise.exercisetime.mainexval.mainnavg {
+  top:26%;
+  left:68%;
+  color:lightgrey;
+}
+
+.btn.btn-primary.submitmsg.exsetting.familyhisbtn {
+  border:1px solid #495057;
+  width:58%;
+  padding:4px;
+  /*height:5%;*/
+  text-align:center;
+  top:-5%;
+  margin:auto;
+  font-size:xx-small;
+  left:20%;
+  position:absolute;
+  border-radius:3px;
+  color:#888888;
+}
+
+.justify-content-center.align-self-center.activedaytime.vitalsage.bplabel.exercise.mainexlbl.mainexval.famhistory {
+  display:inline-block;
+  width:100%;
+  text-align:center;
+  color:#e7e4e4;
+  top:35%;
+  /*position:absolute;*/
+  left:-1%;
+}
+
+.justify-content-center.align-self-center.activedaytime.vitalsage.bplabel.exercise.mainexlbl.mainexval.famhistory.what {
+  top:52%;
+  color:#7f9bfe;
+}
+
+.justify-content-center.align-self-center.activedaytime.vitalsage.bplabel.exercise.exercisetime.mainexval.exercisetopval.bpvalue.avgbp {
+  top:16%;
+  left:3%;
+  color:lightgrey;
+}
+
+.justify-content-center.align-self-center.activedaytime.vitalsage.bplabel.exercise.exercisetime.mainexval.exercisetopval.bpvalue {
+  color:#888888;
+}
+
+.justify-content-center.align-self-center.activedaytime.vitalsage.bplabel.exercise.exercisetime.mainexval.exercisetopval.bpvalue.avgbp {
+}
+
+.justify-content-center.align-self-center.activedaytime.vitalsage.bplabel.exercise.exercisetime.mainexval.mainexheader.pbheaderlbl {
+  left:30%;
+}
+
+.justify-content-center.align-self-center.activedaytime.vitalsage.bplabel.exercise.exercisetime.mainexval.mainexheader {
+  /*font-weight:bold;*/
+  font-size:small;
+  padding-top:3%;
+  /*left:38%;*/
+  text-align:center;
+  display:inline-block;
+  width:100%;
+  height:100%;
+}
+
+.ruler.exerciseruler.mainexruler {
+  height:6%;
+  top:30%;
+  left:69.5%;
+}
+
+.justify-content-center.align-self-center.activedaytime.vitalsage.bplabel.exercise.mainexlbl {
+  top:30%;
+}
+
+.justify-content-center.align-self-center.activedaytime.vitalsage.bplabel.exercise.exercisetime.mainexval {
+  top:34%;
+}
+
+.icon.ion-android-arrow-dropdown.info.weighticon.arrowdown {
+  right:108%;
+  font-size:18px;
+  color:#02d1b8;
+  top:3%;
+}
+
+.filenm.imagename {
+  bottom:35%;
+}
+
+.filenm {
+  position:relative;
+  display:inline-block;
+  font-size:10px;
+  bottom:52%;
+  font-weight:normal;
+  color:#c0c0c0;
+  width:40%;
+}
+
+.justify-content-center.align-self-center.activedaytime.vitalsage.bplabel.exercise.exercisetime.mainexval.exercisetopval.bpvalue.avgbp.dateimum.filename {
+  top:-8%;
+  left:4%;
+}
+
+.justify-content-center.align-self-center.activedaytime.vitalsage.bplabel.exercise.exercisetime.mainexval.exercisetopval.bpvalue.avgbp.dateimum.numseq.filetypesize {
+  left:20%;
+  top:-19%;
+}
+
+.btn.btn-primary.submitmsg.exsetting.imuncomnt.uploadcmt {
+  top:10%;
+  left:35%;
+  font-size:14px;
+  border:1px solid grey;
+  width:15%;
+  height:45%;
+}
+
+.icon.ion-filing.settingsicon.comicon.fileicon.filingicon {
+  font-size:22px;
+  display:inline-block;
+  color:#e1dfdf;
+  position:relative;
+  left:40%;
+}
+
+.justify-content-center.align-self-center.activedaytime.vitalsage.bplabel.exercise.exercisetime.mainexval.exercisetopval.bpvalue.avgbp.dateimum.filename.dropzonename {
+  width:90%;
+  margin:auto;
+  right:3%;
+  /*position:relative;*/
+}
+
+#dropzonespan {
+  color:#2884fe;
+}
+
+#maindropzone {
+  position:relative;
+  margin-top:20px;
+  /*background:grey;*/
+  /*height:70px;*/
+}
+
+.imtypsection.filelist.dropzone {
+  width:88%;
+  border-radius:4px;
+  margin:10px;
+  border-style:dotted;
+  border:1px solid lightgrey;
+  margin:auto;
+  /*top:13%;*/
+  position:relative;
+  /*border-bottom:1px solid lightgrey;*/
+  height:26%;
+  border-style:dashed;
+}
+
+.icon.ion-ios-download-outline.settingsicon.comicon.foldericon.downloadicon {
+  top:30%;
+  position:relative;
+  left:25%;
+  color:#c0c0c0;
+}
+
+.icon.ion-folder.settingsicon.comicon.fileicon {
+  font-size:19px;
+  color:lightgrey;
+  left:2%;
+  position:relative;
+  display:inline-block;
+  top:-2%;
+}
+
+.noteicon {
+  font-size:19px;
+  left:37px;
+  bottom:35%;
+  color:#e1dfdf;
+  position:relative;
+  display:inline-block;
+}
+
+.noteicon:hover {
+  cursor:pointer;
+}
+
+.downloadicon {
+  left:29%;
+  /*font-size:18px;*/
+  bottom:41%;
+}
+
+.icon.ion-image.fileicon2.imageicon {
+  font-size:22px;
+  bottom:10%;
+}
+
+.icon.ion-images.fileicon2.imageicon.imagesicon {
+  font-size:24px;
+}
+
+.fileicon2 {
+  font-size:28px;
+  bottom:20%;
+  position:relative;
+  display:inline-block;
+  border-collapse:collapse;
+  /*margin:0px;*/
+  color:#dfe3e6;
+}
+
+.card.pprofile.vitalscard.exercisecard.pbcard.weightcard.filescard.pfcard {
+  left:50%;
+}
+
+.card.pprofile.vitalscard.exercisecard.pbcard.weightcard.filescard {
+  position:absolute;
+}
+
+.filesdiv {
+  width:100%;
+  height:30px;
+  border-bottom:1px solid rgb(251,249,249);
+  /*position:absolute;*/
+  padding-left:10px;
+  /*display:inline-block;*/
+  border-collapse:collapse;
+  margin:0px;
+}
+
+.imtimesection.filesection {
+  border:none;
+  margin-left:0px;
+  width:100%;
+}
+
+.imtypsection.filelist {
+  border-bottom:1px solid #f3f8f7;
+  height:16%;
+  padding-left:5%;
+}
+
+.progress.systolicbar.exercisebar.mainexbar {
+  width:55%;
+  top:32%;
+  left:42%;
+}
+
+.btn.btn-primary.submitmsg.exsetting {
+  border-radius:0px;
+  height:20px;
+  width:20px;
+  left:86%;
+  position:absolute;
+  bottom:3%;
+  border-left:1px solid lightgrey;
+  background:inherit;
+}
+
+.icon.ion-android-settings.settingsicon {
+  top:1%;
+  position:absolute;
+  right:24%;
+}
+
+.modal-content {
+  width:75%;
+  height:auto;
+  margin:auto;
+  padding:0px;
+}
+
+.activitytime {
+  height:100%;
+  width:13%;
+  position:relative;
+  background:white;
+  display:inline-block;
+}
+
+.card.pprofile {
+  width:97%;
+  margin-top:10px;
+  margin-left:10px;
+  height:210px;
+  padding:0px;
+}
+
+.card.pprofile.vitalscard {
+  height:160px;
+}
+
+.ptimeline.vitals {
+  height:100%;
+  width:60%;
+  background:white;
+  border-right:1px solid whitesmoke;
+}
+
+.ptimeline {
+  height:60%;
+  width:100%;
+  background-color:#f3f8f7;
+  position:absolute;
+  padding:4px;
+  /*top:99%;*/
+  border-collapse:collapse;
+}
+
+.timelineperiod {
+  width:95%;
+  height:75%;
+  border:1px solid #e1dfdf;
+  margin:auto;
+  bottom:-20%;
+  position:relative;
+}
+
+.halftime.vitalshalf {
+  background:white;
+  border-right:1px solid whitesmoke;
+}
+
+.vitalshead {
+  width:100%;
+  height:33%;
+  /*bottom:20%;*/
+  border-bottom:1px solid whitesmoke;
+  /*background:white;*/
+  margin:initial;
+}
+
+.card-body.historycard.vitalsbody {
+  padding:0px;
+}
+
+.justify-content-center.align-content-center.align-self-center.modal-header {
+  height:20px;
+}
+
+.card-body.historycard {
+  padding:0px;
+}
+
+#phmodal {
+  /*height:100%;*/
+  position:absolute;
+  margin-top:0px;
+  /*bottom:3%;*/
+}
+
+.modal.fade.bd-example-modal-lg {
+  /*height:1000px;*/
+}
+
+.userfb.contacts.contachhistory {
+  margin-bottom:0px;
+}
+
+.btn.btn-primary.prevtimebtn {
+  height:4px;
+  position:absolute;
+  bottom:38%;
+  background:#f5f5f5;
+  min-width:5px;
+  border-color:rgb(223,227,230);
+  right:99%;
+  padding:7px;
+}
+
+.nexticon {
+  left:-4px;
+  position:relative;
+  bottom:12px;
+  text-align:center;
+  margin:auto;
+  /*font-size:medium;*/
+  color:lightgrey;
+}
+
+.btn.btn-primary.nexttimebtn {
+  right:-2%;
+}
+
+.justify-content-center.align-self-center.activedaytime.actdate.agelabel.weightlabel {
+  left:54%;
+  color:lightgrey;
+}
+
+.justify-content-center.align-self-center.activedaytime.actdate.bpvalue {
+  font-weight:bold;
+  font-size:10px;
+  bottom:34%;
+  left:4%;
+  display:inline-block;
+  color:#b0adad;
+}
+
+.justify-content-center.align-self-center.activedaytime.vitalsage.bplabel {
+  font-size:10px;
+  font-weight:normal;
+  bottom:62%;
+  display:inline-block;
+  color:lightgrey;
+}
+
+.activitytime.vitalshead.bphead {
+  height:33%;
+  /*width:0px;*/
+}
+
+.ruler.systolicruler {
+  left:85%;
+  color:#e1dfdf;
+  background:#e1dfdf;
+}
+
+.ruler.exerciseruler {
+  height:11%;
+  top:77%;
+  z-index:5;
+  left:39%;
+}
+
+.ruler {
+  height:35%;
+  border:1px solid #e1dfdf;
+  width:0px;
+  /*bottom:-50%;*/
+  left:50%;
+  position:absolute;
+  top:19%;
+  z-index:1;
+}
+
+.justify-content-center.align-self-center.activedaytime.vitalsage.bplabel.navg {
+  left:43%;
+  font-size:8px;
+  bottom:82%;
+  color:lightgrey;
+}
+
+.justify-content-center.align-self-center.activedaytime.vitalsage.bplabel.navg.dystolicavg {
+  left:78%;
+}
+
+.justify-content-center.align-self-center.activedaytime.vitalsage.bplabel.navg.systoliclbl {
+  bottom:20%;
+}
+
+.justify-content-center.align-self-center.activedaytime.vitalsage.bplabel.navg.dystolicavg.diastoliclbl {
+  bottom:20%;
+}
+
+.activitytime.vitalshead.exercisehead {
+  height:8%;
+  border-top:0px;
+  top:1px;
+  position:relative;
+  /*background:lightgrey;*/
+}
+
+.card.pprofile.vitalscard.exercisecard {
+  width:34%;
+  display:inline-block;
+  height:290px;
+  position:relative;
+  /*flex-direction:row-reverse;*/
+}
+
+.card {
+  position:relative;
+  display:inline-block;
+  display:-ms-flexbox;
+  display:flex;
+  -webkit-box-orient:vertical;
+  -webkit-box-direction:normal;
+  -ms-flex-direction:column;
+  flex-direction:column;
+  min-width:0;
+  word-wrap:break-word;
+  background-color:#fff;
+  background-clip:border-box;
+  border:1px solid rgba(0,0,0,.125);
+  border-radius:.25rem;
+}
+
+.justify-content-center.align-self-center.activedaytime.vitalsage.bplabel.exercise.exercisetime.mainexval.exercisetopval.bpvalue.avgbp.dateimum {
+  /*font-size:1;*/
+  color:#d3d3d3;
+  left:10%;
+  top:1%;
+  position:relative;
+  display:inline-block;
+}
+
+.justify-content-center.align-self-center.activedaytime.vitalsage.bplabel.exercise.exercisetime.mainexval.exercisetopval.bpvalue.avgbp.dateimum.numseq {
+  top:-12%;
+  /*left:-37%;*/
+  /*position:relative;*/
+}
+
+.dateimum span {
+  font-size:8px;
+  color:#495057;
+}
+
+.justify-content-center.align-self-center.activedaytime.vitalsage.bplabel.exercise.exercisetime.mainexval.exercisetopval.bpvalue.imtype {
+  left:-10%;
+  top:14%;
+  color:#02d1b8;
+  font-size:11px;
+  position:relative;
+  display:block;
+}
+
+.imtime {
+  height:30%;
+  width:13%;
+  background:#f3f8f7;
+  border-radius:50%;
+  position:absolute;
+  display:inline-block;
+  border:1px solid #f4f2f2;
+  left:-5%;
+  /*z-index:1;*/
+  top:24%;
+}
+
+.justify-content-center.align-self-center.activedaytime.vitalsage.bplabel.exercise.exercisetime.mainexval.exercisetopval.bpvalue.imtimeval {
+  top:8%;
+  /*left:38%;*/
+  font-weight:bold;
+  width:80%;
+  text-align:center;
+}
+
+.icon.ion-ios-chatboxes-outline.settingsicon.comicon {
+  position:absolute;
+  bottom:-10%;
+  right:38%;
+  color:rgb(67,65,65);
+  font-size:17px;
+}
+
+.btn.btn-primary.submitmsg.exsetting.imuncomnt {
+  top:20%;
+  left:-41%;
+  color:rgb(58,57,57);
+  /*border:1px solid whitesmoke;*/
+  display:inline-block;
+  height:8%;
+  border:none;
+  position:relative;
+}
+
+.btn.btn-primary.submitmsg.exsetting.imuncomnt.imunlink {
+  left:-38%;
+  border:1px solid grey;
+  top:22%;
+  border:none;
+}
+
+.justify-content-center.align-self-center.activedaytime.vitalsage.bplabel.exercise.exercisetime.mainexval.exercisetopval.bpvalue.imtimeval.imdate {
+  top:49%;
+  /*left:23%;*/
+  font-weight:normal;
+  font-size:7px;
+  color:lightgrey;
+  width:90%;
+  text-align:center;
+  display:inline;
+}
+
+.icon.ion-link.settingsicon.comicon.linkicon {
+  position:absolute;
+  bottom:-10%;
+  right:38%;
+  font-size:20px;
+}
+
+.justify-content-center.align-self-center.activedaytime.vitalsage.weight.weightval {
+  top:10%;
+  font-size:12px;
+  /*font-weight:normal;*/
+  left:4%;
+}
+
+.justify-content-center.align-self-center.activedaytime.vitalsage.bplabel.exercise.exercisetime.mainexval.exercisetopval.bpvalue.prevweight {
+  top:16%;
+  color:lightgrey;
+}
+
+.icon.ion-android-arrow-dropup.info.weighticon {
+  left:-101%;
+  font-size:18px;
+  color:#02d1b8;
+  top:3%;
+}
+
+.justify-content-center.align-self-center.activedaytime.vitalsage.weight.weightval.preweightval {
+  top:19%;
+  font-size:9px;
+  font-weight:normal;
+  left:9%;
+}
+
+.unit.weightunit {
+  font-size:10px;
+}
+
+.imtypsection {
+  width:100%;
+  height:30%;
+  /*background:whitesmoke;*/
+  position:relative;
+}
+
+.imtimesection {
+  width:90%;
+  height:86%;
+  border-left:2px solid lightgrey;
+  /*background:#edecec;*/
+  position:absolute;
+  margin-left:10%;
+  top:8%;
+}
+
+.exdiv {
+  width:100%;
+  position:relative;
+  /*border:1px solid lightgrey;*/
+  height:300px;
+}
+
+.card.pprofile.vitalscard.exercisecard {
+  width:47%;
+  display:inline-block;
+  position:relative;
+}
+
+.sidecardlist {
+  font-size:11px;
+  color:grey;
+  padding-left:15%;
+}
+
+.activitytime.vitalshead.exercisehead.exercisefooter.sidecardfooter {
+  height:14px;
+  /*top:70px;*/
+  position:relative;
+}
+
+.resourcesubhd {
+  font-size:x-small;
+  padding-left:5%;
+  border-bottom:1px solid #c0c0c0;
+  color:#9a9999;
+  padding-bottom:3%;
+}
+
+.card.pprofile.vitalscard.exercisecard.pbcard.sidecard.resourcecard {
+  height:6%;
+}
+
+#dropzone {
+  /*height:220%;*/
+  position:relative;
+}
+
+.justify-content-center.align-self-center.activedaytime.vitalsage.bplabel.exercise.exercisetime.mainexval.mainexheader.sidecarheadlbl {
+  font-size:11px;
+  /*font-weight:bold;*/
+  height:100%;
+  padding-bottom:12%;
+}
+
+.activitytime.vitalshead.exercisehead.sidecardhead {
+  height:15px;
+  position:relative;
+  /*padding-top:2%;*/
+  /*background:#bbf7f0;*/
+}
+
+.card.pprofile.vitalscard.exercisecard.pbcard.sidecard {
+  width:98%;
+  height:auto;
+  margin:auto;
+  margin-bottom:7px;
+  position:relative;
+  padding-top:0px;
+}
+
+.addspan {
+  left:100%;
+  position:absolute;
+}
+
+.contcontainer {
+  padding:4px;
+}
+
+.fitnessitem.additem.contactsitems {
+  color:grey;
+  font-weight:bold;
+  border-bottom:0px;
+}
+
+.conbtn {
+  border:0px;
+  border-top:1px solid whitesmoke;
+  width:100%;
+  border:none;
+}
+
+.btn-group.footerbutton.fbtn {
+  top:6px;
+  height:22px;
+  border-bottom:0px;
+  width:100%;
+}
+
+.files {
+  height:20%;
+  width:100%;
+  border:1px solid #f4f2f2;
+}
+
+.fitnesslist.contactlist {
+  border-bottom:1px solid #f5f3f3;
+  /*padding-left:3%;*/
+  padding-right:3%;
+}
+
+.fitnesspan.contactspan.emailspan {
+  color:#45adf2;
+}
+
+.fitnesspan.contactspan {
+  left:22px;
+  font-weight:normal;
+}
+
+#addspan, #addspan2 {
+  left:114px;
+}
+
+.fitnesspan {
+  left:125px;
+  position:absolute;
+  display:inline-block;
+  /*bottom:2px;*/
+}
+
+.fitnessitem.additem {
+  color:lightgrey;
+}
+
+.footerAdd:hover {
+  cursor:pointer;
+  color:#2884fe;
+}
+
+.footerAdd {
+  position:absolute;
+  font-size:11px;
+  color:lightgrey;
+  left:44%;
+}
+
+.fitnessitem {
+  /*border-bottom:1px solid #f5f3f3;*/
+  /*padding-bottom:2%;*/
+  padding-left:4%;
+  margin:0px;
+  /*bottom:90px;*/
+  position:relative;
+  bottom:5px;
+  height:24px;
+  padding-top:1%;
+}
+
+.fitnesslist {
+  list-style:none;
+  font-size:11px;
+  padding:0px;
+  /*padding-top:2%;*/
+  /*padding-bottom:5px;*/
+  /*top:10%;*/
+}
+
+.justify-content-center.align-self-center.activedaytime.vitalsage.bplabel.exercise.exercisetime.mainexval.exercisetopval.bpvalue.avgbp.dateimum.filename.fitnessheader {
+  top:40%;
+  position:relative;
+}
+
+.icon.ion-ios-compose-outline.download.editconicon {
+  position:absolute;
+  font-size:large;
+  top:3%;
+}
+
+.material-icons.sm-10 {
+  font-size:20px;
+  color:#66d7d7;
+}
+
+.material-icons.schedule.addcontacicon {
+  /*right:6%;*/
+}
+
+cont {
+}
+
+.dp.pzero.top-dp {
+  height:75px;
+  width:72px;
+  border-radius:10%;
+}
+

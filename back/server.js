@@ -20,10 +20,10 @@ app.use('/graphql', graphQlHttp({
   graphiql: true
 }))
 
-//app.use(cors({origin:"http://localhost:4200", credentials: true}))
+app.use(cors({origin:"http://localhost:4200", credentials: true}))
 
-app.use(cors({origin:"*", credentials: true}))
-app.use(express.static(path.join(__dirname,'dist','front')))
+// app.use(cors({origin:"*", credentials: true}))
+// app.use(express.static(path.join(__dirname,'dist','front')))
 app.use(require('morgan')('dev'))
 app.use(bodyParser.json())
 app.use(require('cookie-parser')('blackfly'))
@@ -44,6 +44,9 @@ io.sockets.on('connection', (socket) => {
       socket.to(user.si).emit('new message', data)
     } else {}
     })
+  })
+  socket.on('record update', (update) => {
+    socket.broadcast.emit('record update', update);  
   })
   socket.on('enroled', (patient) => {
     socket.broadcast.emit('enroled', patient);  

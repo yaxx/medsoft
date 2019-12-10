@@ -67,8 +67,32 @@ export class PharmacyComponent implements OnInit {
   ngOnInit() {
     this.getPatients('Pharmacy');
     this.getProducts();
-    this.socket.io.on('consulted', (patient: Person) => {
-      this.patients.push(patient);
+    this.socket.io.on('record update', (update) => {
+      console.log(update);
+      const i = this.patients.findIndex(p => p._id === update.patient._id);
+      switch (update.action) {
+        case 'encounter':
+          if (i !== -1 ) {
+            if (this.patients[i].record.medications.length === update.patient.record.medications.length) {
+              this.patients[i] = update.patient;
+            } else {
+              update.patient.card  = { indicate: false } ;
+              this.patients[i] = update.patient ;
+
+            }
+          } else if (update.patient.record.medications.length) {
+            this.patients.unshift(update.patient);
+          }
+          console.log(this.patients[i]);
+          break;
+        case 'payment':
+          if (i >= 0 ) {
+            this.patients.unshift(update.patient);
+          }
+          break;
+        default:
+          break;
+      }
     });
     this.socket.io.on('new order', (patient: Person) => {
       this.patients.push(patient);
@@ -115,7 +139,7 @@ export class PharmacyComponent implements OnInit {
     this.dataService.getPatients(type).subscribe((patients: Person[]) => {
       if (patients.length) {
         patients.forEach(p => {
-          p.card = {menu: false, view: 'front'};
+          p.card = {indicate: false};
         });
         this.patients =  this.filterPatients(patients).sort((m, n) => new Date(n.createdAt).getTime() - new Date(m.createdAt).getTime());
          this.clonedPatients  = patients;
@@ -234,6 +258,7 @@ updatePrices(invoices: Invoice[], i: number) {
 }
   viewOrders(i: number) {
     this.curIndex = i;
+    this.patients[i].card.update = false;
     this.switchViews('orders');
     this.invoices = cloneDeep(this.patients[i].record.invoices);
     this.invoices.forEach((invoices , index) => {
@@ -304,8 +329,8 @@ updatePrices(invoices: Invoice[], i: number) {
   }
  
     getDp(avatar: String) {
-     return 'http://192.168.1.101:5000/api/dp/' + avatar;
-    //return 'http://localhost:5000/api/dp/' + avatar;
+    // return 'http://192.168.1.101:5000/api/dp/' + avatar;
+    return 'http://localhost:5000/api/dp/' + avatar;
   }
 
 

@@ -1,0 +1,42 @@
+.commenttime {
+  font-size:12px;
+  left:80%;
+  color:lightgrey;
+  position:absolute;
+  margin-top:1%;
+}
+
+.commenttime.search {
+  left:78%;
+}
+
+.follow {
+  display:block;
+  padding:5px 15px 5px 15px;
+  border-radius:15px;
+  border:1px solid #0062cc;
+  bottom:10px;
+  position:relative;
+}
+
+.follow:hover {
+  text-decoration:none;
+}
+
+.home .homemenu {
+  top:1%;
+}
+
+.home.homemenu {
+  top:-38%;
+}
+
+.home.homemenu {
+  top:1.5%;
+}
+
+.home:focus {
+  border-right:1px solid rgb(2,209,184);
+  background:rgb(249,250,251);
+}
+

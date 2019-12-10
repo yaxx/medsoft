@@ -143,8 +143,8 @@ export class HistoryComponent implements OnInit {
     });
   }
   getDp(avatar: String) {
-  //return 'http://localhost:5000/api/dp/' + avatar;
-    return 'http://192.168.1.101:5000/api/dp/'+ avatar;
+  return 'http://localhost:5000/api/dp/' + avatar;
+   // return 'http://192.168.1.101:5000/api/dp/'+ avatar;
   }
 
   getMyDp() {
@@ -155,16 +155,15 @@ export class HistoryComponent implements OnInit {
     .report.attachments : this.patient.record.scans[i][j].report.attachments;
   }
   getImage(fileName: String) {
-    return 'http://192.168.1.101:5000/api/dp/' + fileName;
-    //return 'http://localhost:5000/api/dp/' + fileName;
+    //return 'http://192.168.1.101:5000/api/dp/' + fileName;
+    return 'http://localhost:5000/api/dp/' + fileName;
   
   }
   getLabs() {
     return this.client.departments.filter(dept => dept.category === 'Lab');
   }
   compareNotes(i: number, note: Note) {
-    console.log(note);
-    
+ 
     // return this.notes[i].note.length === note.note.length;
   }
   downloadImage(file: string) {
@@ -177,8 +176,8 @@ export class HistoryComponent implements OnInit {
   this.patient.record.notes[i].note = this.notes[i].note;
 }
   getDocDp(avatar: string) {
-      //return 'http://localhost:5000/api/dp/' + avatar;
-      return 'http://192.168.1.101:5000/api/dp/' + avatar;
+      return 'http://localhost:5000/api/dp/' + avatar;
+      //return 'http://192.168.1.101:5000/api/dp/' + avatar;
   }
   addVital() {
     const i = this.vitals.findIndex(v => v.name === this.vital);
@@ -793,9 +792,8 @@ sendRecord() {
   this.errLine = null;
   this.processing = true;
   this.dataService.updateHistory(this.patient).subscribe((patient: Person) => {
-    console.log(patient.record.notes);
     this.patient.record  = patient.record;
-    this.socket.io.emit('record update', patient);
+    this.socket.io.emit('record update', {action: 'encounter', patient: patient});
     this.session = new Session();
     this.feedback = 'Record successfully updated';
     this.processing = false;

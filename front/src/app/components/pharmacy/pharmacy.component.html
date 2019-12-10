@@ -106,7 +106,7 @@
 <nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:1px solid whitesmoke;">
     <div class="container">
         <a class="navbar-brand" href="#">
-            <em>foldirect</em>
+            <em>synaptix</em>
         </a>
         <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
           <span class="sr-only">Toggle navigation</span>
@@ -165,11 +165,12 @@
             <h6 *ngIf='message' style='font-size:13px;position:absolute;top:65%; width:100%; color:lightgrey;text-align: center'>{{message}}</h6>
         </div>
         <div *ngFor="let patient of patients; let i=index" class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
-            <div *ngIf="patient.card.view == 'front'" class="card card-secondary maincard">
+            <div  class="card card-secondary maincard">
                 <div style="border-radius: 25px;" class="card-header profileheader">
                     <!-- <i class="icon ion-android-more-vertical headericon moreicon actions-icon"></i> -->
                     <div class="timeline lastdoc priscriber headerdp">
                         <img [src]=getDp(patient.info.personal.avatar)/>
+                        <div *ngIf="patient.card.indicate" class="indicator"></div>
                     </div>
                 </div>
                 <p style='margin-bottom:2px;' class="dept displayname">

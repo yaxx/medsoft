@@ -25,7 +25,7 @@ const personScheema = new Scheema({
         },
         contact: {
             me: {
-                mobile: Number,
+                mobile: String,
                 email: String,
                 kinName: String,
                 kinMobile: String,

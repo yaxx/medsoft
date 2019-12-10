@@ -14,8 +14,8 @@ declare var io: {
   providedIn: 'root'
 })
 export class DataService {
- // uri = 'http://localhost:5000/api';
-  uri = 'http://192.168.1.101:5000/api';
+  uri = 'http://localhost:5000/api';
+  //uri = 'http://192.168.1.101:5000/api';
   socket: Socket;
   staff: Person = new Person();
   patients: Person[] = new Array<Person>();
@@ -69,7 +69,7 @@ export class DataService {
   }
   unFollow(me, you) {
     return this.http.post(
-      `${this.uri}/unfollow`, {id:me, yourid: you.person._id, yourcon: you.person.connections}, {withCredentials: true}
+      `${this.uri}/unfollow`, {id: me, yourid: you.person._id, yourcon: you.person.connections}, {withCredentials: true}
       );
   }
   addPatient(patient: Person) {
@@ -77,7 +77,7 @@ export class DataService {
       `${this.uri}/new-patient`, patient, {withCredentials: true}
       );
   }
-  addProducts(products:Product[], newItems:Item[]) {
+  addProducts(products:Product[], newItems: Item[]) {
     return this.http.post(
     `${this.uri}/new-product`,  {products: products, items: newItems}, {withCredentials: true}
     );

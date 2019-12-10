@@ -10,8 +10,8 @@ import {Meta} from '../../models/inventory.model';
 import {Report} from '../../models/record.model';
 import * as cloneDeep from 'lodash/cloneDeep';
 import { timeout } from 'q';
- //const uri = 'http://localhost:5000/api/upload';
-const uri = 'http://192.168.1.101:5000/api/upload';
+ const uri = 'http://localhost:5000/api/upload';
+//const uri = 'http://192.168.1.101:5000/api/upload';
 @Component({
   selector: 'app-lab',
   templateUrl: './lab.component.html',
@@ -117,8 +117,8 @@ export class LabComponent implements OnInit {
     this.logout = false;
   }
   getDp(avatar: String) {
-    //return 'http://localhost:5000/api/dp/' + avatar;
-    return 'http://192.168.1.101:5000/api/dp/' + avatar;
+    return 'http://localhost:5000/api/dp/' + avatar;
+    //return 'http://192.168.1.101:5000/api/dp/' + avatar;
   }
   getMyDp() {
     return this.getDp(this.cookies.get('d'));

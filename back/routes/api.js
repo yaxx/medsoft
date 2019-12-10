@@ -107,7 +107,7 @@ addPerson: async (req, res) => {
     'info.contact.me.mobile': req.body.info.contact.me.mobile
   })
   if(exist) {
-      res.status(400).send(exist)
+      // res.status(400).send(exist)
     } else {
       res.send(await createPerson({
        info: req.body.info,

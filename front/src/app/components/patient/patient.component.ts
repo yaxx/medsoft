@@ -12,8 +12,8 @@ import { Person} from '../../models/person.model';
 import {PersonUtil} from '../../util/person.util';
 
 
-//const uri = 'http://localhost:5000/api/upload';
-const uri = 'http://192.168.1.101:5000/api/upload';
+const uri = 'http://localhost:5000/api/upload';
+//const uri = 'http://192.168.1.101:5000/api/upload';
 @Component({
   selector: 'app-patient',
   templateUrl: './patient.component.html',
@@ -174,8 +174,8 @@ selectMedication(i: number, j: number) {
     // });
   }
   getDp(avatar: String) {
-    return 'http://192.168.1.101:5000/api/dp/' + avatar;
-   // return 'http://localhost:5000/api/dp/' + avatar;
+    //return 'http://192.168.1.101:5000/api/dp/' + avatar;
+    return 'http://localhost:5000/api/dp/' + avatar;
   }
   linked() {
     return !this.router.url.includes('information');

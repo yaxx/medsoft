@@ -9,15 +9,17 @@ function createWindow () {
     backgroundColor: '#ffffff'
   })
   // win.loadURL(`file://${__dirname}/dist/front/index.html`)
-  win.loadURL('http://localhost:5000')
-  // win.loadURL('http://192.168.1.101:5000')
+  //win.loadURL('http://localhost:5000')
+   win.loadURL('http://192.168.1.101:5000')
   // session.defaultSession.cookies.set({ url: 'http://localhost/4200', name: 'dummy_name', value: 'dummy', domain:'localhost', path:'/', secure: false, httpOnly: true, expirationDate: 99999999 })
   // .then(() => {
   //   // success
   // }, (error) => {
   //   console.error(error)
   // })
-  win.once('ready-to-show', () => {win.show()})
+  win.once('ready-to-show', () => {
+    win.show()
+  })
     win.on('closed', function() {
     win = null;
   })
@@ -30,7 +32,7 @@ app.on('windows-all-closed', () => {
   }
 })
 app.on('activate',function() {
-  if(win==null){
+  if(win===null){
     createWindow();
 
   }

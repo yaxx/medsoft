@@ -14,9 +14,9 @@ import { Item, StockInfo, Product, Card, Invoice, Meta} from '../../models/inven
 import {Subject} from 'rxjs';
 import {Observable} from 'rxjs';
 import {WebcamImage, WebcamInitError, WebcamUtil} from 'ngx-webcam';
+import {host} from '../../util/url';
 import { Record,  Session} from '../../models/record.model';
-const uri = 'http://localhost:5000/api/upload';
- //const uri = 'http://192.168.1.101:5000/api/upload';
+const uri = `${host}/api/upload`;
 @Component({
   selector: 'app-consultation',
   templateUrl: './consultation.component.html',
@@ -81,20 +81,36 @@ export class ConsultationComponent implements OnInit {
   ngOnInit() {
    this.getPatients('queued');
    this.getClient();
-   this.socket.io.on('payment', (payLoad) => {
-      if (this.isAdmin && payLoad.patient.record.invoices[0][0].name === 'Consultation') {
-        this.patients.unshift(payLoad.patient);
-    }  else if (payLoad.patient.record.visits[0][0].dept === this.cookies.get('dept')) {
-        payLoad.patient.card = {view: 'front', menu: false, btn: 'discharge'};
-        this.patients.unshift(payLoad.patient);
-    }
-  });
-   this.socket.io.on('new card', (changes) => {
-      if (this.isAdmin) {
-      this.patients.unshift(changes.patient);
-    }  else if (changes.patient.record.visits[0][0].dept === this.cookies.get('dept')) {
-      changes.patient.card = {view: 'front', menu: false, btn: 'discharge'};
-      this.patients.unshift(changes.patient);
+   this.socket.io.on('record update', (update) => {
+    const i = this.patients.findIndex(p => p._id === update.patient._id);
+    switch (update.action) {
+      case 'payment':
+        console.log(update);
+        if (i !== -1 ) {
+          this.patients[i] =  { ...update.patient, card: this.patients[i].card };
+        } else if (update.cart.some(prod => (prod.type === 'Cards' || prod.item.category === 'Consultation')
+         && update.patient.record.visits[0][0].dept === this.cookies.get('dpt')
+         )
+        ) {
+          this.patients.unshift({ ...update.patient, card: {menu: false, view: 'front', btn: 'discharge', indicate: false} });
+        }
+        break;
+      case 'new report':
+        if (i !== -1 ) {
+          this.patients[i] =  { ...update.patient, card: { ...this.patients[i].card, indicate: true }};
+        }
+        break;
+      case 'disposition':
+        if (i !== -1 ) {
+          this.patients.splice(i, 1);
+          this.message = ( this.patients.length) ? null : 'No Record So Far';
+        }
+        break;
+      default:
+          if (i !== -1 ) {
+            this.patients[i] = { ...update.patient, card: this.patients[i].card };
+          }
+        break;
     }
   });
 
@@ -117,35 +133,7 @@ export class ConsultationComponent implements OnInit {
         this.patients.splice(i, 1).unshift(patient);
       }
   });
-  this.socket.io.on('consulted', (patient: Person) => {
-    const i = this.patients.findIndex(p => p._id === patient._id);
-      if (this.myDepartment) {
-         if (i < 0) {
-           this.patients.unshift(patient);
-         } else {
-           this.patients.splice(i, 1);
-         }
-      } else if (patient.record.visits[0][0].status === 'queued') {
-        this.patients[i] = patient;
-      } else {
-        this.patients.splice(i, 1);
-      }
-  });
-  this.socket.io.on('Discharge', (patient: Person) => {
-    const i = this.patients.findIndex(p => p._id === patient._id);
-      if (patient.record.visits[0][0].dept.toLowerCase() === this.myDepartment ) {
-         if (i < 0) {
-         } else {
-           this.patients.splice(i, 1);
-         }
-      } else {
-         this.patients.splice(i, 1);
-      }
-  });
-  this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any ) => {
-    this.patient.info.personal.avatar = response;
-    this.psn.update();
-    };
+
   }
   isAdmin() {
     return this.router.url.includes('admin');
@@ -233,8 +221,7 @@ hideLogOut() {
 
 
   getDp(avatar: String) {
-      return 'http://localhost:5000/api/dp/' + avatar || '../assets/img/avatar.jpg';
-      //return 'http://192.168.1.101:5000/api/dp/' + avatar;
+    return `${host}/api/dp/${avatar}`;
   }
 
   getMyDp() {
@@ -253,13 +240,13 @@ hideLogOut() {
       this.successMsg = 'Appointment Set';
       setTimeout(() => {
         this.successMsg = null;
-      }, 5000);
+      }, 3000);
       setTimeout(() => {
         this.switchCards(this.curIndex , 'front');
-      }, 7000);
+      }, 5000);
       setTimeout(() => {
         this.patients.splice(this.curIndex , 1);
-      }, 10000);
+      }, 7000);
      }, (e) => {
        this.processing = false;
        this.errorMsg = 'Unable to set Appointment';
@@ -267,7 +254,7 @@ hideLogOut() {
   }
   showMenu(i: number) {
     this.hideMenu();
-    this.patients[i].card.menu = true;
+    this.patients[i].card = { ...this.patients[i].card, menu: true, indicate: false};
   }
   hideMenu() {
     this.patients.forEach(p => {
@@ -298,7 +285,7 @@ hideLogOut() {
          break;
        case 'dispose': this.cardCount = 'dispose';
        this.patients[i].card.btn = 'discharge';
-       this.dept = this.patients[i].record.visits[0][0].dept; 
+       this.dept = this.patients[i].record.visits[0][0].dept;
          break;
        default: this.cardCount = null;
        this.patients[i].record.visits[0][0].status = 'queued';
@@ -309,12 +296,12 @@ hideLogOut() {
    }
   comfirmDesposition(i: number) {
     this.processing = true;
-    this.patients[i].record.visits[0][0].dept = (
-      this.patients[i].record.visits[0][0].status !== 'queued') ? this.dept : this.patients[i].record.visits[0][0].dept;
+    this.patients[i].record.visits[0][0].dept = (this.patients[i].record.visits[0][0].status !== 'queued')
+       ? this.dept : this.patients[i].record.visits[0][0].dept;
       this.patients[i].record.visits[0][0].dischargedOn = new Date();
       this.dataService.updateRecord(this.patients[i], this.session.newItems).subscribe((p: Person) => {
       this.processing = false;
-      this.socket.io.emit(this.patients[i].card.btn.toLowerCase(), this.patients[i]);
+      this.socket.io.emit('record update', {action: 'disposition', patient: this.patients[i]});
       this.successMsg = 'Success';
       setTimeout(() => {
         this.successMsg = null;
@@ -324,9 +311,10 @@ hideLogOut() {
       }, 8000);
       setTimeout(() => {
         this.patients.splice(i, 1);
+        this.message = ( this.patients.length) ? null : 'No Record So Far';
       }, 10000);
    }, (e) => {
-     this.errorMsg = 'Something went wrong';
+     this.errorMsg = '...Network Error';
      this.processing = false;
    });
   }
@@ -376,7 +364,7 @@ getPatients(type) {
   this.dataService.getPatients(type).subscribe((patients: Person[]) => {
      if (patients.length) {
       patients.forEach(p => {
-      p.card = {menu: false, view: 'front', btn: 'discharge'};
+      p.card = {menu: false, view: 'front', btn: 'discharge', indicate: false};
     });
     this.clonedPatients = patients;
     this.patients = patients.sort((m, n) => new Date(n.createdAt).getTime() - new Date(m.createdAt).getTime());

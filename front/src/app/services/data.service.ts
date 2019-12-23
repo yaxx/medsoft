@@ -6,6 +6,7 @@ import {Person} from '../models/person.model';
 import * as socketIo from 'socket.io-client';
 import {Router} from '@angular/router';
 import { Socket } from '../models/socket';
+import {host} from '../util/url';
 import {CookieService} from 'ngx-cookie-service';
 declare var io: {
   connect(url: string): Socket;
@@ -14,8 +15,7 @@ declare var io: {
   providedIn: 'root'
 })
 export class DataService {
-  uri = 'http://localhost:5000/api';
-  //uri = 'http://192.168.1.101:5000/api';
+  uri = `${host}/api`;
   socket: Socket;
   staff: Person = new Person();
   patients: Person[] = new Array<Person>();

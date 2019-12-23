@@ -4,7 +4,7 @@
 
 
 
-<div  class="modal " role="dialog" tabindex="-1" id="addModal" style="border-radius:32px;max-width:841px;margin: auto;padding-top: 35px">
+<div class="modal " role="dialog" tabindex="-1" id="addModal" style="border-radius:32px;max-width:841px;margin: auto;padding-top: 35px">
         <div style="max-width: 730px;border-radius:32px;" class="modal-dialog" role="document">
             <div class="modal-content" style="width:100%; height:400px;border-radius:32px;padding-left:0px;padding-right: 0px;">
                 <div class="modal-body" style="border-radius:32px;padding: 0px;">
@@ -323,12 +323,7 @@
                                     </a>
                                     <span> <i (click) = removeDp() title='Remove' class="icon ion-ios-close-outline homeicon removeDp"></i></span>
                                 </div>
-                                <div *ngIf=showPhotoMenu style='height: auto;
-                                      width: 71%;
-                                      text-align: center;
-                                      border:none;
-                                      border-radius:0px;
-                                      position: absolute; left: -1%;' (mouseleave)=hideMenu() class="menu">
+                                <div *ngIf=showPhotoMenu style='height: auto; width: 71%;text-align: center;border:none;border-radius:0px;position: absolute; left: -1%;' (mouseleave)=hideMenu() class="menu">
                                     <ul (mouseleave)=togglePhotoMenu() class="actions primary">
                                         <li (click)="picker.click()" class="action">Upload</li>
                                         <li (click)='toggleWebcam()' class="action">Capture</li>
@@ -337,7 +332,6 @@
                             </div>
                         </form>
                     </div>
-                   
                 </div>
             </div>
         </div>
@@ -357,7 +351,7 @@
 <nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:0px;">
     <div class="container">
         <a class="navbar-brand" href="#">
-            <em>synaptix</em>
+            <em>hipr</em>
         </a>
         <div class="collapse navbar-collapse" id="navcol-1">
             <form class="top-searchform" target="_self">
@@ -366,15 +360,10 @@
                     position: absolute; text-align: left;vertical-align: middle; box-shadow:none;outline:none;top:11%;background-color: rgba(233, 236, 239, 0.7);
                 " class="form-control" type="search" name="search" id="search-field"        placeholder="Search patient">
                     <i style='font-size:20px; top:3px;left:83%;position:relative;display:inline' class="icon ion-ios-search " title="Search"></i>
-                    <h6 style='font-size:12px;
-                      left:98%;position:relative;display:inline-block;
-                      color:grey;
+                    <h6 style='font-size:12px;left:98%;position:relative;display:inline-block;color:grey;
                       font-weight:normal;'>Sort: <span style='cursor:pointer; color:#1da1f2;' (click)='toggleSortMenu()'>{{nowSorting}}</span>
                     </h6>
-                    <div *ngIf="sortMenu" style='position: absolute;
-                      left:120%;
-                      width:100px;top:6px;
-                      height:110px' class="menu">
+                    <div *ngIf="sortMenu" style='position: absolute;left:120%; width:100px;top:6px;height:110px' class="menu">
                         <ul (mouseleave)=toggleSortMenu() class="actions primary">
                             <li (click)='sortPatients("name")' class="action">A-Z</li>
                             <li (click)='sortPatients("age")' class="action">Age</li>
@@ -383,10 +372,8 @@
                             <li (click)='sortPatients("date")' class="action">Date added</li>
                         </ul>
                     </div>
-                    
                 </div>
             </form>
-
         </div>
     </div>
     <div (mouseleave) = hideLogOut() class="timeline lastdoc priscriber headerdp small-dp user-dp" style="left:90%;position:absolute;height:87px;width:90px;top:5px; margin-bottom:0px; background:inherit ">

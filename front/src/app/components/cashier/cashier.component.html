@@ -120,7 +120,7 @@
 <nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:0px;">
     <div class="container">
         <a class="navbar-brand" href="#">
-            <em>synaptix</em>
+            <em>hipr</em>
         </a>
         <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
           <span class="sr-only">Toggle navigation</span>
@@ -135,8 +135,7 @@
                 " class="form-control" type="search" name="search" id="search-field" placeholder="Search patient">
                     <i style='font-size:20px; top:3px;left:83%;position:relative;display:inline' class="icon ion-ios-search " title="Search"></i>
                     <h6 style=' cursor:pointer; font-size:12px;left:98%;position:relative;display:inline-block;color:grey;font-weight:normal;
-                      '>Sort: <span style='cursor:pointer; color:#1da1f2;' (click)='toggleSortMenu()'>
-                        {{nowSorting}}</span>
+                      '>Sort: <span style='cursor:pointer; color:#1da1f2;' (click)='toggleSortMenu()'>{{nowSorting}}</span>
                     </h6>
                     <div *ngIf=sortMenu style='position: absolute; left:120%; width:100px;top:6px;height:110px' class="menu">
                         <ul (mouseleave)='toggleSortMenu()' class="actions primary">
@@ -196,6 +195,7 @@
                     <div [class.ap]='cardCount' [class.front]='patient.card.view === "front"' style="position: absolute; width:100%;height: 87%;top:13%" class="card-body mainbody">
                         <div style="position: relative;margin-bottom: 0px;top:0px" class="timeline lastdoc priscriber headerdp">
                             <img  [src]=getDp(patient.info.personal.avatar)/>
+                            <div *ngIf="patient.card.indicate" class="indicator"></div>
                         </div>
                         <p  title="View Details" style='margin-bottom:2px;position:relative;top:3px' class="patien-name display-name">
                             {{patient.info.personal.firstName + ' '+patient.info.personal.lastName}}

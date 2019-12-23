@@ -10,8 +10,8 @@ import {Meta} from '../../models/inventory.model';
 import {Report} from '../../models/record.model';
 import * as cloneDeep from 'lodash/cloneDeep';
 import { timeout } from 'q';
- const uri = 'http://localhost:5000/api/upload';
-//const uri = 'http://192.168.1.101:5000/api/upload';
+import {host} from '../../util/url';
+ const uri = `${host}/api/upload`;
 @Component({
   selector: 'app-lab',
   templateUrl: './lab.component.html',
@@ -63,6 +63,30 @@ export class LabComponent implements OnInit {
 
   ngOnInit() {
     this.getPatients();
+    this.socket.io.on('record update', (update) => {
+      const i = this.patients.findIndex(p => p._id === update.patient._id);
+      switch (update.action) {
+        case 'payment':
+            if (update.card.some(prod => prod.type === 'Services')) {
+                if (!this.router.url.includes('completed')) {
+                  if (i !== -1) {
+                    this.patients[i] = { ...update.patient, card: { ...this.patients[i].card, indicate: true } };
+                  } else {
+                    this.patients.unshift({ ...update.patient, card: { menu: false, view: 'front', indicate: true } });
+                  }
+                } else if (i !== -1) {
+                  this.patients.splice(i, 1);
+                  this.message = ( this.patients.length) ? null : 'No Record So Far';
+                }
+            }
+          break;
+        default:
+            if (i !== -1 ) {
+              this.patients[i] = { ...update.patient, card: this.patients[i].card };
+            }
+          break;
+      }
+    });
   }
   filterPatients(patients: Person[]) : Person[] {
     const completes: Person[] = [];
@@ -76,6 +100,9 @@ export class LabComponent implements OnInit {
     this.loading = true;
     this.dataService.getPatients(type).subscribe((patients: Person[]) => {
       if (patients.length) {
+        patients.forEach(p => {
+          p.card = {indicate: false};
+        });
         this.patients =  this.filterPatients(patients)
         .sort((m, n) => new Date(n.createdAt).getTime() - new Date(m.createdAt).getTime());
         this.clonedPatients  = this.patients;
@@ -117,8 +144,7 @@ export class LabComponent implements OnInit {
     this.logout = false;
   }
   getDp(avatar: String) {
-    return 'http://localhost:5000/api/dp/' + avatar;
-    //return 'http://192.168.1.101:5000/api/dp/' + avatar;
+    return `${host}/api/dp/${avatar}`;
   }
   getMyDp() {
     return this.getDp(this.cookies.get('d'));
@@ -229,9 +255,9 @@ export class LabComponent implements OnInit {
 
     this.dataService.updateRecord(this.patient).subscribe((patient: Person) => {
       this.processing = false;
-      this.socket.io.emit('new report', patient);
+      this.socket.io.emit('record update', {action: 'new report', patient: patient});
       this.patients[this.curIndex] = patient;
-      this.sucssMsg = 'Post Successfull';
+      this.sucssMsg = 'Report Posted Successfull';
     }, (e) => {
       this.processing = false;
       this.errMsg = 'Unable to post report';

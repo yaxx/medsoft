@@ -9,8 +9,8 @@ import {Person, Info} from '../../models/person.model';
 import {Visit , Appointment} from '../../models/record.model';
 import {CookieService } from 'ngx-cookie-service';
 import * as cloneDeep from 'lodash/cloneDeep';
- const uri = 'http://localhost:5000/api/upload';
- //const uri = 'http://192.168.1.101:5000/api/upload';
+import {host} from '../../util/url';
+const uri = `${host}/api/upload`;
 @Component({
   selector: 'app-appointments',
   templateUrl: './appointments.component.html',
@@ -54,21 +54,24 @@ export class AppointmentsComponent implements OnInit {
    ngOnInit() {
       this.myDepartment = this.route.snapshot.url[0].path;
       this.getPatients('ap');
-      this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any ) => {
-      this.patient.info.personal.avatar = response;
-      this.patient.record.visits.unshift(new Visit());
-       this.dataService.addPerson(this.patient).subscribe((newpatient: Person) => {
-         newpatient.card = {menu: false, view: 'front'};
-         this.patients.unshift(newpatient);
-         this.socket.io.emit('new patient', newpatient);
-         this.loading = false;
+      this.socket.io.on('record update', (update) => {
+        const i = this.patients.findIndex(p => p._id === update.patient._id);
+        switch (update.action) {
+          case 'disposition':
+               if (update.patient.records.visits[0][0].status === 'ap') {
+                this.patients.unshift({ ...update.patient, card: { ...this.patients[i].card, indicate: true } });
+              }
+            break;
+          default:
+              if (i !== -1 ) {
+                this.patients[i] = { ...update.patient, card: this.patients[i].card };
+              }
+            break;
+        }
       });
-     };
-
-   }
+  }
    getDp(avatar: String) {
-    return 'http://localhost:5000/api/dp/' + avatar;
-     //return 'http://192.168.1.101:5000/api/dp/' + avatar;
+    return `${host}/api/dp/${avatar}`;
   }
   getMyDp() {
     return this.getDp(this.cookies.get('d'));

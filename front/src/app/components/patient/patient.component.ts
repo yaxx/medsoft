@@ -10,10 +10,8 @@ import { Record,  Session} from '../../models/record.model';
 import * as cloneDeep from 'lodash/cloneDeep';
 import { Person} from '../../models/person.model';
 import {PersonUtil} from '../../util/person.util';
-
-
-const uri = 'http://localhost:5000/api/upload';
-//const uri = 'http://192.168.1.101:5000/api/upload';
+import {host} from '../../util/url';
+const uri = `${host}/api/upload`;
 @Component({
   selector: 'app-patient',
   templateUrl: './patient.component.html',
@@ -78,8 +76,27 @@ export class PatientComponent implements OnInit {
     this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any ) => {
       this.attachments.push(JSON.parse(response));
     };
+    this.socket.io.on('record update', (update) => {
+      const i = this.patients.findIndex(p => p._id === update.patient._id);
+      switch (update.action) {
+        case 'ward':
+            if (i !== -1) {
+              this.patients[i] = { ...update.patient, card: { ...this.patients[i].card, indicate: true } };
+            }
+          break;
+        case 'status update':
+            if (i !== -1 ) {
+              this.patients[i] = { ...update.patient, card: { ...this.patients[i].card, indicate: true } };
+            }
+          break;
+        default:
+            if (i !== -1 ) {
+              this.patients[i] = { ...update.patient, card: this.patients[i].card };
+            }
+          break;
+      }
+    });
   }
-  
   getClient() {
     this.dataService.getClient().subscribe((res: any) => {
       this.client = res.client;
@@ -92,6 +109,17 @@ export class PatientComponent implements OnInit {
     this.count = 0;
     this.psn.person = cloneDeep(this.patients[i]);
   }
+  searchPatient(name: string) {
+    if (name !== '') {
+     this.patients = this.patients.filter((patient) => {
+       const patern =  new RegExp('\^' + name  , 'i');
+       return patern.test(patient.info.personal.firstName);
+       });
+    } else {
+      this.patients = this.clonedPatients;
+    }
+ 
+   }
   updateInfo() {
     const info = this.psn.updateInfo();
     if (info) {
@@ -161,7 +189,8 @@ selectMedication(i: number, j: number) {
     });
   });
   this.dataService.updateRecord(this.patient).subscribe((p: Person) => {
-    this.successMsg = 'Status Updated';
+    this.socket.io.emit('record update', {action: 'status update', patient: p});
+    this.successMsg = 'Medication Status Updated';
     this.patients[this.curIndex].record = p.record;
     this.resetOrders();
   }, () => {
@@ -174,8 +203,7 @@ selectMedication(i: number, j: number) {
     // });
   }
   getDp(avatar: String) {
-    //return 'http://192.168.1.101:5000/api/dp/' + avatar;
-    return 'http://localhost:5000/api/dp/' + avatar;
+    return `${host}/api/dp/${avatar}`;
   }
   linked() {
     return !this.router.url.includes('information');
@@ -200,13 +228,12 @@ selectMedication(i: number, j: number) {
   prev() {
     this.count = this.count - 1;
   }
- 
    getPatients(type) {
     this.loading = true;
     this.dataService.getPatients(type).subscribe((patients: Person[]) => {
       if (patients.length) {
         patients.forEach(p => {
-        p.card = {menu: false, view: 'front', btn: 'discharge'};
+        p.card = {menu: false, view: 'front', btn: 'discharge', indicate: false};
       });
       this.patients   = patients.sort((m, n) => new Date(n.createdAt).getTime() - new Date(m.createdAt).getTime());
       this.clonedPatients  = patients;
@@ -250,7 +277,7 @@ selectMedication(i: number, j: number) {
          break;
        case 'dispose': this.cardCount = 'dispose';
        this.patients[i].card.btn = 'discharge';
-       this.dept = this.patients[i].record.visits[0][0].dept; 
+       this.dept = this.patients[i].record.visits[0][0].dept;
          break;
        default: this.cardCount = null;
        this.patients[i].record.visits[0][0].status = 'queued';
@@ -266,16 +293,17 @@ selectMedication(i: number, j: number) {
       this.patients[i].record.visits[0][0].dischargedOn = new Date();
       this.dataService.updateRecord(this.patients[i], this.session.newItems).subscribe((p: Person) => {
       this.processing = false;
-      this.socket.io.emit(this.patients[i].card.btn.toLowerCase(), this.patients[i]);
+      this.socket.io.emit('record update', {action: 'disposition', patient: this.patients[i]});
       this.successMsg = 'Success';
       setTimeout(() => {
         this.successMsg = null;
-      }, 5000);
+      }, 3000);
       setTimeout(() => {
         this.switchCards(i, 'front');
-      }, 8000);
+      }, 6000);
       setTimeout(() => {
         this.patients.splice(i, 1);
+        this.message = ( this.patients.length) ? null : 'No Record So Far';
       }, 10000);
    }, (e) => {
      this.errorMsg = 'Something went wrong';
@@ -287,60 +315,9 @@ selectMedication(i: number, j: number) {
     // this.sortMenu = !this.sortMenu;
   }
 
- 
-  switchToFront(i) {
-    // this.patients[i].card = {menu: false, view: 'front'};
-  }
-
-  searchPatient(name:string) {
-  //  if (name !== '') {
-  //   this.patients = this.patients.filter((patient) => {
-  //     const patern =  new RegExp('\^' + name
-  //     , 'i');
-  //     return patern.test(patient.info.personal.firstName);
-  //     });
-  //  } else {
-  //    this.patients = this.clonedPatients;
-  //  }
-
-
-  }
-  sortPatients(sortOption: string) {
-    // this.sortMenu = false;
-    // switch (sortOption) {
-    //   case 'name':
-    //     this.patients.sort((m: Person, n: Person) => m.info.personal.firstName.localeCompare(n.info.personal.firstName));
-    //     this.nowSorting = 'A-Z';
-    //     break;
-    //   case 'sex':
-    //     this.patients.sort((m: Person, n: Person) => n.info.personal.gender.localeCompare(m.info.personal.gender));
-    //     this.nowSorting = 'Gender';
-    //     break;
-      // case 'status':
-      //   this.patients.sort((m, n) => m.record.visits[m.record.visits.length-1].status.localeCompare(m.record.visits[n.record.visits.length-1].status.localeCompare));
-      //   this.nowSorting = 'Status';
-      //   break;
-    //     case 'age':
-    //     this.patients.sort((m, n) => new Date(m.info.personal.dob).getFullYear() - new Date(n.info.personal.dob).getFullYear());
-
-    //     this.nowSorting = 'Age';
-    //     break;
-    //   case 'date':
-    //     this.patients.sort((m, n) => new Date(n.createdAt).getTime() - new Date(m.createdAt).getTime());
-    //     this.nowSorting = 'Date added';
-    //     break;
-
-    //     default:
-    //     break;
-    // }
-  }
-
-
-
-
    showMenu(i: number) {
     this.hideMenu();
-    this.patients[i].card.menu = true;
+    this.patients[i].card = { ...this.patients[i].card, menu: true, indicate: false};
   }
   hideMenu() {
     this.patients.forEach(p => {

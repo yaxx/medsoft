@@ -8,6 +8,7 @@ import {CookieService } from 'ngx-cookie-service';
 import {states, lgas} from '../../data/states';
 import {departments} from '../../data/departments';
 import * as cloneDeep from 'lodash/cloneDeep';
+import {host} from '../../util/url';
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
@@ -81,8 +82,7 @@ export class SettingsComponent implements OnInit {
     });
   }
   getDp(avatar: String) {
-   return 'http://localhost:5000/api/dp/' + avatar;
-    //  return 'http://192.168.1.101:5000/api/dp/' + avatar;
+    return `${host}/api/dp/${avatar}`;
   }
 
   getMyDp() {
@@ -118,6 +118,14 @@ export class SettingsComponent implements OnInit {
   openStafftModal(i: number) {
    this.staffMode = 'new';
     this.staff = new Person();
+  }
+  isValidStaff() {
+    return this.staff.info.personal.firstName &&
+    this.staff.info.personal.lastName &&
+    this.staff.info.personal.gender &&
+    this.staff.info.contact.me.mobile &&
+    this.staff.info.official.role &&
+    this.staff.info.official.department;
   }
 
   refresh() {

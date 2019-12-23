@@ -76,6 +76,10 @@ const personScheema = new Scheema({
                         type: Scheema.Types.ObjectId,
                         ref: 'Person'
                     },
+                    hosp: {
+                        type: Scheema.Types.ObjectId,
+                        ref: 'Person'
+                    },
                     selected: Boolean,
                     dateAdded: Date
                 }
@@ -88,6 +92,10 @@ const personScheema = new Scheema({
                     type: Scheema.Types.ObjectId,
                     ref: 'Person'
                 },
+                hosp: {
+                    type: Scheema.Types.ObjectId,
+                    ref: 'Person'
+                },
                 selected: Boolean,
                 dateAdded: Date
             }
@@ -97,6 +105,10 @@ const personScheema = new Scheema({
             noteType: String,
             meta: {
                 addedBy: {
+                    type: Scheema.Types.ObjectId,
+                    ref: 'Person'
+                },
+                hosp: {
                     type: Scheema.Types.ObjectId,
                     ref: 'Person'
                 },
@@ -113,6 +125,10 @@ const personScheema = new Scheema({
                         type: Scheema.Types.ObjectId,
                         ref: 'Person'
                     },
+                    hosp: {
+                        type: Scheema.Types.ObjectId,
+                        ref: 'Person'
+                    },
                     selected: Boolean,
                     dateAdded: Date
                 }
@@ -124,6 +140,10 @@ const personScheema = new Scheema({
                         type: Scheema.Types.ObjectId,
                         ref: 'Person'
                     },
+                    hosp: {
+                        type: Scheema.Types.ObjectId,
+                        ref: 'Person'
+                    },
                     selected: Boolean,
                     dateAdded: Date
                 }
@@ -132,6 +152,10 @@ const personScheema = new Scheema({
                 value: Number,
                 meta: {
                     addedBy: {
+                        type: Scheema.Types.ObjectId,
+                        ref: 'Person'
+                    },
+                    hosp: {
                         type: Scheema.Types.ObjectId,
                         ref: 'Person'
                     },
@@ -150,6 +174,10 @@ const personScheema = new Scheema({
                         type: Scheema.Types.ObjectId,
                         ref: 'Person'
                     },
+                    hosp: {
+                        type: Scheema.Types.ObjectId,
+                        ref: 'Person'
+                    },
                     selected: Boolean,
                     dateAdded: Date
                 }
@@ -161,20 +189,29 @@ const personScheema = new Scheema({
                         type: Scheema.Types.ObjectId,
                         ref: 'Person'
                     },
-                    selected: Boolean,
-                    dateAdded: Date
-                }
-            }],
-            bloodGl: [{
-                value: Number,
-                meta: {
-                    addedBy: {
+                    hosp: {
                         type: Scheema.Types.ObjectId,
                         ref: 'Person'
                     },
                     selected: Boolean,
                     dateAdded: Date
                 }
+            }],
+            bloodGl: [{
+                value: String,
+                meta: {
+                    addedBy: {
+                        type: Scheema.Types.ObjectId,
+                        ref: 'Person'
+                    },
+                    hosp: {
+                        type: Scheema.Types.ObjectId,
+                        ref: 'Person'
+                    },
+                    selected: Boolean,
+                    dateAdded: Date
+                }
+                
             }]
         },
         conditions: [
@@ -182,6 +219,10 @@ const personScheema = new Scheema({
                 name: String,
                 meta: {
                     addedBy: {
+                        type: Scheema.Types.ObjectId,
+                        ref: 'Person'
+                    },
+                    hosp: {
                         type: Scheema.Types.ObjectId,
                         ref: 'Person'
                     },
@@ -194,6 +235,10 @@ const personScheema = new Scheema({
             allegy: String,
             meta: {
                 addedBy: {
+                    type: Scheema.Types.ObjectId,
+                    ref: 'Person'
+                },
+                hosp: {
                     type: Scheema.Types.ObjectId,
                     ref: 'Person'
                 },
@@ -226,6 +271,10 @@ const personScheema = new Scheema({
                     type: Scheema.Types.ObjectId,
                     ref: 'Person'
                 },
+                hosp: {
+                    type: Scheema.Types.ObjectId,
+                    ref: 'Person'
+                },
                 selected: Boolean,
                 dateAdded: Date
             }
@@ -238,6 +287,10 @@ const personScheema = new Scheema({
             attended: Boolean,
             meta: {
                 addedBy: {
+                    type: Scheema.Types.ObjectId,
+                    ref: 'Person'
+                },
+                hosp: {
                     type: Scheema.Types.ObjectId,
                     ref: 'Person'
                 },
@@ -259,10 +312,13 @@ const personScheema = new Scheema({
                         type: Scheema.Types.ObjectId,
                         ref: 'Person'
                     },
+                    hosp: {
+                        type: Scheema.Types.ObjectId,
+                        ref: 'Person'
+                    },
                     selected: Boolean,
                     dateAdded: Date
                 },
-
                 lastTaken: Date,
                 paused: Boolean,
                 pausedOn: Date
@@ -281,6 +337,10 @@ const personScheema = new Scheema({
                         type: Scheema.Types.ObjectId,
                         ref: 'Person'
                     },
+                    hosp: {
+                        type: Scheema.Types.ObjectId,
+                        ref: 'Person'
+                    },
                     selected: Boolean,
                     dateAdded: Date
                 },
@@ -289,6 +349,10 @@ const personScheema = new Scheema({
                     attachments: [],
                     meta: {
                         addedBy: {
+                            type: Scheema.Types.ObjectId,
+                            ref: 'Person'
+                        },
+                        hosp: {
                             type: Scheema.Types.ObjectId,
                             ref: 'Person'
                         },
@@ -309,6 +373,10 @@ const personScheema = new Scheema({
                         type: Scheema.Types.ObjectId,
                         ref: 'Person'
                     },
+                    hosp: {
+                        type: Scheema.Types.ObjectId,
+                        ref: 'Person'
+                    },
                     selected: Boolean,
                     dateAdded: Date
                 },
@@ -321,7 +389,11 @@ const personScheema = new Scheema({
                             ref: 'Person'
                         },
                         selected: Boolean,
-                        dateAdded: Date
+                        dateAdded: Date,
+                        hosp: {
+                            type: Scheema.Types.ObjectId,
+                            ref: 'Person'
+                        },
                     }
                 }
             }]
@@ -336,10 +408,34 @@ const personScheema = new Scheema({
                         ref: 'Person'
                     },
                     selected: Boolean,
-                    dateAdded: Date
+                    dateAdded: Date,
+                    hosp: {
+                        type: Scheema.Types.ObjectId,
+                        ref: 'Person'
+                    },
                 }
             }]
         ],
+        immunization: {
+            vaccins: [
+                [{
+                    name: String,
+                    meta: {
+                        addedBy: {
+                            type: Scheema.Types.ObjectId,
+                            ref: 'Person'
+                        },
+                        selected: Boolean,
+                        dateAdded: Date,
+                        hosp: {
+                            type: Scheema.Types.ObjectId,
+                            ref: 'Person'
+                        },
+                    }
+                }]
+            ],
+            questionaire: {}
+        },
         invoices: [
             [{
                 name: String,

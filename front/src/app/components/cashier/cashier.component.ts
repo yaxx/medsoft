@@ -8,6 +8,8 @@ import {Product, Item, Invoice, Card, StockInfo} from '../../models/inventory.mo
 import {Priscription, Medication} from '../../models/record.model';
 import * as cloneDeep from 'lodash/cloneDeep';
 import { timeout } from 'q';
+import { fromEvent } from 'rxjs';
+import {host} from '../../util/url';
 @Component({
   selector: 'app-cashier',
   templateUrl: './cashier.component.html',
@@ -65,25 +67,60 @@ export class CashierComponent implements OnInit {
   ngOnInit() {
     this.getPatients();
     this.getProducts();
-    // this.socket.io.on('new patient', (patient: Person) => {
-    //   this.patients.unshift({
-    //     ...patient, card: {menu: false, view: 'front'}
-    //   });
-    // });
-    this.socket.io.on('enroled', (patient) => {
-      const i = this.patients.findIndex(p => p._id === patient._id);
-      if (i === -1) {
-        this.patients.unshift({
-          ...patient, card: {menu: false, view: 'front'}
-        });
-      } else {
-        this.patients[i] = {
-          ...patient, card: {menu: false, view: 'front'}
-        };
+  this.socket.io.on('record update', (update) => {
+      const i = this.patients.findIndex(p => p._id === update.patient._id);
+      switch (update.action) {
+        case 'encounter':
+          if (!this.router.url.includes('completed')) {
+            if (i !== -1) {
+              if (this.recordChanged(update.bills)) {
+                this.patients[i] = { ...update.patient, card: { ...this.patients[i].card, indicate: true } };
+              } else {
+                this.patients[i] = { ...update.patient, card: this.patients[i].card };
+              }
+            } else {
+              this.patients.unshift({ ...update.patient, card: { menu: false, view: 'front', indicate: true } });
+            }
+          } else if (i !== -1) {
+            if (this.recordChanged(update.bills)) {
+              this.patients.splice(i, 1);
+              this.message = ( this.patients.length) ? null : 'No Record So Far';
+            }
+          }
+        break;
+        case 'invoice update':
+              if (!this.router.url.includes('completed')) {
+                if (i !== -1) {
+                  this.patients[i] = { ...update.patient, card: { ...this.patients[i].card, indicate: true } };
+                } else {
+                  this.patients.unshift({ ...update.patient, card: { menu: false, view: 'front', indicate: true } });
+                }
+              }
+        break;
+        case 'payment':
+          if (i !== -1 ) {
+            this.patients[i] = { ...update.patient, card: this.patients[i].card };
+          }
+        break;
+        case 'enroled':
+          if (!this.router.url.includes('completed')) {
+            if (i !== -1 ) {
+              this.patients[i] = { ...update.patient, card: { ...this.patients[i].card, indicate: true } };
+            } else {
+              this.patients.unshift({ ...update.patient, card: { menu: false, view: 'front', indicate: true } });
+            }
+          } else if (i !== -1 ) {
+            this.patients.splice(i, 1);
+            this.message = ( this.patients.length) ? null : 'No Record So Far';
+          }
+        break;
+        default:
+            if (i !== -1 ) {
+              this.patients[i] = { ...update.patient, card: this.patients[i].card };
+            }
+          break;
       }
-      this.patients =  this.filterPatients(this.patients).sort((m, n) => new Date(n.createdAt).getTime() - new Date(m.createdAt).getTime());
     });
-
 
     this.socket.io.on('store update', (data) => {
       if (data.action === 'new') {
@@ -102,6 +139,9 @@ export class CashierComponent implements OnInit {
 
   toggleSortMenu() {
     this.sortMenu = !this.sortMenu;
+  }
+  recordChanged(bills: string[]) : boolean {
+    return (bills.length && bills.some(bill => bill === 'cashier')) ? true : false;
   }
   refresh() {
     this.message = null;
@@ -122,7 +162,7 @@ export class CashierComponent implements OnInit {
       this.patients =  this.filterPatients(patients).sort((m, n) => new Date(n.createdAt).getTime() - new Date(m.createdAt).getTime());
       if (this.patients.length) {
         this.patients.forEach(p => {
-          p.card = {menu: false, view: 'front'};
+          p.card = {menu: false, view: 'front', indicate: false};
         });
         this.clonedPatients  = this.patients;
         this.loading = false;
@@ -132,7 +172,7 @@ export class CashierComponent implements OnInit {
         this.loading = false;
       }
     }, (e) => {
-      this.message = 'Newtwork Error';
+      this.message = '...Network Error';
       this.loading = false;
     });
   }
@@ -157,7 +197,6 @@ switchCardView(i , view) {
   this.patients[i].card.view = view;
   this.patient = cloneDeep(this.patients[i]);
   this.card = this.patient.record.cards[0] || new Card();
-  console.log(this.card);
 }
 updateInvoices() {
     this.edited.forEach(invoice => {
@@ -175,10 +214,6 @@ updateInvoices() {
           prod.stockInfo.sold = prod.stockInfo.sold + invoice.quantity;
           this.cart.push(prod);
         }
-        // else if (prod.item.name === invoice.desc) {
-        //   this.patients[this.curIndex].record.visits[0][0].status = 'queued';
-        //   this.cart.push(prod);
-        // }
       });
     });
  }
@@ -200,6 +235,7 @@ updatePrices(invoices: Invoice[], i: number) {
 
 viewOrders(i: number) {
   this.curIndex = i;
+  this.patients[i].card.indicate = false;
   this.switchViews('orders');
   this.invoices = this.patients[i].record.invoices;
   this.invoices.forEach((invoices , j) => {
@@ -218,9 +254,7 @@ runTransaction(type: string, patient) {
   this.dataService.runTransaction(patient._id, patient.record, this.cart).subscribe(() => {
     this.products = this.clonedStore;
     this.processing = false;
-    (this.cart[0].type === 'Cards') ?
-    this.socket.io.emit('new card', {patient: patient, item: this.cart[0]}) :
-    this.socket.io.emit('payment', {patient: patient, item: this.cart});
+    this.socket.io.emit('record update', {action: 'payment', patient: patient, cart: this.cart});
     this.successMsg = (type === 'purchase') ? 'Payment successfully comfirmed' : 'Transaction successfully reversed';
     this.resetOrders();
   }, (e) => {
@@ -374,8 +408,7 @@ comfirmPayment() {
      return total.toFixed(2);
   }
     getDp(avatar: String) {
-     return 'http://localhost:5000/api/dp/' + avatar;
-     //return 'http://192.168.1.101:5000/api/dp/' + avatar;
+      return `${host}/api/dp/${avatar}`;
   }
   getStyle(i: Invoice) {
     return {color: i.paid ? 'black' : 'lightgrey'};
@@ -400,18 +433,7 @@ comfirmPayment() {
   hideLogOut() {
     this.logout = false;
   }
-  selectMedication(m: Medication, selected: number) {
-    // this.medication = new Medication(m.product, m.priscription);
-    // this.id = m._id;
-    // this.selected = selected;
-    // this.input = m.product.item.name + ' ' + m.product.item.mesure + m.product.item.unit;
-  }
 
-
-cancel() {
-  // this.patients[this.curIndex] = this.dataService.getCachedPatient(this.patients[this.curIndex]._id)
-  // this.products = this.dataService.getCachedProducts();
-}
 
  searchPatient(name: string) {
    if(name !== '') {
@@ -423,27 +445,8 @@ cancel() {
      this.patients = this.clonedPatients;
    }
  }
-// addSelection(product: Product) {
-//   this.input = product.item.name;
-//   this.product = product;
-//   this.searchedProducts = [];
-// }
 
 
-
-
-
-
-updateMedications() {
-  // this.processing = true;
-  // this.dataService.updateMedication(this.invoices).subscribe((newMedications: Medication[]) => {
-  //  this.patients[this.curIndex].record.medications = newMedications;
-  //  this.processing = false;
-  // },(e) => {
-  //   this.transMsg = 'Unable to process payment';
-  //   this.processing = false;
-  // });
-}
 
 
 }

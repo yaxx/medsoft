@@ -5,6 +5,7 @@ import {Tests, Scannings, Surgeries} from '../../data/request';
 import {CookieService } from 'ngx-cookie-service';
 import {SocketService} from '../../services/socket.service';
 import * as cloneDeep from 'lodash/cloneDeep';
+import {host} from '../../util/url';
 import Simplebar from 'simplebar';
 import 'simplebar/dist/simplebar.css';
 @Component({
@@ -85,8 +86,7 @@ export class InventoryComponent implements OnInit {
     // this.input = this.product.item.name + ' ' + this.product.item.mesure + this.product.item.unit;
   }
   getDp(avatar: String) {
-    //return 'http://192.168.1.101:5000/api/dp/' + avatar;
-     return 'http://localhost:5000/api/dp/' + avatar;
+    return `${host}/api/dp/${avatar}`;
   }
   getMyDp() {
     return this.getDp(this.cookies.get('d'));
@@ -125,10 +125,10 @@ export class InventoryComponent implements OnInit {
     this.getProducts();
   }
   formCompleted() {
-    return this.product.item.name && 
-    this.product.stockInfo.price &&
-    this.product.stockInfo.quantity &&
-    this.product.stockInfo.expiry;
+    return this.product.item.name;
+    // this.product.stockInfo.price &&
+    // this.product.stockInfo.quantity &&
+    // this.product.stockInfo.expiry;
   }
   searchTests() {
     if (!this.product.item.name) {
@@ -272,11 +272,11 @@ export class InventoryComponent implements OnInit {
     this.curentItems[i].selected = !this.curentItems[i].selected ;
   }
   pickSelection() {
-    this.editables = cloneDeep(this.products.filter(p => p.selected));
+    this.editables = cloneDeep(this.curentItems.filter(p => p.selected));
     this.count = this.editables.length;
     this.product = this.editables.shift();
-    this.input = this.product.item.name;
-    this.item = this.product.item;
+    // this.input = this.product.item.name;
+    // this.item = this.product.item;
   }
   pickDeletables() {
     return this.curentItems.filter(p => p.selected);
@@ -392,16 +392,17 @@ searchDesc() {
     this.dataService.updateProducts(this.edited).subscribe(() => {
         this.edited.forEach(product => {
           const i  = this.curentItems.findIndex(pro => pro._id === product._id);
-          this.curentItems[i] = product;
+          this.curentItems[i] = {...product, selected: false};
     });
     this.socket.io.emit('store update', {action: 'update', changes: this.edited});
     this.product = new Product();
+    this.edited = [];
+    this.editables = [];
     this.processing = false;
-    this.edited = this.editables = [];
     this.feedback = 'Update succesfull';
     setTimeout(() => {
       this.feedback = null;
-    }, 4000);
+    }, 3000);
    }, (e) => {
       this.processing = false;
       this.feedback = 'Unable to update inventory';
@@ -428,7 +429,7 @@ expired(expiry) {
 }
 
 searchProducts(search: string) {
-  if (search === '') {
+  if (!search) {
     const i = this.clonedInventory;
     this.curentItems = i.filter(product => product.type === this.tableView);
   } else {

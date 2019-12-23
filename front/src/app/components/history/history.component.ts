@@ -3,6 +3,7 @@ import { Person} from '../../models/person.model';
 import {Tests, Scannings, Surgeries} from '../../data/request';
 import {Client, Department} from '../../models/client.model';
 import {Conditions} from '../../data/conditions';
+import {Vaccins} from '../../data/immunization';
 import {DataService} from '../../services/data.service';
 import * as cloneDeep from 'lodash/cloneDeep';
 import {SocketService} from '../../services/socket.service';
@@ -11,9 +12,11 @@ import 'simplebar/dist/simplebar.css';
 import {CookieService } from 'ngx-cookie-service';
 import {ActivatedRoute, Router} from '@angular/router';
 import { Item, StockInfo, Product, Card, Invoice, Meta} from '../../models/inventory.model';
-import { Record, Medication, Condition, Note, Visit, Session, Test, Surgery, Scan, Complain, Bp, Resp, Pulse, Temp } from '../../models/record.model';
+import { Record, Medication, Height, Weight, Bg, Condition,
+  Note, Visit, Session, Test, Surgery, Scan, Complain, Bp, Resp, Pulse, Temp, Vitals, Vaccin } from '../../models/record.model';
 import {Chart} from 'chart.js';
 import {saveAs} from 'file-saver';
+import {host} from '../../util/url';
 // import { truncateSync } from 'fs';
 
 
@@ -28,6 +31,7 @@ export class HistoryComponent implements OnInit {
   clonedPatients: Person[] = [];
   department: Department = new Department();
   session: Session = new Session();
+  vaccins: any[] = Vaccins;
   feedback = null;
   currentImage = 0;
   count = 0;
@@ -37,6 +41,7 @@ export class HistoryComponent implements OnInit {
   scans = [];
   clonedTest = [];
   images = [];
+  editing = null;
   logout = false;
   scannings = Scannings;
   surgeries = Surgeries;
@@ -48,8 +53,10 @@ export class HistoryComponent implements OnInit {
   patient: Person = new Person();
   loading = false;
   processing = false;
+  clientMode = null;
   errLine = null;
   message = null;
+  edit = false;
   bpChart = [];
   chartData = [];
   notes: Note[] = [];
@@ -62,7 +69,11 @@ export class HistoryComponent implements OnInit {
 
   ngOnInit() {
     this.getClient();
-
+    this.socket.io.on('record update', (update) => {
+      if (update.patient._id === this.patient._id) {
+        this.patient = {...update.patient, record: {...update.patient.record, notes: this.patient.record.notes }};
+      }
+    });
     let day = null;
     const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
     this.loading = true;
@@ -75,7 +86,7 @@ export class HistoryComponent implements OnInit {
         note: note.note.length > 150 ? note.note.substr(0, 150) : note.note
       }));
     }, (e) => {
-      this.message = 'Something went wrong';
+      this.message = '...Network Error';
       this.loading = false;
     });
     // this.patient.record.vitals.bp.forEach((bp, i) => {
@@ -143,8 +154,7 @@ export class HistoryComponent implements OnInit {
     });
   }
   getDp(avatar: String) {
-  return 'http://localhost:5000/api/dp/' + avatar;
-   // return 'http://192.168.1.101:5000/api/dp/'+ avatar;
+    return `${host}/api/dp/${avatar}`;
   }
 
   getMyDp() {
@@ -155,9 +165,7 @@ export class HistoryComponent implements OnInit {
     .report.attachments : this.patient.record.scans[i][j].report.attachments;
   }
   getImage(fileName: String) {
-    //return 'http://192.168.1.101:5000/api/dp/' + fileName;
-    return 'http://localhost:5000/api/dp/' + fileName;
-  
+    return `${host}/api/dp/${fileName}`;
   }
   getLabs() {
     return this.client.departments.filter(dept => dept.category === 'Lab');
@@ -176,8 +184,7 @@ export class HistoryComponent implements OnInit {
   this.patient.record.notes[i].note = this.notes[i].note;
 }
   getDocDp(avatar: string) {
-      return 'http://localhost:5000/api/dp/' + avatar;
-      //return 'http://192.168.1.101:5000/api/dp/' + avatar;
+      return `${host}/api/dp/${avatar}`;
   }
   addVital() {
     const i = this.vitals.findIndex(v => v.name === this.vital);
@@ -287,8 +294,72 @@ export class HistoryComponent implements OnInit {
         break;
     }
   }
+  switchClient(view: string) {
+    this.clientMode =  view ;
+  }
+  addImmunizations() {
+    let s: Vaccin[] = [];
+    this.vaccins.forEach(vaccins => {
+     vaccins.forEach(vcn => {
+       if(vcn.selected) {
+        s.push({ name: vcn.name, meta: new Meta(this.cookies.get('i'))});
+        vcn.selected = false;
+       }
+     });
+    });
+    if (s.length) {
+       this.patient.record.immunization.vaccins.unshift(s);
+    }
+    this.switchClient('view');
+  }
 
+  showEdit() {
+    this.edit = true;
+    this.session.vitals.height = (this.patient.record.vitals.height.length) ?
+    cloneDeep(this.patient.record.vitals.height[0]) : new Height();
+    this.session.vitals.weight = (this.patient.record.vitals.weight.length) ?
+    cloneDeep(this.patient.record.vitals.weight[0]) : new Weight();
+    this.session.vitals.bloodGl = (this.patient.record.vitals.bloodGl.length) ?
+    cloneDeep(this.patient.record.vitals.bloodGl[0]) : new Bg();
+  }
+  hideEdidt() {
+    this.edit = false;
+  }
 
+  checkProfiles() {
+    if (this.session.vitals.height.value) {
+          this.patient.record.vitals.height.unshift({
+            ...this.session.vitals.height, meta: new Meta(this.cookies.get('i'))
+          });
+    }
+    if (this.session.vitals.weight.value) {
+          this.patient.record.vitals.weight.unshift({
+            ...this.session.vitals.weight, meta: new Meta(this.cookies.get('i'))
+          });
+        }
+      if (this.session.vitals.bloodGl.value) {
+          this.patient.record.vitals.bloodGl[0] = {
+            ...this.session.vitals.bloodGl, meta: new Meta(this.cookies.get('i'))
+          };
+      }
+  }
+  addProfiles() {
+   this.checkProfiles();
+    this.editing = 'editing';
+    this.dataService.updateHistory(this.patient).subscribe((patient: Person) => {
+      this.patient.record  = patient.record;
+      this.socket.io.emit('record update', {action: '', patient: patient});
+      this.editing = 'edited';
+      setTimeout(() => {
+        this.session.vitals = new Vitals();
+        this.editing = null;
+        this.edit = false;
+      }, 3000);
+    }, (e) => {
+      this.errLine = 'Unable to update record';
+      this.processing = false;
+    });
+  }
 
   composeVitals() {
     if (this.session.vitals.tempreture.value) {
@@ -365,8 +436,8 @@ removeComplain(i: number) {
 }
 
 removePriscription(i: number) {
-this.session.medications.splice(i, 1);
-this.session.medInvoices.splice(i, 1);
+  this.session.medications.splice(i, 1);
+  this.session.medInvoices.splice(i, 1);
 }
 removeTest(i) {
  this.tests.splice(i, 1);
@@ -429,12 +500,12 @@ selectCond(match) {
   this.matches = [];
 }
 isEmptySession() {
-  return !this.session.invoices.length && 
+  return !this.session.invoices.length &&
   !this.session.complains.length &&
-  !this.session.conditions.length && 
-  !this.session.allegies.allegy && 
-  !this.session.famHist.condition && 
-  !this.session.note.note && 
+  !this.session.conditions.length &&
+  !this.session.allegies.allegy &&
+  !this.session.famHist.condition &&
+  !this.session.note.note &&
   !this.session.medications.length &&
   !this.vitals.length;
 }
@@ -526,6 +597,7 @@ composeInvoices() {
 }
 composeMedications() {
   if (this.session.medications.length) {
+    this.session.bills.push('Medication');
   if (this.patient.record.medications.length) {
     if (new Date(this.patient.record.medications[0][0].meta.dateAdded)
     .toLocaleDateString() === new Date()
@@ -543,6 +615,7 @@ composeMedications() {
 }
 composeTests() {
   if (this.session.tests.length) {
+    this.session.bills.push('cashier');
     if (this.patient.record.tests.length) {
     if (new Date(this.patient.record.tests[0][0].meta.dateAdded)
     .toLocaleDateString() === new Date().toLocaleDateString()) {
@@ -559,6 +632,7 @@ composeTests() {
 }
 composeScans() {
   if (this.session.scans.length) {
+    this.session.bills.push('cashier');
     if (this.patient.record.scans.length) {
     if (new Date(this.patient.record.scans[0][0].meta.dateAdded)
     .toLocaleDateString() === new Date().toLocaleDateString()) {
@@ -744,6 +818,9 @@ addRequest() {
 clearMsg() {
   this.errLine = null;
 }
+selectVaccin(i, j, action) {
+ this.vaccins[i][j].selected = (action === 'check') ? true : false;
+}
 goTo(count: number) {
   this.count = count;
 }
@@ -793,7 +870,7 @@ sendRecord() {
   this.processing = true;
   this.dataService.updateHistory(this.patient).subscribe((patient: Person) => {
     this.patient.record  = patient.record;
-    this.socket.io.emit('record update', {action: 'encounter', patient: patient});
+    this.socket.io.emit('record update', {action: 'encounter', bills: this.session.bills, patient: patient});
     this.session = new Session();
     this.feedback = 'Record successfully updated';
     this.processing = false;

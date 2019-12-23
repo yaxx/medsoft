@@ -7,6 +7,7 @@ import {CookieService} from 'ngx-cookie-service';
 import {Product, Item, StockInfo,Invoice} from '../../models/inventory.model';
 import {Priscription, Medication} from '../../models/record.model';
 import * as cloneDeep from 'lodash/cloneDeep';
+import {host} from '../../util/url';
 
 @Component({
   selector: 'app-pharmacy',
@@ -68,34 +69,36 @@ export class PharmacyComponent implements OnInit {
     this.getPatients('Pharmacy');
     this.getProducts();
     this.socket.io.on('record update', (update) => {
-      console.log(update);
       const i = this.patients.findIndex(p => p._id === update.patient._id);
       switch (update.action) {
         case 'encounter':
-          if (i !== -1 ) {
-            if (this.patients[i].record.medications.length === update.patient.record.medications.length) {
-              this.patients[i] = update.patient;
-            } else {
-              update.patient.card  = { indicate: false } ;
-              this.patients[i] = update.patient ;
-
-            }
-          } else if (update.patient.record.medications.length) {
-            this.patients.unshift(update.patient);
-          }
-          console.log(this.patients[i]);
+                if (!this.router.url.includes('completed')) {
+                  if (i !== -1) {
+                    if (this.recordChanged(update.bills)) {
+                      this.patients[i] = { ...update.patient, card: { indicate: true } };
+                    } else {
+                      this.patients[i] = { ...update.patient, card: this.patients[i].card };
+                    }
+                  } else  {
+                    this.patients.unshift({ ...update.patient, card: { menu: false, view: 'front', indicate: true } });
+                  }
+                } else if (i !== -1) {
+                  this.patients.splice(i, 1);
+                  this.message = ( this.patients.length) ? null : 'No Record So Far';
+                }
           break;
         case 'payment':
-          if (i >= 0 ) {
-            this.patients.unshift(update.patient);
+          if (i !== -1 ) {
+            this.patients[i] = (update.cart.some(prod => prod.type === 'Products')) ?
+              { ...update.patient, card: { indicate: true } } : { ...update.patient, card: this.patients[i].card};
           }
           break;
         default:
+            if (i !== -1 ) {
+              this.patients[i] = { ...update.patient, card: this.patients[i].card };
+            }
           break;
       }
-    });
-    this.socket.io.on('new order', (patient: Person) => {
-      this.patients.push(patient);
     });
     this.socket.io.on('store update', (data) => {
       if (data.action === 'new') {
@@ -139,7 +142,7 @@ export class PharmacyComponent implements OnInit {
     this.dataService.getPatients(type).subscribe((patients: Person[]) => {
       if (patients.length) {
         patients.forEach(p => {
-          p.card = {indicate: false};
+          p.card = {menu: false, view: 'front', indicate: false};
         });
         this.patients =  this.filterPatients(patients).sort((m, n) => new Date(n.createdAt).getTime() - new Date(m.createdAt).getTime());
          this.clonedPatients  = patients;
@@ -150,11 +153,13 @@ export class PharmacyComponent implements OnInit {
         this.loading = false;
       }
     }, (e) => {
-      this.message = 'Something went wrong';
+      this.message = '...Network Error';
       this.loading = false;
     });
   }
-
+  recordChanged(bills: string[]) : boolean {
+    return (bills.length && bills.some(bill => bill === 'Medication')) ? true : false;
+  }
   getDosage(desc: string) {
     return desc.split('|')[1];
   }
@@ -205,11 +210,7 @@ export class PharmacyComponent implements OnInit {
         this.patients.sort((m: Person, n: Person) => n.info.personal.gender.localeCompare(m.info.personal.gender));
         this.nowSorting = 'Gender';
         break;
-      // case 'status':
-      //   this.patients.sort((m, n) => m.record.visits[m.record.visits.length-1].status.localeCompare(m.record.visits[n.record.visits.length-1].status.localeCompare));
-      //   this.nowSorting = 'Status';
-      //   break;
-        case 'age':
+      case 'age':
         this.patients.sort((m, n) => new Date(m.info.personal.dob).getFullYear() - new Date(n.info.personal.dob).getFullYear());
         this.nowSorting = 'Age';
         break;
@@ -252,24 +253,29 @@ updatePrices(invoices: Invoice[], i: number) {
       }
     });
     this.invoices[i] = invoices;
+    // console.log(this.invoices[i]);
   } else {
     this.invoices.splice(i, 1);
   }
 }
   viewOrders(i: number) {
     this.curIndex = i;
-    this.patients[i].card.update = false;
+    this.patients[i].card.indicate = false;
     this.switchViews('orders');
     this.invoices = cloneDeep(this.patients[i].record.invoices);
-    this.invoices.forEach((invoices , index) => {
-      const items = [];
-      invoices.forEach((invoice) => {
-        if (invoice.desc.includes('|')) {
-          items.push(invoice);
-        }
-        });
-        this.updatePrices(items, index);
-    });
+    // this.invoices = this.invoices.filter(invoices => invoices.some(n => n.desc.includes('|')))
+    //  .filter(m => m.filter(l => l.desc.startsWith('Medication')));
+    console.log(this.invoices);
+    // this.invoices.forEach((i1 , index) => {
+    //   const items = [];
+    //   i1.forEach((i2) => {
+    //     if (i2.desc.includes('Medication')) {
+    //       items.push(i2);
+    //       console.log(i2);
+    //     }
+    //     });
+    //     this.updatePrices(items, index);
+    // });
   }
   reset() {
     setTimeout(() => {
@@ -293,6 +299,7 @@ updatePrices(invoices: Invoice[], i: number) {
     this.processing = true;
     this.dataService.updateRecord(this.patients[this.curIndex]).subscribe((patient: Person) => {
       this.transMsg = 'Invoice successfully updated';
+      this.socket.io.emit('record update', {action: 'invoice update', patient: patient});
       this.reset();
     }, (e) => {
       this.errMsg = 'Unable to update invoice';
@@ -329,8 +336,7 @@ updatePrices(invoices: Invoice[], i: number) {
   }
  
     getDp(avatar: String) {
-    // return 'http://192.168.1.101:5000/api/dp/' + avatar;
-    return 'http://localhost:5000/api/dp/' + avatar;
+      return `${host}/api/dp/${avatar}`;
   }
 
 

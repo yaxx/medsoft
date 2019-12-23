@@ -9,6 +9,7 @@
                 <div style='padding-left: 30px;border-top-right-radius:32px;border-top-left-radius:32px;border-bottom: 0px;height:40px;margin-bottom: 15px;' class="card-header profileheader small-header">
                      <div style="left:23px;top:13px" class="timeline lastdoc priscriber headerdp small-dp">
                         <img [src]=getDp(patient.info.personal.avatar)/>
+                        <div *ngIf="patient.card.indicate" class="indicator"></div>
                     </div> 
                      <p style="top:5px"  href="#" class="patien-name small-name">
                       {{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}<span class="small-headericon"></span>
@@ -100,7 +101,7 @@
 <nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:0px">
     <div class="container">
         <a class="navbar-brand" href="#">
-            <em>synaptix</em>
+            <em>Index</em>
         </a>        
         <div class="collapse navbar-collapse" id="navcol-1">
             <form class="top-searchform" target="_self">
@@ -169,6 +170,7 @@
                 <div style="border-radius:25px" class="card-header profileheader">
                     <div class="timeline lastdoc priscriber headerdp">
                         <img [src]=getDp(patient.info.personal.avatar)/>
+                        <div *ngIf="patient.card.indicate" class="indicator"></div>
                     </div>
                 </div>
                 <p style='margin-bottom:2px;' class="dept displayname">

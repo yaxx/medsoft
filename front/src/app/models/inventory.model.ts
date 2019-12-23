@@ -3,8 +3,9 @@ export class Meta {
   constructor(
   public addedBy: string = null,
   public selected: boolean = false,
+  public hosp: any = null,
   public dateAdded: Date = new Date()
-  ){}
+  ) {}
 }
 export class Item {
   constructor(

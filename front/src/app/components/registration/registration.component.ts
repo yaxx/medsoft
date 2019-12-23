@@ -12,9 +12,8 @@ import { Item, StockInfo, Product, Card, Invoice, Meta} from '../../models/inven
 import {Visit, Session} from '../../models/record.model';
 import {Client, Department} from '../../models/client.model';
 import {CookieService } from 'ngx-cookie-service';
-//const uri = 'http://192.168.1.101:5000/api/upload';
-const uri = 'http://localhost:5000/api/upload';
-
+import {host} from '../../util/url';
+const uri = `${host}/api/upload`;
  @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
@@ -56,8 +55,7 @@ export class RegistrationComponent implements OnInit {
   view = 'info';
   pin = null;
   searchTerm = '';
-  dpurl = 'http://localhost:5000/api/dp/';
-   //dpurl = 'http://192.168.1.101:5000/api/dp/';
+  dpurl = `${host}/api/dp/`;
   uploader: FileUploader = new FileUploader({url: uri});
   constructor(
     private dataService: DataService,
@@ -71,31 +69,30 @@ export class RegistrationComponent implements OnInit {
   ngOnInit() {
     this.getPatients('out');
     this.getClient();
-    this.socket.io.on('new patient', (patient: Person) => {
-      this.patients.unshift(patient);
+    this.socket.io.on('record update', (update) => {
+      const i = this.patients.findIndex(p => p._id === update.patient._id);
+      switch (update.action) {
+        case 'payment':
+          if (i !== -1 ) {
+            this.patients.splice(i, 1);
+            this.message = ( this.patients.length) ? null : 'No Record So Far';
+          }
+          break;
+        case 'enroled':
+          if (i !== -1 ) {
+            this.patients.splice(i, 1);
+            this.message = ( this.patients.length) ? null : 'No Record So Far';
+          }
+          break;
+        case 'disposition':
+          if (update.patient.record.visits[0][0].status === 'out' ) {
+            this.patients.unshift({ ...update.patient, card: { menu: false, view: 'front', indicate: true } });
+          }
+          break;
+        default:
+          break;
+      }
     });
-    this.socket.io.on('new card', (changes) => {
-      this.patients.splice(this.patients.findIndex(p => p._id === changes.patient._id) , 1);
-    });
-    this.socket.io.on('payment', (changes) => {
-      this.patients.splice(this.patients.findIndex(p => p._id === changes.patient._id) , 1);
-    });
-    this.socket.io.on('discharge', (patient: Person) => {
-      patient.card = {menu: false, view: 'front'};
-      this.patients.unshift(patient);
-    });
-  //   this.socket.io.on('consulted', (patient: Person) => {
-  //     const i = this.patients.findIndex(p => p._id === patient._id);
-  //     if(patient.record.visits[0][0].status === 'out') {
-  //       this.patients.unshift(patient);
-  //       this.clonedPatients.unshift(patient);
-  //     }
-  // });
-  //   this.socket.io.on('enroled', (patient: Person) => {
-  //     this.patients.unshift(patient);
-  //     this.clonedPatients.unshift(patient);
-  // });
-  
   }
  
   routeHas(path) {
@@ -110,8 +107,7 @@ export class RegistrationComponent implements OnInit {
     this.card = this.patient.record.cards[0] || new Card();
   }
   getDp(avatar: String) {
-   // return 'http://192.168.1.101:5000/api/dp/' + avatar;
-    return 'http://localhost:5000/api/dp/' + avatar;
+    return `${host}/api/dp/${avatar}`;
   }
   toggleSortMenu() {
     this.sortMenu = !this.sortMenu;
@@ -211,7 +207,7 @@ export class RegistrationComponent implements OnInit {
       this.dataService.updateRecord(this.patient).subscribe((patient) => {
       this.successMsg = 'Patient Successfully Enroled';
       this.processing = false;
-      this.socket.io.emit('enroled', patient);
+      this.socket.io.emit('record update', {action: 'enroled', patient: patient});
       setTimeout(() => {
         this.successMsg = null;
       }, 3000);
@@ -449,7 +445,7 @@ addCard() {
     this.dataService.updateRecord(this.patient).subscribe((patient) => {
     this.successMsg = 'Card added successfully';
     this.processing = false;
-    this.socket.io.emit('enroled', patient);
+    this.socket.io.emit('record update', {action: 'enroled', patient: patient});
     setTimeout(() => {
       this.successMsg = null;
     }, 3000);

@@ -3,27 +3,7 @@ import {Product, StockInfo, Item, Invoice, Meta, Card} from './inventory.model';
 
 
 
-export class Record {
-  constructor(
-    public complains: any[] = [],
-    public famHist: FamHist[] = [],
-    public notes: Note[] = [],
-    public vitals: Vital = new Vital(),
-    public conditions: any[] = [],
-    public allegies: Allegy[] = [],
-    public devices: Device[] = [],
-    public visits: any[] = [],
-    public invoices: Invoice[][] = new Array<Invoice[]>(),
-    public cards: Card[] = [],
-    public appointments: Appointment[] = [],
-    public medications: any[] = [],
-    public tests: any[] = [],
-    public scans: any = [],
-    public sugery: any[] = [],
-    public deathNote: DeathNote = new DeathNote()
-     ) {}
-  }
-  
+
   export class Priscription {
   constructor(
     public intake = null,
@@ -99,7 +79,7 @@ export class Temp {
 }
 export class Bg {
   constructor(
-    public value: number = null,
+    public value: string = null,
     public meta: Meta = new Meta()
     ) {}
 }
@@ -113,6 +93,18 @@ export class Weight {
   constructor(
     public value: number = null,
     public meta: Meta = new Meta()
+   ) {}
+}
+export class Vaccin {
+  constructor(
+    public name: string = null,
+    public meta: Meta = new Meta()
+   ) {}
+}
+export class Immunization {
+  constructor(
+    public vaccins: Vaccin[][] = [[]],
+    public questionaire: any = null
    ) {}
 }
 
@@ -264,8 +256,30 @@ export class Session {
     public surgeries: Surgery[] = [],
     public scans: Scan[] = [],
     public invoices: Invoice[] = [],
+    public bills: string[] = [],
     public medInvoices: Invoice[] = [],
     public deathNote: DeathNote = new DeathNote()
 
      ) {}
   }
+  export class Record {
+    constructor(
+      public complains: any[] = [],
+      public famHist: FamHist[] = [],
+      public notes: Note[] = [],
+      public vitals: Vital = new Vital(),
+      public conditions: any[] = [],
+      public allegies: Allegy[] = [],
+      public devices: Device[] = [],
+      public visits: any[] = [],
+      public invoices: Invoice[][] = new Array<Invoice[]>(),
+      public cards: Card[] = [],
+      public appointments: Appointment[] = [],
+      public medications: any[] = [],
+      public tests: any[] = [],
+      public scans: any = [],
+      public sugery: any[] = [],
+      public immunization: Immunization = new Immunization(),
+      public deathNote: DeathNote = new DeathNote()
+       ) {}
+    }

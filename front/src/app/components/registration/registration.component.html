@@ -247,7 +247,7 @@
 <nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:0px;">
     <div class="container">
         <a class="navbar-brand" href="#">
-            <em>Foldirect</em>
+            <em>hipr</em>
         </a>
         <div class="collapse navbar-collapse" id="navcol-1">
             <form class="top-searchform" target="_self">
@@ -337,7 +337,6 @@
                 <div [class.ap]='cardCount' [class.front]='patient.card.view === "front"' style="position: absolute; width:100%;height: 87%;top:13%" class="card-body mainbody">
                     <div style="position: relative;margin-bottom: 0px;top:0px" class="timeline lastdoc priscriber headerdp">
                     <img  [src]=getDp(patient.info.personal.avatar)/>
-                    <div class="indicator"></div>
                     </div>
                     <p *ngIf="isInfo() || isWard()"  style='margin-bottom:2px;position:relative;top:3px' class="patien-name display-name">
                         {{patient.info.personal.firstName + ' '+patient.info.personal.lastName}}

@@ -9,10 +9,11 @@ import { Person } from '../../models/person.model';
 import { Product, Item} from '../../models/inventory.model';
 import { Client} from '../../models/client.model';
 import * as cloneDeep from 'lodash/cloneDeep';
+import {host} from '../../util/url';
 
 
-//const uri = 'http://localhost:5000/api/upload';
- const uri = 'http://192.168.1.101:5000/api/upload';
+
+ const uri = `${host}/api/upload`;
 @Component({
   selector: 'app-ward',
   templateUrl: './ward.component.html',
@@ -90,34 +91,46 @@ export class WardComponent implements OnInit {
         this.attachments = [];
       });
      };
-    this.socket.io.on('Discharge', (patient: Person) => {
-      const i = this.patients.findIndex(p => p._id === patient._id);
-      if(patient.record.visits[0][0].dept.toLowerCase() === this.myDepartment ) {
-         if (i < 0) {
-         } else {
-           this.patients.splice(i, 1);
-         }
-      } else {
-         this.patients.splice(i, 1);
+     this.socket.io.on('record update', (update) => {
+      const i = this.patients.findIndex(p => p._id === update.patient._id);
+      switch (update.action) {
+        case 'disposition':
+            if (i !== -1) {
+              console.log(update.patient);
+              if (update.patient.record.visits[0][0].status === 'out' || update.patient.record.visits[0][0].status === 'foward' ) {
+               this.patients.splice(i, 1);
+               this.message = ( this.patients.length) ? null : 'No Record So Far';
+             }
+            }  else if (update.patient.record.visits[0][0].dept === this.cookies.get('dpt')) {
+              this.patients.unshift({ ...update.patient, card: { view: 'front', menu: false, indicate: true } });
+            }
+          break;
+        case 'status update':
+            if (i !== -1 ) {
+              this.patients[i] = { ...update.patient, card: { ...this.patients[i].card, indicate: true } };
+            }
+          break;
+        default:
+            if (i !== -1 ) {
+              this.patients[i] = { ...update.patient, card: this.patients[i].card };
+            }
+          break;
       }
-  });
-
-  this.socket.io.on('consulted', (patient: Person) => {
-    const i = this.patients.findIndex(p => p._id === patient._id);
-      if(patient.record.visits[0][0].dept.toLowerCase() === this.myDepartment && patient.record.visits[0][0].status === 'Admit') {
-        this.patients.unshift(patient);
-        this.clonedPatients.unshift(patient);
-      } else if (patient.record.visits[0][0].dept.toLowerCase() ===
-       this.myDepartment && patient.record.visits[0][0].status === 'Discharged') {
-         this.patients.splice(i, 1);
-      }
-  });
+    });
+  // this.socket.io.on('consulted', (patient: Person) => {
+  //   const i = this.patients.findIndex(p => p._id === patient._id);
+  //     if (patient.record.visits[0][0].dept.toLowerCase() === this.myDepartment && patient.record.visits[0][0].status === 'Admit') {
+  //       this.patients.unshift(patient);
+  //       this.clonedPatients.unshift(patient);
+  //     } else if (patient.record.visits[0][0].dept.toLowerCase() ===
+  //      this.myDepartment && patient.record.visits[0][0].status === 'Discharged') {
+  //        this.patients.splice(i, 1);
+  //     }
+  // });
 
   }
   getDp(avatar: String) {
-     //return 'http://localhost:5000/api/dp/' + avatar;
-    return 'http://192.168.1.101:5000/api/dp/' + avatar;
-
+    return `${host}/api/dp/${avatar}`;
   }
   getMyDp() {
     return this.getDp(this.cookies.get('d'));
@@ -148,7 +161,7 @@ export class WardComponent implements OnInit {
 
   }
    searchPatient(name: string) {
-   if(name! == '') {
+   if(name !== '') {
     this.patients = this.patients.filter((patient) => {
       const patern =  new RegExp('\^' + name, 'i');
       return patern.test(patient.info.personal.firstName);
@@ -173,7 +186,7 @@ export class WardComponent implements OnInit {
    }
    showMenu(i: number) {
      this.hideMenu();
-     this.patients[i].card.menu = true;
+     this.patients[i].card = { ...this.patients[i].card, menu: true, indicate: false};
    }
    hideMenu() {
      this.patients.forEach(p => {
@@ -192,12 +205,6 @@ export class WardComponent implements OnInit {
   hideLogOut() {
     this.logout = false;
   }
-  // viewDetails(i) {
-  //   this.reg = false;
-  //   this.curIndex = i;
-  //   this.count = 0;
-  //   this.psn.person = cloneDeep(this.patients[i]);
-  // }
   switchToEdit() {
     this.patient.record.medications.forEach(inner => {
       inner.forEach(medic => {
@@ -258,7 +265,7 @@ export class WardComponent implements OnInit {
     this.dataService.getPatients(type).subscribe((patients: Person[]) => {
       if (patients.length) {
         patients.forEach(p => {
-          p.card = {menu: false, view: 'front', name: null, processing: false, errorMsg: null, sucsMsg: null};
+          p.card = {menu: false, indicate: false, view: 'front', name: null, processing: false, errorMsg: null, sucsMsg: null};
         });
         this.patients   = patients.sort((m, n) => new Date(n.createdAt).getTime() - new Date(m.createdAt).getTime());
         this.clonedPatients  = patients;
@@ -299,16 +306,17 @@ export class WardComponent implements OnInit {
       this.patients[i].card.processing = false;
       this.patients[i].record.visits[0][0].wardNo =  res.record.visits[0][0].wardNo;
       this.patients[i].card.sucsMsg  = 'Room successfully allocated';
+      this.socket.io.emit('record update', {action: 'ward', patient: this.patients[i]});
       setTimeout(() => {
         this.patients[i].card.sucsMsg  = null;
-      }, 4000);
+      }, 3000);
       setTimeout(() => {
         this.switchCards(i, 'front');
-      }, 6000);
+      }, 5000);
     }, (e) => {
       this.patients[i].card.processing = false;
       this.patients[i].card.errorMsg  = 'Unable to allocate room';
-    })
+    });
   }
 
   clearVital(name) {
@@ -459,7 +467,6 @@ export class WardComponent implements OnInit {
   switchToFront(i: number) {
     this.patients[i].card.view = 'front';
   }
- 
   linked() {
     return !this.router.url.includes('information');
   }

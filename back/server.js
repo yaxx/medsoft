@@ -3,7 +3,7 @@ const app = express()
 const server = require('http').Server(app)
 const io = require('socket.io')(server)
 const api = require('./routes/api')
-// const Notification = require('./models/schemas/noteschema')
+var history = require('connect-history-api-fallback');
 const Connection = require('./models/schemas/connection')
 const Messages = require('./models/schemas/messageschema')
 const path = require('path');
@@ -24,6 +24,7 @@ app.use(cors({origin:"http://localhost:4200", credentials: true}))
 
 // app.use(cors({origin:"*", credentials: true}))
 // app.use(express.static(path.join(__dirname,'dist','front')))
+// app.use(history());
 app.use(require('morgan')('dev'))
 app.use(bodyParser.json())
 app.use(require('cookie-parser')('blackfly'))
@@ -48,30 +49,7 @@ io.sockets.on('connection', (socket) => {
   socket.on('record update', (update) => {
     socket.broadcast.emit('record update', update);  
   })
-  socket.on('enroled', (patient) => {
-    socket.broadcast.emit('enroled', patient);  
-  })
-  socket.on('new card', (changes) => {
-    socket.broadcast.emit('new card', changes);  
-  })
-  socket.on('new report', (patient) => {
-    socket.broadcast.emit('new report', patient);  
-  })
-  socket.on('discharge', (patient) => {
-    socket.broadcast.emit('discharge', patient);  
-  })
-  socket.on('consulted', (patient) => {
-    socket.broadcast.emit('consulted', patient);  
-  })
-  socket.on('new patient', (patient) => {
-    socket.broadcast.emit('new patient', patient);  
-  })
-  socket.on('Discharge',(patient)=>{
-    socket.broadcast.emit('Discharge', patient);  
-  })
-  socket.on('payment', cart => {
-    socket.broadcast.emit('payment', cart);
-  })
+  
   
   socket.on('store update', changes => {
     socket.broadcast.emit('store update', changes);
@@ -149,7 +127,7 @@ io.sockets.on('connection', (socket) => {
 })
 app.get('/', (req, res) => {
   res.render('index')
-  // res.sendFile(path.resolve(__dirname,'dist','front','index.html'));
+  // res.sendFile(path.join(__dirname,'dist','front','index.html'));
 })
 // app.get('*',function (req, res) {
 //  res.redirect('/');

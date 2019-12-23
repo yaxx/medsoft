@@ -8,8 +8,8 @@ import {Person, Info} from '../../models/person.model';
 import {Visit} from '../../models/record.model';
 import {Client, Department} from '../../models/client.model';
 import {CookieService } from 'ngx-cookie-service';
-const uri = 'http://localhost:5000/api/upload';
- //const uri = 'http://192.168.1.101:5000/api/upload';
+import {host} from '../../util/url';
+const uri = `${host}/api/upload`;
 @Component({
   selector: 'app-deceased',
   templateUrl: './deceased.component.html',
@@ -37,8 +37,6 @@ export class DeceasedComponent implements OnInit {
   nowSorting = 'Date added';
   view = 'info';
   searchTerm = '';
-  dpurl = 'http://localhost:5000/api/dp/';
-   //dpurl = 'http://192.168.1.101:5000/api/dp/';
   uploader: FileUploader = new FileUploader({url: uri});
   constructor(private dataService: DataService,
     private cookies: CookieService,
@@ -53,8 +51,7 @@ export class DeceasedComponent implements OnInit {
     return this.router.url.includes(path);
   }
   getDp(avatar: String) {
-    return 'http://localhost:5000/api/dp/' + avatar;
-     //return 'http://192.168.1.101:5000/api/dp/' + avatar;
+    return `${host}/api/dp/${avatar}`;
   }
   toggleSortMenu() {
     this.sortMenu = !this.sortMenu;

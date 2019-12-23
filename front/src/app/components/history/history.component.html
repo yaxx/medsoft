@@ -117,8 +117,10 @@ max-width:100%;">
                                     <label style="font-size:8px" for="piriod" class="labelss complain">DURATION</label>
                                     <input name='numofDays' [(ngModel)]="session.complain.duration" style=" font-size:11px;border-top-right-radius: 0px;border-right:0px;width: 99%;border-bottom-right-radius: 0px;" type="number" [min]='1' name="piriod" class="form-control patientdata inputs dataInfo" placeholder='Number of days'>
                                     <div id='moreBtn' title="Add complain">
-                                        <i *ngIf="session.complain.duration &&session.complain.complain" style="left: 13%;
-                                        top: -29%;" (click)="addComplain()" class="icon ion-ios-plus-empty arrow ">
+                                        <i *ngIf="session.complain.duration &&session.complain.complain"style="left: 13%;top: -21%;
+                                        font-size: 23px;
+                                        position: relative;
+                                        cursor: pointer;" (click)="addComplain()" class="icon ion-ios-plus-empty arrow ">
                                         </i>
                                     </div>
                                 </div>
@@ -188,7 +190,10 @@ max-width:100%;">
                                         <option *ngFor="let dept of getLabs()">{{dept.name}}</option>
                                     </select>
                                     <div id='moreBtn'>
-                                        <i *ngIf="session.test.name && session.test.dept" title = "Add Request" style="left: 13%; top:-29%;" (click)="addRequest()" class="icon ion-ios-plus-empty arrow "></i>
+                                        <i *ngIf="session.test.name && session.test.dept" title = "Add Request" style="left: 13%;top: -21%;
+                                        font-size: 23px;
+                                        position: relative;
+                                        cursor: pointer;" (click)="addRequest()" class="icon ion-ios-plus-empty arrow "></i>
                                     </div>
                                 </div>
                                 <div *ngIf="session.reqItem.category==='Scanning'"  class="form-group vitals-section formGroup" style=" width:47%;margin-right: 5px;">
@@ -209,7 +214,10 @@ max-width:100%;">
                                         <option *ngFor="let dept of getLabs()">{{dept.name}}</option>
                                     </select>
                                     <div id='moreBtn'>
-                                        <i *ngIf="session.scan.name && session.scan.dept" title = "Add Request" style="left: 13%; top:-29%;" (click)="addRequest()" class="icon ion-ios-plus-empty arrow "></i>
+                                        <i *ngIf="session.scan.name && session.scan.dept" title = "Add Request" style="left: 13%;top: -21%;
+                                        font-size: 23px;
+                                        position: relative;
+                                        cursor: pointer;" (click)="addRequest()" class="icon ion-ios-plus-empty arrow "></i>
                                     </div>
                                 </div>
 
@@ -256,30 +264,42 @@ max-width:100%;">
                                 </div>
                                 <div *ngIf="vital==='Blood Presure'" class="form-group vitals-section formGroup" style=" width:44%;">
                                         <label style="font-size:8px" for="piriod" class="labelss complain">DIASTOLIC</label>
-                                        <input (keyup)="clearVital('Blood Presure')" [(ngModel)]="session.vitals.bp.diastolic" type="number" [min]='1' name="dystolic" class="form-control patientdata inputs dataInfo" placeholder="mm Hg">
+                                        <input style="border-right: none;" (keyup)="clearVital('Blood Presure')" [(ngModel)]="session.vitals.bp.diastolic" type="number" [min]='1' name="dystolic" class="form-control patientdata inputs dataInfo" placeholder="mm Hg">
                                         <div id='moreBtn'>
-                                            <i style="left: 13%; top:-29%;" (click)="addVital()" class="icon ion-ios-plus-empty arrow "></i>
+                                            <i style="left: 13%;top: -21%;
+                                            font-size: 23px;
+                                            position: relative;
+                                            cursor: pointer;" (click)="addVital()" class="icon ion-ios-plus-empty arrow "></i>
                                         </div>
                                 </div>
                                 <div *ngIf="vital === 'Tempreture'" style="width: 93%;"  class="form-group vitals-section formGroup">
                                         <label style="font-size:8px" for="piriod" class="labelss complain">TEMPRETURE</label>
-                                        <input (keyup)="clearVital('Tempreture')"  [(ngModel)]="session.vitals.tempreture.value" type="number" [min]='1' name="temp" class="form-control patientdata inputs dataInfo" placeholder="Degree Fahrenheit">
+                                        <input style="border-right: none;" (keyup)="clearVital('Tempreture')"  [(ngModel)]="session.vitals.tempreture.value" type="number" [min]='1' name="temp" class="form-control patientdata inputs dataInfo" placeholder="Degree Fahrenheit">
                                         <div id='moreBtn'>
-                                            <i style="left: 13%; top: -29%;" (click)="addVital()" class="icon ion-ios-plus-empty arrow "></i>
+                                            <i style="left: 13%;top: -21%;
+                                            font-size: 23px;
+                                            position: relative;
+                                            cursor: pointer;" (click)="addVital()" class="icon ion-ios-plus-empty arrow "></i>
                                         </div>
                                 </div>
                                 <div *ngIf="vital === 'Pulse Rate'" style="width: 93%;"  class="form-group vitals-section formGroup">
                                         <label style="font-size:8px" for="piriod" class="labelss complain">PULSE RATE</label>
-                                        <input (keyup)="clearVital('Pulse Rate')"  [(ngModel)]="session.vitals.pulse.value" type="number" [min]='1' name="pulse" class="form-control patientdata inputs dataInfo" placeholder="bpm">
+                                        <input style="border-right: none;" (keyup)="clearVital('Pulse Rate')"  [(ngModel)]="session.vitals.pulse.value" type="number" [min]='1' name="pulse" class="form-control patientdata inputs dataInfo" placeholder="bpm">
                                         <div id='moreBtn'>
-                                            <i style="left: 13%; top: -29%;" (click)="addVital()" class="icon ion-ios-plus-empty arrow "></i>
+                                            <i style="left: 13%;top: -21%;
+                                            font-size: 23px;
+                                            position: relative;
+                                            cursor: pointer;" (click)="addVital()" class="icon ion-ios-plus-empty arrow "></i>
                                         </div>
                                 </div>
                                 <div *ngIf="vital === 'Respiratory Rate'" style="width: 93%;"  class="form-group vitals-section formGroup">
                                         <label style="font-size:8px" for="piriod" class="labelss complain">RESPIRATORY RATE</label>
-                                        <input (keyup)="clearVital('Respiratory Rate')"  [(ngModel)]="session.vitals.resp.value" type="number" [min]='1' name="resp" class="form-control patientdata inputs dataInfo" placeholder="bpm">
+                                        <input style="border-top-right-radius: none;border-bottom-right-radius: none;" (keyup)="clearVital('Respiratory Rate')"  [(ngModel)]="session.vitals.resp.value" type="number" [min]='1' name="resp" class="form-control patientdata inputs dataInfo" placeholder="bpm">
                                         <div id='moreBtn'>
-                                            <i style="left: 13%; top: -29%;" (click)= addVital() class="icon ion-ios-plus-empty arrow "></i>
+                                            <i style="left: 13%;top: -21%;
+                                            font-size: 23px;
+                                            position: relative;
+                                            cursor: pointer;" (click)= addVital() class="icon ion-ios-plus-empty arrow "></i>
                                         </div>
                                 </div>
                                 <div *ngIf='vitals.length' class="form-group vitals-section setGroup">
@@ -319,7 +339,10 @@ max-width:100%;">
                                         </ul>
                                     </div>
                                     <div  id='moreBtn' >
-                                        <i *ngIf="session.condition.condition" style="left: 13%;  top: -29%;"  
+                                        <i *ngIf="session.condition.condition" style="left: 13%;top: -21%;
+                                        font-size: 23px;
+                                        position: relative;
+                                        cursor: pointer;"  
                                         (click) = "addCondition()" title="Add condition" class="icon   ion-ios-plus-empty arrow "></i>
                                     </div>
                                 </div>
@@ -358,15 +381,14 @@ max-width:100%;">
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="form-group vitals-section formGroup" style=" width:26%;margin-right: 3px;">
+                                <div class="form-group vitals-section formGroup" style=" width:26%;">
                                     <label style="font-size:8px" for="dos" class="labelss complain">INTAE</label>
-                                    <input [(ngModel)]="session.medication.priscription.intake" style="border-top-right-radius: 0px;border-bottom-right-radius: 0px;text-align:center;font-size:11px" [min]='1' type="number" name="dos" class="patientdata inputs dataInfo">
+                                    <input [(ngModel)]="session.medication.priscription.intake" style="border-top-right-radius: 0px;border-bottom-right-radius: 0px;height:27px;text-align:center;font-size:11px" [min]='1' type="number" name="dos" class="patientdata inputs dataInfo">
                                 </div>
                                 <div class="form-group vitals-section formGroup" style=" width:39%; ">
-                                    <label style="font-size:8px" for="intake" class="labelss complain">FREQ</label>
-                                    <select (focus) = clearMsg()  [(ngModel)]="session.medication.priscription.freq" style="border-radius: 0px;font-size:11px; border-top-right-radius: 0px;width: 100%; text-align:center; border:none;border-bottom: 1px solid whitesmoke; outline: none; border-bottom-right-radius:0px" class=" patientdata statusinputs dataInfo " name="intake">
+                                    <label style="font-size:8px" for="freq" class="labelss complain">FREQ</label>
+                                    <select (focus) = clearMsg()  [(ngModel)]="session.medication.priscription.freq" style="border-radius: 0px;font-size:11px; border-left: 0px;width: 100%; text-align:center; border-right:none;border: 1px solid whitesmoke; outline: none; border-bottom-right-radius:0px" class=" patientdata statusinputs dataInfo " name="freq">
                                         <option>bd</option>
-                                        <option>dos</option>
                                         <option>od</option>
                                         <option>qds</option>
                                         <option>tds</option>
@@ -374,9 +396,12 @@ max-width:100%;">
                                 </div>
                                 <div class="form-group vitals-section formGroup" style=" width:28%;">
                                     <label style="font-size:8px" for="piriod" class="labelss complain">DAYS</label>
-                                    <input (focus)=clearMsg()  name='days' [(ngModel)]="session.medication.priscription.piriod" style="border-radius: 0px;border-right:0px;text-align:center;" type="number" [min]='1' name="piriod" class="patientdata inputs dataInfo">
+                                    <input (focus)=clearMsg()  name='days' [(ngModel)]="session.medication.priscription.piriod" style="border-radius: 0px;border-right:0px;text-align:center;height:27px;" type="number" [min]='1' name="piriod" class="patientdata inputs dataInfo">
                                     <div id='moreBtn'>
-                                        <i *ngIf="session.medication.name && session.medication.priscription.intake &&session.medication.priscription.freq &&session.medication.priscription.piriod" style="left: 13%;top:-29%;" title="Add Medication" (click)="addMedication()" class="icon ion-ios-plus-empty arrow ">
+                                        <i *ngIf="session.medication.name && session.medication.priscription.intake &&session.medication.priscription.freq &&session.medication.priscription.piriod" style="left: 13%;top: -21%;
+                                        font-size: 23px;
+                                        position: relative;
+                                        cursor: pointer;" title="Add Medication" (click)="addMedication()" class="icon ion-ios-plus-empty arrow ">
                                         </i>
                                     </div>
                                 </div>
@@ -471,7 +496,6 @@ max-width:100%;">
                               {{patient.info.personal.dob|dob}}</span></p>
                             <p class="dept previnfo">Gender:&nbsp;<span class="predata">
                               {{patient.info.personal.gender||'---'}}</span></p>
-                            <p class="dept previnfo">Blood Group:&nbsp;<span class="predata">O+</span></p>
                             <p class="dept previnfo">Marital Status:&nbsp;<span class="predata">
                               {{patient.info.personal.mstatus||'---'}}</span></p>
                             <p class="dept previnfo">Occupation:&nbsp;<span class="predata">
@@ -483,7 +507,8 @@ max-width:100%;">
                             <p *ngIf="patient.record.cards.length" class="dept previnfo">Card Type:&nbsp;<span class="predata">
                               {{patient.record.cards[0].category||'---'}}</span></p>
                             <p *ngIf="patient.record.cards.length" class="dept previnfo">Card No:&nbsp;<span class="predata">
-                                {{patient.record.cards[0].pin||'---'}}</span></p>
+                                {{patient.record.cards[0].pin||'---'}}</span>
+                            </p>
                         </div>
                         <div class="carditem">
                             <div class="timeline detailstimeline"><i class="icon ion-ios-location-outline deticon"></i></div>
@@ -498,41 +523,26 @@ max-width:100%;">
                               {{patient.info.contact.me.state||'---'}}</span></p>
                             <p class="dept previnfo">City:&nbsp;<span class="predata">
                               {{patient.info.contact.me.lga||'---'}}</span></p>
+                            <p class="dept previnfo">Next of Kin:&nbsp;<span class="predata">
+                              {{patient.info.contact.me.kinName||'---'}}</span></p>
+                            <p class="dept previnfo">Emergency:&nbsp;<span class="predata">
+                              {{patient.info.contact.emergency.mobile||'---'}}</span></p>
                         </div>
                         <div class="carditem">
-                            <div class="timeline detailstimeline"><i class="icon ion-ios-pulse deticon"></i></div>
-                            <h6 class="dept detailshead">EMERGENCY</h6>
-                            <p class="dept previnfo">Name&nbsp;<span class="predata">
-                              {{patient.info.contact.emergency.name||'---'}}</span></p>
-                            <p class="dept previnfo">Mobile:&nbsp;<span class="predata">
-                              {{patient.info.contact.emergency.mobile}}</span></p>
-                            <p class="dept previnfo">Email:&nbsp;
-                            <span class="predata">{{patient.info.contact.emergency.email||'---'}}</span></p>
-                            <p class="dept previnfo">Relashionship:&nbsp;<span class="predata">
-                              {{patient.info.contact.emergency.rel||'---'}}</span></p>
-                            <p class="dept previnfo">Address:&nbsp;<span class="predata">
-                              {{patient.info.contact.emergency.address||'---'}}</span></p>
+                            <div class="timeline detailstimeline"><i style="position:absolute; color:lightblue;left:6px" class="icon ion-ios-lightbulb-outline deticon"></i></div>
+                            <h6 class="dept detailshead">INSURANCE</h6>
+                            <p class="dept previnfo">ID&nbsp;<span class="predata">
+                                {{patient.info.insurance.groupNo||'---'}}</span></p>
+                            <p class="dept previnfo">Employer:&nbsp;<span class="predata">
+                                {{patient.info.insurance.employer||'---'}}</span></p>
+                            <p class="dept previnfo">HMO:&nbsp;
+                            <span class="predata">{{patient.info.insurance.employer||'---'}}</span></p>
+                            <p class="dept previnfo">SSN:&nbsp;<span class="predata">
+                                {{patient.info.insurance.ssn||'08QA89'}}</span></p>
                         </div>
                     </div>
                 </div>
-                <div class="card card-secondary historycard leftcard deathinfo">
-                    <div class="card-header grapheader">
-                        <h1 class="dept headtitle">HEALTH INSURANCE</h1>
-                    </div>
-                    <div style="padding-top: 30px;" class="card-body rightcardbody">
-                        <div class="carditem">
-                            <ul style="list-style: none;font-size: 10.5px;" class="itemlist">
-                                <li>ID: &nbsp; <span style="color:lightgrey">
-                                    {{patient.info.insurance.groupNo||'00092882771189'}}</span>
-                                </li>
-                                <li>GROUP NO: &nbsp; <span>{{patient.info.insurance.groupNo||'---'}}</span></li>
-                                <li>HMO: &nbsp; <span style="color:lightgrey">{{patient.info.insurance.employer||'LifeGuard Ins. Ltd'}}</span></li>
-                                <li>EMPLOYER: &nbsp; <span style="color:lightgrey">{{patient.info.insurance.employer||'ABU, Zaria'}}</span></li>
-                                <li>SSN: &nbsp; <span style="color:lightgrey">{{patient.info.insurance.ssn||'08QA89'}}</span></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+                
                 <div class="card card-secondary historycard leftcard visits">
                     <div class="card-header grapheader">
                         <h1 class="dept headtitle">VISITS</h1>
@@ -546,12 +556,28 @@ max-width:100%;">
                             <div *ngFor ="let vst of visit; let j= index" class="priscription drug">
                                 <p class="dept">{{vst.dept}}
                                     <span style="left: 72%;" class="predata notetime">{{vst.visitedOn|date:'hh:mma'|lowercase}}</span>
-                                    <span style="top: 100%;left: 1%;position: absolute;" class="predata">
+                                    <!-- <span style="top: 100%;left: 1%;position: absolute;" class="predata">
                                         {{vst.dischargedOn|date:'dd-MM-y hh:mma'|lowercase}}
-                                    </span>
+                                    </span> -->
                                 </p>
                                 
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card card-secondary historycard leftcard deathinfo">
+                    <div class="card-header grapheader">
+                        <h1 class="dept headtitle">ALLEGIES</h1>
+                    </div>
+                    <div class="card-body rightcardbody">
+                        <h1 *ngIf='!patient.record.allegies.length' style='color:lightgrey; ' class="dept headtitle record-placeholder">NO RECORD</h1>
+                      <h1 *ngIf='!patient.record.allegies.length' style='color:lightgrey; width:100%; text-align:center;top:43%;position:absolute;' class="dept headtitle">NO RECORD</h1>
+                        <div class="carditem">
+                            <ul class="itemlist">
+                                <li *ngFor = 'let a of patient.record.allegies'>
+                                    {{a.allegy}}
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -570,18 +596,81 @@ max-width:100%;">
             <div class="card-colums">
                 <div class="card card-secondary historycard midlecard graphcard">
                     <div style="margin-left: 0px; border:0px" class="card-body notecardbody nopading">
-                            <div style="position: relative;height:90px;width:90px;left:-2px;margin:auto;border-radius: 50%" class="timeline noter patientdp">
-                                <img style='height:100%; width:100%; object-fit:cover; border-radius:50%;' [src] = getDp(patient.info.personal.avatar)/>
+                        <p class="date-created">{{patient.createdAt|date:'dd MMM, yy'}}&nbsp;
+                            <span>{{patient.createdAt|date:'hh:mma'|lowercase}}</span>
+                        </p>
+                        <div style="position: relative;height:90px;width:90px;left:-2px;margin:auto;border-radius: 50%" class="timeline noter patientdp">
+                            <img style='height:100%; width:100%; object-fit:cover; border-radius:50%;' [src] = getDp(patient.info.personal.avatar)/>
+                        </div>
+                            <h1 style="padding:0px; text-align:center;margin: auto; position: relative; width:350px; font-size:18px;" class="dept previnfo noterinfo patientname">
+                            {{patient.info.personal.firstName + ' ' + patient.info.personal.lastName}}
+                        </h1>
+                        <div *ngIf="!edit" class="profile">
+                            <div class="items figures">
+                                <span>
+                                    <h6 *ngIf="patient.record.vitals.bloodGl.length" style="color: darkgray; font-size: 13px; font-weight: bold;top:5px" class="label-val">
+                                        {{patient.record.vitals.bloodGl[0].value}}
+                                    </h6>
+                                    <h6 *ngIf="!patient.record.vitals.bloodGl.length" style="color: darkgray; font-size: 13px; font-weight: bold;top:5px" class="label-val">
+                                        ---
+                                    </h6>
+                                </span>
+                                <span><h6 class="lebels">BLOOD</h6></span>
                             </div>
-                             <h1 style="padding:0px; text-align:center;margin: auto; position: relative; width:350px; font-size:18px;" class="dept previnfo noterinfo patientname">
-                               {{patient.info.personal.firstName + ' '+ patient.info.personal.lastName}}
-                            </h1>
-                             <h1 style="padding: 0px; text-align: center;  position: relative; width:350px;font-size:11px;font-weight: normal;margin:auto;color:lightgray" class="dept previnfo noterinfo patientname">
-                                {{patient.createdAt|date:'longDate'}}&nbsp;
-                            </h1>
-                            <div style="width:150px;margin:auto;top:10px;">
-                                <button *ngIf="isConsult() && (patient.record.visits[0][0].status ==='queued'|| patient.record.visits[0][0].status === 'Admit') " data-toggle="modal" data-target="#consModal"   style=" width:150px;top:10px;margin:auto;font-size:10px; height:27px;position:relative;" class="btn btn-sm btn-outline-primary  mainbtn">
-                                    UPDATE RECORD
+                                <div class="items figures">
+                                    <span >
+                                        <h6 *ngIf="patient.record.vitals.height.length" style="color: darkgray; font-size: 13px; font-weight: bold; top:5px" class="label-val">
+                                            {{patient.record.vitals.height[0].value}}<span  style="font-size: 10px;" class="units">ft</span>
+                                        </h6>
+                                        <h6 *ngIf="!patient.record.vitals.height.length" style="color: darkgray; font-size: 13px; font-weight: bold; top:5px" class="label-val">
+                                         ---
+                                        </h6>
+                                    </span>
+                                    <span><h6 class="lebels">HEIGHT</h6></span>
+                                </div>
+                                <div class="items figures">
+                                    <span>
+                                        <h6 *ngIf="patient.record.vitals.weight.length"  style="color: darkgray; font-size: 13px; font-weight: bold;top:5px;width: 39px;" class="label-val">
+                                            {{patient.record.vitals.weight[0].value}}
+                                            <span style="font-size: 10px;" class="units">kg</span>
+                                        </h6>
+                                        <h6 *ngIf="!patient.record.vitals.weight.length"   style="color: darkgray; font-size: 13px; font-weight: bold;top:5px; width: 39px;" class="label-val">
+                                            ---
+                                        </h6>
+                                    </span>
+                                    <span ><h6 class="lebels">WEIGHT</h6> </span>
+                                
+                                </div>
+                                <i *ngIf=!edit (click)= showEdit() title="Edit" class="material-icons edit-profile">edit</i>
+                            </div>
+                            <div *ngIf="edit" style="position: absolute;  top: 60%; left: 126px;" class="profile">
+                                <form  style="top: 6%; margin:auto;position: absolute;" class=" ">
+                                    <div class="form-group vitals-section formGroup" style=" width:26%;">
+                                        <label style="font-size:8px" for="dos" class="labelss complain">BLOOD</label>
+                                        <input [(ngModel)]="session.vitals.bloodGl.value" style="border-top-right-radius: 0px;border-bottom-right-radius: 0px;text-align:center;font-size:11px" name="bg" class="patientdata inputs dataInfo">
+                                    </div>
+                                    <div class="form-group vitals-section formGroup" style=" width:39%; ">
+                                        <label style="font-size:8px" for="freq" class="labelss complain">HEIGHT</label>
+                                        <input type="number" (focus) = clearMsg()  [(ngModel)]="session.vitals.height.value" style="border-radius: 0px;font-size:11px; border-left: 0px;width: 100%; text-align:center; border-right:none;border: 1px solid whitesmoke; outline: none; border-bottom-right-radius:0px" class=" patientdata statusinputs dataInfo " name="freq">
+                                    </div>
+                                    <div class="form-group vitals-section formGroup" style=" width:28%;">
+                                        <label style="font-size:8px" for="weight" class="labelss complain">WEIGHT</label>
+                                        <input (focus)=clearMsg()  name='weight'  [(ngModel)]="session.vitals.weight.value"  style="border-radius: 0px;border-right:0px;text-align:center;" type="number" [min]='1' name="piriod" class="patientdata inputs dataInfo">
+                                        <div style="height: 26px;top: 1px;" id='moreBtn'>
+                                            <i *ngIf="editing ==='editing'" class="fa fa-circle-o-notch fa-spin fa-10x slow-spin" style="position:absolute;bottom:4px;left:3px;font-size:16px;color: #1da1f2;">
+                                            </i>
+                                            <i *ngIf="editing==='edited'" class="icon ion-ios-checkmark-empty paid-icon"></i>
+                                            <i *ngIf=!editing style="left: 13%;top: -21%;font-size: 23px; position: relative;
+                                            cursor: pointer;" title="Update" (click)="addProfiles()" class="icon ion-ios-plus-empty arrow ">
+                                            </i>
+                                        </div>
+                                    </div>
+                                </form>
+                                <i *ngIf="edit" (click)= hideEdidt() style="left: 108%; position: absolute; top: -7px;" title="close" class="icon ion-ios-close-empty close-comment"></i>
+                            </div>
+                            <div style="width:150px;margin:auto;top:70%;left: 33%;position: absolute;">
+                                <button *ngIf="isConsult() && (patient.record.visits[0][0].status ==='queued'|| patient.record.visits[0][0].status === 'Admit') " data-toggle="modal" data-target="#consModal"   style=" width:150px;top:16px;margin:auto;font-size:10px; height:27px;position:relative;left: 4px;" class="btn btn-sm btn-outline-primary  mainbtn">
+                                    ENCOUNTER
                                 </button>
                             </div>
                     </div>
@@ -730,15 +819,49 @@ max-width:100%;">
                                 <h1 class="dept headtitle">PROCEDURES</h1>
                             </div>
                             <div style='height:100%;padding-left: 17px;' class="card-body midcardbody">
-                                <h1 *ngIf="!patient.record.surgeries.length" style='' class="dept headtitle record-placeholder">NO RECORD</h1>
+                                <h1 *ngIf="!patient.record.surgeries.length"  class="dept headtitle record-placeholder">NO RECORD</h1>
                             </div>
                         </div>
-                        <div style='border-radius:12px;margin-bottom: 4px;' class="card card-secondary maincard halfcard halfcard-right">
+                        <div style='border-radius:12px;margin-bottom: 4px;  overflow:hidden' class="card card-secondary maincard halfcard halfcard-right">
                             <div style='border-top-right-radius:12px;border-top-left-radius:12px' class="card-header grapheader">
-                                <h1 class="dept headtitle">IMMUNIZATIONS</h1>
+                                <h1 style="padding-left: 15px;" class="dept headtitle">
+                                    <span *ngIf="clientMode ==='edit'"><i  (click)="switchClient('view')" style='position:absolute;right:97%;top:-3px; font-size:large;  cursor:pointer; display: inline-block;color:#1da1f2;' title="Back" class="icon ion-android-arrow-back "> </i>
+                                    </span> IMMUNIZATIONS <span *ngIf="clientMode !=='edit'" (click)="switchClient('edit')" style='position:absolute;left:93%;top:-2px; cursor:pointer;'>
+                                        <i class="material-icons">short_text</i>
+                                    </span>
+                                </h1>
                             </div>
-                            <div style='height:100%;padding-left: 17px;' class="card-body midcardbody">
-                                <h1 *ngIf="!patient.record.surgeries.length" style='color:lightgrey; width:100%; text-align:center;top:43%;position:absolute;' class="dept headtitle">NO RECORD</h1>
+                            <div [class.back]='clientMode==="edit"' [class.front]='clientMode==="view"' style='height:100%;padding-left: 17px;position:absolute;width:100%;' class="card-body midcardbody">
+                                <h1 *ngIf="!patient.record.immunization.vaccins.length" style='color:lightgrey; ' class="dept headtitle record-placeholder">NO RECORD</h1>
+                                <div  *ngFor="let vaccins of patient.record.immunization.vaccins; let i = index"  class="carditem priscriptioncontainer order">
+                                    <div style='left:-7.2%' class="timeline condition drugtimeline">
+                                        <p class="timelinedate"> {{vaccins[0]?.meta.dateAdded|date:'dd'}}</p>
+                                        <p  class="timelinedate month"> {{vaccins[0]?.meta.dateAdded|date:'MMM'|uppercase}}</p>
+                                    </div>
+                                    <div *ngFor ="let v of vaccins; let j = index" class="priscription drug">
+                                        <p class="dept">{{v.name}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div [class.in]='clientMode==="edit"' [class.out]='clientMode==="view"'  style='height:100%; padding-left: 7px; padding-right: 7px;padding-top: 4%;position:absolute;' class="card-body standby midcardbody">
+                                <div *ngFor="let items of vaccins; let i = index" style="border-left: none; border-bottom: 1px solid whitesmoke;"   class="carditem priscriptioncontainer order">
+                                    <div *ngFor="let item of items; let j = index" class="priscription drug">
+                                        <p class="dept">{{item.name}} 
+                                            <span  class="predata priceval">
+                                                <i (click)= "selectVaccin(i, j, 'uncheck')" *ngIf="item.selected" style='color:lightgrey; top:-19px'  class="icon ion-ios-checkmark-empty paid-icon" title="Deselect ">
+                                                </i>
+                                                <div (click)= "selectVaccin(i, j, 'check')" *ngIf="!item.selected" class="mycheckbox" ></div>
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <button (click) = 'addImmunizations()' style="width: 105px;font-size: 10px; height:25px;left:28%; bottom:13%;" class="btn btn-sm btn-outline-primary mainbtn">
+                                    UPDATE 
+                                    <span *ngIf="processing" style="position: absolute; bottom: -7%;left: 4%;"> 
+                                        <i class="fa fa-circle-o-notch fa-spin fa-10x slow-spin " 
+                                        style="position:absolute;bottom:5px;left:5px;font-size:17px;color: #1da1f2;"> </i>
+                                    </span>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -753,13 +876,13 @@ max-width:100%;">
                     </div>
                     <div class="card-body rightcardbody">
                         <h1 *ngIf='!patient.record.famHist.length' style='color:lightgrey; width:100%; text-align:center;top:43%;position:absolute;' class="dept headtitle">NO RECORD</h1>
-                            <div class="carditem">
-                                <ul class="itemlist">
-                                    <li *ngFor = 'let history of patient.record.famHist'>
-                                        {{history.condition}}
-                                    </li>
-                                </ul>
-                            </div>
+                        <div class="carditem">
+                            <ul class="itemlist">
+                                <li *ngFor = 'let history of patient.record.famHist'>
+                                    {{history.condition}}
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 <div class="card card-secondary historycard rightcard medication">
@@ -817,22 +940,6 @@ max-width:100%;">
                                     <!-- <span style='color:lightgrey;font-size:smaller;left:105px;width:27%;position:absolute;text-align:right;'>{{medic[0].meta.dateAdded|date:'hh:mma'|lowercase}}</span> -->
                                 </p>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card card-secondary historycard rightcard allegies">
-                    <div class="card-header grapheader">
-                        <h1 class="dept headtitle">ALLEGIES</h1>
-                    </div>
-                    <div class="card-body rightcardbody">
-                        <h1 *ngIf='!patient.record.allegies.length' style='color:lightgrey; ' class="dept headtitle record-placeholder">NO RECORD</h1>
-                      <h1 *ngIf='!patient.record.allegies.length' style='color:lightgrey; width:100%; text-align:center;top:43%;position:absolute;' class="dept headtitle">NO RECORD</h1>
-                        <div class="carditem">
-                            <ul class="itemlist">
-                                <li *ngFor = 'let a of patient.record.allegies'>
-                                    {{a.allegy}}
-                                </li>
-                            </ul>
                         </div>
                     </div>
                 </div>

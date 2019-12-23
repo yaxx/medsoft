@@ -130,9 +130,7 @@ getPatients: async (req, res) => {
   //   patients = Array.from(patients).map(p => p.toJSON()).filter(p => p.record.cards.length > 0).map(patient => {
   //     let {record} = patient
   //     return ({
-  //       ...patient, record: {...record, invoices: record.invoices.map(invoice => invoice.map(i =>  ({
-  //        ...i, credit: false
-  //       })))
+  //       ...patient, record: {...record, immunization: {vaccins:[], questionaire: {} }
   //     }
   //   }) 
   // })
@@ -143,7 +141,6 @@ getPatients: async (req, res) => {
   //       }
        
   //     })
-        
   // }
 
     

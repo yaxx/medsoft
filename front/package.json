@@ -1,14 +1,15 @@
 {
-  "name": "dashbox",
-  "version": "0.0.1",
-  "productName": "dashbox",
+  "name": "hipr",
+  "version": "1.0.1",
+  "productName": "hipr",
   "main": "main.js",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "pack": "build --dir",
-    "dist": "build",
+    "package": "electron-packager .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
@@ -20,11 +21,12 @@
     "license": "LICENSE"
   },
   "build": {
-    "appId": "com.dashbox.app",
-    "productName": "dashbox",
+    "appId": "com.hipr.app",
+    "productName": "hipr",
+    "target": "NSIS",
     "files": [
       "main.js",
-      "dist/front"
+      "dist/front/index.html"
     ]
   },
   "private": true,
@@ -75,7 +77,7 @@
     "@types/socket.io-client": "^1.4.32",
     "codelyzer": "~4.2.1",
     "electron": "^2.0.18",
-    "electron-builder": "^20.40.2",
+    "electron-builder": "^20.44.4",
     "electron-installer-windows": "^2.0.0",
     "electron-packager": "^13.1.1",
     "electron-prebuilt": "*",

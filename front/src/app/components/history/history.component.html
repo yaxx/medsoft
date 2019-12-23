@@ -608,10 +608,10 @@ max-width:100%;">
                         <div *ngIf="!edit" class="profile">
                             <div class="items figures">
                                 <span>
-                                    <h6 *ngIf="patient.record.vitals.bloodGl.length" style="color: darkgray; font-size: 13px; font-weight: bold;top:5px" class="label-val">
+                                    <h6 *ngIf="patient.record.vitals.bloodGl.length" style="color: darkgray; font-size: 13px; top:5px" class="label-val">
                                         {{patient.record.vitals.bloodGl[0].value}}
                                     </h6>
-                                    <h6 *ngIf="!patient.record.vitals.bloodGl.length" style="color: darkgray; font-size: 13px; font-weight: bold;top:5px" class="label-val">
+                                    <h6 *ngIf="!patient.record.vitals.bloodGl.length" style="color: darkgray; font-size: 13px; top:5px" class="label-val">
                                         ---
                                     </h6>
                                 </span>
@@ -619,7 +619,7 @@ max-width:100%;">
                             </div>
                                 <div class="items figures">
                                     <span >
-                                        <h6 *ngIf="patient.record.vitals.height.length" style="color: darkgray; font-size: 13px; font-weight: bold; top:5px" class="label-val">
+                                        <h6 *ngIf="patient.record.vitals.height.length" style="color: darkgray; font-size: 13px; top:5px" class="label-val">
                                             {{patient.record.vitals.height[0].value}}<span  style="font-size: 10px;" class="units">ft</span>
                                         </h6>
                                         <h6 *ngIf="!patient.record.vitals.height.length" style="color: darkgray; font-size: 13px; font-weight: bold; top:5px" class="label-val">
@@ -634,7 +634,7 @@ max-width:100%;">
                                             {{patient.record.vitals.weight[0].value}}
                                             <span style="font-size: 10px;" class="units">kg</span>
                                         </h6>
-                                        <h6 *ngIf="!patient.record.vitals.weight.length"   style="color: darkgray; font-size: 13px; font-weight: bold;top:5px; width: 39px;" class="label-val">
+                                        <h6 *ngIf="!patient.record.vitals.weight.length"   style="color: darkgray; font-size: 13px; top:5px; width: 39px;" class="label-val">
                                             ---
                                         </h6>
                                     </span>

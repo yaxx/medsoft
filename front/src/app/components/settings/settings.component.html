@@ -1,68 +1,5 @@
-<!-- <div class="modal fade" role="dialog" tabindex="-1" id="deptModal" style="border-radius:12px;width:auto;">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content" style="width:480px;border-radius:0px;border-radius:12px;padding-left:0px;padding-right: 0px;">
-            <div class="modal-body" style="border-radius:0px;padding: 0px;">
-                <div class="card card-secondary historycard midlecard profilecard" style="margin:auto;min-height:220px;border-radius:12px;">
-                    <div style='padding-left: 30px;border-top-right-radius:12px;border-top-left-radius:12px; border-bottom:0px' class="card-header profileheader small-header">
-                        <h6 style='font-size:11px;position:absolute; top:5%;left:2%;color:#1da1f2;' class="patien-name small-name">NEW DEPARTMENT</h6>
-                    </div>
-                    <div style='margin-left:0px' class="card-body orderbody">
-                        <form style="top:15%; width:56%;margin:auto; padding-top:30px" class=" staffsform">
-                            <div class="form-group  vitals-section address">
-                                <label style='font-size:8px' for="email" class="labelss">DEPARTMENT</label>
-                                <select  [(ngModel)]="department.name" style='font-size:11px' class=" patientdata inputs dataInfo newpatient" name="department">
-                                  <option *ngFor="let dept of departments">{{dept.name}}</option>
-                              </select>
-                            </div>
-                            <div *ngIf='(department.name !== "Pharmacy" ) && (department !== "Information") && (department.name !== "Billing")'>
-                                <div class="form-group vitals-section formGroup" style=" width:46%;">
-                                    <label style="font-size:8px" for="dos" class="labelss complain">ROOM</label>
-                                    <input [(ngModel)]=roomNumb style="border-top-right-radius: 0px;border-bottom-right-radius: 0px;" name="dos" class=" form-control patientdata inputs dataInfo">
-                                </div>
-                                <div class="form-group vitals-section formGroup" style=" width:45%;">
-                                    <label style="font-size:8px" for="piriod" class="labelss complain">#BEDS</label>
-                                    <input [min]='1' [(ngModel)]=numbOfBeds style="border-radius: 0px;" type="number" name="beds" class="form-control patientdata inputs dataInfo" placeholder="">
-                                    <div (click)=addRoom() id='moreBtn' title="Add medication"><i class="icon ion-ios-plus-empty arrow " style="font-size:25px;position: absolute;left:27%;top:-17%; cursor:pointer"></i>
-                                    </div>
-                                </div>
-                                <div style="top:1px; margin-bottom:25px;" class="form-group vitals-section setGroup">
-                                    <table *ngIf='rooms.length ' cellspacing="0" class="data-table drugs-table" style="width:100%;left:0%;">
-                                        <thead class='productHead'>
-                                            <tr class="staff-th">
-                                                <th style='padding:5px;font-size: 9px;' class="headlbl staff-th">ROOM #</th>
-                                                <th style='padding:5px;font-size: 9px; text-align: right' class="headlbl staff-th">NUM OF BEDS</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor='let room of rooms; let i = index' class="ro staff-row">
-                                                <td style="padding:2px 5px 2px 5px;font-size: 11px;" class="data">
-                                                    {{i+1}}
-                                                </td>
-                                                <td style="text-align:right;padding:2px 5px 2px 5px;font-size: 11px;" class="data">{{room.beds.length}}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </form>
-                        <div (click)=addDepartment() style='left:86%; height:32px;width:32px' title='Done' class="floter">
-                            <i *ngIf='processing' class="fa fa-circle-o-notch fa-spin fa-10x slow-spin" style="position:absolute;bottom:5px;left:5px;font-size:20px;color: #1da1f2;"> </i>
-                            <i *ngIf='!processing' style="color:#1da1f2;bottom:-10px" class="icon ion-ios-checkmark-empty flotericon"> </i>
-                        </div>
-                    </div>
-                    <div *ngIf=transMsg style="padding:5px;border-top: 1px solid rgb(248, 247, 247)" class="card-footer">
-                        <h6 class="feedbackMsg">{{transMsg}}</h6>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> -->
 
-
-
-
-    <div  class="modal " role="dialog" tabindex="-1" id="staffModal" style="border-radius:32px;max-width:841px;margin: auto;padding-top: 35px">
+    <div  class="modal fade" role="dialog" tabindex="-1" id="staffModal" style="border-radius:32px;max-width:841px;margin: auto;padding-top: 35px">
             <div style="max-width: 615px;border-radius:32px;" class="modal-dialog" role="document">
                 <div class="modal-content" style="width:100%; height:280px; border-radius:32px;padding-left:0px;padding-right: 0px;">
                     <div class="modal-body" style="border-radius:32px;padding: 0px;">
@@ -71,13 +8,12 @@
                                 <i title="close" class="icon ion-ios-close-empty"></i>
                             </div>
                             <div style='padding-left: 30px;border-top-right-radius:32px;border-top-left-radius:32px;border-bottom: 0px;height:40px;' class="card-header profileheader small-header">
-                                <h6 *ngIf='staffMode === "new"' style='font-size:11px;position:absolute;color:dodgerblue; font-weight: normal; top:18px;left:5%' class="patien-name small-name">NEW STAFF</h6>
-                                <h6 *ngIf='staffMode === "edit"' style='font-size:11px;position:absolute;color:dodgerblue; font-weight: normal; top:18px;left:5%' class="patien-name small-name">EDIT STAFF INFO
+                                <h6 *ngIf='staffMode === "new"' style='font-size:11px;position:absolute;color:dodgerblue; font-weight: normal; top:12px;left:5%' class="patien-name small-name">NEW STAFF</h6>
+                                <h6 *ngIf='staffMode === "edit"' style='font-size:11px;position:absolute;color:dodgerblue; font-weight: normal; top:12px;left:5%' class="patien-name small-name"><span> <i title="Back" *ngIf='staffMode === "edit"' (click)="switchView('view')" style='position:relative;top:2px; font-size: 17px;right: 21px;cursor:pointer; display: inline-block; color:#1da1f2;' title="Back" class="icon ion-android-arrow-back "> </i></span> EDIT STAFF INFO
                                 </h6>
-                                <i  *ngIf='staffMode === "edit"' (click)="switchView('view')" style='position:relative;right:78%;top:2px; font-size: 17px; cursor:pointer; display: inline-block; color:#1da1f2;' title="Back" class="icon ion-android-arrow-back "> </i>
                             </div>
                             <div style='margin-left:0px;padding-top:5px ' class="card-body orderbody">
-                                <form  style="top: 3%; height:100%;width:45%;position: relative;margin:auto;padding-top: 22px;" class=" staffsform">
+                                <form  style="top: 2%; height:100%;width:45%;position: relative;margin:auto;padding-top: 22px;" class=" staffsform">
                                 <div class="form-group vitals-section formGroup" style=" width:49%; margin-right: 4px">
                                     <label style='font-size:8px' for="firstName" class="labelss complain">FIRST NAME</label>
                                     <input [(ngModel)]="staff.info.personal.firstName" name="firstName" class="form-control patientdata inputs dataInfo">
@@ -110,6 +46,7 @@
                                         <option>Doctor</option>
                                         <option>Nurse</option>
                                         <option>Pharmacist</option>
+                                        <option>Receptionist</option>
                                         <option>Lab Scientist</option>
                                     </select>
                                 </div>
@@ -121,13 +58,13 @@
                         <i title="close" class="icon ion-ios-close-empty"></i>
                     </div>
                     <div style='padding-left: 30px;border-top-right-radius:12px;border-top-left-radius:12px; border-bottom:0px' class="card-header profileheader small-header">
-                        <h6 style='font-size:11px;position:absolute; top:5%;left:2%;color:#1da1f2;' class="patien-name small-name">STAFF DETAILS</h6>
+                        <h6 style='font-size:11px;position:absolute; top:12px;left:-4%;color:#1da1f2;' class="patien-name small-name">STAFF DETAILS</h6>
                         <i (click)='showMenu("menu")' class="icon ion-android-more-vertical headericon moreicon actions-icon"></i>
                         <div *ngIf="menu === 'menu'" style="width:25%;height:65px" class="menu">
                             <ul class="actions primary">
-                                <li class="action">Suspend account</li>
-                                <li (click)="switchView('edit')" class="action">Edit account</li>
-                                <li class="action">Delete account</li>
+                                <!-- <li class="action">Suspend account</li> -->
+                                <li (click)="switchView('edit')" class="action">Edit Account</li>
+                                <!-- <li class="action">Delete account</li> -->
                             </ul>
                         </div>
                     </div>
@@ -142,29 +79,29 @@
                                         {{staff.info.personal.firstName + ' ' + staff.info.personal.lastName}}
                                     </h1>
                                     <h1 class="dept previnfo ">
-                                        Department:
+                                        Department:&nbsp;
                                         <span class="predata">{{staff.info.official.department}}</span>
                                     </h1>
                                     <h1 class="dept previnfo">
-                                        Role:<span class="predata">{{staff.info.official.role}}</span>
+                                        Role:&nbsp;<span class="predata">{{staff.info.official.role}}</span>
                                     </h1>
                                     <h1 class="dept previnfo">
-                                        Mobile:<span class="predata">{{staff.info.contact.me.mobile}}</span>
+                                        Mobile:&nbsp;<span class="predata">{{staff.info.contact.me.mobile}}</span>
                                     </h1>
-                                    <h1 class="dept previnfo">Email:
+                                    <h1 class="dept previnfo">Email:&nbsp;
                                         <span class="predata">{{staff.info.contact.me.email||'---'}}</span>
                                     </h1>
                                     <h1 class="dept previnfo">
-                                        Username:<span class="predata">{{staff.info.personal.username}}</span>
+                                        Username:&nbsp;<span class="predata">{{staff.info.personal.username}}</span>
                                     </h1>
-                                    <h1 class="dept previnfo">Password:
+                                    <h1 class="dept previnfo">Password:&nbsp;
                                         <span class="predata">{{staff.info.personal.password}}</span>
                                     </h1>
-                                    <h1 class="dept previnfo">Last Login:
+                                    <h1 class="dept previnfo">Last Login:&nbsp;
                                         <span class="predata">{{staff.info.lastLogin|date:'dd-MM-y'}}&nbsp;</span>
                                         <span class="predata">{{staff.info.lastLogin|date:'hh:mma'|lowercase}} </span>
                                     </h1>
-                                    <h1 class="dept previnfo">Date Created:
+                                    <h1 class="dept previnfo">Date Created:&nbsp;
                                         <span class="predata">{{staff.createdAt|date:'dd-MM-y'}}&nbsp;</span>
                                         <span class="predata">{{staff.createdAt|date:'hh:mma'|lowercase}} </span>
                                     </h1>
@@ -173,11 +110,11 @@
                         </form>
                     </div>
                 </div>
-                <div *ngIf='staffMode ==="edit"' style="left:31%;top:206px;position:relative;width:53%" class="btn-group disposition">
+                <div *ngIf='staffMode ==="edit"' style="left:26%;top:178px;position:relative;width:53%" class="btn-group disposition">
                     <button [disabled] = !isValidStaff() (click)=updateAccount()  style=" width: 170px;font-size: 10px; border-radius: 30px; height:27px;left:15%; bottom:10%;" class="btn btn-sm btn-outline-primary  mainbtn">
-                        UPDATE INFORMATION
+                        UPDATE ACCOUNT
                         <span *ngIf=processing style="position: absolute; bottom: -7%;left: 10%;">
-                            <i class="fa fa-circle-o-notch fa-spin fa-10x slow-spin " style="position:absolute;bottom:5px;left:5px;font-size:19px;color: #1da1f2;"></i>
+                            <i class="fa fa-circle-o-notch fa-spin fa-10x slow-spin " style="position:absolute;bottom:5px;left:-10px;font-size:19px;color: #1da1f2;"></i>
                         </span>
                     </button>
                 </div>
@@ -342,7 +279,6 @@
                         </form>
                     </div>
                 </div>
-
                <div class="card card-secondary historycard leftcard" style='height:88%;width:214px;left:30px;'>
                     <div style='border-bottom:none' class="card-header grapheader">
                         <h1 class="dept headtitle"><span style="position:absolute;left:102%;">

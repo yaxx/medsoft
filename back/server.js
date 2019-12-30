@@ -3,7 +3,7 @@ const app = express()
 const server = require('http').Server(app)
 const io = require('socket.io')(server)
 const api = require('./routes/api')
-var history = require('connect-history-api-fallback');
+// var history = require('connect-history-api-fallback');
 const Connection = require('./models/schemas/connection')
 const Messages = require('./models/schemas/messageschema')
 const path = require('path');
@@ -23,7 +23,7 @@ app.use('/graphql', graphQlHttp({
 app.use(cors({origin:"http://localhost:4200", credentials: true}))
 
 // app.use(cors({origin:"*", credentials: true}))
-// app.use(express.static(path.join(__dirname,'dist','front')))
+//app.use(express.static(path.join(__dirname,'dist','front')))
 // app.use(history());
 app.use(require('morgan')('dev'))
 app.use(bodyParser.json())
@@ -43,7 +43,7 @@ io.sockets.on('connection', (socket) => {
    logins.forEach(function (user) {
     if (user.ui === data.reciever) {
       socket.to(user.si).emit('new message', data)
-    } else {}
+    }
     })
   })
   socket.on('record update', (update) => {
@@ -55,68 +55,7 @@ io.sockets.on('connection', (socket) => {
     socket.broadcast.emit('store update', changes);
   })
 
-
-  socket.on('follow', (data) => {
-    let d = data
-    d.am = 'Following'
-    Contact.updateOne({
-       'username': socket.request.cookies.username 
-      }, {$push: { contacts: d }}, {upsert: true}, (err, obj) => {
-      if (!err) {
-            // console.log(obj)
-      } else { console.log(err) }
-    })
-
-    let me = {userid: socket.request.cookies.q, thisPerson: 'Following'}
-    Contact.updateOne({ 'username': data.username }, {$push: {contacts: me}}, {upsert: true}, (err, obj) => {
-      if (!err) {
-
-      } else { console.log(err) }
-    })
-
-    // Notification({from: socket.request.cookies.q, to: data.username, button: 'Follow'}).save((err, note) => {
-    //   if (err) {
-    //     console.log(err)
-    //   } else {
-    //   }
-    // })
-    logins.forEach(function (user) {
-      if (user.username === data.username) {
-        socket.to(user.id).emit('newnotification', {})
-      } else {}
-    })
-  })
-
-  socket.on('followback', (data) => {
-    Messages({parties: [socket.request.cookies.username, data.username], chats: []}).save((err, messages) => {
-      if (!err) {
-        Contact.updateOne({
-          'username': socket.request.cookies.username,
-          'contacts.userid': data.id
-        }, {
-          $set: {
-            'contacts.$.am': 'Following', 
-            'contacts.$.connected': true, 
-            'contacts.$.messages': messages._id
-          }}, {upsert: true}, (err, obj) => {
-          if (!err) {
-
-          } else { console.log(err) }
-        })
-        Contact.updateOne({
-          'username': data.username, 
-          'contacts.userid': socket.request.cookies.q
-        }, {$set: {
-          'contacts.$.thisPerson': 'Following', 
-          'contacts.$.connected': true
-        }, 'contacts.$.messages': messages._id}, {upsert: true}, (err, obj) => {
-          if (!err) {
-          } else { console.log(err) }
-        })
-      } else { console.log(err) }
-    })
-   
-  })
+  
   socket.on('check', (data) => {
     logins.forEach(function (user) {
       if (user.username === data.username) {
@@ -126,8 +65,8 @@ io.sockets.on('connection', (socket) => {
   })
 })
 app.get('/', (req, res) => {
-  res.render('index')
-  // res.sendFile(path.join(__dirname,'dist','front','index.html'));
+   res.render('index')
+  //res.sendFile(path.join(__dirname,'dist','front','index.html'));
 })
 // app.get('*',function (req, res) {
 //  res.redirect('/');

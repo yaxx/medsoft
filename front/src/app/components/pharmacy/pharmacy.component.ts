@@ -129,8 +129,8 @@ export class PharmacyComponent implements OnInit {
     patients.forEach(pat => {
       const medInvoices = [];
       pat.record.invoices.forEach(invoices => {
-        if (invoices.some(i => i.desc.includes('|'))) {
-          medInvoices.push(invoices.filter(n => n.desc.includes('|')));
+        if (invoices.some(i => i.desc === 'Medication')) {
+          medInvoices.push(invoices.filter(n => n.desc === 'Medication'));
         }
       });
       medInvoices.every(invoices => invoices.every(i => i.paid)) ? completes.push(pat) : pendings.push(pat);
@@ -140,12 +140,12 @@ export class PharmacyComponent implements OnInit {
   getPatients(type: string) {
     this.loading = true;
     this.dataService.getPatients(type).subscribe((patients: Person[]) => {
+      this.patients =  this.filterPatients(patients).sort((m, n) => new Date(n.createdAt).getTime() - new Date(m.createdAt).getTime());
       if (patients.length) {
         patients.forEach(p => {
           p.card = {menu: false, view: 'front', indicate: false};
         });
-        this.patients =  this.filterPatients(patients).sort((m, n) => new Date(n.createdAt).getTime() - new Date(m.createdAt).getTime());
-         this.clonedPatients  = patients;
+        this.clonedPatients  = patients;
         this.loading = false;
         this.message = null;
       } else {
@@ -263,19 +263,15 @@ updatePrices(invoices: Invoice[], i: number) {
     this.patients[i].card.indicate = false;
     this.switchViews('orders');
     this.invoices = cloneDeep(this.patients[i].record.invoices);
-    // this.invoices = this.invoices.filter(invoices => invoices.some(n => n.desc.includes('|')))
-    //  .filter(m => m.filter(l => l.desc.startsWith('Medication')));
-    console.log(this.invoices);
-    // this.invoices.forEach((i1 , index) => {
-    //   const items = [];
-    //   i1.forEach((i2) => {
-    //     if (i2.desc.includes('Medication')) {
-    //       items.push(i2);
-    //       console.log(i2);
-    //     }
-    //     });
-    //     this.updatePrices(items, index);
-    // });
+    this.invoices.forEach((i1 , index) => {
+      const items = [];
+      i1.forEach((i2) => {
+        if (i2.desc.includes('Medication')) {
+          items.push(i2);
+        }
+        });
+        this.updatePrices(items, index);
+    });
   }
   reset() {
     setTimeout(() => {

@@ -43,6 +43,7 @@ export class Invoice {
   constructor(
     public name: string = null,
     public desc: string = null,
+    public kind: string = null,
     public comfirmedBy: any = null,
     public price: number = null,
     public paid: boolean = false,

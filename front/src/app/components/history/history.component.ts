@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Person} from '../../models/person.model';
-import {Tests, Scannings, Surgeries} from '../../data/request';
+import {Tests, Scannings} from '../../data/request';
+import { Surgeries} from '../../data/surgeries';
 import {Client, Department} from '../../models/client.model';
 import {Conditions} from '../../data/conditions';
 import {Vaccins} from '../../data/immunization';
@@ -37,12 +38,12 @@ export class HistoryComponent implements OnInit {
   count = 0;
   cardTypes = [];
   client: Client = new Client();
-  tests = Tests;
   scans = [];
   clonedTest = [];
   images = [];
   editing = null;
   logout = false;
+  tests = Tests;
   scannings = Scannings;
   surgeries = Surgeries;
   conditions = Conditions;
@@ -170,6 +171,9 @@ export class HistoryComponent implements OnInit {
   getLabs() {
     return this.client.departments.filter(dept => dept.category === 'Lab');
   }
+  getDepts() {
+    return this.client.departments.filter(dept => dept.category === 'Ward' || dept.category === 'Surgical');
+  }
   compareNotes(i: number, note: Note) {
  
     // return this.notes[i].note.length === note.note.length;
@@ -249,6 +253,9 @@ export class HistoryComponent implements OnInit {
     }
 
   }
+  resolver() {
+    //this is a commen
+  }
   removeVital(i, sign) {
     this.vitals.splice(i, 1);
     switch (sign.name) {
@@ -312,7 +319,6 @@ export class HistoryComponent implements OnInit {
     }
     this.switchClient('view');
   }
-
   showEdit() {
     this.edit = true;
     this.session.vitals.height = (this.patient.record.vitals.height.length) ?
@@ -463,6 +469,18 @@ searchScans() {
     });
   }
 }
+searchSurgeries() {
+  if (!this.session.surgery.name) {
+    this.matches = [];
+  } else {
+      this.matches = this.surgeries.filter((name) => {
+      const patern =  new RegExp('\^' + this.session.surgery.name , 'i');
+      return patern.test(name);
+    });
+  }
+  console.log(this.matches);
+  
+}
 searchCond() {
   if (!this.session.condition.condition) {
     this.matches = [];
@@ -489,6 +507,10 @@ selectMedic(match) {
 }
 selectTest(match) {
   this.session.test.name = match;
+  this.matches = [];
+}
+selectSurgery(match) {
+  this.session.surgery.name = match;
   this.matches = [];
 }
 selectScan(match) {
@@ -647,6 +669,23 @@ composeScans() {
     }
   }
 }
+composeSurgeries() {
+  if (this.session.surgeries.length) {
+    this.session.bills.push('cashier');
+    if (this.patient.record.surgeries.length) {
+    if (new Date(this.patient.record.surgeries[0][0].meta.dateAdded)
+    .toLocaleDateString() === new Date().toLocaleDateString()) {
+      for (const t of this.session.surgeries) {
+        this.patient.record.surgeries[0].unshift(t);
+      }
+     } else {
+        this.patient.record.surgeries.unshift(this.session.surgeries);
+     }
+    } else {
+      this.patient.record.surgeries = [this.session.surgeries];
+    }
+  }
+}
 composeComplains() {
   if (this.session.complains.length) {
   if (this.patient.record.complains.length) {
@@ -688,8 +727,9 @@ addInvoice(name: string, itemType: string) {
         ...new Invoice(),
         name: name,
         price: p.stockInfo.price,
-        desc: `Medication | ${this.session.medication.priscription.intake}-${this.session.medication.priscription.freq}-${this.session.medication.priscription.piriod}`,
         processed: false,
+        desc: itemType,
+        kind: `${this.session.medication.priscription.intake}-${this.session.medication.priscription.freq}-${this.session.medication.priscription.piriod}`,
         meta: new Meta(this.cookies.get('i'))
       });
     } else {
@@ -698,6 +738,7 @@ addInvoice(name: string, itemType: string) {
         name: name,
         price: p.stockInfo.price,
         desc: itemType,
+        kind: itemType,
         meta: new Meta(this.cookies.get('i'))
       });
     }
@@ -706,7 +747,8 @@ addInvoice(name: string, itemType: string) {
       this.session.medInvoices.unshift({
         ...new Invoice(),
         name: name,
-        desc: `Medication | ${this.session.medication.priscription.intake}-${this.session.medication.priscription.freq}-${this.session.medication.priscription.piriod}`,
+        desc: itemType,
+        kind: `${this.session.medication.priscription.intake}-${this.session.medication.priscription.freq}-${this.session.medication.priscription.piriod}`,
         processed: false,
         meta: new Meta(this.cookies.get('i'))
       });
@@ -715,6 +757,7 @@ addInvoice(name: string, itemType: string) {
         ...new Invoice(),
         name: name,
         desc: itemType,
+        kind: itemType,
         meta: new Meta(this.cookies.get('i'))
       });
     }
@@ -757,7 +800,7 @@ addSurgery() {
     this.errLine = 'Request already added';
   } else {
      this.session.surgeries.unshift({
-    ...new Surgery(),
+      ...this.session.surgery,
     meta: new Meta(this.cookies.get('i'))
   });
   this.addInvoice(this.session.surgery.name, 'Surgery');
@@ -888,6 +931,7 @@ updateRecord() {
   this.composeVitals();
   this.composeTests();
   this.composeScans();
+  this.composeSurgeries();
   this.composeComplains();
   this.composeConditions();
   this.composeMedications();

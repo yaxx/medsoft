@@ -1,0 +1,22 @@
+export const Surgeries  = [
+    'Appendectomy',
+    'Breast biopsy',
+    'Carotid endarterectomy',
+    'Cesarean section',
+    'Cholecystectomy',
+    'Coronary artery bypass',
+    'Dilation and curettage',
+    'Hemorrhoidectomy',
+    'Hysterectomy',
+    'Hysteroscopy',
+    'Inguinal hernia repairs',
+    'Low back pain surgery',
+    'Mastectomy',
+    'Partial (segmental) mastectomy',
+    'Modified radical mastectomy surgery',
+    'Radical mastectomy',
+    'Partial colectomy',
+    'Prostatectomy',
+    'Releasing of peritoneal adhesions',
+    'Tonsillectomy'
+];

@@ -8,8 +8,8 @@ function createWindow () {
     width: 1200,
     backgroundColor: '#ffffff'
   })
-  win.loadURL(`file://${__dirname}/dist/front/index.html`)
-  //win.loadURL('http://localhost:5000')
+  // win.loadURL(`file://${__dirname}/dist/front/index.html`)
+  win.loadURL('http://localhost:5000')
   //  win.loadURL('http://192.168.1.101:5000')
    win.once('ready-to-show', () => {
     win.show()

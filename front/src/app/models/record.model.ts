@@ -188,9 +188,9 @@ export class Test {
 export class Surgery {
   constructor(
     public name: string = null,
+    public dept: string = null,
     public meta: Meta = new Meta(),
-    public status: string = null,
-    public result?: Object
+    public report: Report = new Report()
      ) {}
   }
 
@@ -278,7 +278,7 @@ export class Session {
       public medications: any[] = [],
       public tests: any[] = [],
       public scans: any = [],
-      public sugery: any[] = [],
+      public surgeries: any[] = [],
       public immunization: Immunization = new Immunization(),
       public deathNote: DeathNote = new DeathNote()
        ) {}

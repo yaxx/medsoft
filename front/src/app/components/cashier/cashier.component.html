@@ -37,7 +37,7 @@
                                     </span>
                                     </h6>
                                     <h6 class="dept previnfo">Description&nbsp;<span class="predata">
-                                        {{getDesc(invoice.desc)}} </span></h6>
+                                        {{invoice.desc}} </span></h6>
                                     <h6 class="dept previnfo" style="color:lightgrey">Price&nbsp;
                                         <span [ngStyle]=getStyle(invoice) style="text-align:right;
                                         left:84%;display: inline-block;width:50px" *ngIf=invoice.price      class="predata priceval">{{invoice.price * invoice.quantity}}

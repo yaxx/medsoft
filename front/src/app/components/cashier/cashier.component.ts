@@ -7,6 +7,9 @@ import {CookieService} from 'ngx-cookie-service';
 import {Product, Item, Invoice, Card, StockInfo} from '../../models/inventory.model';
 import {Priscription, Medication} from '../../models/record.model';
 import * as cloneDeep from 'lodash/cloneDeep';
+// import { ThermalPrintModule } from 'ng-thermal-print';
+import { PrintDriver } from 'ng-thermal-print/lib/drivers/PrintDriver';
+import { PrintService, UsbDriver } from 'ng-thermal-print';
 import { timeout } from 'q';
 import { fromEvent } from 'rxjs';
 import {host} from '../../util/url';
@@ -58,15 +61,28 @@ export class CashierComponent implements OnInit {
   loading = false;
   processing = false;
   message = null;
-
+  status = false;
+  usbPrintDriver: UsbDriver;
+  // webPrintDriver: WebPrintDriver;
+  ip = '';
   constructor(private dataService: DataService,
     private cookies: CookieService,
     private router: Router,
+    private printService: PrintService,
     private socket: SocketService) { }
 
   ngOnInit() {
-    this.getPatients();
-    this.getProducts();
+    this.usbPrintDriver = new UsbDriver();
+    this.printService.isConnected.subscribe(result => {
+        this.status = result;
+        if (result) {
+            console.log('Connected to printer!!!');
+        } else {
+        console.log('Not connected to printer.');
+        }
+    });
+  this.getPatients();
+  this.getProducts();
   this.socket.io.on('record update', (update) => {
       const i = this.patients.findIndex(p => p._id === update.patient._id);
       switch (update.action) {
@@ -136,7 +152,26 @@ export class CashierComponent implements OnInit {
       }
     });
   }
+  requestUsb() {
+    this.usbPrintDriver.requestUsb().subscribe(result => {
+        this.printService.setDriver(this.usbPrintDriver, 'ESC/POS');
+    });
+}
 
+// connectToWebPrint() {
+//     this.webPrintDriver = new WebPrintDriver(this.ip);
+//     this.printService.setDriver(this.webPrintDriver, 'WebPRNT');
+// }
+
+print(driver: PrintDriver) {
+    this.printService.init()
+        .setBold(true)
+        .writeLine('Hello World!')
+        .setBold(false)
+        .feed(4)
+        .cut('full')
+        .flush();
+}
   toggleSortMenu() {
     this.sortMenu = !this.sortMenu;
   }

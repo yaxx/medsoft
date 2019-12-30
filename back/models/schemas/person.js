@@ -402,20 +402,40 @@ const personScheema = new Scheema({
         surgeries: [
             [{
                 name: String,
+                dept: String,
+                treated: Boolean,
                 meta: {
                     addedBy: {
                         type: Scheema.Types.ObjectId,
                         ref: 'Person'
                     },
-                    selected: Boolean,
-                    dateAdded: Date,
                     hosp: {
                         type: Scheema.Types.ObjectId,
                         ref: 'Person'
                     },
+                    selected: Boolean,
+                    dateAdded: Date
+                },
+                report: {
+                    comment: String,
+                    attachments: [],
+                    meta: {
+                        addedBy: {
+                            type: Scheema.Types.ObjectId,
+                            ref: 'Person'
+                        },
+                        selected: Boolean,
+                        dateAdded: Date,
+                        hosp: {
+                            type: Scheema.Types.ObjectId,
+                            ref: 'Person'
+                        },
+                    }
                 }
             }]
+
         ],
+      
         immunization: {
             vaccins: [
                 [{
@@ -440,6 +460,7 @@ const personScheema = new Scheema({
             [{
                 name: String,
                 desc: String,
+                kind: String,
                 price: Number,
                 quantity: Number,
                 paid: Boolean,

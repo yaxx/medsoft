@@ -30,6 +30,9 @@ export class RegistrationComponent implements OnInit {
   file: File = null;
   states = states;
   lgas = lgas;
+  updating  = false;
+  creating = false;
+  person: Person = new Person();
   info: Info = new Info();
   visit: Visit = new Visit();
   card: Card = new Card();
@@ -50,7 +53,7 @@ export class RegistrationComponent implements OnInit {
   sortMenu = false;
   loading = false;
   count = 0;
-  creating = false;
+
   nowSorting = 'Date added';
   view = 'info';
   pin = null;
@@ -152,7 +155,20 @@ export class RegistrationComponent implements OnInit {
       this.session.items = res.items;
     });
   }
-
+  withoutCard() {
+    return (this.person.info.personal.firstName) &&
+    (this.person.info.personal.lastName) &&
+    (this.person.info.personal.dob);
+}
+  isValidInfo() {
+    return this.withoutCard();
+  }
+  isValidContact() {
+      return (this.person.info.contact.emergency.mobile);
+  }
+  addDefaults() {
+    this.person.record.visits = [[new Visit()]];
+}
   getPatients(type) {
     this.loading = true;
     this.dataService.getPatients(type).subscribe((patients: Person[]) => {
@@ -182,7 +198,9 @@ export class RegistrationComponent implements OnInit {
       p.card.menu =  false;
     });
   }
-
+  isInvalidForm() {
+    return !(this.isValidInfo());
+  }
   enrolePatient(i: number)  {
     if (this.patient.record.cards.some(card => card.pin === this.pin)) {
       this.processing = true;
@@ -226,22 +244,24 @@ export class RegistrationComponent implements OnInit {
     this.errorMsg = null;
   }
   addRecord() {
-    this.psn.errorMsg = null;
-    this.psn.creating = true;
-    this.psn.addDefaults();
-    this.dataService.addPerson(this.psn.person).subscribe((newPerson: Person) => {
+    if (!this.errorMsg) {
+        this.addDefaults();
+    }
+    this.errorMsg = null;
+    this.creating = true;
+    this.dataService.addPerson(this.person).subscribe((newPerson: Person) => {
         newPerson.card = {menu: false, view: 'front'};
         this.patients.unshift(newPerson);
-        this.psn.card = new Card();
-        this.psn.creating = false;
-        this.psn.successMsg = 'Patient added successfully';
-        this.psn.person = new Person();
+        this.card = new Card();
+        this.creating = false;
+        this.successMsg = 'Patient added successfully';
+        this.person = new Person();
         setTimeout(() => {
-        this.psn.successMsg = null;
-        }, 4000);
+        this.successMsg = null;
+        }, 3000);
     }, (e) => {
-        this.psn.errorMsg = 'Unbale to add patient';
-        this.psn.creating = false;
+        this.errorMsg = 'Unbale to add patient';
+        this.creating = false;
     });
     // console.log(this.person);
 }
@@ -256,6 +276,9 @@ export class RegistrationComponent implements OnInit {
     this.clonedPatient = cloneDeep(this.patients[i]);
     this.patient = this.patients[i];
   }
+  getLgas() {
+    return this.lgas[this.states.indexOf(this.person.info.contact.me.state)];
+}
   switchViews() {
     if (this.view === 'details') {
        this.view = '';

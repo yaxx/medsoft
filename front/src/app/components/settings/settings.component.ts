@@ -153,6 +153,7 @@ export class SettingsComponent implements OnInit {
     return Math.floor(Math.random() * (10000 - 1000 + 1) + 1000).toString();
   }
   createAccount() {
+    this.errLine = null;
     this.processing = true;
     this.staff.info.personal.password = this.generatePassword();
      this.staff.info.personal.username = this.staff.info.personal.firstName.toLowerCase();
@@ -163,34 +164,36 @@ export class SettingsComponent implements OnInit {
      this.transMsg = 'Staff added successfully';
      setTimeout(() => {
       this.transMsg = null;
-  }, 4000);
+  }, 3000);
      this.staff = new Person();
    }, (e) => {
     this.errLine = 'Could not add staff';
     this.processing = false;
   });
   }
-  updateAccount() {
-    this.processing = true;
-    this.staff.info.personal.username  = (
-      this.staffs[this.staffIndex].info.personal.firstName ===
-      this.staff.info.personal.firstName) ? this.staff.info.personal.username :
-      this.staff.info.personal.firstName.toLowerCase();
-      this.dataService.updateInfo(this.staff.info, this.staff._id).subscribe((edited: Person ) => {
-      this.staffs[this.staffIndex] = edited;
-      this.staff = edited;
-      this.transMsg = 'Account updated successfully';
-      this.processing = false;
-    }, (e) => {
-      this.errLine = 'Could not updated account';
-      this.processing = false;
-    });
-  }
   selectStaff(staff, i) {
     this.staffIndex = i;
     this.staff = cloneDeep(staff);
     this.switchView('view') ;
   }
+  updateAccount() {
+    this.processing = true;
+    this.staff.info.personal.username = this.staff.info.personal.firstName.toLowerCase();
+    console.log(this.staff);
+      this.dataService.updateInfo(this.staff.info, this.staff._id).subscribe((edited: Person ) => {
+      this.staffs[this.staffIndex].info = edited.info;
+      this.transMsg = 'Account updated successfully';
+      this.processing = false;
+      setTimeout(() => {
+        this.switchView('view');
+        this.transMsg = null;
+      }, 3000);
+    }, (e) => {
+      this.errLine = 'Could not updated account';
+      this.processing = false;
+    });
+  }
+ 
   switchView(view: string) {
     this.staffMode = view;
   }

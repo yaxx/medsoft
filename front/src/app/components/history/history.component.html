@@ -111,7 +111,7 @@ max-width:100%;">
                             <form *ngIf="count === 0"  style="top: 3%; height:100%;width:60%;position: relative;margin:auto;" class=" staffsform">
                                 <div class="form-group vitals-section address" style='font-size:11px;resize:none;min-height: 26px'>
                                     <label style="font-size:8px" for="piriod" class="labelss complain">CHIEF COMPLAIN</label>
-                                    <input [(ngModel)]="session.complain.complain" style=" font-size:11px;" name="piriod" class="form-control patientdata inputs dataInfo">
+                                    <input autocomplete="off" [(ngModel)]="session.complain.complain" style=" font-size:11px;" name="piriod" class="form-control patientdata inputs dataInfo">
                                 </div>
                                 <div class="form-group vitals-section formGroup" style='width:94%;margin-bottom:2px'><span></span>
                                     <label style="font-size:8px" for="piriod" class="labelss complain">DURATION</label>
@@ -198,7 +198,7 @@ max-width:100%;">
                                 </div>
                                 <div *ngIf="session.reqItem.category==='Scanning'"  class="form-group vitals-section formGroup" style=" width:47%;margin-right: 5px;">
                                     <label style="font-size:8px" for="dos" class="labelss complain">SCAN</label>
-                                    <input [(ngModel)]="session.scan.name" (keyup) = searchScans()  name="scan" class="form-control patientdata inputs dataInfo" placeholder="e.g Chest X-ray">
+                                    <input autocomplete="off" [(ngModel)]="session.scan.name" (keyup) = searchScans()  name="scan" class="form-control patientdata inputs dataInfo" placeholder="e.g Chest X-ray">
                                     <div  *ngIf="matches.length" style="position: absolute;z-index:200;height: 300px;border: none;"  class="options prisOption edit">
                                         <ul data-simplebar class="itemsList" style=" border-radius:4px; height: 300px;background-color: white;border:1px solid whitesmoke">
                                             <li *ngFor="let match of matches">
@@ -220,9 +220,33 @@ max-width:100%;">
                                         cursor: pointer;" (click)="addRequest()" class="icon ion-ios-plus-empty arrow "></i>
                                     </div>
                                 </div>
-
-
-                                <div *ngIf='session.tests.length||session.scans.length' class="form-group vitals-section setGroup">
+                                <div *ngIf="session.reqItem.category==='Surgery'"  class="form-group vitals-section formGroup" style=" width:47%;margin-right: 5px;">
+                                    <label style="font-size:8px" for="surgery" class="labelss complain">SURGERY</label>
+                                    <input autocomplete="off" [(ngModel)]="session.surgery.name" (keyup) = searchSurgeries()  name="surgery" class="form-control patientdata inputs dataInfo" placeholder="e.g Appendectomy">
+                                    <div  *ngIf="matches.length" style="position: absolute;z-index:200;height: 300px;border: none;"  class="options prisOption edit">
+                                        <ul data-simplebar class="itemsList" style=" border-radius:4px; height: 300px;background-color: white;border:1px solid whitesmoke">
+                                            <li *ngFor="let match of matches">
+                                                <p (click)=selectSurgery(match) class="dept firstheader drugItem" style="font-size:11px;padding-left: 10px; padding-right: 10px;font-weight: normal;">
+                                                    {{match}}
+                                                    <span class="lastdept timetaken "></span>
+                                                </p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div *ngIf="session.reqItem.category==='Surgery'" class="form-group vitals-section formGroup" style=" width:44%;">
+                                    <label style="font-size:8px" for="piriod" class="labelss complain">DEPARTMENT</label>
+                                    <select [(ngModel)]="session.surgery.dept" (focus) = clearMsg() style='border-top-right-radius: 0px;border-bottom-right-radius: 0px;border-right: 0px;    width: 99%;' name='dept'  autocomplete="off" class="patientdata dystolic inputs dataInfo">
+                                        <option *ngFor="let dept of getDepts()">{{dept.name}}</option>
+                                    </select>
+                                    <div id='moreBtn'>
+                                        <i *ngIf="session.surgery.name && session.surgery.dept" title = "Add Request" style="left: 13%;top: -21%;
+                                        font-size: 23px;
+                                        position: relative;
+                                        cursor: pointer;" (click)="addRequest()" class="icon ion-ios-plus-empty arrow "></i>
+                                    </div>
+                                </div>
+                                <div *ngIf='session.tests.length||session.scans.length||session.surgeries.length' class="form-group vitals-section setGroup">
                                     <table cellspacing="0" class="data-table drugs-table" style="width:100%;left:0%;" summary="List of all items in store. ">
                                         <thead class='productHead'>
                                             <tr class="patient-th">
@@ -538,7 +562,7 @@ max-width:100%;">
                             <p class="dept previnfo">HMO:&nbsp;
                             <span class="predata">{{patient.info.insurance.employer||'---'}}</span></p>
                             <p class="dept previnfo">SSN:&nbsp;<span class="predata">
-                                {{patient.info.insurance.ssn||'08QA89'}}</span></p>
+                                {{patient.info.insurance.ssn||'---'}}</span></p>
                         </div>
                     </div>
                 </div>
@@ -630,11 +654,11 @@ max-width:100%;">
                                 </div>
                                 <div class="items figures">
                                     <span>
-                                        <h6 *ngIf="patient.record.vitals.weight.length"  style="color: darkgray; font-size: 13px; font-weight: bold;top:5px;width: 39px;" class="label-val">
+                                        <h6 *ngIf="patient.record.vitals.weight.length"  style="color: darkgray; font-size: 13px; top:5px;width: 39px;" class="label-val">
                                             {{patient.record.vitals.weight[0].value}}
                                             <span style="font-size: 10px;" class="units">kg</span>
                                         </h6>
-                                        <h6 *ngIf="!patient.record.vitals.weight.length"   style="color: darkgray; font-size: 13px; top:5px; width: 39px;" class="label-val">
+                                        <h6 *ngIf="!patient.record.vitals.weight.length"   style="color: darkgray; font-size: 13px; font-weight: normal;top:5px; width: 39px;" class="label-val">
                                             ---
                                         </h6>
                                     </span>
@@ -819,7 +843,49 @@ max-width:100%;">
                                 <h1 class="dept headtitle">PROCEDURES</h1>
                             </div>
                             <div style='height:100%;padding-left: 17px;' class="card-body midcardbody">
-                                <h1 *ngIf="!patient.record.surgeries.length"  class="dept headtitle record-placeholder">NO RECORD</h1>
+                                <h1 *ngIf="!patient.record.surgeries.length" style='color:lightgrey; ' class="dept headtitle record-placeholder">NO RECORD</h1>
+                                <div  *ngFor="let surgeries of patient.record.surgeries; let i = index"  class="carditem priscriptioncontainer order">
+                                    <div style='left:-7.2%' class="timeline condition drugtimeline">
+                                        <p class="timelinedate"> {{surgeries[0]?.meta.dateAdded|date:'dd'}}</p>
+                                        <p  class="timelinedate month">{{surgeries[0]?.meta.dateAdded|date:'MMM'|uppercase}}</p>
+                                    </div>
+                                    <div *ngFor ="let s of surgeries; let j= index" class="priscription drug">
+                                        <p class="dept">{{s.name}} </p>
+                                        <h6 *ngIf="s.report.attachments.length" class="dept previnfo" style="color:lightgrey">
+                                        <span><i (click) = "pullImages(i,j, 'scan')" data-toggle="modal" data-target="#scanFiles" title="View attachment"  style='font-size: 15px; cursor: pointer;' class="icon ion-android-attach"></i></span>&nbsp;
+                                        {{s.report.attachments.length + ' '+' attachment'+getLength(s.report.attachments.length)}}
+                                        <span style="text-align:right;left:70%;display: inline-block;width:50px"  class="predata priceval">
+                                            <i title="Download" style='font-size: 20px;position:absolute;bottom:-17px;left: 75%;cursor: pointer;' class="icon ion-ios-download-outline paid-icon"></i>
+                                        </span>
+                                        </h6>
+                                        <h6 *ngIf="s.report.comment" class="dept previnfo" style="color:lightgrey">
+                                        <span><i (click)="toggleScanComment(i,j,'open') "title="View Comment" style='font-size: 17px;cursor:pointer' class="icon ion-ios-chatbubble-outline"></i></span>
+                                        &nbsp;Comment
+                                        </h6>
+                                        <div *ngIf="s.report.meta.selected"   style="left:-46px;"  class="comment">
+                                            <div (click) = "toggleScanComment(i,j,'close')" class="close-comment">
+                                                <i title="close" class="icon ion-ios-close-empty"></i>
+                                            </div>
+                                            <div style="width: 100%; position: relative;height: 80%;" class="comment-note">
+                                                <p style="font-size: .75rem;color:gray;padding:0 10px;z-index: 100;">
+                                                   {{s.report.comment}}
+                                                </p>
+                                            </div>
+                                            <div class="commentator">
+                                                <div class="commentator-media">
+                                                    <div class=" timeline lastdoc priscriber headerdp small-dp commentor-dp">
+                                                            <img style='height:100%; width:100%; object-fit:cover; border-radius:50%;' [src] = getDp(patient.info.personal.avatar)/>
+                                                    </div>
+                                                    <p style="font-size: 11px;position: relative;display: inline-block;left:18px;width: 87%;" class="commentator-name">
+                                                        Mohammed Abdullahi <span style="color:lightgrey;float: right;">
+                                                            {{s.report.meta.dateAdded|date:'dd/MM/y hh:mma'|lowercase}}
+                                                        </span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div style='border-radius:12px;margin-bottom: 4px;  overflow:hidden' class="card card-secondary maincard halfcard halfcard-right">

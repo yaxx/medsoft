@@ -106,15 +106,20 @@ addPerson: async (req, res) => {
   const exist = await Person.findOne({
     'info.contact.me.mobile': req.body.info.contact.me.mobile
   })
-  if(exist) {
-      // res.status(400).send(exist)
-    } else {
-      res.send(await createPerson({
-       info: req.body.info,
-       record: req.body.record
-      })
-     )
-    }
+  res.send(await createPerson({
+    info: req.body.info,
+    record: req.body.record
+   })
+  )
+  // if(exist) {
+  //     res.status(400).send(exist)
+  //   } else {
+  //     res.send(await createPerson({
+  //      info: req.body.info,
+  //      record: req.body.record
+  //     })
+  //    )
+  //   }
   }
 catch (e) {
   throw e
@@ -126,11 +131,19 @@ getPatients: async (req, res) => {
     const {info: {official}} = await Person.findById(req.cookies.i).select('info');
     let patients = await Person.find()
     patients = Array.from(patients).filter(person => person.info.official.department === null);
-
-  //   patients = Array.from(patients).map(p => p.toJSON()).filter(p => p.record.cards.length > 0).map(patient => {
+    //record transformation
+  //   patients = Array.from(patients).map(p => p.toJSON()).map(patient => {
   //     let {record} = patient
   //     return ({
-  //       ...patient, record: {...record, immunization: {vaccins:[], questionaire: {} }
+  //       ...patient, record: {
+  //         ...record, invoices: record.invoices.map(invoices=>invoices.map(invoice  =>
+  //           (invoice.desc.includes('-') ? ({
+  //             ...invoice, 
+  //             desc: invoice.kind, 
+  //             kind: invoice.desc 
+  //           }) : invoice
+           
+  //         )))
   //     }
   //   }) 
   // })
@@ -403,8 +416,6 @@ runTransaction: async (req, res) => {
 },
 
 login: async (req, res) => {
-  console.log(req.body);
-  
   try {
     const person = await Person.findOne({ $or: [{
       'info.contact.me.email':req.body.username,
@@ -420,7 +431,7 @@ login: async (req, res) => {
     }
   ]
 })
-console.log(person)
+
   if(person) {
     res.send(person)
   } else {

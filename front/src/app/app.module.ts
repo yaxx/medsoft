@@ -12,6 +12,7 @@ import {NotePipe} from './pipes/note.pipe';
 import {FileUploadModule} from 'ng2-file-upload';
 import {AutosizeModule} from 'ngx-autosize';
 import {WebcamModule} from 'ngx-webcam';
+import { ThermalPrintModule } from 'ng-thermal-print';
 import {RouterModule, Routes} from '@angular/router';
 import { RegistrationComponent } from './components/registration/registration.component';
 import { ConsultationComponent } from './components/consultation/consultation.component';
@@ -329,6 +330,7 @@ const routes: Routes = [
     HttpClientModule,
     FileUploadModule,
     WebcamModule,
+    ThermalPrintModule,
     RouterModule.forRoot(routes)
   ],
   // declarations: [

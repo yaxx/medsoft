@@ -59,7 +59,7 @@ export class DataService {
   }
   follow(id) {
      return this.http.post(
-      `${this.uri}/follow`, {id:id}, {withCredentials: true}
+      `${this.uri}/follow`, {id: id}, {withCredentials: true}
     );
   }
   followBack(id) {
@@ -72,11 +72,7 @@ export class DataService {
       `${this.uri}/unfollow`, {id: me, yourid: you.person._id, yourcon: you.person.connections}, {withCredentials: true}
       );
   }
-  addPatient(patient: Person) {
-    return this.http.post(
-      `${this.uri}/new-patient`, patient, {withCredentials: true}
-      );
-  }
+  
   addProducts(products:Product[], newItems: Item[]) {
     return this.http.post(
     `${this.uri}/new-product`,  {products: products, items: newItems}, {withCredentials: true}
@@ -201,10 +197,16 @@ export class DataService {
 
   }
 
-  addPerson(staff:Person) {
+  addPerson(person: Person) {
      return this.http.post(
-        `${this.uri}/person`, staff, {withCredentials: true}
+        // `${this.uri}/person`, staff, {withCredentials: true}
+        `${this.uri}/new-patient`, person, {withCredentials: true}
       );
+    }
+    addPatient(patient: Person) {
+      return this.http.post(
+        `${this.uri}/new-patient`, patient, {withCredentials: true}
+        );
     }
   updateClient(client) {
     return this.http.post(

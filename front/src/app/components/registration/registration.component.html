@@ -8,10 +8,10 @@
                             <i  title="close" class="icon ion-ios-close-empty"></i>
                         </div>
                         <div style='padding-left: 30px;border-top-right-radius:32px;border-top-left-radius:32px;border-bottom: 0px;height:40px;margin-bottom: 20px;' class="card-header profileheader small-header">
-                             <!-- <h6 *ngIf="psn.reg" style='font-size:11px;position:absolute;color:dodgerblue; font-weight: normal; top:18px;left:3%' class="patien-name small-name">ADD PATIENT</h6>
-                             <h6 *ngIf="!psn.reg" style='font-size:11px;position:absolute;color:dodgerblue; font-weight: normal; top:18px;left:3%' class="patien-name small-name">PATIENT INFO</h6>
-                             <h6 (click) = "toggleAddOption(1)" [class.new] = psn.addOption [class.old] = !psn.addOption    *ngIf="psn.reg" style='left:75%' class="patien-name small-name ">NEW</h6>
-                             <h6 (click) = "toggleAddOption(0)" [class.new] = !psn.addOption [class.old] = psn.addOption   *ngIf="psn.reg" style='left:81%;' class="patien-name small-name ">OLD</h6> -->
+                             <!-- <h6 *ngIf=" reg" style='font-size:11px;position:absolute;color:dodgerblue; font-weight: normal; top:18px;left:3%' class="patien-name small-name">ADD PATIENT</h6>
+                             <h6 *ngIf="! reg" style='font-size:11px;position:absolute;color:dodgerblue; font-weight: normal; top:18px;left:3%' class="patien-name small-name">PATIENT INFO</h6>
+                             <h6 (click) = "toggleAddOption(1)" [class.new] =  addOption [class.old] = ! addOption    *ngIf=" reg" style='left:75%' class="patien-name small-name ">NEW</h6>
+                             <h6 (click) = "toggleAddOption(0)" [class.new] = ! addOption [class.old] =  addOption   *ngIf=" reg" style='left:81%;' class="patien-name small-name ">OLD</h6> -->
                         </div>
                         <div class="card-body orderbody" style="width:85%; margin:auto;">
                             <div class="steps">
@@ -19,7 +19,7 @@
                                     <span>
                                         <h6 class="step-lebel">PERONAL INFO</h6>
                                    </span>
-                                    <span *ngIf="psn.isValidInfo()">
+                                    <span *ngIf=" isValidInfo()">
                                         <i  class="icon ion-ios-checkmark-empty paid-icon"></i>
                                    </span>
                                 </div>
@@ -28,7 +28,7 @@
                                         <h6 class="step-lebel">CONTACT</h6>
                                     </span>
                                     <span >
-                                        <i *ngIf="psn.isValidContact()" class="icon ion-ios-checkmark-empty paid-icon"></i>
+                                        <i *ngIf=" isValidContact()" class="icon ion-ios-checkmark-empty paid-icon"></i>
                                    </span>
                                 </div>
                                 <div [class.curent-step] = 'count === 2' class="step-item">
@@ -40,41 +40,41 @@
                                     </span>
                                 </div>
                                 </div>
-                                <form *ngIf="count==0"  style="top: 3%; height:100%;width:60%;position: relative;margin:auto;padding-top: 22px;" class=" staffsform">
+                                <form *ngIf="count===0"  style="top: 3%; height:100%;width:60%;position: relative;margin:auto;padding-top: 22px;" class=" staffsform">
                                     <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block">
                                         <label style="font-size:8px" for="firstname" class="labelss"><span style='font-size:11px; color:red;'>*</span>FIRST NAME
                                         </label>
-                                        <input (focus) = clearError() [(ngModel)]="psn.person.info.personal.firstName" style='font-size:11px;text-align: left' autocomplete="off" type="text" name="firstname" class="form-control patientdata dystolic inputs dataInfo">
+                                        <input (focus) = clearError() [(ngModel)]="person.info.personal.firstName" style='font-size:11px;text-align: left' autocomplete="off" type="text" name="firstname" class="form-control patientdata dystolic inputs dataInfo">
                                     </div>
                                     <div style="width:49%; display:inline-block" class="form-group vitals-section">
                                         <label style="font-size:8px" for="lastname" class="labelss"><span style='font-size:11px; color:red;'>*</span>LAST NAME </label>
-                                        <input (focus) = clearError() [(ngModel)]="psn.person.info.personal.lastName" style='font-size:11px' autocomplete="off" type="text" name="lastname" class="form-control patientdata dystolic inputs dataInfo"/>
+                                        <input (focus) = clearError() [(ngModel)]=" person.info.personal.lastName" style='font-size:11px' autocomplete="off" type="text" name="lastname" class="form-control patientdata dystolic inputs dataInfo"/>
                                     </div>
                                     <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block">
                                         <label style="font-size:8px" for="gender" class="labelss">GENDER</label>
-                                        <select (focus) = clearError() name='gender' [(ngModel)]="psn.person.info.personal.gender" style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo">
+                                        <select (focus) = clearError() name='gender' [(ngModel)]=" person.info.personal.gender" style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo">
                                             <option>Male</option>
                                             <option>Female</option>
                                         </select>
                                     </div>
                                     <div style="width:49%; display:inline-block" class="form-group vitals-section">
                                         <label style="font-size:8px" for="status" class="labelss">MARITAL STATUS</label>
-                                        <select (focus) = clearError() name='status' [(ngModel)]="psn.person.info.personal.mstatus" style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo">
+                                        <select (focus) = clearError() name='status' [(ngModel)]=" person.info.personal.mstatus" style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo">
                                             <option>Married</option>
                                             <option>Single</option>
                                         </select>
                                     </div>
                                         <div style="width:49%; display:inline-block;margin-right: 5px; " class="form-group vitals-section">
                                             <label style="font-size:8px" for="dob" class="labelss"><span style='font-size:11px; color:red;'>*</span>DATE OF BIRTH</label>
-                                            <input (focus) = clearError() name='dob' [(ngModel)]="psn.person.info.personal.dob" type="date" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
+                                            <input (focus) = clearError() name='dob' [(ngModel)]=" person.info.personal.dob" type="date" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
                                         </div>
                                         <div style="width:49%; display:inline-block; " class="form-group vitals-section">
                                             <label style="font-size:8px" for="tribe" class="labelss">TRIBE</label>
-                                            <input (focus) = clearError() name='tribe' [(ngModel)]="psn.person.info.personal.tribe" type="text" style='font-size:11px' autocomplete="off" class=" form-control patientdata dystolic inputs dataInfo" />
+                                            <input (focus) = clearError() name='tribe' [(ngModel)]=" person.info.personal.tribe" type="text" style='font-size:11px' autocomplete="off" class=" form-control patientdata dystolic inputs dataInfo" />
                                         </div>
                                         <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block">
                                             <label style="font-size:8px" for="religion" class="labelss">RELIGION</label>
-                                            <select (focus) = clearError() name='religion' [(ngModel)]="psn.person.info.personal.religion" style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo">
+                                            <select (focus) = clearError() name='religion' [(ngModel)]=" person.info.personal.religion" style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo">
                                                 <option>Islam</option>
                                                 <option>Christianity</option>
                                                 <option>Others</option>
@@ -82,7 +82,7 @@
                                         </div>
                                         <div class="form-group vitals-section" style="width:49%; display:inline-block">
                                             <label style="font-size:8px" for="occupation" class="labelss">OCCUPATION</label>
-                                            <select (focus) = clearError() name='occupation' [(ngModel)]="psn.person.info.personal.occupation" style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo">
+                                            <select (focus) = clearError() name='occupation' [(ngModel)]=" person.info.personal.occupation" style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo">
                                                 <option>Civil Servant</option>
                                                 <option>Entreprenure</option>
                                                 <option>Farmer</option>
@@ -94,18 +94,18 @@
                                         </div>
                                       
                                     </form>
-                                    <form *ngIf="count==1"  style="top: 3%; height:100%;width:60%;position: relative;margin:auto;padding-top: 10px;" class=" staffsform">
+                                    <form *ngIf="count===1"  style="top: 3%; height:100%;width:60%;position: relative;margin:auto;padding-top: 10px;" class=" staffsform">
                                         <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block">
                                             <label style="font-size:8px" for="mobile" class="labelss">MOBILE</label>
-                                            <input (focus) = clearError() name='mobile' [(ngModel)]="psn.person.info.contact.me.mobile" type="text" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
+                                            <input (focus) = clearError() name='mobile' [(ngModel)]=" person.info.contact.me.mobile" type="text" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
                                         </div>
                                         <div class="form-group vitals-section" style="width:49%; display:inline-block">
                                             <label style="font-size:8px" for="email" class="labelss">EMAIL</label>
-                                            <input (focus) = clearError() name='email' [(ngModel)]="psn.person.info.contact.me.email" type="text" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
+                                            <input (focus) = clearError() name='email' [(ngModel)]=" person.info.contact.me.email" type="text" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
                                         </div>
                                         <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block">
                                             <label style="font-size:8px" for="statee" class="labelss">STATE</label>
-                                            <select (focus) = clearError() name='state' [(ngModel)]="psn.person.info.contact.me.state" style='font-size:11px' autocomplete="off" class=" patientdata dystolic inputs dataInfo">
+                                            <select (focus) = clearError() name='state' [(ngModel)]=" person.info.contact.me.state" style='font-size:11px' autocomplete="off" class=" patientdata dystolic inputs dataInfo">
                                                 <option *ngFor='let state of states'>
                                                     {{state}}
                                                 </option>
@@ -113,35 +113,35 @@
                                         </div>
                                         <div style="width:49%; display:inline-block" class="form-group vitals-section">
                                             <label style="font-size:8px" for="lga" class="labelss">CITY</label>
-                                            <select (focus) = clearError() name='lga' [(ngModel)]="psn.person.info.contact.me.lga" style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo">
-                                                <option *ngFor='let lga of psn.getLgas()'>
+                                            <select (focus) = clearError() name='lga' [(ngModel)]=" person.info.contact.me.lga" style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo">
+                                                <option *ngFor='let lga of  getLgas()'>
                                                     {{lga}}
                                                 </option>
                                             </select>
                                         </div>
                                         <div class="form-group vitals-section address">
                                             <label style="font-size:8px" for="address" class="labelss">ADDRESS</label>
-                                            <input (focus) = clearError() [(ngModel)]="psn.person.info.contact.me.address" style='font-size:11px' autocomplete="off" type="text" name="address" class="form-control patientdata dystolic inputs dataInfo" />
+                                            <input (focus) = clearError() [(ngModel)]=" person.info.contact.me.address" style='font-size:11px' autocomplete="off" type="text" name="address" class="form-control patientdata dystolic inputs dataInfo" />
                                         </div>
                                         <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block">
                                             <label style="font-size:8px" for="statee" class="labelss">NEXT OF KIN NAME</label>
-                                            <input (focus) = clearError() name='kinname' [(ngModel)]="psn.person.info.contact.me.kinName" type="text" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
+                                            <input (focus) = clearError() name='kinname' [(ngModel)]=" person.info.contact.me.kinName" type="text" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
                                         </div>
                                         <div style="width:49%; display:inline-block" class="form-group vitals-section">
                                             <label style="font-size:8px" for="lga" class="labelss">NEXT OF KIN MOBILE</label>
-                                            <input (focus) = clearError() name='kinmobile' [(ngModel)]="psn.person.info.contact.me.kinMobile" type="text" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
+                                            <input (focus) = clearError() name='kinmobile' [(ngModel)]=" person.info.contact.me.kinMobile" type="text" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
                                         </div>
                                         <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block">
                                             <label style="font-size:8px" for="ename" class="labelss">EMERGENCY CONTACT NAME</label>
-                                            <input (focus) = clearError() name='ename' [(ngModel)]="psn.person.info.contact.emergency.name" type="text" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
+                                            <input (focus) = clearError() name='ename' [(ngModel)]=" person.info.contact.emergency.name" type="text" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
                                         </div>
                                         <div class="form-group vitals-section" style="width:49%; display:inline-block">
                                             <label style="font-size:8px" for="emobile" class="labelss">EMERGENCY MOBILE</label>
-                                            <input (focus) = clearError() name='emobile' [(ngModel)]="psn.person.info.contact.emergency.mobile" type="text" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
+                                            <input (focus) = clearError() name='emobile' [(ngModel)]=" person.info.contact.emergency.mobile" type="text" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
                                         </div>
                                         <!-- <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block">
                                             <label style="font-size:8px" for="eoccp" class="labelss">RELATIONSHIP</label>
-                                            <select name='rel' [(ngModel)]="psn.person.info.contact.emergency.rel" style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo">
+                                            <select name='rel' [(ngModel)]=" person.info.contact.emergency.rel" style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo">
                                                 <option>Parent</option>
                                                 <option>Spouse</option>
                                                 <option>Sibling</option>
@@ -150,7 +150,7 @@
                                         </div>
                                         <div style="width:49%; display:inline-block" class="form-group vitals-section">
                                             <label style="font-size:8px" for="rel" class="labelss">OCCUPATION</label>
-                                            <select name='occupation' [(ngModel)]="psn.person.info.contact.emergency.occupation" style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo">
+                                            <select name='occupation' [(ngModel)]=" person.info.contact.emergency.occupation" style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo">
                                                 <option>Civil Servant</option>
                                                 <option>Entreprenure</option>
                                                 <option>Farmer</option>
@@ -161,30 +161,30 @@
                                             </select>
                                         </div> -->
                                     </form>
-                                    <form *ngIf="count==2"  style="top: 3%; height:100%;width:60%;position: relative;margin:auto;padding-top:26px;" class=" staffsform">
+                                    <form *ngIf="count===2"  style="top: 3%; height:100%;width:60%;position: relative;margin:auto;padding-top:26px;" class=" staffsform">
                                     <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block">
                                         <label style="font-size:8px" for="gnumb" class="labelss">GROUP No.</label>
-                                        <input (focus) = clearError() [(ngModel)]="psn.person.info.insurance.groupNo" name='gnumb' type="text" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
+                                        <input (focus) = clearError() [(ngModel)]=" person.info.insurance.groupNo" name='gnumb' type="text" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
                                     </div>
                                     <div class="form-group vitals-section" style="width:49%; display:inline-block">
                                         <label style="font-size:8px" for="idnum" class="labelss">ID No.</label>
-                                        <input (focus) = clearError() [(ngModel)]="psn.person.info.insurance.idNo" name='idnum' type="text" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
+                                        <input (focus) = clearError() [(ngModel)]=" person.info.insurance.idNo" name='idnum' type="text" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
                                     </div>
                                     <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block">
                                         <label style="font-size:8px" for="sub" class="labelss">HMO</label>
-                                        <input (focus) = clearError() [(ngModel)]="psn.person.info.insurance.subscriber" name='sub'  type="text" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
+                                        <input (focus) = clearError() [(ngModel)]=" person.info.insurance.subscriber" name='sub'  type="text" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
                                     </div>
                                     <div style="width:49%; display:inline-block" class="form-group vitals-section">
                                         <label style="font-size:8px" for="employer" class="labelss">EMPLOYER</label>
-                                        <input (focus) = clearError() [(ngModel)]="psn.person.info.insurance.employer" name='employer'  type="text" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
+                                        <input (focus) = clearError() [(ngModel)]=" person.info.insurance.employer" name='employer'  type="text" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
                                     </div>
                                     <div class="form-group vitals-section" style="width:49%; margin-right: 5px; display:inline-block">
                                         <label style="font-size:8px" for="ssn" class="labelss">SSN</label>
-                                        <input (focus) = clearError() [(ngModel)]="psn.person.info.insurance.ssn" name='ssn'  type="text" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
+                                        <input (focus) = clearError() [(ngModel)]=" person.info.insurance.ssn" name='ssn'  type="text" style='font-size:11px' autocomplete="off" class="form-control patientdata dystolic inputs dataInfo" />
                                     </div>
                                     <div style="width:49%; display:inline-block" class="form-group vitals-section">
                                         <label style="font-size:8px" for="irel" class="labelss">RELATIONSHIP</label>
-                                        <select (focus) = clearError() [(ngModel)]="psn.person.info.insurance.rel" name='irel' style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo">
+                                        <select (focus) = clearError() [(ngModel)]=" person.info.insurance.rel" name='irel' style='font-size:11px' autocomplete="off" class="patientdata dystolic inputs dataInfo">
                                             <option>Parent</option>
                                             <option>Spouse</option>
                                             <option>Self</option>
@@ -209,24 +209,24 @@
                                 </i>
                             </button>
                         </div>
-                        <div *ngIf="count === 2 && psn.reg" style="left:31%;top:286px;position:relative;width:53%" class="btn-group disposition">
-                            <button (click)=addRecord() [disabled] = "psn.creating||psn.isInvalidForm()"  style=" width: 170px;font-size: 10px; border-radius: 30px; height:27px;left:15%; bottom:10%;" class="btn btn-sm btn-outline-primary mainbtn">
+                        <div *ngIf="count === 2 &&  reg" style="left:31%;top:286px;position:relative;width:53%" class="btn-group disposition">
+                            <button (click)=addRecord() [disabled] = "creating || isInvalidForm()"  style=" width: 170px;font-size: 10px; border-radius: 30px; height:27px;left:15%; bottom:10%;" class="btn btn-sm btn-outline-primary mainbtn">
                                 CREATE RECORD
-                                <span *ngIf='psn.creating' style="position: absolute; bottom: -7%;left: 10%;">
+                                <span *ngIf='creating' style="position: absolute; bottom: -7%;left: 10%;">
                                     <i class="fa fa-circle-o-notch fa-spin fa-10x slow-spin " style="position:absolute;bottom:5px;left:5px;font-size:19px;color: #1da1f2;"> </i>
                                 </span>
                             </button>
                         </div>
-                        <div *ngIf="count === 2 && !psn.reg" style="left:31%;top:286px;position:relative;width:53%" class="btn-group disposition">
-                            <button (click) = updateInfo() [disabled] = "psn.updating||psn.isInvalidForm()"  style=" width: 170px;font-size: 10px; border-radius: 30px; height:27px;left:15%; bottom:10%;" class="btn btn-sm btn-outline-primary  mainbtn">
+                        <div *ngIf="count === 2 && ! reg" style="left:31%;top:286px;position:relative;width:53%" class="btn-group disposition">
+                            <button (click) = updateInfo() [disabled] = "updating|| isInvalidForm()"  style=" width: 170px;font-size: 10px; border-radius: 30px; height:27px;left:15%; bottom:10%;" class="btn btn-sm btn-outline-primary  mainbtn">
                                 UPDATE INFORMATION
-                                <span *ngIf='psn.updating' style="position: absolute; bottom: -7%;left: 10%;">
+                                <span *ngIf=' updating' style="position: absolute; bottom: -7%;left: 10%;">
                                     <i class="fa fa-circle-o-notch fa-spin fa-10x slow-spin " style="position:absolute;bottom:5px;left:5px;font-size:19px;color: #1da1f2;"></i>
                                 </span>
                             </button>
                         </div>
-                        <h6 *ngIf="psn.successMsg" class="feedbackMsg">{{psn.successMsg}}</h6>
-                        <h6 *ngIf="psn.errorMsg"  style="color: red" class="feedbackMsg">{{psn.errorMsg}}</h6>
+                        <h6 *ngIf=" successMsg" class="feedbackMsg">{{successMsg}}</h6>
+                        <h6 *ngIf=" errorMsg"  style="color: red" class="feedbackMsg">{{ errorMsg}}</h6>
                     </div>
                 </div>
             </div>
@@ -247,7 +247,7 @@
 <nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:0px;">
     <div class="container">
         <a class="navbar-brand" href="#">
-            <em>hipr</em>
+            <em>Lazr</em>
         </a>
         <div class="collapse navbar-collapse" id="navcol-1">
             <form class="top-searchform" target="_self">

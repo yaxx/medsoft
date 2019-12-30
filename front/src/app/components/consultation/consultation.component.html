@@ -341,13 +341,6 @@
 
 
 
-                 
-
-                   
-
-
-
-
 <nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean-search" style="padding:0px; margin-bottom:0px;">
     <div class="container">
         <a class="navbar-brand" href="#">
@@ -405,7 +398,8 @@
                 </div>
             </div>
             <div (click)=refresh() *ngIf='message' title='Refresh' class='refresh'><i class="icon ion-ios-reload "></i></div>
-            <h6 *ngIf='message' style='font-size:13px;position:absolute;top:65%; width:100%; color:lightgrey;text-align: center'>{{message}}</h6>
+            <h6 *ngIf='message' style='font-size:13px;position:absolute;top:65%; width:100%; color:lightgrey;text-align: center'>
+                {{message}}</h6>
         </div>
         <div *ngFor="let patient of patients; let i = index" class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
             <div  style="overflow: hidden;" class="card card-secondary maincard " >

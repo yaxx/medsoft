@@ -33,7 +33,7 @@
                                         <div class="mycheckbox" *ngIf="(!m.meta.selected) && (m.price)"  (click)="selectItem(i,j)" ></div>
                                         </span>
                                     </h6>
-                                    <h6 class="dept previnfo">Dosage&nbsp;<span class="predata">{{getDosage(m.desc)}}</span>
+                                    <h6 class="dept previnfo">Dosage&nbsp;<span class="predata">{{m.kind}}</span>
                                     </h6>
                                     <h6 class="dept previnfo" style="color:lightgrey">
                                         Price&nbsp;<span [ngStyle]=getStyle(m) style="text-align:right;left:84%;display: inline-block;width:50px" *ngIf=m.price class="predata priceval">{{(m.price) * (m.quantity)}}</span>

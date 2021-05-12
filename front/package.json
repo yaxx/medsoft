@@ -46,7 +46,7 @@
     "@types/w3c-web-usb": "^1.0.3",
     "angular-autosize": "^1.0.1",
     "angular2-autosize": "git+https://github.com/chrum/angular2-autosize.git",
-    "chart.js": "^2.7.3",
+    "chart.js": "^2.9.4",
     "clone-deep": "^4.0.1",
     "core-js": "^2.5.4",
     "electron-serve": "^0.2.0",

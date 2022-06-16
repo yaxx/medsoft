@@ -81,7 +81,7 @@
     "@types/socket.io-client": "^1.4.32",
     "asar": "^2.0.3",
     "codelyzer": "~4.2.1",
-    "electron": "^2.0.18",
+    "electron": "^15.5.5",
     "electron-builder": "^20.44.4",
     "electron-installer-windows": "^2.0.0",
     "electron-packager": "^13.1.1",
